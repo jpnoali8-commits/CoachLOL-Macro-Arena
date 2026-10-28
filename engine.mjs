@@ -756,7 +756,7 @@ export const EFFECT_TYPES_V41=Object.freeze({
 });
 export class EffectResolverV41 {
  constructor(arena){this.a=arena;}
- list(target){if(target?.champ)this.a.refreshItemAnnulV453Dev69Batch2(target);return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
+ list(target){if(target?.champ){this.a.refreshItemAnnulV453Dev69Batch2(target);this.a.refreshKaenicShieldV453Dev69(target);}return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
  has(target,type){return this.list(target).some(e=>e.type===type);}
  slowFraction(target){const slow=Math.max(0,...this.list(target).filter(e=>e.type==='slow').map(e=>e.power<=1?e.power:e.power/100));const resistance=target?.champ?this.a.elementalStatsV452d3(target).slowResist:target?.slowResist||0;return Math.min(.95,slow*(1-Math.min(1,Math.max(0,resistance/100))));}
  canAct(target,action){
