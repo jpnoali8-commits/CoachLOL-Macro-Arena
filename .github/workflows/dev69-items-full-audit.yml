@@ -26,6 +26,8 @@ jobs:
         run: node tests/v453_dev69_assets_runtime_integrity.test.mjs
       - name: Full item inventory and discrepancy matrix
         run: node tools/audit_sr_items_full_dev69.mjs
+      - name: Every normal SR item authoritative purchase and Undo
+        run: node tests/v453_dev69_items_full_audit_all202_shop_undo.test.mjs
       - name: MID role quest 2026 mechanics
         run: node tests/v453_dev69_items_full_audit_mid_quest.test.mjs
       - name: Riot PC 26.20–26.21 item mechanics
