@@ -1,0 +1,48 @@
+name: CoachLOL dev69 — QA logic
+
+on:
+  pull_request:
+    branches:
+      - dev69/integration
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Regressao PvP e economia (base textual)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Conferir fonte e versao
+        shell: bash
+        run: |
+          test -f engine.mjs
+          test -f engine.browser.js
+          test -f tests/v453_dev68_lux_projectile_pvp.test.mjs
+          node -e "const v=require('./version.json'); if(v.version!=='4.5.3-dev68' && !v.version.startsWith('4.5.3-dev69')) process.exit(1)"
+      - name: Testar Undo / loja, PvP, combos, feitiços e Lux Q
+        shell: bash
+        run: |
+          npm run test:v453:dev61
+          npm run test:v453:dev62
+          npm run test:v453:dev64
+          npm run test:v453:dev65
+          npm run test:v453:dev66
+          npm run test:v453:dev67
+          npm run test:v453:dev68
+      - name: Conferir sintaxe dos motores e UI
+        shell: bash
+        run: |
+          node --check engine.mjs
+          node --check engine.browser.js
+          node --check app.js
+
+# Gate parcial: não certifica npm test integral, sprites/binários, navegador
+# real nem histórico Git herdado. Conferir docs/parallel/STATUS_DEV69.md.
