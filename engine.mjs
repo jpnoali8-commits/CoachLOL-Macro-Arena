@@ -216,6 +216,10 @@ export const catalog=[
 // DEV69 / items batch 1 — Riot 16.21.1; individual effects resolved below.
 {id:'cull',name:'Abatedora',cost:450,stats:{ad:7},tags:['marksman','starter','unique'],icon:'⚔',riotId:1083},
 {id:'lord_dominiks_regards',name:'Lembranças do Lorde Dominik',cost:3300,stats:{ad:35,armorPenPercent:35,critChance:25},tags:['marksman','legendary','unique','fatality'],icon:'➶',riotId:3036},
+// DEV69 batch 2 — Annul family; PC 26.21 / Data Dragon 16.21.1.
+{id:'verdant_barrier',name:'Barreira Verdejante',cost:1600,stats:{ap:40,mr:25},tags:['mage','epic','defense','annul'],icon:'◈',riotId:4632},
+{id:'banshees_veil',name:'Véu da Banshee',cost:3000,stats:{ap:105,mr:40},tags:['mage','legendary','unique','defense','annul'],icon:'◈',riotId:3102},
+{id:'edge_of_night',name:'Limiar da Noite',cost:3000,stats:{ad:50,lethality:15,hp:250},tags:['assassin','legendary','unique','defense','annul'],icon:'⬡',riotId:3814},
 // DEV33 — checked SR 26.21 components and combat effects; does not certify full catalog parity.
 {id:'fiendish_codex',name:'Códice Demoníaco',cost:850,stats:{ap:25,abilityHaste:10},tags:['mage','epic'],icon:'◈',riotId:3108},
 {id:'nashors_tooth',name:"Dente de Na'Shor",cost:2900,stats:{ap:80,abilityHaste:15,attackSpeedPct:50},tags:['mage','legendary','unique'],icon:'✦',riotId:3115},
@@ -232,7 +236,7 @@ export const catalog=[
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -261,6 +265,7 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  fiendish_codex:['amp_tome','glowing_mote'],nashors_tooth:['recurve_bow','blasting_wand','fiendish_codex'],
  mortal_reminder:['executioners_calling','last_whisper','agility_cloak'],
  lord_dominiks_regards:['last_whisper','noonquiver'],
+ verdant_barrier:['amp_tome','null_magic_mantle','amp_tome'],banshees_veil:['needless_rod','verdant_barrier'],edge_of_night:['serrated_dirk','tunneler'],
  morellonomicon:['oblivion_orb','blasting_wand','kindlegem'],
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
  /* DEV30_OFFICIAL_RECIPES_START */
@@ -333,6 +338,10 @@ export const RUNE_PAGES_V43=Object.freeze({
  resolve:Object.freeze({name:'Determinação · Aperto dos Mortos-Vivos',shards:{hp:65},keystone:'grasp',maturity:'prototype'})
 });
 export const ITEM_EFFECTS_V43=Object.freeze({
+ // Annul spell-shields: cooldowns from SR item rules; DDragon 16.21.1 stats/recipes.
+ verdant_barrier:{kind:'annul',cooldown:60},
+ banshees_veil:{kind:'annul',cooldown:40},
+ edge_of_night:{kind:'annul',cooldown:40},
  // DEV69: no guessed data: 1083/3036, SR patch 26.21, Data Dragon 16.21.1.
  cull:{kind:'reap',healOnHit:3,goldPerMinion:1,maxMinions:100,questCompletionGold:350,maturity:'dev69_item_batch1'},
  lord_dominiks_regards:{kind:'giant_slayer',maxBonusFraction:.15,maxBonusHealth:1500,maturity:'dev69_item_batch1'},
@@ -696,7 +705,7 @@ export const EFFECT_TYPES_V41=Object.freeze({
 });
 export class EffectResolverV41 {
  constructor(arena){this.a=arena;}
- list(target){return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
+ list(target){if(target?.champ)this.a.refreshItemAnnulV453Dev69Batch2(target);return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
  has(target,type){return this.list(target).some(e=>e.type===type);}
  slowFraction(target){const slow=Math.max(0,...this.list(target).filter(e=>e.type==='slow').map(e=>e.power<=1?e.power:e.power/100));const resistance=target?.champ?this.a.elementalStatsV452d3(target).slowResist:target?.slowResist||0;return Math.min(.95,slow*(1-Math.min(1,Math.max(0,resistance/100))));}
  canAct(target,action){
@@ -713,7 +722,7 @@ export class EffectResolverV41 {
  apply(target,type,{source=null,duration=1,power=0,damageType='magic',interval=1,stack='refresh',key=null}={}){
   if(!target||target.hp<=0||!EFFECT_TYPES_V41[type]||!Number.isFinite(duration)||duration<=0||!Number.isFinite(power)||power<0||!Number.isFinite(interval)||interval<=0)return {ok:false,reason:'spec_inválida'};
   if(EFFECT_TYPES_V41[type].cc&&source?.team!==target.team&&this.has(target,'cc_immunity'))return {ok:false,reason:'cc_immunity'};
-  if(EFFECT_TYPES_V41[type].cc&&source?.team&&source.team!==target.team&&this.has(target,'spell_shield')){const shield=this.list(target).find(e=>e.type==='spell_shield');shield.until=this.a.gameTime;this.record('spell_shield_block',target,source,{effectId:shield.id,type});return {ok:false,reason:'spell_shield'};}
+  if(EFFECT_TYPES_V41[type].cc&&source?.team&&source.team!==target.team&&this.has(target,'spell_shield')){const shield=this.list(target).find(e=>e.type==='spell_shield');shield.until=this.a.gameTime;this.a.consumeItemAnnulV453Dev69Batch2(target,shield);this.record('spell_shield_block',target,source,{effectId:shield.id,type});return {ok:false,reason:'spell_shield'};}
   if(type==='stasis'&&this.has(target,'stasis'))return {ok:false,reason:'stasis_ativa'};
   if(type==='spell_shield'&&this.has(target,'spell_shield'))return {ok:false,reason:'spell_shield_ativo'};
   if(['dot','hot'].includes(type)&&!['magic','physical','true'].includes(damageType))return {ok:false,reason:'tipo_dano_inválido'};
@@ -2793,6 +2802,7 @@ export class Arena {
  queuePurchase(team,unitId,itemId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),item=catalog.find(i=>i.id===itemId);
   if(!u||!item||item.notPurchasable||item.tags.includes('trinket')||this.ended||this.teams[team].ready||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Compra programada indisponível.'};
+  if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
   if(item.tags.includes('fatality')&&u.items.some(i=>catalog.find(v=>v.id===i)?.tags.includes('fatality')&&i!==itemId))return {ok:false,reason:'Apenas um item de Penetração Fatal por campeão.'};
   if(item.roleLock&&item.roleLock!==u.role)return {ok:false,reason:'Item exclusivo de outra função.'};
   if(['sheen','trinity_force'].includes(itemId)&&[...u.items,...(u.purchaseQueue||[])].some(id=>['sheen','trinity_force'].includes(id)&&!this.itemRecipe(itemId).includes(id)))return {ok:false,reason:'Lâmina Arcana exclusiva.'};
@@ -2839,6 +2849,27 @@ export class Arena {
   if(check.ok){this.buy(team,unitId,itemId);return {ok:true,bought:true};}
   return this.queuePurchase(team,unitId,itemId);
  }
+ // Item Annul is unique per champion. Real status effect is restored only
+ // when cooldown elapses with no subsequent enemy-champion damage.
+ itemAnnulSpecV453Dev69Batch2(u){
+  const id=u?.items?.find(id=>['verdant_barrier','banshees_veil','edge_of_night'].includes(id));
+  return id?ITEM_EFFECTS_V43[id]:null;
+ }
+ refreshItemAnnulV453Dev69Batch2(u){
+  if(!u?.champ||u.hp<=0)return;
+  const spec=this.itemAnnulSpecV453Dev69Batch2(u);
+  if(!spec||(u.itemAnnulReadyAtV453Dev69Batch2||0)>this.gameTime)return;
+  const effects=u.statusEffectsV41||(u.statusEffectsV41=[]);
+  if(effects.some(e=>e.type==='spell_shield'&&e.until>this.gameTime))return;
+  effects.push({id:++this.effectIdV41,type:'spell_shield',sourceId:u.id,
+   key:'item_annul_v453_dev69b2',power:0,until:1e12,appliedAt:this.gameTime,
+   damageType:'magic',interval:1,nextTick:this.gameTime+1});
+ }
+ consumeItemAnnulV453Dev69Batch2(u,layer){
+  if(layer?.key!=='item_annul_v453_dev69b2')return;
+  const spec=this.itemAnnulSpecV453Dev69Batch2(u);
+  if(spec)u.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+spec.cooldown;
+ }
  // Role-specific shop eligibility: no other role may use support/jungle quests.
  canBuy(team,unitId,itemId){
   const u=this.units.find(x=>x.id===unitId&&x.team===team), item=catalog.find(i=>i.id===itemId);
@@ -2851,6 +2882,7 @@ export class Arena {
   if(item.tags.includes('trinket'))return {ok:false,reason:'Trinkets são trocados sem custo na fonte.'};
   if(itemId==='ward'&&(u.controlWardStock||0)>=2)return {ok:false,reason:'Limite de duas pinks no inventário.'};
   if((item.tags.includes('unique')||item.tags.includes('legendary')||item.tags.includes('epic'))&&u.items.includes(itemId))return {ok:false,reason:'Equipamento completo único: compra duplicada bloqueada.'};
+  if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
   if(item.tags.includes('fatality')&&u.items.some(i=>catalog.find(v=>v.id===i)?.tags.includes('fatality')&&i!==itemId))return {ok:false,reason:'Apenas um item de Penetração Fatal por campeão.'};
   if(item.roleLock&&item.roleLock!==u.role)return {ok:false,reason:'Item exclusivo da função '+item.roleLock+'.'};
   if(['sheen','trinity_force'].includes(itemId)&&u.items.some(id=>['sheen','trinity_force'].includes(id)&&!this.itemRecipe(itemId).includes(id)))return {ok:false,reason:'Apenas um efeito Lâmina Arcana.'};
@@ -2882,6 +2914,11 @@ export class Arena {
   // Scout's Slingshot cannot keep its proc active after upgrading into RFC.
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
   if(itemId==='cull')u.cullMinionsV453Dev69=0;
+  if(item.tags.includes('annul')){
+   // Verdant -> Banshee preserves the cooldown of the consumed component.
+   if(!undoBeforeV453Dev61.items?.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')))u.itemAnnulReadyAtV453Dev69Batch2=this.gameTime;
+   this.refreshItemAnnulV453Dev69Batch2(u);
+  }
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -3056,6 +3093,10 @@ export class Arena {
   if(itemId==='seekers_armguard')u.armguardSpentV453Dev37=false;
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
   if(itemId==='cull')u.cullMinionsV453Dev69=0;
+  if(item.tags.includes('annul')){
+   u.itemAnnulReadyAtV453Dev69Batch2=0;
+   for(const effect of u.statusEffectsV41||[])if(effect.key==='item_annul_v453_dev69b2')effect.until=this.gameTime;
+  }
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -4653,7 +4694,7 @@ export class Arena {
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
   // Explicit opt-in ability hits can apply item on-hit, without masquerading as
   // basic attacks. Spell shields still block the primary ability and its procs.
-  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
+  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.consumeItemAnnulV453Dev69Batch2(target,layer);this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
   if(target.hp<=0||target.stasisUntil>this.gameTime||this.effectResolverV41().has(target,'stasis')||this.effectResolverV41().has(target,'invulnerable'))return 0;
   // Dev66: Exaustão também reduz dano de habilidades e procs do campeão.
   // AAs normais já recebem a redução ao calcular basicAttackPowerV452c;
@@ -4778,6 +4819,12 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
  }
  const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  // Champion damage while Annul is DOWN resets its recovery cooldown.
+  if(dealt>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team){
+   const spec=this.itemAnnulSpecV453Dev69Batch2(target);
+   if(spec&&(target.itemAnnulReadyAtV453Dev69Batch2||0)>this.gameTime)
+    target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+spec.cooldown;
+  }
   // DEV53 Eternidade: somente dano EFETIVAMENTE sofrido de campeão inimigo.
   // Escudos absorvidos, ataques inválidos e fontes neutras não recuperam mana.
   if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team&&
@@ -4883,7 +4930,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
     target.deaths=(target.deaths||0)+1;
-    target.baronBuffUntilV452=0;target.baronCapturedAtV452d4Dev14=null;target.elderBuffUntilV452=0;target.elderPendingV452=null;target.elderBurnV452d=null;
+    // Dying places Annul on cooldown; never grant a fresh shield on respawn.
+     const annul=this.itemAnnulSpecV453Dev69Batch2(target);
+     if(annul){target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+annul.cooldown;
+      for(const effect of target.statusEffectsV41||[])if(effect.key==='item_annul_v453_dev69b2')effect.until=this.gameTime;}
+     target.baronBuffUntilV452=0;target.baronCapturedAtV452d4Dev14=null;target.elderBuffUntilV452=0;target.elderPendingV452=null;target.elderBurnV452d=null;
     // Assist window remains independent from the environmental kill-credit window.
     const credited=this.championKillCreditV453Dev47(target,attacker);
     const assistingChampions=[];
