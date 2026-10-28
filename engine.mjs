@@ -3210,6 +3210,128 @@ export class Arena {
   return {ok:true,itemId,hitIds:victims.map(v=>v.id),cooldownUntil:u[key]};
  }
 
+
+ // Dev69 B6 - item effects are server-owned, deterministic and non-recursive.
+ onOffensiveCastV453Dev69B6(u,slot){
+  if(slot==='R'){
+   if(u.items?.includes('yun_tal_demon_arrows')){u.b6DartShots=3;u.b6DartUntil=this.gameTime+8;}
+   if(u.items?.includes('malignance'))u.b6UltimateDamageUntil=this.gameTime+4;
+  }
+  if(u.items?.includes('voltaic_cyclosword'))u.energizeStacksV453Dev38=100;
+ }
+ onOffensiveHitV453Dev69B6(u,target,dealt,sourceType){
+  if(!(dealt>0&&u?.champ&&target?.champ&&u.team!==target.team)||sourceType.startsWith('item_')||
+     !['spell','basic','ability_onhit_v453_dev40'].includes(sourceType))return;
+  const now=this.gameTime,ids=u.items||[],r=ITEM_OFFENSE_RULES_V453_DEV69_B6;
+  if(ids.includes('serpents_fang')){
+   const cut=u.range>.05?r.serpents_fang.rangedCut:r.serpents_fang.shieldCut;
+   if(!(target.b6SerpentUntil>now)){
+    for(const shield of target.statusEffectsV41||[])if(['shield','physical_shield','magic_shield'].includes(shield.type)&&shield.until>now)shield.power*=1-cut;
+    target.shield=Math.max(0,target.shield*(1-cut));
+   }
+   target.b6SerpentCut=cut;target.b6SerpentUntil=now+r.serpents_fang.seconds;
+  }
+  if(ids.includes('stormsurge')){
+   target.b6StormRecords??={};const old=target.b6StormRecords[u.id],s=old&&now-old.start<=r.stormsurge.window?old:{start:now,total:0,readyAt:old?.readyAt||0};
+   s.total+=dealt;
+   if(s.total>=target.maxHp*r.stormsurge.requiredPct&&s.readyAt<=now){
+    s.readyAt=now+r.stormsurge.cooldown;s.pendingAt=now+r.stormsurge.delay;s.sourceId=u.id;s.sourceTeam=u.team;
+   }
+   target.b6StormRecords[u.id]=s;
+  }
+  if(ids.includes('horizon_focus')&&sourceType!=='basic'&&this.mapDistance(u,target)>=r.horizon_focus.minRange){
+   target.revealedUntil??={};target.revealedUntil[u.team]=Math.max(target.revealedUntil[u.team]||0,now+r.horizon_focus.revealSeconds);
+   for(const enemy of this.units)if(enemy.team!==u.team&&enemy.hp>0&&this.mapDistance(target,enemy)<=r.horizon_focus.splashRadius&&this.canSeePoint(u.team,enemy)){
+    enemy.revealedUntil??={};enemy.revealedUntil[u.team]=Math.max(enemy.revealedUntil[u.team]||0,now+r.horizon_focus.splashSeconds);
+   }
+  }
+  if(!['spell','ability_onhit_v453_dev40'].includes(sourceType))return;
+  if(ids.includes('blackfire_torch')){
+   const s=r.blackfire_torch;
+   this.applyEffectV41(target,'dot',{source:u,key:'blackfire_b6_'+u.id,duration:s.duration,power:s.magicPerSecond+u.ap*s.apRatio,interval:1,damageType:'magic'});
+   target.b6BlackfireUntil??={};target.b6BlackfireUntil[u.id]=now+s.duration;
+  }
+  if(ids.includes('ludens_companion')&&(u.b6LudenReadyAt||0)<=now){
+   const s=r.ludens_companion;u.b6LudenReadyAt=now+s.cooldown;
+   const extras=this.units.filter(v=>v.id!==target.id&&v.hp>0&&v.team!==u.team&&this.canSeePoint(u.team,v)&&this.mapDistance(v,target)<=s.splashRadius)
+    .sort((a,b)=>this.mapDistance(a,target)-this.mapDistance(b,target)||a.id.localeCompare(b.id));
+   const pool=[target,...extras];
+   for(let i=0;i<s.echoes;i++){const victim=pool[i%pool.length];if(victim.hp>0)this.damage(victim,s.magicPerEcho*(victim===target?1:.65),u,'magic','item_luden_b6');}
+  }
+  if(ids.includes('malignance')&&(u.b6UltimateDamageUntil||0)>now){
+   target.b6Malignance??={};target.b6Malignance[u.id]={until:now+r.malignance.seconds,next:now+1};
+  }
+ }
+ onOffensiveBasicV453Dev69B6(u,target,{energized=false,preHp=0}={}){
+  if(!u?.champ||target.hp<=0||target.team===u.team)return;
+  const ids=u.items||[],r=ITEM_OFFENSE_RULES_V453_DEV69_B6,now=this.gameTime;
+  const blade=ids.find(id=>['lich_bane','iceborn_gauntlet','dusk_and_dawn'].includes(id));
+  if(blade&&(u.spellbladeArmedUntilV453Dev29||0)>=now&&(u.spellbladeNextV453Dev29||0)<=now){
+   u.spellbladeArmedUntilV453Dev29=-1;u.spellbladeNextV453Dev29=now+1.5;
+   if(blade==='lich_bane')this.damage(target,u.ad*r.lich_bane.baseADRatio+u.ap*r.lich_bane.apRatio,u,'magic','item_lich_b6');
+   if(blade==='iceborn_gauntlet'){
+    this.damage(target,u.ad*r.iceborn_gauntlet.baseADRatio,u,'physical','item_iceborn_b6');
+    for(const enemy of this.units.filter(v=>v.team!==u.team&&v.hp>0&&this.mapDistance(v,target)<=r.iceborn_gauntlet.fieldRadius&&this.canSeePoint(u.team,v)))
+     this.applyEffectV41(enemy,'slow',{source:u,duration:r.iceborn_gauntlet.slowDuration,power:r.iceborn_gauntlet.slow,key:'iceborn_b6_'+u.id});
+   }
+   if(blade==='dusk_and_dawn'){
+    this.damage(target,r.dusk_and_dawn.baseMagic+u.ap*r.dusk_and_dawn.apRatio,u,'magic','item_dusk_b6');
+    this.effectResolverV41().heal(u,r.dusk_and_dawn.healBase+u.ap*r.dusk_and_dawn.healApRatio,u);
+    if(target.hp>0)this.afterBasicAttackItemsV453Dev69B3(u,target,{landed:true,preHp:target.hp});
+   }
+  }
+  if(energized){
+   if(ids.includes('stormrazor')){
+    this.damage(target,r.stormrazor.bonusMagic,u,'magic','item_stormrazor_b6');
+    u.b6StormrazorUntil=now+r.stormrazor.moveSeconds;
+   }
+   if(ids.includes('voltaic_cyclosword')){
+    this.damage(target,Math.max(1,preHp*r.voltaic_cyclosword.healthRatio),u,'physical','item_voltaic_b6');
+    u.b6VoltaicUntil=now+r.voltaic_cyclosword.buffSeconds;
+   }
+   if(ids.includes('statikk_shiv')){
+    const s=r.statikk_shiv;
+    const victims=this.units.filter(v=>v.id!==target.id&&v.hp>0&&v.team!==u.team&&v.team===target.team&&
+      this.canSeePoint(u.team,v)&&this.mapDistance(target,v)<=s.chainRadius)
+      .sort((a,b)=>this.mapDistance(target,a)-this.mapDistance(target,b)||a.id.localeCompare(b.id)).slice(0,s.chainTargets);
+    for(const v of victims)this.damage(v,s.magicDamage,u,'magic','item_statikk_b6');
+   }
+   u.energizeStacksV453Dev38=0;
+  }
+  if(ids.includes('yun_tal_demon_arrows')&&u.b6DartUntil>now&&(u.b6DartShots||0)>0){
+   u.b6DartShots--;this.damage(target,Math.max(1,u.ad*r.yun_tal_demon_arrows.bonusTrueFraction),u,'true','item_darts_b6');
+  }
+ }
+ advanceOffensiveItemsV453Dev69B6(){
+  const now=this.gameTime,r=ITEM_OFFENSE_RULES_V453_DEV69_B6;
+  for(const target of this.units){
+   for(const [ownerId,s] of Object.entries(target.b6StormRecords||{})){
+    if(!s.pendingAt||now<s.pendingAt)continue;
+    s.pendingAt=null;const owner=this.units.find(v=>v.id===ownerId&&v.team!==target.team);
+    if(!owner?.items?.includes('stormsurge'))continue;
+    const victim=target.hp>0?target:this.units.filter(v=>v.hp>0&&v.team===target.team&&this.mapDistance(v,target)<=r.stormsurge.radius&&this.canSeePoint(owner.team,v))
+     .sort((a,b)=>this.mapDistance(a,target)-this.mapDistance(b,target)||a.id.localeCompare(b.id))[0];
+    if(victim)this.damage(victim,r.stormsurge.damage,owner,'magic','item_stormsurge_b6');
+   }
+   for(const [ownerId,s] of Object.entries(target.b6Malignance||{})){
+    if(s.until<=now||target.hp<=0){delete target.b6Malignance[ownerId];continue;}
+    if(s.next>now)continue;s.next=now+1;
+    const owner=this.units.find(v=>v.id===ownerId&&v.team!==target.team);
+    if(owner?.items?.includes('malignance'))this.damage(target,r.malignance.damagePerSecond,owner,'magic','item_malignance_b6');
+   }
+  }
+ }
+ onOffensiveKillV453Dev69B6(dead,credited,assists=[]){
+  for(const u of [credited,...assists]){
+   if(!u?.champ||u.team===dead.team||u.hp<=0)continue;
+   if(u.items?.includes('axiom_arc')&&u.skillCds?.R>this.gameTime){
+    const fraction=u===credited?ITEM_OFFENSE_RULES_V453_DEV69_B6.axiom_arc.ultimateRefundFraction:ITEM_OFFENSE_RULES_V453_DEV69_B6.axiom_arc.assistRefundFraction;
+    u.skillCds.R=Math.max(this.gameTime,u.skillCds.R-(u.skillCds.R-this.gameTime)*fraction);
+   }
+   if(u.items?.includes('hubris')){u.b6HubrisKills=(u.b6HubrisKills||0)+1;u.b6HubrisUntil=this.gameTime+ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris.seconds;}
+  }
+ }
+
  // B4 family helpers are world-authoritative and use simulation seconds only.
  bonusItemManaV453Dev69B4(u){return Math.max(0,(u?.items||[]).reduce((sum,id)=>sum+(catalog.find(v=>v.id===id)?.stats?.mana||0),0)+(u.tearManaBonusV453Dev56||0));}
  refreshTearEvolutionV453Dev69B4(u){
