@@ -124,3 +124,19 @@ Fechar lacunas individuais de Ahri e Jinx, depois Nami/Vex e Lux, abrangendo os 
 5. Testes de borda completos por campeão + matriz de interações entre os sete, **Node e browser sincronizados no integrador**, navegador/HTTP duas sessões e QA de assets e release.
 
 **Ninguém deve reportar "7 completos" ou "pacote concluído" antes de todos esses gates serem comprovados.** Os 465 testes verdes mostram avanço mensurável da implementação, mas a certificação atual permanece **0/7**, em revisão. A continuidade deverá fechar lacunas de completude e não reiniciar entregas de dois campeões.
+
+
+## Macro-pacote 7 campeões — fortalecimento de contratos (continuação no mesmo chat)
+
+**Não é um pacote de dois campeões.** Continua sendo o único bloco de Nami, Vex, Lux, Ahri, Jinx, Ezreal e Irelia no PR #9 Draft. Não há merge nem autorização de integração.
+
+- **Nami E × Vex:** A bênção de Nami agora fortalece também um acerto direto de habilidade com dano e slow, além do ataque básico. Efeitos passivos e o próprio bônus não produzem procs recursivos. Em uma mesma simulação, acertos de um feitiço em área consomem apenas uma carga; cargas remanescentes persistem por snapshot e são removidas ao acabar. **Limitação para certificação:** spells distintas no mesmo instante e particionamento de acertos AoE exigem identificador explícito de instância de habilidade; a agregação atual é por instante de simulação.
+- **Irelia W × combate/movimento:** Irelia não caminha por `moveAlong` e não dispara AA automáticos enquanto canaliza Defiant Dance. A redução de dano do W ainda funciona durante a preparação. O segundo comando W durante a canalização antecipa o golpe, sem repetir custo ou cooldown; dano aumenta proporcionalmente ao tempo carregado até o máximo de 0,75s. Mitigação tem cauda temporária. Confirmação por blue e red e restauração de estado.
+- **Teste integrado mesmo jogo:** jogo PvP azul 5 (Irelia, Ezreal, Ahri, Jinx, Lux) contra vermelho incluindo Nami e Vex: posse de comandos, buff aliado, AA e dano mágico de skills, ausência de procs duplicados, marca Ezreal separada de marca Irelia, mana, estado/cargas e replays.
+- A expectativa do teste de snapshot foi corretamente atualizada: ao serem consumidas as três cargas da Nami E, o buff salvo deve ser `null`, não continuar com duas cargas.
+
+**CI de Skills no commit `ee320eaff58d6df75c5b0dd08395dc17dab846f9`:** [workflow 40765356775](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40765356775) **SUCCESS 480/480**: Batch2 44, M1 53, M2 52, M3 41, M4 37, M5 39, M6 15, M7 60, Skills original 64, Lux Dev68 40, Dev43 19, V4.2 16.
+
+**Ainda não certificado: 0/7.** Os testes cobrem o contrato parcial efetivamente implementado, mas os sete campeões ainda exigem paridade completa por habilidade/passiva/rank/level, respawn, uso de itens e feitiços, fog, casos de borda de colisores, reconexões de duas sessões e browser sincronizado. O workflow integrado seguirá vermelho na etapa Node→`engine.browser.js` até o auditor fazer a sincronização após autorização para merge. O projeto de Itens, `main`, `version.json` e `engine.browser.js` seguem intocados.
+
+**Fonte externa verificada:** https://wiki.leagueoflegends.com/en-us/Irelia e https://wiki.leagueoflegends.com/en-us/Nami. O fato de slots estarem registrados não autoriza declarar fidelidade integral.
