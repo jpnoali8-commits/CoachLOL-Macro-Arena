@@ -1,0 +1,30 @@
+{
+  "schema": "coachlol.deliveryManifest.v1",
+  "version": "4.5.2d-4-dev19",
+  "baseZip": "CoachLOL_MacroArena_V452d4_Dev18_ElderSubticks_RiftFog_JogoCompleto.zip",
+  "baseSHA256": "e09d6ebde9c915ac7e6164eadde3f2dde1715bc3c40aec16f8c7eb613fbe7882",
+  "changeScope": [
+    "content parity audit",
+    "Data Dragon reference-only import adapter",
+    "long-match bot test harness",
+    "roadmap/forms/realms architecture"
+  ],
+  "status": "IMPLEMENTED_TESTED_PARTIAL",
+  "officialDataDragonFullJSON": "NOT_DOWNLOADED",
+  "dataDragonVersion": "16.21.1",
+  "gamePatch": "26.21",
+  "engineGameplayModified": false,
+  "browserGameplayModified": false,
+  "gitHistoryPreserved": true,
+  "tests": {
+    "newContracts": "6/6 PASS",
+    "npm_test": "PASS exit 0",
+    "longMatch": {
+      "1200seed26": "PASS",
+      "1200seed42": "PASS",
+      "2400seed26": "PASS 4 structures; no dragons/Nexus"
+    },
+    "chromiumDev19": "NOT_RUN (no UI changes)"
+  },
+  "nextPriority": "dev20 bot objectives and Nexus organic test"
+}

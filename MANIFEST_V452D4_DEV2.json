@@ -1,0 +1,47 @@
+{
+  "schema": "coachlol.release-manifest.v452d4-dev2",
+  "version": "4.5.2d-4-dev2",
+  "base": "V4.5.2d-4-dev1",
+  "sources": {
+    "base_dev1": {
+      "filename": "CoachLOL_MacroArena_V452d4_Dev1_Rift_Elemental_Blender_Handoff.zip",
+      "sha256": "dc670fe97bd0a577bd9d2853988b0035057ee6704eb799f5b7c3393e9085990d",
+      "filesInZip": 1091
+    },
+    "user_masks": {
+      "filename": "masks-and-maps(1).zip",
+      "sha256": "301d369e11cd0f3dd2eb2f2285270960eb3c176ec9b4009cb756691500cb1253",
+      "filesInZip": 22
+    }
+  },
+  "filesAtPackaging": 1129,
+  "newTests": "10/10",
+  "overall": "PASS exit 0",
+  "chromium": "NOT_CERTIFIED (timeout 35s)",
+  "gitHistory": "preserved, no git commit",
+  "note": "Rift 1x; masks and map authorship from user; approximate spatial and mechanics; no official 1:1",
+  "userAssetsCount": 21,
+  "userAssetPaths": [
+    "assets/user_rift_masks_20261026/mapa_atualizado.jpg",
+    "assets/user_rift_masks_20261026/mapa_mountain_atualizado.jpg",
+    "assets/user_rift_masks_20261026/mapa_Ocean_atualizado.jpg",
+    "assets/user_rift_masks_20261026/masks/fruit-quimtech-drag.jpg",
+    "assets/user_rift_masks_20261026/masks/Brushs-Moitas-Mapa.jpg",
+    "assets/user_rift_masks_20261026/masks/Point-Vision-Buff-map.jpg",
+    "assets/user_rift_masks_20261026/masks/Torres-Mapa-Blue-RED.jpg",
+    "assets/user_rift_masks_20261026/masks/Colisores-Mapa.jpg",
+    "assets/user_rift_masks_20261026/masks/Hextech-drag-portals-mask-map-ligations.jpg",
+    "assets/user_rift_masks_20261026/masks/Nexus-Mapa-BLue-Red.jpg",
+    "assets/user_rift_masks_20261026/masks/Monstros-Jungle-completo-com-baron-e-drag.jpg",
+    "assets/user_rift_masks_20261026/masks/Inibidores-Mapa-Blue-Red.jpg",
+    "assets/user_rift_masks_20261026/masks/Mapa-Summoners-Rifts.jpg",
+    "assets/user_rift_masks_20261026/masks/Respawn-mapa-Blue-RED-Area-de-compra-itens.jpg",
+    "assets/user_rift_masks_20261026/masks/Colisores-mountain-drag-Mapa.jpg",
+    "assets/user_rift_masks_20261026/masks/Jump-fruit-map.jpg",
+    "assets/user_rift_masks_20261026/masks/Brushs-Moitas-Ocean-Drag-Mapa.jpg",
+    "assets/user_rift_masks_20261026/masks/Rotas-Mapa-Top-MId-bottom.jpg",
+    "assets/user_rift_masks_20261026/masks/Rio-Mapa.jpg",
+    "assets/user_rift_masks_20261026/masks/aren-move-speed-drag-elemental.jpg",
+    "assets/user_rift_masks_20261026/masks/Vision-quimtech-drag.jpg"
+  ]
+}

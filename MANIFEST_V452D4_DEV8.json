@@ -1,0 +1,17 @@
+{
+  "version": "4.5.2d-4-dev8",
+  "basedOn": "4.5.2d-4-dev7",
+  "faelights": "8+4 masks kept",
+  "scryer": {
+    "baseProvisional": 2,
+    "extraProvisional": 10,
+    "notCertified": true
+  },
+  "qa": {
+    "npmTest": "PASS exit 0",
+    "newContracts": "PASS 8/8",
+    "browserEndgame": "PASS 2/2 accelerated",
+    "organicE2E": "NOT_RUN"
+  },
+  "next": "V4.5.2d-4-dev9"
+}

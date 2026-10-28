@@ -1,0 +1,18 @@
+{
+  "version": "4.5.3-dev42",
+  "source": "CoachLOL_MacroArena_V453_Dev41_Ezreal_Irelia_Q_OnHit_JogoCompleto.zip",
+  "newContracts": 19,
+  "fullNpm": "PASS",
+  "chromium": "PASS 0 JS",
+  "naturalNexusMatches": 3,
+  "playableItems": 70,
+  "features": [
+    "Ezreal Q deferred projectile and live blockers",
+    "Irelia CC dash gate and E/R mark-consumption contract"
+  ],
+  "gitFilesPreserved": 566,
+  "limitations": [
+    "1-second tick travel",
+    "Irelia E/R producer not available"
+  ]
+}

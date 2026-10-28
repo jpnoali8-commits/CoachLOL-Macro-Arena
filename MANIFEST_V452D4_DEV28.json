@@ -1,0 +1,36 @@
+{
+  "release": "4.5.2d-4-dev28",
+  "base": "4.5.2d-4-dev27",
+  "sourceZip": "CoachLOL_MacroArena_V452d4_Dev27_Fog_Oracle_Privacidade_JogoCompleto.zip",
+  "tests": {
+    "new": "10/10 PASS",
+    "historicalCorrected": "8/8 PASS",
+    "npmTest": "PASS exit 0",
+    "chromiumOracle": "PASS",
+    "chromiumFullAuto5v5Nexus33m10sPostgame": "PASS",
+    "multiDraftHashParity": "10/10 PASS"
+  },
+  "referenceFiles": [
+    "README_PRODUCAO_V452D4_DEV28.md",
+    "CHANGELOG_V452D4_DEV28.md",
+    "docs/QA_V452D4_DEV28.md",
+    "docs/MEMORIA_V452D4_DEV28.md",
+    "docs/ROADMAP_V452D4_DEV28.md",
+    "tests/v452d4_dev28_oracle_through_walls.test.mjs",
+    "tests/browser_v452d4_dev28_oracle_through_walls.py",
+    "tests/browser_v452d4_dev28_full_match.py",
+    "docs/QA_EVIDENCE_V452D4_DEV28/npm_test_full.log",
+    "docs/QA_EVIDENCE_V452D4_DEV28/chromium_full_seed26_report.json",
+    "docs/QA_EVIDENCE_V452D4_DEV28/chromium_oracle_wall_smoke.json"
+  ],
+  "scope": "Offline game full directory, inherited Git included, historical dirty working state preserved",
+  "zip": {
+    "file": "CoachLOL_MacroArena_V452d4_Dev28_Oracle_Parede_PartidaCompleta_JogoCompleto.zip",
+    "sha256": "c0c99eb3739ad19d0d6922a58b084ca18a3b9abe340f2fd3444625920b71a572",
+    "bytes": 136127200,
+    "entries": 1530,
+    "crc": "PASS",
+    "gitPreserved": true,
+    "version": "4.5.2d-4-dev28"
+  }
+}

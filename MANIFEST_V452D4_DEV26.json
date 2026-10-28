@@ -1,0 +1,23 @@
+{
+  "version": "4.5.2d-4-dev26",
+  "base": "4.5.2d-4-dev25",
+  "tests": {
+    "new": "PASS 9/9",
+    "npm_test": "PASS exit 0",
+    "chromium_fixture": "PASS, 0 JS errors",
+    "pacing": "PASS 10/10 natural Nexus",
+    "determinism": "PASS 10/10 final-state hashes same as dev25"
+  },
+  "limitations": [
+    "no complete Chromium match",
+    "items and champion kits not complete"
+  ],
+  "files": [
+    "engine.mjs",
+    "engine.browser.js",
+    "app.js",
+    "tests/v452d4_dev26_fog_ward_suppression.test.mjs",
+    "tests/browser_v452d4_dev26_vision.py"
+  ],
+  "note": "Full archival package includes original .git, all historical uncommitted changes and docs."
+}

@@ -1,0 +1,24 @@
+{
+  "release": "4.1.0",
+  "date": "2026-10-26",
+  "base": "4.0.0",
+  "name": "CoachLOL Macro Arena — Status/Efeitos",
+  "state": "foundation_partial",
+  "new_tests": 20,
+  "artifacts": [
+    "engine.mjs",
+    "engine.browser.js",
+    "styles-v41.css",
+    "docs/ROADMAP_CANONICO_V41.md",
+    "docs/AUDITORIA_V41_ENGENHARIA.md",
+    "tests/v41_effect_resolver.test.mjs"
+  ],
+  "limitations": [
+    "rollback_completo",
+    "forcamento_de_movimentos_CC",
+    "replay_comandos",
+    "kits_individuais",
+    "PvP_autoritativo"
+  ],
+  "recommended_next": "4.2"
+}

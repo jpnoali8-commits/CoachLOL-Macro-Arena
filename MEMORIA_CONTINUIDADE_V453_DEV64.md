@@ -1,0 +1,7 @@
+# Memória técnica V4.5.3-dev64
+
+Derivada do ZIP dev63 sem exclusões de assets/Git. A arquitetura continua PvP 1 humano azul (TOP/JG/MID/ADC/SUP) versus 1 humano vermelho (TOP/JG/MID/ADC/SUP), ambos confirmam, fog e ações/loja do servidor. Dev63 já permite vitórias naturais por Nexus e UI final. Dev64 corrige a condição herdada de `processAmbushResponses`: no modo pvp a decisão manual é oferecida para ambas as equipes. Em modo bot o caminho assimétrico histórico fica preservado (evita refazer os benchmarks de bots). `room.command` retorna receipt idempotente via gateway para sequência já confirmada **antes** de fazer o gate de fase, mantendo controle de owner e canonical-payload. Nunca copiar ações novas em fases proibidas.
+
+UI multiplayer ganha `reactionComposerV453Dev64`, seletor de alvo com ocultação da localização de inimigo em brush, edição de steps QWER/feitiços, e overlay em camada superior. O servidor verifica alvo, rank QWER, feitiço equipado e combate pendente. O cliente não simula dano. Os testes criam um impacto por `duelPermission` + `attack` reais e deixam `continueExecution(1)` pausar naturalmente: duas sessões HTTP entram e restauram checkpoint `phase=decision`, apenas o defensor comanda, Q aprendido versus R não aprendido, anti replay após decisão e retomada de ticks.
+
+Não promovemos novos itens do 100 reference_only e não houve calibração farm/estrutura. Não afirmar full browser-native SSE nem partida com dois humanos reais por toda duração. Preservar `.git` (566 entradas) e sistema Undo da fonte.

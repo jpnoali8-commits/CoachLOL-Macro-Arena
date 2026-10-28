@@ -1,0 +1,10 @@
+{
+  "version": "4.5.1",
+  "base": "4.5.0",
+  "patchReference": "26.21",
+  "contentCertified1to1": false,
+  "newContracts": 11,
+  "testsPassedIndividually": 119,
+  "fullRegression": "failed_known_farm_calibration",
+  "next": "v4.5.1a, v4.5.2, v4.5.3, v4.5.4"
+}

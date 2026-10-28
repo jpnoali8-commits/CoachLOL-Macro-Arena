@@ -1,0 +1,23 @@
+{
+  "schema": "coachlol.build.manifest.v453.dev29",
+  "build": "V4.5.3-dev29",
+  "description": "Jogo completo, motor Node+browser, assets user masks and CC0 original icons, inherited Git, QA and docs",
+  "fileCount": 1547,
+  "hasGitHead": true,
+  "keyFiles": [
+    "engine.mjs",
+    "engine.browser.js",
+    "app.js",
+    "index.html",
+    "version.json",
+    "docs/QA_V453_DEV29.md",
+    "tests/v453_dev29_item_batch.test.mjs",
+    "tests/browser_v453_dev29_item_shop.py"
+  ],
+  "limitations": [
+    "Not all LoL items/champions implemented",
+    "Not certified Riot 1:1",
+    "No manual full browser match this milestone",
+    "No enforced match duration"
+  ]
+}

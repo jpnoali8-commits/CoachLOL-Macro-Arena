@@ -1,0 +1,25 @@
+{
+  "schema": "coachlol.releaseManifest.v4.2",
+  "packageVersion": "4.2.0",
+  "base": "4.1.0",
+  "filesCountBeforeManifest": 394,
+  "tests": {
+    "overall": 213,
+    "v42": 16,
+    "chromiumJSerrors": 0,
+    "stressSeconds": 300
+  },
+  "sha256": {
+    "engine.mjs": "1e4fcc79e971a26693f9bde44f986af9cd2b23ff595bae8d94cc2ef83ef50019",
+    "engine.browser.js": "e36d7476d5fecf05323d1f828d5d2b750d7ea3a310cab231dc9d6cf6850aa02b",
+    "app.js": "aa5d0fdd30be50e349474017befad46fc1cdb61e7383330751994cbef24e04c2",
+    "version.json": "acecca8810e645e04ce811e4552a55b4873bb3b595696ae22e25e911843ded15",
+    "data/champion_kits_v42.json": "784237476ddba427fa04dae194344995dd5ce1525710e5604d390529c30b45a9",
+    "data/champion_stats_v42.json": "8a51e922fbf6c08ca008f1a840ddc2cdd5c8445dfc9f9d10b4d9ad66e42831e4",
+    "data/action_grammar_v42.json": "641f06ffe69fbfee0e68585cf941e735a385f79bad8fb1a7be5d1db7603b239b",
+    "docs/ROADMAP_CANONICO_V42.md": "3e33a6f59c669512f134181242d441f80812a67d9e46a54efd2734fe82a70565",
+    "docs/AUDITORIA_V42_KITS_E_ARQUITETURA.md": "4cde8f9bdacb7487e9e4e0b2d996cd4af1904156b575373b9d855da7b21730d8",
+    "tests/v42_champion_kits.test.mjs": "ad1a453e3934b51ae3e739d9aca8157b92e03d454d50dc3d1849d8656527c6bb",
+    "skills/coachlol-macro-arena/SKILL.md": "177175da8019e6b0029c181e78c4b735af415659054d597a49e8dbeceb007bda"
+  }
+}

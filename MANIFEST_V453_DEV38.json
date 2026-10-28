@@ -1,0 +1,41 @@
+{
+  "schema": "coachlol.delivery.v453.dev38",
+  "version": "4.5.3-dev38",
+  "patch": "26.21 / DDragon 16.21.1",
+  "parentArchive": "CoachLOL_MacroArena_V453_Dev37_Reconciliacao_Itens_70_JogoCompleto.zip",
+  "parentSHA256": "4ec17579ff2fe2ef3974de92302eee0d9999947fa22bdc9e1dad7aeb2a4bd0a5",
+  "originalFileCount": 2082,
+  "originalFilesRetained": 2082,
+  "gitFilesByteIdentical": 566,
+  "newFilesAdded": 21,
+  "filesRemoved": 0,
+  "changedSourceFiles": [
+    "engine.mjs",
+    "engine.browser.js",
+    "app.js",
+    "package.json",
+    "version.json",
+    "catalogo_riot_26_21.html",
+    "tests/v453_dev37_item_reconciliation.test.mjs"
+  ],
+  "implementedEffects": [
+    "scouts_slingshot.bullseye",
+    "rapid_firecannon.energized_attack",
+    "dorans_ring.drain_helping_hand"
+  ],
+  "playableItems": 70,
+  "staticItems": 863,
+  "championProfiles": 173,
+  "testing": {
+    "node": "npm test PASS",
+    "contracts": "13/13",
+    "chromium": "PASS; no javascript errors",
+    "matches": "3/3 Nexus naturally destroyed",
+    "averageSeconds": 1536.3333333333333
+  },
+  "knownLimits": [
+    "partial item passive training implementation",
+    "only path-based movement charges RFC",
+    "other items and champion kits require separate certification"
+  ]
+}

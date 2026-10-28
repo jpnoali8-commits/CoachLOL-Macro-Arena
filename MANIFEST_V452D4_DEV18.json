@@ -1,0 +1,21 @@
+{
+  "version": "4.5.2d-4-dev18",
+  "sourceZip": "CoachLOL_MacroArena_V452d4_Dev17_BaronSiege_Multiturno_JogoCompleto.zip",
+  "sourceSha256": "cea2c335a887bc69618bf5f0ba8bc30920877982c7c57da88257c5d3233dc899",
+  "engine": "engine.mjs",
+  "browserBundleExports": 68,
+  "newTests": 11,
+  "qaGlobal": "PASS exit 0",
+  "qaBrowser": "PASS controlled Chromium fixture, zero JS errors",
+  "visualSubsecond": "NOT_IMPLEMENTED (logical microticks only)",
+  "organicFullMatch": "NOT_RUN",
+  "elderDuration": "180s inherited; version audit pending",
+  "changed": [
+    "engine.mjs",
+    "engine.browser.js",
+    "package.json",
+    "version.json",
+    "tests/v452d4_dev18_elder_subticks_fog.test.mjs",
+    "tests/browser_v452d4_dev18_elder_microticks.py"
+  ]
+}

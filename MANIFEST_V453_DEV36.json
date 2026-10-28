@@ -1,0 +1,21 @@
+{
+  "project": "CoachLOL Macro Arena",
+  "version": "4.5.3-dev36",
+  "patch": "26.21",
+  "catalogReference": {
+    "items": 863,
+    "summonersRiftRecords": 315,
+    "riotFlagPurchasableRift": 254,
+    "localPlayableItems": 67,
+    "championReferenceProfiles": 173
+  },
+  "sourceIntegrity": "SHA-256 of 366 original downloads matched their collector manifest (not independently Riot-signed)",
+  "gameplayChanges": false,
+  "test": {
+    "newContracts": "11/11 PASS",
+    "npmTest": "PASS",
+    "chromiumCatalog": "PASS controlled real Chromium",
+    "newOrganicMatchRun": "NOT_RUN unchanged engine code"
+  },
+  "notes": "Official static reference snapshot only; mechanics from notes and client require QA before activation"
+}

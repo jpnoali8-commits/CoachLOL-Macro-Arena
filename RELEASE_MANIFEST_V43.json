@@ -1,0 +1,26 @@
+{
+  "schema": "coachlol.release.v43",
+  "release": "4.3.0",
+  "base": "4.2.0",
+  "date": "2026-10-26",
+  "mode": "offline",
+  "patch": "LoL PC 26.21",
+  "status": "partial foundation; not 1:1 all champions/items/runes",
+  "itemsInPrototypeCatalog": 41,
+  "runePages": 4,
+  "itemEffectDescriptors": 3,
+  "qa": {
+    "npmTestPassMarkers": 226,
+    "v43Contracts": 13,
+    "browserJavaScriptErrors": 0,
+    "stressSimulatedSeconds": 300,
+    "stressSeed": 43,
+    "browserShopRuneSale": true
+  },
+  "sha256": {
+    "engine.mjs": "f6a8eba52f834b94dabe5e7ac6f8847c23663c54aadf64ed734d974f8ccb797f",
+    "engine.browser.js": "4db77f62f03970b0f5f905801d95251c2ce5eca7a81c3c79d98f016b574be0a0",
+    "app.js": "5faec1f9b1654f64dd3f431fec4d0bf12662fb004e3641f2e75f441c84678818"
+  },
+  "nextVersion": "4.4 jungle objectives teamfights"
+}

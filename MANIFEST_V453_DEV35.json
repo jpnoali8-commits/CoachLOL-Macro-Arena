@@ -1,0 +1,23 @@
+{
+  "schema": "coachlol.delivery.manifest.dev35",
+  "gameVersion": "4.5.3-dev35",
+  "patch": "26.21",
+  "dataDragon": "16.21.1",
+  "officialFullCatalogLoaded": false,
+  "localShopItemCount": 67,
+  "officialRemoteIngest": "blocked_dns_and_remote_fetch",
+  "newContractTests": "16/16 PASS",
+  "npmTest": "PASS",
+  "pacing": "3/3 natural Nexus, hash identical dev34",
+  "authoritativeGameChanges": "NONE",
+  "artifacts": [
+    "CoachLOL_Changelog_V453_Dev35.md",
+    "CoachLOL_QA_V453_Dev35.md",
+    "CoachLOL_Memoria_V453_Dev35.md",
+    "CoachLOL_Roadmap_V453_Dev35.md",
+    "CoachLOL_Catalogo_Unidades_V453_Dev35.md",
+    "CoachLOL_Dev35_Snapshot_Minions_Torres_26_21.json",
+    "CoachLOL_Dev35_Comparacao_3Partidas.json",
+    "CoachLOL_Dev35_Auditoria_Fontes.json"
+  ]
+}

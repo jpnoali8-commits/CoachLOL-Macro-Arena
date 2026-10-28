@@ -1,0 +1,27 @@
+{
+  "document_revision": "V4.5.2b-H1",
+  "game_version": "V4.5.2b (unchanged)",
+  "date": "2026-10-26",
+  "description": "Documentação para IA local / AST / prompts PT-BR e handoff Codex/Opus, sem alterar código de jogo",
+  "new_or_updated_files": [
+    ".agents/skills/coachlol-producao/SKILL.md",
+    "AGENTS.md",
+    "README_CONTINUAR_CODEX.md",
+    "docs/CODEX_HANDOFF/ADENDO_TACTICAL_PROMPT_ENGINE_V452B_H1.docx",
+    "docs/CODEX_PROMPT_CONTINUE_V452B.md",
+    "docs/IA_PROMPTS_ARQUITETURA_V452B_H1.md",
+    "docs/IA_PROMPTS_BENCHMARKS_QA_V452B_H1.md",
+    "docs/IA_PROMPTS_CONTRATOS_V452B_H1.json",
+    "docs/IA_PROMPTS_EXEMPLOS_V452B_H1.jsonl",
+    "docs/MEMORIA_ADENDO_IA_V452B_H1.md",
+    "docs/MEMORIA_CONTINUIDADE_V452B.md",
+    "docs/PROMPT_CODEX_OPUS_IA_V452B_H1.md",
+    "docs/ROADMAP_CANONICO_V452B_H1_PROMPTS.md",
+    "docs/ROADMAP_MESTRE_V452B.md",
+    "skills/coachlol-macro-arena/SKILL.md"
+  ],
+  "source_zip": "CoachLOL_MacroArena_v452b_Reacao_Waves_Handoff_Codex_Opus_Offline.zip",
+  "no_llm_weights": true,
+  "no_new_gameplay_code": true,
+  "qa_note": "Baseline npm test ainda contém falha P0 CS TOP ~23/5min, teste V38 não alterado."
+}

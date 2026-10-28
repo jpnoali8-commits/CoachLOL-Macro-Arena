@@ -1,0 +1,19 @@
+{
+  "version": "4.5.2d-4-dev7",
+  "base": "4.5.2d-4-dev6 ZIP",
+  "QA": {
+    "new": "PASS 7/7",
+    "npm_test": "PASS exit 0",
+    "farm": "PASS",
+    "browser": "PASS_LIMITED fixture",
+    "e2e": "NOT_RUN"
+  },
+  "telemetrySchema": "coachlol.postgame.player.v1",
+  "timeSeriesSchema": "coachlol.postgame.timeline.v1",
+  "repoGit": "HERITED DIRTY, no commit",
+  "nonGoals": [
+    "Scryer Bloom certification",
+    "Baron d3-B",
+    "Elder d3-C"
+  ]
+}

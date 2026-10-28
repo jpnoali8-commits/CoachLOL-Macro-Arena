@@ -1,0 +1,25 @@
+{
+  "version": "4.5.2d-4-dev14",
+  "base": "CoachLOL_MacroArena_V452d4_Dev13_FlorividenteCompacto_JogoCompleto.zip",
+  "objectiveBuffs": {
+    "baronSeconds": 180,
+    "elderSeconds": 180,
+    "baronBonusAD": [
+      12,
+      48
+    ],
+    "baronBonusAP": [
+      20,
+      80
+    ],
+    "baronFormula": "time-capture clamped 20-40 minutes; exponent 1.365; approximation"
+  },
+  "qa": {
+    "newTests": 11,
+    "fullNpmTest": "PASS exit0",
+    "chromium": "PASS controlled HUD; zero JS errors",
+    "nodeBrowserExports": 68,
+    "organicEndToEnd": "NOT_RUN"
+  },
+  "git": "inherited worktree modifications retained; no commit/reset/clean"
+}

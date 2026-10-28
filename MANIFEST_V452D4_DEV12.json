@@ -1,0 +1,59 @@
+{
+  "version": "4.5.2d-4-dev12",
+  "base": "V4.5.2d-4-dev11 ZIP completo",
+  "sourceUpload": "Masks(1).zip",
+  "sourceMaskCount": 21,
+  "scryers": {
+    "authored": 15,
+    "baseTierInferred": 5,
+    "lateTierInferred": 10,
+    "defaultRespawnSeconds": [
+      200,
+      260
+    ],
+    "lateRespawnSeconds": [
+      90,
+      120
+    ]
+  },
+  "honeyfruit": {
+    "global": 10,
+    "chemtechOnlyEnhances": true
+  },
+  "brush": {
+    "baseCellsChangeFromDev11": 34,
+    "oceanAdded": 92,
+    "oceanRemoved": 4
+  },
+  "qa": {
+    "newContracts": "PASS 6/6",
+    "fullNpmTest": "PASS",
+    "chromium": "PASS isolated angle selector, no JS error",
+    "organicGame": "NOT_RUN"
+  },
+  "sourceHashes": {
+    "mapa_atualizado.jpg": "95732b7f9271fe28f2d9cf91bdedb4c8e9d4e05d2341a50882f9cc9e45bb0b49",
+    "mapa_mountain_atualizado.jpg": "576a86cdf05a2162697f50a51ac3fe94adf22952fb4f43adf4585dd6d5efe5ec",
+    "mapa_Ocean_atualizado.jpg": "eb4b6c76f0deaf5aafd76cbbb1ff80d1b4a5c77b8416c812262dc1d9b1d4df3e",
+    "fruit-quimtech-drag.jpg": "6df2f29001a3b81a840de4d40451deba66fa175ab9ff17fcc93ebf685f97c3e4",
+    "Brushs-Moitas-Mapa.jpg": "a2df6be94a4a380872002403f907b9962b03990a78b41311eddaf9004749b9fe",
+    "Point-Vision-Buff-map.jpg": "1eaf60382c89380ec763f5022314667016512cc0d616f0d32734498d05826d7a",
+    "Torres-Mapa-Blue-RED.jpg": "8a798ad6e02afc62e7f4f965a25312a057d795927fc3f5793e5ed2d5da1c2683",
+    "Colisores-Mapa.jpg": "be120308cd63530b6979245c7716546381c6e98d9088ddd458a1fbe95c52e11e",
+    "Hextech-drag-portals-mask-map-ligations.jpg": "a6df9ae6d493d3659c086d96e11675335f53c46085f7b952b372689f78a2b1c2",
+    "Nexus-Mapa-BLue-Red.jpg": "4c79f009154750d236e275935edff74370b90d808cd77873728e77e432c3a809",
+    "Monstros-Jungle-completo-com-baron-e-drag.jpg": "0d7c327ce97402ecbb569832ba2a28e07aae58220e047220beb381edab612c95",
+    "Inibidores-Mapa-Blue-Red.jpg": "8617c496833bd07290b54975cab089190f6ff08dbaa0c5919f37510489371294",
+    "Mapa-Summoners-Rifts.jpg": "95732b7f9271fe28f2d9cf91bdedb4c8e9d4e05d2341a50882f9cc9e45bb0b49",
+    "Respawn-mapa-Blue-RED-Area-de-compra-itens.jpg": "c95324c5f5c9966288392a20c2887768b4372a5c0d53af93142a4198d5f797a0",
+    "Colisores-mountain-drag-Mapa.jpg": "cc07a08722386f953006eda4b214d7bed751f7430aaf2df1640690db442bbafe",
+    "Jump-fruit-map.jpg": "9b1777783cfa4db6de7e1518e6dcaefab3fbe8397dc19bcc9524178b86fc369f",
+    "Brushs-Moitas-Ocean-Drag-Mapa.jpg": "7d61c91f6e02db5fb740a41ec213e95552deda636ec0daa5677d9d32e39a1f10",
+    "Rotas-Mapa-Top-MId-bottom.jpg": "d4860f5b6bf1a30ad0f95dd78d764f567246317e0b3cea1b0581433998ca1cbb",
+    "Rio-Mapa.jpg": "5f7218cc20717057cab4874a1c1c5c9a116c473e91c319dda3b1be86dfec50d5",
+    "aren-move-speed-drag-elemental.jpg": "edb50c6f7c753553d2b4e09d5387a30605aa6330c23c4844dd29157804a155fa",
+    "Vision-quimtech-drag.jpg": "c238f9baf6186364ad557fff9f7a7f9cd134f4ef51abd49cf925a06a1cd52144",
+    "Florividentes.jpg": "c238f9baf6186364ad557fff9f7a7f9cd134f4ef51abd49cf925a06a1cd52144",
+    "Florividentes-ranged-horizontal-esquerda-para-direita.jpg": "c0a05452f9a1b62cba45247cc315bbf940bf32185247159c308885bc2a8d96cf"
+  }
+}

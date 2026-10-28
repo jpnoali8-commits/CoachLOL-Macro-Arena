@@ -1,0 +1,28 @@
+{
+  "version": "V4.5.2d-4-dev11",
+  "baseZip": "CoachLOL_MacroArena_V452d4_Dev10_Smite5v5_DraftD_F_JogoCompleto.zip",
+  "baseZipSha256": "e0d15835c0e17c60afcb31119ab174fac929e2ad55d00a5749cdee5c40573023",
+  "gitHead": "9392c0f99a5ef7ac480a9dfe1d7e28aebcec239b",
+  "gitPreservedDirtyState": true,
+  "newTests": {
+    "v452d4_dev11": "PASS 10/10"
+  },
+  "fullNpmTest": "PASS exit 0",
+  "browserChecks": {
+    "draftTwoSpells": "PASS",
+    "smiteF": "PASS",
+    "smiteD": "PASS"
+  },
+  "nodeBrowserSync": "PASS 66 exports",
+  "visualEvidencePaths": [
+    "docs/QA_EVIDENCE_V452D4_DEV11/champ_select_dual_spells_chromium.png",
+    "docs/QA_EVIDENCE_V452D4_DEV11/smite_5v5_f_chromium.png",
+    "docs/QA_EVIDENCE_V452D4_DEV11/smite_5v5_d_chromium.png"
+  ],
+  "limitations": [
+    "No complete organically played 5v5 match",
+    "No real video provided",
+    "GLB rendering requires future bridge",
+    "Scryer Bloom coordinates provisional"
+  ]
+}

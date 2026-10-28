@@ -1,0 +1,20 @@
+{
+  "version": "4.5.3-dev39",
+  "source": "4.5.3-dev38 ZIP master",
+  "patch": "26.21",
+  "newContracts": 12,
+  "fullNpmTest": "PASS",
+  "chromium": "PASS",
+  "naturalNexusMatches": 3,
+  "playableItems": 70,
+  "referenceItemRecords": 863,
+  "newArtifacts": [
+    "CHANGELOG_V453_DEV39.md",
+    "MEMORIA_CONTINUIDADE_V453_DEV39.md",
+    "ROADMAP_V453_DEV39.md",
+    "README_PRODUCAO_V453_DEV39.md",
+    "docs/QA_EVIDENCE_V453_DEV39/",
+    "tests/v453_dev39_onhit_displacement_hud.test.mjs",
+    "tests/browser_v453_dev39_onhit_hud.py"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "coachlol.release.v452d4-dev6",
+  "version": "4.5.2d-4-dev6",
+  "baseArchive": "CoachLOL_MacroArena_V452d4_Dev5_Rift_Vision_Endgame_GameComplete.zip",
+  "baseSHA256": "9f0cd26784ab4c849470967fae4de77abcafa389881cd8553500040966acb0f3",
+  "canonicalEngine": "engine.mjs",
+  "offlineMode": true,
+  "gitStatus": "INHERITED_DIRTY_NOT_RESET_OR_COMMITTED",
+  "faelights": {
+    "early": 8,
+    "late": 4,
+    "lateMode": "time_or_rift"
+  },
+  "postgame": {
+    "tabs": [
+      "scoreboard",
+      "overview",
+      "stats",
+      "graphs",
+      "runes"
+    ],
+    "realTelemetry": [
+      "kills",
+      "deaths",
+      "assists",
+      "cs",
+      "gold_on_hand",
+      "level",
+      "active_wards",
+      "selected_runes",
+      "objectives_ledger"
+    ],
+    "notYetTracked": [
+      "damage_to_champions",
+      "damage_taken",
+      "gold_earned",
+      "gold_difference_over_time",
+      "vision_score"
+    ]
+  },
+  "qa": {
+    "npmTest": "PASS exit 0",
+    "dev6Contracts": "PASS 5/5",
+    "visualFixtureChromium": "PASS_LIMITED",
+    "actualMatchBrowserE2E": "NOT_RUN",
+    "rustBackend": "NOT_RUN"
+  },
+  "majorFiles": [
+    "postgame.js",
+    "postgame.css",
+    "tests/v452d4_dev6_postgame.test.mjs",
+    "docs/QA_V452D4_DEV6_POSTGAME.md"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": "4.5.2d-4-dev17",
+  "baseZipSha256": "ed4c3ac2cbd4d46ada2159dded1e0a05999274abb803d198dcab3c2b573cdebb",
+  "codeChanges": [
+    "engine.mjs",
+    "engine.browser.js",
+    "package.json",
+    "tests/v452d4_dev17_baron_multiturn.test.mjs",
+    "tests/browser_v452d4_dev17_siege.py"
+  ],
+  "newTestCases": 8,
+  "npmTest": "PASS exit 0",
+  "chromium": "PASS controlled 8 ticks and 15/15 SVGs, screenshots in QA_EVIDENCE",
+  "git": "inherited dirty history unchanged, no commit",
+  "notCertified": [
+    "full organic match",
+    "LoL 1:1 parity"
+  ]
+}

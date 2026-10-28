@@ -1,0 +1,29 @@
+{
+  "name": "CoachLOL Macro Arena",
+  "version": "4.0.0",
+  "baseVersion": "3.9.0",
+  "archive": "CoachLOL_MacroArena_v40_Executor_Journal_Checkpoints_Offline.zip",
+  "status": "fundação V4.0 validada; replay end-to-end e autoridade multiplayer NÃO prontos",
+  "requiredFileSha256": {
+    "engine.mjs": "e449ede6f967aec88279bf57576eb8d41c2ba1d8cd70680796aebcd8e41cf038",
+    "engine.browser.js": "b2778a1987daccf302ce85e7419b84cfe1d2f0d85fc0c765db0395285fcc83dd",
+    "app.js": "d8a3bf3adaea7d98ee4fb9d219fcb6e9604a74fdb639e1dd366a580b566ef2f2",
+    "index.html": "d87dde906bd2b325ccf6104acf52fdcc2a3c98af7c6fe5f478277093112b0b1c",
+    "package.json": "e06d76f0a30ea8e6ae293afaa2e676bde3b79c55b4d885316903ff089980b490",
+    "tests/v40_authority_replay.test.mjs": "2b0001c86d7808ed83f61d6176600fa2907906a1606df2c2af6436f20d0d245b",
+    "docs/ROADMAP_CANONICO_V40.md": "8bf768cf47550a727114b9f30d662ec3b49e29e39067f5bd15d3f05ac91baec5",
+    "docs/AUDITORIA_V40_ARQUITETURA.md": "f3d4c9e074cb2c1ec5509860ccc83ff339818d837e20d8661093b7c808fce2e0"
+  },
+  "qa": {
+    "full_regression": "npm test passed; 177 checkmarks in aggregate stdout, plus node:test output",
+    "browser": "Chromium smoke passed; no uncaught page errors; 30+ stats, outside click, 2x, clock",
+    "v40_contracts": 8
+  },
+  "limitations": [
+    "effects not atomic end to end",
+    "replay snapshot resume only",
+    "not 1:1 League of Legends",
+    "offline local state not secure multiplayer",
+    "unbounded action journal"
+  ]
+}

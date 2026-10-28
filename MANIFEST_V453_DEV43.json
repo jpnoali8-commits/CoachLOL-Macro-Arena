@@ -1,0 +1,37 @@
+{
+  "version": "4.5.3-dev43",
+  "source": "CoachLOL_MacroArena_V453_Dev42_Projetil_Tempo_Marcas_JogoCompleto.zip",
+  "referencePatch": "26.21 / Data Dragon 16.21.1",
+  "newContracts": "19/19 PASS",
+  "fullNpm": "PASS",
+  "chromium": "PASS 0 JS exceptions; 5 screenshots",
+  "draftMatches": [
+    {
+      "seed": 26,
+      "durationSeconds": 1613,
+      "winner": "blue",
+      "endedByNexus": true
+    },
+    {
+      "seed": 42,
+      "durationSeconds": 1853,
+      "winner": "blue",
+      "endedByNexus": true
+    }
+  ],
+  "playableItems": 70,
+  "features": [
+    "Incremental Ezreal Q projectile and positional barrier API",
+    "Irelia E 2 blades, auto recast, stun and mark, linked to combos/Q",
+    "HUD allied blade projection"
+  ],
+  "limitations": [
+    "No continuous interpolation for moving targets per fractional step",
+    "Champion barrier abilities not yet connected to positional blocker API",
+    "Irelia Q dash still instantaneous and 70% AD instead of current reference 80%",
+    "Irelia E unused by match bots; tested directly and in browser",
+    "No full kit parity"
+  ],
+  "gitFilesPreserved": 566,
+  "sourceFilesPreserved": 2189
+}

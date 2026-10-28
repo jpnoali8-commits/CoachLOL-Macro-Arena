@@ -1,0 +1,17 @@
+{
+  "gameVersion": "4.5.3-dev34",
+  "canonicalProject": "CoachLOL Macro Arena",
+  "activePatch": "26.21",
+  "nextPatch": "26.22",
+  "stagedOnly": true,
+  "changes": [
+    "future-release preflight",
+    "recipe and QWER data integrity",
+    "per-change review QA gates"
+  ],
+  "test": "npm test PASS, dev34 20/20 PASS",
+  "combatCodeChanged": false,
+  "itemsCatalogLocal": 67,
+  "fullOfficialCatalogFetched": false,
+  "futurePatchActivated": false
+}

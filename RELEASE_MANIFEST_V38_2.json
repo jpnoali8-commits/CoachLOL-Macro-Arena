@@ -1,0 +1,14 @@
+{
+  "name": "CoachLOL Macro Arena",
+  "version": "3.8.2",
+  "date": "2026-10-26",
+  "foundation": "CoachLOL Macro Arena V38.1 (gameplay)",
+  "cinematic_source": "CoachLOL V37 Cinematic Foundation (selected modules only)",
+  "tests": "npm test succeeded plus browser smoke with inline resources",
+  "source_quality": "prototype; not all champions complete; GLB and authoritative PvP absent",
+  "docs": [
+    "docs/AUDITORIA_V38_2_ENGENHARIA.md",
+    "docs/ROADMAP_CANONICO_V38_2.md",
+    "CHANGELOG_V38_2.md"
+  ]
+}

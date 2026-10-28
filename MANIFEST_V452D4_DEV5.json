@@ -1,0 +1,21 @@
+{
+  "version": "V4.5.2d-4-dev5",
+  "package": "CoachLOL_MacroArena_V452d4_Dev5_Rift_Vision_Endgame_GameComplete.zip",
+  "faelights": {
+    "total": 12,
+    "early": 8,
+    "late": 4,
+    "lateUnlockSeconds": 900,
+    "lateUnlockMode": "time_or_rift"
+  },
+  "ui": {
+    "victoryDefeatIntro": true,
+    "postGameResults": true
+  },
+  "tests": {
+    "npm_test": "PASS",
+    "user_masks": "PASS 10/10",
+    "dev5_faelight": "PASS 5/5",
+    "dev5_ui": "PASS"
+  }
+}

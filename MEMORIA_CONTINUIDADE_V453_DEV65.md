@@ -1,0 +1,7 @@
+# Memória de continuidade — CoachLOL V4.5.3-dev65
+
+Dev65 derivada do ZIP canônico completo dev64. Modo PvP sempre 2 sessões (1 pessoa por equipe, cada pessoa controla 5 campeões), simultâneo e servidor autoritativo. Nova ação `order.combo` para iniciar ataques com QWER/feitiços durante planejamento: contrato em `multiplayer/authoritative_actions_v453_dev44.mjs`, método `setOrder` em `engine.mjs`, UI em `multiplayer.html`, `multiplayer/pvp_client_v453_dev47.js`, CSS `shop_v453_dev62.css`. `setOrder` agora admite GHOST no combo normal. O servidor rejeita alvo invisível, unidade não autorizada, skill não aprendida e feitiço não equipado. A reação dev64 continua independente. O executor dos combos ainda contém adaptações gerais de treinamento; não converter essa melhoria de transporte em alegação de paridade de campeões.
+
+Validação E2E: `tests/v453_dev65_pvp_planned_combos.test.mjs` duas sessões HTTP, ambos os lados, upgrade Q, rejeições, alvo/visão, ordem Q→IGNITE com gasto de mana, dano verdadeiro/DoT, 1 commit do feitiço e checkpoint. Evidências de Chromium offline `docs/QA_EVIDENCE_V453_DEV65`. Execute `npm run test:v453:dev65`, dev64/63/62/61 e `npm test` antes de modificar.
+
+Pontos imutáveis: Git (566 entradas), Desfazer inválido após saída física da fonte; catálogo 202 gerais, 102 conectados, 100 reference_only sem promoção; patch 26.21/16.21.1; farm e Nexus calibrados sem temporizador. Priorizar dev66 certificação de efeitos concretos, proteção de fog e browser native quando possível.

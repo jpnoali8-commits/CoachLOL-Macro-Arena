@@ -1,0 +1,27 @@
+{
+  "version": "V4.5.2d-4-dev10",
+  "baseVersion": "V4.5.2d-4-dev9",
+  "baseZipSHA256": "00fc7970ac4811e10674719224b5448b355996058aba735a04dbf18c20491ae5",
+  "baseZip": "CoachLOL_MacroArena_V452d4_Dev9_CompetitiveSmite_WeightedObjectives_JogoCompleto.zip",
+  "stage": "5v5 multi-tick + D/F draft binding + CC/range/restore",
+  "sourceOfTruth": "engine.mjs",
+  "engineBrowserExports": 65,
+  "tests": {
+    "dev10": "7/7 PASS",
+    "dev9": "20/20 PASS",
+    "npmTest": "PASS exit 0",
+    "chromium": "F and D 5v5 fixture PASS; Champ Select D PASS"
+  },
+  "visualEvidence": {
+    "smiteF": "docs/QA_EVIDENCE_V452D4_DEV10/smite_5v5_f_chromium.png",
+    "smiteD": "docs/QA_EVIDENCE_V452D4_DEV10/smite_5v5_d_chromium.png",
+    "draftD": "docs/QA_EVIDENCE_V452D4_DEV10/champ_select_smite_d_chromium.png"
+  },
+  "importantLimitations": [
+    "Controlled 5v5 fixture, not full organic match",
+    "Scryer masks not supplied, unchanged",
+    "No online PvP authority",
+    "RNG weighted capture is project-specific, not LoL official"
+  ],
+  "git": "inherited dirty state preserved without commit/reset"
+}

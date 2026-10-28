@@ -1,0 +1,20 @@
+{
+  "version": "4.5.2d-4-dev22",
+  "base": "4.5.2d-4-dev21",
+  "newTests": "8/8 PASS",
+  "npmTest": "PASS exit 0",
+  "longMatch": {
+    "seed26_2400s": {
+      "structures": 7,
+      "dragon": 1,
+      "ended": false
+    },
+    "seed42_1200s": {
+      "structures": 0,
+      "dragon": 2,
+      "ended": false
+    }
+  },
+  "chromium": "PASS controlled fixture, 15 SVGs, 0 JS errors",
+  "nexusVictory": "NOT_CERTIFIED"
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "coachlol.delivery.v453.dev33",
+  "gameVersion": "4.5.3-dev33",
+  "riotPatch": "26.21",
+  "riotDataDragonVersion": "16.21.1",
+  "status": "verified_local_partials_official_full_catalog_pending",
+  "itemsLocal": 67,
+  "newItemContracts": 9,
+  "patchCenterContracts": 7,
+  "fullNpmTest": "PASS",
+  "chromium": {
+    "fixture": "Nashor recipe on real UI",
+    "result": "PASS",
+    "javascriptErrors": 0,
+    "svgIconsLoaded": 15
+  },
+  "pacing": {
+    "newSeed26": 1550,
+    "newSeed26Nexus": true,
+    "previousFiveMean": "25:17",
+    "target": "approx 30 minutes, no forced win"
+  },
+  "fullRiotCatalogDownloaded": false,
+  "liveAutoPatchActivation": false,
+  "containsGit": true,
+  "files": 1632,
+  "generatedUTC": "2026-10-27T19:09:01.086695+00:00",
+  "sources": {
+    "releaseSchedule": "https://support.riotgames.com/en-us/league-of-legends/gameplay/patch-schedule-league-of-legends",
+    "dataDragon": "https://developer.riotgames.com/docs/lol",
+    "patchNotes": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-21-notes/"
+  }
+}

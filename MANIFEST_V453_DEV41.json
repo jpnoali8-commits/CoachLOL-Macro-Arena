@@ -1,0 +1,23 @@
+{
+  "version": "4.5.3-dev41",
+  "source": "4.5.3-dev40 ZIP master",
+  "referencePatch": "26.21",
+  "playableItems": 70,
+  "newContracts": 18,
+  "npmTest": "PASS",
+  "chromium": "PASS",
+  "naturalNexusMatches": 3,
+  "newChampionsQ": [
+    "Ezreal Q",
+    "Irelia Q"
+  ],
+  "newArtifacts": [
+    "CHANGELOG_V453_DEV41.md",
+    "MEMORIA_CONTINUIDADE_V453_DEV41.md",
+    "ROADMAP_V453_DEV41.md",
+    "README_PRODUCAO_V453_DEV41.md",
+    "docs/QA_EVIDENCE_V453_DEV41/",
+    "tests/v453_dev41_champion_onhit_q.test.mjs",
+    "tests/browser_v453_dev41_champion_onhit_q.py"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "coachlol.release.v45",
+  "version": "4.5.0",
+  "baseArchive": "CoachLOL_MacroArena_v44_Jungle_Objetivos_Smite_Teamfights_Offline.zip",
+  "preservedV44Files": 423,
+  "missingOriginalFiles": [],
+  "contentReferencePatch": "26.21",
+  "qa": {
+    "npmTestCheckmarks": 248,
+    "npmTestExitCode": 0,
+    "newV45Contracts": 11,
+    "chromiumJavaScriptErrors": 0
+  },
+  "importantFiles": {
+    "engine.mjs": "de0a99a7b251acca9d1e7cbc4ee9277a1074c57358b28fc509a8953757283d01",
+    "engine.browser.js": "649486481b5ac439089ffde67981625855fc34908930eda56aacb86aa8596a6e",
+    "app.js": "e6b1357eac61021e51a814842b1a53d80dc23b17730cd6bb045eadf285d70b9e",
+    "data/content_coverage_v45.json": "aa39d1714991c73d23f5dba6f52a6198838e6188a8cd680b8c2d31f95a1e1e3f",
+    "data/objective_rules_v45.json": "3e880c175ce8372b46af9436bcdf252c69e0ecf45b5e35ffffc4faea6430c387",
+    "docs/ROADMAP_CANONICO_V45.md": "477bda69bb6474a0591dc2ed918b3f710d1dd181864c6966413541c9a31aeb64",
+    "docs/AUDITORIA_V45_CONTEUDO_MECANICAS.md": "328a332863f3cef55ceb326a2d0855ca370bb5d3a6eee572dc7838c02483c4a4",
+    "tests/v45_void_herald_parity.test.mjs": "0156dfdaf623c98896f1a229589035d99ced08573d52312815d34d0959b986f0"
+  }
+}

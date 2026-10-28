@@ -1,0 +1,15 @@
+{
+  "version": "4.5.2d-4-dev25",
+  "sourceVersion": "4.5.2d-4-dev24",
+  "scope": "performance-only",
+  "fullNpmTest": "PASS",
+  "newContracts": "PASS 5/5",
+  "browserFixture": "PASS",
+  "chromiumRealOrganicGame": "NOT_RUN",
+  "auditedGames": 30,
+  "completedNexus": 30,
+  "censored": 0,
+  "meanSeconds": 1576.7,
+  "snapshotReferenceHash": "18a59984e4085d03a312ff20",
+  "redistributableIcons": "authored CC0 only"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "coachlol.release.v452d4-dev23",
+  "version": "4.5.2d-4-dev23",
+  "base": "V4.5.2d-4-dev22",
+  "goals": {
+    "mode": "Summoners Rift offline bot-vs-bot",
+    "averageSecondsTarget": 1800,
+    "forcedTimeLimit": false,
+    "organicNexusVictory": true
+  },
+  "sample": {
+    "seeds": [
+      26,
+      42,
+      36,
+      55,
+      77
+    ],
+    "completed": 5,
+    "meanSeconds": 1686.8,
+    "medianSeconds": 1568,
+    "observedRange": [
+      1314,
+      2004
+    ],
+    "certification": "BOUNDED_5_SEEDS_DRAFT_DEFAULT"
+  },
+  "qa": {
+    "npmTest": "PASS exit 0",
+    "newContracts": "PASS 9/9",
+    "browserSync": "PASS 68 exports",
+    "chromiumFullGame": "NOT_RUN"
+  },
+  "preserved": [
+    "Git history",
+    "Inherited dirty/untracked files",
+    "Rift Elemental masks",
+    "Minion CC0 SVGs",
+    "Competitive Smite",
+    "Dual D/F Spells",
+    "Herald Eye",
+    "Baron/Elder",
+    "Postgame"
+  ],
+  "notes": [
+    "9000 HP on outer turrets preserved",
+    "No fake clock damage/winner",
+    "90s minion upgrade coefficients after 5m are training approximations, not Riot 1:1"
+  ]
+}

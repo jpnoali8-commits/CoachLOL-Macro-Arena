@@ -1,0 +1,20 @@
+{
+  "version": "4.5.2d-4-dev21",
+  "base": "CoachLOL_MacroArena_V452d4_Dev20_Bots_Objetivos_Arauto_JogoCompleto.zip",
+  "sourceSha256": "f229b5ebe8c2b564c764d0945d5ed967ab21ee63bcb9243e165eb3f49b2af7aa",
+  "features": [
+    "summoned_herald_enemy_champion_basic_attacks",
+    "40pct_max_health_true_damage_rear_eye",
+    "three_second_eye_cooldown",
+    "click_to_attack_herald",
+    "fog_and_attack_range_checks",
+    "bot_push_escort_allied_wave"
+  ],
+  "verification": {
+    "newContracts": "PASS 10/10",
+    "fullNpmTest": "PASS exit 0",
+    "browser": "PASS isolated controlled 15 CC0 SVG + source atlas; 0 JS errors",
+    "longMatchSeeds": "1200s seed26/42 and 2400s seed26 passed, no organic Nexus victory",
+    "officialRiotParity": "PARTIAL_NOT_CERTIFIED"
+  }
+}

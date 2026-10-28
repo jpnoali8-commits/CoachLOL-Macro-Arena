@@ -1,0 +1,20 @@
+{
+  "version": "3.9.0",
+  "baseVersion": "3.8.2",
+  "archive": "CoachLOL_MacroArena_v39_Executor_Stats_Velocidade_Offline.zip",
+  "fileCount": 364,
+  "required": {
+    "engine.mjs": "e387af77b5499cd1b68a900121f1bf05a5edd6e6917c78b93d369ba1480afb09",
+    "engine.browser.js": "81784aa5999c3fc67a6214aef8177df87a03df9f63e34ea69f38658c917911a7"
+  },
+  "verified": [
+    "npm test completed successfully",
+    "Chromium: overlay, outside-click, speed, clock, no page errors"
+  ],
+  "limitations": [
+    "partial executor",
+    "not 1:1",
+    "no multiplayer/matchmaking",
+    "Vex R2 simplified"
+  ]
+}

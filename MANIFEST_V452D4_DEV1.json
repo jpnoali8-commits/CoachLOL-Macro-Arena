@@ -1,0 +1,27 @@
+{
+  "schema": "coachlol.handoff.v452d4",
+  "source": "CoachLOL_MacroArena_V452d3A_JogoCompleto_Handoff.zip",
+  "version": "V4.5.2d-4-dev1",
+  "engine": "JS existing, no Rust port",
+  "scope": "elemental rift controller, mask deltas, world fog/path and Blender authoring contracts",
+  "tests": "V452d4 9/9, V452d3 10/10, V452d2 10/10, V452d 7/7; full postchange timeout during farm; Chromium not run",
+  "geometryCertified": false,
+  "baselineFarm": {
+    "TOP": [
+      43,
+      47,
+      44
+    ],
+    "MID": [
+      35,
+      35,
+      35
+    ],
+    "ADC": [
+      41,
+      46,
+      46
+    ]
+  },
+  "gitHistoryPreserved": true
+}

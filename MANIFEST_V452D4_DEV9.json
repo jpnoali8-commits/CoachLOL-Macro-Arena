@@ -1,0 +1,27 @@
+{
+  "version": "4.5.2d-4-dev9",
+  "base": "V4.5.2d-4-dev8 complete package",
+  "scope": "competitiveSmiteAndWeightedNoSmite",
+  "faelights": "12 existing user-mask sites preserved",
+  "scryers": "PROVISIONAL; masks not provided",
+  "objectiveTypes": [
+    "dragon",
+    "herald",
+    "baron",
+    "voidgrubs (individual)"
+  ],
+  "smiteTiers": [
+    600,
+    1000,
+    1400
+  ],
+  "noSmiteRule": "weighted alive nearby champions; tick-lethal; deterministic seed; not Riot official",
+  "qa": {
+    "newContracts": "PASS 20/20",
+    "npmTest": "PASS exit 0",
+    "chromiumKeys": "PASS D/F 2/2 controlled",
+    "organicMatch": "NOT_RUN",
+    "browserExports": 65
+  },
+  "git": "inherit dirty worktree without commit, reset or clean"
+}

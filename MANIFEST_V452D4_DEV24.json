@@ -1,0 +1,1 @@
+{"version":"4.5.2d-4-dev24","scope":"pacing_multidraft_audit_only","engineModified":false,"batch":{"profiles":5,"seedsPerProfile":2,"completedNexus":7,"cpuCensored":3,"meanCompletedSeconds":1391.86},"quality":{"npmTest":"PASS","newContracts":"PASS 5/5","fullBrowserOrganicMatch":"NOT_RUN","global30minBalance":"NOT_CERTIFIED"}}

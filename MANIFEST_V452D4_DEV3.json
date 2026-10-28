@@ -1,0 +1,23 @@
+{
+  "schema": "coachlol.delivery.v1",
+  "version": "4.5.2d-4-dev3",
+  "baseArchive": "CoachLOL_MacroArena_V452d4_Dev2_Rift_Maps_GameComplete.zip",
+  "baseArchiveSha256": "367af0aa8a9eea4e91da16e5ff6b5b6aa3fe3b60245e600331c7a12456dbc194",
+  "referencePatch": "League PC 26.21 (Faelights from official 26.1)",
+  "git": "INHERITED_UNCOMMITTED_PRESERVED_NO_COMMIT",
+  "quality": {
+    "npmTest": "PASS_EXIT_0",
+    "v452cFarm": "PASS",
+    "newContracts": "PASS_8_OF_8",
+    "faelightPositionParity": "FAIL_MISSING_1_REPLACED_BY_EXPLICIT_INFERENCE",
+    "chromium": "TIMEOUT_NOT_CERTIFIED",
+    "blender": "NOT_RUN",
+    "topCorrection": "NOT_ACTIVATED"
+  },
+  "immutableInputs": [
+    "data/masks_128.json",
+    "data/coachlol_map_v6.json",
+    "assets/user_rift_masks_20261026/masks/Rotas-Mapa-Top-MId-bottom.jpg"
+  ],
+  "next": "V4.5.2d-4-dev4"
+}
