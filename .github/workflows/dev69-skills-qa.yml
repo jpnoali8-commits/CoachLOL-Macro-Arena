@@ -22,8 +22,11 @@ jobs:
         run: |
           node --check engine.mjs
           node --check tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+          node --check tests/v453_dev69_skills_batch2.test.mjs
       - name: New gameplay contracts
-        run: node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+        run: |
+          node tests/v453_dev69_skills_batch2.test.mjs
+          node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
       - name: Existing Lux and individual skills regressions
         run: |
           node tests/v453_dev68_lux_projectile_pvp.test.mjs
