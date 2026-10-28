@@ -2468,12 +2468,6 @@ export class Arena {
   this.recordIntentV40(team,unitId,'vex_r_recast',{slot:'R'});
   return {ok:true};
  }
- startVexShadowDashV453Dev69(u){
-  const mark=u?.vexMark,now=this.gameTime;
-  const t=mark&&this.units.find(v=>v.id===mark.targetId&&v.hp>0&&v.team!==u.team);
-  if(!u||u.champ!=='Vex'||u.hp<=0||!mark||mark.until<=now||!t)
-   return {ok:false,reason:'recast_sem_marca'};
-  if(u.vexDashV453Dev69)return {ok:false,reason:'recast_duplicado'};
  // Batch 2: Nami's R applies normal Surging Tides to herself on cast and
  // its empowered version to allied champions when the travelling wave reaches them.
  // Store per-unit temporary values; never mutate permanent item/rune move-speed stats.
@@ -2497,6 +2491,12 @@ export class Arena {
   }
   return 0;
  }
+ startVexShadowDashV453Dev69(u){
+  const mark=u?.vexMark,now=this.gameTime;
+  const t=mark&&this.units.find(v=>v.id===mark.targetId&&v.hp>0&&v.team!==u.team);
+  if(!u||u.champ!=='Vex'||u.hp<=0||!mark||mark.until<=now||!t)
+   return {ok:false,reason:'recast_sem_marca'};
+  if(u.vexDashV453Dev69)return {ok:false,reason:'recast_duplicado'};
   const fx=this.effectResolverV41();
   if((u.rootUntil||0)>now||(u.groundedUntil||0)>now||fx.has(u,'root')||fx.has(u,'grounded')||
      (u.stasisUntil||0)>now||!fx.canAct(u,'skill').ok)
