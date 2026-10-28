@@ -2756,6 +2756,11 @@ export class Arena {
     else if(['recarga','mana','não_aprendido'].includes(launch.reason))u.pendingKitCastV42=null;
     continue;
    }
+   if(u.champ==='Ezreal'&&q.slot==='E'){
+    const result=this.castEzrealArcaneShiftV453Dev69M7(u,q.point);
+    if(result.ok||result.reason!=='incapacitado')u.pendingKitCastV42=null;
+    continue;
+   }
    if(u.champ==='Jinx'&&q.slot==='E'){
     const cast=this.castJinxChompersV453Dev69M5(u,q.point);
     if(cast.ok||cast.reason!=='incapacitado')u.pendingKitCastV42=null;
@@ -2812,6 +2817,95 @@ export class Arena {
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
+ }
+ // Unified package — Ezreal P/W/E/R on the same authoritative action spine.
+ ezrealRisingSpellForceV453Dev69M7(u){
+  if(!u||u.champ!=='Ezreal'||u.hp<=0)return;
+  const buff=u.ezrealRisingForceV453Dev69M7;
+  const stacks=buff?.until>this.gameTime?buff.stacks:0;
+  u.ezrealRisingForceV453Dev69M7={stacks:Math.min(5,stacks+1),until:this.gameTime+6};
+ }
+ ezrealConsumeFluxV453Dev69M7(owner,target,{spell=false}={}){
+  const mark=target?.ezrealFluxV453Dev69M7;
+  if(!mark||mark.ownerId!==owner?.id||mark.until<=this.gameTime||target.hp<=0)return 0;
+  target.ezrealFluxV453Dev69M7=null;
+  const dealt=this.damage(target,mark.raw,owner,'magic','ezreal_flux_detonation_v453_dev69_m7');
+  if(spell)owner.mana=Math.min(owner.maxMana,owner.mana+60);
+  return dealt;
+ }
+ castEzrealEssenceFluxV453Dev69M7(u,point){
+  const rule=kitSpellV42(u?.champ,'W');
+  if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'W',
+   source:'ezreal_flux_v453_dev69_m7',checkRange:false});
+  if(!commit.ok)return commit;
+  const rank=Math.max(1,Math.min(5,u.skillRanks.W));
+  const stats=this.elementalStatsV452d3(u);
+  const p={id:'ezreal_w_'+(++this.championProjectileSeqV453Dev42),kind:'ezreal_w',
+   ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},
+   unit:{x:dx/len,y:dy/len},range:rule.range,width:rule.width,speed:rule.speed,
+   raw:rule.damage[rank-1]+Math.max(0,stats.ad-CHAMPION_LEVEL_STATS_V453_DEV69_M1.Ezreal.ad)*rule.bonusAdRatio+
+    stats.ap*rule.apRatio,duration:rule.duration,hitIds:[],createdAt:this.gameTime,
+   traveledV453Dev43:0,riftRevision:this.riftV452d4?.revision??0};
+  this.championProjectilesV453Dev42.push(p);
+  return {...commit,pending:true,projectileId:p.id};
+ }
+ castEzrealArcaneShiftV453Dev69M7(u,point){
+  const rule=kitSpellV42(u?.champ,'E');
+  if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção'};
+  const meters=Math.min(len,rule.range),end={x:u.x+dx/len*meters/this.worldWidth,
+   y:u.y+dy/len*meters/this.worldHeight};
+  if(!this.walkable(end.x,end.y))return {ok:false,reason:'destino_bloqueado'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'E',
+   point:end,source:'ezreal_arcane_shift_v453_dev69_m7',checkRange:false});
+  if(!commit.ok)return commit;
+  u.x=end.x;u.y=end.y;
+  this.invalidateShopUndoOnDepartureV453Dev61(u);
+  const targets=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
+   (v.spawnAt==null||v.spawnAt<=this.gameTime)&&
+   this.mapDistance(u,v)<=750&&(!v.champ||this.visible(u.team,v)));
+  targets.sort((a,b)=>Number(b.ezrealFluxV453Dev69M7?.ownerId===u.id)-
+   Number(a.ezrealFluxV453Dev69M7?.ownerId===u.id)||
+   this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)));
+  if(targets[0]){
+   const target=targets[0],rank=Math.max(1,Math.min(5,u.skillRanks.E));
+   const hit=this.damage(target,rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+    u,'magic','spell');
+   if(hit>0)this.ezrealConsumeFluxV453Dev69M7(u,target,{spell:true});
+  }
+  return {...commit,at:end,targetId:targets[0]?.id||null};
+ }
+ castEzrealBarrageV453Dev69M7(u,point){
+  const rule=kitSpellV42(u?.champ,'R');
+  if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   source:'ezreal_trueshot_v453_dev69_m7',checkRange:false});
+  if(!commit.ok)return commit;
+  const stats=this.elementalStatsV452d3(u),rank=Math.max(1,Math.min(3,u.skillRanks.R));
+  (this.ezrealBarrageWindsV453Dev69M7??=[]).push({
+   id:'ezreal_r_'+(++this.championProjectileSeqV453Dev42),ownerId:u.id,
+   team:u.team,origin:{x:u.x,y:u.y},unit:{x:dx/len,y:dy/len},range:rule.range,
+   width:rule.width,speed:rule.speed,raw:rule.damage[rank-1]+
+    Math.max(0,stats.ad-CHAMPION_LEVEL_STATS_V453_DEV69_M1.Ezreal.ad)*rule.bonusAdRatio+
+    stats.ap*rule.apRatio,castAt:this.gameTime,dueAt:this.gameTime+rule.channelSeconds});
+  return {...commit,pending:true,dueAt:this.gameTime+rule.channelSeconds};
+ }
+ advanceEzrealBarrageV453Dev69M7(){
+  const next=[];
+  for(const q of this.ezrealBarrageWindsV453Dev69M7||[]){
+   if(this.gameTime<q.dueAt){next.push(q);continue;}
+   const u=this.units.find(v=>v.id===q.ownerId&&v.team===q.team);
+   if(!u||u.hp<=0)continue;
+   this.championProjectilesV453Dev42.push({...q,kind:'ezreal_r',
+    createdAt:this.gameTime,traveledV453Dev43:0,hitIds:[]});
+  }
+  this.ezrealBarrageWindsV453Dev69M7=next;
  }
  // Jinx M5: each of P/Q/E/R owns a distinct serialized, server-side contract.
  jinxExcitedV453Dev69M5(u,{champion=false}={}){
@@ -3397,6 +3491,12 @@ export class Arena {
     const cast=this.castLuxFinalSparkV453Dev69M3(u,q.point);
     if(cast.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(cast.reason))
      u.queuedDirectional=null;
+    continue;
+   }
+   if(u.champ==='Ezreal'&&['W','R'].includes(q.slot)){
+    const result=q.slot==='W'?this.castEzrealEssenceFluxV453Dev69M7(u,q.point):
+     this.castEzrealBarrageV453Dev69M7(u,q.point);
+    if(result.ok||result.reason!=='incapacitado')u.queuedDirectional=null;
     continue;
    }
    if(u.champ==='Jinx'&&q.slot==='R'){
@@ -4484,7 +4584,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5416,13 +5516,15 @@ export class Arena {
   // this is not a champion-specific LoL attack-speed/windup formula.
   const interval=this.elementalStatsV452d3(u).attackInterval;
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
+  const ezrealBuff=u.champ==='Ezreal'&&u.ezrealRisingForceV453Dev69M7?.until>this.gameTime?
+   10*u.ezrealRisingForceV453Dev69M7.stacks:0;
   const excited=u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?
    25*u.jinxExcitedV453Dev69M5.stacks:0;
   const revved=u.champ==='Jinx'&&!u.jinxRocketModeV453Dev69M5&&
    u.jinxPowPowUntilV453Dev69M5>this.gameTime?
    (u.jinxPowPowStacksV453Dev69M5||0)*(30+Math.max(0,u.level-1)*.7)/3:0;
   const rocketPenalty=u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?10:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+revved-rocketPenalty)/100;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+revved-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -5737,6 +5839,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const universal=sourceType==='basic'||sourceType==='spell'?Math.max(0,attacker.omnivamp||0):0;
    const vamp=Math.max(0,sustain+universal+(sourceType==='spell'&&damageType==='magic'?(attacker.spellVamp||0):sourceType==='spell'&&damageType==='physical'?(attacker.physicalVamp||0):0));
    this.effectResolverV41().heal(attacker,dealt*vamp/100,attacker);
+  }
+  if(dealt>0&&attacker?.champ==='Ezreal'&&target.team!==attacker.team){
+   if(['spell','ability_onhit_v453_dev40'].includes(sourceType)){
+    this.ezrealRisingSpellForceV453Dev69M7(attacker);
+    if(target.ezrealFluxV453Dev69M7?.ownerId===attacker.id)
+     this.ezrealConsumeFluxV453Dev69M7(attacker,target,{spell:true});
+   }else if(sourceType==='basic'&&target.ezrealFluxV453Dev69M7?.ownerId===attacker.id)
+    this.ezrealConsumeFluxV453Dev69M7(attacker,target,{spell:false});
   }
   if(dealt>0)this.effectResolverV41().record('damage',target,attacker,{amount:dealt,damageType,sourceType});
   if(dealt>0&&attacker?.champ&&target?.kind&&attacker.team!==target.team&&this.soulTypeV452d2(attacker)==='ocean')
@@ -6092,6 +6202,50 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(p.kind==='ezreal_w'){
+    const matching=[
+     ...this.units.filter(v=>v.team!==p.team&&v.hp>0&&v.champ),
+     ...this.structures.filter(v=>v.team!==p.team&&v.alive&&
+      ['tower','inhibitor','nexus'].includes(v.type))
+    ].map(v=>{
+     const x=(v.x-origin.x)*this.worldWidth,y=(v.y-origin.y)*this.worldHeight;
+     return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};
+    }).filter(q=>q.depth>=from-1e-7&&q.depth<=to+1e-7&&q.side<=p.width/2)
+    .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id)));
+    const contact=matching.find(x=>x.depth<barrierDepth-1e-7);
+    if(contact){
+     const v=contact.v;
+     if(v.champ&&this.effectResolverV41().has(v,'spell_shield')){
+      this.damage(v,1,owner,'magic','spell');
+     }else{
+      v.ezrealFluxV453Dev69M7={ownerId:owner.id,until:now+p.duration,raw:p.raw};
+      this.ezrealRisingSpellForceV453Dev69M7(owner);
+     }
+     (this.championProjectileHistoryV453Dev42??=[]).push({
+      id:p.id,ownerId:p.ownerId,hitIds:[v.id],time:now,reason:'mark_hit'});
+     continue;
+    }
+    p.traveledV453Dev43=to;
+    if(Number.isFinite(barrierDepth)||to>=p.range-1e-7)continue;
+    still.push(p);continue;
+   }
+   if(p.kind==='ezreal_r'){
+    for(const {v,depth} of line){
+     if(depth>=barrierDepth-1e-7||p.hitIds.includes(v.id))continue;
+     p.hitIds.push(v.id);
+     const dealt=this.damage(v,p.raw,owner,'magic','spell');
+     if(dealt>0){
+      this.ezrealRisingSpellForceV453Dev69M7(owner);
+      this.ezrealConsumeFluxV453Dev69M7(owner,v,{spell:true});
+     }
+    }
+    p.traveledV453Dev43=to;
+    if(!Number.isFinite(barrierDepth)&&to<p.range-1e-7){still.push(p);continue;}
+    (this.championProjectileHistoryV453Dev42??=[]).push({
+     id:p.id,ownerId:p.ownerId,hitIds:[...p.hitIds],time:now,
+     reason:Number.isFinite(barrierDepth)?'bloqueio':'fim'});
+    continue;
    }
    if(p.kind==='jinx_r'){
     // Rocket ignores ordinary minions, explodes at the FIRST enemy champion.
