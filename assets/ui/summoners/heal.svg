@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de heal">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#193c26"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#68e6a3"/><stop offset="1" stop-color="#193c26"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#68e6a3" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#68e6a3" fill-opacity=".10"/>
+ <path d="M24 43 6 25C-2 15 12 3 24 16c12-13 26-1 18 9Z" fill="url(#glow)" stroke="#f8e6df" stroke-width="1.8"/></svg>

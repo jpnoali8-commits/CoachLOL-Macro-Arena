@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de ruby_crystal">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#481515"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#ef7770"/><stop offset="1" stop-color="#481515"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#ef7770" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#ef7770" fill-opacity=".10"/>
+ <path d="M24 3 41 17l-6 25H13L7 17Z" fill="url(#glow)" stroke="#e0f6ff" stroke-width="1.8"/><path d="m7 17 17 8 17-8M24 3v39" fill="none" stroke="#fff9" stroke-width="1.6"/></svg>

@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1",
+  "mode": "optional_visual_only",
+  "notice": "Template only. No Riot GLB or AI video assets are included. The authoritative engine controls impacts and death.",
+  "asset_format": [
+    "glb",
+    "gltf",
+    "webm",
+    "mp4",
+    "png-sequence"
+  ],
+  "events": [],
+  "example": {
+    "event": "ultimate_cast",
+    "champion": "ORIGINAL_CHARACTER",
+    "mediaType": "glb",
+    "uri": "assets/cinematics/character_original_cast.glb",
+    "durationSeconds": 2.5,
+    "fogPolicy": "only_if_visible_to_team",
+    "interruptPolicy": "stop_if_channel_cancelled",
+    "fallback": "assets/ui/skills/R.svg"
+  }
+}

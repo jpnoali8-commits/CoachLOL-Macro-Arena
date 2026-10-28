@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de giants_belt">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#253a39"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#86ccdb"/><stop offset="1" stop-color="#253a39"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#86ccdb" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#86ccdb" fill-opacity=".10"/>
+ <path d="M24 4 42 11v14c0 13-9 18-18 22C15 43 6 38 6 25V11Z" fill="url(#glow)" stroke="#f0e6d2" stroke-width="2"/><path d="m15 24 7 7 12-13" stroke="#fff" stroke-width="2.2" fill="none"/></svg>

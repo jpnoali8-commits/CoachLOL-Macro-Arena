@@ -1,0 +1,23 @@
+{
+  "license": "CC0-1.0",
+  "scope": "original-authored SVGs only",
+  "source": "original vector geometry, no third-party icons",
+  "reference": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "files": [
+    "blast_seed.svg",
+    "heal_fruit_plant.svg",
+    "hexgate_portal.svg",
+    "minion_caster_blue.svg",
+    "minion_caster_red.svg",
+    "minion_melee_blue.svg",
+    "minion_melee_red.svg",
+    "minion_siege_blue.svg",
+    "minion_siege_red.svg",
+    "minion_super_blue.svg",
+    "minion_super_red.svg",
+    "scryer_glow_plant.svg",
+    "ward_eye_gold.svg",
+    "ward_eye_pink.svg",
+    "ward_support_mint.svg"
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "schema": "coachlol.championKits.v4.2",
+  "mode": "SummonersRift",
+  "patch": "26.21",
+  "generatedFrom": "engine.mjs/CHAMPION_KITS_V42",
+  "statusVocabulary": [
+    "training",
+    "planned",
+    "legacy_adapter",
+    "prototype",
+    "certified"
+  ],
+  "legalNote": "Implementações são adaptações de treino; não são código/arte da Riot nem kits certificados 1:1.",
+  "sources": {
+    "riot": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-21-notes/",
+    "Nami": "https://wiki.leagueoflegends.com/en-us/Nami",
+    "Lux": "https://wiki.leagueoflegends.com/en-us/Lux",
+    "Vex": "https://wiki.leagueoflegends.com/en-us/Vex",
+    "Jinx": "https://wiki.leagueoflegends.com/en-us/Jinx"
+  },
+  "champions": {
+    "Nami": {
+      "patch": "26.21",
+      "certification": "partial",
+      "passive": {
+        "id": "surging_tides",
+        "status": "planned"
+      },
+      "spells": {
+        "Q": {
+          "name": "Aqua Prison",
+          "kind": "ground_circle",
+          "range": 850,
+          "radius": 225,
+          "mana": [
+            60
+          ],
+          "cooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "damage": [
+            90,
+            145,
+            200,
+            255,
+            310
+          ],
+          "apRatio": 0.5,
+          "cc": "suspension",
+          "ccSeconds": 1.5,
+          "effect": "aqua_prison",
+          "implemented": "prototype"
+        },
+        "W": {
+          "name": "Ebb and Flow",
+          "kind": "unit_target",
+          "range": 725,
+          "bounceRange": 800,
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "cooldown": [
+            10
+          ],
+          "effect": "ebb_flow",
+          "implemented": "legacy_adapter"
+        },
+        "E": {
+          "name": "Tidecallers Blessing",
+          "kind": "ally_target",
+          "implemented": "planned"
+        },
+        "R": {
+          "name": "Tidal Wave",
+          "kind": "line",
+          "range": 2750,
+          "width": 500,
+          "mana": [
+            100
+          ],
+          "cooldown": [
+            120,
+            110,
+            100
+          ],
+          "damage": [
+            150,
+            250,
+            350
+          ],
+          "apRatio": 0.6,
+          "effect": "tidal_wave",
+          "projectile": true,
+          "implemented": "legacy_adapter"
+        }
+      }
+    },
+    "Lux": {
+      "patch": "26.21",
+      "certification": "partial",
+      "passive": {
+        "id": "illumination",
+        "status": "planned"
+      },
+      "spells": {
+        "Q": {
+          "name": "Light Binding",
+          "kind": "line_projectile",
+          "range": 1300,
+          "width": 140,
+          "mana": [
+            50
+          ],
+          "cooldown": [
+            10
+          ],
+          "damage": [
+            80,
+            120,
+            160,
+            200,
+            240
+          ],
+          "apRatio": 0.75,
+          "cc": "root",
+          "ccSeconds": 2,
+          "maxHits": 2,
+          "effect": "light_binding",
+          "projectile": true,
+          "implemented": "prototype"
+        },
+        "W": {
+          "name": "Prismatic Barrier",
+          "kind": "line_shield",
+          "implemented": "planned"
+        },
+        "E": {
+          "name": "Lucent Singularity",
+          "kind": "ground_zone",
+          "range": 1100,
+          "radius": 310,
+          "mana": [
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "cooldown": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "duration": 5,
+          "slow": [
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "damage": [
+            65,
+            115,
+            165,
+            215,
+            265
+          ],
+          "apRatio": 0.8,
+          "effect": "lucent_singularity",
+          "implemented": "prototype"
+        },
+        "R": {
+          "name": "Final Spark",
+          "kind": "line",
+          "range": 3400,
+          "width": 200,
+          "mana": [
+            100
+          ],
+          "cooldown": [
+            60,
+            50,
+            40
+          ],
+          "damage": [
+            300,
+            400,
+            500
+          ],
+          "apRatio": 1.2,
+          "effect": "final_spark",
+          "projectile": false,
+          "implemented": "legacy_adapter"
+        }
+      }
+    },
+    "Vex": {
+      "patch": "26.21",
+      "certification": "partial",
+      "passive": {
+        "id": "doom_gloom",
+        "status": "planned"
+      },
+      "spells": {
+        "Q": {
+          "name": "Mistral Bolt",
+          "kind": "training",
+          "implemented": "training"
+        },
+        "W": {
+          "name": "Personal Space",
+          "kind": "training",
+          "implemented": "training"
+        },
+        "E": {
+          "name": "Looming Darkness",
+          "kind": "training",
+          "implemented": "training"
+        },
+        "R": {
+          "name": "Shadow Surge",
+          "kind": "line_recast",
+          "range": 2000,
+          "rangeByRank": [
+            2000,
+            2500,
+            3000
+          ],
+          "width": 260,
+          "mana": [
+            100
+          ],
+          "cooldown": [
+            140,
+            120,
+            100
+          ],
+          "damage": [
+            75,
+            125,
+            175
+          ],
+          "apRatio": 0.2,
+          "recastDamage": [
+            150,
+            250,
+            350
+          ],
+          "recastApRatio": 0.5,
+          "recastSeconds": 4,
+          "effect": "shadow_surge",
+          "projectile": true,
+          "implemented": "prototype"
+        }
+      }
+    },
+    "Jinx": {
+      "patch": "26.21",
+      "certification": "data_only",
+      "passive": {
+        "id": "get_excited",
+        "status": "planned"
+      },
+      "spells": {}
+    },
+    "Ahri": {
+      "patch": "26.21",
+      "certification": "data_only",
+      "passive": {
+        "id": "essence_theft",
+        "status": "planned"
+      },
+      "spells": {}
+    }
+  }
+}

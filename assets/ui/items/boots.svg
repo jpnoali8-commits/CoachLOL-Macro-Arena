@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de boots">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#2b1d11"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#d2b07c"/><stop offset="1" stop-color="#2b1d11"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#d2b07c" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#d2b07c" fill-opacity=".10"/>
+ <path d="M18 7h10v21c3 5 11 4 14 9l-3 6H8l-3-9 12-3Z" fill="url(#glow)" stroke="#f8eed5" stroke-width="1.6"/></svg>

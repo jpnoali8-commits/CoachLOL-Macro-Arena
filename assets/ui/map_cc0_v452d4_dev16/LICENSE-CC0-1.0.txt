@@ -1,0 +1,11 @@
+CoachLOL — mapa e minions: conjunto de SVGs ORIGINAIS V4.5.2d-4-dev16
+
+Oferta de dedicação de domínio público: Creative Commons CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Os elementos SVG nesta pasta foram desenhados neste incremento com geometria
+vetorial original. Não são extrações de League of Legends, nem incluem símbolos
+textuais ou assets de Riot Games. A dedicação CC0 aplica-se SOMENTE aos SVGs
+listados em manifest.json, não ao restante do projeto CoachLOL ou seus assets.
+Nos limites permitidos em cada jurisdição, qualquer direito autoral que possa
+existir sobre esta arte original é renunciado e o material é oferecido sob CC0.

@@ -1,0 +1,182 @@
+{
+  "version": 5,
+  "map": "assets/map_reference.jpg",
+  "dimensions": [
+    4096,
+    4096
+  ],
+  "authoritative": true,
+  "layers": [
+    {
+      "id": "wall",
+      "source": "assets/masks/Colisores-Mapa.jpg",
+      "binary": "assets/mask_layers/wall_binary.png",
+      "overlay": "assets/mask_layers/wall_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "brush",
+      "source": "assets/masks/Brushs-Moitas-Mapa.jpg",
+      "binary": "assets/mask_layers/brush_binary.png",
+      "overlay": "assets/mask_layers/brush_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "river",
+      "source": "assets/masks/Rio-Mapa.jpg",
+      "binary": "assets/mask_layers/river_binary.png",
+      "overlay": "assets/mask_layers/river_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "routes",
+      "source": "assets/masks/Rotas-Mapa-Top-MId-bottom.jpg",
+      "binary": "assets/mask_layers/routes_binary.png",
+      "overlay": "assets/mask_layers/routes_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "towers",
+      "source": "assets/masks/Torres-Mapa-Blue-RED.jpg",
+      "binary": "assets/mask_layers/towers_binary.png",
+      "overlay": "assets/mask_layers/towers_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "inhibitors",
+      "source": "assets/masks/Inibidores-Mapa-Blue-Red.jpg",
+      "binary": "assets/mask_layers/inhibitors_binary.png",
+      "overlay": "assets/mask_layers/inhibitors_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "nexus",
+      "source": "assets/masks/Nexus-Mapa-BLue-Red.jpg",
+      "binary": "assets/mask_layers/nexus_binary.png",
+      "overlay": "assets/mask_layers/nexus_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "monsters",
+      "source": "assets/masks/Monstros-Jungle-completo-com-baron-e-drag.jpg",
+      "binary": "assets/mask_layers/monsters_binary.png",
+      "overlay": "assets/mask_layers/monsters_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    },
+    {
+      "id": "spawn_shop",
+      "source": "assets/masks/Respawn-mapa-Blue-RED-Area-de-compra-itens.jpg",
+      "binary": "assets/mask_layers/spawn_shop_binary.png",
+      "overlay": "assets/mask_layers/spawn_shop_overlay.png",
+      "nativeResolution": [
+        4096,
+        4096
+      ],
+      "blackPixelIs": "selected",
+      "threshold": 128,
+      "geometry": "raster",
+      "placement": "pixel-perfect 1:1",
+      "overlayResolution": [
+        1024,
+        1024
+      ],
+      "overlayRole": "display-only downsampled; full 4096 mask in binary + original JPEG source"
+    }
+  ]
+}

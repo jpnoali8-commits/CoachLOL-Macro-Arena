@@ -1,0 +1,89 @@
+{
+  "schema": "coachlol.actionAST.proposal.v4.2",
+  "runtimeStatus": "design_only",
+  "patch": "26.21",
+  "privacy": "team_private_until_observed",
+  "actionNodes": [
+    "move_until_range",
+    "cast_ground",
+    "cast_line",
+    "cast_unit",
+    "await_hit",
+    "conditional_recast",
+    "wait_for_cooldown",
+    "basic_attack",
+    "apply_effect",
+    "follow_target",
+    "cancel_if_hidden"
+  ],
+  "examples": [
+    {
+      "champion": "Nami",
+      "slot": "Q",
+      "steps": [
+        {
+          "op": "move_until_range",
+          "range": 850
+        },
+        {
+          "op": "cast_ground",
+          "radius": 225
+        },
+        {
+          "op": "apply_effect",
+          "type": "stun",
+          "after": "impact"
+        }
+      ]
+    },
+    {
+      "champion": "Lux",
+      "slot": "E",
+      "steps": [
+        {
+          "op": "move_until_range",
+          "range": 1100
+        },
+        {
+          "op": "cast_ground",
+          "radius": 310
+        },
+        {
+          "op": "conditional_recast",
+          "windowSeconds": 5
+        },
+        {
+          "op": "apply_effect",
+          "type": "slow"
+        }
+      ]
+    },
+    {
+      "champion": "Vex",
+      "slot": "R",
+      "steps": [
+        {
+          "op": "cast_line",
+          "maxRangeByRank": [
+            2000,
+            2500,
+            3000
+          ]
+        },
+        {
+          "op": "await_hit",
+          "state": "marked"
+        },
+        {
+          "op": "conditional_recast",
+          "windowSeconds": 4
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    "LLM fornece intenções AST, nunca dano arbitrário",
+    "servidor/engine valida recursos, limites, visão, colisão e recast",
+    "AST só será habilitada após executor multimodal server-side V4.9"
+  ]
+}

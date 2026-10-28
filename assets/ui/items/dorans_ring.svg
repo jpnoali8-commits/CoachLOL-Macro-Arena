@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de dorans_ring">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#25295b"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#8ca7fd"/><stop offset="1" stop-color="#25295b"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#8ca7fd" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#8ca7fd" fill-opacity=".10"/>
+ <circle cx="24" cy="24" r="16" fill="none" stroke="url(#glow)" stroke-width="9"/><path d="M11 11 37 37" stroke="#f0e6d2" stroke-width="1.8"/></svg>

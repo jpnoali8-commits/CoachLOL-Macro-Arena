@@ -1,0 +1,1113 @@
+{
+  "schema": "coachlol.championStats.v4.2",
+  "patch": "26.21",
+  "mode": "SummonersRift PC",
+  "generatedFrom": "engine.mjs constants via tools/export_champion_stats_v42.mjs",
+  "caveats": [
+    "AP 0 by natural growth; items and passives can add AP",
+    "Attack speed and HP/MP regen not yet individually certified",
+    "Not all champion kits certified"
+  ],
+  "champions": {
+    "Ahri": {
+      "status": "base_and_growth_audited",
+      "source": "https://wiki.leagueoflegends.com/en-us/Ahri",
+      "base": {
+        "hp": 590,
+        "mana": 418,
+        "ad": 53,
+        "ap": 0,
+        "armor": 21,
+        "mr": 30,
+        "moveSpeed": 330
+      },
+      "growth": {
+        "hp": 104,
+        "mana": 25,
+        "ad": 3,
+        "armor": 4.2,
+        "mr": 1.3
+      },
+      "perLevel": [
+        {
+          "level": 1,
+          "hp": 590,
+          "mana": 418,
+          "ad": 53,
+          "armor": 21,
+          "mr": 30,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 2,
+          "hp": 664.88,
+          "mana": 436,
+          "ad": 55.16,
+          "armor": 24.024,
+          "mr": 30.936,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 3,
+          "hp": 743.4,
+          "mana": 454.875,
+          "ad": 57.425,
+          "armor": 27.195,
+          "mr": 31.9175,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 4,
+          "hp": 825.56,
+          "mana": 474.625,
+          "ad": 59.795,
+          "armor": 30.513,
+          "mr": 32.9445,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 5,
+          "hp": 911.36,
+          "mana": 495.25,
+          "ad": 62.27,
+          "armor": 33.978,
+          "mr": 34.017,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 6,
+          "hp": 1000.8,
+          "mana": 516.75,
+          "ad": 64.85,
+          "armor": 37.59,
+          "mr": 35.135,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 7,
+          "hp": 1093.88,
+          "mana": 539.125,
+          "ad": 67.535,
+          "armor": 41.349,
+          "mr": 36.2985,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 8,
+          "hp": 1190.6,
+          "mana": 562.375,
+          "ad": 70.325,
+          "armor": 45.255,
+          "mr": 37.5075,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 9,
+          "hp": 1290.96,
+          "mana": 586.5,
+          "ad": 73.22,
+          "armor": 49.308,
+          "mr": 38.762,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 10,
+          "hp": 1394.96,
+          "mana": 611.5,
+          "ad": 76.22,
+          "armor": 53.508,
+          "mr": 40.062,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 11,
+          "hp": 1502.6,
+          "mana": 637.375,
+          "ad": 79.325,
+          "armor": 57.855,
+          "mr": 41.4075,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 12,
+          "hp": 1613.88,
+          "mana": 664.125,
+          "ad": 82.535,
+          "armor": 62.349,
+          "mr": 42.7985,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 13,
+          "hp": 1728.8,
+          "mana": 691.75,
+          "ad": 85.85,
+          "armor": 66.99,
+          "mr": 44.235,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 14,
+          "hp": 1847.36,
+          "mana": 720.25,
+          "ad": 89.27,
+          "armor": 71.778,
+          "mr": 45.717,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 15,
+          "hp": 1969.56,
+          "mana": 749.625,
+          "ad": 92.795,
+          "armor": 76.713,
+          "mr": 47.2445,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 16,
+          "hp": 2095.4,
+          "mana": 779.875,
+          "ad": 96.425,
+          "armor": 81.795,
+          "mr": 48.8175,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 17,
+          "hp": 2224.88,
+          "mana": 811,
+          "ad": 100.16,
+          "armor": 87.024,
+          "mr": 50.436,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 18,
+          "hp": 2358,
+          "mana": 843,
+          "ad": 104,
+          "armor": 92.4,
+          "mr": 52.1,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        }
+      ]
+    },
+    "Jinx": {
+      "status": "base_and_growth_audited",
+      "source": "https://wiki.leagueoflegends.com/en-us/Jinx",
+      "base": {
+        "hp": 610,
+        "mana": 260,
+        "ad": 59,
+        "ap": 0,
+        "armor": 26,
+        "mr": 33,
+        "moveSpeed": 325
+      },
+      "growth": {
+        "hp": 105,
+        "mana": 50,
+        "ad": 3,
+        "armor": 4.2,
+        "mr": 1.1
+      },
+      "perLevel": [
+        {
+          "level": 1,
+          "hp": 610,
+          "mana": 260,
+          "ad": 59,
+          "armor": 26,
+          "mr": 33,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 2,
+          "hp": 685.6,
+          "mana": 296,
+          "ad": 61.16,
+          "armor": 29.024,
+          "mr": 33.792,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 3,
+          "hp": 764.875,
+          "mana": 333.75,
+          "ad": 63.425,
+          "armor": 32.195,
+          "mr": 34.6225,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 4,
+          "hp": 847.825,
+          "mana": 373.25,
+          "ad": 65.795,
+          "armor": 35.513,
+          "mr": 35.4915,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 5,
+          "hp": 934.45,
+          "mana": 414.5,
+          "ad": 68.27,
+          "armor": 38.978,
+          "mr": 36.399,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 6,
+          "hp": 1024.75,
+          "mana": 457.5,
+          "ad": 70.85,
+          "armor": 42.59,
+          "mr": 37.345,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 7,
+          "hp": 1118.725,
+          "mana": 502.25,
+          "ad": 73.535,
+          "armor": 46.349,
+          "mr": 38.3295,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 8,
+          "hp": 1216.375,
+          "mana": 548.75,
+          "ad": 76.325,
+          "armor": 50.255,
+          "mr": 39.3525,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 9,
+          "hp": 1317.7,
+          "mana": 597,
+          "ad": 79.22,
+          "armor": 54.308,
+          "mr": 40.414,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 10,
+          "hp": 1422.7,
+          "mana": 647,
+          "ad": 82.22,
+          "armor": 58.508,
+          "mr": 41.514,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 11,
+          "hp": 1531.375,
+          "mana": 698.75,
+          "ad": 85.325,
+          "armor": 62.855,
+          "mr": 42.6525,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 12,
+          "hp": 1643.725,
+          "mana": 752.25,
+          "ad": 88.535,
+          "armor": 67.349,
+          "mr": 43.8295,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 13,
+          "hp": 1759.75,
+          "mana": 807.5,
+          "ad": 91.85,
+          "armor": 71.99,
+          "mr": 45.045,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 14,
+          "hp": 1879.45,
+          "mana": 864.5,
+          "ad": 95.27,
+          "armor": 76.778,
+          "mr": 46.299,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 15,
+          "hp": 2002.825,
+          "mana": 923.25,
+          "ad": 98.795,
+          "armor": 81.713,
+          "mr": 47.5915,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 16,
+          "hp": 2129.875,
+          "mana": 983.75,
+          "ad": 102.425,
+          "armor": 86.795,
+          "mr": 48.9225,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 17,
+          "hp": 2260.6,
+          "mana": 1046,
+          "ad": 106.16,
+          "armor": 92.024,
+          "mr": 50.292,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        },
+        {
+          "level": 18,
+          "hp": 2395,
+          "mana": 1110,
+          "ad": 110,
+          "armor": 97.4,
+          "mr": 51.7,
+          "ap": 0,
+          "moveSpeed": 325,
+          "attackRange": 525
+        }
+      ]
+    },
+    "Lux": {
+      "status": "base_and_growth_audited",
+      "source": "https://wiki.leagueoflegends.com/en-us/Lux",
+      "base": {
+        "hp": 580,
+        "mana": 440,
+        "ad": 54,
+        "ap": 0,
+        "armor": 21,
+        "mr": 30,
+        "moveSpeed": 330
+      },
+      "growth": {
+        "hp": 99,
+        "mana": 23.5,
+        "ad": 3.3,
+        "armor": 5.2,
+        "mr": 1.3
+      },
+      "perLevel": [
+        {
+          "level": 1,
+          "hp": 580,
+          "mana": 440,
+          "ad": 54,
+          "armor": 21,
+          "mr": 30,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 2,
+          "hp": 651.28,
+          "mana": 456.92,
+          "ad": 56.376,
+          "armor": 24.744,
+          "mr": 30.936,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 3,
+          "hp": 726.025,
+          "mana": 474.6625,
+          "ad": 58.8675,
+          "armor": 28.67,
+          "mr": 31.9175,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 4,
+          "hp": 804.235,
+          "mana": 493.2275,
+          "ad": 61.4745,
+          "armor": 32.778,
+          "mr": 32.9445,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 5,
+          "hp": 885.91,
+          "mana": 512.615,
+          "ad": 64.197,
+          "armor": 37.068,
+          "mr": 34.017,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 6,
+          "hp": 971.05,
+          "mana": 532.825,
+          "ad": 67.035,
+          "armor": 41.54,
+          "mr": 35.135,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 7,
+          "hp": 1059.655,
+          "mana": 553.8575,
+          "ad": 69.9885,
+          "armor": 46.194,
+          "mr": 36.2985,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 8,
+          "hp": 1151.725,
+          "mana": 575.7125,
+          "ad": 73.0575,
+          "armor": 51.03,
+          "mr": 37.5075,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 9,
+          "hp": 1247.26,
+          "mana": 598.39,
+          "ad": 76.242,
+          "armor": 56.048,
+          "mr": 38.762,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 10,
+          "hp": 1346.26,
+          "mana": 621.89,
+          "ad": 79.542,
+          "armor": 61.248,
+          "mr": 40.062,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 11,
+          "hp": 1448.725,
+          "mana": 646.2125,
+          "ad": 82.9575,
+          "armor": 66.63,
+          "mr": 41.4075,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 12,
+          "hp": 1554.655,
+          "mana": 671.3575,
+          "ad": 86.4885,
+          "armor": 72.194,
+          "mr": 42.7985,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 13,
+          "hp": 1664.05,
+          "mana": 697.325,
+          "ad": 90.135,
+          "armor": 77.94,
+          "mr": 44.235,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 14,
+          "hp": 1776.91,
+          "mana": 724.115,
+          "ad": 93.897,
+          "armor": 83.868,
+          "mr": 45.717,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 15,
+          "hp": 1893.235,
+          "mana": 751.7275,
+          "ad": 97.7745,
+          "armor": 89.978,
+          "mr": 47.2445,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 16,
+          "hp": 2013.025,
+          "mana": 780.1625,
+          "ad": 101.7675,
+          "armor": 96.27,
+          "mr": 48.8175,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 17,
+          "hp": 2136.28,
+          "mana": 809.42,
+          "ad": 105.876,
+          "armor": 102.744,
+          "mr": 50.436,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        },
+        {
+          "level": 18,
+          "hp": 2263,
+          "mana": 839.5,
+          "ad": 110.1,
+          "armor": 109.4,
+          "mr": 52.1,
+          "ap": 0,
+          "moveSpeed": 330,
+          "attackRange": 550
+        }
+      ]
+    },
+    "Nami": {
+      "status": "base_and_growth_audited",
+      "source": "https://wiki.leagueoflegends.com/en-us/Nami",
+      "base": {
+        "hp": 560,
+        "mana": 365,
+        "ad": 54,
+        "ap": 0,
+        "armor": 29,
+        "mr": 30,
+        "moveSpeed": 335
+      },
+      "growth": {
+        "hp": 88,
+        "mana": 43,
+        "ad": 3.1,
+        "armor": 5.2,
+        "mr": 1.3
+      },
+      "perLevel": [
+        {
+          "level": 1,
+          "hp": 560,
+          "mana": 365,
+          "ad": 54,
+          "armor": 29,
+          "mr": 30,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 2,
+          "hp": 623.36,
+          "mana": 395.96,
+          "ad": 56.232,
+          "armor": 32.744,
+          "mr": 30.936,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 3,
+          "hp": 689.8,
+          "mana": 428.425,
+          "ad": 58.5725,
+          "armor": 36.67,
+          "mr": 31.9175,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 4,
+          "hp": 759.32,
+          "mana": 462.395,
+          "ad": 61.0215,
+          "armor": 40.778,
+          "mr": 32.9445,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 5,
+          "hp": 831.92,
+          "mana": 497.87,
+          "ad": 63.579,
+          "armor": 45.068,
+          "mr": 34.017,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 6,
+          "hp": 907.6,
+          "mana": 534.85,
+          "ad": 66.245,
+          "armor": 49.54,
+          "mr": 35.135,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 7,
+          "hp": 986.36,
+          "mana": 573.335,
+          "ad": 69.0195,
+          "armor": 54.194,
+          "mr": 36.2985,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 8,
+          "hp": 1068.2,
+          "mana": 613.325,
+          "ad": 71.9025,
+          "armor": 59.03,
+          "mr": 37.5075,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 9,
+          "hp": 1153.12,
+          "mana": 654.82,
+          "ad": 74.894,
+          "armor": 64.048,
+          "mr": 38.762,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 10,
+          "hp": 1241.12,
+          "mana": 697.82,
+          "ad": 77.994,
+          "armor": 69.248,
+          "mr": 40.062,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 11,
+          "hp": 1332.2,
+          "mana": 742.325,
+          "ad": 81.2025,
+          "armor": 74.63,
+          "mr": 41.4075,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 12,
+          "hp": 1426.36,
+          "mana": 788.335,
+          "ad": 84.5195,
+          "armor": 80.194,
+          "mr": 42.7985,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 13,
+          "hp": 1523.6,
+          "mana": 835.85,
+          "ad": 87.945,
+          "armor": 85.94,
+          "mr": 44.235,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 14,
+          "hp": 1623.92,
+          "mana": 884.87,
+          "ad": 91.479,
+          "armor": 91.868,
+          "mr": 45.717,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 15,
+          "hp": 1727.32,
+          "mana": 935.395,
+          "ad": 95.1215,
+          "armor": 97.978,
+          "mr": 47.2445,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 16,
+          "hp": 1833.8,
+          "mana": 987.425,
+          "ad": 98.8725,
+          "armor": 104.27,
+          "mr": 48.8175,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 17,
+          "hp": 1943.36,
+          "mana": 1040.96,
+          "ad": 102.732,
+          "armor": 110.744,
+          "mr": 50.436,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 18,
+          "hp": 2056,
+          "mana": 1096,
+          "ad": 106.7,
+          "armor": 117.4,
+          "mr": 52.1,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        }
+      ]
+    },
+    "Vex": {
+      "status": "base_and_growth_audited",
+      "source": "https://wiki.leagueoflegends.com/en-us/Vex",
+      "base": {
+        "hp": 590,
+        "mana": 490,
+        "ad": 54,
+        "ap": 0,
+        "armor": 23,
+        "mr": 28,
+        "moveSpeed": 335
+      },
+      "growth": {
+        "hp": 104,
+        "mana": 32,
+        "ad": 2.75,
+        "armor": 4.45,
+        "mr": 1.3
+      },
+      "perLevel": [
+        {
+          "level": 1,
+          "hp": 590,
+          "mana": 490,
+          "ad": 54,
+          "armor": 23,
+          "mr": 28,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 2,
+          "hp": 664.88,
+          "mana": 513.04,
+          "ad": 55.98,
+          "armor": 26.204,
+          "mr": 28.936,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 3,
+          "hp": 743.4,
+          "mana": 537.2,
+          "ad": 58.0562,
+          "armor": 29.5637,
+          "mr": 29.9175,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 4,
+          "hp": 825.56,
+          "mana": 562.48,
+          "ad": 60.2287,
+          "armor": 33.0793,
+          "mr": 30.9445,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 5,
+          "hp": 911.36,
+          "mana": 588.88,
+          "ad": 62.4975,
+          "armor": 36.7505,
+          "mr": 32.017,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 6,
+          "hp": 1000.8,
+          "mana": 616.4,
+          "ad": 64.8625,
+          "armor": 40.5775,
+          "mr": 33.135,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 7,
+          "hp": 1093.88,
+          "mana": 645.04,
+          "ad": 67.3238,
+          "armor": 44.5603,
+          "mr": 34.2985,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 8,
+          "hp": 1190.6,
+          "mana": 674.8,
+          "ad": 69.8812,
+          "armor": 48.6988,
+          "mr": 35.5075,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 9,
+          "hp": 1290.96,
+          "mana": 705.68,
+          "ad": 72.535,
+          "armor": 52.993,
+          "mr": 36.762,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 10,
+          "hp": 1394.96,
+          "mana": 737.68,
+          "ad": 75.285,
+          "armor": 57.443,
+          "mr": 38.062,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 11,
+          "hp": 1502.6,
+          "mana": 770.8,
+          "ad": 78.1312,
+          "armor": 62.0488,
+          "mr": 39.4075,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 12,
+          "hp": 1613.88,
+          "mana": 805.04,
+          "ad": 81.0738,
+          "armor": 66.8102,
+          "mr": 40.7985,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 13,
+          "hp": 1728.8,
+          "mana": 840.4,
+          "ad": 84.1125,
+          "armor": 71.7275,
+          "mr": 42.235,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 14,
+          "hp": 1847.36,
+          "mana": 876.88,
+          "ad": 87.2475,
+          "armor": 76.8005,
+          "mr": 43.717,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 15,
+          "hp": 1969.56,
+          "mana": 914.48,
+          "ad": 90.4788,
+          "armor": 82.0293,
+          "mr": 45.2445,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 16,
+          "hp": 2095.4,
+          "mana": 953.2,
+          "ad": 93.8063,
+          "armor": 87.4138,
+          "mr": 46.8175,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 17,
+          "hp": 2224.88,
+          "mana": 993.04,
+          "ad": 97.23,
+          "armor": 92.954,
+          "mr": 48.436,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        },
+        {
+          "level": 18,
+          "hp": 2358,
+          "mana": 1034,
+          "ad": 100.75,
+          "armor": 98.65,
+          "mr": 50.1,
+          "ap": 0,
+          "moveSpeed": 335,
+          "attackRange": 550
+        }
+      ]
+    }
+  }
+}

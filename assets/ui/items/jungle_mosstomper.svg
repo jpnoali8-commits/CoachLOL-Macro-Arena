@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de jungle_mosstomper">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#213b1a"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#84d386"/><stop offset="1" stop-color="#213b1a"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#84d386" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#84d386" fill-opacity=".10"/>
+ <path d="m24 2 16 24h-9l10 13H7l10-13H8L24 2Zm0 36v8" fill="url(#glow)" stroke="#dffada" stroke-width="1.6"/></svg>

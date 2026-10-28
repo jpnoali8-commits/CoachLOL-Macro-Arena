@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de ignite">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#40150e"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#ff8450"/><stop offset="1" stop-color="#40150e"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#ff8450" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#ff8450" fill-opacity=".10"/>
+ <path d="M25 3c-3 10 12 14 14 24 2 13-9 20-17 19C2 43 8 27 16 22c-1 8 5 11 7 10-8-11-2-18 2-29Z" fill="url(#glow)" stroke="#fee5d5" stroke-width="1.6"/></svg>

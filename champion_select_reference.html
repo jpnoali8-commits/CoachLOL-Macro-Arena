@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoachLOL — referência visual do Champion Select</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Beaufort / Cinzel & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            hextech: {
+              black: '#010408',
+              surface: 'rgba(5, 9, 14, 0.94)',
+              gold: '#c8aa6e',
+              goldLight: '#f0e6d2',
+              goldDark: '#785a28',
+              blueTeam: '#0ac8b9',
+              redTeam: '#e84057',
+              banRed: '#c8203b',
+              border: 'rgba(200, 170, 110, 0.28)',
+              borderDim: 'rgba(200, 170, 110, 0.12)'
+            }
+          },
+          fontFamily: {
+            title: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: #010408;
+      color: #cdbe91;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Scrollbar discreta */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(2, 6, 10, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(200, 170, 110, 0.35);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c8aa6e;
+    }
+
+    /* Moldura Circular Hextech das Laterais */
+    .orb-slot {
+      position: relative;
+      border-radius: 50%;
+      background: #03070c;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .orb-slot.blue-active {
+      box-shadow: inset 0 0 0 2px #0ac8b9, 0 0 0 2px rgba(10, 200, 185, 0.5);
+    }
+    .orb-slot.player-active {
+      box-shadow: inset 0 0 0 2px #f0e6d2, 0 0 0 3px #c8aa6e;
+    }
+    .orb-slot.red-slot {
+      box-shadow: inset 0 0 0 2px rgba(232, 64, 87, 0.6);
+    }
+
+    /* Arco central da bússola Hextech */
+    .compass-arc-left {
+      border: 1px solid rgba(200, 170, 110, 0.25);
+      border-right: none;
+      border-top-left-radius: 280px;
+      border-bottom-left-radius: 280px;
+    }
+    .compass-arc-right {
+      border: 1px solid rgba(200, 170, 110, 0.25);
+      border-left: none;
+      border-top-right-radius: 280px;
+      border-bottom-right-radius: 280px;
+    }
+
+    /* Botão Trapezoidal "BANIR" / "LOCK IN" Oficial */
+    .btn-lockin {
+      clip-path: polygon(14% 0%, 86% 0%, 100% 100%, 0% 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-lockin.ban-mode {
+      background: linear-gradient(180deg, #94172c 0%, #4a0c16 100%);
+      border-top: 1px solid #ff4e66;
+      color: #ffffff;
+    }
+    .btn-lockin.ban-mode:hover:not(:disabled) {
+      background: linear-gradient(180deg, #b81c37 0%, #5e0f1c 100%);
+      color: #fff;
+    }
+    .btn-lockin.pick-mode {
+      background: linear-gradient(180deg, #1e3f4b 0%, #0c1a20 100%);
+      border-top: 1px solid #0ac8b9;
+      color: #0ac8b9;
+    }
+    .btn-lockin.pick-mode:hover:not(:disabled) {
+      background: linear-gradient(180deg, #285868 0%, #122830 100%);
+      color: #ffffff;
+    }
+    .btn-lockin:disabled {
+      background: #11161d;
+      border-top: 1px solid rgba(200, 170, 110, 0.15);
+      color: #555c68;
+      cursor: not-allowed;
+    }
+
+    /* Botão Hextech Glass */
+    .glass-btn {
+      background: rgba(8, 14, 21, 0.85);
+      border: 1px solid rgba(200, 170, 110, 0.25);
+      color: #a09b8c;
+      transition: all 0.15s ease;
+    }
+    .glass-btn:hover {
+      border-color: #c8aa6e;
+      color: #f0e6d2;
+      background: rgba(200, 170, 110, 0.12);
+    }
+    .glass-btn.active {
+      border-color: #c8aa6e;
+      background: rgba(200, 170, 110, 0.2);
+      color: #ffffff;
+    }
+
+    /* Card de Campeão na Grade */
+    .champ-card {
+      transition: transform 0.12s ease, border-color 0.12s ease;
+    }
+    .champ-card:hover:not(.is-banned):not(.is-picked) {
+      transform: translateY(-2px);
+      border-color: #c8aa6e;
+      z-index: 10;
+    }
+    .champ-card.selected {
+      border-color: #f0e6d2 !important;
+      outline: 2px solid #c8aa6e;
+      z-index: 15;
+    }
+    .champ-card.is-banned {
+      filter: grayscale(100%) brightness(0.35);
+      cursor: not-allowed;
+      border-color: #55151c !important;
+    }
+
+    /* ========================================================
+       ANIMAÇÃO DE BANIMENTO: CORTE VERTICAL NO WALLPAPER CIRCULAR
+       ======================================================== */
+    .slash-circle-wrapper {
+      position: relative;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      border: 3px solid #c8aa6e;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.9), 0 0 35px rgba(200, 170, 110, 0.35);
+      background: #020508;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 768px) {
+      .slash-circle-wrapper {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    /* Cada metade ocupa exatamente o círculo todo com a imagem idêntica na mesma posição, 
+       mas recortada com clip-path exato (0-50% e 50%-100%), garantindo zero duplicação ou costura */
+    .slash-slice {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s ease;
+      will-change: transform, filter;
+    }
+
+    /* Metade Esquerda: recorta exatamente os 50% da esquerda */
+    .slash-slice-left {
+      clip-path: inset(0 50% 0 0);
+      transform-origin: center left;
+    }
+
+    /* Metade Direita: recorta exatamente os 50% da direita */
+    .slash-slice-right {
+      clip-path: inset(0 0 0 50%);
+      transform-origin: center right;
+    }
+
+    .slash-full-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 60% center;
+    }
+
+    /* Estado ativado de corte vertical e afastamento */
+    .is-slashed .slash-slice-left {
+      transform: translateX(-35px) rotate(-3deg);
+      filter: grayscale(100%) brightness(0.3) contrast(1.3);
+    }
+    .is-slashed .slash-slice-right {
+      transform: translateX(35px) rotate(3deg);
+      filter: grayscale(100%) brightness(0.3) contrast(1.3);
+    }
+
+    /* Feixe de Luz Vermelho que corta na vertical */
+    .slash-laser {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      width: 4px;
+      height: 120%;
+      background: linear-gradient(180deg, transparent 0%, #ff4e66 50%, transparent 100%);
+      transform: translateX(-50%) scaleY(0);
+      opacity: 0;
+      box-shadow: 0 0 20px #e84057, 0 0 45px #ff4e66;
+      transition: all 0.25s ease-out;
+      pointer-events: none;
+      z-index: 25;
+    }
+    .is-slashed .slash-laser {
+      transform: translateX(-50%) scaleY(1);
+      opacity: 1;
+      animation: laserFlash 0.75s forwards;
+    }
+    @keyframes laserFlash {
+      0% { opacity: 0; transform: translateX(-50%) scaleY(0); }
+      35% { opacity: 1; transform: translateX(-50%) scaleY(1); }
+      100% { opacity: 0; transform: translateX(-50%) scaleY(1); }
+    }
+
+    /* Símbolo Oficial de Ban (Círculo cortado em diagonal) */
+    .ban-slash-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 120px;
+      height: 120px;
+      border: 7px solid #e84057;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(2.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 30;
+      pointer-events: none;
+    }
+    .ban-slash-icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -4px;
+      right: -4px;
+      height: 7px;
+      background-color: #e84057;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+    .is-slashed .ban-slash-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Cards Superiores de Banimento Estilizados */
+    .top-ban-card {
+      width: 38px;
+      height: 38px;
+      background: #020509;
+      border: 1px solid rgba(200, 170, 110, 0.25);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .top-ban-card.filled {
+      border-color: #e84057 !important;
+      box-shadow: inset 0 0 10px rgba(232, 64, 87, 0.3);
+    }
+    .top-ban-card.filled::after {
+      content: '';
+      position: absolute;
+      width: 130%;
+      height: 2px;
+      background: #e84057;
+      transform: rotate(45deg);
+      z-index: 5;
+    }
+
+    /* Indicador animado de turno ativo no slot */
+    .active-slot-pulse {
+      animation: slotPulse 1.8s infinite;
+    }
+    @keyframes slotPulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+  </style>
+</head>
+
+<body class="h-screen w-screen flex flex-col justify-between relative bg-[#010408]">
+
+  <!-- BACKGROUND: MAPA EM PERSPECTIVA ESCURA COM NÉVOA -->
+  <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+    <img 
+      id="bg-splash-art"
+      src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt5a46287c88b48f6c/5efbc9bcfb9c240974e6d302/lol_wildrift_wild_rift_map_guide_map.jpg"
+      alt="Summoners Rift"
+      class="w-full h-full object-cover opacity-10 filter blur-[2px] scale-105 transition-all duration-700"
+    >
+    <div class="absolute inset-0 bg-gradient-to-b from-[#010408] via-transparent to-[#010408]"></div>
+  </div>
+
+  <!-- ========================================================
+       TOP HEADER: FASE, BANS GLOBAIS E CRONÔMETRO CENTRAL
+       ======================================================== -->
+  <header class="h-16 border-b border-hextech-borderDim px-6 flex items-center justify-between z-30 shrink-0">
+    
+    <!-- Esquerda: Info da Equipe / Link do Tabuleiro -->
+    <div class="flex items-center space-x-3 w-72">
+      <a href="index.html" class="glass-btn px-2.5 py-1.5 rounded flex items-center gap-1.5 text-xs text-hextech-gold hover:text-white" title="Voltar ao Tabuleiro">
+        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+        <span class="font-bold uppercase tracking-wider text-[10px]">Tabuleiro</span>
+      </a>
+      <div class="h-4 w-px bg-hextech-borderDim"></div>
+      <div>
+        <div class="text-[9px] uppercase tracking-widest text-[#6c7989] font-bold">1ª ESCOLHA</div>
+        <div class="text-xs font-title font-bold text-hextech-blueTeam">TIME AZUL</div>
+      </div>
+    </div>
+
+    <!-- Centro Oficial: Slots de Bans Superiores + Timer + Título -->
+    <div class="flex flex-col items-center flex-1 max-w-xl">
+      <!-- 10 Slots de Banimentos Superiores (5 Azul / 5 Vermelho) Bem Visíveis e Maiores -->
+      <div class="flex items-center space-x-2.5 mb-1.5">
+        <!-- Bans Azul -->
+        <div class="flex items-center space-x-1.5" id="top-bans-blue">
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">1</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">2</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">3</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">4</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">5</span></div>
+        </div>
+
+        <div class="h-6 w-px bg-hextech-border/40 mx-2"></div>
+
+        <!-- Bans Vermelho -->
+        <div class="flex items-center space-x-1.5" id="top-bans-red">
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">1</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">2</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">3</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">4</span></div>
+          <div class="top-ban-card"><span class="text-[10px] text-gray-500 font-mono font-bold">5</span></div>
+        </div>
+      </div>
+
+      <!-- Título de Instrução e Cronômetro -->
+      <div class="flex items-center space-x-3">
+        <h2 id="phase-title" class="font-title text-base font-extrabold uppercase tracking-widest text-white">
+          BANA UM CAMPEÃO!
+        </h2>
+        <span id="turn-timer-num" class="font-title text-2xl font-bold text-white tracking-wider">30</span>
+      </div>
+
+      <!-- Barra de Tempo Oficial (Azul/Vermelho) -->
+      <div class="w-72 bg-black/80 rounded-full h-1 overflow-hidden border border-hextech-borderDim relative mt-1">
+        <div id="phase-progress-bar" class="h-full bg-gradient-to-r from-hextech-banRed to-[#ff6b7e] transition-all duration-1000 w-full"></div>
+      </div>
+    </div>
+
+    <!-- Direita: Controles Rápidos -->
+    <div class="flex items-center justify-end space-x-2.5 w-72">
+      <button onclick="autoAdvanceBot()" class="glass-btn px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider text-hextech-gold hover:text-white flex items-center gap-1">
+        <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+        <span>Simular IA</span>
+      </button>
+
+      <button class="w-7 h-7 rounded glass-btn flex items-center justify-center text-gray-400 hover:text-white" title="Ajuda">
+        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+      </button>
+      <button class="w-7 h-7 rounded glass-btn flex items-center justify-center text-gray-400 hover:text-white" title="Configurações">
+        <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       ÁREA PRINCIPAL: TIME AZUL (ESQ) | CENTRO COM ARCOS | TIME VERM (DIR)
+       ======================================================== -->
+  <main class="flex-1 flex items-center justify-between px-6 py-2 relative z-10 overflow-hidden">
+
+    <!-- ==========================================
+         COLUNA ESQUERDA: ROSTER DO TIME AZUL (5 ORBES)
+         ========================================== -->
+    <section class="w-64 flex flex-col justify-around h-full py-1 shrink-0 space-y-2">
+      
+      <!-- Slot 0: TOP (Aliado) -->
+      <div id="blue-player-0" class="flex items-center space-x-3">
+        <!-- Feitiços de Invocador -->
+        <div class="flex flex-col space-y-1 shrink-0">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Flash">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerTeleport.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="TP">
+        </div>
+        <!-- Orbe Circular com Retrato -->
+        <div class="w-14 h-14 orb-slot blue-active overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="shield" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <!-- Dados do Jogador -->
+        <div class="leading-tight truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">TOP</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Escolhendo...</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">DravenG0d</div>
+        </div>
+      </div>
+
+      <!-- Slot 1: JUNGLE (Aliado) -->
+      <div id="blue-player-1" class="flex items-center space-x-3">
+        <div class="flex flex-col space-y-1 shrink-0">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Flash">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerSmite.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Smite">
+        </div>
+        <div class="w-14 h-14 orb-slot blue-active overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="crosshair" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">JUNGLE</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Escolhendo...</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">ScuttleCrab</div>
+        </div>
+      </div>
+
+      <!-- Slot 2: MID (VOCÊ - ATIVO/EM FOCO) -->
+      <div id="blue-player-2" class="flex items-center space-x-3">
+        <div class="flex flex-col space-y-1 shrink-0">
+          <img id="my-spell-1" src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-4 h-4 rounded border border-hextech-gold" alt="Flash">
+          <img id="my-spell-2" src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerDot.png" class="w-4 h-4 rounded border border-hextech-gold" alt="Ignite">
+        </div>
+        <!-- Orbe com borda dourada comemorativa do jogador -->
+        <div class="w-16 h-16 orb-slot player-active overflow-hidden flex items-center justify-center shrink-0 relative">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="sparkles" class="w-6 h-6 text-hextech-gold slot-icon"></i>
+          <!-- Indicador lateral ativo -->
+          <div class="absolute -left-1 w-1.5 h-6 bg-hextech-gold rounded-r"></div>
+        </div>
+        <div class="leading-tight truncate">
+          <div class="flex items-center gap-1">
+            <span class="text-[9px] font-bold text-hextech-gold uppercase tracking-wider">MID</span>
+            <span class="text-[8px] bg-hextech-gold/20 text-hextech-goldLight px-1 rounded font-bold">VOCÊ</span>
+          </div>
+          <div class="text-sm font-bold text-white truncate slot-champ-name">Akali</div>
+          <div class="text-[9px] text-hextech-blueTeam font-mono truncate font-semibold">McMercy #BR1</div>
+        </div>
+      </div>
+
+      <!-- Slot 3: BOTTOM / ADC (Aliado) -->
+      <div id="blue-player-3" class="flex items-center space-x-3">
+        <div class="flex flex-col space-y-1 shrink-0">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Flash">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerHeal.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Heal">
+        </div>
+        <div class="w-14 h-14 orb-slot blue-active overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="target" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">BOTTOM</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Escolhendo...</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">Gromp #EUW</div>
+        </div>
+      </div>
+
+      <!-- Slot 4: SUPPORT (Aliado) -->
+      <div id="blue-player-4" class="flex items-center space-x-3">
+        <div class="flex flex-col space-y-1 shrink-0">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Flash">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerExhaust.png" class="w-4 h-4 rounded border border-hextech-borderDim" alt="Exhaust">
+        </div>
+        <div class="w-14 h-14 orb-slot blue-active overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="heart" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">SUPPORT</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Escolhendo...</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">Krug #NA1</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         CENTRO: ARCOS GRADUADOS HEXTECH & GRADE OFICIAL RIOT
+         ======================================================== -->
+    <section class="flex-1 max-w-3xl h-full flex flex-col items-center justify-between relative px-6">
+      
+      <!-- Arco Bússola Esquerda e Direita decorativos (como nos prints) -->
+      <div class="absolute left-0 top-12 bottom-16 w-8 compass-arc-left pointer-events-none opacity-40"></div>
+      <div class="absolute right-0 top-12 bottom-16 w-8 compass-arc-right pointer-events-none opacity-40"></div>
+
+      <!-- BARRA DE FILTROS POR ROTA & CAMPO DE BUSCA -->
+      <div class="w-full flex items-center justify-between pb-2 border-b border-hextech-borderDim shrink-0">
+        <!-- Ícones das Rotas Oficiais (Todos, Top, Jg, Mid, Bot, Sup) -->
+        <div class="flex items-center space-x-1">
+          <button onclick="setRoleFilter('ALL')" class="role-btn active glass-btn px-2.5 py-1 rounded text-xs flex items-center gap-1 font-semibold">
+            <span>TODOS</span>
+          </button>
+          <button onclick="setRoleFilter('TOP')" class="role-btn glass-btn px-2 py-1 rounded text-xs flex items-center gap-1 text-gray-400 hover:text-white" title="Top">
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+          </button>
+          <button onclick="setRoleFilter('JUNGLE')" class="role-btn glass-btn px-2 py-1 rounded text-xs flex items-center gap-1 text-gray-400 hover:text-white" title="Jungle">
+            <i data-lucide="crosshair" class="w-3.5 h-3.5"></i>
+          </button>
+          <button onclick="setRoleFilter('MID')" class="role-btn glass-btn px-2 py-1 rounded text-xs flex items-center gap-1 text-gray-400 hover:text-white" title="Mid">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          </button>
+          <button onclick="setRoleFilter('ADC')" class="role-btn glass-btn px-2 py-1 rounded text-xs flex items-center gap-1 text-gray-400 hover:text-white" title="Bottom">
+            <i data-lucide="target" class="w-3.5 h-3.5"></i>
+          </button>
+          <button onclick="setRoleFilter('SUPPORT')" class="role-btn glass-btn px-2 py-1 rounded text-xs flex items-center gap-1 text-gray-400 hover:text-white" title="Support">
+            <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Ordenação & Barra de Busca -->
+        <div class="flex items-center space-x-2">
+          <div class="flex items-center bg-black/70 border border-hextech-borderDim rounded px-2.5 py-1 focus-within:border-hextech-gold">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-gray-500 mr-1.5"></i>
+            <input 
+              id="champ-search-input"
+              type="text" 
+              placeholder="Buscar..." 
+              oninput="onSearchInput()"
+              class="bg-transparent text-xs text-white placeholder-gray-600 outline-none w-32"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- GRADE OFICIAL DE CAMPEÕES (DATA DRAGON) -->
+      <div id="champion-grid-container" class="flex-1 w-full grid grid-cols-6 sm:grid-cols-7 md:grid-cols-8 gap-2.5 overflow-y-auto py-3 px-2">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+
+      <!-- BOTÃO TRAPEZOIDAL CENTRAL: "BANIR" / "LOCK IN" -->
+      <div class="w-full flex justify-center pt-2 pb-1 shrink-0">
+        <button 
+          id="btn-lock-action" 
+          onclick="confirmAction()"
+          class="btn-lockin ban-mode w-72 h-11 font-title font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2"
+        >
+          <span id="btn-lock-text">BANIR</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         COLUNA DIREITA: ROSTER DO TIME VERMELHO (5 ORBES)
+         ========================================== -->
+    <section class="w-64 flex flex-col justify-around h-full py-1 shrink-0 space-y-2 items-end">
+      
+      <!-- Slot 0: TOP (Inimigo) -->
+      <div id="red-player-0" class="flex items-center space-x-3 flex-row-reverse space-x-reverse">
+        <div class="w-14 h-14 orb-slot red-slot overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="shield" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight text-right truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">TOP</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Inimigo 1</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">DariusMain</div>
+        </div>
+      </div>
+
+      <!-- Slot 1: JUNGLE (Inimigo) -->
+      <div id="red-player-1" class="flex items-center space-x-3 flex-row-reverse space-x-reverse">
+        <div class="w-14 h-14 orb-slot red-slot overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="crosshair" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight text-right truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">JUNGLE</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Inimigo 2</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">LeeSinKing</div>
+        </div>
+      </div>
+
+      <!-- Slot 2: MID (Inimigo) -->
+      <div id="red-player-2" class="flex items-center space-x-3 flex-row-reverse space-x-reverse">
+        <div class="w-14 h-14 orb-slot red-slot overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="sparkles" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight text-right truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">MID</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Inimigo 3</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">VexMaster</div>
+        </div>
+      </div>
+
+      <!-- Slot 3: BOTTOM (Inimigo) -->
+      <div id="red-player-3" class="flex items-center space-x-3 flex-row-reverse space-x-reverse">
+        <div class="w-14 h-14 orb-slot red-slot overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="target" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight text-right truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">BOTTOM</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Inimigo 4</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">CaitlynSniper</div>
+        </div>
+      </div>
+
+      <!-- Slot 4: SUPPORT (Inimigo) -->
+      <div id="red-player-4" class="flex items-center space-x-3 flex-row-reverse space-x-reverse">
+        <div class="w-14 h-14 orb-slot red-slot overflow-hidden flex items-center justify-center shrink-0">
+          <img class="w-full h-full object-cover hidden slot-avatar" src="" alt="Campeão">
+          <i data-lucide="heart" class="w-5 h-5 text-gray-600 slot-icon"></i>
+        </div>
+        <div class="leading-tight text-right truncate">
+          <div class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">SUPPORT</div>
+          <div class="text-xs font-semibold text-white truncate slot-champ-name">Inimigo 5</div>
+          <div class="text-[9px] text-[#6c7989] font-mono truncate">LeonaShield</div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       BARRA INFERIOR DO CLIENTE: CHAT TÁTICO & RUNAS/FEITIÇOS
+       ======================================================== -->
+  <footer class="h-12 border-t border-hextech-borderDim bg-[#010408]/95 px-6 flex items-center justify-between z-30 shrink-0 text-xs">
+    
+    <!-- Chat Tático Minimizado -->
+    <div class="flex items-center space-x-2 w-80">
+      <div class="flex items-center bg-black/80 border border-hextech-borderDim rounded px-2.5 py-1 w-full focus-within:border-hextech-gold">
+        <i data-lucide="message-square" class="w-3.5 h-3.5 text-gray-500 mr-2"></i>
+        <input 
+          id="chat-input"
+          type="text" 
+          placeholder="Conversar no saguão..." 
+          onkeydown="if(event.key === 'Enter') sendChatMessage()"
+          class="bg-transparent text-[11px] text-white placeholder-gray-600 outline-none w-full"
+        >
+      </div>
+    </div>
+
+    <!-- Campeão Selecionado & Status Macro -->
+    <div class="flex items-center space-x-2 text-[11px] text-gray-400">
+      <span class="text-hextech-gold font-bold">Foco:</span>
+      <span id="footer-champ-info" class="text-white font-semibold">Akali • O Assassino Renegado</span>
+    </div>
+
+    <!-- Feitiços de Invocador & Botão Sair -->
+    <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-1 border border-hextech-borderDim rounded p-1 bg-black/60">
+        <img onclick="selectSummonerSpell(1)" src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerFlash.png" class="w-6 h-6 rounded cursor-pointer hover:border border-hextech-gold" alt="Flash" title="Alterar D">
+        <img onclick="selectSummonerSpell(2)" src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/spell/SummonerDot.png" class="w-6 h-6 rounded cursor-pointer hover:border border-hextech-gold" alt="Ignite" title="Alterar F">
+      </div>
+
+      <a href="index.html" class="glass-btn px-4 py-1.5 rounded font-bold uppercase tracking-wider text-[11px] text-gray-300 hover:text-white hover:border-hextech-redTeam">
+        SAIR
+      </a>
+    </div>
+
+  </footer>
+
+  <!-- ========================================================
+       MODAL CINEMATOGRÁFICO DE CORTE VERTICAL DE BANIMENTO
+       (Wallpaper em máscara circular ampliado cortado verticalmente)
+       ======================================================== -->
+  <div id="ban-cinematic-modal" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/94 backdrop-blur-lg hidden transition-opacity duration-300">
+    <div class="relative flex flex-col items-center px-4">
+      
+      <!-- Subtítulo Superior -->
+      <div id="slash-subtitle" class="text-xs font-mono uppercase tracking-[0.3em] text-hextech-banRed mb-5 font-extrabold flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-hextech-banRed animate-ping"></span>
+        BANIMENTO CONFIRMADO
+      </div>
+
+      <!-- Container Circular Ampliado com o Wallpaper e o Corte Vertical -->
+      <div id="slash-circle-box" class="slash-circle-wrapper">
+        <!-- Metade Esquerda com Imagem e Clip-Path 0-50% -->
+        <div class="slash-slice slash-slice-left">
+          <img id="slash-img-left" src="" alt="Splash Ban Left" class="slash-full-img">
+        </div>
+        <!-- Metade Direita com Imagem e Clip-Path 50%-100% -->
+        <div class="slash-slice slash-slice-right">
+          <img id="slash-img-right" src="" alt="Splash Ban Right" class="slash-full-img">
+        </div>
+        <!-- Linha Laser de Corte Vertical -->
+        <div class="slash-laser"></div>
+        <!-- Símbolo Oficial de Ban Vermelho -->
+        <div class="ban-slash-icon"></div>
+      </div>
+
+      <!-- Nome do Campeão Cortado -->
+      <h3 id="slash-champ-title" class="font-title text-3xl md:text-4xl font-black uppercase tracking-widest text-white mt-5">
+        AKALI
+      </h3>
+      <p id="slash-champ-sub" class="text-xs md:text-sm text-gray-400 font-mono mt-1">Removido da arena tática</p>
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÃO TOAST TÁTICA -->
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 bg-hextech-surface border border-hextech-gold text-white text-xs px-4 py-2 rounded opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+    <i data-lucide="info" class="w-4 h-4 text-hextech-gold"></i>
+    <span id="toast-message">Ordem executada.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // ==========================================
+    // BASE DE DADOS COMPLETA (RIOT DATA DRAGON)
+    // ==========================================
+    const championDatabase = [
+      { id: 'Aatrox', name: 'Aatrox', role: 'TOP', title: 'A Espada Darkin' },
+      { id: 'Ahri', name: 'Ahri', role: 'MID', title: 'A Raposa de Nove Caudas' },
+      { id: 'Akali', name: 'Akali', role: 'MID', title: 'O Assassino Renegado' },
+      { id: 'Akshan', name: 'Akshan', role: 'MID', title: 'O Sentinela Rebelde' },
+      { id: 'Alistar', name: 'Alistar', role: 'SUPPORT', title: 'O Minotauro' },
+      { id: 'Ambessa', name: 'Ambessa', role: 'TOP', title: 'Matriarca da Guerra' },
+      { id: 'Amumu', name: 'Amumu', role: 'JUNGLE', title: 'A Múmia Triste' },
+      { id: 'Anivia', name: 'Anivia', role: 'MID', title: 'A Criofênix' },
+      { id: 'Annie', name: 'Annie', role: 'MID', title: 'A Criança Sombria' },
+      { id: 'Aphelios', name: 'Aphelios', role: 'ADC', title: 'A Arma dos Devotos' },
+      { id: 'Ashe', name: 'Ashe', role: 'ADC', title: 'A Arqueira do Gelo' },
+      { id: 'AurelionSol', name: 'Aurelion Sol', role: 'MID', title: 'O Forjador de Estrelas' },
+      { id: 'Aurora', name: 'Aurora', role: 'MID', title: 'A Bruxa dos Mundos' },
+      { id: 'Azir', name: 'Azir', role: 'MID', title: 'O Imperador das Areias' },
+      { id: 'Bard', name: 'Bardo', role: 'SUPPORT', title: 'O Protetor Errante' },
+      { id: 'Belveth', name: 'Bel\'Veth', role: 'JUNGLE', title: 'A Imperatriz do Vazio' },
+      { id: 'Blitzcrank', name: 'Blitzcrank', role: 'SUPPORT', title: 'O Golem de Vapor' },
+      { id: 'Brand', name: 'Brand', role: 'SUPPORT', title: 'A Vingança Flamejante' },
+      { id: 'Braum', name: 'Braum', role: 'SUPPORT', title: 'O Coração de Freljord' },
+      { id: 'Briar', name: 'Briar', role: 'JUNGLE', title: 'A Fome Contida' },
+      { id: 'Caitlyn', name: 'Caitlyn', role: 'ADC', title: 'A Xerife de Piltover' },
+      { id: 'Camille', name: 'Camille', role: 'TOP', title: 'A Sombra de Aço' },
+      { id: 'Darius', name: 'Darius', role: 'TOP', title: 'A Mão de Noxus' },
+      { id: 'Diana', name: 'Diana', role: 'JUNGLE', title: 'O Escárnio da Lua' },
+      { id: 'Draven', name: 'Draven', role: 'ADC', title: 'O Carrasco de Noxus' },
+      { id: 'Ekko', name: 'Ekko', role: 'MID', title: 'O Rapaz do Tempo' },
+      { id: 'Ezreal', name: 'Ezreal', role: 'ADC', title: 'O Explorador Pródigo' },
+      { id: 'Fiora', name: 'Fiora', role: 'TOP', title: 'A Grande Duelista' },
+      { id: 'Jinx', name: 'Jinx', role: 'ADC', title: 'O Gatilho Desenfreado' },
+      { id: 'Kaisa', name: 'Kai\'Sa', role: 'ADC', title: 'A Filha do Vazio' },
+      { id: 'LeeSin', name: 'Lee Sin', role: 'JUNGLE', title: 'O Monge Cego' },
+      { id: 'Leona', name: 'Leona', role: 'SUPPORT', title: 'A Alvorada Radiante' },
+      { id: 'Lux', name: 'Lux', role: 'SUPPORT', title: 'A Dama da Luz' },
+      { id: 'Nami', name: 'Nami', role: 'SUPPORT', title: 'A Conjuradora das Marés' },
+      { id: 'Smolder', name: 'Smolder', role: 'ADC', title: 'O Herdeiro das Chamas' },
+      { id: 'Sylas', name: 'Sylas', role: 'MID', title: 'O Abjugado de Dregbourne' },
+      { id: 'Thresh', name: 'Thresh', role: 'SUPPORT', title: 'O Guardião das Correntes' },
+      { id: 'Vex', name: 'Vex', role: 'MID', title: 'A Melancólica' },
+      { id: 'Viego', name: 'Viego', role: 'JUNGLE', title: 'O Rei Destruído' },
+      { id: 'Volibear', name: 'Volibear', role: 'TOP', title: 'O Trovão Reluzente' },
+      { id: 'Warwick', name: 'Warwick', role: 'JUNGLE', title: 'A Fera de Zaun' }
+    ];
+
+    // ==========================================
+    // ESTADO DO DRAFT
+    // ==========================================
+    let currentPhase = 'BAN'; // 'BAN' ou 'PICK'
+    let selectedChampion = championDatabase[2]; // Akali por padrão
+    let currentRole = 'ALL';
+    let searchQuery = '';
+    let timerValue = 30;
+    let timerInterval = null;
+
+    const bannedChamps = new Set();
+    const blueBans = [];
+    const redBans = [];
+    const bluePicks = {};
+    const redPicks = {};
+
+    let currentTurnIndex = 0;
+    // Sequência de 10 bans alternados
+    const banTurnOrder = [
+      { team: 'AZUL', slot: 2, label: 'AZUL • SEU BANIMENTO', isPlayer: true },
+      { team: 'VERMELHO', slot: 0, label: 'VERMELHO • BAN 1', isPlayer: false },
+      { team: 'AZUL', slot: 0, label: 'AZUL • BAN 2', isPlayer: false },
+      { team: 'VERMELHO', slot: 1, label: 'VERMELHO • BAN 2', isPlayer: false },
+      { team: 'AZUL', slot: 1, label: 'AZUL • BAN 3', isPlayer: false },
+      { team: 'VERMELHO', slot: 2, label: 'VERMELHO • BAN 3', isPlayer: false },
+      { team: 'AZUL', slot: 3, label: 'AZUL • BAN 4', isPlayer: false },
+      { team: 'VERMELHO', slot: 3, label: 'VERMELHO • BAN 4', isPlayer: false },
+      { team: 'AZUL', slot: 4, label: 'AZUL • BAN 5', isPlayer: false },
+      { team: 'VERMELHO', slot: 4, label: 'VERMELHO • BAN 5', isPlayer: false }
+    ];
+
+    // ==========================================
+    // RENDERIZAÇÃO DA GRADE DE CAMPEÕES
+    // ==========================================
+    function renderChampionGrid() {
+      const container = document.getElementById('champion-grid-container');
+      container.innerHTML = '';
+
+      const filtered = championDatabase.filter(c => {
+        const matchesRole = (currentRole === 'ALL' || c.role === currentRole);
+        const matchesQuery = c.name.toLowerCase().includes(searchQuery) || c.id.toLowerCase().includes(searchQuery);
+        return matchesRole && matchesQuery;
+      });
+
+      filtered.forEach(champ => {
+        const isBanned = bannedChamps.has(champ.id);
+        const isSelected = selectedChampion && selectedChampion.id === champ.id;
+
+        const card = document.createElement('div');
+        card.className = `champ-card relative aspect-square rounded border ${
+          isSelected ? 'selected' : 'border-hextech-borderDim hover:border-hextech-border'
+        } ${isBanned ? 'is-banned' : 'cursor-pointer'} bg-black/70 overflow-hidden flex flex-col justify-end`;
+
+        card.onclick = () => {
+          if (!isBanned) pickSelectChampion(champ);
+        };
+
+        card.innerHTML = `
+          <img 
+            src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/champion/${champ.id}.png" 
+            alt="${champ.name}" 
+            class="absolute inset-0 w-full h-full object-cover"
+          >
+          ${isBanned ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-hextech-banRed font-bold text-xl">✕</div>' : ''}
+          <div class="relative bg-gradient-to-t from-black via-black/80 to-transparent py-0.5 px-1 text-center">
+            <span class="text-[9px] font-semibold text-white truncate block font-sans">${champ.name}</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function pickSelectChampion(champ) {
+      selectedChampion = champ;
+      document.getElementById('footer-champ-info').innerText = `${champ.name} • ${champ.title}`;
+      
+      // Wallpaper de fundo suave
+      document.getElementById('bg-splash-art').src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champ.id}_0.jpg`;
+      
+      // Atualiza visualização no slot do jogador se for a vez dele
+      const mySlotAvatar = document.querySelector('#blue-player-2 .slot-avatar');
+      const mySlotIcon = document.querySelector('#blue-player-2 .slot-icon');
+      const mySlotName = document.querySelector('#blue-player-2 .slot-champ-name');
+
+      mySlotAvatar.src = `https://ddragon.leagueoflegends.com/cdn/16.21.1/img/champion/${champ.id}.png`;
+      mySlotAvatar.classList.remove('hidden');
+      if (mySlotIcon) mySlotIcon.classList.add('hidden');
+      mySlotName.innerText = champ.name;
+
+      renderChampionGrid();
+    }
+
+    // ==========================================
+    // EXECUÇÃO DE AÇÃO (BAN OU PICK)
+    // ==========================================
+    function confirmAction() {
+      if (!selectedChampion) {
+        showToast('Selecione um campeão primeiro!');
+        return;
+      }
+
+      if (bannedChamps.has(selectedChampion.id)) {
+        showToast('Este campeão já foi banido!');
+        return;
+      }
+
+      if (currentPhase === 'BAN') {
+        executeBan(selectedChampion);
+      } else {
+        executePick(selectedChampion);
+      }
+    }
+
+    // ==========================================
+    // ANIMAÇÃO DE BANIMENTO: CORTE VERTICAL
+    // ==========================================
+    function executeBan(champ) {
+      bannedChamps.add(champ.id);
+      const turn = banTurnOrder[currentTurnIndex];
+
+      if (turn.team === 'AZUL') {
+        blueBans.push(champ);
+        updateTopBans('blue', blueBans);
+      } else {
+        redBans.push(champ);
+        updateTopBans('red', redBans);
+      }
+
+      // Dispara o corte vertical cinematográfico no wallpaper circular
+      triggerSlashAnimation(champ);
+
+      // Re-renderiza a grade de campeões
+      renderChampionGrid();
+
+      // Próximo turno
+      currentTurnIndex++;
+      resetTimer();
+
+      if (currentTurnIndex < banTurnOrder.length) {
+        updateTurnDisplay();
+      } else {
+        // Transição para a Fase de Escolha
+        setTimeout(() => {
+          transitionToPickPhase();
+        }, 1800);
+      }
+    }
+
+    function triggerSlashAnimation(champ) {
+      const modal = document.getElementById('ban-cinematic-modal');
+      const circleBox = document.getElementById('slash-circle-box');
+      const leftImg = document.getElementById('slash-img-left');
+      const rightImg = document.getElementById('slash-img-right');
+      const title = document.getElementById('slash-champ-title');
+      const subtitle = document.getElementById('slash-subtitle');
+
+      const splashUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champ.id}_0.jpg`;
+      leftImg.src = splashUrl;
+      rightImg.src = splashUrl;
+      title.innerText = champ.name;
+      subtitle.innerText = `BANIMENTO CONFIRMADO • ${champ.title.toUpperCase()}`;
+
+      // Reset de estado antes de abrir o modal
+      circleBox.classList.remove('is-slashed');
+      modal.classList.remove('hidden');
+
+      // Executa o corte vertical com pequeno delay de impacto
+      setTimeout(() => {
+        circleBox.classList.add('is-slashed');
+      }, 150);
+
+      // Fecha o modal após a animação de impacto
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        circleBox.classList.remove('is-slashed');
+      }, 2200);
+    }
+
+    function updateTopBans(team, bansList) {
+      const container = document.getElementById(`top-bans-${team}`);
+      const slots = container.children;
+
+      bansList.forEach((c, idx) => {
+        if (slots[idx]) {
+          slots[idx].innerHTML = `
+            <img src="https://ddragon.leagueoflegends.com/cdn/16.21.1/img/champion/${c.id}.png" 
+                 class="w-full h-full object-cover filter grayscale contrast-125 brightness-50">
+          `;
+          slots[idx].classList.add('filled');
+        }
+      });
+    }
+
+    function updateTurnDisplay() {
+      const turn = banTurnOrder[currentTurnIndex];
+      const title = document.getElementById('phase-title');
+      const progressBar = document.getElementById('phase-progress-bar');
+      const btnText = document.getElementById('btn-lock-text');
+
+      if (turn.team === 'AZUL') {
+        title.innerText = turn.isPlayer ? 'BANA UM CAMPEÃO!' : `TIME AZUL ESTÁ BANINDO...`;
+        title.className = 'font-title text-base font-extrabold uppercase tracking-widest text-white';
+        progressBar.className = 'h-full bg-gradient-to-r from-hextech-banRed to-[#ff6b7e] transition-all duration-1000 w-full';
+      } else {
+        title.innerText = 'TIME INIMIGO ESTÁ BANINDO...';
+        title.className = 'font-title text-base font-extrabold uppercase tracking-widest text-hextech-redTeam';
+        progressBar.className = 'h-full bg-gradient-to-r from-hextech-redTeam to-[#94172c] transition-all duration-1000 w-full';
+      }
+    }
+
+    // ==========================================
+    // TRANSIÇÃO PARA A FASE DE ESCOLHA (PICKS)
+    // ==========================================
+    function transitionToPickPhase() {
+      currentPhase = 'PICK';
+      const title = document.getElementById('phase-title');
+      title.innerText = 'SELECIONE O SEU CAMPEÃO!';
+      title.className = 'font-title text-base font-extrabold uppercase tracking-widest text-[#0ac8b9]';
+
+      const btn = document.getElementById('btn-lock-action');
+      btn.className = 'btn-lockin pick-mode w-72 h-11 font-title font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2';
+      document.getElementById('btn-lock-text').innerText = 'CONFIRMAR ESCOLHA (LOCK IN)';
+
+      const progressBar = document.getElementById('phase-progress-bar');
+      progressBar.className = 'h-full bg-gradient-to-r from-hextech-blueTeam to-[#00f0ff] transition-all duration-1000 w-full';
+
+      showToast('Fase de Bans finalizada! Início da seleção de campeões.');
+    }
+
+    function executePick(champ) {
+      showToast(`Campeão confirmado: ${champ.name}! Preparando tabuleiro...`);
+      
+      const mySlotAvatar = document.querySelector('#blue-player-2 .slot-avatar');
+      mySlotAvatar.src = `https://ddragon.leagueoflegends.com/cdn/16.21.1/img/champion/${champ.id}.png`;
+      mySlotAvatar.classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2000);
+    }
+
+    // ==========================================
+    // SIMULAÇÃO AUTOMÁTICA DE BOT
+    // ==========================================
+    function autoAdvanceBot() {
+      const available = championDatabase.filter(c => !bannedChamps.has(c.id));
+      if (available.length > 0) {
+        const randomPick = available[Math.floor(Math.random() * available.length)];
+        pickSelectChampion(randomPick);
+        confirmAction();
+      }
+    }
+
+    // ==========================================
+    // CRONÔMETRO
+    // ==========================================
+    function startTimer() {
+      timerValue = 30;
+      clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        timerValue--;
+        document.getElementById('turn-timer-num').innerText = timerValue < 10 ? `0${timerValue}` : timerValue;
+
+        const perc = (timerValue / 30) * 100;
+        document.getElementById('phase-progress-bar').style.width = `${perc}%`;
+
+        if (timerValue <= 0) {
+          autoAdvanceBot();
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      timerValue = 30;
+      document.getElementById('turn-timer-num').innerText = '30';
+      document.getElementById('phase-progress-bar').style.width = '100%';
+    }
+
+    // ==========================================
+    // FILTROS & BUSCA
+    // ==========================================
+    function setRoleFilter(role) {
+      currentRole = role;
+      document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('active', 'text-white');
+        btn.classList.add('text-gray-400');
+      });
+      event.currentTarget.classList.add('active', 'text-white');
+      renderChampionGrid();
+    }
+
+    function onSearchInput() {
+      searchQuery = document.getElementById('champ-search-input').value.toLowerCase().trim();
+      renderChampionGrid();
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      if (!input.value.trim()) return;
+      showToast(`Chat: ${input.value}`);
+      input.value = '';
+    }
+
+    function selectSummonerSpell(index) {
+      showToast(`Configurando feitiço de invocador ${index === 1 ? 'D' : 'F'}`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2200);
+    }
+
+    // ==========================================
+    // INICIALIZAÇÃO
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      renderChampionGrid();
+      pickSelectChampion(championDatabase[2]); // Akali
+      startTimer();
+    });
+  </script>
+</body>
+</html>

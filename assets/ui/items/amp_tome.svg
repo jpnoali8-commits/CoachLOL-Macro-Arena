@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="Icone de reserva de amp_tome">
+ <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#422143"/><stop offset="1" stop-color="#050810"/></linearGradient><radialGradient id="glow" cx=".35" cy=".3" r=".8"><stop stop-color="#f1f3d6"/><stop offset=".25" stop-color="#d17de5"/><stop offset="1" stop-color="#422143"/></radialGradient></defs>
+ <rect width="48" height="48" rx="5" fill="url(#g)" stroke="#d17de5" stroke-width="1"/>
+ <circle cx="15" cy="12" r="17" fill="#d17de5" fill-opacity=".10"/>
+ <path d="M6 8q11-6 18 0 8-6 18 0v32q-12-5-18 0-8-5-18 0Z" fill="url(#glow)" stroke="#fff0cf" stroke-width="2"/><path d="M24 8v32" stroke="#fff" stroke-width="1.5"/></svg>
