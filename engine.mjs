@@ -1985,8 +1985,9 @@ export class Arena {
  addWard(team,owner,point,type='stealth'){
   const u=this.units.find(v=>v.id===owner&&v.team===team);
   if(!u||u.hp<=0||!this.walkable(point.x,point.y)||this.mapDistance(u,point)>(type==='farsight'?ITEM_REMAINDER_RULES_V453_DEV69_B7.farsight.range:625))return {ok:false,reason:'Posição fora de alcance ou bloqueada.'};
-  if(u.champ==='Fiddlesticks'&&type==='stealth'&&!(u.role==='SUP'&&u.supportQuest>=400))type='effigy';
+  if(u.champ==='Fiddlesticks'&&type==='stealth')type='effigy';
   if(type==='effigy'&&(u.champ!=='Fiddlesticks'||u.trinket!=='effigy'))return {ok:false,reason:'efigie_exclusiva'};
+  if(type==='support'&&!(u.role==='SUP'&&u.supportQuest>=400))return {ok:false,reason:'visao_suporte_indisponivel'};
   if(type==='stealth'&&u.role==='SUP'&&u.supportQuest>=400)type='support';
   if(type==='stealth'&&['oracle','farsight','effigy'].includes(u.trinket))return {ok:false,reason:'Troque o trinket na fonte para usar ward amarela.'};
   if(type==='farsight'&&u.trinket!=='farsight')return {ok:false,reason:'Equipe o trinket Sentinela Azul na fonte.'};
@@ -1997,8 +1998,10 @@ export class Arena {
    u.controlWardStock--;
    const slot=u.items.indexOf('ward');if(slot>=0)u.items.splice(slot,1);
   }else{
-   if(u.wardCharges<1)return {ok:false,reason:'Sem cargas de ward.'};
-   u.wardCharges--;
+   const dedicated=type==='support'&&u.champ==='Fiddlesticks';
+   if((dedicated?u.supportVisionChargesV453Dev69C:u.wardCharges||0)<1)return {ok:false,reason:'Sem cargas de ward.'};
+   if(dedicated)u.supportVisionChargesV453Dev69C--;
+   else u.wardCharges--;
    const max=type==='effigy'?Infinity:WARD_RULES_2026[type==='farsight'?'farsight':'stealth'].limit;
    const existing=this.wards.filter(w=>w.owner===owner&&w.type===type).sort((a,b)=>a.createdAt-b.createdAt);
    if(existing.length>=max){const removed=new Set(existing.slice(0,existing.length-max+1));this.wards=this.wards.filter(w=>!removed.has(w));}
@@ -2663,7 +2666,7 @@ export class Arena {
   if(order.kind==='ward'){
    const p=order.destination;
    if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<0||p.x>1||p.y<0||p.y>1)return {ok:false,reason:'Clique em um ponto válido do mapa para wardar.'};
-   if((order.wardType==='control'?(u.controlWardStock||0):u.wardCharges)<=0)return {ok:false,reason:'Este campeão está sem o tipo de sentinela escolhido.'};
+   if((order.wardType==='control'?(u.controlWardStock||0):order.wardType==='support'&&u.champ==='Fiddlesticks'?(u.supportVisionChargesV453Dev69C||0):u.wardCharges)<=0)return {ok:false,reason:'Este campeão está sem o tipo de sentinela escolhido.'};
    if(!this.walkable(p.x,p.y))return {ok:false,reason:'Ponto de sentinela bloqueado pela máscara.'};
    const path=this.mapDistance(u,p)>625?this.findPath(u,p):[];
    if(path===null)return {ok:false,reason:'Não existe um caminho até o ponto da sentinela.'};
@@ -4646,9 +4649,13 @@ export class Arena {
   if(u.role!=='SUP'||!u.items.some(id=>id==='support_atlas'||id==='support_compass'||id==='support_bounty'))return false;
   if(u.supportQuest>=800)return false;
   const before=u.supportQuest;u.supportQuest=Math.min(800,before+amount);
-  if(before<400&&u.supportQuest>=400){u.items=u.items.map(id=>id==='support_atlas'?'support_compass':id);u.wardCharges=Math.max(u.wardCharges,3);
+  if(before<400&&u.supportQuest>=400){u.items=u.items.map(id=>id==='support_atlas'?'support_compass':id);
+   if(u.champ==='Fiddlesticks')u.supportVisionChargesV453Dev69C=Math.max(u.supportVisionChargesV453Dev69C||0,3);
+   else u.wardCharges=Math.max(u.wardCharges,3);
    this.event(`${u.champ}: Atlas → Bússola Rúnica. 3 wards disponíveis.`,u.team,'support_evolve',u.id);}
-  if(before<800&&u.supportQuest>=800){u.items=u.items.map(id=>id==='support_compass'?'support_bounty':id);u.wardCharges=Math.max(u.wardCharges,4);
+  if(before<800&&u.supportQuest>=800){u.items=u.items.map(id=>id==='support_compass'?'support_bounty':id);
+   if(u.champ==='Fiddlesticks')u.supportVisionChargesV453Dev69C=Math.max(u.supportVisionChargesV453Dev69C||0,4);
+   else u.wardCharges=Math.max(u.wardCharges,4);
    this.event(`${u.champ}: Recompensa dos Mundos. 4 wards disponíveis.`,u.team,'support_evolve',u.id);}
   return true;
  }
@@ -5496,7 +5503,7 @@ export class Arena {
   }
  }
  reviveAndMove(){if(this.phase==='preparation')return;for(const u of this.units){
-  if(u.hp<=0){if(this.gameTime>=u.deadUntil){const p=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.skillCd=0;u.recallProgress=0;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.manualMoveHold=false;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.laneFollowPath=[];this.event(`${u.champ} renasceu na fonte. Loja disponível.`,u.team,'respawn',u.id)}else continue;}
+  if(u.hp<=0){if(this.gameTime>=u.deadUntil){const p=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.skillCd=0;u.recallProgress=0;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400){if(u.champ==='Fiddlesticks')u.supportVisionChargesV453Dev69C=Math.max(u.supportVisionChargesV453Dev69C||0,u.supportQuest>=800?4:3);else u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);}u.manualMoveHold=false;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.laneFollowPath=[];this.event(`${u.champ} renasceu na fonte. Loja disponível.`,u.team,'respawn',u.id)}else continue;}
   const ocean=this.elementalStatsV452d3(u).oceanMissingHealthFraction;
   // Permanent Ocean drakes heal a percentage of MISSING HP every 5 simulated seconds.
   if(ocean&&this.gameTime%5===0)this.effectResolverV41().heal(u,(u.maxHp-u.hp)*ocean,u);u.mana=clamp(u.mana+1.1,0,u.maxMana);if(u.shield>0)u.shield=Math.max(0,u.shield-.3);
@@ -5532,7 +5539,7 @@ export class Arena {
    const p=this.map.objects.find(q=>q.id===u.team+'_spawn_shop');
    if(this.gameTime-u.lastHitAt<=6){u.recallProgress=0;continue}
    u.recallProgress=(u.recallProgress||0)+1;
-   if(u.recallProgress>=(this.hasBaronV452(u)?4:8)){u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.recallProgress=0;if(u.role==='MID')u.b7MidQuestRecallBlockUntil=this.gameTime+12;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.manualMoveHold=false;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.laneFollowPath=[];this.event(`${u.champ} completou recall. Loja disponível na fonte.`,u.team,'recall_complete',u.id)}
+   if(u.recallProgress>=(this.hasBaronV452(u)?4:8)){u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.recallProgress=0;if(u.role==='MID')u.b7MidQuestRecallBlockUntil=this.gameTime+12;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.manualMoveHold=false;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400){if(u.champ==='Fiddlesticks')u.supportVisionChargesV453Dev69C=Math.max(u.supportVisionChargesV453Dev69C||0,u.supportQuest>=800?4:3);else u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);}u.laneFollowPath=[];this.event(`${u.champ} completou recall. Loja disponível na fonte.`,u.team,'recall_complete',u.id)}
    continue;
   }
   if(o.kind==='attack_herald'){
@@ -5548,7 +5555,7 @@ export class Arena {
   }
   if(o.kind==='ward'){
    const goal=o.destination;
-   if(!goal||(o.wardType==='control'?(u.controlWardStock||0):u.wardCharges)<=0){u.order={kind:'auto',spell:'none'};continue;}
+   if(!goal||(o.wardType==='control'?(u.controlWardStock||0):o.wardType==='support'&&u.champ==='Fiddlesticks'?(u.supportVisionChargesV453Dev69C||0):u.wardCharges)<=0){u.order={kind:'auto',spell:'none'};continue;}
    if(this.mapDistance(u,goal)<=625){
     this.addWard(u.team,u.id,goal,o.wardType||'stealth');
     u.order={kind:'hold',spell:'none'};u.explicitOrder=true;u.autoFollow=false;
