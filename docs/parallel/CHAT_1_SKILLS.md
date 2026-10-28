@@ -1,3 +1,5 @@
+> **Instrução vigente dev69:** Leia [FAST_LANE_DEV69.md](FAST_LANE_DEV69.md). Um PR por lote de skills, testes focalizados durante desenvolvimento, nenhum arquivo de browser/versionamento; integrar base mais recente sem sobrescrever mudanças do integrador. Não reimplementar PR #6 (já mesclado).
+
 # Chat 1 — Especialista de campeões / Skills
 
 **Branch exclusiva:** `dev69/skills`. **Ponto de partida obrigatório:** dev68 real, após STATUS_DEV69.md = SOURCE_READY. A base SOURCE_READY contém 1.624 arquivos de fonte e permite desenvolvimento e testes de lógica, mas não certificação visual ou release sem os assets binários.
