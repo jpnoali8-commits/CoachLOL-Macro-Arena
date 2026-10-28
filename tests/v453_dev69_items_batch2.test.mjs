@@ -21,7 +21,7 @@ test('três itens SR 26.21: ID, preço, gold.sell, recipe, 3 cooldowns e taxonom
   assert.equal(ITEM_EFFECTS_V43[id].cooldown,cd);
   assert.equal(sr.rows[riot].localId,id);assert.equal(sr.rows[riot].status,'engine_playable');
  }
- assert.equal(sr.counts.normalPlayable,122);assert.equal(sr.counts.referenceOnly,80);
+ assert.equal(sr.counts.normalPlayable,137);assert.equal(sr.counts.referenceOnly,65);
 });
 test('Barreira Verdejante: escudo impede 1 spell e CC, AA não bloqueado',()=>{
  const a=make(),v=hero(a),e=hero(a,'red');v.items=[];v.gold=5000;

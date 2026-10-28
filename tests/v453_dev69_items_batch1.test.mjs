@@ -23,7 +23,7 @@ check('Auditoria estática 16.21.1: preço, gold.sell, atributos, receita e IDs 
  const c=catalog.find(x=>x.id==='cull'),l=catalog.find(x=>x.id==='lord_dominiks_regards');
  assert.equal(c.stats.ad,7);assert.equal(l.stats.ad,35);assert.equal(l.stats.critChance,25);assert.equal(l.stats.armorPenPercent,35);
  assert.equal(ITEM_EFFECTS_V43.cull.healOnHit,3);assert.equal(ITEM_EFFECTS_V43.lord_dominiks_regards.maxBonusFraction,.15);
- assert.equal(sr.counts.normalPlayable,122);assert.equal(sr.counts.referenceOnly,80);
+ assert.equal(sr.counts.normalPlayable,137);assert.equal(sr.counts.referenceOnly,65);
 });
 check('Abatedora: ataque válido cura 3; spell e aliado não disparam',()=>{
  const a=create(),u=champ(a);u.items=[];u.gold=3000;assert.equal(a.buy(u.team,u.id,'cull'),true);

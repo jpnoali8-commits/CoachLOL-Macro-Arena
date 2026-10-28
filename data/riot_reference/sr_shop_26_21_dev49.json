@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 122,
-    "referenceOnly": 80,
-    "localCatalog": 125
+    "normalPlayable": 137,
+    "referenceOnly": 65,
+    "localCatalog": 140
   },
   "rows": {
     "1001": {
@@ -1392,11 +1392,11 @@
         "CriticalStrike"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hexoptik_c44",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Magnificação</passive><br>Causa até 10% de dano a mais com Ataques com base na distância que seu inimigo está de você (dano máximo a 500 de alcance).<br><br><passive>Mira Arcana</passive><br>Quando um Campeão a quem você tenha causado dano nos últimos 3s for abatido, recebe 100 de Alcance de Ataque adicional por 8s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_hexoptik_c44",
+      "recipeVerified": true
     },
     "2524": {
       "id": "2524",
@@ -1710,11 +1710,11 @@
         "AttackSpeed"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "yun_tal_wildarrows",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>45%</attention> de Velocidade de Ataque<br><attention>0%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Praticar e Matar</passive><br>Ao Atacar, recebe Chance de Acerto Crítico permanentemente, até 25%.<br><br><passive>Agitação</passive><br>Ao Atacar um Campeão inimigo, recebe 30% de Velocidade de Ataque por 6s (30s de Tempo de Recarga). <br>Ataques reduzem esse Tempo de Recarga em 1s, e Acertos Críticos em 2s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_yun_tal_wildarrows",
+      "recipeVerified": true
     },
     "3033": {
       "id": "3033",
@@ -2187,11 +2187,11 @@
         "LifeSteal"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "bloodthirster",
       "passiveOrActiveDescription": "<mainText><stats><attention>80</attention> de Dano de Ataque<br><attention>15%</attention> de Roubo de Vida</stats><br><br><passive>Ícor-escudo</passive><br>Converte a cura excedente do Roubo de Vida em um <shield>Escudo</shield>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_bloodthirster",
+      "recipeVerified": true
     },
     "3073": {
       "id": "3073",
@@ -2240,11 +2240,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "ravenous_hydra",
       "passiveOrActiveDescription": "<mainText><stats><attention>65</attention> de Dano de Ataque<br><attention>15</attention> de Aceleração de Habilidade<br><attention>12%</attention> de Roubo de Vida</stats><br><br><passive>Fenda</passive><br>Ataques causam <physicalDamage>Dano Físico</physicalDamage> a inimigos próximos.<active>Crescente Raivosa</active><br>Causa <physicalDamage>Dano Físico</physicalDamage> a inimigos ao seu redor. <br>Seu Roubo de Vida se aplica a esse dano.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_ravenous_hydra",
+      "recipeVerified": true
     },
     "3075": {
       "id": "3075",
@@ -2314,11 +2314,11 @@
         "OnHit"
       ],
       "tier": "epic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "tiamat",
       "passiveOrActiveDescription": "<mainText><stats><attention>25</attention> de Dano de Ataque</stats><br><br><passive>Fenda</passive><br>Ataques causam <physicalDamage>Dano Físico</physicalDamage> a inimigos próximos.<br><active>Crescente</active><br>Causa <physicalDamage>Dano Físico</physicalDamage> a inimigos ao seu redor.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_tiamat",
+      "recipeVerified": true
     },
     "3078": {
       "id": "3078",
@@ -2437,11 +2437,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "runaans_hurricane",
       "passiveOrActiveDescription": "<mainText><stats><attention>40%</attention> de Velocidade de Ataque<br><attention>25%</attention> de Chance de Acerto Crítico<br><attention>5%</attention> de Velocidade de Movimento</stats><br><br><passive>Fúria do Vento</passive><br>Ataques disparam projéteis em 2 inimigos adicionais próximos ao alvo.<br>Cada projétil causa <physicalDamage>Dano Físico</physicalDamage> e aplica efeitos <OnHit>ao contato</OnHit>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_runaans_hurricane",
+      "recipeVerified": true
     },
     "3086": {
       "id": "3086",
@@ -3358,11 +3358,11 @@
         "OnHit"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "blade_of_ruined_king",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>25%</attention> de Velocidade de Ataque<br><attention>10%</attention> de Roubo de Vida</stats><br><br><passive>Gume da Névoa</passive><br>Ataques causam <physicalDamage>uma porcentagem</physicalDamage> da Vida atual do inimigo como <physicalDamage>Dano Físico adicional</physicalDamage> <OnHit>ao contato</OnHit>.<br><br><passive>Sombras da Tirania</passive><br>Atacar um Campeão 3 vezes causa 30% de <status>Lentidão</status> por 1s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_blade_of_ruined_king",
+      "recipeVerified": true
     },
     "3155": {
       "id": "3155",
@@ -3703,11 +3703,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hullbreaker",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>500</attention> de Vida<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Marujo</passive><br>Todo quinto Ataque contra Campeões e monstros épicos causa <physicalDamage>Dano Físico adicional</physicalDamage>, aumentado contra estruturas.<br><br><passive>Invasão Pirata</passive><br>Tropas de cerco e supertropas aliadas próximas recebem <scaleArmor>Armadura</scaleArmor> e <scaleMR>Resistência Mágica</scaleMR>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_hullbreaker",
+      "recipeVerified": true
     },
     "3190": {
       "id": "3190",
@@ -3810,11 +3810,11 @@
         "ArmorPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "terminus",
       "passiveOrActiveDescription": "<mainText><stats><attention>30</attention> de Dano de Ataque<br><attention>35%</attention> de Velocidade de Ataque</stats><br><br><passive>Sombra</passive><br>Ataques causam <magicDamage>0 de Dano Mágico adicional</magicDamage> <OnHit>ao contato</OnHit>.<br><br><passive>Justaposição</passive><br>Alterna entre <keywordMajor>Luz</keywordMajor> e <keywordMajor>Sombra</keywordMajor> ao atacar Campeões: <li>Ataques de <keywordMajor>Luz</keywordMajor> concedem <scaleArmor>Armadura</scaleArmor> e <scaleMR>Resistência Mágica</scaleMR> por 5s. <li>Ataques de <keywordMajor>Sombra</keywordMajor> concedem 10% de <scaleArmor>Penetração de Armadura</scaleArmor> e <scaleMR>Penetração Mágica</scaleMR> por 5s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_terminus",
+      "recipeVerified": true
     },
     "3330": {
       "id": "3330",
@@ -3945,11 +3945,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "essence_reaver",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>20</attention> de Aceleração de Habilidade<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Lâmina Arcana</passive><br>Após usar uma habilidade, seu próximo ataque causa <physicalDamage>Dano Físico adicional</physicalDamage> e concede <scaleMana>Mana</scaleMana> <OnHit>ao contato</OnHit>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_essence_reaver",
+      "recipeVerified": true
     },
     "3599": {
       "id": "3599",
@@ -4031,11 +4031,11 @@
         "OnHit"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "titanic_hydra",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>600</attention> de Vida</stats><br><br><passive>Fenda</passive><br>Ataques causam <physicalDamage>Dano Físico</physicalDamage> ao contato e atingem os inimigos atrás do alvo.<br><active>Crescente Titânica</active><br>Fortalece sua próxima <passive>Fenda</passive> para causar <physicalDamage>Dano Físico adicional</physicalDamage> <OnHit>ao contato</OnHit>, além de <physicalDamage>Dano Físico adicional</physicalDamage> aos inimigos atrás do alvo.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_titanic_hydra",
+      "recipeVerified": true
     },
     "3801": {
       "id": "3801",
@@ -4633,11 +4633,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "sundered_sky",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>400</attention> de Vida<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Golpe de Lumescudo</passive><br>Seu primeiro Ataque contra um Campeão causa <attention>Acerto Crítico</attention> e <healing>restaura Vida</healing>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_sundered_sky",
+      "recipeVerified": true
     },
     "6616": {
       "id": "6616",
@@ -4755,11 +4755,11 @@
         "Slow"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "stridebreaker",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>25%</attention> de Velocidade de Ataque<br><attention>450</attention> de Vida</stats><br><br><passive>Fenda</passive><br>Ataques causam <physicalDamage>Dano Físico</physicalDamage> a inimigos próximos.<br><active>Onda de Choque Estonteante</active><br>Causa <physicalDamage>Dano Físico</physicalDamage> e 35% de <status>Lentidão</status> a inimigos próximos.<br>Recebe <speed>35% de Velocidade de Movimento</speed> que decai ao longo do tempo a cada Campeão atingido por 3s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_stridebreaker",
+      "recipeVerified": true
     },
     "6653": {
       "id": "6653",
@@ -5098,11 +5098,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "eclipse",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Dano de Ataque<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Lua Sempre Crescente</passive><br>Atingir um Campeão com 2 Ataques ou Habilidades separados dentro de 2s concede ao usuário um <shield>Escudo</shield> por 2s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_eclipse",
+      "recipeVerified": true
     },
     "6694": {
       "id": "6694",
@@ -5217,11 +5217,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "profane_hydra",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>18</attention> de Letalidade<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Fenda</passive><br>Ataques causam <physicalDamage>Dano Físico</physicalDamage> a inimigos próximos.<br><br><active>Fenda Herege</active><br>Causa <physicalDamage>Dano Físico</physicalDamage> ao seu redor.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "batch3_profane_hydra",
+      "recipeVerified": true
     },
     "6699": {
       "id": "6699",

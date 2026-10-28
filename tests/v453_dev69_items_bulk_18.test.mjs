@@ -15,7 +15,7 @@ const test=(title,fn)=>{try{fn();count++;console.log('✓ BULK '+title)}catch(e)
 test('15 Riot items: IDs, exact prices/sales, recipes, available catalog statuses',()=>{
  const mapIds=new Map(catalog.filter(x=>x.riotId).map(x=>[String(x.riotId),x.id]));
  const known={'1011':'giants_belt','1018':'agility_cloak','1028':'ruby_crystal','1037':'pickaxe','1057':'negatron_cloak','1058':'needless_rod','2021':'tunneler','2508':'fated_ashes','3035':'last_whisper','3066':'winged_moonplate','3067':'kindlegem','3108':'fiendish_codex','3113':'aether_wisp','3123':'executioners_calling','3133':'caulfields_warhammer','3134':'serrated_dirk','3145':'hextech_alternator','3147':'haunting_guise','3155':'hexdrinker','3211':'spectres_cowl','6670':'noonquiver'};for(const [k,v] of Object.entries(known))mapIds.set(k,v);
- assert.equal(sr.counts.normalPlayable,122);assert.equal(sr.counts.referenceOnly,80);
+ assert.equal(sr.counts.normalPlayable,137);assert.equal(sr.counts.referenceOnly,65);
  for(const [id,local] of specs){const row=riot[id],item=catalog.find(i=>i.id===local);assert.ok(item,local);
   assert.equal(item.riotId,+id);assert.equal(item.cost,row.gold.total);assert.equal(officialSaleValueV453Dev60(local),row.gold.sell);
   assert.deepEqual(ITEM_RECIPES[local],(row.from||[]).map(x=>mapIds.get(x)),local+' components');
