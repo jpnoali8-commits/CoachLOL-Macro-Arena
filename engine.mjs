@@ -3183,6 +3183,10 @@ export class Arena {
   if(!(dealt>0&&target?.champ))return;
   if(attacker?.champ&&attacker.team!==target.team){
    target.lastChampionDamageAtV453Dev69B4=this.gameTime;attacker.combatUntil=Math.max(attacker.combatUntil||0,this.gameTime+6);
+   if(attacker.items?.includes('jaksho_the_protean')&&!sourceType.startsWith('item_')){
+    const p=attacker.jakshoCombatV453Dev69B4;
+    attacker.jakshoCombatV453Dev69B4=p?.last>=this.gameTime-5?{start:p.start,last:this.gameTime}:{start:this.gameTime,last:this.gameTime};
+   }
    if(target.items?.includes('jaksho_the_protean')){
     const state=target.jakshoCombatV453Dev69B4;
     target.jakshoCombatV453Dev69B4=state?.last>=this.gameTime-5?{start:state.start,last:this.gameTime}:{start:this.gameTime,last:this.gameTime};
@@ -5506,6 +5510,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
     target.deaths=(target.deaths||0)+1;
+    // Deferred damage must not spill into a champion's next life after respawn.
+    target.deathDanceQueueV453Dev69B4=[];
     // Dying places Annul on cooldown; never grant a fresh shield on respawn.
      const annul=this.itemAnnulSpecV453Dev69Batch2(target);
      if(annul){target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+annul.cooldown;
