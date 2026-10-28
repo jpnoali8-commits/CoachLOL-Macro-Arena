@@ -213,6 +213,9 @@ export const catalog=[
 {id:'navori_flickerblade',name:'Adagas Rápidas Navori',cost:2650,stats:{attackSpeedPct:40,critChance:25,movePercent:4},tags:['marksman','legendary','unique'],icon:'➶',riotId:6675},
 {id:'health_potion',name:'Poção de Vida',cost:50,stats:{},tags:['consumable','health'],icon:'♥',riotId:2003},
 {id:'refillable_potion',name:'Poção com Refil',cost:150,stats:{},tags:['consumable','health','unique'],icon:'♥',riotId:2031},
+// DEV69 / items batch 1 — Riot 16.21.1; individual effects resolved below.
+{id:'cull',name:'Abatedora',cost:450,stats:{ad:7},tags:['marksman','starter','unique'],icon:'⚔',riotId:1083},
+{id:'lord_dominiks_regards',name:'Lembranças do Lorde Dominik',cost:3300,stats:{ad:35,armorPenPercent:35,critChance:25},tags:['marksman','legendary','unique','fatality'],icon:'➶',riotId:3036},
 // DEV33 — checked SR 26.21 components and combat effects; does not certify full catalog parity.
 {id:'fiendish_codex',name:'Códice Demoníaco',cost:850,stats:{ap:25,abilityHaste:10},tags:['mage','epic'],icon:'◈',riotId:3108},
 {id:'nashors_tooth',name:"Dente de Na'Shor",cost:2900,stats:{ap:80,abilityHaste:15,attackSpeedPct:50},tags:['mage','legendary','unique'],icon:'✦',riotId:3115},
@@ -229,7 +232,7 @@ export const catalog=[
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -257,6 +260,7 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  rapid_firecannon:['zeal','scouts_slingshot'],navori_flickerblade:['zeal','dagger','dagger'],
  fiendish_codex:['amp_tome','glowing_mote'],nashors_tooth:['recurve_bow','blasting_wand','fiendish_codex'],
  mortal_reminder:['executioners_calling','last_whisper','agility_cloak'],
+ lord_dominiks_regards:['last_whisper','noonquiver'],
  morellonomicon:['oblivion_orb','blasting_wand','kindlegem'],
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
  /* DEV30_OFFICIAL_RECIPES_START */
@@ -329,6 +333,9 @@ export const RUNE_PAGES_V43=Object.freeze({
  resolve:Object.freeze({name:'Determinação · Aperto dos Mortos-Vivos',shards:{hp:65},keystone:'grasp',maturity:'prototype'})
 });
 export const ITEM_EFFECTS_V43=Object.freeze({
+ // DEV69: no guessed data: 1083/3036, SR patch 26.21, Data Dragon 16.21.1.
+ cull:{kind:'reap',healOnHit:3,goldPerMinion:1,maxMinions:100,questCompletionGold:350,maturity:'dev69_item_batch1'},
+ lord_dominiks_regards:{kind:'giant_slayer',maxBonusFraction:.15,maxBonusHealth:1500,maturity:'dev69_item_batch1'},
  blighting_jewel:{kind:'magic_penetration',value:13,maturity:'dev37_verified_stat'},
  seekers_armguard:{kind:'single_use_stasis',duration:2.5,maturity:'dev37_partial_active'},
  scouts_slingshot:{kind:'bullseye',damage:40,cooldown:40,attackReduction:1,maturity:'dev38_partial_damage_and_on_attack'},
@@ -2874,6 +2881,7 @@ export class Arena {
   // Buying a new proc item creates its own cooldown/charge state. A consumed
   // Scout's Slingshot cannot keep its proc active after upgrading into RFC.
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
+  if(itemId==='cull')u.cullMinionsV453Dev69=0;
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -3047,6 +3055,7 @@ export class Arena {
   if(itemId==='refillable_potion'){u.refillableChargesV453Dev32=0;u.potionHealingV453Dev32=null;}
   if(itemId==='seekers_armguard')u.armguardSpentV453Dev37=false;
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
+  if(itemId==='cull')u.cullMinionsV453Dev69=0;
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -4351,9 +4360,23 @@ export class Arena {
   if(commit){u.onHitStacks=stacks;u.lastAttackAt=this.gameTime;}
   return dmg;
  }
+  // DEV69: Additional HP, not champion level-growth HP, drives Giant Slayer.
+  // Current SR engine sources: items and the selected rune shard. Future health
+  // grants need explicit integration here; snapshots retain inventory/rune IDs.
+  bonusHealthForGiantSlayerV453Dev69(target){
+   if(!target?.champ)return 0;
+   const equipped=(target.items||[]).reduce((sum,id)=>sum+Math.max(0,catalog.find(i=>i.id===id)?.stats?.hp||0),0);
+   const rune=Math.max(0,RUNE_PAGES_V43[target.runePageV43||'none']?.shards?.hp||0);
+   return equipped+rune;
+  }
+  giantSlayerMultiplierV453Dev69(attacker,target){
+   if(!attacker?.champ||!target?.champ||attacker.team===target.team||!attacker.items?.includes('lord_dominiks_regards'))return 1;
+   const spec=ITEM_EFFECTS_V43.lord_dominiks_regards;
+   return 1+spec.maxBonusFraction*Math.min(1,this.bonusHealthForGiantSlayerV453Dev69(target)/spec.maxBonusHealth);
+  }
  predictBasicAttackDamageV452c(u,target,style='auto'){
   const raw=this.basicAttackPowerV452c(u,target,style);
-  const amount=raw;
+  const amount=raw*this.giantSlayerMultiplierV453Dev69(u,target);
   const resistance=target?.champ?this.elementalStatsV452d3(target).armor:target.armor||0;
   const penetrable=Math.max(-999,resistance*(1-(u.armorPenPercent||0)/100)-(u.lethality||0)-(u.armorPenFlat||0));
   const multiplier=penetrable>=0?100/(100+penetrable):2-100/(100-penetrable);
@@ -4688,6 +4711,11 @@ export class Arena {
    amount*=1+Math.min(.06,.02*Math.floor(elapsed));
    attacker.hauntingGuiseCombatV453Dev54={started,lastHit:this.gameTime};
  }
+  // DEV69: Giant Slayer applies only champion-authored physical/magic damage
+  // to opposing champions. It does not amplify true damage or reflected effects.
+  if(damageType!=='true'&&attacker?.champ&&target?.champ&&
+     !['item','rune','dot'].includes(sourceType)&&!sourceType.startsWith('item_'))
+   amount*=this.giantSlayerMultiplierV453Dev69(attacker,target);
  const derivedTarget=target.champ?this.elementalStatsV452d3(target):target;
  const cleaverDebuffV453Dev29=target.champ&&target.cleaverDebuffV453Dev29?.until>this.gameTime?target.cleaverDebuffV453Dev29:null;
  const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0);
@@ -4842,6 +4870,16 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     // V4.5.1: minions/turrets do not transfer a kill to a nearby champion.
     // Only the source of the actual killing hit earns CS and last-hit gold.
     if(hero){hero.cs++;const bounty=target.kind==='siege'?50:target.kind==='super'?55:target.kind==='caster'?14:20;const assigned=hero.role==='TOP'?'top':hero.role==='MID'?'mid':['SUP','ADC'].includes(hero.role)?'bot':null;const gained=assigned&&hero.level<3&&target.lane!==assigned?Math.round(bounty*.75):bounty;this.creditGoldV452d4Dev7(hero,gained,'minion');this.recordEconomyV43(hero,'minion',gained,target.kind);
+      // DEV69: Reap advances on the authoritative unique minion kill event.
+      // A dead minion cannot pay twice, even on replay or reconnect.
+      if(hero.items?.includes('cull')){
+       const spec=ITEM_EFFECTS_V43.cull,prior=Math.min(spec.maxMinions,Math.max(0,hero.cullMinionsV453Dev69||0));
+       if(prior<spec.maxMinions){
+        hero.cullMinionsV453Dev69=prior+1;
+        const bounty=spec.goldPerMinion+(hero.cullMinionsV453Dev69===spec.maxMinions?spec.questCompletionGold:0);
+        this.creditGoldV452d4Dev7(hero,bounty,'cull');this.recordEconomyV43(hero,'cull',bounty,'cull');
+       }
+      }
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
     target.deaths=(target.deaths||0)+1;
@@ -4871,6 +4909,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   const landedOnHitV453Dev40=Number.isFinite(amount)&&amount>0&&amount2>0&&['basic','ability_onhit_v453_dev40'].includes(sourceType)&&
      attacker?.champ&&target.team!==attacker.team&&!['tower','inhibitor','nexus'].includes(target.type);
   if(landedOnHitV453Dev40){
+   // Reap heals on each genuinely landed basic/on-hit attack, even if a shield
+   // absorbed HP damage; this grants no hit on structures, allies or immunities.
+   if(attacker.items?.includes('cull')&&(target?.champ||target?.kind||target?.monster))
+    this.effectResolverV41().heal(attacker,ITEM_EFFECTS_V43.cull.healOnHit,attacker);
    // Fury stacks only from BASIC attacks, not from opt-in on-hit spells.
    // Double procs cover the registered independent on-hit damage components.
    // This block never recursively invokes the on-hit dispatcher.
