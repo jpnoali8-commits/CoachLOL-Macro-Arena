@@ -2672,7 +2672,7 @@ export class Arena {
   if(!u.items?.includes('youmuus_ghostblade'))return {ok:false,reason:'Youmuu não equipada.'};
   const result=this.performActionV40({actorId:u.id,kind:'item',type:'youmuus_ghostblade',source:'active_item'});
   if(!result.ok)return result;
-  const ranged=u.range>.05;
+  const ranged=this.isRangedChampionV453Dev69Audit(u);
   u.youmuusSprintUntilV453Dev29=this.gameTime+(ranged?4:6);
   u.youmuusSprintRatioV453Dev29=ranged?.15:.20;
   this.event(`${u.champ} ativou Youmuu para acelerar.`,u.team,'item_active',u.id);
@@ -3247,7 +3247,7 @@ export class Arena {
   }
   if(target.hp<=0)return;
   if(ids.includes('blade_of_ruined_king')){
-   const b=rules.blade_of_ruined_king,ratio=u.range>.05?b.rangedCurrentHp:b.meleeCurrentHp;
+   const b=rules.blade_of_ruined_king,ratio=this.isRangedChampionV453Dev69Audit(u)?b.rangedCurrentHp:b.meleeCurrentHp;
    const raw=target.monster?Math.min(b.monsterCap,preHp*ratio):Math.max(1,preHp*ratio);
    this.damage(target,raw,u,'physical','item_bork_b3');
    if(target.champ){
@@ -3329,7 +3329,7 @@ export class Arena {
      !['spell','basic','ability_onhit_v453_dev40'].includes(sourceType))return;
   const now=this.gameTime,ids=u.items||[],r=ITEM_OFFENSE_RULES_V453_DEV69_B6;
   if(ids.includes('serpents_fang')){
-   const cut=u.range>.05?r.serpents_fang.rangedCut:r.serpents_fang.shieldCut;
+   const cut=this.isRangedChampionV453Dev69Audit(u)?r.serpents_fang.rangedCut:r.serpents_fang.shieldCut;
    if(!(target.b6SerpentUntil>now)){
     for(const shield of target.statusEffectsV41||[])if(['shield','physical_shield','magic_shield'].includes(shield.type)&&shield.until>now)shield.power*=1-cut;
     target.shield=Math.max(0,target.shield*(1-cut));
@@ -3882,7 +3882,7 @@ export class Arena {
   const ids=u.items||[],bonusHp=this.bonusHealthForGiantSlayerV453Dev69(u);
   let ad=0,ap=0,mr=0,armor=0;
   if(ids.includes('hubris')&&u.b6HubrisUntil>this.gameTime){
-    const h=ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris,ranged=(u.range||0)>.05;
+    const h=ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris,ranged=this.isRangedChampionV453Dev69Audit(u);
     ad+=(ranged?h.rangedBaseBonusAd:h.meleeBaseBonusAd)+
      (u.b6HubrisKills||0)*(ranged?h.rangedPerKillBonusAd:h.meleePerKillBonusAd);
    }
@@ -3945,8 +3945,8 @@ export class Arena {
   if(!id||id==='maw_of_malmortius'&&damageType!=='magic')return;
   const spec=ITEM_FAMILY_RULES_V453_DEV69[id];
   const bonusAd=(u.items||[]).reduce((n,i)=>n+Math.max(0,catalog.find(v=>v.id===i)?.stats?.ad||0),0);
-  let power=id==='maw_of_malmortius'?(u.range>.05?spec.flatRanged+bonusAd*spec.bonusAdRanged:spec.flatMelee+bonusAd*spec.bonusAdMelee):
-   id==='immortal_shieldbow'?(spec.shieldBase+Math.min(17,Math.max(0,(u.level||1)-1))*spec.shieldPerLevel)*(u.range>.05?.8:1):
+  let power=id==='maw_of_malmortius'?(this.isRangedChampionV453Dev69Audit(u)?spec.flatRanged+bonusAd*spec.bonusAdRanged:spec.flatMelee+bonusAd*spec.bonusAdMelee):
+   id==='immortal_shieldbow'?(spec.shieldBase+Math.min(17,Math.max(0,(u.level||1)-1))*spec.shieldPerLevel)*(this.isRangedChampionV453Dev69Audit(u)?.8:1):
    this.bonusHealthForGiantSlayerV453Dev69(u)*spec.shieldBonusHealthRatio;
   const type=id==='maw_of_malmortius'?'magic_shield':'shield';
   this.effectResolverV41().apply(u,type,{source:u,power,duration:spec.shieldSeconds,key:'lifeline_v453_dev69'});
@@ -5090,7 +5090,7 @@ export class Arena {
  activeStage(u){return u.plan&&!u.plan.completed?u.plan.steps[u.plan.index]||null:null}
  mapDistance(a,b){return Math.hypot((a.x-b.x)*this.worldWidth,(a.y-b.y)*this.worldHeight)}
  itemMoveBonusesV453Dev29(u){
-  const now=this.gameTime,ranged=u.range>.05;
+  const now=this.gameTime,ranged=this.isRangedChampionV453Dev69Audit(u);
   return {flat:(u.itemSprintUntilV453Dev29||0)>now?(u.itemSprintFlatV453Dev29||0):0,
    percent:(u.items?.includes('youmuus_ghostblade')&&now>=(u.combatUntil||0)?(ranged?10:20)/Math.max(1,u.moveSpeed):0)+
     ((u.youmuusSprintUntilV453Dev29||0)>now?(u.youmuusSprintRatioV453Dev29||0):0)};
@@ -5102,12 +5102,21 @@ export class Arena {
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
  effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('scarlet_lucidity')&&u.b7ScarletUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.moveFlat:0)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(this.hexplateOverdriveV453Dev69Audit(u).movePercent/100)+this.supportTeamMovePercentV453Dev69B5(u)+(u.items?.includes('protoplasm_harness')&&u.b7ProtoplasmUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness.movePct:0)+(u.items?.includes('stormrazor')&&u.b6StormrazorUntil>this.gameTime?ITEM_OFFENSE_RULES_V453_DEV69_B6.stormrazor.movePct:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ // Shared role classifier. Atlas coordinates use 15,000 units per board side:
+ // old 'this.isRangedChampionV453Dev69Audit(u)' threshold misclassified Jinx(525) and Ahri(550) as melee.
+ // Champion-specific exceptions to numeric attack range must be added when
+ // full champion kits are certified (e.g. unusually long-range melee units).
+ isRangedChampionV453Dev69Audit(u){
+  const officialRange=CHAMPION_BASE_AA_RANGE[u?.champ];
+  const attackRange=Number.isFinite(officialRange)?officialRange:(Number(u?.range)||0)*ATLAS_SIDE_UNITS;
+  return attackRange>=300;
+ }
  // Patch 26.20: champion AA range (not spells or client flags) selects item modifiers.
  hexplateOverdriveV453Dev69Audit(u){
   if(!u?.items?.includes('experimental_hexplate')||(u.hexplateBuffUntilV453Dev69B4||0)<=this.gameTime)
    return {attackSpeedPct:0,movePercent:0};
   const s=ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate;
-  const ranged=(u.range||0)>.05;
+  const ranged=this.isRangedChampionV453Dev69Audit(u);
   return {attackSpeedPct:ranged?s.rangedAttackSpeedPct:s.meleeAttackSpeedPct,
    movePercent:ranged?s.rangedMovePercent:s.meleeMovePercent};
  }
@@ -6026,7 +6035,7 @@ export class Arena {
   // spell-shielded hit returned above and cannot add stacks.
  if(amount2>0&&attacker?.champ&&attacker.team!==target.team&&sourceType==='basic'&&
     attacker.items?.some(id=>['phage','trinity_force'].includes(id))){
-  attacker.itemSprintFlatV453Dev29=attacker.range>.05?10:20;
+  attacker.itemSprintFlatV453Dev29=this.isRangedChampionV453Dev69Audit(attacker)?10:20;
   attacker.itemSprintUntilV453Dev29=this.gameTime+2;
  }
  if(amount2>0&&target.champ&&attacker?.champ&&attacker.team!==target.team&&
@@ -6037,7 +6046,7 @@ export class Arena {
   if(allowed){state.stacks=Math.min(5,(state.stacks||0)+1);state.until=this.gameTime+6;
    state.lastProcBy??={};state.lastProcBy[attacker.id]=this.gameTime;
    target.cleaverDebuffV453Dev29=state;}
-  attacker.itemSprintFlatV453Dev29=attacker.range>.05?10:20;
+  attacker.itemSprintFlatV453Dev29=this.isRangedChampionV453Dev69Audit(attacker)?10:20;
   attacker.itemSprintUntilV453Dev29=this.gameTime+2;
  }
 // Mountain Soul must wait 5 seconds after any damage attempt, including
@@ -6132,7 +6141,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.onOffensiveHitV453Dev69B6(attacker,target,dealt,sourceType);
    this.onRemainderHitV453Dev69B7(attacker,target,dealt,damageType,sourceType);
    if(attacker?.role==='MID'&&target?.champ&&attacker.team!==target.team&&!sourceType.startsWith('item_'))
-    this.b7MidQuestAdd(attacker,dealt*(attacker.range>.05?.015:.03),'champion_damage');
+    this.b7MidQuestAdd(attacker,dealt*(this.isRangedChampionV453Dev69Audit(attacker)?.015:.03),'champion_damage');
   if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
    if(attacker.items?.includes('maw_of_malmortius')&&(attacker.mawVampUntilV453Dev69||0)>this.gameTime){
@@ -6141,7 +6150,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
    const fight=attacker.riftmakerFightV453Dev69;
    if(attacker.items?.includes('riftmaker')&&fight?.lastAt>=this.gameTime&&this.gameTime-fight.started>=4)
-    this.effectResolverV41().heal(attacker,dealt*(attacker.range>.05?.06:.10),attacker);
+    this.effectResolverV41().heal(attacker,dealt*(this.isRangedChampionV453Dev69Audit(attacker)?.06:.10),attacker);
   }
   if(dealt>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team&&damageType==='magic'&&
       target.items?.includes('force_of_nature')){
@@ -6327,7 +6336,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      attacker.krakenHitV453Dev32={targetId:target.id,stacks:0,until:this.gameTime+4};
      if(target.hp>0){const base=150+60*Math.min(17,Math.max(0,(attacker.level||1)-1))/17;
       const missing=1-Math.max(0,target.hp)/Math.max(1,target.maxHp);
-      const ranged=attacker.range>.05?.8:1;
+      const ranged=this.isRangedChampionV453Dev69Audit(attacker)?.8:1;
       this.damage(target,base*(1+.75*Math.min(1,missing))*ranged,attacker,'physical','item_kraken');}
     }else attacker.krakenHitV453Dev32={targetId:target.id,stacks:stacks+1,until:this.gameTime+4};
    }
