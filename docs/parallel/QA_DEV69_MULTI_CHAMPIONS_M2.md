@@ -162,3 +162,5 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - **12 campeões adicionais** com 48 slots jogáveis em protótipo de tabuleiro: Garen, Annie, Ashe, Soraka, Morgana, Malphite, Leona, Veigar, Brand, Sona, Janna e Darius. Não são classificados como completos; o catálogo declara lacunas específicas (invocações, teleporte/dash, passivas, empurrões, recasts e geometria).
 - Regras de acesso: o adversário não controla suas unidades; queue sem debitar recursos, resolução única, slots de ult requerem nível 6, alvo visível nos casts direcionados, skillshots por coordenadas sem usar IDs ocultos, timestamps e visão temporária serializáveis.
 - Próxima etapa: expandir a biblioteca e completar particularidades dos kits em vez de copiar lógica; validar CI e paridade patch 26.21 antes de qualquer certificação. **Sem merge**.
+
+- **M9 QA adicional:** combos dos perfis de tabuleiro acionam o mesmo executor (inclusive autocast sem inimigo visível); Ashe AA aplica slow de Frost Shot e E oferece reconhecimento exclusivo da equipe; Morgana E concede escudo mágico e bloqueio de habilidade. Esses testes não conferem certificação de kits.

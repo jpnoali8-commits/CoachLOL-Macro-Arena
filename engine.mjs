@@ -6104,6 +6104,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
  }
  const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  // Passive triggers only on an actual landed basic attack by Ashe.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Ashe'&&
+   target.team!==attacker.team&&target.hp>0)
+   this.applyEffectV41(target,'slow',{source:attacker,duration:2,power:.2,
+    key:'ashe_frost_shot_'+attacker.id});
   // DEV53 Eternidade: somente dano EFETIVAMENTE sofrido de campeão inimigo.
   // Escudos absorvidos, ataques inválidos e fontes neutras não recuperam mana.
   if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team&&
@@ -6976,6 +6981,28 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
    const target=this.units.find(v=>v.id===o.targetId&&v.team!==u.team&&v.hp>0);
    const slot=sequence[o.comboIndex||0];
+   // Board QWER combos must follow their authored effects rather than
+   // the generic training damage fallback.
+   const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot];
+   if(board){
+    const ally=board.shape==='target_ally'?this.units.filter(v=>v.team===u.team&&v.hp>0&&
+     this.mapDistance(u,v)<=board.range).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0]:null;
+    const needsEnemy=['target_enemy','line_enemy','cone_enemy'].includes(board.shape)||
+     (board.shape==='circle_enemy'&&!board.originSelf);
+    if(needsEnemy&&(!target||!this.visible(u.team,target)||
+     !this.duelPermission(u,target,false))){o.comboStatus='aguardando alvo visivel';continue;}
+    const point=target?{x:target.x,y:target.y}:null;
+    const chosen=board.shape==='target_enemy'?target?.id:
+     board.shape==='target_ally'?ally?.id:null;
+    if(u.tactics?.conserveMana&&u.mana-abilityCost(u,slot)<u.maxMana*.35){
+     o.comboStatus='reserva de mana';continue;
+    }
+    const result=this.executeBoardSkillV453Dev69(u,{slot,targetId:chosen,point});
+    if(!result.ok){o.comboStatus=result.reason;continue;}
+    o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
+    o.comboStatus=o.comboIndex>=sequence.length?'concluido':'proximo: '+sequence[o.comboIndex];
+    continue;
+   }
    const defensiveSkill=(u.champ==='Yasuo'&&slot==='W')||(u.champ==='Braum'&&slot==='E')||(u.champ==='Mel'&&slot==='W');
    const defensive=['BARRIER','HEAL','GHOST','CLEANSE'].includes(slot)||defensiveSkill;
    // Self-defensive summoners do not require a visible/live enemy. They must

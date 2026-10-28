@@ -83,4 +83,46 @@ ok('12 champions can be drafted without falling back to training rules',()=>{
   for(const slot of ['Q','W','E','R'])assert.equal(abilityRule(a.u,slot).kind,'board_effect');
  }
 });
+
+for(const team of ['blue','red']){
+ const combo=fresh('Garen',team);
+ combo.u.order={kind:'attack',targetId:combo.foe.id,combo:['W','Q'],comboIndex:0,comboNextAt:0};
+ combo.a.visible=()=>false;
+ ok(team+' Garen W self-shield combo works without revealing enemy',()=>{
+  combo.a.resolveQueuedCombos();
+  assert.equal(combo.u.order.comboIndex,1);
+  assert.ok(combo.a.effectResolverV41().has(combo.u,'shield'));
+ });
+ combo.a.visible=()=>true;combo.a.gameTime=1;
+ ok(team+' Garen Q combo uses the authored silence rather than training damage',()=>{
+  combo.a.resolveQueuedCombos();
+  assert.equal(combo.u.order.comboIndex,2);
+  assert.ok(combo.a.effectResolverV41().has(combo.foe,'silence'));
+ });
+ const ashe=fresh('Ashe',team);
+ ok(team+' Ashe basic hits apply Frost Shot slow to opposing units',()=>{
+  ashe.a.damage(ashe.foe,40,ashe.u,'physical','basic');
+  assert.ok(ashe.a.effectResolverV41().has(ashe.foe,'slow'));
+ });
+ const scout=fresh('Ashe',team);
+ ok(team+' Ashe E scouting stays team-private, expires and survives checkpoint',()=>{
+  assert.equal(scout.a.queueKitSkillV42(team,scout.u.id,'E',{x:.7,y:.5}).ok,true);
+  scout.a.resolveBoardSkillsV453Dev69();
+  assert.equal(scout.a.boardVisionV453Dev69.length,1);
+  assert.ok(scout.a.visionSources(team).some(v=>v.kind==='board_scout'));
+  assert.equal(scout.a.visionSources(scout.other).some(v=>v.kind==='board_scout'),false);
+  const cp=Arena.fromSnapshotV40(map,mask,scout.a.snapshotV40());
+  assert.equal(checksumV40(scout.a.snapshotV40()),checksumV40(cp.snapshotV40()));
+  scout.a.gameTime=5;scout.a.advanceBoardPassivesV453Dev69();
+  assert.equal(scout.a.visionSources(team).some(v=>v.kind==='board_scout'),false);
+ });
+ const magic=fresh('Morgana',team);
+ ok(team+' Morgana E grants magic shield and a spell-blocking effect',()=>{
+  assert.equal(magic.a.queueTargetedSkill(team,magic.u.id,'E',magic.ally.id).ok,true);
+  magic.a.resolveBoardSkillsV453Dev69();
+  assert.ok(magic.a.effectResolverV41().has(magic.ally,'magic_shield'));
+  assert.ok(magic.a.effectResolverV41().has(magic.ally,'spell_shield'));
+ });
+}
+
 console.log('DEV69 BOARD GRAMMAR '+count+'/'+count+' PASS');
