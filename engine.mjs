@@ -5379,7 +5379,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(!defensive&&!this.duelPermission(u,target,false)){o.comboStatus='alvo não autorizado pela visão';continue;}
    const summonerRange=['IGNITE','EXHAUST'].includes(slot)?650:0;
    const slotRange=summonerRange||(u.champ==='Lux'&&slot==='Q'?kitSpellV42('Lux','Q').range:(['Q','W','E','R'].includes(slot)?abilityRule(u,slot).range:(u.range||.035)*this.worldWidth));
-   if(!defensive&&slot!=='FLASH'&&this.mapDistance(u,target)>slotRange){o.comboStatus='fora de alcance: '+Math.round(slotRange)+' unidades';continue;}
+   const vexR2=u.champ==='Vex'&&slot==='R'&&u.vexMark?.until>this.gameTime&&u.vexMark?.targetId===target?.id;
+   if(!defensive&&slot!=='FLASH'&&!vexR2&&this.mapDistance(u,target)>slotRange){o.comboStatus='fora de alcance: '+Math.round(slotRange)+' unidades';continue;}
    if(['IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(slot)&&!this.hasSummonerV452d4Dev11(u,slot.toLowerCase())){
     o.comboStatus=slot+' não equipado';o.comboIndex++;continue;
    }
@@ -5426,6 +5427,21 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(u.champ==='Lux'&&slot==='Q'){
     const result=this.launchLuxBindingV453Dev68(u,{x:target.x,y:target.y});
     if(!result.ok){o.comboStatus=result.reason;continue;}
+    o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
+    o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
+    continue;
+   }
+   // R2 in a combo is a movement recast, not a second paid ultimate.
+   if(vexR2){
+    const dash=this.startVexShadowDashV453Dev69(u);
+    if(!dash.ok){o.comboStatus=dash.reason;continue;}
+    o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
+    o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
+    continue;
+   }
+   if(slot==='R'&&['Nami','Vex'].includes(u.champ)){
+    const launched=this.launchWaveShadowV453Dev69(u,slot,{x:target.x,y:target.y});
+    if(!launched.ok){o.comboStatus=launched.reason;continue;}
     o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
     o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
     continue;
