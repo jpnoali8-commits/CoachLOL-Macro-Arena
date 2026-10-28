@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 107,
-    "referenceOnly": 95,
-    "localCatalog": 110
+    "normalPlayable": 122,
+    "referenceOnly": 80,
+    "localCatalog": 125
   },
   "rows": {
     "1001": {
@@ -1151,11 +1151,11 @@
         "Damage"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "overlords_bloodmail",
       "passiveOrActiveDescription": "<mainText><stats><attention>30</attention> de Dano de Ataque<br><attention>550</attention> de Vida</stats><br><br><passive>Tirania</passive><br>Recebe 2.5% da sua <healing>Vida adicional</healing> como <scaleAD>Dano de Ataque</scaleAD>. <br><br><passive>Retaliação</passive><br>Recebe até 12% de <scaleAD>Dano de Ataque</scaleAD> aumentado com base no percentual de Vida perdida. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "overlords_bloodmail",
+      "recipeVerified": true
     },
     "2502": {
       "id": "2502",
@@ -1223,11 +1223,11 @@
         "HealthRegen"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "kaenic_rookern",
       "passiveOrActiveDescription": "<mainText><stats><attention>400</attention> de Vida<br><attention>80</attention> de Resistência Mágica<br><attention>100%</attention> de Regeneração de Vida base</stats><br><br><passive>Perdição dos Magos</passive><br>Depois de não sofrer Dano Mágico por 15s, recebe um <shield>Escudo Mágico</shield>. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "kaenic_rookern",
+      "recipeVerified": true
     },
     "2508": {
       "id": "2508",
@@ -1957,11 +1957,11 @@
         "Tenacity"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "steraks_gage",
       "passiveOrActiveDescription": "<mainText><stats><attention>400</attention> de Vida<br><attention>20%</attention> de Tenacidade</stats><br><br><passive>Garras Caçadoras</passive><br>Recebe <scaleAD>Dano de Ataque adicional</scaleAD>.<br><br><passive>Salva-Vidas</passive><br>Ao sofrer dano que reduziria sua Vida a menos de 30%, concede um <shield>Escudo que decai</shield> por 4.5s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "steraks_gage",
+      "recipeVerified": true
     },
     "3057": {
       "id": "3057",
@@ -3408,11 +3408,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "maw_of_malmortius",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Dano de Ataque<br><attention>15</attention> de Aceleração de Habilidade<br><attention>40</attention> de Resistência Mágica</stats><br><br><passive>Salva-Vidas</passive><br>Ao sofrer Dano Mágico suficiente para reduzir sua Vida a menos de 30%, recebe um <shield>Escudo contra Dano Mágico</shield> por 3s e <lifeSteal>10% de Vampirismo Universal</lifeSteal> até o fim do combate.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "maw_of_malmortius",
+      "recipeVerified": true
     },
     "3157": {
       "id": "3157",
@@ -4359,11 +4359,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "force_of_nature",
       "passiveOrActiveDescription": "<mainText><stats><attention>400</attention> de Vida<br><attention>55</attention> de Resistência Mágica<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Impassível</passive><br>Recebe <scaleMR>70 de Resistência Mágica</scaleMR> e <speed>6% de Velocidade de Movimento adicional</speed> depois de sofrer Dano Mágico de Campeões 8x.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "force_of_nature",
+      "recipeVerified": true
     },
     "4628": {
       "id": "4628",
@@ -4407,11 +4407,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "cosmic_drive",
       "passiveOrActiveDescription": "<mainText><stats><attention>70</attention> de Poder de Habilidade<br><attention>350</attention> de Vida<br><attention>25</attention> de Aceleração de Habilidade<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Dança Enfeitiçada</passive><br>Causar <magicDamage>Dano Mágico</magicDamage> ou <trueDamage>Dano Verdadeiro</trueDamage> a Campeões concede <speed>Velocidade de Movimento</speed> por 4s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "cosmic_drive",
+      "recipeVerified": true
     },
     "4630": {
       "id": "4630",
@@ -4480,11 +4480,11 @@
         "SpellVamp"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "riftmaker",
       "passiveOrActiveDescription": "<mainText><stats><attention>70</attention> de Poder de Habilidade<br><attention>350</attention> de Vida<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Corrupção do Vazio</passive><br>Para cada segundo em combate contra Campeões inimigos, causa 2% de dano adicional, com limite de 8%. Com força máxima, recebe <omnivamp>Vampirismo Universal</omnivamp>.<br><br><passive>Infusão do Vazio</passive><br>Recebe 2% da sua <scaleHealth>Vida adicional</scaleHealth> como <scaleAP>Poder de Habilidade</scaleAP>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "riftmaker",
+      "recipeVerified": true
     },
     "4642": {
       "id": "4642",
@@ -4536,11 +4536,11 @@
         "MagicPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "shadowflame",
       "passiveOrActiveDescription": "<mainText><stats><attention>110</attention> de Poder de Habilidade<br><attention>15</attention> de Penetração Mágica</stats><br><br><passive>Floregris</passive><br><magicDamage>Dano Mágico</magicDamage> e <trueDamage>Dano Verdadeiro</trueDamage> causam <attention>Acertos Críticos</attention> a inimigos com menos de 40% de Vida, causando 20% de dano aumentado. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "shadowflame",
+      "recipeVerified": true
     },
     "4646": {
       "id": "4646",
@@ -4609,11 +4609,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "chempunk_chainsword",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Dano de Ataque<br><attention>450</attention> de Vida<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Cisalhar</passive><br>Causar Dano Físico aplica <keyword>40% de Ferimentos</keyword> a Campeões inimigos por 3s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "chempunk_chainsword",
+      "recipeVerified": true
     },
     "6610": {
       "id": "6610",
@@ -4777,11 +4777,11 @@
         "SpellDamage"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "liandrys_torment",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>300</attention> de Vida</stats><br><br><passive>Tormento</passive><br>Habilidades de dano queimam inimigos em <magicDamage>2% da Vida máxima como Dano Mágico</magicDamage> por segundo durante 3s.<br><br><passive>Sofrimento</passive><br>Para cada segundo em combate com Campeões inimigos, causa 2% de dano adicional, até um máximo de 6%.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "liandrys_torment",
+      "recipeVerified": true
     },
     "6655": {
       "id": "6655",
@@ -5002,11 +5002,11 @@
         "CriticalStrike"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "immortal_shieldbow",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Salva-Vidas</passive><br>Ao sofrer dano suficiente para reduzir sua Vida a menos de 30%, recebe um <shield>Escudo</shield> por 3s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "immortal_shieldbow",
+      "recipeVerified": true
     },
     "6675": {
       "id": "6675",
@@ -5050,11 +5050,11 @@
         "ArmorPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "the_collector",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>10</attention> de Letalidade<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Morte</passive><br>Seu dano executa Campeões com menos de 5% de Vida.<br><br><passive>Abrupta</passive><br>Abates de Campeões concedem <gold>25 de ouro adicional</gold>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "the_collector",
+      "recipeVerified": true
     },
     "6690": {
       "id": "6690",
@@ -5122,11 +5122,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "seryldas_grudge",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Dano de Ataque<br><attention>35%</attention> de Penetração de Armadura<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Frio Agonizante</passive><br>Habilidades de dano causam 30% de <status>Lentidão</status> a inimigos com menos de 50% de Vida por 1s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "seryldas_grudge",
+      "recipeVerified": true
     },
     "6695": {
       "id": "6695",
@@ -5267,11 +5267,11 @@
         "MagicPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "bloodletters_curse",
       "passiveOrActiveDescription": "<mainText><stats><attention>65</attention> de Poder de Habilidade<br><attention>400</attention> de Vida<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Decadência Vil</passive><br>Causar <magicDamage>Dano Mágico</magicDamage> com habilidades ou passivas a Campeões reduz a <scaleMR>Resistência Mágica deles em 7.5%</scaleMR> por 6s (acumula 4x).</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "bloodletters_curse",
+      "recipeVerified": true
     },
     "8020": {
       "id": "8020",
@@ -5292,11 +5292,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "abyssal_mask",
       "passiveOrActiveDescription": "<mainText><stats><attention>350</attention> de Vida<br><attention>45</attention> de Resistência Mágica<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Destroçar</passive><br>Campeões inimigos próximos sofrem 12% a mais de <magicDamage>Dano Mágico</magicDamage>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "abyssal_mask",
+      "recipeVerified": true
     }
   },
   "rejected": [
