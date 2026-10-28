@@ -148,4 +148,27 @@ for(const team of ['blue','red']){
   assert.equal(ow.u.mana,1000);
  });
 }
+
+for(const team of ['blue','red']){
+ const blocked=fresh('Rammus',team);
+ blocked.u.order={kind:'attack',targetId:blocked.enemy.id,
+  combo:['Q'],comboIndex:0,comboNextAt:0};
+ const start={x:blocked.u.x,y:blocked.u.y},mana=blocked.u.mana;
+ blocked.a.visible=(seat,v)=>v.team===seat;
+ check(team+' hidden target cannot drive board-movement combo coordinates',()=>{
+  blocked.a.resolveQueuedCombos();
+  assert.equal(blocked.u.order.comboIndex,0);
+  assert.equal(blocked.u.mana,mana);
+  assert.deepEqual({x:blocked.u.x,y:blocked.u.y},start);
+ });
+ const vayne=fresh('Vayne',team);
+ vayne.u.skillRanks.W=0;
+ check(team+' unlearned Vayne W has no Silver Bolts trigger',()=>{
+  vayne.a.damage(vayne.enemy,25,vayne.u,'physical','basic');
+  vayne.a.damage(vayne.enemy,25,vayne.u,'physical','basic');
+  vayne.a.damage(vayne.enemy,25,vayne.u,'physical','basic');
+  assert.equal(vayne.enemy.boardSilverBoltsV453Dev69??null,null);
+ });
+}
+
 console.log('DEV69 M10 '+total+'/'+total+' PASS');

@@ -6258,7 +6258,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     if(b.charges<=0)attacker.boardNextBasicV453Dev69=null;
    }
    // Vayne's Silver Bolts is a PASSIVE W, not a one-second active cast.
-   if(attacker.champ==='Vayne'&&target.hp>0){
+   if(attacker.champ==='Vayne'&&(attacker.skillRanks?.W||0)>0&&target.hp>0){
     const mark=target.boardSilverBoltsV453Dev69;
     const count=mark?.sourceId===attacker.id&&mark.until>this.gameTime?mark.stacks:0;
     if(count>=2){
@@ -7151,7 +7151,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(board){
     const ally=board.shape==='target_ally'?this.units.filter(v=>v.team===u.team&&v.hp>0&&
      this.mapDistance(u,v)<=board.range).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0]:null;
-    const needsEnemy=['target_enemy','line_enemy','cone_enemy'].includes(board.shape)||
+    const needsEnemy=['target_enemy','line_enemy','cone_enemy','move_point','vision_point'].includes(board.shape)||
      (board.shape==='circle_enemy'&&!board.originSelf);
     if(needsEnemy&&(!target||!this.visible(u.team,target)||
      !this.duelPermission(u,target,false))){o.comboStatus='aguardando alvo visivel';continue;}
