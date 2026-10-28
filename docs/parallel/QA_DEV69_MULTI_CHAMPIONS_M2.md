@@ -243,3 +243,8 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - `engine.mjs` é autocontido novamente: o gerador oficial de `engine.browser.js` usa substituição textual de exportações, não um bundler. Evitar imports ESM relativos dentro do engine até modernizar o gerador.
 - **Integrated QA continua FALHANDO antes da suíte combinada** em `Verify official Node to browser regeneration` porque a branch Skills não altera `engine.browser.js` de propósito. Integrador reconcilia `dev69/items-full-audit` + Skills, regenera artefato browser, roda os testes combinados e valida UI Chromium real.
 - **Nenhum novo campeão foi declarado certificado 100%.** O catálogo de 30 contratos anteriores, e os novos 3 perfis transformáveis, são instrumentos de implementação/QA; paridade final por campeão permanece uma meta de produção.
+
+### M14b — Proteção adicional de limites entre dimensões
+- O reino bloqueia, **antes do gasto de recurso**, Flash/escapes que tentam aterrissar além do círculo; Teleporte para torre e outras ordens externas; ações de sentinela/recall/jungle fora do duelo; seleção de alvo de outro plano para ataques/feitiços do invocador.
+- Planos de navegação verificam não apenas os destinos, mas todos os segmentos amostrados do caminho contra o mesmo círculo e a mesma máscara de colisores elementais. Um caminho que entra novamente no círculo após sair também é rejeitado.
+- QA adicional `tests/v453_dev69_realm_hardening_m14.test.mjs`: azul/vermelho, recursos intactos em ações recusadas, visão, ordens, flash, teleporte e snapshot. Não confundir com QA visual Chromium nem com certificação completa do kit.
