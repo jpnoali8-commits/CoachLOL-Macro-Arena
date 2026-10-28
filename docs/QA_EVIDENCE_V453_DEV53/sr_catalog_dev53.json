@@ -1,0 +1,18 @@
+{
+  "patch": "26.21",
+  "sourceVersion": "16.21.1",
+  "counts": {
+    "srPurchasable": 210,
+    "normalStore": 202,
+    "conditional": 5,
+    "championExclusive": 3,
+    "normalPlayable": 88,
+    "referenceOnly": 114,
+    "localCatalog": 91
+  },
+  "addedLocalIds": [
+    "lost_chapter",
+    "catalyst_of_aeons"
+  ],
+  "mode": "Summoners Rift normal"
+}

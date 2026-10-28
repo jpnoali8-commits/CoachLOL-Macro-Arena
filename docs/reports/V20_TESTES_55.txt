@@ -1,0 +1,65 @@
+
+> coachlol-macro-arena-v20@2.0.0 test
+> node tests/v16_contract.test.mjs && node tests/scoreboard_v15.test.mjs && node tests/v17_contract.test.mjs && node tests/v18_role_shop.test.mjs && node tests/v19_smite_tatico.test.mjs && node tests/v20_camp_rules.test.mjs
+
+✓ preparação de 60s congela mundo (mesmo com chamada tick)
+✓ turno só avança após confirmação e execução visível em passos
+✓ texto com 4 funções, abreviações e red→krugs é parseado
+✓ AA / kite / on-hit podem ser escolhidos sem combo QWER
+✓ Nexus protegido por torre, inibidor e guardas; fila da lane respeitada
+✓ minions param na torre viva e torre mata a wave
+✓ recusar duelo/recuar não torna atacante sem dano se inimigo continua no range
+✓ jungle concede CS e XP ao campeão que limpa o campo
+✓ decisão de confronto congela o tabuleiro sem avanço escondido
+✓ HUD com campo texto + pausa por escolha + opções AA
+10 contratos de produto v1.6 testados.
+✓ 10 personagens começam com K/D/A zero e SUP com item inicial de função
+✓ abate conta uma morte, um frag, uma assistência de aliado e ouro
+✓ assistências não contam participantes antigos, inimigos ou o próprio executor
+✓ partida salva restaura inventários e KDA serializados
+✓ UI possui botão placar, modal e atalho Tab que previne focus default
+5 testes de scoreboard v1.5 aprovados
+✓ habilidade inicial exige ponto e R normal bloqueia até 6
+✓ XP aumenta nível, dá ponto e auto-up configurado seleciona a skill
+✓ ordens de ADC por papel e nome são aplicadas sem perder farm nem kite
+✓ prioridade de skills e combo QWER interpretados integralmente
+✓ jungle ataca o monstro em ciclos (não apenas last hit), ganha XP e CS
+✓ rota explicitada mantém controle em waves e em rodadas posteriores
+✓ jungle de múltiplas etapas completa e retorna à primeira etapa, sem voltar à lane
+✓ nome do campeão está sobre avatar e HUD tem comandos de upgrade
+8 contratos de progressão e ordens v1.7 aprovados
+✓ suporte recebe Atlas e gasta ouro inicial; demais funções escolhem iniciais
+✓ compra de pet manual aplica Smite inicial e bloqueia outros iniciais/pets
+✓ 15/35 cargas são thresholds reais; pet evolui e libera slot após 35
+✓ evolução Atlas 400/800 é automática, sem custo ou compra manual
+✓ quest SUP não gera ouro por poke sem atingir campeão perto de aliado
+✓ Smite usado contra monstro ao fim do clear, com cooldown e progresso
+✓ Smite respeita duas cargas, intervalo entre usos e recarga
+✓ texto compra pet verde; alias não vira ordem de ir ao blue/red
+✓ antes da primeira rodada, iniciais ausentes são comprados sem interromper ordens
+✓ recomendações não permitem duplicar itens de missão e são específicas
+10 contratos de loja e missões v1.8 aprovados
+✓ JG compra o pet e recebe 1 carga, ganhando a segunda aos 48s
+✓ Smite red HP 600: não usa aos 700, só usa quando <=600
+✓ Somente red: krugs e blue nunca consomem cargas, mesmo dentro do range
+✓ Guardar Smite: nunca dispara, nem com o alvo abaixo do dano
+✓ Patamar explícito acima do dano do Golpear ainda é decisão válida
+✓ Danos de jungle são dedicados ao monstro da ordem, sem atacar acampamento adjacente
+✓ texto combinado path e smite com HP não duplica o red na rota
+✓ texto suporta dragão, vários alvos, guardar e Smite automático
+✓ comando incompleto e função que não é JG são bloqueados antes de aplicar
+✓ planejamento pronto impede mudança de Smite em plena execução
+✓ Loja e skill QWER continuam independentes da regra do Golpear
+✓ Disputa simultânea de campo: Golpear vence o AA mesmo com ordem alfabética azul primeiro
+12 contratos de Smite tático v1.9 aprovados
+✓ temporizadores 2026 padrão, distintos de Swiftplay
+✓ respawn é respeitado por tipo de monstro sem reviver cedo
+✓ HP da jungle acompanha nível médio no spawn, nunca durante o combate
+✓ jungle ataca, monstro revida, depois perde paciência fora de leash
+✓ soft reset pode ser interrompido por novo ataque dentro da área
+✓ hard reset impede golpes que fingiriam abater monstro retornando
+✓ campo oculto não revela morte, HP, reset ou respawn ao adversário
+✓ validação identifica NaN e estágios de acampamento inválidos
+✓ preparação e turnos continuam congelando mundo até confirmação
+✓ confronto no último segundo fecha rodada após resposta, sem travar
+10 contratos v2.0 aprovados

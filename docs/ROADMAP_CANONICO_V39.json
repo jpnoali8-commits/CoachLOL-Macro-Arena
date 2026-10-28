@@ -1,0 +1,16 @@
+{
+ "version":"3.9.0", "canonical":true,"baseVersion":"3.8.2", "milestones": [
+  {"id":"v3.9","state":"partial-delivered","scope":"stats and executor scaffolding, direction skills, speed"},
+  {"id":"v4.0","state":"pending","scope":"single authoritative executor, deterministic replay, event journal"},
+  {"id":"v4.1","state":"pending","scope":"status effects, CC, shields, interruption, DoT, HoT"},
+  {"id":"v4.2","state":"pending","scope":"per-champion verified kits/passives/growth/skillshots/recasts"},
+  {"id":"v4.3","state":"pending","scope":"items/runes/economy/gold/farm/jungle"},
+  {"id":"v4.4","state":"pending","scope":"objectives/smite/teamfights/map fog"},
+  {"id":"v4.5","state":"pending","scope":"macro 5v5/structures/win conditions"},
+  {"id":"v4.6","state":"pending","scope":"lobby/matchmaking/filters/multiplayer authority"},
+  {"id":"v4.7","state":"pending","scope":"VFX/timeline observational"},
+  {"id":"v4.8","state":"pending","scope":"GLB/video/audio/cameras"},
+  {"id":"v4.9","state":"pending","scope":"AST multi-agent action bank & prompt translator"},
+  {"id":"v5.0","state":"pending","scope":"full patch-by-patch parity audit & complete regression suite"}
+ ]
+}

@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoachLoL - Arena Tática</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            hextech: {
+              black: '#04070a',
+              card: 'rgba(7, 11, 16, 0.92)',
+              gold: '#c8aa6e',
+              goldLight: '#f0e6d2',
+              goldDark: '#785a28',
+              blueTeam: '#0ac8b9',
+              redTeam: '#e84057',
+              mana: '#1aa3ff',
+              border: 'rgba(200, 170, 110, 0.22)',
+              borderFocus: 'rgba(200, 170, 110, 0.65)'
+            }
+          },
+          fontFamily: {
+            title: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilo Hextech Glass Ultra Limpo (Zero drop-shadow, alta legibilidade) */
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    .glass-panel {
+      background: rgba(5, 8, 12, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(200, 170, 110, 0.16);
+    }
+
+    .glass-card {
+      background: rgba(9, 13, 19, 0.88);
+      border: 1px solid rgba(200, 170, 110, 0.18);
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(200, 170, 110, 0.38);
+    }
+
+    .glass-button {
+      background: rgba(14, 21, 30, 0.7);
+      border: 1px solid rgba(200, 170, 110, 0.22);
+      color: #c8aa6e;
+      transition: all 0.15s ease-in-out;
+    }
+    .glass-button:hover {
+      background: rgba(200, 170, 110, 0.14);
+      border-color: #c8aa6e;
+      color: #f0e6d2;
+    }
+    .glass-button.active {
+      background: linear-gradient(135deg, rgba(200, 170, 110, 0.25) 0%, rgba(120, 90, 40, 0.35) 100%);
+      border-color: #f0e6d2;
+      color: #ffffff;
+    }
+
+    /* Scrollbar discreta */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(4, 7, 10, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(200, 170, 110, 0.25);
+      border-radius: 2px;
+    }
+
+    /* Perspectiva 2.5D do Tabuleiro */
+    .map-perspective-container {
+      perspective: 1100px;
+    }
+    .map-board {
+      transform: rotateX(24deg) rotateZ(-3deg) scale(0.92);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .map-board.flat-view {
+      transform: rotateX(0deg) rotateZ(0deg) scale(1);
+    }
+
+    /* Anéis de seleção táticos */
+    .token-ring-blue {
+      border: 2px solid #0ac8b9;
+    }
+    .token-ring-red {
+      border: 2px solid #e84057;
+    }
+    .token-ring-gold {
+      border: 2px solid #f0e6d2;
+      outline: 2px solid rgba(200, 170, 110, 0.5);
+    }
+
+    /* Drop indicator para reordenação de widgets */
+    .widget-container.drag-over {
+      outline: 2px dashed #c8aa6e;
+      outline-offset: 2px;
+      background: rgba(200, 170, 110, 0.05);
+    }
+
+    .widget-card.is-dragging {
+      opacity: 0.35;
+      transform: scale(0.98);
+    }
+
+    /* Resizer handles */
+    .resizer-x {
+      width: 6px;
+      cursor: col-resize;
+      background: rgba(200, 170, 110, 0.08);
+      transition: background 0.2s;
+      z-index: 35;
+    }
+    .resizer-x:hover, .resizer-x.is-resizing {
+      background: rgba(200, 170, 110, 0.6);
+    }
+
+    .cursor-grab {
+      cursor: grab;
+    }
+    .cursor-grab:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+
+<body class="bg-[#030609] text-[#a09b8c] font-sans h-screen w-screen overflow-hidden flex flex-col">
+
+  <!-- TOP BAR NAVEGAÇÃO & CONTROLE GLOBAL -->
+  <header class="h-13 border-b border-hextech-border/40 bg-hextech-black/95 px-4 py-2 flex items-center justify-between z-40 shrink-0">
+    <!-- Logotipo & Modo (Esquerda) -->
+    <div class="flex items-center space-x-3 w-72 shrink-0">
+      <div class="w-8 h-8 rounded border border-hextech-gold flex items-center justify-center bg-hextech-gold/10">
+        <i data-lucide="shield" class="w-4 h-4 text-hextech-gold"></i>
+      </div>
+      <div>
+        <span class="font-title text-base font-bold text-hextech-gold tracking-wider flex items-center gap-1.5 leading-none">
+          COACH<span class="text-white">LOL</span>
+        </span>
+        <span class="text-[9px] uppercase tracking-widest text-[#6c7989] font-semibold">Arena Tática 5v5</span>
+      </div>
+    </div>
+
+    <!-- Placar Central: Exatamente Alinhado com o Tabuleiro Central -->
+    <div class="flex-1 flex justify-center items-center">
+      <div class="flex items-center space-x-4 px-4 py-1.5 rounded-lg border border-hextech-border/30 bg-black/70">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-hextech-blueTeam animate-pulse"></span>
+          <span class="text-xs font-semibold text-white">AZUL <span class="text-hextech-blueTeam font-mono font-bold ml-1">100%</span></span>
+          <span class="text-[10px] text-gray-500 font-mono">0 ABATES</span>
+        </div>
+
+        <div class="h-4 w-px bg-hextech-border/30"></div>
+
+        <div class="flex flex-col items-center px-1">
+          <div class="flex items-center space-x-1.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-hextech-gold"></i>
+            <span id="turn-timer" class="font-mono text-base font-bold text-white tracking-widest">00:45</span>
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-hextech-gold font-bold">RODADA 10 • PLANEJAMENTO</span>
+        </div>
+
+        <div class="h-4 w-px bg-hextech-border/30"></div>
+
+        <div class="flex items-center space-x-2">
+          <span class="text-[10px] text-gray-500 font-mono">0 ABATES</span>
+          <span class="text-xs font-semibold text-white"><span class="text-hextech-redTeam font-mono font-bold mr-1">100%</span> VERMELHO</span>
+          <span class="w-2 h-2 rounded-full bg-hextech-redTeam animate-pulse"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botões Globais (Direita) -->
+    <div class="flex items-center space-x-2 shrink-0">
+      <button onclick="openShopModal()" class="glass-button px-3 py-1.5 rounded text-xs flex items-center gap-1.5 font-medium border-hextech-gold text-hextech-goldLight hover:bg-hextech-gold/20">
+        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-hextech-gold"></i>
+        <span>Loja de Itens</span>
+      </button>
+
+      <button id="toggle-perspective-btn" onclick="togglePerspective()" class="glass-button active px-3 py-1.5 rounded text-xs flex items-center gap-1.5 font-medium">
+        <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+        <span id="perspective-label">2.5D</span>
+      </button>
+
+      <button onclick="triggerSampleFight()" class="glass-button px-2.5 py-1.5 rounded text-xs flex items-center gap-1 text-hextech-redTeam border-hextech-redTeam/40" title="Simular Confronto Ahri vs Vex + Lee Sin">
+        <i data-lucide="swords" class="w-3.5 h-3.5"></i>
+        <span>Confronto</span>
+      </button>
+
+      <button onclick="swapDocks()" class="glass-button px-2.5 py-1.5 rounded text-xs" title="Inverter Lado dos Painéis">
+        <i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-hextech-gold"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE PRINCIPAL COM RESIZERS AJUSTÁVEIS -->
+  <div id="workspace-container" class="relative flex-1 flex overflow-hidden w-full select-none">
+    
+    <!-- DOCK ZONE ESQUERDA -->
+    <div id="dock-left" style="width: 280px; min-width: 220px; max-width: 440px;" class="dock-zone h-full flex flex-col z-20 shrink-0 bg-hextech-black/85 border-r border-hextech-border/30 relative">
+      <div class="dock-header p-2.5 border-b border-hextech-border/30 bg-black/60 flex items-center justify-between text-[11px] font-bold text-hextech-gold">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="panel-left-open" class="w-3.5 h-3.5"></i>
+          <span class="dock-title uppercase tracking-wider">Painel Lateral A</span>
+        </div>
+        <span class="text-[9px] text-gray-500 font-mono font-normal">Arraste os cards</span>
+      </div>
+
+      <!-- Container scrollável de widgets modulares -->
+      <div id="dock-left-content" class="widget-container flex-1 overflow-y-auto p-2 space-y-2.5">
+        
+        <!-- WIDGET MODULAR 1: PLANEJAMENTO DA RODADA -->
+        <div id="widget-round-info" draggable="true" class="widget-card glass-card rounded-lg overflow-hidden">
+          <div class="widget-drag-handle p-2 bg-black/70 border-b border-hextech-border/20 flex items-center justify-between cursor-grab active:cursor-grabbing hover:bg-hextech-gold/10 transition">
+            <div class="flex items-center gap-1.5 text-[10px] uppercase font-bold text-hextech-gold">
+              <i data-lucide="grip-vertical" class="w-3 h-3 text-hextech-gold"></i>
+              <span>Planejamento da Rodada</span>
+            </div>
+            <i data-lucide="timer" class="w-3 h-3 text-gray-400"></i>
+          </div>
+          <div class="p-2.5 space-y-2">
+            <div class="grid grid-cols-2 gap-2 text-center">
+              <div class="p-1.5 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[9px] text-gray-400 uppercase">Tempo Rodada</div>
+                <div class="text-xs font-mono font-bold text-white">00:45</div>
+              </div>
+              <div class="p-1.5 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[9px] text-gray-400 uppercase">Tempo Total</div>
+                <div class="text-xs font-mono font-bold text-white">01:31</div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] pt-0.5">
+              <span class="text-gray-400 text-[10px]">Tempo Limite:</span>
+              <select class="bg-black/90 border border-hextech-border/40 rounded text-[10px] text-hextech-gold px-2 py-0.5 outline-none">
+                <option>60s (Padrão)</option>
+                <option>90s (Tático)</option>
+                <option>Sem limite</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGET MODULAR 2: LISTA DE CAMPEÕES (ROSTER) -->
+        <div id="widget-champ-list" draggable="true" class="widget-card glass-card rounded-lg overflow-hidden">
+          <div class="widget-drag-handle p-2 bg-black/70 border-b border-hextech-border/20 flex items-center justify-between cursor-grab active:cursor-grabbing hover:bg-hextech-gold/10 transition">
+            <div class="flex items-center gap-1.5 text-[10px] uppercase font-bold text-hextech-gold">
+              <i data-lucide="grip-vertical" class="w-3 h-3 text-hextech-gold"></i>
+              <span>Campeões Aliados (5)</span>
+            </div>
+            <span class="text-[9px] font-mono text-hextech-blueTeam">5 VIVOS</span>
+          </div>
+          <div class="p-2 space-y-1.5">
+            <!-- Volibear -->
+            <div onclick="selectChampion('Volibear')" id="champ-item-Volibear" class="champ-card p-1.5 rounded border border-hextech-border/30 hover:border-hextech-border/60 bg-black/40 hover:bg-hextech-gold/5 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Volibear.png" alt="Volibear" class="w-7 h-7 rounded border border-hextech-border/30 object-cover">
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[8px] font-bold text-gray-400">TOP</span>
+                    <span class="text-[11px] font-semibold text-white">Volibear</span>
+                  </div>
+                  <div class="text-[8px] text-emerald-400 font-mono">100% HP • ROTA LIVRE</div>
+                </div>
+              </div>
+              <span class="text-[8px] font-mono uppercase px-1 py-0.5 rounded bg-black/60 text-emerald-400 border border-emerald-900/60">Auto</span>
+            </div>
+
+            <!-- Warwick -->
+            <div onclick="selectChampion('Warwick')" id="champ-item-Warwick" class="champ-card p-1.5 rounded border border-hextech-border/30 hover:border-hextech-border/60 bg-black/40 hover:bg-hextech-gold/5 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Warwick.png" alt="Warwick" class="w-7 h-7 rounded border border-hextech-border/30 object-cover">
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[8px] font-bold text-gray-400">JG</span>
+                    <span class="text-[11px] font-semibold text-white">Warwick</span>
+                  </div>
+                  <div class="text-[8px] text-yellow-400 font-mono">89% HP • ROTA 2/6</div>
+                </div>
+              </div>
+              <span class="text-[8px] font-mono uppercase px-1 py-0.5 rounded bg-black/60 text-blue-400 border border-blue-900/60">Farm</span>
+            </div>
+
+            <!-- Ahri (Ativa) -->
+            <div onclick="selectChampion('Ahri')" id="champ-item-Ahri" class="champ-card active p-1.5 rounded border border-hextech-gold bg-hextech-gold/15 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Ahri.png" alt="Ahri" class="w-7 h-7 rounded border border-hextech-gold object-cover">
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[8px] font-bold text-hextech-gold">MID</span>
+                    <span class="text-[11px] font-bold text-white">Ahri</span>
+                  </div>
+                  <div class="text-[8px] text-hextech-blueTeam font-mono">100% HP • EM COMBATE</div>
+                </div>
+              </div>
+              <span class="text-[8px] font-mono uppercase px-1 py-0.5 rounded bg-hextech-gold/20 text-hextech-goldLight border border-hextech-gold/50">Foco</span>
+            </div>
+
+            <!-- Jinx -->
+            <div onclick="selectChampion('Jinx')" id="champ-item-Jinx" class="champ-card p-1.5 rounded border border-hextech-border/30 hover:border-hextech-border/60 bg-black/40 hover:bg-hextech-gold/5 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Jinx.png" alt="Jinx" class="w-7 h-7 rounded border border-hextech-border/30 object-cover">
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[8px] font-bold text-gray-400">ADC</span>
+                    <span class="text-[11px] font-semibold text-white">Jinx</span>
+                  </div>
+                  <div class="text-[8px] text-emerald-400 font-mono">100% HP • BOT LANE</div>
+                </div>
+              </div>
+              <span class="text-[8px] font-mono uppercase px-1 py-0.5 rounded bg-black/60 text-emerald-400 border border-emerald-900/60">Auto</span>
+            </div>
+
+            <!-- Nami -->
+            <div onclick="selectChampion('Nami')" id="champ-item-Nami" class="champ-card p-1.5 rounded border border-hextech-border/30 hover:border-hextech-border/60 bg-black/40 hover:bg-hextech-gold/5 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Nami.png" alt="Nami" class="w-7 h-7 rounded border border-hextech-border/30 object-cover">
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[8px] font-bold text-gray-400">SUP</span>
+                    <span class="text-[11px] font-semibold text-white">Nami</span>
+                  </div>
+                  <div class="text-[8px] text-emerald-400 font-mono">100% HP • C/ JINX</div>
+                </div>
+              </div>
+              <span class="text-[8px] font-mono uppercase px-1 py-0.5 rounded bg-black/60 text-emerald-400 border border-emerald-900/60">Auto</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RESIZER ESQUERDO: Borda ajustável que permite arrastar e redimensionar a largura do painel -->
+    <div id="resizer-left" class="resizer-x shrink-0" title="Arraste para redimensionar o painel esquerdo"></div>
+
+    <!-- ÁREA CENTRAL DO TABULEIRO -->
+    <main class="flex-1 relative overflow-hidden flex items-center justify-center bg-[#020406]">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(20,35,55,0.22)_0%,_rgba(2,4,6,0.98)_85%)] pointer-events-none"></div>
+
+      <!-- Container do Tabuleiro 2.5D -->
+      <div class="map-perspective-container w-full h-full flex items-center justify-center p-4">
+        <div id="map-board" class="map-board relative w-[640px] h-[640px] max-w-[88vw] max-h-[88vh] rounded-xl border border-hextech-border/40 overflow-hidden bg-[#071018]">
+          
+          <img 
+            src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt5a46287c88b48f6c/5efbc9bcfb9c240974e6d302/lol_wildrift_wild_rift_map_guide_map.jpg" 
+            alt="Summoner's Rift Map" 
+            class="w-full h-full object-cover filter contrast-[1.08] brightness-[0.7] opacity-85"
+            onerror="this.src='https://placehold.co/800x800/0a1420/c8aa6e?text=Summoners+Rift+Grid'"
+          >
+
+          <!-- SVG Overlay de Rotas, Rio e Confronto Multicampeões -->
+          <svg class="absolute inset-0 w-full h-full pointer-events-none">
+            <path d="M 100 560 L 100 140 L 560 140" fill="none" stroke="rgba(200, 170, 110, 0.15)" stroke-width="1.5" stroke-dasharray="3 3" />
+            <path d="M 100 560 L 560 140" fill="none" stroke="rgba(200, 170, 110, 0.15)" stroke-width="1.5" stroke-dasharray="3 3" />
+            <path d="M 100 560 L 560 560 L 560 140" fill="none" stroke="rgba(200, 170, 110, 0.15)" stroke-width="1.5" stroke-dasharray="3 3" />
+            <!-- Rio -->
+            <path d="M 140 260 Q 330 330 520 400" fill="none" stroke="rgba(10, 200, 185, 0.12)" stroke-width="10" />
+            <!-- Linhas de Confronto: Ahri vs Vex & Lee Sin -->
+            <line x1="330" y1="330" x2="385" y2="280" stroke="#f0e6d2" stroke-width="1.5" stroke-dasharray="3 3" class="animate-pulse" />
+            <line x1="330" y1="330" x2="410" y2="340" stroke="#e84057" stroke-width="1.5" stroke-dasharray="3 3" class="animate-pulse" />
+          </svg>
+
+          <!-- TOKENS DE CAMPEÕES (DATA DRAGON RIOT) -->
+          <!-- 1. Volibear (Top Azul) -->
+          <div class="absolute left-[115px] top-[230px] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectChampion('Volibear')">
+            <div class="w-8 h-8 rounded-full token-ring-blue overflow-hidden bg-black relative">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Volibear.png" alt="Volibear" class="w-full h-full object-cover">
+            </div>
+            <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black/90 px-1 rounded border border-hextech-blueTeam text-[7px] font-mono text-white whitespace-nowrap">Volibear</span>
+          </div>
+
+          <!-- 2. Warwick (JG Azul) -->
+          <div class="absolute left-[210px] top-[350px] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectChampion('Warwick')">
+            <div class="w-8 h-8 rounded-full token-ring-blue overflow-hidden bg-black relative">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Warwick.png" alt="Warwick" class="w-full h-full object-cover">
+            </div>
+            <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black/90 px-1 rounded border border-hextech-blueTeam text-[7px] font-mono text-white whitespace-nowrap">Warwick</span>
+          </div>
+
+          <!-- 3. Ahri (MID Azul - Em Foco/Confronto 1v2) -->
+          <div class="absolute left-[330px] top-[330px] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-10" onclick="selectChampion('Ahri')">
+            <div class="w-10 h-10 rounded-full token-ring-gold overflow-hidden bg-black relative animate-pulse">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Ahri.png" alt="Ahri" class="w-full h-full object-cover">
+            </div>
+            <span class="absolute -bottom-3.5 left-1/2 -translate-x-1/2 bg-hextech-gold px-1.5 py-0.2 rounded text-[7px] font-bold text-black uppercase tracking-wider whitespace-nowrap">Ahri (Ativa)</span>
+          </div>
+
+          <!-- 4. Vex (Inimiga Mid) -->
+          <div class="absolute left-[385px] top-[280px] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="showFightModal()">
+            <div class="w-8 h-8 rounded-full token-ring-red overflow-hidden bg-black relative">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Vex.png" alt="Vex" class="w-full h-full object-cover">
+            </div>
+            <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black/90 px-1 rounded border border-hextech-redTeam text-[7px] font-mono text-hextech-redTeam whitespace-nowrap">Vex</span>
+          </div>
+
+          <!-- 5. Lee Sin (Inimigo JG Emboscando no Rio) -->
+          <div class="absolute left-[410px] top-[340px] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="showFightModal()">
+            <div class="w-8 h-8 rounded-full token-ring-red overflow-hidden bg-black relative">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/LeeSin.png" alt="Lee Sin" class="w-full h-full object-cover">
+            </div>
+            <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black/90 px-1 rounded border border-hextech-redTeam text-[7px] font-mono text-hextech-redTeam whitespace-nowrap">Lee Sin</span>
+          </div>
+
+          <!-- 6. Duo Bot (Jinx & Nami) -->
+          <div class="absolute left-[470px] top-[510px] -translate-x-1/2 -translate-y-1/2 flex -space-x-2.5 cursor-pointer" onclick="selectChampion('Jinx')">
+            <div class="w-8 h-8 rounded-full token-ring-blue overflow-hidden bg-black relative z-10">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Jinx.png" alt="Jinx" class="w-full h-full object-cover">
+            </div>
+            <div class="w-8 h-8 rounded-full token-ring-blue overflow-hidden bg-black relative">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Nami.png" alt="Nami" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL FLUTUANTE DE CONFRONTO MULTI-CAMPEÕES (Ex: Ahri vs Vex + Lee Sin) -->
+      <div id="conflict-modal" class="absolute z-30 max-w-md w-full glass-card rounded-lg p-3.5 border border-hextech-gold">
+        <div class="flex items-center justify-between border-b border-hextech-border/30 pb-2 mb-2.5">
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 rounded-full bg-hextech-gold animate-ping"></div>
+            <span class="text-[9px] uppercase tracking-widest text-hextech-gold font-bold">ALVO / AÇÃO EM TURNO • CONFRONTO 1v2</span>
+          </div>
+          <button onclick="closeFightModal()" class="text-gray-400 hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <h3 class="font-title text-base font-bold text-white mb-2">Responder Confronto</h3>
+
+        <!-- Cartões de confronto com múltiplos inimigos -->
+        <div class="flex items-center justify-between p-2 rounded bg-black/70 border border-hextech-border/30 mb-2.5">
+          <div class="flex items-center space-x-1.5">
+            <img id="fight-ally-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Ahri.png" class="w-7 h-7 rounded border border-hextech-blueTeam">
+            <div>
+              <span id="fight-ally-name" class="text-xs font-bold text-white block leading-none">Ahri</span>
+              <span class="text-[8px] text-emerald-400 font-mono">100% HP</span>
+            </div>
+          </div>
+
+          <div class="text-[10px] text-hextech-gold font-mono font-bold px-2">VS</div>
+
+          <div class="flex items-center space-x-1.5">
+            <div class="flex -space-x-2">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Vex.png" title="Vex" class="w-7 h-7 rounded border border-hextech-redTeam z-10">
+              <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/LeeSin.png" title="Lee Sin (Gank)" class="w-7 h-7 rounded border border-hextech-redTeam">
+            </div>
+            <div>
+              <span class="text-xs font-bold text-hextech-redTeam block leading-none">Vex + Lee Sin</span>
+              <span class="text-[8px] text-red-400 font-mono">2 Inimigos</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-gray-300 leading-normal mb-3">
+          O mapa está pausado até sua resolução. Ahri está sob ameaça de gank de Lee Sin pelo rio. Escolha a tática de resposta prioritária:
+        </p>
+
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="resolveAction('Focar Vex (Burst)')" class="glass-button active py-1.5 rounded text-xs font-medium border-hextech-gold">Focar Vex (Burst)</button>
+          <button onclick="resolveAction('Encantar Lee Sin (Peel)')" class="glass-button py-1.5 rounded text-xs font-medium">Encantar Lee Sin</button>
+          <button onclick="resolveAction('Flash / Recuar Torre')" class="glass-button py-1.5 rounded text-xs font-medium">Flash p/ Torre</button>
+          <button onclick="resolveAction('Pingar Ajuda Warwick')" class="glass-button py-1.5 rounded text-xs font-medium">Chamar Warwick</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- RESIZER DIREITO: Borda ajustável que permite arrastar e redimensionar o painel direito -->
+    <div id="resizer-right" class="resizer-x shrink-0" title="Arraste para redimensionar o painel direito"></div>
+
+    <!-- DOCK ZONE DIREITA -->
+    <div id="dock-right" style="width: 320px; min-width: 240px; max-width: 480px;" class="dock-zone h-full flex flex-col z-20 shrink-0 bg-hextech-black/85 border-l border-hextech-border/30 relative">
+      <div class="dock-header p-2.5 border-b border-hextech-border/30 bg-black/60 flex items-center justify-between text-[11px] font-bold text-hextech-gold">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="panel-right-open" class="w-3.5 h-3.5"></i>
+          <span class="dock-title uppercase tracking-wider">Painel Lateral B</span>
+        </div>
+        <span class="text-[9px] text-gray-500 font-mono font-normal">Arraste os cards</span>
+      </div>
+
+      <!-- Container scrollável de widgets modulares -->
+      <div id="dock-right-content" class="widget-container flex-1 overflow-y-auto p-2 space-y-2.5">
+        
+        <!-- WIDGET MODULAR 3: STATUS DO CAMPEÃO ATIVO -->
+        <div id="widget-champ-stats" draggable="true" class="widget-card glass-card rounded-lg overflow-hidden">
+          <div class="widget-drag-handle p-2 bg-black/70 border-b border-hextech-border/20 flex items-center justify-between cursor-grab active:cursor-grabbing hover:bg-hextech-gold/10 transition">
+            <div class="flex items-center gap-1.5 text-[10px] uppercase font-bold text-hextech-gold">
+              <i data-lucide="grip-vertical" class="w-3 h-3 text-hextech-gold"></i>
+              <span>Status do Campeão</span>
+            </div>
+            <span id="hud-champ-role" class="text-[9px] font-bold text-hextech-blueTeam border border-hextech-blueTeam/40 px-1 py-0.2 rounded">MID</span>
+          </div>
+
+          <div class="p-2.5 space-y-2.5">
+            <div class="flex items-center space-x-2.5">
+              <img id="hud-champ-avatar" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Ahri.png" alt="Ahri" class="w-10 h-10 rounded border border-hextech-gold object-cover shrink-0">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <h2 id="hud-champ-name" class="font-title text-sm font-bold text-white leading-none">Ahri</h2>
+                  <span class="text-[9px] text-hextech-gold font-mono font-semibold">NÍVEL 1</span>
+                </div>
+                <div id="hud-champ-type" class="text-[10px] text-gray-400 mt-0.5">Mage / Assassin • 0 XP</div>
+              </div>
+            </div>
+
+            <!-- HP / Mana -->
+            <div class="space-y-1">
+              <div>
+                <div class="flex justify-between text-[8px] font-mono mb-0.5">
+                  <span class="text-emerald-400 font-semibold">HP</span>
+                  <span id="hud-champ-hp" class="text-white">880 / 880</span>
+                </div>
+                <div class="w-full bg-black/80 rounded h-1 overflow-hidden border border-emerald-950">
+                  <div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full rounded w-full"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[8px] font-mono mb-0.5">
+                  <span class="text-hextech-mana font-semibold">MANA</span>
+                  <span class="text-white">815 / 815</span>
+                </div>
+                <div class="w-full bg-black/80 rounded h-1 overflow-hidden border border-blue-950">
+                  <div class="bg-gradient-to-r from-blue-600 to-hextech-mana h-full rounded w-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid de AD, AP, ARMOR, MR -->
+            <div class="grid grid-cols-4 gap-1 text-center pt-0.5">
+              <div class="p-1 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[7px] text-orange-400 font-bold">AD</div>
+                <div id="stat-ad" class="text-[11px] font-mono font-bold text-white">48</div>
+              </div>
+              <div class="p-1 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[7px] text-sky-400 font-bold">AP</div>
+                <div id="stat-ap" class="text-[11px] font-mono font-bold text-white">120</div>
+              </div>
+              <div class="p-1 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[7px] text-yellow-500 font-bold">ARM</div>
+                <div id="stat-ar" class="text-[11px] font-mono font-bold text-white">21</div>
+              </div>
+              <div class="p-1 rounded bg-black/60 border border-hextech-border/20">
+                <div class="text-[7px] text-violet-400 font-bold">MR</div>
+                <div id="stat-mr" class="text-[11px] font-mono font-bold text-white">30</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGET MODULAR 4: HABILIDADES (HABILIDADES EVOLUTIVAS) -->
+        <div id="widget-champ-spells" draggable="true" class="widget-card glass-card rounded-lg overflow-hidden">
+          <div class="widget-drag-handle p-2 bg-black/70 border-b border-hextech-border/20 flex items-center justify-between cursor-grab active:cursor-grabbing hover:bg-hextech-gold/10 transition">
+            <div class="flex items-center gap-1.5 text-[10px] uppercase font-bold text-hextech-gold">
+              <i data-lucide="grip-vertical" class="w-3 h-3 text-hextech-gold"></i>
+              <span>Habilidades</span>
+            </div>
+            <span class="text-[8px] text-emerald-400 font-mono">+1 PT DISPONÍVEL</span>
+          </div>
+          <div class="p-2">
+            <div class="grid grid-cols-4 gap-1.5">
+              <div class="p-1 rounded border border-hextech-gold bg-black/60 flex flex-col items-center cursor-pointer hover:border-white">
+                <span class="text-[8px] font-bold text-hextech-gold">Q</span>
+                <img id="spell-q" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/AhriQ.png" class="w-7 h-7 rounded border border-hextech-border/30 mt-0.5">
+                <span class="text-[7px] text-gray-400 font-mono mt-0.5">0/5</span>
+              </div>
+              <div class="p-1 rounded border border-hextech-border/30 bg-black/60 flex flex-col items-center cursor-pointer hover:border-white">
+                <span class="text-[8px] font-bold text-gray-400">W</span>
+                <img id="spell-w" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/AhriW.png" class="w-7 h-7 rounded border border-hextech-border/30 mt-0.5">
+                <span class="text-[7px] text-gray-400 font-mono mt-0.5">0/5</span>
+              </div>
+              <div class="p-1 rounded border border-hextech-border/30 bg-black/60 flex flex-col items-center cursor-pointer hover:border-white">
+                <span class="text-[8px] font-bold text-gray-400">E</span>
+                <img id="spell-e" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/AhriE.png" class="w-7 h-7 rounded border border-hextech-border/30 mt-0.5">
+                <span class="text-[7px] text-gray-400 font-mono mt-0.5">0/5</span>
+              </div>
+              <div class="p-1 rounded border border-hextech-border/30 bg-black/60 flex flex-col items-center cursor-pointer hover:border-white">
+                <span class="text-[8px] font-bold text-gray-400">R</span>
+                <img id="spell-r" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/AhriR.png" class="w-7 h-7 rounded border border-hextech-border/30 mt-0.5">
+                <span class="text-[7px] text-gray-400 font-mono mt-0.5">0/3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGET MODULAR 5: COMANDOS TÁTICOS (ARRASTÁVEL LIVREMENTE) -->
+        <div id="widget-tactical-commands" draggable="true" class="widget-card glass-card rounded-lg overflow-hidden">
+          <div class="widget-drag-handle p-2 bg-black/70 border-b border-hextech-border/20 flex items-center justify-between cursor-grab active:cursor-grabbing hover:bg-hextech-gold/10 transition">
+            <div class="flex items-center gap-1.5 text-[10px] uppercase font-bold text-hextech-gold">
+              <i data-lucide="grip-vertical" class="w-3 h-3 text-hextech-gold"></i>
+              <span>Comandos Táticos</span>
+            </div>
+            <span class="text-[8px] text-gray-400 font-mono">DOCK WIDGET</span>
+          </div>
+          <div class="p-2">
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="triggerCommand('Atacar')" class="glass-button p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="sword" class="w-3.5 h-3.5 text-hextech-gold mb-0.5"></i>
+                <span class="text-[9px]">Atacar</span>
+              </button>
+              <button onclick="triggerCommand('Farmar')" class="glass-button p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="crosshair" class="w-3.5 h-3.5 text-hextech-gold mb-0.5"></i>
+                <span class="text-[9px]">Farmar</span>
+              </button>
+              <button onclick="triggerCommand('Puxar Rota')" class="glass-button active p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="compass" class="w-3.5 h-3.5 text-white mb-0.5"></i>
+                <span class="text-[9px]">Puxar</span>
+              </button>
+              <button onclick="triggerCommand('Defender')" class="glass-button p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="shield" class="w-3.5 h-3.5 text-hextech-gold mb-0.5"></i>
+                <span class="text-[9px]">Defender</span>
+              </button>
+              <button onclick="triggerCommand('Wardar')" class="glass-button p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-yellow-400 mb-0.5"></i>
+                <span class="text-[9px]">Wardar</span>
+              </button>
+              <button onclick="triggerCommand('Recall')" class="glass-button p-1.5 rounded flex flex-col items-center justify-center text-center">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-hextech-blueTeam mb-0.5"></i>
+                <span class="text-[9px]">Recall (B)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BARRA INFERIOR: TERMINAL MACRO E CONFIRMAÇÃO DE TURNO -->
+  <footer class="h-16 glass-panel border-b-0 border-x-0 px-4 flex items-center justify-between gap-4 z-30 shrink-0">
+    <div class="flex-1 flex items-center bg-black/70 border border-hextech-border/40 rounded px-3 py-1.5 focus-within:border-hextech-gold transition">
+      <i data-lucide="terminal" class="w-3.5 h-3.5 text-hextech-gold mr-2.5 shrink-0"></i>
+      <input 
+        id="order-input"
+        type="text" 
+        placeholder="Ex: Warwick faz invasão no Red inimigo; Ahri empurra onda e prepara gank bot..." 
+        class="bg-transparent text-xs text-white placeholder-gray-500 w-full outline-none font-sans"
+      >
+      <button onclick="applyMacroOrder()" class="glass-button active px-3 py-1 rounded text-[11px] font-semibold uppercase tracking-wider shrink-0 ml-2">
+        Aplicar
+      </button>
+    </div>
+
+    <div class="flex items-center space-x-3 shrink-0">
+      <div class="text-right">
+        <div class="text-[9px] uppercase tracking-wider text-emerald-400 font-bold flex items-center justify-end gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Ordens Prontas
+        </div>
+        <div class="text-[10px] text-gray-400">Turno 10 em espera</div>
+      </div>
+      <button onclick="endTurn()" class="px-4 py-2 rounded bg-gradient-to-r from-hextech-goldDark via-hextech-gold to-hextech-goldLight text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition">
+        Finalizar Turno
+      </button>
+    </div>
+  </footer>
+
+  <!-- MODAL DA LOJA DE ITENS (DATA DRAGON RIOT) -->
+  <div id="shop-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+    <div class="w-[840px] max-w-[95vw] h-[580px] max-h-[92vh] glass-card rounded-xl border border-hextech-gold/70 flex flex-col overflow-hidden">
+      
+      <div class="p-4 border-b border-hextech-border/40 flex items-center justify-between">
+        <div>
+          <div class="text-[10px] uppercase tracking-widest text-hextech-gold font-bold">LOADOUT / PLANEJAMENTO</div>
+          <h2 class="font-title text-xl font-bold text-white leading-none mt-0.5">Loja de Itens</h2>
+          <p class="text-xs text-gray-400 mt-1">Itens por função: JG escolhe pet; SUP recebe Atlas. Compre na fonte ou programe compras.</p>
+        </div>
+        <button onclick="closeShopModal()" class="w-8 h-8 rounded border border-hextech-border/50 bg-black/60 flex items-center justify-center text-gray-400 hover:text-white hover:border-hextech-gold">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 flex overflow-hidden">
+        <!-- Roster da Loja -->
+        <div class="w-44 border-r border-hextech-border/30 p-2.5 space-y-1.5 overflow-y-auto bg-black/40 shrink-0">
+          <div class="text-[9px] uppercase tracking-wider text-gray-400 font-bold px-1 mb-1">Selecione Campeão</div>
+          
+          <button onclick="changeShopChamp('Volibear', 'TOP - Fighter', 50, 'Lâmina de Doran')" id="shop-tab-Volibear" class="shop-champ-btn active w-full p-2 rounded border border-hextech-gold bg-hextech-gold/15 flex items-center space-x-2 text-left">
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Volibear.png" class="w-7 h-7 rounded border border-hextech-gold/60">
+            <div>
+              <div class="text-xs font-semibold text-white">Volibear</div>
+              <div class="text-[9px] text-hextech-gold font-mono">50 ouro</div>
+            </div>
+          </button>
+
+          <button onclick="changeShopChamp('Warwick', 'JG - Fighter', 150, 'Cria de Andabrisas')" id="shop-tab-Warwick" class="shop-champ-btn w-full p-2 rounded border border-hextech-border/30 hover:border-hextech-border bg-black/40 flex items-center space-x-2 text-left">
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Warwick.png" class="w-7 h-7 rounded border border-hextech-border/40">
+            <div>
+              <div class="text-xs font-semibold text-white">Warwick</div>
+              <div class="text-[9px] text-hextech-gold font-mono">150 ouro</div>
+            </div>
+          </button>
+
+          <button onclick="changeShopChamp('Ahri', 'MID - Mage', 50, 'Anel de Doran')" id="shop-tab-Ahri" class="shop-champ-btn w-full p-2 rounded border border-hextech-border/30 hover:border-hextech-border bg-black/40 flex items-center space-x-2 text-left">
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Ahri.png" class="w-7 h-7 rounded border border-hextech-border/40">
+            <div>
+              <div class="text-xs font-semibold text-white">Ahri</div>
+              <div class="text-[9px] text-hextech-gold font-mono">50 ouro</div>
+            </div>
+          </button>
+
+          <button onclick="changeShopChamp('Jinx', 'ADC - Marksman', 50, 'Lâmina de Doran')" id="shop-tab-Jinx" class="shop-champ-btn w-full p-2 rounded border border-hextech-border/30 hover:border-hextech-border bg-black/40 flex items-center space-x-2 text-left">
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Jinx.png" class="w-7 h-7 rounded border border-hextech-border/40">
+            <div>
+              <div class="text-xs font-semibold text-white">Jinx</div>
+              <div class="text-[9px] text-hextech-gold font-mono">50 ouro</div>
+            </div>
+          </button>
+
+          <button onclick="changeShopChamp('Nami', 'SUP - Enchanter', 110, 'Atlas Mundial')" id="shop-tab-Nami" class="shop-champ-btn w-full p-2 rounded border border-hextech-border/30 hover:border-hextech-border bg-black/40 flex items-center space-x-2 text-left">
+            <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Nami.png" class="w-7 h-7 rounded border border-hextech-border/40">
+            <div>
+              <div class="text-xs font-semibold text-white">Nami</div>
+              <div class="text-[9px] text-hextech-gold font-mono">110 ouro</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Grid de Itens -->
+        <div class="flex-1 p-4 flex flex-col overflow-hidden">
+          <div class="flex items-center space-x-2 mb-3">
+            <button onclick="filterShop('todos')" class="shop-filter-btn px-3 py-1 rounded text-xs border border-hextech-border/40 bg-black/50 text-gray-300 hover:text-white">Todos</button>
+            <button onclick="filterShop('recomendados')" class="shop-filter-btn active px-3 py-1 rounded text-xs border border-hextech-gold bg-hextech-gold/20 text-white">Recomendados</button>
+            <button onclick="filterShop('iniciais')" class="shop-filter-btn px-3 py-1 rounded text-xs border border-hextech-border/40 bg-black/50 text-gray-300 hover:text-white">Iniciais</button>
+          </div>
+
+          <div class="flex-1 grid grid-cols-2 gap-3 overflow-y-auto pr-1">
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1055.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Lâmina de Doran</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+10 AD • +80 HP</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">450 g</span>
+              </div>
+              <button onclick="programItem('Lâmina de Doran', 450)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1001.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Botas de Velocidade</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+25 Movimento</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">300 g</span>
+              </div>
+              <button onclick="programItem('Botas', 300)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1036.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Espada Longa</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+10 AD</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">350 g</span>
+              </div>
+              <button onclick="programItem('Espada Longa', 350)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1028.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Cristal de Rubi</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+150 HP</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">400 g</span>
+              </div>
+              <button onclick="programItem('Cristal de Rubi', 400)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1029.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Armadura de Pano</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+15 Armadura</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">300 g</span>
+              </div>
+              <button onclick="programItem('Armadura de Pano', 300)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+
+            <div class="p-3 rounded-lg border border-hextech-border/40 bg-black/50 hover:border-hextech-gold transition flex flex-col justify-between">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/item/1056.png" class="w-7 h-7 rounded border border-hextech-border/40">
+                    <h4 class="text-xs font-bold text-white">Anel de Doran</h4>
+                  </div>
+                  <p class="text-[11px] text-gray-400 mt-1">+18 AP • +90 HP</p>
+                </div>
+                <span class="text-xs font-mono font-bold text-hextech-gold">400 g</span>
+              </div>
+              <button onclick="programItem('Anel de Doran', 400)" class="mt-2 text-left text-[10px] font-bold text-hextech-gold uppercase tracking-wider hover:text-white flex items-center gap-1">
+                Programar ↗
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Lateral da Loja -->
+        <div class="w-56 border-l border-hextech-border/30 p-4 flex flex-col justify-between bg-black/60 shrink-0">
+          <div>
+            <div class="text-[9px] uppercase tracking-wider text-gray-400 font-bold mb-1">CAMPEÃO ATIVO</div>
+            <h3 id="shop-champ-name" class="font-title text-lg font-bold text-white">Volibear</h3>
+            <div id="shop-champ-role" class="text-xs text-gray-400 mb-3">TOP • Fighter</div>
+
+            <div class="flex items-baseline justify-between py-2 border-y border-hextech-border/30 mb-3">
+              <span class="text-xs text-gray-400 font-medium">OURO</span>
+              <span id="shop-champ-gold" class="text-lg font-mono font-bold text-hextech-gold">50</span>
+            </div>
+
+            <div class="mb-3">
+              <div class="text-[10px] text-gray-400 uppercase font-semibold">Build Atual:</div>
+              <div id="shop-champ-build" class="text-xs font-semibold text-white">Lâmina de Doran</div>
+            </div>
+
+            <div class="mb-3">
+              <div class="text-[10px] text-gray-400 uppercase font-semibold">Próximas Compras:</div>
+              <div id="shop-scheduled-items" class="text-xs text-hextech-goldLight font-mono">Sem itens programados</div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <button onclick="saveArsenal()" class="w-full glass-button py-2 rounded text-xs font-semibold border-hextech-gold text-hextech-goldLight hover:bg-hextech-gold/20">
+              Salvar Arsenal
+            </button>
+            <button onclick="closeShopModal()" class="w-full py-2 rounded bg-black/80 border border-hextech-border/40 text-xs font-semibold text-gray-300 hover:text-white">
+              Fechar Loja
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÃO TOAST TÁTICA -->
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 bg-hextech-black/95 border border-hextech-gold text-white text-xs px-4 py-2 rounded shadow-none opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+    <i data-lucide="info" class="w-4 h-4 text-hextech-gold"></i>
+    <span id="toast-message">Ordem executada com sucesso.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // ==========================================
+    // SISTEMA MODULAR DE WIDGETS (DRAG & DROP)
+    // ==========================================
+    let draggedWidget = null;
+
+    function initModularWidgets() {
+      const widgets = document.querySelectorAll('.widget-card');
+      const containers = document.querySelectorAll('.widget-container');
+
+      widgets.forEach(widget => {
+        widget.addEventListener('dragstart', (e) => {
+          draggedWidget = widget;
+          e.dataTransfer.setData('text/plain', widget.id);
+          setTimeout(() => widget.classList.add('is-dragging'), 0);
+        });
+
+        widget.addEventListener('dragend', () => {
+          widget.classList.remove('is-dragging');
+          containers.forEach(c => c.classList.remove('drag-over'));
+          draggedWidget = null;
+        });
+      });
+
+      containers.forEach(container => {
+        container.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          container.classList.add('drag-over');
+
+          const afterElement = getDragAfterElement(container, e.clientY);
+          if (!draggedWidget) return;
+
+          if (afterElement == null) {
+            container.appendChild(draggedWidget);
+          } else {
+            container.insertBefore(draggedWidget, afterElement);
+          }
+        });
+
+        container.addEventListener('dragleave', () => {
+          container.classList.remove('drag-over');
+        });
+
+        container.addEventListener('drop', (e) => {
+          e.preventDefault();
+          container.classList.remove('drag-over');
+          showToast('Posição do widget atualizada.');
+        });
+      });
+    }
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.widget-card:not(.is-dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // ==========================================
+    // RESIZE INTERATIVO DAS BORDAS (DIVISÓRIAS)
+    // ==========================================
+    function initSplitResizers() {
+      const leftDock = document.getElementById('dock-left');
+      const rightDock = document.getElementById('dock-right');
+      const resizerLeft = document.getElementById('resizer-left');
+      const resizerRight = document.getElementById('resizer-right');
+
+      let isResizingLeft = false;
+      let isResizingRight = false;
+
+      // Resizer Esquerda
+      resizerLeft.addEventListener('mousedown', (e) => {
+        isResizingLeft = true;
+        resizerLeft.classList.add('is-resizing');
+        document.body.style.cursor = 'col-resize';
+      });
+
+      // Resizer Direita
+      resizerRight.addEventListener('mousedown', (e) => {
+        isResizingRight = true;
+        resizerRight.classList.add('is-resizing');
+        document.body.style.cursor = 'col-resize';
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isResizingLeft) {
+          const newWidth = Math.min(Math.max(e.clientX, 220), 460);
+          leftDock.style.width = `${newWidth}px`;
+        }
+
+        if (isResizingRight) {
+          const newWidth = Math.min(Math.max(window.innerWidth - e.clientX, 240), 500);
+          rightDock.style.width = `${newWidth}px`;
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isResizingLeft || isResizingRight) {
+          isResizingLeft = false;
+          isResizingRight = false;
+          resizerLeft.classList.remove('is-resizing');
+          resizerRight.classList.remove('is-resizing');
+          document.body.style.cursor = 'default';
+        }
+      });
+    }
+
+    // Inverter Docks (Esquerda <-> Direita)
+    function swapDocks() {
+      const leftContainer = document.getElementById('dock-left-content');
+      const rightContainer = document.getElementById('dock-right-content');
+
+      const leftItems = [...leftContainer.children];
+      const rightItems = [...rightContainer.children];
+
+      leftItems.forEach(el => rightContainer.appendChild(el));
+      rightItems.forEach(el => leftContainer.appendChild(el));
+
+      showToast('Conteúdo dos painéis invertido.');
+    }
+
+    // ==========================================
+    // DADOS DOS CAMPEÕES (DATA DRAGON)
+    // ==========================================
+    const champions = {
+      'Ahri': {
+        role: 'MID',
+        type: 'Mage / Assassin',
+        hp: '880 / 880',
+        ad: 48,
+        ap: 120,
+        armor: 21,
+        mr: 30,
+        spells: ['AhriQ', 'AhriW', 'AhriE', 'AhriR']
+      },
+      'Volibear': {
+        role: 'TOP',
+        type: 'Tank / Fighter',
+        hp: '1050 / 1050',
+        ad: 62,
+        ap: 0,
+        armor: 38,
+        mr: 32,
+        spells: ['VolibearQ', 'VolibearW', 'VolibearE', 'VolibearR']
+      },
+      'Warwick': {
+        role: 'JG',
+        type: 'Fighter / Tank',
+        hp: '920 / 920',
+        ad: 58,
+        ap: 10,
+        armor: 34,
+        mr: 32,
+        spells: ['WarwickQ', 'WarwickW', 'WarwickE', 'WarwickR']
+      },
+      'Jinx': {
+        role: 'ADC',
+        type: 'Marksman',
+        hp: '740 / 740',
+        ad: 65,
+        ap: 0,
+        armor: 24,
+        mr: 28,
+        spells: ['JinxQ', 'JinxW', 'JinxE', 'JinxR']
+      },
+      'Nami': {
+        role: 'SUP',
+        type: 'Support / Mage',
+        hp: '710 / 710',
+        ad: 42,
+        ap: 60,
+        armor: 26,
+        mr: 30,
+        spells: ['NamiQ', 'NamiW', 'NamiE', 'NamiR']
+      }
+    };
+
+    function selectChampion(name) {
+      const data = champions[name];
+      if (!data) return;
+
+      document.getElementById('hud-champ-name').innerText = name;
+      document.getElementById('hud-champ-role').innerText = data.role;
+      document.getElementById('hud-champ-type').innerText = `${data.type} • 0 XP`;
+      document.getElementById('hud-champ-hp').innerText = data.hp;
+      document.getElementById('hud-champ-avatar').src = `https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/${name}.png`;
+
+      document.getElementById('stat-ad').innerText = data.ad;
+      document.getElementById('stat-ap').innerText = data.ap;
+      document.getElementById('stat-ar').innerText = data.armor;
+      document.getElementById('stat-mr').innerText = data.mr;
+
+      // Habilidades
+      document.getElementById('spell-q').src = `https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/${data.spells[0]}.png`;
+      document.getElementById('spell-w').src = `https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/${data.spells[1]}.png`;
+      document.getElementById('spell-e').src = `https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/${data.spells[2]}.png`;
+      document.getElementById('spell-r').src = `https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/${data.spells[3]}.png`;
+
+      // Atualizar destaque
+      document.querySelectorAll('.champ-card').forEach(el => {
+        el.classList.remove('border-hextech-gold', 'bg-hextech-gold/15');
+        el.classList.add('border-hextech-border/30', 'bg-black/40');
+      });
+
+      const selectedEl = document.getElementById(`champ-item-${name}`);
+      if (selectedEl) {
+        selectedEl.classList.remove('border-hextech-border/30', 'bg-black/40');
+        selectedEl.classList.add('border-hextech-gold', 'bg-hextech-gold/15');
+      }
+
+      showToast(`Campeão ativo: ${name}`);
+    }
+
+    // ==========================================
+    // PERSPECTIVA 2.5D / TOP-DOWN
+    // ==========================================
+    let isPerspective = true;
+    function togglePerspective() {
+      const board = document.getElementById('map-board');
+      const btn = document.getElementById('toggle-perspective-btn');
+      const label = document.getElementById('perspective-label');
+      
+      isPerspective = !isPerspective;
+      if (isPerspective) {
+        board.classList.remove('flat-view');
+        btn.classList.add('active');
+        label.innerText = '2.5D';
+        showToast('Perspectiva 2.5D ativada');
+      } else {
+        board.classList.add('flat-view');
+        btn.classList.remove('active');
+        label.innerText = '2D';
+        showToast('Visão Plana 2D ativada');
+      }
+    }
+
+    // ==========================================
+    // MODAL DE CONFRONTO MULTI-CAMPEÕES
+    // ==========================================
+    function showFightModal() {
+      document.getElementById('conflict-modal').style.display = 'block';
+    }
+
+    function closeFightModal() {
+      document.getElementById('conflict-modal').style.display = 'none';
+    }
+
+    function triggerSampleFight() {
+      showFightModal();
+      showToast('Confronto detectado: Ahri vs Vex & Lee Sin');
+    }
+
+    function resolveAction(action) {
+      closeFightModal();
+      showToast(`Tática executada: ${action}`);
+    }
+
+    function triggerCommand(cmd) {
+      showToast(`Comando emitido: ${cmd}`);
+    }
+
+    // ==========================================
+    // MODAL DA LOJA DE ITENS
+    // ==========================================
+    function openShopModal() {
+      document.getElementById('shop-modal').classList.remove('hidden');
+    }
+
+    function closeShopModal() {
+      document.getElementById('shop-modal').classList.add('hidden');
+    }
+
+    function changeShopChamp(name, role, gold, build) {
+      document.querySelectorAll('.shop-champ-btn').forEach(btn => {
+        btn.classList.remove('border-hextech-gold', 'bg-hextech-gold/15');
+        btn.classList.add('border-hextech-border/30', 'bg-black/40');
+      });
+
+      const activeBtn = document.getElementById(`shop-tab-${name}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-hextech-border/30', 'bg-black/40');
+        activeBtn.classList.add('border-hextech-gold', 'bg-hextech-gold/15');
+      }
+
+      document.getElementById('shop-champ-name').innerText = name;
+      document.getElementById('shop-champ-role').innerText = role;
+      document.getElementById('shop-champ-gold').innerText = gold;
+      document.getElementById('shop-champ-build').innerText = build;
+    }
+
+    function programItem(itemName, cost) {
+      const scheduled = document.getElementById('shop-scheduled-items');
+      scheduled.innerText = `${itemName} (${cost}g)`;
+      showToast(`${itemName} programado para compra.`);
+    }
+
+    function filterShop(type) {
+      document.querySelectorAll('.shop-filter-btn').forEach(b => {
+        b.classList.remove('active', 'border-hextech-gold', 'bg-hextech-gold/20', 'text-white');
+        b.classList.add('border-hextech-border/40', 'bg-black/50', 'text-gray-300');
+      });
+      event.target.classList.add('active', 'border-hextech-gold', 'bg-hextech-gold/20', 'text-white');
+      showToast(`Filtro da loja: ${type.toUpperCase()}`);
+    }
+
+    function saveArsenal() {
+      closeShopModal();
+      showToast('Arsenal do campeão salvo com sucesso.');
+    }
+
+    // ==========================================
+    // ORDENS E FINALIZAÇÃO DE TURNO
+    // ==========================================
+    function applyMacroOrder() {
+      const input = document.getElementById('order-input');
+      if (!input.value.trim()) {
+        showToast('Digite uma instrução tática.');
+        return;
+      }
+      showToast(`Ordens aplicadas: "${input.value}"`);
+      input.value = '';
+    }
+
+    function endTurn() {
+      showToast('Turno 10 finalizado! Calculando combates...');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-message');
+      text.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2400);
+    }
+
+    // Inicialização ao carregar a página
+    window.addEventListener('DOMContentLoaded', () => {
+      initModularWidgets();
+      initSplitResizers();
+    });
+  </script>
+</body>
+</html>

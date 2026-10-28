@@ -1,0 +1,1 @@
+Primeira execução interrompida pelo limite do ambiente em dev63, sem exit conclusivo; retry completo exit 0.

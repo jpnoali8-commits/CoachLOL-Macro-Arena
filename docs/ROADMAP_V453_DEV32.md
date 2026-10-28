@@ -1,0 +1,6 @@
+# CoachLOL — Roadmap pós-dev32
+
+1. **Dev33**: garantir catálogo oficial do patch via arquivo `item.json` 16.21.1 íntegro, listar todos os itens compráveis SR, auditar IDs/receitas/mode restrictions; sem aplicação quando faltar ingrediente. Adicionar ícones locais legais e filtros completos. Corrigir o fluxo de slots/stack de consumíveis e regeneração com precisão sub-tick.
+2. **Dev34–36**: efeitos restantes em lotes testáveis (Canhão Fumegante, crítico, lifesteal, defesa, utilidade, spell shields, tenacidade, stasis, QSS, etc.), atualização da UI e comportamento dos bots. Adicionar teste de 30–50 drafts, mediana/P90, duração alvo ~30m sem vitória por relógio.
+3. **V4.5.4**: dados de crescimento dos 14 campeões, passivas+QWER completos, combos, formas da Nidalee/Elise/Shyvana. Mordekaiser: R com isolamento 1v1 no **viewport quadrado superior esquerdo**, **círculo de colisão interno**, cópia espacial fiel da área original com paredes/brushes e variante elemental atual, retorno às posições relativas e fechamento automático. Mordekaiser e Golpear têm prioridade de overlays acima de HUDs comuns.
+4. Auditoria contínua: staleness de Data Dragon, inventário, snapshots, fog e combate, farm, bot de objetivos, tempo de partida, match orgânico Chromium.

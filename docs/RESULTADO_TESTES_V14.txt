@@ -1,0 +1,53 @@
+
+> coachlol-macro-arena-v14@1.4.0 test
+> node tests/core.test.mjs && node tests/live.test.mjs && node tests/hud_v14.test.mjs
+
+✓ atlas mantém 22 torres, 2 nexus e cinco campeões por equipe
+✓ ordem de cada um dos 5 campeões é independente e simultânea
+✓ movimento persiste após resolução, com orçamento por rodada
+✓ parar rota limpa somente o plano do campeão escolhido
+✓ plano de ações multi-etapas mantém duração e ordem
+✓ bot vermelho cria ordens pela sua própria visão e compra itens
+✓ ações não permitem marcar alvo oculto
+✓ fonte de visão inclui aliados, minions, wards e estruturas
+✓ campeão aliado permanece visível quando atravessa a jungle inimiga
+✓ visão de minion aliado revela ponto próximo
+✓ parede bloqueia linha de visão e fog não revela atrás dela
+✓ fog filtra campeão inimigo e oculta plano/ordens
+✓ waves azul/vermelha nascem nas três lanes e têm progressão automática
+✓ tropas inimigas entram em confronto
+✓ torre prioriza minion e responde a dive de campeão
+✓ kill por torre não corrompe ouro e kills
+✓ bot com mesma seed e mesmo estado é determinístico
+✓ cooldowns e boots afetam o deslocamento sem teleportar pelo mapa
+✓ marcação visual não cria informação inimiga escondida
+✓ jungle com plano de limpeza gera dano e não exige ordem repetida
+✓ sem exceções ao processar 15 rodadas contra bot
+
+21 testes de regressão concluídos
+✓ sem dois locks nenhuma ordem é executada
+✓ ambos confirmam aos 10s: 10s simulados, sem andar durante a escolha
+✓ primeiro lock 10s, segundo 30s: resolve 30s e distância ~3x maior
+✓ move speed aplica soft caps e botas +25 reais
+✓ timeout aplica limite e grava frame reproduzível
+✓ idle lane AI advances with waves and earns actual last hits, not fake CS
+✓ XP arrives even when allied minions secure kills; CS does not
+✓ automation toggles remain independent of a persistent movement route
+✓ losing champion HP creates visible danger alert and death suppresses orders
+✓ mundo ao vivo avança sem confirmação enquanto jogador planeja
+✓ o mundo segue mesmo após o bot confirmar
+✓ encerramento da janela não reexecuta ticks já vividos
+✓ a janela respeita limite e encerra com timeout
+✓ cinco campeões e bot se movimentam sem necessidade de ordens repetidas
+✓ interceptação gera aviso e pausa deslocamento apenas dos envolvidos
+✓ local replay at two equal ticks remains deterministic
+✓ moita impede visão externa; entrar na mesma moita revela
+8 testes live aprovados
+✓ ward exige clique num ponto explícito e cargas
+✓ ward distante caminha e é posicionada no ponto marcado, não no campeão
+✓ recall entrega evento de loja e mantém unidade na fonte até comando
+✓ saída da loja depende da confirmação do jogador
+✓ perspectiva 2.5D tem inversa exata de clique para ângulos variados
+✓ interface tem comandos na lateral e atalhos B/4 sem doca inferior
+
+6 testes v1.4 aprovados

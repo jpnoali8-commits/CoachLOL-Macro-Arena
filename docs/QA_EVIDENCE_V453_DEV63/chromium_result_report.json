@@ -1,0 +1,24 @@
+{
+  "scope": "Chromium real, 2 browser contexts; final game data from native server HTTP test; offline DOM injection, NO browser-native HTTP/SSE or browser-driven full human match",
+  "passed": 13,
+  "checks": [
+    "blue: overlay opened on server ended=true",
+    "blue: result correct relative to authenticated team",
+    "blue: real Nexus target and server game-time shown",
+    "blue: no new confirmation after game end",
+    "blue: shop disabled after game end",
+    "blue: Ver tabuleiro dismisses overlay even on next SSE render",
+    "red: overlay opened on server ended=true",
+    "red: result correct relative to authenticated team",
+    "red: real Nexus target and server game-time shown",
+    "red: no new confirmation after game end",
+    "red: shop disabled after game end",
+    "red: Ver tabuleiro dismisses overlay even on next SSE render",
+    "Chromium: 0 JavaScript exceptions"
+  ],
+  "errors": [],
+  "captures": [
+    "dev63_victory_blue.png",
+    "dev63_defeat_red.png"
+  ]
+}

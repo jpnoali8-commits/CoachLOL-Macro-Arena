@@ -1,0 +1,2 @@
+Browser v2.0: JG policy, ADC text, preview, apply, confirm -> OK
+Preview files: /mnt/data/CoachLOL_Preview_v20_Golpear.png, /mnt/data/CoachLOL_Preview_v20_Ordens.png

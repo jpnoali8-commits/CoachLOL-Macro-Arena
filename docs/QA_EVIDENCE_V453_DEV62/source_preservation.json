@@ -1,0 +1,23 @@
+{
+  "source_zip": "CoachLOL_MacroArena_V453_Dev61_Desfazer_Fonte_PvP_Itens_Doran_JogoCompleto.zip",
+  "source_files": 2421,
+  "inherited_git_entries": 566,
+  "missing_original_files": [],
+  "changed_original_files": [
+    "CoachLOL_MacroArena/AGENTS.md",
+    "CoachLOL_MacroArena/NOVO_CHAT_COMECE_AQUI.md",
+    "CoachLOL_MacroArena/multiplayer.html",
+    "CoachLOL_MacroArena/multiplayer/pvp_client_v453_dev47.js",
+    "CoachLOL_MacroArena/multiplayer/room_v453_dev47.mjs",
+    "CoachLOL_MacroArena/multiplayer/server_v453_dev47.mjs",
+    "CoachLOL_MacroArena/package.json",
+    "CoachLOL_MacroArena/version.json"
+  ],
+  "git_byte_mismatches": [],
+  "full_regression": "PASS 0",
+  "dev61": "22/22 PASS",
+  "dev62": "18/18 PASS",
+  "chromium_brokered_http": "13/13 PASS (native localhost HTTP blocked)",
+  "engine_exports": 73,
+  "completed_pvp_human_nexus": "NOT_CERTIFIED"
+}

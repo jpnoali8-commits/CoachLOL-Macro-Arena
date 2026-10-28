@@ -1,0 +1,17 @@
+{
+  "patch": "26.21",
+  "DD": "16.21.1",
+  "counts": {
+    "srPurchasable": 210,
+    "normalStore": 202,
+    "conditional": 5,
+    "championExclusive": 3,
+    "normalPlayable": 90,
+    "referenceOnly": 112,
+    "localCatalog": 93
+  },
+  "newItems": [
+    "haunting_guise",
+    "guinsoos_rageblade"
+  ]
+}

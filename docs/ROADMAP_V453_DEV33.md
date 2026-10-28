@@ -1,0 +1,6 @@
+# Roadmap CoachLOL — após dev33
+
+- **Dev34 — Conteúdo oficial e compatibilidade de versões:** obter arquivos completos 16.21.1; importar lote apenas estático; validar IDs, tags de SR, receitas, preço, passivas e dados de campeões; fazer comparação contra próximo patch ao ser lançado, sem alterações automáticas de comportamento. Expandir compra de componentes com duplicatas e inventário cheio.
+- **Dev35+ — catálogo 1:1 por lotes:** casos especiais de efeitos on-hit, escudo, cura, crítico, redução de cooldown, cargas, limites de exclusividade, botas/consumíveis, itens de suporte/jungle e ativos. Testes por efeito em Node + browser.
+- **V4.5.4 — campeões:** parâmetros de crescimento por nível, passiva/QWER por campeão e combinações. Máquina de formas para Nidalee, Elise e Shyvana. Reino da Morte de Mordekaiser como plano isolado com mesmo terreno, moitas e mapas elementais, arena circular dentro de painel quadrado fixo e alto z-index, encerramento automático; Golpear com overlay acima de modais.
+- **QA contínuo:** regras por versão, patch notes incluindo hotfixes, snapshots compatíveis, regressão de 30–50 partidas e meta 30 minutos; 5 partidas dev33 têm média 25:17 e não certificam ritmo final.

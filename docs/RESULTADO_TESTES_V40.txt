@@ -1,0 +1,5 @@
+V4.0.0 / 2026-10-26
+npm test: PASS (regressão histórica + 8 novos contratos V4.0)
+Chromium browser smoke: PASS (0 JS pageerrors)
+Node/browser engine equivalência: PASS
+Limites: checksums não criptográficos e checkpoint não representa replay completo.

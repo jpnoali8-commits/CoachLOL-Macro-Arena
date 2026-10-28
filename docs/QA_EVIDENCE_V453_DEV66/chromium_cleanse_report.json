@@ -1,0 +1,20 @@
+{
+  "scope": "actual Chromium DOM of real fog-filtered HTTP session snapshots, with intercepted local action; NOT native browser HTTP/SSE and NOT a complete manually played PvP match",
+  "passed": 13,
+  "checks": [
+    "blue: botão Purificar exibido somente com spell equipado",
+    "blue: botão liberado durante planejamento",
+    "blue: Cleanse disponível no montador de combos",
+    "blue: Exaustão não equipada permanece bloqueada",
+    "blue: ultimate não aprendida continua bloqueada",
+    "blue: self-cast enfileirado no servidor sem alvo inimigo",
+    "red: botão Purificar exibido somente com spell equipado",
+    "red: botão liberado durante planejamento",
+    "red: Cleanse disponível no montador de combos",
+    "red: Exaustão não equipada permanece bloqueada",
+    "red: ultimate não aprendida continua bloqueada",
+    "red: self-cast enfileirado no servidor sem alvo inimigo",
+    "Chromium: 0 exceções JS; contextos isolados"
+  ],
+  "errors": []
+}

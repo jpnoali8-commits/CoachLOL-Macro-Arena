@@ -1,0 +1,26 @@
+{
+  "browser": "Chromium headless real, 2 contexts isolados; requisições locais através de ponte Python porque navegação HTTP é bloqueada por administrador; SSE nativo NÃO certificado",
+  "checks": [
+    "Duas sessões browser independentes e sala 1v1 com 2/2",
+    "Seletor da loja troca campeão sem alterar grupo selecionado",
+    "Cotação server-authoritative visual de botas",
+    "Compra via HUD baixa ouro de 500 para 200 e renderiza inventário",
+    "UI mostra botão de revenda no inventário",
+    "Undo de compra no browser restitui ouro integral",
+    "Item de referência está bloqueado para compra",
+    "Jogador vermelho compra em contexto separado e sessão independente",
+    "Venda no browser credita valor depreciado oficial das botas (210g)",
+    "Undo de venda no browser reverte crédito e restaura item",
+    "Confirmação azul não executa turno antecipadamente",
+    "Duas confirmações iniciam execução de turno",
+    "Chromium sem exceções JavaScript"
+  ],
+  "errors": [],
+  "passed": 13,
+  "scope": "Compra/venda/desfazer/2 humanos/rodada; SEM partida completa até Nexus",
+  "captures": [
+    "dev62_red_shop_chromium.png",
+    "dev62_board_chromium.png",
+    "dev62_blue_shop_chromium.png"
+  ]
+}

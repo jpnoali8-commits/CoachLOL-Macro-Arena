@@ -1,0 +1,60 @@
+[
+  {
+    "seed": 26,
+    "mode": "pvp_two_teams_hold_no_bot_orders",
+    "seconds": 900,
+    "ended": false,
+    "winner": null,
+    "rounds": 90,
+    "ticks": 900,
+    "csMid": [
+      {
+        "team": "blue",
+        "cs": 0
+      },
+      {
+        "team": "red",
+        "cs": 0
+      }
+    ],
+    "structuresDestroyed": 0,
+    "minionDeaths": 512,
+    "waves": 30,
+    "pvpSamples": 39,
+    "maxEngaged": 12,
+    "maxOverlap": 0,
+    "maxConstrained": 0,
+    "maxInvalid": 0,
+    "maxMismatch": 0,
+    "issues": []
+  },
+  {
+    "seed": 42,
+    "mode": "pvp_two_teams_hold_no_bot_orders",
+    "seconds": 900,
+    "ended": false,
+    "winner": null,
+    "rounds": 90,
+    "ticks": 900,
+    "csMid": [
+      {
+        "team": "blue",
+        "cs": 0
+      },
+      {
+        "team": "red",
+        "cs": 0
+      }
+    ],
+    "structuresDestroyed": 0,
+    "minionDeaths": 512,
+    "waves": 30,
+    "pvpSamples": 39,
+    "maxEngaged": 12,
+    "maxOverlap": 0,
+    "maxConstrained": 0,
+    "maxInvalid": 0,
+    "maxMismatch": 0,
+    "issues": []
+  }
+]

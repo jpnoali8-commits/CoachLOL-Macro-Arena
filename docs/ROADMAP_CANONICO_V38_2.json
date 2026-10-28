@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "1.0.0",
+  "product": "CoachLOL Macro Arena",
+  "baseVersion": "3.8.2",
+  "updated": "2026-10-26",
+  "milestones": [
+    {
+      "version": "V38.2",
+      "slug": "range-cooldown-fog-cinema",
+      "status": "prototype-validated",
+      "dependency": "V38.1",
+      "deliverables": [
+        "range_NamiW",
+        "cinematic_foundation",
+        "fog_envelope"
+      ]
+    },
+    {
+      "version": "V3.9",
+      "slug": "authoritative-ability-executor",
+      "status": "planned",
+      "dependency": "V38.2",
+      "deliverables": [
+        "single_cast_ledger",
+        "deterministic_replay",
+        "authoritative_events"
+      ]
+    },
+    {
+      "version": "V4.0",
+      "slug": "universal-status-effects",
+      "status": "planned",
+      "dependency": "V3.9",
+      "deliverables": [
+        "CC",
+        "shield",
+        "dot",
+        "heal",
+        "stasis"
+      ]
+    },
+    {
+      "version": "V4.1",
+      "slug": "champion-specific-kits",
+      "status": "planned",
+      "dependency": "V4.0",
+      "deliverables": [
+        "QWER",
+        "passives",
+        "hitboxes",
+        "cooldowns"
+      ]
+    },
+    {
+      "version": "V4.2",
+      "slug": "epic-objectives-teamfights",
+      "status": "planned",
+      "dependency": "V4.1",
+      "deliverables": [
+        "smite-contest",
+        "multi-round-objectives"
+      ]
+    },
+    {
+      "version": "V4.3",
+      "slug": "macro-and-economy",
+      "status": "planned",
+      "dependency": "V4.2",
+      "deliverables": [
+        "waves",
+        "farm",
+        "gold",
+        "xp",
+        "structures"
+      ]
+    },
+    {
+      "version": "V4.4",
+      "slug": "server-authoritative-PvP",
+      "status": "planned",
+      "dependency": "V4.3",
+      "deliverables": [
+        "anti-wallhack",
+        "replay",
+        "overlap-targeting"
+      ]
+    },
+    {
+      "version": "V4.5",
+      "slug": "vfx-and-status-overlays",
+      "status": "planned",
+      "dependency": "V4.1",
+      "deliverables": [
+        "visual-event-cues",
+        "ability-vfx"
+      ]
+    },
+    {
+      "version": "V4.6",
+      "slug": "glb-renderer",
+      "status": "planned",
+      "dependency": "V4.5",
+      "deliverables": [
+        "low-poly",
+        "gpu-fallback"
+      ]
+    },
+    {
+      "version": "V4.7",
+      "slug": "video-audio-timeline",
+      "status": "planned",
+      "dependency": "V4.6",
+      "deliverables": [
+        "local-video",
+        "sfx",
+        "accessibility"
+      ]
+    }
+  ]
+}

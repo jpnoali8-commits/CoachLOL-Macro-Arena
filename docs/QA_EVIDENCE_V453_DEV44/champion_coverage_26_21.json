@@ -1,0 +1,5086 @@
+{
+  "schema": "coachlol.champion.coverage.v1",
+  "projectVersion": "4.5.3-dev44",
+  "patch": "26.21",
+  "note": "Não confundir ficha oficial, regra genérica, mecânica parcial e campeão PvP 100% certificado.",
+  "championCount": 173,
+  "fullyCertifiedCount": 0,
+  "progressEvidence": {
+    "Ezreal": {
+      "Q": "dev41+dev42+dev43: projétil, colisão, on-hit"
+    },
+    "Irelia": {
+      "Q": "dev41+dev42: avanço/marcas",
+      "E": "dev43: duas lâminas/convergência"
+    }
+  },
+  "champions": [
+    {
+      "id": "Aatrox",
+      "name": "Aatrox",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ahri",
+      "name": "Ahri",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Akali",
+      "name": "Akali",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Akshan",
+      "name": "Akshan",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Alistar",
+      "name": "Alistar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ambessa",
+      "name": "Ambessa",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Amumu",
+      "name": "Amumu",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Anivia",
+      "name": "Anivia",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Annie",
+      "name": "Annie",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Aphelios",
+      "name": "Aphelios",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "P/Q: arsenal e combinações"
+      ]
+    },
+    {
+      "id": "Ashe",
+      "name": "Ashe",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "AurelionSol",
+      "name": "Aurelion Sol",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Aurora",
+      "name": "Aurora",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Azir",
+      "name": "Azir",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Bard",
+      "name": "Bardo",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Belveth",
+      "name": "Bel'Veth",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Blitzcrank",
+      "name": "Blitzcrank",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Brand",
+      "name": "Brand",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Braum",
+      "name": "Braum",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Briar",
+      "name": "Briar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Caitlyn",
+      "name": "Caitlyn",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Camille",
+      "name": "Camille",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Cassiopeia",
+      "name": "Cassiopeia",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Chogath",
+      "name": "Cho'Gath",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Corki",
+      "name": "Corki",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Darius",
+      "name": "Darius",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Diana",
+      "name": "Diana",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "DrMundo",
+      "name": "Dr. Mundo",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Draven",
+      "name": "Draven",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ekko",
+      "name": "Ekko",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Elise",
+      "name": "Elise",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "R: alternância humano/aranha e spells"
+      ]
+    },
+    {
+      "id": "Evelynn",
+      "name": "Evelynn",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ezreal",
+      "name": "Ezreal",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "partial_tested",
+          "evidence": "dev41+dev42+dev43: projétil, colisão, on-hit"
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Fiddlesticks",
+      "name": "Fiddlesticks",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Fiora",
+      "name": "Fiora",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Fizz",
+      "name": "Fizz",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Galio",
+      "name": "Galio",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Gangplank",
+      "name": "Gangplank",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Garen",
+      "name": "Garen",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Gnar",
+      "name": "Gnar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Gragas",
+      "name": "Gragas",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Graves",
+      "name": "Graves",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Gwen",
+      "name": "Gwen",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Hecarim",
+      "name": "Hecarim",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Heimerdinger",
+      "name": "Heimerdinger",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Hwei",
+      "name": "Hwei",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "Q/W/E/R: combinações de múltiplos feitiços"
+      ]
+    },
+    {
+      "id": "Illaoi",
+      "name": "Illaoi",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Irelia",
+      "name": "Irelia",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "partial_tested",
+          "evidence": "dev41+dev42: avanço/marcas"
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "partial_tested",
+          "evidence": "dev43: duas lâminas/convergência"
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ivern",
+      "name": "Ivern",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Janna",
+      "name": "Janna",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "JarvanIV",
+      "name": "Jarvan IV",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Jax",
+      "name": "Jax",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Jayce",
+      "name": "Jayce",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Jhin",
+      "name": "Jhin",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Jinx",
+      "name": "Jinx",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "KSante",
+      "name": "K'Sante",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kaisa",
+      "name": "Kai'Sa",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kalista",
+      "name": "Kalista",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Karma",
+      "name": "Karma",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Karthus",
+      "name": "Karthus",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kassadin",
+      "name": "Kassadin",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Katarina",
+      "name": "Katarina",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kayle",
+      "name": "Kayle",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kayn",
+      "name": "Kayn",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kennen",
+      "name": "Kennen",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Khazix",
+      "name": "Kha'Zix",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kindred",
+      "name": "Kindred",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Kled",
+      "name": "Kled",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "KogMaw",
+      "name": "Kog'Maw",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Leblanc",
+      "name": "LeBlanc",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "LeeSin",
+      "name": "Lee Sin",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Leona",
+      "name": "Leona",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Lillia",
+      "name": "Lillia",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Lissandra",
+      "name": "Lissandra",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Locke",
+      "name": "Locke",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Lucian",
+      "name": "Lucian",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Lulu",
+      "name": "Lulu",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Lux",
+      "name": "Lux",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Malphite",
+      "name": "Malphite",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Malzahar",
+      "name": "Malzahar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Maokai",
+      "name": "Maokai",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "MasterYi",
+      "name": "Master Yi",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Mel",
+      "name": "Mel",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Milio",
+      "name": "Milio",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "MissFortune",
+      "name": "Miss Fortune",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "MonkeyKing",
+      "name": "Wukong",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Mordekaiser",
+      "name": "Mordekaiser",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "R: arena espacial quadrada com limite circular e geometrias elementais"
+      ]
+    },
+    {
+      "id": "Morgana",
+      "name": "Morgana",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Naafiri",
+      "name": "Naafiri",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Nami",
+      "name": "Nami",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Nasus",
+      "name": "Nasus",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Nautilus",
+      "name": "Nautilus",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Neeko",
+      "name": "Neeko",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "P: disfarces de campeão/minion/ward e revelação"
+      ]
+    },
+    {
+      "id": "Nidalee",
+      "name": "Nidalee",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "R: alternância humano/puma e spells"
+      ]
+    },
+    {
+      "id": "Nilah",
+      "name": "Nilah",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Nocturne",
+      "name": "Nocturne",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Nunu",
+      "name": "Nunu e Willump",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Olaf",
+      "name": "Olaf",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Orianna",
+      "name": "Orianna",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ornn",
+      "name": "Ornn",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Pantheon",
+      "name": "Pantheon",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Poppy",
+      "name": "Poppy",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Pyke",
+      "name": "Pyke",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Qiyana",
+      "name": "Qiyana",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Quinn",
+      "name": "Quinn",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Rakan",
+      "name": "Rakan",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Rammus",
+      "name": "Rammus",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "RekSai",
+      "name": "Rek'Sai",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Rell",
+      "name": "Rell",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Renata",
+      "name": "Renata Glasc",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Renekton",
+      "name": "Renekton",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Rengar",
+      "name": "Rengar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Riven",
+      "name": "Riven",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Rumble",
+      "name": "Rumble",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ryze",
+      "name": "Ryze",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Samira",
+      "name": "Samira",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sejuani",
+      "name": "Sejuani",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Senna",
+      "name": "Senna",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Seraphine",
+      "name": "Seraphine",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sett",
+      "name": "Sett",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Shaco",
+      "name": "Shaco",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Shen",
+      "name": "Shen",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Shyvana",
+      "name": "Shyvana",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "R: dragão e habilidades transformadas"
+      ]
+    },
+    {
+      "id": "Singed",
+      "name": "Singed",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sion",
+      "name": "Sion",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sivir",
+      "name": "Sivir",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Skarner",
+      "name": "Skarner",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Smolder",
+      "name": "Smolder",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sona",
+      "name": "Sona",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Soraka",
+      "name": "Soraka",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Swain",
+      "name": "Swain",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Sylas",
+      "name": "Sylas",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "R: roubo e execução de ultimate inimiga"
+      ]
+    },
+    {
+      "id": "Syndra",
+      "name": "Syndra",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "TahmKench",
+      "name": "Tahm Kench",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Taliyah",
+      "name": "Taliyah",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Talon",
+      "name": "Talon",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Taric",
+      "name": "Taric",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Teemo",
+      "name": "Teemo",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Thresh",
+      "name": "Thresh",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Tristana",
+      "name": "Tristana",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Trundle",
+      "name": "Trundle",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Tryndamere",
+      "name": "Tryndamere",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "TwistedFate",
+      "name": "Twisted Fate",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Twitch",
+      "name": "Twitch",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Udyr",
+      "name": "Udyr",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Urgot",
+      "name": "Urgot",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Varus",
+      "name": "Varus",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Vayne",
+      "name": "Vayne",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Veigar",
+      "name": "Veigar",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Velkoz",
+      "name": "Vel'Koz",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Vex",
+      "name": "Vex",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "engine_rule_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Vi",
+      "name": "Vi",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Viego",
+      "name": "Viego",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": [
+        "P: possessão, habilidades e retorno"
+      ]
+    },
+    {
+      "id": "Viktor",
+      "name": "Viktor",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Vladimir",
+      "name": "Vladimir",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Volibear",
+      "name": "Volibear",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Warwick",
+      "name": "Warwick",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Xayah",
+      "name": "Xayah",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Xerath",
+      "name": "Xerath",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "XinZhao",
+      "name": "Xin Zhao",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Yasuo",
+      "name": "Yasuo",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Yone",
+      "name": "Yone",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Yorick",
+      "name": "Yorick",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Yunara",
+      "name": "Yunara",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Yuumi",
+      "name": "Yuumi",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zaahen",
+      "name": "Zaahen",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zac",
+      "name": "Zac",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zed",
+      "name": "Zed",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zeri",
+      "name": "Zeri",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Ziggs",
+      "name": "Ziggs",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zilean",
+      "name": "Zilean",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zoe",
+      "name": "Zoe",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    },
+    {
+      "id": "Zyra",
+      "name": "Zyra",
+      "source": "Riot champion reference 26.21",
+      "slots": {
+        "P": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "Q": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "W": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "E": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        },
+        "R": {
+          "status": "unimplemented_or_unverified",
+          "evidence": null
+        }
+      },
+      "fullyCertified": false,
+      "missingSpecialSystems": []
+    }
+  ],
+  "systemMilestones": [
+    {
+      "id": "pvp_authority",
+      "status": "gateway_input_only",
+      "next": "transport/auth, sala, sincronização, reconnect, testes de dois clientes reais"
+    },
+    {
+      "id": "global_actions",
+      "status": "partial",
+      "next": "formas, clones, alvos, colisão, on-hit, exclusões por habilidade"
+    },
+    {
+      "id": "sylas_ultimate_theft",
+      "status": "not_certified"
+    },
+    {
+      "id": "neeko_disguises",
+      "status": "not_certified"
+    },
+    {
+      "id": "viego_possession",
+      "status": "not_certified"
+    },
+    {
+      "id": "mordekaiser_death_realm",
+      "status": "not_certified"
+    },
+    {
+      "id": "advanced_bot_ai",
+      "status": "deferred_until_functional_pvp_catalog"
+    }
+  ]
+}
