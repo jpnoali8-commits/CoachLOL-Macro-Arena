@@ -93,6 +93,11 @@ export const CLASS_STATS={
 };
 const CK={Kennen:'mage',Khazix:'assassin',Ekko:'assassin',Vayne:'marksman',Nami:'enchanter',Volibear:'fighter',Darius:'fighter',Akali:'assassin',Yuumi:'enchanter',Jinx:'marksman',Caitlyn:'marksman',Lux:'mage',Ahri:'mage',Warwick:'fighter',Mordekaiser:'fighter',Vex:'mage',Lucian:'marksman',Senna:'enchanter',Thresh:'support',Leona:'tank',Yasuo:'fighter',Yone:'fighter',Vi:'fighter',LeeSin:'fighter',JarvanIV:'fighter',Riven:'fighter',Gwen:'fighter',Orianna:'mage',Zed:'assassin',Talon:'assassin',Janna:'enchanter',Braum:'tank',Sona:'enchanter',Jhin:'marksman',Kaisa:'marksman',Ezreal:'marksman',Ashe:'marksman',Pantheon:'fighter',Graves:'marksman',Zyra:'mage',Qiyana:'assassin',Veigar:'mage',Olaf:'fighter',Irelia:'fighter',Nasus:'tank',Chogath:'tank',Viktor:'mage',KSante:'tank',Fiddlesticks:'mage',Kalista:'marksman',Sylas:'fighter'};
 export const catalog=[
+// Champion-exclusive non-shop IDs. Effigy is the permanent trinket in slot 4
+// (never in the 6-item inventory); Black Spear uses the champion's oath state.
+{id:'fiddlesticks_effigy',name:'Efígie do Espantalho',cost:0,riotId:3330,stats:{},tags:['trinket','champion_exclusive'],notPurchasable:true,icon:'♙'},
+{id:'kalista_black_spear',name:'Lança Negra · Kalista',cost:0,riotId:3599,stats:{},tags:['champion_exclusive','quest'],notPurchasable:true,icon:'➶'},
+{id:'sylas_black_spear',name:'Lança Negra · Sylas',cost:0,riotId:3600,stats:{},tags:['champion_exclusive','quest'],notPurchasable:true,icon:'➶'},
 // Five mutually exclusive quest-only support rewards; never sold by the normal shop.
 // Cost represents the already-paid World Atlas, upgrade costs exactly zero gold.
 {id:'support_celestial_opposition',name:'Oposição Celestial',cost:400,riotId:3869,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique'],roleLock:'SUP',notPurchasable:true,icon:'⬡'},
