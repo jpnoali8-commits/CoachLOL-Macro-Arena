@@ -28,7 +28,8 @@ O mestre descompactado contém `.git/` válido e worktree historicamente sujo: o
 
 - `npm run test:v453:dev68` — **PASS 40/40**. Cobertura: Lux Q temporal, no máximo dois alvos, colisões, shields, CC, fog, snapshots, duplicação, duas sessões PvP.
 - `npm run test:v453:dev63` — **PASS 25/25**. Duas sessões HTTP e SSE nativo, fog privado, undo/loja, duas confirmações por turno, reconexão e Nexus natural nos dois seeds (blue 26 = 1423s; red 42 = 1553s).
-- `npm test` primeira execução — **TIMEOUT após 180s** durante a série dev63; não é PASS. Outras execuções precisam de registro separado.
+- `npm test` primeira execução — **TIMEOUT após 180s** durante a série dev63; não é PASS dessa tentativa.
+- `npm test` segunda execução — **PASS (exit code 0)** em execução completa a partir do ZIP mestre dev68. Log com 1710 linhas, 1246 linhas de verificações `✓`, nenhum marcador de falha. DEV61 22/22, DEV62 18/18, DEV63 25/25, DEV67 48/48, DEV68 40/40; demais suítes executadas pela cadeia `npm test`. Esta certificação é LOCAL, não um QA do clone remoto binário nem da futura dev69 integrada.
 
 ## Distribuição provisória sem PC
 
