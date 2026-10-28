@@ -122,6 +122,10 @@ function renderBoardSlotsV453(v){
  $('boardEnemySummonV453').classList.toggle('hidden',
   !(v.projection?.boardSummons||[]).some(s=>s.team!==v.team));
  $('boardEnemySummonV453').disabled=!can;
+ const fates=unit?.champ==='Kalista'&&!!(unit.queuedUltimate||unit.fatesCallV453M14)&&
+  !!unit.oathswornIdV453Dev69C;
+ $('kalistaLaunchV453').classList.toggle('hidden',!fates);
+ $('kalistaLaunchV453').disabled=!can||!fates;
  $('boardCastTargetV453').disabled=!can||!targeted||!select.value;
  $('boardTargetV453').disabled=!can||!targeted;
  $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!kit?
@@ -140,6 +144,7 @@ $('boardSummonAttackV453').onclick=()=>{
  announce('Escolha um inimigo visível para Tibbers');
 };
 $('boardEnemySummonV453').onclick=()=>setMode('summon_enemy');
+$('kalistaLaunchV453').onclick=()=>setMode('kalista_launch');
 function boardSelfV453(rule){
  return ['self','circle_ally','global_ally'].includes(rule.shape)||
   (rule.shape==='circle_enemy'&&rule.originSelf);
@@ -171,6 +176,7 @@ $('boardCastTargetV453').onclick=()=>{
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};
  if(mode==='move')await sendGroup('order.move',{point});
  else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});
+ else if(mode==='kalista_launch')await send('skill.kalista_launch',{point},selectedUnitId);
  else if(mode==='summon_move'){
   const summon=activeOwnSummonV453();
   if(summon)await send('summon.order',{summonId:summon.id,point},selectedUnitId);

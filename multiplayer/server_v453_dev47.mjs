@@ -58,6 +58,7 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
        transformTo:slots[slot].transformTo||null}]))]))])),
     specials:{
      Mordekaiser:{R:{shape:'target_enemy',range:650,specialUltimate:true,implemented:'realm_prototype'}},
+     Kalista:{R:{shape:'self',range:0,specialUltimate:true,implemented:'oath_bound_prototype'}},
      Jinx:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
      Ezreal:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
      Ashe:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},

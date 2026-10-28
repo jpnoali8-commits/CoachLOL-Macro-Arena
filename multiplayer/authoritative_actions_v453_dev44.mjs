@@ -9,7 +9,7 @@ import {canonicalStateV40} from '../engine.mjs';
 const VALID_KINDS=Object.freeze([
  'order.move','order.attack','order.stop','order.recall','order.ward',
  'skill.directional','skill.ground','skill.targeted','skill.self','skill.onhit_target','skill.ultimate',
- 'skill.recast_vex','skill.upgrade','summon.order','summoner.queue','item.queue','item.activate'
+ 'skill.recast_vex','skill.upgrade','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
@@ -32,6 +32,7 @@ function validated(kind,p){
   case 'skill.directional':case 'skill.ground':return shape(p,['slot','point'])&&slot(p.slot)&&point(p.point);
   case 'skill.targeted':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.self':return shape(p,['slot'])&&slot(p.slot);
+  case 'skill.kalista_launch':return shape(p,['point'])&&point(p.point);
   case 'skill.onhit_target':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.ultimate':return shape(p,[],['point','targetId'])&&(!own(p,'point')||point(p.point))&&(!own(p,'targetId')||stringId(p.targetId));
   case 'skill.recast_vex':return shape(p,[]);
@@ -73,6 +74,7 @@ function dispatch(arena,unit,kind,p){
   case 'skill.ground':return arena.queueKitSkillV42(team,id,p.slot,p.point);
   case 'skill.targeted':return arena.queueTargetedSkill(team,id,p.slot,p.targetId);
   case 'skill.self':return arena.queueKitSkillV42(team,id,p.slot,null);
+  case 'skill.kalista_launch':return arena.queueKalistaLaunchV453M14(team,id,p.point);
   case 'skill.onhit_target': {
    // Only audited Q variants. Never auto-convert all skills to a generic on-hit.
    if(p.slot!=='Q'||!['Ezreal','Irelia'].includes(unit.champ)||!(unit.skillRanks?.Q>0))return fail('habilidade_individual_nao_certificada');
