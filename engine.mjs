@@ -2619,6 +2619,11 @@ export class Arena {
  }
  // V4.2: skill location input is an intent, never an instant long-distance hit.
  queueKitSkillV42(team,unitId,slot,point){
+  // Jinx W / Ahri E must use their true temporal projectile engine; never
+  // fall through to the legacy immediate line_projectile kit adapter.
+  if((this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Jinx')&&slot==='W')||
+     (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
+   return this.queueDirectionalSkill(team,unitId,slot,point);
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
   if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
