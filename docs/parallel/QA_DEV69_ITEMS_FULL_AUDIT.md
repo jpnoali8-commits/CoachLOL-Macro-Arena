@@ -1,3 +1,5 @@
+> **Estado vigente (Marco D, 28/10/2026):** as oito entradas condicionais/exclusivas já possuem registros e resolutores iniciais com testes autoritativos na branch de auditoria. As seções anteriores que afirmam "8 bloqueadas por ausência de motor" descrevem o *estado histórico antes do Marco D*. Não foram integradas, nem certificadas contra todos os comportamentos do LoL.
+
 # CoachLOL — Itens: Auditoria Integral DEV69, Marco A (em andamento)
 
 **Branch exclusiva:** `dev69/items-full-audit` (partiu de `dev69/items-batch7` em `74dda4bc6a5b05ca9a490c416767b5fa8fe2cd2d`). **Destino do PR:** `dev69/items-batch7`. Não integrar, não editar `dev69/integration` ou `main`, não sincronizar `engine.browser.js` nesta branch.
@@ -89,3 +91,42 @@ Não converter esses casos em `certified` nem disponibilizar compra direta até 
 - **Todos os jobs no HEAD `aa092816c7ee425ed26691bd8123c33d28e1c26e` passaram** na execução [GitHub Actions #40782451849](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40782451849): `audit-and-families`, `independent-regressions` (56 arquivos modernos) e `full-regression` (`npm test` completo). Full suite voltou a PASS sem `skip` nem `continue-on-error`.
 
 **Limite de certificação:** resultados acima provam integridade, compra, Undo e regressões já cobertas, **NÃO** certificam todas as passivas e ativos de 202 itens nem as oito entradas condicionais/exclusivas sem resolução de estado própria. O próximo macro-marco é integração das cinco evoluções SUP e Fiddlesticks/Kalista junto a quem integra Skills, além de QA real Chrome PvP a dois clientes. Não mesclar, não liberar release, não alterar `engine.browser.js` aqui.
+
+## Marco D — oito condicionais/exclusivos com núcleos de gameplay e rede PvP
+
+Fonte: LoL PC patch 26.21, Data Dragon 16.21.1; verificar novamente nas futuras mudanças de patch. O catálogo **não libera compra normal** de nenhum dos oito registros:
+
+| Riot ID | Registro local | Contrato autoritativo |
+| --- | --- | --- |
+| 3330 | `fiddlesticks_effigy` | Trinket Espantalho no slot 4, Fiddlesticks exclusivo |
+| 3599 | `kalista_black_spear` | Pacto de Sangue de Kalista, um aliado, opção de recobrar na fonte até 03:00 |
+| 3600 | `sylas_black_spear` | Variante de Sylas somente se estado de R da Kalista roubada estiver disponível |
+| 3869 | `support_celestial_opposition` | Absorção do primeiro dano de campeão, onda lenta após 2s |
+| 3870 | `support_dream_maker` | Duas bolhas temporárias para aliado protegido por heal/shield, com cooldown |
+| 3871 | `support_zaz_zak` | Proc mágico de habilidade em área com atraso e cooldown, não recursivo |
+| 3876 | `support_solstice_sleigh` | Proc em slow/CC com aliado, bônus temporário de HP e velocidade |
+| 3877 | `support_bloodsong` | Spellblade após cast, bônus de AD base e exposição temporária |
+
+### Fiddlesticks — detalhes implementados
+
+- Slot 4 substitui a ward comum permanentemente: `trinket='effigy'`; bloquear trocar para Lente/Farsight/Ward Amarela; **2 cargas** armazenadas, regeneração por nível **115→30 segundos**, sem custo de ouro.
+- **Nenhuma cota global no mapa**: várias efígies podem permanecer enquanto sua duração permitir. Cada uma dura `120 + 10*nível` segundos (**130→300**), tem **1 HP** e raio de **900 unidades**; a posição respeita alcance de colocação 625 e colisores do tabuleiro.
+- Ao surgir inimigo que a *enxerga* a até 900 unidades, ativa uma das ações falsas armazenadas, emite alerta privado para o dono, e desaparece em até 2 segundos. Não revela posição inimiga por fog além da visão concedida pela efígie. O oponente não recebe journal privado do proprietário.
+- No nível 6+, posicionar uma efígie cria varredura de **6 segundos**, detecta sentinelas stealth e preserva os controles de visão/terreno. Efígies não podem ser neutralizadas por lente/pink no resolvedor, mas podem ser atacadas com 1 HP.
+- **Duas cargas têm relógio único ordenado**: gastar a segunda não desloca o primeiro prazo de regeneração (regressão dedicada).
+
+### Kalista/Sylas — detalhes implementados
+
+- `bindBlackSpearV453Dev69C` rejeita inimigo, si próprio, falta de ownership, uso duplicado e tentativas após **03:00**. Cast pendente resolve em **6,5 segundos simulados**, sem mutação gratuita por reconexão. Novo pacto, depois de recuperar a lança na fonte, remove o juramentado anterior.
+- `recoverBlackSpearV453Dev69C` recupera sem ouro apenas na fonte, antes de 03:00 e com direito a uso. A variante 3600 de Sylas requer `hijackedFatesCallV453Dev69C`; sem roubo válido permanece bloqueada. O motor da ultimate R roubada deve preencher essa condição quando o engenheiro de Skills o integrar.
+- Gateway PvP aceita comandos sequenciados `item.blackSpear`, `item.blackSpearRecover` e `item.supportFinal`: autenticação pelo assento e time, alvos e payloads validados, recibo idempotente e ordem de sequência preservada, sem aceitar comando do inimigo.
+
+### Suporte — missão com cinco escolhas exclusivas
+
+- Ao concluir `supportQuest>=800` e receber `support_bounty`, o jogador escolhe **uma** recompensa gratuita no próprio campo; nunca existe compra na loja comum. Item final aplica status e efeitos distintos, preserva visão de suporte e renda passiva de **9 ouro/10 segundos**.
+- Cinco efeitos são processados no servidor e somente contra alvos elegíveis. Blindagem e cura exigem aliado real e não duplicam procs por relay. Buffs e cooldowns usam relógio do jogo, com testes para expirarem e não se multiplicarem em snapshots; projéteis e explosões não podem recursivamente gerar novos procs.
+- Contratos: `tests/v453_dev69_items_conditionals_effigy_oath.test.mjs` (8 cenários), `tests/v453_dev69_items_conditionals_support_final.test.mjs` (8 cenários) e `tests/v453_dev69_items_conditionals_gateway_pvp.test.mjs` (ownership, sequência, Sylas/Kalista e quest). São gates explícitos no workflow mais a bateria independente de testes modernos.
+
+### Barreiras de certificação restantes — não omitir
+
+**Não afirmar certificação Riot 1:1 dos oito registros.** Ainda é preciso: interação verdadeira da passiva da Kalista com R, ultimate de Sylas e juramentado nos kits de Skills; conclusão da animação real e seleção/ataque do espantalho no cliente em ambos os lados do fog; UI PvP da escolha de recompensa em vez de mera chamada de API; harmonização de cargas separadas entre Espantalho e sentinelas da missão SUP no caso Fiddlesticks SUP; provas completas de todos os outros itens e QA Chrome dois clientes. Sem modificar `engine.browser.js` nesta branch de especialidade e **sem merge**. Os testes de cenário mostram as mecânicas implementadas, não paridade universal.
