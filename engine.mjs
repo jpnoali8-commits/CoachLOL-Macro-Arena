@@ -2010,7 +2010,9 @@ export class Arena {
    w.disguiseChampV453Dev69C='Fiddlesticks';w.triggeredAtV453Dev69C=null;
    w.fakeActionV453Dev69C=['flash','approach','retreat','terrify','crowstorm'][this.nextId%5];
    if(u.level>=6)(this.effigyScansV453Dev69C||(this.effigyScansV453Dev69C=[])).push({team,owner,at:this.gameTime,until:this.gameTime+6,x:point.x,y:point.y});
-   if(u.wardCharges<2)u.trinketNextChargeAt=Math.max(this.gameTime+120-5*Math.min(18,Math.max(1,u.level)),u.trinketNextChargeAt||0);
+   // The recharge schedule starts with the FIRST spent charge.
+   // Spending charge two must not delay charge one's original timer.
+   if(u.wardCharges===1)u.trinketNextChargeAt=this.gameTime+120-5*Math.min(18,Math.max(1,u.level));
   }
   const site=['stealth','support','control','farsight'].includes(type)?this.riftAllFeaturesV452d4('faelights').find(f=>f.activationVerified===true&&Math.hypot(f.x-point.x,f.y-point.y)<=f.radius):null;
   if(site){
