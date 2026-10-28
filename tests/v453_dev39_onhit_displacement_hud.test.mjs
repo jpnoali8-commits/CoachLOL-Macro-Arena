@@ -17,7 +17,8 @@ test('Kraken stacks across alternate targets, third hit triggers real physical d
  for(const t of [v,other]){t.hp=t.maxHp=10000;t.armor=0;}
  a.damage(v,100,u,'physical','basic');assert.equal(u.krakenHitV453Dev32.stacks,1);
  a.damage(other,100,u,'physical','basic');assert.equal(u.krakenHitV453Dev32.stacks,2);
- const before=v.hp;a.damage(v,100,u,'physical','basic');assert.ok(before-v.hp>=250);assert.equal(u.krakenHitV453Dev32.stacks,0);
+ const before=v.hp;a.damage(v,100,u,'physical','basic');// ADC attack range is ranged in Atlas units; Kraken's third-hit bonus is 80%.
+ assert.ok(Math.abs((before-v.hp)-(100+150*.8))<=2);assert.equal(u.krakenHitV453Dev32.stacks,0);
 });
 test('Kraken timed stacks expire; spell/structure do not charge',()=>{
  const a=make(),u=hero(a),v=hero(a,'red');prep(a,u);a.buy('blue',u.id,'kraken_slayer');v.hp=v.maxHp=5000;
