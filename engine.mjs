@@ -680,9 +680,14 @@ export const CHAMPION_KITS_V42=Object.freeze({
   E:{name:'Lucent Singularity',kind:'ground_zone',range:1100,radius:310,mana:[70,80,90,100,110],cooldown:[10,9.5,9,8.5,8],duration:5,slow:[25,30,35,40,45],damage:[65,115,165,215,265],apRatio:.80,effect:'lucent_singularity',implemented:'prototype'},
   R:{name:'Final Spark',kind:'line',range:3400,width:200,mana:[100],cooldown:[60,50,40],damage:[300,400,500],apRatio:1.2,effect:'final_spark',projectile:false,implemented:'legacy_adapter'}
  })}),
- Vex:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'doom_gloom',status:'planned'},spells:Object.freeze({
-  Q:{name:'Mistral Bolt',kind:'training',implemented:'training'}, W:{name:'Personal Space',kind:'training',implemented:'training'},
-  E:{name:'Looming Darkness',kind:'training',implemented:'training'},
+ Vex:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'doom_gloom',status:'partial_qwe'},spells:Object.freeze({
+  Q:{name:'Mistral Bolt',kind:'line_projectile',range:1200,width:360,widthFast:160,accelAt:500,speed:600,fastSpeed:3200,
+   mana:[45,50,55,60,65],cooldown:[8,7,6,5,4],damage:[70,115,160,205,250],apRatio:.70,implemented:'prototype'},
+  W:{name:'Personal Space',kind:'self_circle',range:475,radius:475,mana:[75],cooldown:[16,15,14,13,12],
+   damage:[80,120,160,200,240],apRatio:.30,shield:[50,75,100,125,150],shieldApRatio:.75,implemented:'prototype'},
+  E:{name:'Looming Darkness',kind:'ground_circle',range:800,radius:300,mana:[70,80,90,100,110],cooldown:[12],
+   damage:[50,70,90,110,130],apRatioByRank:[.40,.45,.50,.55,.60],slow:[30,35,40,45,50],
+   projectileSpeed:1300,implemented:'prototype'},
   R:{name:'Shadow Surge',kind:'line_recast',range:2000,rangeByRank:[2000,2500,3000],width:260,mana:[100],cooldown:[140,120,100],damage:[75,125,175],apRatio:.2,recastDamage:[150,250,350],recastApRatio:.5,recastSeconds:4,effect:'shadow_surge',projectile:true,implemented:'prototype'}
  })}),
  Jinx:Object.freeze({patch:KIT_PATCH_V42,certification:'data_only',passive:{id:'get_excited',status:'planned'},spells:Object.freeze({})}),
@@ -2608,11 +2613,12 @@ export class Arena {
  queueKitSkillV42(team,unitId,slot,point){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
-  if(!rule||!['ground_circle','ground_zone','line_projectile'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
+  if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
   // Lux E recast has no second mana/cooldown cost. A zone is not the same as a QWER spell cast.
   if(slot==='E'&&u.champ==='Lux'&&u.luxZoneV42?.expiresAt>this.gameTime){
    u.luxZoneV42.detonate=true;this.recordIntentV40(team,u.id,'kit_recast',{slot});return {ok:true,recast:true};
   }
+  if(rule.kind==='self_circle')point={x:u.x,y:u.y};
   if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<0||point.x>1||point.y<0||point.y>1)return {ok:false,reason:'ponto_inválido'};
   const gate=castGateV39(u,slot,this.gameTime);
   if(!gate.ok)return {ok:false,reason:gate.reason};
@@ -2644,7 +2650,7 @@ export class Arena {
    }
    const q=u.pendingKitCastV42;if(!q)continue;
    const rule=kitSpellV42(u.champ,q.slot);if(!rule){u.pendingKitCastV42=null;continue;}
-   if(this.mapDistance(u,q.point)>rule.range+1e-7)continue;
+   if(rule.kind!=='self_circle'&&this.mapDistance(u,q.point)>rule.range+1e-7)continue;
    if(!fx.canAct(u,'skill').ok)continue; // Wait without spending resources.
    const gate=castGateV39(u,q.slot,this.gameTime);if(!gate.ok){u.pendingKitCastV42=null;continue;}
    // Lux Q uses Dev68's actual travel/collision resolver instead of instant V42 line hits.
@@ -2652,6 +2658,11 @@ export class Arena {
     const launch=this.launchLuxBindingV453Dev68(u,q.point);
     if(launch.ok)u.pendingKitCastV42=null;
     else if(['recarga','mana','não_aprendido'].includes(launch.reason))u.pendingKitCastV42=null;
+    continue;
+   }
+   if(u.champ==='Vex'&&['Q','W','E'].includes(q.slot)){
+    const cast=this.castVexBasicV453Dev69M1(u,q.slot,q.point);
+    if(cast.ok||!['incapacitado','cc_stun','cc_suppression','cc_fear'].includes(cast.reason))u.pendingKitCastV42=null;
     continue;
    }
    const performed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,point:q.point,source:'kit_v42'});
@@ -2734,6 +2745,93 @@ export class Arena {
     return Math.max(0,buff.power*Math.min(1,(buff.until-now)/1.5));
   }
   return 0;
+ }
+ // M1: Vex's basic Q/W/E skills share the authoritative commit path.
+ // All effects derive from the caster's team and the server snapshot, not the client.
+ vexDoomCooldownV453Dev69M1(u){return u.level>=16?16:u.level>=11?19:u.level>=6?22:25;}
+ vexApplyFearV453Dev69M1(u,v,empowered,tag){
+  if(!empowered||!v?.champ||v.hp<=0)return false;
+  return this.applyEffectV41(v,'fear',{source:u,
+   duration:u.level>=16?1.5:u.level>=11?1.25:u.level>=6?1:.75,
+   key:'vex_doom_'+tag}).ok;
+ }
+ vexMarkGloomV453Dev69M1(u,v){
+  if(v.hp<=0||v.team===u.team||!v.champ)return false;
+  v.vexGloomV453Dev69M1={ownerId:u.id,until:this.gameTime+6};return true;
+ }
+ vexConsumeGloomV453Dev69M1(u,v){
+  const mark=v?.vexGloomV453Dev69M1;
+  if(u?.champ!=='Vex'||!mark||mark.ownerId!==u.id||mark.until<=this.gameTime||v.hp<=0)return 0;
+  v.vexGloomV453Dev69M1=null;
+  u.vexDoomReadyAtV453Dev69M1=Math.max(this.gameTime,
+   (u.vexDoomReadyAtV453Dev69M1||this.gameTime)-.25*this.vexDoomCooldownV453Dev69M1(u));
+  return this.damage(v,40+(Math.max(1,u.level)-1)*7+.25*this.elementalStatsV452d3(u).ap,
+   u,'magic','vex_gloom_v453_dev69_m1');
+ }
+ castVexBasicV453Dev69M1(u,slot,point){
+  const rule=kitSpellV42('Vex',slot),now=this.gameTime;
+  if(u?.champ!=='Vex'||!['Q','W','E'].includes(slot)||!rule||u.hp<=0)
+   return {ok:false,reason:'habilidade_inválida'};
+  if(slot!=='W'&&(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||
+     this.mapDistance(u,point)>rule.range+1e-7))
+   return {ok:false,reason:'ponto_fora_alcance'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot,
+   point:slot==='W'?null:point,source:'vex_'+slot.toLowerCase()+'_v453_dev69_m1',
+   checkRange:false});
+  if(!commit.ok)return commit;
+  const empowered=(u.vexDoomReadyAtV453Dev69M1||0)<=now;
+  if(empowered)u.vexDoomReadyAtV453Dev69M1=now+this.vexDoomCooldownV453Dev69M1(u);
+  const rank=Math.max(1,Math.min(5,u.skillRanks?.[slot]||1));
+  const ap=this.elementalStatsV452d3(u).ap;
+  if(slot==='Q'){
+   const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,length=Math.hypot(dx,dy);
+   if(length<=0)return {ok:false,reason:'direção_zero'};
+   const p={id:'vex_q_'+(++this.championProjectileSeqV453Dev42),kind:'vex_q',
+    ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},unit:{x:dx/length,y:dy/length},
+    range:rule.range,width:rule.width,widthFast:rule.widthFast,accelAt:rule.accelAt,
+    speed:rule.speed,fastSpeed:rule.fastSpeed,raw:rule.damage[rank-1]+ap*rule.apRatio,
+    empowered,hitIds:[],createdAt:now,traveledV453Dev43:0,riftRevision:this.riftV452d4?.revision??0};
+   this.championProjectilesV453Dev42.push(p);
+   return {...commit,pending:true,projectileId:p.id};
+  }
+  if(slot==='W'){
+   this.applyEffectV41(u,'shield',{source:u,duration:2.5,
+    power:rule.shield[rank-1]+ap*rule.shieldApRatio,key:'vex_w_'+u.id});
+   let count=0;
+   for(const v of areaHitsV42(u,this.units.filter(v=>v.team!==u.team&&v.hp>0),rule.radius,this.worldWidth,this.worldHeight)){
+    const dmg=this.damage(v,rule.damage[rank-1]+ap*rule.apRatio,u,'magic','spell');
+    if(dmg>0){count++;this.vexApplyFearV453Dev69M1(u,v,empowered,'w_'+now);
+     this.vexConsumeGloomV453Dev69M1(u,v);}
+   }
+   return {...commit,hitCount:count,empowered};
+  }
+  const meters=this.mapDistance(u,point);
+  (this.vexEZonesV453Dev69M1??=[]).push({
+   ownerId:u.id,team:u.team,point:{x:point.x,y:point.y},
+   radius:200+100*Math.min(1,meters/rule.range),dueAt:now+.25+meters/rule.projectileSpeed,
+   raw:rule.damage[rank-1]+ap*rule.apRatioByRank[rank-1],
+   slow:rule.slow[rank-1]/100,empowered,createdAt:now
+  });
+  return {...commit,pending:true,dueAt:now+.25+meters/rule.projectileSpeed};
+ }
+ advanceVexEZonesV453Dev69M1(){
+  const remaining=[];
+  for(const z of this.vexEZonesV453Dev69M1||[]){
+   if(this.gameTime<z.dueAt){remaining.push(z);continue;}
+   const u=this.units.find(v=>v.id===z.ownerId);
+   if(!u)continue;
+   for(const v of areaHitsV42(z.point,[...this.units,...this.minions].filter(v=>v.team!==z.team&&v.hp>0&&
+    (v.spawnAt==null||v.spawnAt<=this.gameTime)),z.radius,this.worldWidth,this.worldHeight)){
+    const hit=this.damage(v,z.raw,u,'magic','spell');
+    if(hit<=0)continue;
+    if(v.champ){
+     this.vexMarkGloomV453Dev69M1(u,v);
+     this.applyEffectV41(v,'slow',{source:u,duration:2,power:z.slow,key:'vex_e_'+u.id});
+     this.vexApplyFearV453Dev69M1(u,v,z.empowered,'e_'+z.createdAt);
+    }
+   }
+  }
+  this.vexEZonesV453Dev69M1=remaining;
  }
  startVexShadowDashV453Dev69(u){
   const mark=u?.vexMark,now=this.gameTime;
@@ -3891,7 +3989,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5432,7 +5530,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const owner=this.units.find(u=>u.id===p.ownerId);
    if(!owner)continue;
    const from=Math.min(p.range,Math.max(0,p.traveledV453Dev43||0));
-   const to=Math.min(p.range,Math.max(from,(now-p.createdAt)*p.speed));
+   const elapsed=now-p.createdAt;
+   const travelled=p.kind==='vex_q'?(elapsed<=p.accelAt/p.speed?elapsed*p.speed:
+    p.accelAt+(elapsed-p.accelAt/p.speed)*p.fastSpeed):elapsed*p.speed;
+   const to=Math.min(p.range,Math.max(from,travelled));
    if(to<=from+1e-7){still.push(p);continue;}
    const origin=p.origin;
    const position=d=>({x:origin.x+p.unit.x*d/this.worldWidth,y:origin.y+p.unit.y*d/this.worldHeight});
@@ -5442,7 +5543,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       (v.spawnAt==null||v.spawnAt<=now)).map(v=>{
     const x=(v.x-origin.x)*this.worldWidth,y=(v.y-origin.y)*this.worldHeight;
     return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};
-   }).filter(x=>x.depth>=from-1e-7&&x.depth<=to+1e-7&&x.side<=p.width/2)
+   }).filter(x=>x.depth>=from-1e-7&&x.depth<=to+1e-7&&
+    x.side<=(p.kind==='vex_q'&&x.depth>=p.accelAt?p.widthFast:p.width)/2)
     .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id)));
    let terrainDepth=Infinity;
    for(let d=from+Math.min(10,(to-from));d<=to+1e-7;d+=10){
@@ -5463,10 +5565,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      barrierDepth=Math.min(barrierDepth,crossing);
     }
    }
-   if(p.kind==='nami_r'||p.kind==='vex_r'){
+   if(p.kind==='nami_r'||p.kind==='vex_r'||p.kind==='vex_q'){
     // These ultimates cross map terrain but obey enemy projectile barriers.
     // Sweep only the untraversed segment, one hit per physical unit ID.
-    const cutoff=barrierDepth;
+    const cutoff=p.kind==='vex_q'?Math.min(barrierDepth,terrainDepth):barrierDepth;
     let reason=null,lastDepth=to;
     if(p.kind==='nami_r'){
      // Ally buff uses the same swept segment and positional blocker cutoff as
@@ -5490,6 +5592,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const shielded=this.effectResolverV41().has(v,'spell_shield');
      this.damage(v,p.raw,owner,'magic','spell');
      p.hitIds.push(v.id);lastDepth=depth;
+     if(p.kind==='vex_q'&&!shielded&&v.champ&&v.hp>0){
+      this.vexApplyFearV453Dev69M1(owner,v,p.empowered,p.id);
+      this.vexConsumeGloomV453Dev69M1(owner,v);
+     }
      if(p.kind==='nami_r'&&v.champ&&!shielded&&v.hp>0){
       this.applyEffectV41(v,'knockup',{source:owner,duration:.5,key:'nami_r_'+p.id});
       this.applyEffectV41(v,'slow',{source:owner,
@@ -5513,7 +5619,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      hitIds:[...p.hitIds],hitId:owner.vexMark?.targetId||null,reason,
      origin,end:position(lastDepth),traveled:lastDepth,riftRevision:p.riftRevision});
     if(this.championProjectileHistoryV453Dev42.length>100)this.championProjectileHistoryV453Dev42.shift();
-    this.event((p.kind==='nami_r'?'Onda Violenta: ':'Rajada Sombria: ')+reason,
+    this.event((p.kind==='nami_r'?'Onda Violenta: ':p.kind==='vex_q'?'Vex Mistral Bolt: ':'Rajada Sombria: ')+reason,
      p.team,'champion_projectile_impact_v453_dev69',p.ownerId,{
       observedBy:['blue','red'].filter(team=>team===p.team||this.canSeePoint(team,position(lastDepth)))});
     continue;
