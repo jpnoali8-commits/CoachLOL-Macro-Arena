@@ -2811,7 +2811,8 @@ export class Arena {
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
   const recastAhriR=u.champ==='Ahri'&&slot==='R'&&u.ahriSpiritRushV453Dev69M4?.until>this.gameTime&&u.ahriSpiritRushV453Dev69M4?.charges>0;
-  const gate=recastE||recastAhriR?{ok:true}:castGateV39(u,slot,this.gameTime);
+  const recastIreliaW=u.champ==='Irelia'&&slot==='W'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt;
+  const gate=recastE||recastAhriR||recastIreliaW?{ok:true}:castGateV39(u,slot,this.gameTime);
   if(!gate.ok)return {ok:false,reason:gate.reason};
   u.queuedDirectional={slot,point:{x:point.x,y:point.y},issuedAt:this.gameTime};
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
@@ -2830,6 +2831,13 @@ export class Arena {
   if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
   const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
   if(len<1)return {ok:false,reason:'direção_zero'};
+  const prior=u.ireliaDanceV453Dev69M7;
+  if(prior&&!prior.released&&this.gameTime<prior.releaseAt){
+   prior.unit={x:dx/len,y:dy/len};
+   prior.releaseAt=this.gameTime;
+   prior.endAt=this.gameTime+.5;
+   return {ok:true,recast:true,releaseAt:this.gameTime};
+  }
   const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'W',
    source:'irelia_dance_v453_dev69_m7',checkRange:false});
   if(!cast.ok)return cast;
@@ -2849,7 +2857,9 @@ export class Arena {
    if(u.hp<=0){u.ireliaDanceV453Dev69M7=null;continue;}
    if(!p.released&&this.gameTime>=p.releaseAt){
     const rule=kitSpellV42('Irelia','W'),rank=p.rank,stats=this.elementalStatsV452d3(u);
-    const raw=rule.maxDamage[rank-1]+1.2*stats.ad+1.5*stats.ap;
+    const charge=Math.max(0,Math.min(1,(this.gameTime-p.startedAt)/.75));
+    const raw=rule.minDamage[rank-1]*(1+2*charge)+(.4+.8*charge)*stats.ad+
+     (.5+charge)*stats.ap;
     const hits=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
      (v.spawnAt==null||v.spawnAt<=this.gameTime)).map(v=>{
       const dx=(v.x-p.origin.x)*this.worldWidth,dy=(v.y-p.origin.y)*this.worldHeight;
