@@ -30,20 +30,21 @@ const classify=item=>{
  if(tags.includes('assassin')||tags.includes('fighter')||tags.includes('marksman'))return 'offense';
  return 'utility_or_component';
 };
-const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+// Recipe order is not semantic; repeated components ARE semantic.
+const sameParts=(a,b)=>JSON.stringify([...a].sort())===JSON.stringify([...b].sort());
 for(const [id,row] of Object.entries(sr.rows)){
  const source=riot[id],item=byLocal.get(row.localId);
  const normal=row.status==='engine_playable'||row.status==='reference_only';
  const flags=[];
  if(!source)flags.push('riot_source_missing');
- if(!item)flags.push('local_item_missing');
- if(item&&item.riotId!==Number(id))flags.push('riot_id_link_mismatch');
+ if(!item)flags.push(normal?'local_item_missing':'conditional_engine_implementation_missing');
+ if(item&&item.riotId!==Number(id))flags.push(item.riotId==null?'missing_explicit_riot_id':'riot_id_link_mismatch');
  if(source&&row.price!==source.gold.total)flags.push('snapshot_price_mismatch');
  if(source&&row.basePrice!==source.gold.base)flags.push('snapshot_combine_price_mismatch');
  if(source&&item&&item.cost!==source.gold.total)flags.push('engine_price_mismatch');
  if(source&&item&&officialSaleValueV453Dev60(item.id)!==source.gold.sell)flags.push('engine_sale_mismatch');
  const parts=(ITEM_RECIPES[row.localId]||[]).map(officialId);
- if(source&&item&&row.localId!=='trinket_farsight'&&!same(parts,(source.from||[]).map(Number)))flags.push('recipe_components_mismatch');
+ if(source&&item&&row.localId!=='trinket_farsight'&&!sameParts(parts,(source.from||[]).map(Number)))flags.push('recipe_components_mismatch');
  const desc=String(row.passiveOrActiveDescription||'');
  const taggedEffect=/<passive>|<active>|<rules>|<mainactive>/i.test(desc)||/<attention>[^<]*<\/attention>[^<]*<br>/i.test(desc);
  const dynamicZero=/>(?:0(?:\.0+)?)(?:<|%)/.test(desc);
@@ -69,6 +70,8 @@ const report={
   normalRows:normals.length,normalCatalogFlags:Object.fromEntries([...new Set(normals.map(r=>r.catalog_flag))].map(k=>[k,normals.filter(r=>r.catalog_flag===k).length])),
   officialRecords:records.filter(r=>r.riot_record).length,localEntries:records.filter(r=>r.engine_item).length,
   certified:0,uncertified:records.length,
+  normalStructuralIssues:normals.reduce((n,r)=>n+r.issues.length,0),
+  conditionalOrExclusiveBlocked:records.filter(r=>r.issues.includes('conditional_engine_implementation_missing')).length,
   structuralDiscrepancies:issues.length,
   priceAndRecipeRowsWithIssues:records.filter(r=>r.issues.length).length,
   flaggedDynamicZero:records.filter(r=>r.official_dynamic_zero_detected).length,
@@ -89,6 +92,9 @@ console.log('AUDIT_DISCREPANCIES_BY_TYPE',JSON.stringify(issueKinds,null,2));
 console.log('Artifacts: '+out);
 if(normals.length!==202||sr.counts.normalStore!==202||sr.counts.referenceOnly!==0){
  console.error('Full-audit gate: unexpected normal-shop counts');process.exitCode=1;
+}
+if(normals.some(r=>r.issues.length)){
+ console.error('Full-audit gate: normal SR items still have unresolved economy/ID/recipe mismatches');process.exitCode=1;
 }
 if(records.some(r=>r.catalog_flag==='engine_playable'&&!r.engine_item)){
  console.error('Full-audit gate: playable normal item without local engine registry');process.exitCode=1;
