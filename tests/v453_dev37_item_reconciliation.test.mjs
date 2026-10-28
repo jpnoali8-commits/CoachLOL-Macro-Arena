@@ -79,7 +79,9 @@ test('Armguard one-use stasis: authoritative action, damage immunity, no 2nd use
  assert.equal(a.damage(u,200,v,'magic','spell'),0);
  assert.equal(a.activateStasis('blue',u.id).ok,false);
  assert.equal(a.performActionV40({actorId:u.id,kind:'item',type:'seekers_armguard'}).ok,false);
- assert.deepEqual(u.items,['seekers_armguard']);
+ // Batch 7 upgrades the spent one-use item to Shattered Armguard,
+ // retaining its Zhonya recipe credit while prohibiting reuse.
+ assert.deepEqual(u.items,['shattered_armguard']);
 });
 test('Armguard + Rod => Zhonya 450 gold craft, 105 AP and renewably timed stasis',()=>{
  const a=make(),u=hero(a);prep(a,u);const originalArmor=u.armor,originalAP=u.ap;
