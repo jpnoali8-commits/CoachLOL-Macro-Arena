@@ -2041,6 +2041,7 @@ export class Arena {
   for(const u of this.units){
    if(u.conditionalCelestialEndingV453Dev69C!=null&&this.gameTime>=u.conditionalCelestialEndingV453Dev69C){
     u.conditionalCelestialEndingV453Dev69C=null;
+    u.conditionalCelestialBlessedV453Dev69C=false;
     for(const enemy of this.units.filter(v=>v.hp>0&&v.team!==u.team&&this.mapDistance(u,v)<=500)){
      this.applyEffectV41(enemy,'slow',{source:u,duration:1.5,power:.5,key:'celestial_'+u.id});
     }
