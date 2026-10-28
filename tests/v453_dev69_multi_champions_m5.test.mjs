@@ -87,15 +87,13 @@ for(const team of ['blue','red']){
   assert.equal(t.foe.hp,2000);
  });
  t.a.gameTime=.5;t.a.advanceJinxChompersV453Dev69M5();
- test(team+' E cannot root before arming at .9 sec',()=>{
+ test(team+' E cannot root before arming at .9 sec and gives team sight on landing',()=>{
   assert.equal(t.foe.hp,2000);assert.equal(t.a.effectResolverV41().has(t.foe,'root'),false);
- });
- const save=Arena.fromSnapshotV40(map,mask,t.a.snapshotV40());
- t.a.gameTime=save.gameTime=1;t.a.advanceJinxChompersV453Dev69M5();save.advanceJinxChompersV453Dev69M5();
- test(team+' Jinx E grants allied-only fog sight while traps exist',()=>{
   assert.ok(t.a.visionSources(team).some(v=>v.kind==='jinx_e'));
   assert.equal(t.a.visionSources(other).some(v=>v.kind==='jinx_e'),false);
  });
+ const save=Arena.fromSnapshotV40(map,mask,t.a.snapshotV40());
+ t.a.gameTime=save.gameTime=1;t.a.advanceJinxChompersV453Dev69M5();save.advanceJinxChompersV453Dev69M5();
  test(team+' E arms, roots and damages enemy, preserving checkpoint determinism',()=>{
   assert.ok(t.foe.hp<2000);
   assert.ok(t.a.effectResolverV41().has(t.foe,'root'));
