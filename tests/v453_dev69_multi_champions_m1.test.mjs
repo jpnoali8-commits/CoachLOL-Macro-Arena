@@ -41,7 +41,9 @@ for(const champ of champions){
    assert.ok(Math.abs(lvl18[k]-got)<1e-5,k+' '+got+' expected '+lvl18[k]);
   assert.ok(Math.abs(u.attackSpeedRealV453Dev69M1-lvl18.attackSpeed)<1e-8);
   assert.ok(lvl18.hp>lvl1.hp&&lvl18.mana>lvl1.mana);
-  assert.equal(lvl18.adGrowthVerified,['Nami','Vex','Lux','Jinx','Ahri'].includes(champ));
+  assert.equal(lvl18.adGrowthVerified,true);
+  assert.equal(CHAMPION_LEVEL_STATS_V453_DEV69_M1[champ].adGrowthSource,'verified_patch_26_21');
+  assert.equal(lvl18.ad,lvl1.ad+CHAMPION_LEVEL_STATS_V453_DEV69_M1[champ].growth.ad*17);
  });
 }
 for(const team of ['blue','red']){
