@@ -1,3 +1,5 @@
+> **Fluxo vigente:** [FAST_LANE_DEV69.md](FAST_LANE_DEV69.md). Este texto preserva o procedimento detalhado histórico; usar lotes coerentes, QA focalizada por equipe e QA integral apenas no candidato consolidado. Nunca reduzir gates de release.
+
 # Fluxo operacional de branches, PRs e QA
 
 ## Bootstrap (obrigatório)
