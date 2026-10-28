@@ -39,7 +39,10 @@ for(const team of ['blue','red']){
   const {a,u,enemy,ally,other}=fresh(champ,team),s=BOARD_KITS_V453_DEV69[champ][slot],
    before=u.mana;
   const route=()=>{
-   if(s.shape==='target_enemy')return a.queueTargetedSkill(team,u.id,slot,enemy.id);
+   if(s.shape==='target_enemy'){
+    enemy.x=u.x+Math.min(200,s.range*.7)/a.worldWidth;enemy.y=u.y;
+    return a.queueTargetedSkill(team,u.id,slot,enemy.id);
+   }
    if(s.shape==='target_ally')return a.queueTargetedSkill(team,u.id,slot,ally.id);
    if(['line_enemy','cone_enemy'].includes(s.shape))
     return a.queueDirectionalSkill(team,u.id,slot,{x:.59,y:.5});
