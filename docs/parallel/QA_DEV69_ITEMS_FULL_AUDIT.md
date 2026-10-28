@@ -43,3 +43,30 @@
 2. Auditar famílias ofensivas, defensivas, suporte e visão por gatilhos universais, usando entradas de toda a cadeia B1–B7.
 3. Completar MID/placas/objetivos somente quando o hook de torre e a semântica de patches estiverem validados.
 4. Cruzar itens × kits × PvP × fog × replay determinístico × performance, então revisão pelo integrador, sem integrar antecipadamente.
+
+## Marco B: paridade de itens confirmada por contrato 26.20–26.21
+
+Implementado em `engine.mjs` sem alterar Skills ou a interface do integrador:
+
+| Item/sistema | Problema anterior | Correção de escopo |
+|---|---|---|
+| Hexoplaca Experimental | 30% AS/15% MS sem distinção de alcance; sem recarga separada | 50% AS/20% MS corpo a corpo, 25% AS/10% MS distância, duração 8s e recarga autoritativa 30s; venda encerra efeito |
+| Húbris | Sempre 10 AD +2 por stack (tratava melee como ranged) | 15 +3 para melee; 10 +2 para ranged após abate/assistência elegível |
+| Furacão de Runaan | Projéteis a 40% AD | 60% AD, até dois alvos secundários visíveis com hit legal |
+| Explocinturão Hextec | Ativo em 130 +25% AP | 135 +15% AP conforme patch 26.20, preservando alcance/cooldown autoritativo |
+| Classificação por alcance | `u.range>.05` em coordenadas normalizadas classificava 525/550/650 unidades como melee | `isRangedChampionV453Dev69Audit` centralizado, em unidades do Atlas (15.000), aplicado a BotRK, Serpentes, Modo DPS/escudos, Youmuu, aceleração de itens, Kraken, Riftmaker, missão MID e bônus novos |
+
+**Evidência de paridade:** Riot [26.20](https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/) (Hexoplaca, Explocinturão, Runaan), Riot [26.21](https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-21-notes/) (Húbris). O snapshot 16.21.1 confirma atributos estruturais, mas apresenta zero na descrição dinâmica de certos efeitos e não certifica seus escalamentos.
+
+**QA:** `tests/v453_dev69_items_full_audit_patch2621.test.mjs` adiciona 7 testes de comportamento real, recarga, venda, snapshot e isolamento de ataques secundários. Workflow executa-os junto dos 11 testes MID e 215 regressões FAST. Suíte integral `npm test` executada em job separado com falha visível, não ignorada.
+
+**Limites explícitos:** classificação de ranged para campeões ainda não cadastrados usa a faixa de ataque do tabuleiro e necessita exceções oficiais (p.ex., campeões melee de alcance atípico); não certificar todo o roster só com esse heurístico. Ativos de deslocamento exigem QA adicional de colisores e line-of-sight. Não temos QA Chrome de dois clientes. Todos os 210 registros permanecem não certificados até evidência por item.
+
+### Discrepâncias estruturais, após correções
+
+Análise remota da matriz contra Data Dragon 16.21.1: **202 itens normais, 0 divergências de integridade estrutural** (IDs/custos/receitas/revenda). Anteriormente, a auditoria identificou 47 IDs legados sem `riotId` explícito e um falso erro de ordem de receita em Navori; ambos corrigidos. Restam **8 implementações condicionais/exclusivas bloqueadas** por ausência de vínculo de motor:
+
+- `3330` (Efígie Fiddlesticks), `3599/3600` (Lança Negra Kalista);
+- `3869/3870/3871/3876/3877` (cinco evoluções da missão SUP).
+
+Não converter esses casos em `certified` nem disponibilizar compra direta até existir resolução real de ação, evolução e ownership. Devem ser tratados em integração com os kits das duas campeãs e catálogo de missões.
