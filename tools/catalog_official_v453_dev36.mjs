@@ -46,7 +46,10 @@ export function buildCatalog({en,pt,client,local=catalog,recipes=ITEM_RECIPES,ef
    else kind='shop_reference';
   }
   for(const p of from)if(!en.data[p])recipeErrors.push({item:id,missing:p});
-  const playable=localMap.get(id)||null;
+  const candidate=localMap.get(id)||null;
+  // A local quest-only registry entry is still NOT an ordinary shop item.
+  // Keep the original browse-only certification bit independent of code presence.
+  const playable=candidate&&!candidate.notPurchasable&&kind==='shop_reference'?candidate:null;
   const officialPrice=Number(item.gold?.total||0);
   const r={id,name:plain(item.name),namePt:plain(ptItem?.name||item.name),cost:officialPrice,
    priceBase:Number(item.gold?.base||0),sell:Number(item.gold?.sell||0),from,into:(item.into||[]).map(String),
