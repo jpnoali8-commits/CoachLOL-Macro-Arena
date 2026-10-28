@@ -41,8 +41,6 @@ jobs:
           node --check tests/v453_dev69_kalista_m14.test.mjs
           node --check tests/v453_dev69_sylas_m14.test.mjs
           node --check tests/v453_dev69_global_ult_m14.test.mjs
-          node --check multiplayer/form_kits_v453_m14.mjs
-          node --check multiplayer/realm_kernel_v453_m14.mjs
           node --check multiplayer/authoritative_actions_v453_dev44.mjs
           node --check multiplayer/pvp_client_v453_dev47.js
           node --check multiplayer/server_v453_dev47.mjs

@@ -1,5 +1,3 @@
-import {FORM_KITS_V453_M14,DEFAULT_FORM_V453_M14} from './multiplayer/form_kits_v453_m14.mjs';
-import {realmOf,sameRealm,validRealmPoint,startRealm,endRealm,advanceRealm,realmView} from './multiplayer/realm_kernel_v453_m14.mjs';
 /* CoachLOL Macro Arena — deterministic simultaneous turn core v4.3.
  * Ticks are deterministic in seeded game time; UI frame rate has no gameplay impact.
  * v1.6 canonical mode: simultaneous planning while frozen, followed by deterministic short execution.
@@ -778,6 +776,159 @@ const boardSkillV453=(shape,range,mana,cooldown,damage=[],more={})=>({
  kind:'board_effect',shape,range,mana:[].concat(mana),cooldown:[].concat(cooldown),
  damage:[].concat(damage),implemented:'board_prototype',...more});
 const BS=boardSkillV453;
+// M14 primitives are deliberately in the canonical engine: official browser sync
+// uses text regeneration, not a module bundler. One source, no cross-file imports.
+/** M14 prototype realm kernel: one world, two combat partitions.
+ * All coordinates are canonical map coordinates; no duplicate terrain.
+ * Geometry is sampled from the authoritative elemental wall/brush masks.
+ */
+const realmOf=(a,u)=>{
+ const r=a.realmContextV453Dev69;
+ return r&&u&&(u.id===r.casterId||u.id===r.targetId)?r:null;
+};
+const sameRealm=(a,u,v)=>
+ (realmOf(a,u)?.id||null)===(realmOf(a,v)?.id||null);
+const validRealmPoint=(a,u,p)=>{
+ if(!p||!a.walkable(p.x,p.y))return false;
+ const r=realmOf(a,u);
+ return !r||a.mapDistance(r.centerWorld,p)<=r.radiusWorld;
+};
+function startRealm(a,caster,target){
+ if(a.realmContextV453Dev69||!caster?.hp||!target?.hp||
+  !a.visible(caster.team,target)||a.mapDistance(caster,target)>650)
+  return {ok:false,reason:'reino_alvo_invalido'};
+ const r={id:'realm_'+(++a.realmSeqV453Dev69),casterId:caster.id,
+  targetId:target.id,centerWorld:{x:target.x,y:target.y},
+  radiusWorld:1200,startAt:a.gameTime,endsAt:a.gameTime+7,
+  riftVariant:a.riftV452d4?.element||'original',
+  geometryRevision:a.riftV452d4?.revision||0,
+  lastValid:{[caster.id]:{x:caster.x,y:caster.y},
+   [target.id]:{x:target.x,y:target.y}}};
+ a.realmContextV453Dev69=r;
+ caster.realmIdV453Dev69=r.id;target.realmIdV453Dev69=r.id;
+ a.event('Reino da Morte iniciado.',null,'realm_start',caster.id,
+  {observedBy:[caster.team,target.team]});
+ return {ok:true,realmId:r.id};
+}
+function endRealm(a,reason='duration'){
+ const r=a.realmContextV453Dev69;if(!r)return;
+ for(const id of [r.casterId,r.targetId]){
+  const u=a.units.find(v=>v.id===id);if(!u)continue;
+  const p=r.lastValid[id];
+  // The actors have been moving in world coordinates all along.
+  // Keep their FINAL positions, never revert to initial cast coordinates.
+  if(!a.walkable(u.x,u.y)&&p){u.x=p.x;u.y=p.y;}
+  u.realmIdV453Dev69=null;
+ }
+ a.realmContextV453Dev69=null;
+ a.event('Reino da Morte encerrado: '+reason,null,'realm_end',r.casterId,
+  {observedBy:['blue','red']});
+}
+function advanceRealm(a){
+ const r=a.realmContextV453Dev69;if(!r)return;
+ const caster=a.units.find(u=>u.id===r.casterId),
+  target=a.units.find(u=>u.id===r.targetId);
+ if(!caster?.hp||!target?.hp)return endRealm(a,'death');
+ if(a.gameTime>=r.endsAt)return endRealm(a,'duration');
+ // End on elemental revision change, instead of mixing old visual
+ // geometry with changed physical masks mid-ultimate.
+ if((a.riftV452d4?.revision||0)!==r.geometryRevision)
+  return endRealm(a,'geometry_change');
+ for(const u of [caster,target]){
+  const from=r.lastValid[u.id]||{x:u.x,y:u.y},to={x:u.x,y:u.y};
+  const count=Math.max(1,Math.ceil(a.mapDistance(from,to)/20));
+  let last=from;
+  for(let i=1;i<=count;i++){
+   const next={x:from.x+(to.x-from.x)*i/count,
+    y:from.y+(to.y-from.y)*i/count};
+   if(!validRealmPoint(a,u,next))break;
+   last=next;
+  }
+  if(last.x!==u.x||last.y!==u.y){
+   u.x=last.x;u.y=last.y;u.path=[];u.laneFollowPath=[];
+   u.retreatPath=[];
+  }
+  r.lastValid[u.id]={x:u.x,y:u.y};
+ }
+}
+function realmView(a,team){
+ const r=a.realmContextV453Dev69;if(!r)return null;
+ const actors=[r.casterId,r.targetId].map(id=>a.units.find(u=>u.id===id));
+ if(!actors.some(u=>u?.team===team))return null;
+ const n=25,terrain=[];
+ for(let y=0;y<n;y++){
+  let wall='',brush='';
+  for(let x=0;x<n;x++){
+   const px=r.centerWorld.x+((x+.5)/n*2-1)*r.radiusWorld/a.worldWidth,
+    py=r.centerWorld.y+((y+.5)/n*2-1)*r.radiusWorld/a.worldHeight;
+   wall+=a.maskAt('wall',px,py)?'1':'0';
+   brush+=a.maskAt('brush',px,py)?'1':'0';
+  }
+  terrain.push({wall,brush});
+ }
+ return {id:r.id,centerWorld:{...r.centerWorld},radiusWorld:r.radiusWorld,
+  endsAt:r.endsAt,riftVariant:r.riftVariant,
+  geometryRevision:r.geometryRevision,worldWidth:a.worldWidth,
+  worldHeight:a.worldHeight,terrain,
+  units:actors.filter(Boolean).map(u=>({id:u.id,champ:u.champ,team:u.team,
+   x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana}))};
+}
+
+/** Shared polymorphic kit grammar for transforming champions.
+ * Separate Q/W/E cooldown namespaces; never overwrite another form's spells.
+ * Gameplay prototypes: missing flags denote non-certified unique mechanics.
+ */
+const FORM_BS_V453_M14=(shape,range,mana,cooldown,damage=[],extra={})=>({
+ kind:'board_effect',shape,range,mana:[].concat(mana),
+ cooldown:[].concat(cooldown),damage:[].concat(damage),
+ implemented:'form_prototype',...extra
+});
+export const FORM_KITS_V453_M14=Object.freeze({
+ Nidalee:{
+  human:{
+   Q:FORM_BS_V453_M14('line_enemy',1500,50,6,[70,95,120,145,170],{width:115,maxHits:1,apRatio:.65,missing:'spear_flight_distance_multiplier'}),
+   W:FORM_BS_V453_M14('circle_enemy',900,40,12,[35,55,75,95,115],{radius:150,apRatio:.22,boardTemporal:'minefield',zoneSeconds:5,missing:'trap_hunted_and_reveal'}),
+   E:FORM_BS_V453_M14('target_ally',600,60,12,[],{heal:[70,100,130,160,190],apRatio:.5,missing:'attack_speed_ally_buff'}),
+   R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'cougar'})
+  },
+  cougar:{
+   Q:FORM_BS_V453_M14('target_enemy',175,0,6,[55,80,105,130,155],{apRatio:.4,missingHpRatio:.28,missing:'hunted_empower'}),
+   W:FORM_BS_V453_M14('move_point',375,0,6,[45,70,95,120,145],{radius:205,apRatio:.35,missing:'hunted_long_pounce'}),
+   E:FORM_BS_V453_M14('cone_enemy',300,0,6,[60,90,120,150,180],{arc:75,apRatio:.4}),
+   R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'human'})
+  }
+ },
+ Elise:{
+  human:{
+   Q:FORM_BS_V453_M14('target_enemy',615,80,6,[45,70,95,120,145],{apRatio:.7,missing:'current_hp_scaling'}),
+   W:FORM_BS_V453_M14('circle_enemy',950,70,12,[50,75,100,125,150],{radius:235,apRatio:.75,missing:'volatile_spiderling_tracking'}),
+   E:FORM_BS_V453_M14('line_enemy',1075,50,12,[],{width:125,maxHits:1,cc:'stun',ccSeconds:1.5,missing:'cocoon_projectile_travel'}),
+   R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'spider',missing:'spiderling_pet_swarm'})
+  },
+  spider:{
+   Q:FORM_BS_V453_M14('target_enemy',475,0,6,[50,75,100,125,150],{apRatio:.6,dashToHit:true,missing:'missing_hp_scaling'}),
+   W:FORM_BS_V453_M14('self',0,0,12,[],{speedBuff:.25,buffSeconds:4,missing:'attack_speed_buff'}),
+   E:FORM_BS_V453_M14('move_point',750,0,20,[],{radius:0,missing:'rappel_stasis_and_enemy_anchor'}),
+   R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'human'})
+  }
+ },
+ Shyvana:{
+  human:{
+   Q:FORM_BS_V453_M14('self',0,0,10,[],{nextBasic:[40,60,80,100,120],basicAdRatio:.5,charges:1,missing:'emberstrike_double_hit_recast'}),
+   W:FORM_BS_V453_M14('self',0,0,13,[],{shield:[75,110,145,180,215],speedBuff:.18,buffSeconds:3,missing:'delayed_inferno_aegis_explosion'}),
+   E:FORM_BS_V453_M14('circle_enemy',800,0,12,[70,100,130,160,190],{radius:230,apRatio:.55,missing:'fireball_projectile_and_impact'}),
+   R:FORM_BS_V453_M14('move_point',1050,0,0,[100,150,200],{radius:320,cc:'fear',ccSeconds:1,transformTo:'dragon',missing:'fury_trigger_and_transformation_timing'})
+  },
+  dragon:{
+   Q:FORM_BS_V453_M14('self',0,0,10,[],{nextBasic:[65,95,125,155,185],basicAdRatio:.7,charges:1,missing:'dragon_extra_recasts'}),
+   W:FORM_BS_V453_M14('self',0,0,13,[],{shield:[100,140,180,220,260],speedBuff:.22,buffSeconds:3,missing:'dragon_healing_explosion'}),
+   E:FORM_BS_V453_M14('circle_enemy',950,0,12,[95,140,185,230,275],{radius:360,apRatio:.7,missing:'molten_fire_trail'}),
+   R:FORM_BS_V453_M14('self',0,0,0,[],{passiveOnly:true,missing:'dragon_form_ends_with_fury'})
+  }
+ }
+});
+export const DEFAULT_FORM_V453_M14=Object.freeze({Nidalee:'human',Elise:'human',Shyvana:'human'});
+
 export const BOARD_KITS_V453_DEV69=Object.freeze({
  Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
   W:BS('self',0,0,23,[],{shield:[80,105,130,155,180]}),

@@ -1,8 +1,8 @@
 /** M14 form grammar — 2x3 QWE sets, cooldown isolation and PvP manifest. */
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {Arena,checksumV40,abilityRule} from '../engine.mjs';
-import {FORM_KITS_V453_M14} from '../multiplayer/form_kits_v453_m14.mjs';
+import {Arena,checksumV40,abilityRule,FORM_KITS_V453_M14} from '../engine.mjs';
+
 import {createPvPServerV453Dev47} from '../multiplayer/server_v453_dev47.mjs';
 const load=x=>JSON.parse(readFileSync(new URL('../data/'+x,import.meta.url)));
 const map=load('coachlol_map_v6.json'),mask=load('masks_128.json');
