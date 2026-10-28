@@ -2876,15 +2876,24 @@ export class Arena {
      (['circle_enemy','vision_point','move_point'].includes(s.shape)&&this.mapDistance(u,point)>s.range)||
      (s.shape==='move_point'&&!this.walkable(point.x,point.y))))
    return {ok:false,reason:'ponto_invalido'};
-  const gate=castGateV39(u,slot,this.gameTime);if(!gate.ok)return gate;
-  u.pendingBoardV453Dev69={slot,targetId:target?.id||null,
+  const hijacked=u.champ==='Sylas'&&slot==='R'&&
+   u.sylasStolenV453M14?.expiresAt>this.gameTime;
+  if(!hijacked){
+   const gate=castGateV39(u,slot,this.gameTime);if(!gate.ok)return gate;
+  }
+  u.pendingBoardV453Dev69={slot,stolenCast:!!hijacked,targetId:target?.id||null,
    point:aimed?{x:point.x,y:point.y}:null};
   this.recordIntentV40(team,id,'board_skill',{slot,
     ...(target?{targetId:target.id}:{}),
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
   return {ok:true,queued:true};
  }
- boardKitForV453Dev69(champ,slot,u=null){return BOARD_KITS_V453_DEV69[champ]?.[slot]||FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;}
+ boardKitForV453Dev69(champ,slot,u=null){
+  if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
+   return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||null;
+  return BOARD_KITS_V453_DEV69[champ]?.[slot]||
+   FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
+ }
  executeBoardSkillV453Dev69(u,q){
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
   if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
@@ -2923,9 +2932,13 @@ export class Arena {
   if(['circle_enemy','move_point','vision_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
   if(s.shape==='move_point'&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
-  const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+  if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
+   return {ok:false,reason:'hijack_expirado'};
+  const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
+   this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  if(q.stolenCast)u.sylasStolenV453M14=null;
   if(s.transformTo){
    if(u.champ==='Shyvana'&&q.slot==='R'){
     u.boardFuryV453M14=Math.max(0,(u.boardFuryV453M14||0)-100);
