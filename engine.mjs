@@ -6445,7 +6445,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      b.adRatio*this.elementalStatsV452d3(attacker).ad+
      b.apRatio*this.elementalStatsV452d3(attacker).ap+
      (attacker.champ==='Nasus'?(attacker.boardSiphonStacksV453Dev69||0):0));
-    if(target.hp>0)this.damage(target,power,attacker,'magic','board_basic_proc');
+    if(target.hp>0)this.damage(target,power,attacker,b.card?'magic':'physical','board_basic_proc');
     if(b.card==='blue')attacker.mana=Math.min(attacker.maxMana,attacker.mana+60);
     if(b.card==='red'&&target.hp>0){
      const other=this.units.filter(v=>v.team!==attacker.team&&v.id!==target.id&&
