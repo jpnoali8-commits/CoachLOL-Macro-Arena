@@ -1,6 +1,6 @@
 # Chat 2 — Especialista de itens e economia
 
-**Branch exclusiva:** `dev69/items`. **Ponto de partida obrigatório:** dev68 real após STATUS_DEV69.md = READY. Antes disso, auditoria somente documental; não desenvolver sobre um repositório bootstrap.
+**Branch exclusiva:** `dev69/items`. **Ponto de partida obrigatório:** dev68 real após STATUS_DEV69.md = SOURCE_READY. O estado SOURCE_READY permite implementar e testar lógica/economia no código real; assets binários e release completo ainda estão pendentes.
 
 ## Missão
 
