@@ -1,3 +1,4 @@
+import {FORM_KITS_V453_M14,DEFAULT_FORM_V453_M14} from './multiplayer/form_kits_v453_m14.mjs';
 import {realmOf,sameRealm,validRealmPoint,startRealm,endRealm,advanceRealm,realmView} from './multiplayer/realm_kernel_v453_m14.mjs';
 /* CoachLOL Macro Arena — deterministic simultaneous turn core v4.3.
  * Ticks are deterministic in seeded game time; UI frame rate has no gameplay impact.
@@ -920,7 +921,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
 export function abilityRule(u,slot){
- const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot];if(board)return board;
+ const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -2842,11 +2843,11 @@ export class Arena {
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
-  const u=this.units.find(v=>v.id===id&&v.team===team),s=BOARD_KITS_V453_DEV69[u?.champ]?.[slot];
+  const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.hp<=0||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
-  if(slot==='R'&&u.level<6)return {ok:false,reason:'ultimate_nivel_6'};
+  if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   // A second cast reactivates an existing charge without mana or cooldown.
   const cycle=s.boardCardCycle&&u.boardCardCycleV453Dev69?.until>this.gameTime;
   if(cycle){
@@ -2882,9 +2883,9 @@ export class Arena {
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
   return {ok:true,queued:true};
  }
- boardKitForV453Dev69(champ,slot){return BOARD_KITS_V453_DEV69[champ]?.[slot]||null;}
+ boardKitForV453Dev69(champ,slot,u=null){return BOARD_KITS_V453_DEV69[champ]?.[slot]||FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;}
  executeBoardSkillV453Dev69(u,q){
-  const s=BOARD_KITS_V453_DEV69[u?.champ]?.[q?.slot];
+  const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
   if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
@@ -2924,6 +2925,22 @@ export class Arena {
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  if(s.transformTo){
+   if(u.champ==='Shyvana'&&q.slot==='R'){
+    u.boardFuryV453M14=Math.max(0,(u.boardFuryV453M14||0)-100);
+    u.boardDragonUntilV453M14=this.gameTime+20;
+   }
+   const from=u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ],
+    next=s.transformTo,memory=u.boardFormCooldownsV453M14??={};
+   memory[from]={Q:u.skillCds.Q||0,W:u.skillCds.W||0,E:u.skillCds.E||0};
+   const saved=memory[next]||{Q:0,W:0,E:0};
+   for(const slot of ['Q','W','E'])u.skillCds[slot]=saved[slot]||0;
+   u.boardFormV453M14=next;
+   if(!u.boardHumanRangeV453M14)u.boardHumanRangeV453M14=u.range;
+   u.range=next==='human'?u.boardHumanRangeV453M14:
+    (u.champ==='Shyvana'?175:125)/15000;
+   this.event(u.champ+' assumiu forma '+next+'.',u.team,'skill_form',u.id);
+  }
   if(s.boardSummon==='tibbers'){
    this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(v=>
     !(v.ownerId===u.id&&v.kind==='tibbers'));
@@ -3323,7 +3340,7 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const bu=this.units.find(v=>v.team===team&&v.id===unitId);
-  if(bu&&BOARD_KITS_V453_DEV69[bu.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -3455,7 +3472,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const bu=this.units.find(v=>v.id===unitId&&v.team===team);
-  if(bu&&BOARD_KITS_V453_DEV69[bu.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
@@ -7479,7 +7496,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const slot=sequence[o.comboIndex||0];
    // Board QWER combos must follow their authored effects rather than
    // the generic training damage fallback.
-   const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot];
+   const board=this.boardKitForV453Dev69(u.champ,slot,u);
    if(board){
     const ally=board.shape==='target_ally'?this.units.filter(v=>v.team===u.team&&v.hp>0&&
      this.mapDistance(u,v)<=board.range).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0]:null;
