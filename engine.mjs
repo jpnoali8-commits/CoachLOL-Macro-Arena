@@ -2065,6 +2065,7 @@ export class Arena {
     u.conditionalSleighHpV453Dev69C=0;u.conditionalSleighUntilV453Dev69C=0;
    }
   }
+  const effigyVisionSourcesV453Dev69C={blue:this.visionSources('blue'),red:this.visionSources('red')};
   for(const w of this.wards){
    if(w.type!=='effigy'||!this.wardActive(w))continue;
    if(w.triggeredAtV453Dev69C!=null){
@@ -2072,7 +2073,7 @@ export class Arena {
     continue;
    }
    const enemy=this.units.filter(u=>u.hp>0&&u.team!==w.team&&
-    this.mapDistance(u,w)<=900&&this.canSeePoint(u.team,w))
+    this.mapDistance(u,w)<=900&&this.canSeePoint(u.team,w,effigyVisionSourcesV453Dev69C[u.team]))
     .sort((a,b)=>this.mapDistance(a,w)-this.mapDistance(b,w)||a.id.localeCompare(b.id))[0];
    if(enemy){
     w.triggeredAtV453Dev69C=this.gameTime;w.triggeredByV453Dev69C=enemy.id;
