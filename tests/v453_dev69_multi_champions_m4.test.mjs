@@ -24,7 +24,8 @@ test('Ahri five real kit slots P,Q,W,E,R, individual rank contracts',()=>{
  e=kitSpellV42('Ahri','E'),r=kitSpellV42('Ahri','R');
  assert.equal(q.kind,'line_return');assert.equal(e.kind,'line_projectile');
  assert.equal(w.fireCount,3);assert.equal(r.charges,3);assert.equal(r.kind,'dash_recast');
- assert.deepEqual(w.cooldown,[9,8,7,6,5]);assert.deepEqual(r.cooldown,[140,120,100]);
+ assert.deepEqual(r.damage,[75,125,175]);
+ assert.deepEqual(w.cooldown,[9,8,7,6,5]);assert.deepEqual(r.cooldown,[130,115,100]);
 });
 for(const team of ['blue','red']){
  const {a,u,enemy,enemy2,team:seat,rival}=setup(team);
