@@ -143,6 +143,28 @@ async function webContract(){
   assert.equal(kit.kits.Vayne.W.passiveOnly,true);
   assert.equal(kit.kits.Ashe.E.shape,'vision_point');
   count++;console.log('✓ M11 authenticated HTTP kit metadata for QWER');
+  const createdState=await created.json();
+  const joined=await fetch(root+'/api/join',{method:'POST',
+   headers:{'content-type':'application/json'},
+   body:JSON.stringify({roomId:createdState.roomId})});
+  assert.equal(joined.status,200);
+  const redCookie=joined.headers.get('set-cookie')?.split(';')[0];
+  assert.ok(redCookie);
+  const red=await joined.json();assert.equal(red.team,'red');
+  const blueHacked=await fetch(root+'/api/action',{method:'POST',
+   headers:{'content-type':'application/json',cookie},
+   body:JSON.stringify({sequence:1,kind:'skill.self',unitId:'red_TOP',payload:{slot:'Q'}})});
+  assert.equal(blueHacked.status,409);
+  count++;console.log('✓ M11 HTTP blue seat cannot operate red champion');
+  const skillUp=await fetch(root+'/api/action',{method:'POST',
+   headers:{'content-type':'application/json',cookie:redCookie},
+   body:JSON.stringify({sequence:1,kind:'skill.upgrade',unitId:'red_TOP',payload:{slot:'Q'}})});
+  assert.equal(skillUp.status,200,'red top should be able to learn Q');
+  const selfCast=await fetch(root+'/api/action',{method:'POST',
+   headers:{'content-type':'application/json',cookie:redCookie},
+   body:JSON.stringify({sequence:2,kind:'skill.self',unitId:'red_TOP',payload:{slot:'Q'}})});
+  assert.equal(selfCast.status,200);
+  count++;console.log('✓ M11 HTTP red Darius Q self cast passes full authoritative gateway');
  }finally{await server.close();}
 }
 await webContract();
