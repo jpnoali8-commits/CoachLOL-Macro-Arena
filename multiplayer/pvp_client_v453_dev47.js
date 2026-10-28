@@ -3,19 +3,25 @@ const map=new Image();map.src='/assets/mapa_atualizado.jpg';map.onload=()=>draw(
 let state=null,stream=null,sequence=1,mode='move',lastRevision=-1,selectedUnitId=null,selectedUnitIds=[],resultDismissedFor=null;
 let reactionStepsV453Dev64=[],reactionKeyV453Dev64=null;
 let planningStepsV453Dev65=[];
+let boardKitsV453={},boardSlotV453='Q';
 let shopCatalog=[],shopReference=[],selectedShopItemId=null,shopUnitId=null,shopQuote=null,shopQuotePending='',networkLock=Promise.resolve();
 const announce=t=>{$('feed').textContent=t;};
+async function fetchBoardKitsV453(){try{
+ const response=await fetch('/api/kits',{credentials:'same-origin'});if(!response.ok)return;
+ const x=await response.json();boardKitsV453=x.kits||{};
+ if(state)renderBoardSlotsV453(state);
+}catch(e){announce('Habilidades: '+e.message);}}
 async function api(path,payload){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),credentials:'same-origin'});const data=await res.json();if(!res.ok)throw Error(data.reason||'Falha');return data;}
-function setMode(m){mode=m;announce('Modo: '+({move:'Mover',ward:'Ward',q:'Q'}[mode]||m));}
-$('create').onclick=async()=>{try{render(await api('create',{maxSeats:2}));await fetchShop();connect();}catch(e){announce(e.message);}};
-$('join').onclick=async()=>{try{render(await api('join',{roomId:$('code').value.trim().toLowerCase()}));await fetchShop();connect();}catch(e){announce(e.message);}};
+function setMode(m){mode=m;announce('Modo: '+({move:'Mover',ward:'Ward',q:'Q',skill:'Skill '+boardSlotV453}[mode]||m));}
+$('create').onclick=async()=>{try{render(await api('create',{maxSeats:2}));await fetchShop();await fetchBoardKitsV453();connect();}catch(e){announce(e.message);}};
+$('join').onclick=async()=>{try{render(await api('join',{roomId:$('code').value.trim().toLowerCase()}));await fetchShop();await fetchBoardKitsV453();connect();}catch(e){announce(e.message);}};
 $('ready').onclick=async()=>{try{const r=await api('ready',{});announce('Turno confirmado. '+r.phase);}catch(e){announce(e.message);}};
 $('move').onclick=()=>setMode('move');$('ward').onclick=()=>setMode('ward');$('q').onclick=()=>setMode('q');
 $('retreat').onclick=()=>sendGroup('order.retreat',{});
 $('mercury').onclick=()=>{const u=state?.projection?.units?.find(v=>v.id===(state?.pendingDecision?.unitId||selectedUnitId));const item=u?.items?.includes('mercurial_scimitar')?'mercurial_scimitar':'quicksilver_sash';return send('item.activate',{itemId:item},u?.id||selectedUnitId);};
 // Dev66: independent self-cast in planning; does not require an enemy target.
 $('cleansePvp').onclick=()=>send('summoner.queue',{type:'cleanse'},selectedUnitId);
-$('unitselect').onchange=()=>{selectedUnitIds=[...$('unitselect').selectedOptions].map(o=>o.value);selectedUnitId=selectedUnitIds[0]||null;if(state)renderPlanningComboV453Dev65(state);draw();};
+$('unitselect').onchange=()=>{selectedUnitIds=[...$('unitselect').selectedOptions].map(o=>o.value);selectedUnitId=selectedUnitIds[0]||null;if(state){renderPlanningComboV453Dev65(state);renderBoardSlotsV453(state);}draw();};
 function setShopOpen(open){$('shopOverlayPvp').classList.toggle('hidden',!open);$('shopTogglePvp').setAttribute('aria-expanded',String(open));if(open){renderShopUI();$('shopChampionPvp').focus();}}
 $('shopTogglePvp').onclick=()=>setShopOpen($('shopOverlayPvp').classList.contains('hidden'));
 $('shopClosePvp').onclick=()=>setShopOpen(false);
@@ -81,8 +87,66 @@ $('planningSubmitPvp').onclick=()=>{const id=$('planningTargetPvp').value;
  if(!id||!planningStepsV453Dev65.length)return;return send('order.combo',{targetId:id,steps:[...planningStepsV453Dev65]},selectedUnitId);
 };
 
+// Server owns ranges, fog, resource commits and the actual kit.
+function selectedBoardRuleV453(slot=boardSlotV453){
+ const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
+ return boardKitsV453[u?.champ]?.[slot]||null;
+}
+function renderBoardSlotsV453(v){
+ const unit=v.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===v.team);
+ const can=!!v.started&&!v.ended&&!v.paused&&['planning','preparation'].includes(v.phase)&&!v.ready?.includes(v.seatId);
+ const kit=boardKitsV453[unit?.champ]||null;
+ for(const b of $('boardSkillToolbarV453').querySelectorAll('[data-board-slot]')){
+  const slot=b.dataset.boardSlot,rule=kit?.[slot];
+  b.disabled=!can||!rule||rule.passiveOnly||!(unit?.skillRanks?.[slot]>0);
+  b.setAttribute('aria-pressed',String(boardSlotV453===slot));
+  b.title=rule?.passiveOnly?'Passiva não conjurável':rule?.shape||'Kit em auditoria';
+ }
+ const select=$('boardTargetV453'),prior=select.value;
+ const targets=(v.projection?.units||[]).filter(x=>x.hp>0&&
+  (x.team===v.team||(Number.isFinite(x.x)&&Number.isFinite(x.y))));
+ select.replaceChildren(...targets.map(x=>{const o=document.createElement('option');
+  o.value=x.id;o.textContent=(x.team===v.team?'ALIADO · ':'INIMIGO · ')+x.champ;return o;}));
+ select.value=targets.some(x=>x.id===prior)?prior:targets.find(x=>x.team!==v.team)?.id||'';
+ const rule=selectedBoardRuleV453(),targeted=rule&&['target_enemy','target_ally'].includes(rule.shape);
+ $('boardCastTargetV453').disabled=!can||!targeted||!select.value;
+ $('boardTargetV453').disabled=!can||!targeted;
+ $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!kit?
+  'Kit ainda em auditoria na interface · combos continuam disponíveis':rule?
+  unit.champ+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
+}
+function boardSelfV453(rule){
+ return ['self','circle_ally','global_ally'].includes(rule.shape)||
+  (rule.shape==='circle_enemy'&&rule.originSelf);
+}
+$('boardSkillToolbarV453').onclick=e=>{
+ const b=e.target.closest('[data-board-slot]');if(!b||b.disabled)return;
+ const slot=b.dataset.boardSlot;boardSlotV453=slot;const rule=selectedBoardRuleV453(slot);
+ if(!rule)return;
+ if(boardSelfV453(rule)){send('skill.self',{slot},selectedUnitId);setMode('move');}
+ else setMode('skill');
+ if(state)renderBoardSlotsV453(state);
+};
+$('boardCastTargetV453').onclick=()=>{
+ const rule=selectedBoardRuleV453(),id=$('boardTargetV453').value;
+ if(!rule||!['target_enemy','target_ally'].includes(rule.shape)||!id)return;
+ const target=state?.projection?.units?.find(x=>x.id===id);
+ if(!target||(rule.shape==='target_enemy')===(target.team===state.team)){
+  announce('Alvo incompatível com a habilidade');return;
+ }
+ return send('skill.targeted',{slot:boardSlotV453,targetId:id},selectedUnitId);
+};
+
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};
- if(mode==='move')await sendGroup('order.move',{point});else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});else await sendGroup('skill.directional',{point,slot:'Q'});
+ if(mode==='move')await sendGroup('order.move',{point});
+ else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});
+ else if(mode==='skill'){
+  const rule=selectedBoardRuleV453();
+  if(!rule){announce('Habilidade indisponível no catálogo tático');return;}
+  const kind=boardSlotV453==='R'?'skill.ultimate':
+   ['line_enemy','cone_enemy'].includes(rule.shape)?'skill.directional':'skill.ground';
+  await send(kind,kind==='skill.ultimate'?{point}:{slot:boardSlotV453,point},selectedUnitId);
+ }else await sendGroup('skill.directional',{point,slot:'Q'});
 };
 async function send(kind,payload,unitId=selectedUnitId){
  // Serializes orders from multi-selection: one monotonic sequence per human session.
@@ -176,7 +240,7 @@ function render(v){state=v;sequence=Math.max(sequence,v.nextSequence||1);
  $('shopTogglePvp').disabled=!!v.ended;
  $('info').textContent=`Equipe: ${v.team} • Controlando: ${selectedUnitId} (${ids.length} unidades) • ${v.connected}/${v.maxSeats} conectados • ${v.paused?'Decisão pendente no motor':v.ended?'Partida terminada':v.phase}`;
  if(!v.started)announce('Compartilhe o código '+v.roomId+' com o segundo jogador.');
- renderShopUI();renderPlanningComboV453Dev65(v);draw();}
+ renderShopUI();renderPlanningComboV453Dev65(v);renderBoardSlotsV453(v);draw();}
 $('pvpResultContinue').onclick=()=>{resultDismissedFor=state?.roomId;$('pvpResultOverlay').classList.add('hidden');};
 function connect(){if(stream)stream.close();stream=new EventSource('/api/stream');stream.addEventListener('state',e=>{try{const v=JSON.parse(e.data);if(v.revision>=lastRevision){lastRevision=v.revision;render(v);}}catch{}});stream.onerror=()=>{$('status').textContent='Reconectando…';};}
 function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complete&&map.naturalWidth)ctx.drawImage(map,0,0,800,800);
@@ -184,4 +248,4 @@ function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complet
  for(const v of p.wards||[]){ctx.fillStyle=v.team==='blue'?'#5eceff':'#ef756c';ctx.fillRect(v.x*800-4,v.y*800-4,8,8);}
  for(const v of p.units||[]){ctx.beginPath();ctx.arc(v.x*800,v.y*800,v.id===selectedUnitId?12:7,0,Math.PI*2);ctx.fillStyle=v.team==='blue'?'#49b9ff':'#e46863';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=v.id===selectedUnitId?'#f7d485':'#131b1e';ctx.stroke();if(v.id===selectedUnitId){ctx.fillStyle='#fff2c4';ctx.font='16px system-ui';ctx.fillText(v.champ,v.x*800+13,v.y*800-8);}}
 }
-try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();connect();}}catch{}
+try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();await fetchBoardKitsV453();connect();}}catch{}
