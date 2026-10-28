@@ -3038,7 +3038,7 @@ export class Arena {
     this.mapDistance(u,z.origin)>60)){
     u.boardChannelUntilV453Dev69=0;ended=true;
    }
-   if(!ended&&now>=z.nextAt&&now<=z.until+.001){
+   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||z.kind==='delayed_radiance')){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
     if(z.kind==='delayed_radiance'){

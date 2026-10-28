@@ -121,6 +121,8 @@ for(const team of ['blue','red']){
  check(team+' Taric R grants allied invulnerability but never enemy immunity',()=>{
   assert.equal(t.a.queueKitSkillV42(team,t.u.id,'R',null).ok,true);
   t.a.resolveBoardSkillsV453Dev69();
+  assert.equal(t.a.effectResolverV41().has(t.ally,'invulnerable'),false,'Taric R has mandatory cast delay');
+  t.a.gameTime=3;t.a.advanceBoardTemporalV453Dev69();
   assert.ok(t.a.effectResolverV41().has(t.ally,'invulnerable'));
   assert.equal(t.a.effectResolverV41().has(t.enemy,'invulnerable'),false);
  });
