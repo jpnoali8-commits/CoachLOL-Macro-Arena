@@ -1,0 +1,35 @@
+name: Dev69 original ocean and mountain assets restoration
+on:
+  push:
+    branches:
+      - dev69/assets-chunks-stage
+    paths:
+      - '_dev69_transfer/maps/**'
+permissions:
+  contents: write
+jobs:
+  restore-originals:
+    name: Reconstruct and verify 2 original JPEGs (78/78)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reconstruct and SHA-256 validate both original maps
+        run: python tools/restore_dev69_maps.py
+      - name: Put only original binary maps on asset import branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin dev69/assets-import
+          git checkout -B dev69/assets-import origin/dev69/assets-import
+          cp "$RUNNER_TEMP/dev69_original_maps/assets/user_rift_masks_20261026/mapa_Ocean_atualizado.jpg" "assets/user_rift_masks_20261026/"
+          cp "$RUNNER_TEMP/dev69_original_maps/assets/user_rift_masks_20261026/mapa_mountain_atualizado.jpg" "assets/user_rift_masks_20261026/"
+          python tools/verify_binary_assets_dev69.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "assets/user_rift_masks_20261026/mapa_Ocean_atualizado.jpg" "assets/user_rift_masks_20261026/mapa_mountain_atualizado.jpg"
+          git diff --cached --quiet && exit 0
+          git commit -m "assets(dev69): restore original Ocean/Mountain maps, 78/78 SHA verified"
+          git push origin HEAD:dev69/assets-import

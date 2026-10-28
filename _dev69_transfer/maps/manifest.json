@@ -1,0 +1,207 @@
+{
+  "format": "base64-split-lines-4096-256-v1",
+  "chunk_chars": 1048576,
+  "assets": [
+    {
+      "key": "ocean",
+      "path": "assets/user_rift_masks_20261026/mapa_Ocean_atualizado.jpg",
+      "size": 9457998,
+      "sha256": "eb4b6c76f0deaf5aafd76cbbb1ff80d1b4a5c77b8416c812262dc1d9b1d4df3e",
+      "git_blob_sha": "88842d6ed81e4e47054bf22296c41766251eeef7",
+      "chunks": [
+        {
+          "path": "_dev69_transfer/maps/ocean/00.b64",
+          "sha": "a3665b36faa05c0283edd1539fdca75d4c546b20",
+          "chars": 1048576,
+          "start_line": 1,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/01.b64",
+          "sha": "99e898a16c6835b113daab52f3be22353b383996",
+          "chars": 1048576,
+          "start_line": 257,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/02.b64",
+          "sha": "e602781e9a8800ce8547edebfe83866bfa75592b",
+          "chars": 1048576,
+          "start_line": 513,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/03.b64",
+          "sha": "2b3c9bc5f8f2337ef6c6cdcfad4516e6f213aa84",
+          "chars": 1048576,
+          "start_line": 769,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/04.b64",
+          "sha": "958059703eaf14200b8ba5cbc1dc6f98ce9a1074",
+          "chars": 1048576,
+          "start_line": 1025,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/05.b64",
+          "sha": "6c9016bcbe81fab59ae1a8943215776ece0de6eb",
+          "chars": 1048576,
+          "start_line": 1281,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/06.b64",
+          "sha": "daee4922c0697fba6d8bbeccbabb839127ed536a",
+          "chars": 1048576,
+          "start_line": 1537,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/07.b64",
+          "sha": "e045bf0a3f4a3ddeae7a64c823b5258f9f1246eb",
+          "chars": 1048576,
+          "start_line": 1793,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/08.b64",
+          "sha": "2c5e43d9e7b2d9680d0a428f7c98257d18d4c119",
+          "chars": 1048576,
+          "start_line": 2049,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/09.b64",
+          "sha": "5351d410ea85110f1214622588e0fcf84ae85ddc",
+          "chars": 1048576,
+          "start_line": 2305,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/10.b64",
+          "sha": "e469a7263d664c4b22228cf4388f970d695030b3",
+          "chars": 1048576,
+          "start_line": 2561,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/11.b64",
+          "sha": "07fcf6408e93a427bafc863f499284d25c3ff3aa",
+          "chars": 1048576,
+          "start_line": 2817,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/ocean/12.b64",
+          "sha": "594439ab7e64c0e9e86d39ba20fa9e4195a71df7",
+          "chars": 27752,
+          "start_line": 3073,
+          "line_count": 7
+        }
+      ]
+    },
+    {
+      "key": "mountain",
+      "path": "assets/user_rift_masks_20261026/mapa_mountain_atualizado.jpg",
+      "size": 9520888,
+      "sha256": "576a86cdf05a2162697f50a51ac3fe94adf22952fb4f43adf4585dd6d5efe5ec",
+      "git_blob_sha": "c5928358cd03e8f2e403e442d4477a589bdf4772",
+      "chunks": [
+        {
+          "path": "_dev69_transfer/maps/mountain/00.b64",
+          "sha": "0c99e2a24224e3dc420052bb327e89125dcfc9e4",
+          "chars": 1048576,
+          "start_line": 1,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/01.b64",
+          "sha": "8839033e2c7b9ddb73fd248d988ec3f45005a034",
+          "chars": 1048576,
+          "start_line": 257,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/02.b64",
+          "sha": "8993e79c773923d66a36b901fdb18e423de00122",
+          "chars": 1048576,
+          "start_line": 513,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/03.b64",
+          "sha": "9988630be02d74776e7494da943ddb6caf4834b1",
+          "chars": 1048576,
+          "start_line": 769,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/04.b64",
+          "sha": "9e4457fc56620655c4ccef496c57d370dc3cb199",
+          "chars": 1048576,
+          "start_line": 1025,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/05.b64",
+          "sha": "cb0c43fa6c8bd98c031b1400a44d1b8558137571",
+          "chars": 1048576,
+          "start_line": 1281,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/06.b64",
+          "sha": "ee79d3e904d0b19eecf2d983e0e3d2f93f567072",
+          "chars": 1048576,
+          "start_line": 1537,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/07.b64",
+          "sha": "7642dd2d86b9bf4031a54ed963bd93c4419a2f1c",
+          "chars": 1048576,
+          "start_line": 1793,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/08.b64",
+          "sha": "da28d415234a6e5b0fc094c7ad1c42aecb42872b",
+          "chars": 1048576,
+          "start_line": 2049,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/09.b64",
+          "sha": "dedfdce2c44091c91e146460966d6795cda6941a",
+          "chars": 1048576,
+          "start_line": 2305,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/10.b64",
+          "sha": "877d3f926568eab6214dd260e09f85bc5bfa668e",
+          "chars": 1048576,
+          "start_line": 2561,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/11.b64",
+          "sha": "217f409473de4abf4f6a25470144d617cf502ba3",
+          "chars": 1048576,
+          "start_line": 2817,
+          "line_count": 256
+        },
+        {
+          "path": "_dev69_transfer/maps/mountain/12.b64",
+          "sha": "f5a0b5dab0b7368d2d4aa3ed59b9fd14cf9ecda9",
+          "chars": 111608,
+          "start_line": 3073,
+          "line_count": 28
+        }
+      ]
+    }
+  ],
+  "paths": {}
+}
