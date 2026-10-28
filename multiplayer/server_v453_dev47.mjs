@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60,BOARD_KITS_V453_DEV69} from '../engine.mjs';
+import {FORM_KITS_V453_M14} from './form_kits_v453_m14.mjs';
 import {PvPRoomRegistryV453Dev47} from './room_v453_dev47.mjs';
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
 const read=n=>JSON.parse(readFileSync(new URL('../data/'+n,import.meta.url),'utf8'));
@@ -48,6 +49,13 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
    if(req.method==='GET'&&path==='/api/session')return json(res,200,{ok:true,...room.view(player)});
    if(req.method==='GET'&&path==='/api/kits')return json(res,200,{ok:true,
     patch:'26.21',maturity:'board_prototype',
+    formKits:Object.fromEntries(Object.entries(FORM_KITS_V453_M14).map(([champ,forms])=>
+     [champ,Object.fromEntries(Object.entries(forms).map(([form,slots])=>
+      [form,Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
+       shape:slots[slot].shape,range:slots[slot].range,
+       passiveOnly:!!slots[slot].passiveOnly,
+       implemented:slots[slot].implemented,
+       transformTo:slots[slot].transformTo||null}]))]))])),
     specials:{
      Mordekaiser:{R:{shape:'target_enemy',range:650,specialUltimate:true,implemented:'realm_prototype'}},
      Jinx:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},

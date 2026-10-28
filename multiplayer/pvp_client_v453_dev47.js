@@ -3,12 +3,12 @@ const map=new Image();map.src='/assets/mapa_atualizado.jpg';map.onload=()=>draw(
 let state=null,stream=null,sequence=1,mode='move',lastRevision=-1,selectedUnitId=null,selectedUnitIds=[],resultDismissedFor=null;
 let reactionStepsV453Dev64=[],reactionKeyV453Dev64=null;
 let planningStepsV453Dev65=[];
-let boardKitsV453={},boardSlotV453='Q';
+let boardKitsV453={},formKitsV453={},boardSlotV453='Q';
 let shopCatalog=[],shopReference=[],selectedShopItemId=null,shopUnitId=null,shopQuote=null,shopQuotePending='',networkLock=Promise.resolve();
 const announce=t=>{$('feed').textContent=t;};
 async function fetchBoardKitsV453(){try{
  const response=await fetch('/api/kits',{credentials:'same-origin'});if(!response.ok)return;
- const x=await response.json();boardKitsV453={...(x.kits||{}),...(x.specials||{})};
+ const x=await response.json();boardKitsV453={...(x.specials||{}),...(x.kits||{})};formKitsV453=x.formKits||{};
  if(state)renderBoardSlotsV453(state);
 }catch(e){announce('Habilidades: '+e.message);}}
 async function api(path,payload){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),credentials:'same-origin'});const data=await res.json();if(!res.ok)throw Error(data.reason||'Falha');return data;}
@@ -90,12 +90,12 @@ $('planningSubmitPvp').onclick=()=>{const id=$('planningTargetPvp').value;
 // Server owns ranges, fog, resource commits and the actual kit.
 function selectedBoardRuleV453(slot=boardSlotV453){
  const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
- return boardKitsV453[u?.champ]?.[slot]||null;
+ return (formKitsV453[u?.champ]?.[u?.boardFormV453M14||'human']||boardKitsV453[u?.champ])?.[slot]||null;
 }
 function renderBoardSlotsV453(v){
  const unit=v.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===v.team);
  const can=!!v.started&&!v.ended&&!v.paused&&['planning','preparation'].includes(v.phase)&&!v.ready?.includes(v.seatId);
- const kit=boardKitsV453[unit?.champ]||null;
+ const kit=formKitsV453[unit?.champ]?.[unit?.boardFormV453M14||'human']||boardKitsV453[unit?.champ]||null;
  for(const b of $('boardSkillToolbarV453').querySelectorAll('[data-board-slot]')){
   const slot=b.dataset.boardSlot,rule=kit?.[slot];
   b.disabled=!can||!rule||rule.passiveOnly||!(unit?.skillRanks?.[slot]>0);
@@ -126,7 +126,7 @@ function renderBoardSlotsV453(v){
  $('boardTargetV453').disabled=!can||!targeted;
  $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!kit?
   'Kit ainda em auditoria na interface · combos continuam disponíveis':rule?
-  unit.champ+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
+  unit.champ+' '+(unit.boardFormV453M14|| (formKitsV453[unit.champ]?'human':''))+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
 }
 function activeOwnSummonV453(){
  return (state?.projection?.boardSummons||[]).find(s=>s.ownerId===selectedUnitId&&
