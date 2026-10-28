@@ -3210,6 +3210,68 @@ export class Arena {
   }
   this.boardTemporalV453Dev69=keep;
  }
+ queueBoardSummonOrderV453Dev69(team,ownerId,summonId,{point=null,targetId=null}={}){
+  const owner=this.units.find(u=>u.id===ownerId&&u.team===team&&u.hp>0);
+  const s=this.boardSummonsV453Dev69?.find(v=>v.id===summonId&&v.ownerId===ownerId&&
+   v.team===team&&v.hp>0&&v.until>this.gameTime);
+  if(!owner||!s||this.ended||this.teams[team]?.ready||
+   !['planning','preparation'].includes(this.phase))
+   return {ok:false,reason:'invocacao_indisponivel'};
+  if((point===null)===(targetId===null))return {ok:false,reason:'escolha_destino_ou_alvo'};
+  if(targetId!==null){
+   const target=this.units.find(u=>u.id===targetId&&u.team!==team&&u.hp>0);
+   if(!target||!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
+   s.targetId=target.id;s.commandPoint=null;
+  }else{
+   if(!point||![point.x,point.y].every(Number.isFinite)||point.x<0||point.x>1||
+    point.y<0||point.y>1||!this.walkable(point.x,point.y))
+    return {ok:false,reason:'destino_invalido'};
+   s.commandPoint={x:point.x,y:point.y};s.targetId=null;
+  }
+  this.recordIntentV40(team,ownerId,'summon_order',{summonId,
+   ...(targetId!==null?{targetId}:{point:{...point}})});
+  return {ok:true,summonId};
+ }
+ advanceBoardSummonsV453Dev69(){
+  const now=this.gameTime;
+  for(const s of this.boardSummonsV453Dev69||[]){
+   if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
+   const owner=this.units.find(v=>v.id===s.ownerId);
+   if(!owner){s.hp=0;continue;}
+   s.lastTick=now;
+   const selected=this.units.find(v=>v.id===s.targetId&&v.hp>0&&
+    v.team!==s.team&&this.visible(s.team,v));
+   if(s.targetId&&!selected)s.targetId=null;
+   const enemies=this.units.filter(v=>v.team!==s.team&&v.hp>0&&
+    this.visible(s.team,v)&&this.mapDistance(v,s)<=600)
+    .sort((a,b)=>this.mapDistance(a,s)-this.mapDistance(b,s)||a.id.localeCompare(b.id));
+   const target=selected||(!s.commandPoint?enemies[0]:null);
+   const destination=target||s.commandPoint;
+   if(destination&&this.mapDistance(s,destination)>(target?s.attackRange:45)){
+    const distance=this.mapDistance(s,destination),f=Math.min(1,s.moveSpeed/Math.max(1,distance)),
+     point={x:s.x+(destination.x-s.x)*f,y:s.y+(destination.y-s.y)*f};
+    if(this.walkable(point.x,point.y)&&!this.obstacleLine(s,point)){
+     s.x=point.x;s.y=point.y;
+    }else{
+     const path=this.findPath(s,destination);
+     const next=path?.find(q=>this.mapDistance(s,q)>10&&this.walkable(q.x,q.y));
+     if(next){
+      const d=this.mapDistance(s,next),t=Math.min(1,s.moveSpeed/Math.max(1,d)),
+       candidate={x:s.x+(next.x-s.x)*t,y:s.y+(next.y-s.y)*t};
+      if(this.walkable(candidate.x,candidate.y))Object.assign(s,candidate);
+     }
+    }
+   }
+   if(s.commandPoint&&this.mapDistance(s,s.commandPoint)<=45)s.commandPoint=null;
+   if(target&&this.mapDistance(s,target)<=s.attackRange&&
+    this.visible(s.team,target)&&now>=s.nextAttackAt){
+    this.damage(target,s.power,owner,'magic','summon_pet');
+    s.nextAttackAt=now+2;
+   }
+  }
+  this.boardSummonsV453Dev69=(this.boardSummonsV453Dev69||[]).filter(s=>
+   s.hp>0&&s.until>now);
+ }
  advanceBoardPassivesV453Dev69(){
   this.boardVisionV453Dev69=(this.boardVisionV453Dev69||[]).filter(v=>v.until>this.gameTime);
   this.advanceBoardTemporalV453Dev69();
