@@ -102,6 +102,39 @@ for(const team of ['blue','red']){
   a.a.resolveCombat();a.a.gameTime=3;a.a.advanceBoardSummonsV453Dev69();
   assert.equal(a.a.boardSummonsV453Dev69.length,0);
  });
+ const tether=setup('Annie',team);
+ ok(team+' Tibbers lifetime is 45 seconds and not 20',()=>{
+  tether.a.queueKitSkillV42(team,tether.u.id,'R',
+   {x:tether.enemy.x,y:tether.enemy.y});
+  tether.a.resolveBoardSkillsV453Dev69();
+  assert.equal(tether.a.boardSummonsV453Dev69[0].until,45);
+ });
+ ok(team+' Tibbers teleports near Annie after exceeding 1200 board units',()=>{
+  const pet=tether.a.boardSummonsV453Dev69[0];
+  assert.equal(pet.leashRange,1200);
+  pet.x=.9;pet.y=.9;pet.targetId=tether.enemy.id;
+  pet.commandPoint={x:.9,y:.9};
+  assert.ok(tether.a.mapDistance(tether.u,pet)>1200);
+  tether.a.gameTime=1;tether.a.advanceBoardSummonsV453Dev69();
+  assert.ok(tether.a.mapDistance(tether.u,pet)<=pet.returnRange+1);
+  assert.ok(tether.a.walkable(pet.x,pet.y));
+  assert.equal(pet.commandPoint,null);assert.equal(pet.targetId,null);
+  assert.equal(pet.lastBlinkAt,1);
+  const position={x:pet.x,y:pet.y};tether.a.advanceBoardSummonsV453Dev69();
+  assert.deepEqual({x:pet.x,y:pet.y},position,'no duplicate action in same second');
+  const clone=Arena.fromSnapshotV40(map,mask,tether.a.snapshotV40());
+  assert.equal(checksumV40(tether.a.snapshotV40()),checksumV40(clone.snapshotV40()));
+ });
+ ok(team+' Tibbers cannot receive a new destination past the leash',()=>{
+  const pet=tether.a.boardSummonsV453Dev69[0];
+  const far={x:.99,y:.99};
+  const result=tether.a.queueBoardSummonOrderV453Dev69(team,tether.u.id,pet.id,{point:far});
+  assert.equal(result.ok,false);
+ });
+ ok(team+' Tibbers expires automatically at second 45, not by arbitrary distance',()=>{
+  tether.a.gameTime=45;tether.a.advanceBoardSummonsV453Dev69();
+  assert.equal(tether.a.boardSummonsV453Dev69.length,0);
+ });
  const hidden=setup('Annie',team);
  ok(team+' fog hides enemy Tibbers and prevents remote summon targeting',()=>{
   hidden.a.queueKitSkillV42(team,hidden.u.id,'R',{x:hidden.enemy.x,y:hidden.enemy.y});

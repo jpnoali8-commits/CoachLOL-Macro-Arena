@@ -190,3 +190,8 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - `tests/v453_dev69_board_m12.test.mjs`: 19/19 PASS nas equipes azul e vermelha, incluindo separação de cookies HTTP, recast sem custo, auto-detonation, stacks, Brand e checkpoint.
 - Execução Skills: https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40783592904 (SUCCESS; M9 28/28, M10 263/263, M11 22/22, M12 19/19). Logic QA SUCCESS; Integrated QA falha exclusivamente em `Verify official Node to browser regeneration` antes de executar suite combinada; sincronização é responsabilidade do integrador.
 - **0 kits M12 declarados certificados**. Sem merge, sem alteração de `main`, `version.json` ou `engine.browser.js`.
+
+## M13 — Leash e duração de Tibbers (ajuste da solicitação do usuário)
+- Referência League of Legends Wiki de Annie (consultada 28/10/2026): Tibbers permanece até **45 segundos** e usa blink/teleporte quando se afasta demais de Annie. A fonte não especifica de forma inequívoca o limite atual exato da distância em vida; os **1200 unidades são parâmetro provisório de tabuleiro**, não paridade certificada. https://wiki.leagueoflegends.com/en-us/Annie
+- A regra no servidor retorna o pet a uma célula caminhável próxima de Annie (raio ~150), limpa perseguir/andar para destino remoto, impede comandos com alvos/destinos além do leash, preserva HP e cooldown e evita aplicação duplicada no mesmo segundo. Expiração aos 45s independente de distância. Snapshots e projeções visíveis permanecem exclusivos da equipe.
+- QA em `tests/v453_dev69_board_m13.test.mjs`: ambos os lados, blink sob leash, reset de ordens, célula válida, snapshot e término no segundo 45.
