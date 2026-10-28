@@ -4102,7 +4102,7 @@ export class Arena {
   if(!u||u.role!=='SUP'||u.hp<=0||this.ended||this.teams[team].ready||
     !finals.includes(itemId)||u.supportQuest<800||!u.items.includes('support_bounty')||u.supportFinalV453Dev69C)
     return {ok:false,reason:'recompensa_suporte_indisponivel'};
-  if(itemId==='support_bloodsong'&&u.items.some(id=>id!=='support_bounty'&&catalog.find(x=>x.id===id)?.tags.includes('spellblade')))
+  if(itemId==='support_bloodsong'&&u.items.some(id=>id!=='support_bounty'&&(['sheen','trinity_force','essence_reaver','lich_bane','iceborn_gauntlet','dusk_and_dawn'].includes(id)||catalog.find(x=>x.id===id)?.tags.includes('spellblade'))))
    return {ok:false,reason:'spellblade_exclusivo'};
   const selected=catalog.find(x=>x.id===itemId);
   if(!selected)return {ok:false,reason:'item_inexistente'};
