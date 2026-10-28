@@ -136,7 +136,9 @@ for(const team of ['blue','red']){
  test(team+' mark reveals only struck target to casting team, no global fog reveal',()=>{
   assert.equal(hidden.a.visible(team,hidden.v),true);
   assert.equal(hidden.a.visible(team,otherHidden),false);
-  assert.equal(hidden.a.visible(enemyTeam,hidden.u),false);
+  // The caster is legitimately revealed by combat; unrelated allies stay concealed.
+  const unrelatedAlly=hidden.a.units.find(w=>w.id===team+'_TOP');
+  assert.equal(hidden.a.visible(enemyTeam,unrelatedAlly),false);
   assert.equal(hidden.a.perspective(team).units.some(w=>w.id===otherHidden.id),false);
  });
  hidden.a.gameTime=5;
