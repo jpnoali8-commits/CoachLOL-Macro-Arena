@@ -133,7 +133,8 @@ for(const team of ['blue','red']){
  });
  const c=fresh('Chogath',team);
  check(team+' ChoGath R kills and increases champion maxHP once',()=>{
-  c.enemy.hp=200;const before=c.u.maxHp;
+  c.enemy.hp=200;c.enemy.x=c.u.x+130/c.a.worldWidth;c.enemy.y=c.u.y;
+  const before=c.u.maxHp;
   assert.equal(c.a.queueTargetedSkill(team,c.u.id,'R',c.enemy.id).ok,true);
   c.a.resolveBoardSkillsV453Dev69();
   assert.equal(c.u.maxHp,before+80);
