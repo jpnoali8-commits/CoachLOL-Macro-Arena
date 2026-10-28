@@ -37,7 +37,7 @@ for(const team of ['blue','red']){
   assert.ok(z.enemy.hp<2000);assert.equal(z.a.boardTemporalV453Dev69.length,0);
   const hp=z.enemy.hp;z.a.resolveBoardSkillsV453Dev69();assert.equal(z.enemy.hp,hp);
   assert.equal(z.a.queueKitSkillV42(team,z.u.id,'W',null).ok,false);
-  assert.equal(z.a.queueKitSkillV42(other, z.u.id,'W',null).ok,false);
+  assert.equal(z.a.queueKitSkillV42(z.other,z.u.id,'W',null).ok,false);
  });
  const a=setup('Ziggs',team);
  check(team+' Ziggs auto detonation fires once and snapshot remains identical',()=>{
