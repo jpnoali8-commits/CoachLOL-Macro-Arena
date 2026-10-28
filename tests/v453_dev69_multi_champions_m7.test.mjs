@@ -230,6 +230,6 @@ test('next temporal spell consumes final Nami E charge and clears serializable b
 const mixedCopy=Arena.fromSnapshotV40(map,mask,combined.snapshotV40());
 test('mixed seven-champion interaction state round-trips in a single PvP checkpoint',()=>{
  assert.equal(checksumV40(combined.snapshotV40()),checksumV40(mixedCopy.snapshotV40()));
- assert.equal(mixedCopy.units.find(v=>v.id===vex.id).namiTidecallerV453Dev69M1.charges,2);
+ assert.equal(mixedCopy.units.find(v=>v.id===vex.id).namiTidecallerV453Dev69M1,null);
 });
 console.log('DEV69 MULTI CHAMPIONS M7 '+n+'/'+n+' PASS');
