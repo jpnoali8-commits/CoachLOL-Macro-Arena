@@ -674,9 +674,9 @@ export const CHAMPION_KITS_V42=Object.freeze({
   E:{name:'Tidecallers Blessing',kind:'ally_target',range:800,mana:[55,60,65,70,75],cooldown:[11],bonusDamage:[20,35,50,65,80],apRatio:.20,slow:[15,20,25,30,35],duration:6,charges:3,implemented:'prototype'},
   R:{name:'Tidal Wave',kind:'line',range:2750,width:500,mana:[100],cooldown:[120,110,100],damage:[150,250,350],apRatio:.60,effect:'tidal_wave',projectile:true,implemented:'legacy_adapter'}
  })}),
- Lux:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'illumination',status:'planned'},spells:Object.freeze({
+ Lux:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'illumination',status:'partial_qwe'},spells:Object.freeze({
   Q:{name:'Light Binding',kind:'line_projectile',range:1300,width:140,mana:[50],cooldown:[10],damage:[80,120,160,200,240],apRatio:.75,cc:'root',ccSeconds:2,maxHits:2,effect:'light_binding',projectile:true,implemented:'prototype'},
-  W:{name:'Prismatic Barrier',kind:'line_shield',implemented:'planned'},
+  W:{name:'Prismatic Barrier',kind:'line_shield',range:1175,width:220,speed:2400,mana:[60,65,70,75,80],cooldown:[12,11.5,11,10.5,10],shield:[40,55,70,85,100],apRatio:.4,implemented:'prototype'},
   E:{name:'Lucent Singularity',kind:'ground_zone',range:1100,radius:310,mana:[70,80,90,100,110],cooldown:[10,9.5,9,8.5,8],duration:5,slow:[25,30,35,40,45],damage:[65,115,165,215,265],apRatio:.80,effect:'lucent_singularity',implemented:'prototype'},
   R:{name:'Final Spark',kind:'line',range:3400,width:200,mana:[100],cooldown:[60,50,40],damage:[300,400,500],apRatio:1.2,effect:'final_spark',projectile:false,implemented:'legacy_adapter'}
  })}),
@@ -690,8 +690,16 @@ export const CHAMPION_KITS_V42=Object.freeze({
    projectileSpeed:1300,implemented:'prototype'},
   R:{name:'Shadow Surge',kind:'line_recast',range:2000,rangeByRank:[2000,2500,3000],width:260,mana:[100],cooldown:[140,120,100],damage:[75,125,175],apRatio:.2,recastDamage:[150,250,350],recastApRatio:.5,recastSeconds:4,effect:'shadow_surge',projectile:true,implemented:'prototype'}
  })}),
- Jinx:Object.freeze({patch:KIT_PATCH_V42,certification:'data_only',passive:{id:'get_excited',status:'planned'},spells:Object.freeze({})}),
- Ahri:Object.freeze({patch:KIT_PATCH_V42,certification:'data_only',passive:{id:'essence_theft',status:'planned'},spells:Object.freeze({})})
+ Jinx:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'get_excited',status:'planned'},spells:Object.freeze({
+  W:{name:'Zap!',kind:'line_projectile',range:1500,width:120,speed:3300,mana:[40,45,50,55,60],cooldown:[8,7,6,5,4],
+   damage:[10,60,110,160,210],adRatio:1.4,slow:[40,50,60,70,80],implemented:'prototype'}
+ })}),
+ Ahri:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'essence_theft',status:'planned'},spells:Object.freeze({
+  Q:{name:'Orb of Deception',kind:'line_return',range:970,width:200,speed:1550,mana:[55,65,75,85,95],cooldown:[7],
+   damage:[35,60,85,110,135],apRatio:.45,implemented:'prototype'},
+  E:{name:'Charm',kind:'line_projectile',range:1000,width:120,speed:1550,mana:[60],cooldown:[12],
+   damage:[80,120,160,200,240],apRatio:.85,duration:[1.2,1.35,1.5,1.65,1.8],implemented:'prototype'}
+ })})
 });
 // Dev41: only the explicitly audited Q abilities may use the Dev40 on-hit
 // contract. Keep per-champion collision/mobility rather than a global skill flag.
@@ -2699,7 +2707,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
-  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
+  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
   const gate=recastE?{ok:true}:castGateV39(u,slot,this.gameTime);
@@ -2708,6 +2716,42 @@ export class Arena {
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
+ }
+ // Dev69 M2: directed skillshots for Ahri Q/E, Jinx W and Lux W.
+ // Spells commit cost and cooldown at launch, never when an intention is queued.
+ launchChampionDirectionalV453Dev69M2(u,slot,point){
+  const rule=kitSpellV42(u?.champ,slot),kind=(
+   u?.champ==='Ahri'&&slot==='Q'?'ahri_q_out':
+   u?.champ==='Ahri'&&slot==='E'?'ahri_e':
+   u?.champ==='Jinx'&&slot==='W'?'jinx_w':
+   u?.champ==='Lux'&&slot==='W'?'lux_w_out':null);
+  if(!rule||!kind||!u||u.hp<=0||!point||![point.x,point.y].every(Number.isFinite))
+   return {ok:false,reason:'skill_inválida'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight;
+  const magnitude=Math.hypot(dx,dy);
+  if(magnitude<1)return {ok:false,reason:'direção_inválida'};
+  const rank=Math.max(1,Math.min(u.skillRanks?.[slot]||0,rule.damage?.length||rule.shield?.length||5));
+  if(!(u.skillRanks?.[slot]>0))return {ok:false,reason:'não_aprendido'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot,
+   point,source:'champion_directional_v453_dev69_m2',checkRange:false});
+  if(!commit.ok)return commit;
+  const stats=this.elementalStatsV452d3(u);
+  const raw=rule.damage?.[rank-1]+(u.champ==='Jinx'?stats.ad*rule.adRatio:stats.ap*rule.apRatio)||0;
+  const p={id:kind+'_'+(++this.championProjectileSeqV453Dev42),kind,ownerId:u.id,team:u.team,
+   origin:{x:u.x,y:u.y},unit:{x:dx/magnitude,y:dy/magnitude},range:rule.range,
+   width:rule.width,speed:rule.speed,raw,damageType:u.champ==='Jinx'?'physical':'magic',
+   hitIds:[],createdAt:this.gameTime,traveledV453Dev43:0,phase:'out',
+   slow:rule.slow?.[rank-1]/100||0,charmDuration:rule.duration?.[rank-1]||0,
+   shield:rule.shield?.[rank-1]+stats.ap*(rule.apRatio||0)||0,
+   riftRevision:this.riftV452d4?.revision??0};
+  this.championProjectilesV453Dev42.push(p);
+  if(kind==='lux_w_out')this.luxPrismaticShieldV453Dev69M2(u,p.shield,p.id+'_self_out');
+  this.event(u.champ+' '+slot+' lançou projétil direcional.',u.team,'skill_projectile_v453_dev69_m2',u.id,{
+   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
+  return {...commit,pending:true,projectileId:p.id};
+ }
+ luxPrismaticShieldV453Dev69M2(ally,power,key){
+  return this.applyEffectV41(ally,'shield',{source:ally,duration:2.5,power,stack:'independent',key});
  }
  // Dev69: only the actual team seat may queue an R2. First-hit mark
  // gives temporary visibility to that team; no target ID can come from fog.
@@ -2923,6 +2967,13 @@ export class Arena {
    if((u.champ==='Nami'||u.champ==='Vex')&&q.slot==='R'){
     const shot=this.launchWaveShadowV453Dev69(u,'R',q.point);
     if(shot.ok||!['incapacitado','deslocamento_interrompido'].includes(shot.reason))
+     u.queuedDirectional=null;
+    continue;
+   }
+   if((u.champ==='Ahri'&&['Q','E'].includes(q.slot))||
+      (u.champ==='Jinx'&&q.slot==='W')||(u.champ==='Lux'&&q.slot==='W')){
+    const launched=this.launchChampionDirectionalV453Dev69M2(u,q.slot,q.point);
+    if(launched.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(launched.reason))
      u.queuedDirectional=null;
     continue;
    }
@@ -5565,6 +5616,61 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(['ahri_q_out','ahri_q_back','ahri_e','jinx_w','lux_w_out','lux_w_back'].includes(p.kind)){
+    const cutoff=Math.min(terrainDepth,barrierDepth),returning=p.kind.endsWith('_back');
+    const isOrb=p.kind.startsWith('ahri_q'),isWand=p.kind.startsWith('lux_w');
+    let reason=null,lastDepth=to;
+    const candidates=isWand?this.units.filter(v=>v.team===p.team&&v.hp>0).map(v=>{
+     const x=(v.x-origin.x)*this.worldWidth,y=(v.y-origin.y)*this.worldHeight;
+     return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};
+    }).filter(h=>h.depth>=from-1e-7&&h.depth<=to+1e-7&&h.side<=p.width/2)
+     .sort((a,b)=>a.depth-b.depth||a.v.id.localeCompare(b.v.id)):line;
+    for(const {v,depth} of candidates){
+     if(depth>=cutoff-1e-7)break;
+     if(p.hitIds.includes(v.id))continue;
+     if(!isWand&&(v.projectileGuardUntil||0)>now){
+      reason='bloqueio_projétil';lastDepth=depth;break;
+     }
+     p.hitIds.push(v.id);lastDepth=depth;
+     if(isWand){
+      if(v.id!==owner.id)this.luxPrismaticShieldV453Dev69M2(v,p.shield,p.id+'_'+v.id);
+      continue;
+     }
+     const shielded=this.effectResolverV41().has(v,'spell_shield');
+     const dealt=this.damage(v,p.raw,owner,isOrb&&returning?'true':p.damageType,'spell');
+     if(p.kind==='ahri_e'||p.kind==='jinx_w'){
+      if(!shielded&&dealt>0&&v.champ){
+       if(p.kind==='ahri_e')this.applyEffectV41(v,'charm',{source:owner,
+        duration:p.charmDuration,key:'ahri_e_'+p.id});
+       else{
+        this.applyEffectV41(v,'slow',{source:owner,duration:2,power:p.slow,key:'jinx_w_'+p.id});
+        v.revealedUntil??={};v.revealedUntil[p.team]=Math.max(v.revealedUntil[p.team]||0,now+2);
+       }
+      }
+      reason=shielded?'escudo_de_feitiço':'primeira_colisão';break;
+     }
+    }
+    if(!reason&&Number.isFinite(cutoff)){reason='bloqueio_posicional';lastDepth=cutoff;}
+    p.traveledV453Dev43=to;
+    if(!reason&&to<p.range-1e-7){still.push(p);continue;}
+    if(!reason&&(p.kind==='ahri_q_out'||p.kind==='lux_w_out')){
+     // Explicit second flight stage: own hit ledger so an enemy/ally can be
+     // struck on each pass, but not repeatedly inside a single pass.
+     const previous=p;const start=position(p.range);
+     const back={...previous,id:previous.id+'_return',kind:isOrb?'ahri_q_back':'lux_w_back',
+      origin:start,unit:{x:-p.unit.x,y:-p.unit.y},hitIds:[],
+      createdAt:now,traveledV453Dev43:0,phase:'return'};
+     still.push(back);
+     if(isWand)this.luxPrismaticShieldV453Dev69M2(owner,p.shield,p.id+'_self_return');
+     continue;
+    }
+    reason??='fim_alcance';
+    (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,
+     ownerId:p.ownerId,hitIds:[...p.hitIds],reason,origin,end:position(lastDepth),
+     traveled:lastDepth,riftRevision:p.riftRevision});
+    if(this.championProjectileHistoryV453Dev42.length>100)this.championProjectileHistoryV453Dev42.shift();
+    continue;
    }
    if(p.kind==='nami_r'||p.kind==='vex_r'||p.kind==='vex_q'){
     // These ultimates cross map terrain but obey enemy projectile barriers.
