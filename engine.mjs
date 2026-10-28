@@ -671,7 +671,7 @@ export const CHAMPION_KITS_V42=Object.freeze({
  Nami:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'surging_tides',status:'partial_r_only'},spells:Object.freeze({
   Q:{name:'Aqua Prison',kind:'ground_circle',range:850,radius:225,mana:[60],cooldown:[12,11,10,9,8],damage:[90,145,200,255,310],apRatio:.50,cc:'suspension',ccSeconds:1.5,effect:'aqua_prison',implemented:'prototype'},
   W:{name:'Ebb and Flow',kind:'unit_target',range:725,bounceRange:800,mana:[70,75,80,85,90],cooldown:[10],effect:'ebb_flow',implemented:'legacy_adapter'},
-  E:{name:'Tidecallers Blessing',kind:'ally_target',implemented:'planned'},
+  E:{name:'Tidecallers Blessing',kind:'ally_target',range:800,mana:[55,60,65,70,75],cooldown:[11],bonusDamage:[20,35,50,65,80],apRatio:.20,slow:[15,20,25,30,35],duration:6,charges:3,implemented:'prototype'},
   R:{name:'Tidal Wave',kind:'line',range:2750,width:500,mana:[100],cooldown:[120,110,100],damage:[150,250,350],apRatio:.60,effect:'tidal_wave',projectile:true,implemented:'legacy_adapter'}
  })}),
  Lux:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'illumination',status:'planned'},spells:Object.freeze({
@@ -3007,19 +3007,39 @@ export class Arena {
  queueTargetedSkill(team,unitId,slot,targetId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),target=this.units.find(v=>v.id===targetId);
   if(!u||!target||u.hp<=0||target.hp<=0||this.teams[team].ready||this.ended||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Campeão ou fase indisponível.'};
-  if(u.champ!=='Nami'||slot!=='W')return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
-  if(!(u.skillRanks?.W>0))return {ok:false,reason:'Aprenda W antes de usar.'};
+  if(u.champ!=='Nami'||!['W','E'].includes(slot))return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
+  if(slot==='E'&&target.team!==team)return {ok:false,reason:'E_requer_aliado'};
+  if(!(u.skillRanks?.[slot]>0))return {ok:false,reason:'Aprenda '+slot+' antes de usar.'};
   if(target.team!==team&&!this.visible(team,target))return {ok:false,reason:'O inimigo não está visível.'};
-  if((u.skillCds?.W||0)>this.gameTime)return {ok:false,reason:`Nami W em recarga: ${Math.ceil(u.skillCds.W-this.gameTime)}s restantes.`};
-  if(u.mana<abilityCost(u,'W'))return {ok:false,reason:'Mana insuficiente para W.'};
+  if((u.skillCds?.[slot]||0)>this.gameTime)return {ok:false,reason:slot+'_em_recarga'};
+  if(u.mana<abilityCost(u,slot))return {ok:false,reason:'Mana insuficiente.'};
   u.pendingTargetedCast={slot,targetId,createdAt:this.gameTime,lastSeen:{x:target.x,y:target.y},initialized:false};
   this.recordIntentV40(team,unitId,'target_skill',{slot,targetId});
-  this.event(`${u.champ}: W direcionado a ${target.champ}.`,team,'target_skill',u.id);
+  this.event(`${u.champ}: ${slot} direcionado a ${target.champ}.`,team,'target_skill',u.id);
   return {ok:true};
  }
  resolveTargetedCasts(){
   for(const u of this.units){
    const p=u.pendingTargetedCast;if(!p||u.hp<=0)continue;
+   if(u.champ==='Nami'&&p.slot==='E'){
+    const ally=this.units.find(v=>v.id===p.targetId&&v.team===u.team&&v.hp>0);
+    if(!ally){u.pendingTargetedCast=null;continue;}
+    const rule=kitSpellV42('Nami','E');
+    if(this.mapDistance(u,ally)>rule.range)continue;
+    if(!this.effectResolverV41().canAct(u,'skill').ok)continue;
+    const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'E',targetId:ally.id,
+     source:'nami_e_v453_dev69_m1',requireVision:false});
+    if(!cast.ok){if(['recarga','mana','não_aprendido'].includes(cast.reason))u.pendingTargetedCast=null;continue;}
+    const rank=Math.max(1,Math.min(5,u.skillRanks.E));
+    ally.namiTidecallerV453Dev69M1={sourceId:u.id,charges:3,until:this.gameTime+6,
+     bonus:rule.bonusDamage[rank-1]+rule.apRatio*this.elementalStatsV452d3(u).ap,
+     slow:(rule.slow[rank-1]+.05*this.elementalStatsV452d3(u).ap)/100};
+    this.grantNamiSurgingV453Dev69B2(u,ally);
+    u.pendingTargetedCast=null;
+    this.event('Nami E concedeu três ataques aprimorados a '+ally.champ+'.',u.team,'skill_vfx',u.id,{
+     observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,ally))});
+    continue;
+   }
    if(u.champ!=='Nami'||p.slot!=='W'){u.pendingTargetedCast=null;continue;}
    if(!p.initialized){
     const primary=this.units.find(v=>v.id===p.targetId&&v.hp>0);
@@ -3042,7 +3062,7 @@ export class Arena {
      // A hostile W bounce must honor the same duel-response rules as other attacks.
      if(!this.duelPermission(u,current))break;
     }
-    if(current.team===u.team){const healed=this.effectResolverV41().heal(current,p.amount,u);this.event(`Nami W: curou ${current.champ} em ${Math.round(healed)}.`,u.team,'heal',u.id);}
+    if(current.team===u.team){const healed=this.effectResolverV41().heal(current,p.amount,u);this.grantNamiSurgingV453Dev69B2(u,current);this.event(`Nami W: curou ${current.champ} em ${Math.round(healed)}.`,u.team,'heal',u.id);}
     else{this.attack(u,current,p.amount*.70,'skill');this.event(`Nami W: atingiu ${current.champ}.`,u.team,'skill',u.id);}
     p.visited.push(current.id);p.remaining--;
     const pool=this.units.filter(v=>v.hp>0&&!p.visited.includes(v.id)&&v.team!==current.team&&this.mapDistance(v,current)<=abilityRule(u,'W').bounceRange&&(v.team===u.team||this.visible(u.team,v)));
@@ -5287,6 +5307,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   const energized=basic&&landed&&attacker.items?.includes('rapid_firecannon')&&(attacker.energizeStacksV453Dev38||0)>=100;
   const dealt=this.damage(target,amount,attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
   if(basic&&landed){
+   if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
    // A shield absorbing the full AA and even a lethal primary AA consume a
    // prepared shot. Immune/blocked attacks do not consume OR generate stacks.
    if(energized){
@@ -5296,6 +5317,21 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.itemAttackChargeV453Dev38(attacker,target);
   }
   if(attacker.champ&&target.champ&&attacker.team!==target.team){for(const turret of this.structures){if(turret.type==='tower'&&turret.team===target.team&&turret.alive&&dist(turret,attacker)<.08&&dist(turret,target)<.10){turret.aggro=attacker.id;this.event(`${turret.name}: aggro de dive em ${attacker.champ}.`);}}}}
+ // Dev69 milestone: only successful basic attacks against valid combat units
+ // consume Tidecaller's Blessing charges. Buff owner is kept in snapshot state.
+ procNamiTidecallerV453Dev69M1(attacker,target){
+  const buff=attacker?.namiTidecallerV453Dev69M1,now=this.gameTime;
+  if(!buff||buff.until<=now||buff.charges<=0||!target||target.hp<=0||
+     attacker.team===target.team||!target.champ&&!target.kind)return 0;
+  const nami=this.units.find(v=>v.id===buff.sourceId&&v.team===attacker.team);
+  if(!nami)return 0;
+  buff.charges--;
+  const dealt=this.damage(target,buff.bonus,attacker,'magic','nami_e_bonus');
+  if(target.hp>0&&dealt>0)this.applyEffectV41(target,'slow',{
+   source:nami,duration:1,power:buff.slow,key:'nami_e_'+attacker.id});
+  if(buff.charges<=0)attacker.namiTidecallerV453Dev69M1=null;
+  return dealt;
+ }
  // Dev42: immutable launch ray + delayed impact, advanced in the *same* one-
  // second authoritative simulation domain used by replay and live execution.
  // World width/height are respected independently; no targeting future unseen
