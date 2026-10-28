@@ -73,11 +73,11 @@ for(const team of ['blue','red']){
   assert.equal(zig.v.hp,hp);
  });
  const annie=setup('Annie',team);
- ok(team+' Annie R deploys persistent tactical Tibbers aura on the board',()=>{
+ ok(team+' Annie R deploys a persistent Tibbers entity on the board',()=>{
   assert.equal(annie.a.queueKitSkillV42(team,annie.u.id,'R',{x:annie.v.x,y:annie.v.y}).ok,true);
   annie.a.resolveBoardSkillsV453Dev69();
-  assert.ok(annie.a.boardTemporalV453Dev69.some(z=>z.kind==='tibbers_aura'));
-  const hp=annie.v.hp;annie.a.gameTime=2;annie.a.advanceBoardTemporalV453Dev69();
+  assert.ok(annie.a.boardSummonsV453Dev69.some(z=>z.kind==='tibbers'));
+  const hp=annie.v.hp;annie.a.gameTime=2;annie.a.advanceBoardSummonsV453Dev69();
   assert.ok(annie.v.hp<hp);
  });
  const miss=setup('MissFortune',team);
@@ -122,11 +122,12 @@ for(const team of ['blue','red']){
   const accepted=action.submit(seat,{sequence:1,kind:'skill.ultimate',unitId:ultimate.u.id,payload:{point:{x:ultimate.v.x,y:ultimate.v.y}}});
   assert.equal(accepted.ok,true,accepted.reason);
   ultimate.a.resolveBoardSkillsV453Dev69();
-  assert.ok(ultimate.a.boardTemporalV453Dev69.some(z=>z.kind==='tibbers_aura'));
+  assert.ok(ultimate.a.boardSummonsV453Dev69.some(z=>z.kind==='tibbers'));
  });
 }
-ok('M11 six temporal shapes are described explicitly rather than certified',()=>{
- for(const [champ,slot] of [['Annie','R'],['Taric','R'],['Morgana','W'],['Veigar','E'],['MissFortune','R'],['Ziggs','E']])
+ok('M11 five temporal effects and separate Tibbers summon are explicitly prototyped',()=>{
+ assert.equal(BOARD_KITS_V453_DEV69.Annie.R.boardSummon,'tibbers');
+ for(const [champ,slot] of [['Taric','R'],['Morgana','W'],['Veigar','E'],['MissFortune','R'],['Ziggs','E']])
   assert.ok(BOARD_KITS_V453_DEV69[champ][slot].boardTemporal);
 });
 async function webContract(){
