@@ -2923,7 +2923,7 @@ export class Arena {
     stats=this.elementalStatsV452d3(u);
    this.boardSummonsV453Dev69.push({id:'tibbers_'+(++this.boardSummonIdV453Dev69),
     kind:'tibbers',team:u.team,ownerId:u.id,x:q.point.x,y:q.point.y,
-    hp,maxHp:hp,armor:30,mr:30,until:this.gameTime+20,lastTick:this.gameTime,
+    hp,maxHp:hp,armor:30,mr:30,until:this.gameTime+45,lastTick:this.gameTime,leashRange:1200,returnRange:150,
     nextAttackAt:this.gameTime+1,commandPoint:null,targetId:null,
     power:45+rank*25+stats.ap*.15,moveSpeed:260,attackRange:195});
   }
@@ -3221,11 +3221,13 @@ export class Arena {
   if(targetId!==null){
    const target=this.units.find(u=>u.id===targetId&&u.team!==team&&u.hp>0);
    if(!target||!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
+   if(this.mapDistance(owner,target)>(s.leashRange||1200))return {ok:false,reason:'alvo_alem_limite_tibbers'};
    s.targetId=target.id;s.commandPoint=null;
   }else{
    if(!point||![point.x,point.y].every(Number.isFinite)||point.x<0||point.x>1||
     point.y<0||point.y>1||!this.walkable(point.x,point.y))
     return {ok:false,reason:'destino_invalido'};
+   if(this.mapDistance(owner,point)>(s.leashRange||1200))return {ok:false,reason:'destino_alem_limite_tibbers'};
    s.commandPoint={x:point.x,y:point.y};s.targetId=null;
   }
   this.recordIntentV40(team,ownerId,'summon_order',{summonId,
@@ -3239,13 +3241,31 @@ export class Arena {
    const owner=this.units.find(v=>v.id===s.ownerId);
    if(!owner){s.hp=0;continue;}
    s.lastTick=now;
+   // Leash is server-owned, deterministic and does not grant vision.
+   // Teleport close to Annie when she moves away or Tibbers crosses the
+   // tether. Clear stale orders so the pet cannot repeatedly snap out/back.
+   if(this.mapDistance(owner,s)>(s.leashRange||1200)){
+    const anchor={x:owner.x,y:owner.y},radius=s.returnRange||150,
+     offsets=[[1,0],[0,1],[-1,0],[0,-1],[.707,.707],[-.707,.707],
+      [-.707,-.707],[.707,-.707]];
+    const spot=offsets.map(([dx,dy])=>({
+     x:anchor.x+dx*radius/this.worldWidth,
+     y:anchor.y+dy*radius/this.worldHeight}))
+     .find(p=>p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1&&this.walkable(p.x,p.y))
+     ||anchor;
+    s.x=spot.x;s.y=spot.y;s.commandPoint=null;s.targetId=null;
+    s.lastBlinkAt=now;
+    this.event('Tibbers retornou para perto de Annie.',s.team,'skill_vfx',owner.id,
+     {observedBy:['blue','red'].filter(t=>t===s.team||this.canSeePoint(t,s))});
+    continue;
+   }
    const selected=this.units.find(v=>v.id===s.targetId&&v.hp>0&&
     v.team!==s.team&&this.visible(s.team,v));
    if(s.targetId&&!selected)s.targetId=null;
    const enemies=this.units.filter(v=>v.team!==s.team&&v.hp>0&&
     this.visible(s.team,v)&&this.mapDistance(v,s)<=600)
     .sort((a,b)=>this.mapDistance(a,s)-this.mapDistance(b,s)||a.id.localeCompare(b.id));
-   const target=selected||(!s.commandPoint?enemies[0]:null);
+   const target=selected||(!s.commandPoint?enemies.find(v=>this.mapDistance(owner,v)<=(s.leashRange||1200)):null);
    const destination=target||s.commandPoint;
    if(destination&&this.mapDistance(s,destination)>(target?s.attackRange:45)){
     const distance=this.mapDistance(s,destination),f=Math.min(1,s.moveSpeed/Math.max(1,distance)),
@@ -3261,6 +3281,11 @@ export class Arena {
       if(this.walkable(candidate.x,candidate.y))Object.assign(s,candidate);
      }
     }
+   }
+   if(this.mapDistance(owner,s)>(s.leashRange||1200)){
+    // Force a return in the next authoritative step, before any pet AA.
+    s.targetId=null;s.commandPoint=null;
+    continue;
    }
    if(s.commandPoint&&this.mapDistance(s,s.commandPoint)<=45)s.commandPoint=null;
    if(target&&this.mapDistance(s,target)<=s.attackRange&&
@@ -7646,7 +7671,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(requested)candidate=enemies.find(x=>x.id===requested)||null;
     if(!candidate&&requested)candidate=(this.boardSummonsV453Dev69||[]).find(s=>
      s.id===requested&&s.team!==u.team&&s.hp>0&&s.until>this.gameTime&&
-     this.mapDistance(u,s)<=effectiveAARange&&this.canSeePoint(u.team,s))||null;
+     dist(u,s)<=effectiveAARange&&this.canSeePoint(u.team,s))||null;
    // Attacks validate vision/range, never consent from the defender.
    if(!candidate&&enemies.length){
     // Retreat is not immunity: aggression and authorized attacks still connect
