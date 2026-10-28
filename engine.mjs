@@ -104,9 +104,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.3,
    "hpRegen": 0.55,
    "manaRegen": 0.4,
-   "attackSpeedPct": 2.61
+   "attackSpeedPct": 2.61,
+   "ad": 3.1
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Vex": {
   "hp": 590,
@@ -126,9 +127,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.3,
    "hpRegen": 0.6,
    "manaRegen": 0.8,
-   "attackSpeedPct": 1
+   "attackSpeedPct": 1,
+   "ad": 2.75
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Lux": {
   "hp": 580,
@@ -148,9 +150,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.3,
    "hpRegen": 0.55,
    "manaRegen": 0.8,
-   "attackSpeedPct": 3
+   "attackSpeedPct": 3,
+   "ad": 3.3
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Jinx": {
   "hp": 610,
@@ -170,9 +173,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.1,
    "hpRegen": 0.5,
    "manaRegen": 1,
-   "attackSpeedPct": 1
+   "attackSpeedPct": 1,
+   "ad": 3
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Ahri": {
   "hp": 590,
@@ -192,9 +196,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.3,
    "hpRegen": 0.6,
    "manaRegen": 0.8,
-   "attackSpeedPct": 2.2
+   "attackSpeedPct": 2.2,
+   "ad": 3
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Ezreal": {
   "hp": 600,
@@ -214,9 +219,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.1,
    "hpRegen": 0.65,
    "manaRegen": 1,
-   "attackSpeedPct": 2.5
+   "attackSpeedPct": 2.5,
+   "ad": 3.75
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Irelia": {
   "hp": 630,
@@ -236,9 +242,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 2.05,
    "hpRegen": 0.85,
    "manaRegen": 0.8,
-   "attackSpeedPct": 2.5
+   "attackSpeedPct": 2.5,
+   "ad": 3.5
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Caitlyn": {
   "hp": 580,
@@ -258,9 +265,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 1.1,
    "hpRegen": 0.55,
    "manaRegen": 0.7,
-   "attackSpeedPct": 4
+   "attackSpeedPct": 4,
+   "ad": 3.8
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Leona": {
   "hp": 646,
@@ -280,9 +288,10 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 2.05,
    "hpRegen": 0.85,
    "manaRegen": 0.8,
-   "attackSpeedPct": 2.9
+   "attackSpeedPct": 2.9,
+   "ad": 3
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  },
  "Volibear": {
   "hp": 650,
@@ -302,16 +311,17 @@ export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
    "mr": 2.05,
    "hpRegen": 0.75,
    "manaRegen": 0.5,
-   "attackSpeedPct": 2
+   "attackSpeedPct": 2,
+   "ad": 3.5
   },
-  "adGrowthSource": "pending_wiki_ad_growth"
+  "adGrowthSource": "verified_patch_26_21"
  }
 });
 export function championLevelStatsV453Dev69M1(champ,level){
  const src=CHAMPION_LEVEL_STATS_V453_DEV69_M1[champ];
  if(!src||!Number.isInteger(level)||level<1||level>18)return null;
  const n=level-1,growthFactor=n*(.7025+.0175*n),g=src.growth;
- const adGrowth=CHAMPION_GROWTH_V38[champ]?.ad;
+ const adGrowth=src.growth.ad??CHAMPION_GROWTH_V38[champ]?.ad;
  const attackSpeed=src.attackSpeedBase*(1+growthFactor*g.attackSpeedPct/100);
  return {level,hp:src.hp+g.hp*growthFactor,mana:src.mana+g.mana*growthFactor,
   ad:src.ad+(Number.isFinite(adGrowth)?adGrowth:3)*growthFactor,
