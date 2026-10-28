@@ -6,8 +6,8 @@ const file=n=>JSON.parse(readFileSync(new URL('../data/'+n,import.meta.url)));
 const map=file('coachlol_map_v6.json'),mask=file('masks_128.json');
 let count=0;const ok=(name,fn)=>{fn();count++;console.log('✓ BOARD '+name);};
 const champs=Object.keys(BOARD_KITS_V453_DEV69);
-ok('12 champion descriptors and 48 different ability slots, all prototype',()=>{
- assert.equal(champs.length,12);
+ok('30 champion descriptors and 120 different ability slots, all prototype',()=>{
+ assert.equal(champs.length,30);
  for(const c of champs)for(const slot of ['Q','W','E','R']){
   const x=BOARD_KITS_V453_DEV69[c][slot];
   assert.equal(x.kind,'board_effect');assert.equal(x.implemented,'board_prototype');
@@ -78,7 +78,7 @@ for(const team of ['blue','red']){
   cycle.a.advanceBoardPassivesV453Dev69();assert.equal(cycle.u.hp,hp);
  });
 }
-ok('12 champions can be drafted without falling back to training rules',()=>{
+ok('30 board champions can be drafted without falling back to training rules',()=>{
  for(const c of champs){const a=fresh(c,'blue');
   for(const slot of ['Q','W','E','R'])assert.equal(abilityRule(a.u,slot).kind,'board_effect');
  }

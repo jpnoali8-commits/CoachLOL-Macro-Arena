@@ -164,3 +164,11 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - Próxima etapa: expandir a biblioteca e completar particularidades dos kits em vez de copiar lógica; validar CI e paridade patch 26.21 antes de qualquer certificação. **Sem merge**.
 
 - **M9 QA adicional:** combos dos perfis de tabuleiro acionam o mesmo executor (inclusive autocast sem inimigo visível); Ashe AA aplica slow de Frost Shot e E oferece reconhecimento exclusivo da equipe; Morgana E concede escudo mágico e bloqueio de habilidade. Esses testes não conferem certificação de kits.
+
+
+## M10 — 18 campeões adicionais / 30 contratos de tabuleiro
+- Source: `data/riot_reference/source_16_21_1/riot/16.21.1/en_US/champion/*.json`. Total neste executor: 30 perfis, 120 slots QWER descritos; 2 slots passivos não devem ser usados como habilidade ativa (Vayne W, Twisted Fate E). Não contar como 30 campeões completos/certificados.
+- Novos perfis: Amumu, Blitzcrank, Dr. Mundo, Nasus, Jax, Miss Fortune, Cho'Gath, Rammus, Renekton, Sivir, Tristana, Twisted Fate, Xin Zhao, Ziggs, Taric, Warwick, Vayne e Olaf.
+- Primitivas reutilizadas/expandidas: movimentação por célula válida, dash até alvo, knockback, pull com verificação de paredes, buffs temporários de velocidade, dano e CC tipados, imunidade temporária a CC, escudos, invulnerabilidade, ataque básico preparado em cargas, acúmulo de Nasus Q, Silver Bolts de Vayne, rebote de MF Q, crescimento de Cho'Gath R e visão.
+- QA executável: `tests/v453_dev69_board_m10.test.mjs` valida lançamento, posse, cobrança única, snapshot, 2 equipes e casos especiais. Atributos e slots ainda requerem auditoria detalhada por patch; summons, recasts, multi-fase, clones, geometria especial e vários detalhes de passivas permanecem explicitamente pendentes no campo `missing`.
+- O motor Node é a fonte autoritativa; **não editar `engine.browser.js` nem executar merge**. Verificação integrada de Node/browser pertence ao integrador após consolidação.
