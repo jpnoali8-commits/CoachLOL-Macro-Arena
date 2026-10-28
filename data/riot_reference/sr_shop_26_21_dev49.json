@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 104,
-    "referenceOnly": 98,
-    "localCatalog": 107
+    "normalPlayable": 107,
+    "referenceOnly": 95,
+    "localCatalog": 110
   },
   "rows": {
     "1001": {
@@ -2633,11 +2633,11 @@
         "SpellDamage"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "banshees_veil",
       "passiveOrActiveDescription": "<mainText><stats><attention>105</attention> de Poder de Habilidade<br><attention>40</attention> de Resistência Mágica</stats><br><br><passive>Anular</passive><br>Concede um Escudo de Feitiço que bloqueia a próxima Habilidade inimiga.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "annul",
+      "recipeVerified": true
     },
     "3107": {
       "id": "3107",
@@ -4140,11 +4140,11 @@
         "ArmorPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "edge_of_night",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>15</attention> de Letalidade<br><attention>250</attention> de Vida</stats><br><br><passive>Anular</passive><br>Concede um Escudo de Feitiço que bloqueia a próxima Habilidade inimiga.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "annul",
+      "recipeVerified": true
     },
     "3865": {
       "id": "3865",
@@ -4456,11 +4456,11 @@
         "SpellDamage"
       ],
       "tier": "epic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "verdant_barrier",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Poder de Habilidade<br><attention>25</attention> de Resistência Mágica</stats><br><br><passive>Anular</passive><br>Concede um Escudo de Feitiço que bloqueia a próxima Habilidade inimiga.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "annul",
+      "recipeVerified": true
     },
     "4633": {
       "id": "4633",
