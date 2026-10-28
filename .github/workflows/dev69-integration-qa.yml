@@ -33,7 +33,10 @@ jobs:
       - name: Report browser scope
         run: echo "Node/SSE automated contracts only. Chromium/manual PvP and assets not certified."
   full-regression:
-    name: npm test full - no binary assets on remote yet
+    # Run complete suite only for explicit milestone PRs, or manual dispatch.
+    # Other feature PRs and integration pushes use the fast integration job.
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && startsWith(github.head_ref, 'dev69/qa-'))
+    name: npm test full - milestone only
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
