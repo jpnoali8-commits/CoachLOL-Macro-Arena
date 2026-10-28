@@ -732,7 +732,7 @@ export const CHAMPION_KITS_V42=Object.freeze({
   W:{name:'Zap!',kind:'line_projectile',range:1500,width:120,speed:3300,mana:[40,45,50,55,60],cooldown:[8,7,6,5,4],
    damage:[10,60,110,160,210],adRatio:1.4,slow:[40,50,60,70,80],implemented:'prototype'}
  })}),
- Ahri:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'essence_theft',status:'planned'},spells:Object.freeze({
+ Ahri:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'essence_theft',status:'prototype_takedown_and_minion_heal'},spells:Object.freeze({
   Q:{name:'Orb of Deception',kind:'line_return',range:970,width:200,speed:1550,mana:[55,65,75,85,95],cooldown:[7],
    damage:[35,60,85,110,135],apRatio:.50,implemented:'prototype'},
   E:{name:'Charm',kind:'line_projectile',range:1000,width:120,speed:1550,mana:[60],cooldown:[12],
