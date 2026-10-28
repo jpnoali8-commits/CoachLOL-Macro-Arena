@@ -26,3 +26,14 @@ A base dev68 **textual funcional** foi importada na branch `import/dev68-staging
 - **Chat 2**: [CHAT_2_ITENS.md](CHAT_2_ITENS.md), Issue #3, branch `dev69/items`.
 - **Chat 3**: [CHAT_3_INTEGRACAO.md](CHAT_3_INTEGRACAO.md), Issue #4, branch `dev69/integration`.
 - Protocolo: [FLUXO_DE_PR_E_QA.md](FLUXO_DE_PR_E_QA.md); [MODELO_HANDOFF.md](MODELO_HANDOFF.md); [ESCOPO_E_CONFLITOS.md](ESCOPO_E_CONFLITOS.md).
+
+## Etapa 2 — Inventário binário auditado (2026-10-28)
+
+- A comparação do ZIP mestre (2.549 arquivos) com a fonte textual (1.624 arquivos originais, mais aviso informativo) identificou **925 entradas pendentes**: **78 assets/dados de execução**, **240 evidências QA**, **566 entradas internas Git** e **41 previews, documentos binários e arquivos auxiliares**.
+- Foi produzido um ZIP independente com **78 arquivos de `assets/` e `data/`**, seus caminhos originais e manifesto SHA-256, CRC válido. SHA do ZIP de assets: `9d93d4de1f847330bd92671e9798be243b692dc07996ecb736b8f9aef6a06abd`; tamanho **67.880.735 bytes**.
+- O ZIP de assets e o manifesto completo foram disponibilizados na Biblioteca ChatGPT em `/CoachLOL/Dev69/AssetsEtapa2/`. **Os binários ainda NÃO estão versionados no GitHub.**
+- Os 12 arquivos textuais divergentes da primeira importação foram **restaurados byte a byte** usando seus blobs originais do mestre, commit `fbb88bab5c744ea191c2cbfa31605f4933873bd0` na branch de staging.
+- Inventário e hashes individuais publicados em `docs/parallel/RELATORIO_ASSETS_ETAPA2.md`, `docs/parallel/INVENTARIO_ARQUIVOS_PENDENTES_DEV68.csv` e `docs/parallel/SHA256_ASSETS_DEV68.txt`.
+- **Permanece SOURCE_READY / RELEASE_BLOCKED:** trabalho de lógica nas branches pode começar; renderização com assets, ZIP mestre publicado a partir do remoto e migração do histórico antigo ainda NÃO estão certificados.
+
+**Próxima etapa:** decidir como disponibilizar os 78 assets para os três chats e validar runtime/browser com o pacote combinado; tratar preservação do histórico Git sem versionar a pasta `.git` como arquivos normais. Somente após esses gates iniciar promoção de release para `main`.
