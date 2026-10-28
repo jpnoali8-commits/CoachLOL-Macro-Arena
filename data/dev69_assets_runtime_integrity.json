@@ -1,0 +1,321 @@
+{
+  "schema": "coachlol.assets.dev68.git-blob-integrity.v1",
+  "source_zip_sha256": "9d93d4de1f847330bd92671e9798be243b692dc07996ecb736b8f9aef6a06abd",
+  "source_zip_name": "CoachLOL_Dev68_Assets_Mapas_Mascaras_UI_Completo.zip",
+  "count": 78,
+  "method": "git blob SHA-1 over exact original bytes; paths as in Dev68 archive; GitHub staging refs checked",
+  "files": {
+    "assets/akali_hero.webp": {
+      "sha": "e9787238615360a6773512646049cfb958f4e5b2",
+      "size": 40068
+    },
+    "assets/mapa_atualizado.jpg": {
+      "sha": "d12ca697b06f8b4a25fe8ac840176918defd70b1",
+      "size": 9329852
+    },
+    "assets/mask_layers/brush_binary.png": {
+      "sha": "619af83fdc63bb7483d603ff1357481a1a1ce2c4",
+      "size": 35143
+    },
+    "assets/mask_layers/inhibitors_binary.png": {
+      "sha": "bb1d2dcf89364e27b9f2c76f6b54776667f31774",
+      "size": 18488
+    },
+    "assets/mask_layers/monsters_binary.png": {
+      "sha": "0ae01b6eccc5084263b9736c758933119a6d3510",
+      "size": 24121
+    },
+    "assets/mask_layers/nexus_binary.png": {
+      "sha": "44406ffabf5f0d028d36cbce1700d81cd371df7a",
+      "size": 17147
+    },
+    "assets/mask_layers/river_binary.png": {
+      "sha": "f374be1c779a930b2c642c9cf6fea29ff8753d03",
+      "size": 27606
+    },
+    "assets/mask_layers/routes_binary.png": {
+      "sha": "ee13d649e3f5f439a10bb7cba7ea0742f30baa06",
+      "size": 36859
+    },
+    "assets/mask_layers/spawn_shop_binary.png": {
+      "sha": "5e411c2ccbbe67beaf13e6b2b55f84db89b17e79",
+      "size": 18915
+    },
+    "assets/mask_layers/towers_binary.png": {
+      "sha": "f51c621047c48c02b7d2784dd2e0052456594417",
+      "size": 22057
+    },
+    "assets/mask_layers/wall_binary.png": {
+      "sha": "a26c2d68155635e32a9d2fcac3fada55b6f3c01a",
+      "size": 74378
+    },
+    "assets/masks/Brushs-Moitas-Mapa.jpg": {
+      "sha": "acdc49195804760e269dc0e4d19a0cdcd4700dfa",
+      "size": 362773
+    },
+    "assets/masks/Colisores-Mapa.jpg": {
+      "sha": "1fcd4a2aa9107f909c0f75a87144539324bb8d12",
+      "size": 859619
+    },
+    "assets/masks/Inibidores-Mapa-Blue-Red.jpg": {
+      "sha": "5e06a1f9c6c45c5c419e56e8e2f8d9c158d270e4",
+      "size": 213458
+    },
+    "assets/masks/Mapa-Summoners-Rifts.jpg": {
+      "sha": "d12ca697b06f8b4a25fe8ac840176918defd70b1",
+      "size": 9329852
+    },
+    "assets/masks/Monstros-Jungle-completo-com-baron-e-drag.jpg": {
+      "sha": "a07661f66d32fc1e572f61268db237f8c3e351b4",
+      "size": 262760
+    },
+    "assets/masks/Nexus-Mapa-BLue-Red.jpg": {
+      "sha": "6d41aab67590cf417b08783f29156d84c862579f",
+      "size": 203133
+    },
+    "assets/masks/Respawn-mapa-Blue-RED-Area-de-compra-itens.jpg": {
+      "sha": "2ff42ce2e268139751e19c19d306bd9535142d8b",
+      "size": 212153
+    },
+    "assets/masks/Rio-Mapa.jpg": {
+      "sha": "533f5f921b9004d2501230ad8efb0eb3d2ea0bdd",
+      "size": 281057
+    },
+    "assets/masks/Rotas-Mapa-Top-MId-bottom.jpg": {
+      "sha": "f45bc76784b702479d96a78f8c1367257cf5a028",
+      "size": 461565
+    },
+    "assets/masks/Torres-Mapa-Blue-RED.jpg": {
+      "sha": "468a04acb3b035a0bc9565a7ee9ce9de52b7c5f5",
+      "size": 241754
+    },
+    "assets/portraits/Akali.webp": {
+      "sha": "e73182bd3f5ee5edfec7984a981babc911ee4cac",
+      "size": 11576
+    },
+    "assets/portraits/Chogath.webp": {
+      "sha": "7ce415ffda61e2b511848c97d74b7a05d2064e46",
+      "size": 6760
+    },
+    "assets/portraits/Darius.webp": {
+      "sha": "3bbe4d93f9d47183387e81018aec729318b4aae5",
+      "size": 13142
+    },
+    "assets/portraits/Ekko.webp": {
+      "sha": "69b92ebb551e236d9a7900287736780793e3a54d",
+      "size": 12510
+    },
+    "assets/portraits/Jinx.webp": {
+      "sha": "e53f778892624278d59c37c45022741936238223",
+      "size": 5644
+    },
+    "assets/portraits/Kennen.webp": {
+      "sha": "1656bc21d9fedaf3bd7289c47e212dceaebedd52",
+      "size": 10858
+    },
+    "assets/portraits/Khazix.webp": {
+      "sha": "bf1810d10512f6fefa4a70f063cfc678e4c801d5",
+      "size": 12706
+    },
+    "assets/portraits/Morgana.webp": {
+      "sha": "bce5bfa3e9c91465ac18f0142b8624adb63bbaf5",
+      "size": 11298
+    },
+    "assets/portraits/Nami.webp": {
+      "sha": "fb6bcd924225944b10f0581f1975fe58651d2be3",
+      "size": 14436
+    },
+    "assets/portraits/Pantheon.webp": {
+      "sha": "2c8b9d6cf61d9c9d4039b4e99ef14b72aca5952d",
+      "size": 7242
+    },
+    "assets/portraits/Qiyana.webp": {
+      "sha": "a0a5bbff6f4434a24b7b47f48a29bf33bfa0eac6",
+      "size": 11458
+    },
+    "assets/portraits/Talon.webp": {
+      "sha": "862f527afd6edb8810160ae2a3d30d3c5d0d0538",
+      "size": 9980
+    },
+    "assets/portraits/Vayne.webp": {
+      "sha": "a9fe2f1ca435558d82c94774e99c26d152e989da",
+      "size": 15480
+    },
+    "assets/portraits/Veigar.webp": {
+      "sha": "3bb4de24dd372fe95d8c9f1f4a49555753014351",
+      "size": 10532
+    },
+    "assets/portraits/Viktor.webp": {
+      "sha": "a13dff13f192bc39738cf72dd62aeba4aec54fb6",
+      "size": 8208
+    },
+    "assets/portraits/Volibear.webp": {
+      "sha": "bd6aad907b2b84740658e43fdd289eb2aa9031be",
+      "size": 11498
+    },
+    "assets/portraits/Yuumi.webp": {
+      "sha": "4a1dc33be393132315e8a6175db463df789f4ff0",
+      "size": 12346
+    },
+    "assets/portraits/Zed.webp": {
+      "sha": "8076beb63496c432aefd312eeeab2fd068d55646",
+      "size": 9956
+    },
+    "assets/ui/endgame/defeat_overlay.png": {
+      "sha": "34b78b9d3f6b555325c0b030233c15c3d91cbee5",
+      "size": 1429881
+    },
+    "assets/ui/endgame/victory_overlay.png": {
+      "sha": "32ebb5fc6f98c59f8d8d19458914c6f1789e639a",
+      "size": 1471086
+    },
+    "assets/ui/structures_dev48/blue_inhibitor.png": {
+      "sha": "7f4e1625200b186f64cc7ed17324d38dc4635bc1",
+      "size": 532088
+    },
+    "assets/ui/structures_dev48/blue_nexus.png": {
+      "sha": "3174506594766dd11450a1667ea81561c5417c0b",
+      "size": 616044
+    },
+    "assets/ui/structures_dev48/blue_tower_barricade.png": {
+      "sha": "eace88c703f449bb22fcb5928db1b890d5de7e58",
+      "size": 501956
+    },
+    "assets/ui/structures_dev48/blue_tower.png": {
+      "sha": "40346a672254ebeecb8032b7592b0ee0d731038a",
+      "size": 410880
+    },
+    "assets/ui/structures_dev48/red_inhibitor.png": {
+      "sha": "314b3359089821918e2258a23d07f1d1d252d81d",
+      "size": 353114
+    },
+    "assets/ui/structures_dev48/red_nexus.png": {
+      "sha": "1c5f47452af6ac889f0899a516845bb08a1f75e6",
+      "size": 538860
+    },
+    "assets/ui/structures_dev48/red_tower_barricade.png": {
+      "sha": "41bb4bdc157d5375ee98ce7acec33957c9c756b3",
+      "size": 465615
+    },
+    "assets/ui/structures_dev48/red_tower.png": {
+      "sha": "0b0f6a712e73d9ea58caeb69dd872bf0b650011e",
+      "size": 403118
+    },
+    "assets/user_rift_masks_20261026/mapa_atualizado.jpg": {
+      "sha": "d12ca697b06f8b4a25fe8ac840176918defd70b1",
+      "size": 9329852
+    },
+    "assets/user_rift_masks_20261026/mapa_mountain_atualizado.jpg": {
+      "sha": "c5928358cd03e8f2e403e442d4477a589bdf4772",
+      "size": 9520888
+    },
+    "assets/user_rift_masks_20261026/mapa_Ocean_atualizado.jpg": {
+      "sha": "88842d6ed81e4e47054bf22296c41766251eeef7",
+      "size": 9457998
+    },
+    "assets/user_rift_masks_20261026/masks/4-PointsWards-Vision-late-gamemask.jpg": {
+      "sha": "78d0a554dc9036485fceb24a39f7ec2d28f018a1",
+      "size": 295834
+    },
+    "assets/user_rift_masks_20261026/masks/8-earlygame-PointsWards-Vision-mask.jpg": {
+      "sha": "1bbb2f7b39f2a2963c11155f23ce56d3098ff311",
+      "size": 374012
+    },
+    "assets/user_rift_masks_20261026/masks/aren-move-speed-drag-elemental.jpg": {
+      "sha": "dbee5837be2e9e4a26adec32dfa056af9dfbf616",
+      "size": 355863
+    },
+    "assets/user_rift_masks_20261026/masks/Brushs-Moitas-Mapa.jpg": {
+      "sha": "4cd2cee9b93cd037715c424c74b0e53716585fd8",
+      "size": 369396
+    },
+    "assets/user_rift_masks_20261026/masks/Brushs-Moitas-Ocean-Drag-Mapa.jpg": {
+      "sha": "39bab523ef004e0bbe5d84a1ff7c577ac6415e25",
+      "size": 397229
+    },
+    "assets/user_rift_masks_20261026/masks/Colisores-Mapa.jpg": {
+      "sha": "1fcd4a2aa9107f909c0f75a87144539324bb8d12",
+      "size": 859619
+    },
+    "assets/user_rift_masks_20261026/masks/Colisores-mountain-drag-Mapa.jpg": {
+      "sha": "88e5fac189cf300f822c4f8c081b286245f237c1",
+      "size": 878530
+    },
+    "assets/user_rift_masks_20261026/masks/Florividentes-ranged-horizontal-esquerda-para-direita.jpg": {
+      "sha": "5a75124f1a0ebe58d16396ef889f97e70bf8b979",
+      "size": 28292
+    },
+    "assets/user_rift_masks_20261026/masks/Florividentes.jpg": {
+      "sha": "8ce0d39a0a1844917ced4acaa0c5f23fe5bed026",
+      "size": 213055
+    },
+    "assets/user_rift_masks_20261026/masks/fruit-quimtech-drag.jpg": {
+      "sha": "ba8e86e97c6f538f7349e333ebc7f8a2d5b686eb",
+      "size": 207367
+    },
+    "assets/user_rift_masks_20261026/masks/Hextech-drag-portals-mask-map-ligations.jpg": {
+      "sha": "089b70fe60e1128d4c6b4129e4ed1f859201d015",
+      "size": 296358
+    },
+    "assets/user_rift_masks_20261026/masks/Inibidores-Mapa-Blue-Red.jpg": {
+      "sha": "5e06a1f9c6c45c5c419e56e8e2f8d9c158d270e4",
+      "size": 213458
+    },
+    "assets/user_rift_masks_20261026/masks/Jump-fruit-map.jpg": {
+      "sha": "dc313765cd05dca36e8df2c608ac1625cba29b78",
+      "size": 201575
+    },
+    "assets/user_rift_masks_20261026/masks/Mapa-Summoners-Rifts.jpg": {
+      "sha": "d12ca697b06f8b4a25fe8ac840176918defd70b1",
+      "size": 9329852
+    },
+    "assets/user_rift_masks_20261026/masks/Monstros-Jungle-completo-com-baron-e-drag.jpg": {
+      "sha": "a07661f66d32fc1e572f61268db237f8c3e351b4",
+      "size": 262760
+    },
+    "assets/user_rift_masks_20261026/masks/Nexus-Mapa-BLue-Red.jpg": {
+      "sha": "6d41aab67590cf417b08783f29156d84c862579f",
+      "size": 203133
+    },
+    "assets/user_rift_masks_20261026/masks/Point-Vision-Buff-map.jpg": {
+      "sha": "319a9f5c94352f94bc742d7f688b1705a677892f",
+      "size": 215875
+    },
+    "assets/user_rift_masks_20261026/masks/Respawn-mapa-Blue-RED-Area-de-compra-itens.jpg": {
+      "sha": "2ff42ce2e268139751e19c19d306bd9535142d8b",
+      "size": 212153
+    },
+    "assets/user_rift_masks_20261026/masks/Rio-Mapa.jpg": {
+      "sha": "533f5f921b9004d2501230ad8efb0eb3d2ea0bdd",
+      "size": 281057
+    },
+    "assets/user_rift_masks_20261026/masks/Rotas-Mapa-Top-MId-bottom.jpg": {
+      "sha": "0560531f50807fbfac05cff2ada518c8b62b8ccf",
+      "size": 461339
+    },
+    "assets/user_rift_masks_20261026/masks/Torres-Mapa-Blue-RED.jpg": {
+      "sha": "468a04acb3b035a0bc9565a7ee9ce9de52b7c5f5",
+      "size": 241754
+    },
+    "assets/user_rift_masks_20261026/masks/Vision-quimtech-drag.jpg": {
+      "sha": "8ce0d39a0a1844917ced4acaa0c5f23fe5bed026",
+      "size": 213055
+    },
+    "data/faelight_masks_v452d4_dev4/4-PointsWards-Vision-late-gamemask.jpg": {
+      "sha": "78d0a554dc9036485fceb24a39f7ec2d28f018a1",
+      "size": 295834
+    },
+    "data/faelight_masks_v452d4_dev4/6-earlygame-PointsWards-Vision-mask.jpg": {
+      "sha": "0afc27e8ad708481ffdace1524b891beecd264ad",
+      "size": 343493
+    },
+    "data/faelight_masks_v452d4_dev5/4-PointsWards-Vision-late-gamemask.jpg": {
+      "sha": "78d0a554dc9036485fceb24a39f7ec2d28f018a1",
+      "size": 295834
+    },
+    "data/faelight_masks_v452d4_dev5/8-earlygame-PointsWards-Vision-mask.jpg": {
+      "sha": "1bbb2f7b39f2a2963c11155f23ce56d3098ff311",
+      "size": 374012
+    }
+  }
+}
