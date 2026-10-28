@@ -1,3 +1,17 @@
+# Marco FAST LANE — pós-regressão em 2026-10-28
+
+**Candidato integrado, não release.** PRs #6/#7 mesclados; `engine.browser.js` regenerada; fluxo de lotes oficial em [FAST_LANE_DEV69.md](FAST_LANE_DEV69.md). Duas novas branches foram abertas da integração: `dev69/skills-batch2`, `dev69/items-batch2`, preservando as originais.
+
+**Evidência após merges, GitHub Actions [run 40752495932](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40752495932):**
+- Skills+Itens+PvP integração: **PASS**.
+- Regeneração browser com `tools/sync_browser_v43.py`: **PASS**.
+- `npm test` integral remoto: **FAIL na verificação de `assets/ui/endgame/victory_overlay.png` ausente no checkout remoto**. O teste legado v39, antes incompatível com Nami/Vex temporal, foi atualizado com asserts de voo/impacto, sem desativação.
+- **QA visual real e release ainda NOT_CERTIFIED**. Os assets binários permanecem bloqueadores na Issue #1, não resolver por placeholders.
+
+A regressão integral deve rodar no marco consolidado; os dois especialistas executam apenas os testes direcionados no ciclo de desenvolvimento. `main` intocada.
+
+---
+
 # Status integrado — 28/10/2026 (após PRs #6 e #7)
 
 **Estado atual: INTEGRATION_CANDIDATE / RELEASE_BLOCKED.** A fonte dev68 e as duas alterações Dev69 foram mescladas apenas em `dev69/integration`. Não modificar `main` nem chamar isso de release certificada.
