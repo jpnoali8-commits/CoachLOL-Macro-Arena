@@ -93,6 +93,22 @@ export const CLASS_STATS={
 };
 const CK={Kennen:'mage',Khazix:'assassin',Ekko:'assassin',Vayne:'marksman',Nami:'enchanter',Volibear:'fighter',Darius:'fighter',Akali:'assassin',Yuumi:'enchanter',Jinx:'marksman',Caitlyn:'marksman',Lux:'mage',Ahri:'mage',Warwick:'fighter',Mordekaiser:'fighter',Vex:'mage',Lucian:'marksman',Senna:'enchanter',Thresh:'support',Leona:'tank',Yasuo:'fighter',Yone:'fighter',Vi:'fighter',LeeSin:'fighter',JarvanIV:'fighter',Riven:'fighter',Gwen:'fighter',Orianna:'mage',Zed:'assassin',Talon:'assassin',Janna:'enchanter',Braum:'tank',Sona:'enchanter',Jhin:'marksman',Kaisa:'marksman',Ezreal:'marksman',Ashe:'marksman',Pantheon:'fighter',Graves:'marksman',Zyra:'mage',Qiyana:'assassin',Veigar:'mage',Olaf:'fighter',Irelia:'fighter',Nasus:'tank',Chogath:'tank',Viktor:'mage',KSante:'tank'};
 export const catalog=[
+// DEV69 Batch5 — support actives and reactive procs, verified PC 26.21 / DDragon 16.21.1.
+{id:'shurelyas_battlesong',name:"Hino Bélico de Shurelya",cost:2200,stats:{"ap":50,"abilityHaste":15,"movePercent":4,"manaRegenBasePct":125},tags:['support','legendary','unique','active'],icon:'◈',riotId:2065},
+{id:'redemption',name:"Redenção",cost:2300,stats:{"ap":30,"abilityHaste":15,"manaRegenBasePct":100,"healShieldPower":10},tags:['support','legendary','unique','active'],icon:'◈',riotId:3107},
+{id:'locket_of_the_iron_solari',name:"Medalhão dos Solari de Ferro",cost:2200,stats:{"hp":200,"armor":30,"mr":30,"abilityHaste":10},tags:['support','legendary','unique','active'],icon:'◈',riotId:3190},
+{id:'mikaels_blessing',name:"Bênção de Mikael",cost:2300,stats:{"hp":250,"manaRegenBasePct":100,"healShieldPower":12,"abilityHaste":15},tags:['support','legendary','unique','active'],icon:'◈',riotId:3222},
+{id:'knights_vow',name:"Juramento do Cavaleiro",cost:2300,stats:{"hp":200,"armor":40,"abilityHaste":10,"hpRegenBasePct":100},tags:['support','legendary','unique','active'],icon:'◈',riotId:3109},
+{id:'ardent_censer',name:"Turíbulo Ardente",cost:2200,stats:{"ap":45,"healShieldPower":10,"manaRegenBasePct":125,"movePercent":4},tags:['support','legendary','unique'],icon:'◈',riotId:3504},
+{id:'staff_of_flowing_water',name:"Cajado Aquafluxo",cost:2250,stats:{"ap":35,"healShieldPower":10,"manaRegenBasePct":125,"abilityHaste":10},tags:['support','legendary','unique'],icon:'◈',riotId:6616},
+{id:'moonstone_renewer',name:"Regenerador de Pedra Lunar",cost:2200,stats:{"ap":25,"hp":200,"abilityHaste":20,"manaRegenBasePct":125},tags:['support','legendary','unique'],icon:'◈',riotId:6617},
+{id:'echoes_of_helia',name:"Ecos de Helia",cost:2200,stats:{"ap":35,"hp":200,"abilityHaste":20,"manaRegenBasePct":125},tags:['support','legendary','unique'],icon:'◈',riotId:6620},
+{id:'dawncore',name:"Auronúcleo",cost:2500,stats:{"ap":45,"healShieldPower":16,"manaRegenBasePct":100},tags:['support','legendary','unique'],icon:'◈',riotId:6621},
+{id:'imperial_mandate',name:"Mandato Imperial",cost:2400,stats:{"ap":60,"abilityHaste":15,"manaRegenBasePct":150,"ccHaste":20},tags:['support','legendary','unique'],icon:'◈',riotId:4005},
+{id:'zekes_convergence',name:"Convergência de Zeke",cost:2200,stats:{"hp":300,"armor":25,"mr":25,"abilityHaste":10},tags:['support','legendary','unique'],icon:'◈',riotId:3050},
+{id:'bandocanos',name:"Bandocanos",cost:2300,stats:{"hp":200,"armor":20,"mr":20,"abilityHaste":15},tags:['support','legendary','unique'],icon:'◈',riotId:2524},
+{id:'cryptbloom',name:"Criptoflora",cost:3000,stats:{"ap":75,"magicPenPercent":30,"abilityHaste":20},tags:['support','legendary','unique'],icon:'◈',riotId:3137},
+{id:'hextech_gunblade',name:"Pistola Laminar Hextec",cost:3000,stats:{"ap":80,"ad":40,"omnivamp":10},tags:['support','legendary','unique','active'],icon:'◈',riotId:3146},
 {id:'dorans_blade',name:'Lâmina de Doran',cost:450,stats:{ad:10,hp:80},tags:['ADC','fighter','starter'],icon:'⚔'},
 {id:'dorans_ring',name:'Anel de Doran',cost:400,stats:{ap:18,hp:90},tags:['mage','starter'],icon:'◈'},
 // DEV61: Iniciadores SR 26.21 — atributos e passivas específicas auditados no DDragon 16.21.1.
@@ -284,7 +300,7 @@ export const catalog=[
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310,"eternal_despair":1960,"sunfire_aegis":1960,"hollow_radiance":1960,"warmogs_armor":2170,"heartsteel":2100,"jaksho_the_protean":2240,"dead_mans_plate":2030,"guardian_angel":1280,"deaths_dance":2310,"rod_of_ages":1820,"winters_approach":1680,"archangels_staff":2030,"manamune":2030,"experimental_hexplate":2100,"spear_of_shojin":2170});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310,"eternal_despair":1960,"sunfire_aegis":1960,"hollow_radiance":1960,"warmogs_armor":2170,"heartsteel":2100,"jaksho_the_protean":2240,"dead_mans_plate":2030,"guardian_angel":1280,"deaths_dance":2310,"rod_of_ages":1820,"winters_approach":1680,"archangels_staff":2030,"manamune":2030,"experimental_hexplate":2100,"spear_of_shojin":2170,"shurelyas_battlesong":1540,"redemption":1610,"locket_of_the_iron_solari":1540,"mikaels_blessing":1610,"knights_vow":1610,"ardent_censer":1540,"staff_of_flowing_water":1575,"moonstone_renewer":1540,"echoes_of_helia":1540,"dawncore":1750,"imperial_mandate":1680,"zekes_convergence":1540,"bandocanos":1610,"cryptbloom":2100,"hextech_gunblade":2100});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -333,6 +349,22 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
  /* DEV30_OFFICIAL_RECIPES_START */
  /* DEV30_OFFICIAL_RECIPES_END */
+ // DEV69 support Batch5 verified recipes (Riot 16.21.1).
+ shurelyas_battlesong:["aether_wisp", "bandleglass_mirror"],
+ redemption:["fiendish_codex", "forbidden_idol"],
+ locket_of_the_iron_solari:["kindlegem", "cloth_armor", "null_magic_mantle"],
+ mikaels_blessing:["kindlegem", "forbidden_idol"],
+ knights_vow:["kindlegem", "chain_vest", "rejuvenation_bead"],
+ ardent_censer:["aether_wisp", "forbidden_idol"],
+ staff_of_flowing_water:["fiendish_codex", "forbidden_idol"],
+ moonstone_renewer:["kindlegem", "bandleglass_mirror"],
+ echoes_of_helia:["kindlegem", "bandleglass_mirror"],
+ dawncore:["blasting_wand", "forbidden_idol", "forbidden_idol"],
+ imperial_mandate:["amp_tome", "bandleglass_mirror", "amp_tome"],
+ zekes_convergence:["kindlegem", "cloth_armor", "null_magic_mantle"],
+ bandocanos:["kindlegem", "cloth_armor", "null_magic_mantle"],
+ cryptbloom:["blighting_jewel", "fiendish_codex", "fiendish_codex"],
+ hextech_gunblade:["vampiric_scepter", "hextech_alternator", "amp_tome"],
  // DEV69 reactive batch: exact Riot 16.21.1 component IDs.
  chempunk_chainsword:['executioners_calling','giants_belt','caulfields_warhammer'],
  seryldas_grudge:['caulfields_warhammer','last_whisper'],
@@ -489,6 +521,24 @@ export const ITEM_ATTACK_RULES_V453_DEV69_B3=Object.freeze({
  titanic_hydra:{splashRatio:.35,radius:300,activeRatio:1,activeCooldown:10},
  profane_hydra:{splashRatio:.35,radius:300,activeRatio:1,activeCooldown:10},
  stridebreaker:{splashRatio:.35,radius:300,activeRatio:.80,activeCooldown:15,slow:.35,duration:3}
+});
+
+export const ITEM_SUPPORT_RULES_V453_DEV69_B5=Object.freeze({
+ shurelyas_battlesong:{radius:850,movePercent:.30,duration:4,cooldown:75},
+ redemption:{radius:550,range:2400,delay:2.5,cooldown:90,healBase:150,healPerLevel:200/17,enemyMaxHpRatio:.10},
+ locket_of_the_iron_solari:{radius:850,cooldown:90,shieldBase:290,shieldPerLevel:70/17,shieldDuration:2.5},
+ mikaels_blessing:{radius:850,cooldown:120,healBase:100,healPerLevel:150/17},
+ knights_vow:{range:800,redirect:.14,returnHeal:.12},
+ ardent_censer:{duration:6,attackSpeedPct:25,onHitMagic:20},
+ staff_of_flowing_water:{duration:6,bonusAp:40,bonusHaste:15},
+ moonstone_renewer:{range:850,healRatio:.30,shieldRatio:.35},
+ echoes_of_helia:{maxCharges:3,chargePerDamage:.30,healPerCharge:35},
+ dawncore:{bonusHealPerRegen100:2,bonusApPerRegen100:15},
+ imperial_mandate:{duration:4,damageAmp:.07},
+ zekes_convergence:{duration:5,radius:500,magicDps:30,slow:.30},
+ bandocanos:{duration:4,radius:850,flatMove:20,attackSpeedPct:15},
+ cryptbloom:{radius:750,healBase:100,healApRatio:.25,cooldown:60},
+ hextech_gunblade:{range:700,cooldown:30,baseMagic:150,apRatio:.25,slow:.25,slowDuration:1.5}
 });
 export const ITEM_EFFECTS_V43=Object.freeze({
  // Annul spell-shields: cooldowns from SR item rules; DDragon 16.21.1 stats/recipes.
@@ -906,6 +956,8 @@ export class EffectResolverV41 {
   if(type==='slow')target.slowUntil=Math.max(target.slowUntil||0,until);
   if(EFFECT_TYPES_V41[type].cc)target.ccStatus={kind:type,until,source:source?.id||null};
   this.record('apply',target,source,{effectId:effect.id,type,until,power});
+  if(['shield','physical_shield','magic_shield'].includes(type))this.a.afterSupportProtectionV453Dev69B5(source,target,power,'shield');
+  if(EFFECT_TYPES_V41[type].cc&&source?.champ&&source.team!==target.team)this.a.afterSupportCCV453Dev69B5(source,target,type);
   return {ok:true,id:effect.id,until};
  }
  // Typed shield resolution is stable: earliest-expiring layer, then effect ID.
@@ -922,7 +974,7 @@ export class EffectResolverV41 {
   const amplification=(source?.champ?1+Math.max(0,this.a.elementalStatsV452d3(source).healShieldPower)/100:1)*(target.champ&&target.items?.includes('spirit_visage')?1.25:1);
   const received=Math.max(0,Math.min(target.maxHp-target.hp,amount*modifier*amplification));
   target.hp+=received;
-  if(received>0)this.record('heal',target,source,{amount:received});
+  if(received>0){this.record('heal',target,source,{amount:received});this.a.afterSupportProtectionV453Dev69B5(source,target,received,'heal');}
   return received;
  }
  remove(target,{types=null,ccOnly=false,sourceId=null,includeSuppression=false}={}){
@@ -1416,8 +1468,10 @@ export class Arena {
  elementalStatsV452d3(u){
   const bonus=this.baronChampionBonusV452d4Dev14(u);
   const extra=u?.champ?this.derivedItemStatsV453Dev69(u):{ad:0,ap:0,mr:0,armor:0};
+  const support=u?.champ?this.supportBuffsV453Dev69B5(u):{ap:0,abilityHaste:0,healShieldPower:0};
   const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad,
-   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0)};
+   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap+support.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0),
+   abilityHaste:(Number(u?.abilityHaste)||0)+support.abilityHaste,healShieldPower:(Number(u?.healShieldPower)||0)+support.healShieldPower};
   return elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
  }
  abilityCooldownV452d3(u,slot){return abilityCooldown(u,slot,this.elementalStatsV452d3(u).counts.hextech*ELEMENTAL_DRAKE_RULES_V452D3.hextech.abilityHaste);}
@@ -1538,6 +1592,7 @@ export class Arena {
    if(kind==='skill'&&u.items?.some(id=>id==='sheen'||id==='trinity_force'||id==='essence_reaver')&&
       (u.spellbladeNextV453Dev29||0)<=now){u.spellbladeArmedUntilV453Dev29=now+10;}
    if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate'))u.hexplateBuffUntilV453Dev69B4=now+ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.ultimateBuffSeconds;
+   if(kind==='skill'&&slot==='R'&&u.items?.includes('zekes_convergence'))u.zekeStormUntilV453Dev69B5=now+ITEM_SUPPORT_RULES_V453_DEV69_B5.zekes_convergence.duration;
    if(kind==='skill'&&slot==='R'&&this.soulTypeV452d2(u)==='cloud'&&
       (u.cloudSoulNextBoostAtV452d2||0)<=now){
     u.cloudSoulNextBoostAtV452d2=now+SOUL_RULES_V452D2.cloudUltimateCooldown;
@@ -2940,7 +2995,8 @@ export class Arena {
  // is independent of movement and survives subsequent turns/respawns.
  // DEV59: active items execute on the server, not client-side. A champion
  // can use Mercury while stunned/suppressed, but airborne CC is not removed.
- activateItemV453Dev59(team,unitId,itemId){
+ activateItemV453Dev59(team,unitId,itemId,targetId=null){
+  if(Object.prototype.hasOwnProperty.call(ITEM_SUPPORT_RULES_V453_DEV69_B5,itemId)&&['shurelyas_battlesong','redemption','locket_of_the_iron_solari','mikaels_blessing','knights_vow','hextech_gunblade'].includes(itemId))return this.activateSupportItemV453Dev69B5(team,unitId,itemId,targetId);
   if(['tiamat','ravenous_hydra','titanic_hydra','profane_hydra','stridebreaker'].includes(itemId))return this.activateCleaveItemV453Dev69B3(team,unitId,itemId);
   const u=this.units.find(v=>v.id===unitId&&v.team===team&&v.hp>0);
   const effect=ITEM_EFFECTS_V43[itemId];
@@ -3223,6 +3279,138 @@ export class Arena {
   this.effectResolverV41().heal(u,u.maxHp*ITEM_DEFENSE_RULES_V453_DEV69_B4.deaths_dance.healOnTakedown,u);
  }
 
+
+ // Batch5 — server-only support triggers; a single callback covers Nami W,
+ // summoner Heal and all EffectResolver shields without champion-kit edits.
+ supportTeamMovePercentV453Dev69B5(u){
+  return this.units.some(a=>a.team===u.team&&a.hp>0&&a.items?.includes('shurelyas_battlesong')&&
+   a.shurelyaUntilV453Dev69B5>this.gameTime&&this.mapDistance(a,u)<=ITEM_SUPPORT_RULES_V453_DEV69_B5.shurelyas_battlesong.radius)?.30:0;
+ }
+ supportTeamMoveFlatV453Dev69B5(u){
+  return this.units.some(a=>a.team===u.team&&a.hp>0&&a.items?.includes('bandocanos')&&
+   a.bandocanosUntilV453Dev69B5>this.gameTime&&this.mapDistance(a,u)<=ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.radius)?20:0;
+ }
+ supportBuffsV453Dev69B5(u){
+  const now=this.gameTime,regen=(u.manaRegenBasePct||0)/100;
+  const dawn=u.items?.includes('dawncore')?ITEM_SUPPORT_RULES_V453_DEV69_B5.dawncore:null;
+  return {ap:(u.staffBuffUntilV453Dev69B5>now?40:0)+(dawn?regen*dawn.bonusApPerRegen100:0),
+   abilityHaste:u.staffBuffUntilV453Dev69B5>now?15:0,
+   healShieldPower:dawn?regen*dawn.bonusHealPerRegen100:0};
+ }
+ supportActivationGateV453Dev69B5(team,unitId,itemId,targetId){
+  const u=this.units.find(v=>v.id===unitId&&v.team===team&&v.hp>0);
+  if(!u||!u.items?.includes(itemId)||this.ended)return {ok:false,reason:'item_ativo_nao_equipado'};
+  if(!['preparation','planning','decision'].includes(this.phase)||(this.phase!=='decision'&&this.teams[team].ready))return {ok:false,reason:'fase_invalida'};
+  if(this.phase==='decision'&&this.pendingDecision?.unitId!==u.id)return {ok:false,reason:'decisao_nao_autorizada'};
+  if(!this.effectResolverV41().canAct(u,'item').ok)return {ok:false,reason:'cc_impede_item'};
+  if((u.supportReadyV453Dev69B5?.[itemId]||0)>this.gameTime)return {ok:false,reason:'item_em_recarga'};
+  const target=targetId?this.units.find(v=>v.id===targetId&&v.hp>0):null;
+  if(targetId&&!target)return {ok:false,reason:'alvo_indisponivel'};
+  const enemy=itemId==='hextech_gunblade';
+  if(target&&((enemy&&target.team===team)||(!enemy&&target.team!==team)))return {ok:false,reason:'alvo_invalido'};
+  if(enemy&&(!target||!this.visible(team,target)))return {ok:false,reason:'alvo_inimigo_nao_visivel'};
+  const limit=ITEM_SUPPORT_RULES_V453_DEV69_B5[itemId]?.range||ITEM_SUPPORT_RULES_V453_DEV69_B5[itemId]?.radius||900;
+  if(target&&this.mapDistance(u,target)>limit)return {ok:false,reason:'fora_do_alcance'};
+  return {ok:true,u,target};
+ }
+ activateSupportItemV453Dev69B5(team,unitId,itemId,targetId=null){
+  const q=this.supportActivationGateV453Dev69B5(team,unitId,itemId,targetId);if(!q.ok)return q;
+  const {u,target}=q,now=this.gameTime,s=ITEM_SUPPORT_RULES_V453_DEV69_B5[itemId],fx=this.effectResolverV41();
+  const nearby=team=>this.units.filter(a=>a.team===team&&a.hp>0&&this.mapDistance(u,a)<=s.radius);
+  if(itemId==='mikaels_blessing'&&!target)return {ok:false,reason:'alvo_aliado_obrigatorio'};
+  if(itemId==='knights_vow'&&(!target||target===u))return {ok:false,reason:'escolha_aliado_distinto'};
+  if(itemId==='redemption'&&target&&!this.canSeePoint(team,target))return {ok:false,reason:'alvo_nao_visivel'};
+  if(itemId==='shurelyas_battlesong'){
+   u.shurelyaUntilV453Dev69B5=now+s.duration;
+   // Owner-centered aura with server-side positions; effects expire off-range.
+  }else if(itemId==='locket_of_the_iron_solari'){
+   for(const ally of nearby(team))fx.apply(ally,'shield',{source:u,power:s.shieldBase+s.shieldPerLevel*(u.level-1),duration:s.shieldDuration,key:'locket_b5_'+u.id});
+  }else if(itemId==='mikaels_blessing'){
+   fx.remove(target,{types:['stun','root','slow','silence','blind','disarm','grounded','fear','charm','taunt','polymorph','sleep']});
+   fx.heal(target,s.healBase+s.healPerLevel*(u.level-1),u);
+  }else if(itemId==='knights_vow'){
+   u.knightsVowTargetV453Dev69B5=target.id;
+  }else if(itemId==='redemption'){
+   const center=target||u;
+   u.redemptionPendingV453Dev69B5={x:center.x,y:center.y,due:now+s.delay,sourceTeam:team};
+  }else if(itemId==='hextech_gunblade'){
+   this.damage(target,s.baseMagic+u.ap*s.apRatio,u,'magic','item_gunblade_b5');
+   if(target.hp>0)this.applyEffectV41(target,'slow',{source:u,duration:s.slowDuration,power:s.slow,key:'gunblade_b5_'+u.id});
+  }
+  u.supportReadyV453Dev69B5??={};u.supportReadyV453Dev69B5[itemId]=now+(s.cooldown||0);
+  this.event(`${u.champ} ativou ${catalog.find(v=>v.id===itemId)?.name||itemId}.`,team,'item_active',u.id);
+  return {ok:true,itemId,targetId:target?.id||null,cooldownUntil:u.supportReadyV453Dev69B5[itemId]};
+ }
+ afterSupportProtectionV453Dev69B5(source,target,amount,kind){
+  if(!source?.champ||!target?.champ||source.hp<=0||source.team!==target.team||source===target||amount<=0||this._supportRelayV453Dev69B5)return;
+  const r=ITEM_SUPPORT_RULES_V453_DEV69_B5;
+  this._supportRelayV453Dev69B5=true;
+  try{
+   for(const recipient of [source,target]){
+    if(source.items?.includes('ardent_censer'))recipient.ardentUntilV453Dev69B5=this.gameTime+r.ardent_censer.duration;
+    if(source.items?.includes('staff_of_flowing_water'))recipient.staffBuffUntilV453Dev69B5=this.gameTime+r.staff_of_flowing_water.duration;
+   }
+   if(source.items?.includes('echoes_of_helia')&&(source.heliaChargesV453Dev69B5||0)>0){
+    const charges=source.heliaChargesV453Dev69B5;source.heliaChargesV453Dev69B5=0;
+    this.effectResolverV41().heal(target,charges*r.echoes_of_helia.healPerCharge,source);
+   }
+   if(source.items?.includes('moonstone_renewer')){
+    const other=this.units.filter(u=>u.hp>0&&u.team===source.team&&u!==source&&u!==target&&this.mapDistance(u,source)<=r.moonstone_renewer.range)
+     .sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0];
+    if(other){
+     if(kind==='heal')this.effectResolverV41().heal(other,amount*r.moonstone_renewer.healRatio,source);
+     else this.effectResolverV41().apply(other,'shield',{source,duration:3,power:amount*r.moonstone_renewer.shieldRatio,key:'moonstone_b5_'+source.id});
+    }
+   }
+  }finally{this._supportRelayV453Dev69B5=false;}
+ }
+ afterSupportCCV453Dev69B5(source,target,type){
+  if(!source?.champ||source.team===target.team)return;
+  if(source.items?.includes('imperial_mandate'))target.imperialVulnerableV453Dev69B5={until:this.gameTime+ITEM_SUPPORT_RULES_V453_DEV69_B5.imperial_mandate.duration,by:source.id};
+  if(source.items?.includes('bandocanos'))source.bandocanosUntilV453Dev69B5=this.gameTime+ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.duration;
+ }
+ afterSupportDamageV453Dev69B5(attacker,target,dealt,sourceType){
+  if(!attacker?.champ||!target?.champ||attacker.team===target.team||dealt<=0)return;
+  const r=ITEM_SUPPORT_RULES_V453_DEV69_B5;
+  if(!sourceType.startsWith('item_')&&attacker.items?.includes('echoes_of_helia')){
+   const n=attacker.heliaChargesV453Dev69B5||0;
+   attacker.heliaChargesV453Dev69B5=Math.min(r.echoes_of_helia.maxCharges,n+1);
+  }
+  if(sourceType==='basic'&&attacker.ardentUntilV453Dev69B5>this.gameTime)this.damage(target,r.ardent_censer.onHitMagic,attacker,'magic','item_ardent_b5');
+  if(sourceType!=='item_knights_vow_b5'){
+   for(const ally of this.units){
+    if(ally.team!==attacker.team||ally.hp<=0||ally.knightsVowTargetV453Dev69B5!==attacker.id||!ally.items?.includes('knights_vow')||this.mapDistance(ally,attacker)>r.knights_vow.range)continue;
+    this.effectResolverV41().heal(ally,dealt*r.knights_vow.returnHeal,ally);
+   }
+  }
+ }
+ advanceSupportItemsV453Dev69B5(){
+  const r=ITEM_SUPPORT_RULES_V453_DEV69_B5,fx=this.effectResolverV41(),now=this.gameTime;
+  for(const u of this.units){
+   if(u.hp<=0)continue;
+   if(u.redemptionPendingV453Dev69B5&&u.redemptionPendingV453Dev69B5.due<=now){
+    const p=u.redemptionPendingV453Dev69B5;u.redemptionPendingV453Dev69B5=null;
+    for(const ally of this.units.filter(v=>v.team===u.team&&v.hp>0&&this.mapDistance(v,p)<=r.redemption.radius))fx.heal(ally,r.redemption.healBase+(u.level-1)*r.redemption.healPerLevel,u);
+    for(const foe of this.units.filter(v=>v.team!==u.team&&v.hp>0&&this.mapDistance(v,p)<=r.redemption.radius&&this.visible(u.team,v)))this.damage(foe,foe.maxHp*r.redemption.enemyMaxHpRatio,u,'true','item_redemption_b5');
+   }
+   if(u.zekeStormUntilV453Dev69B5>now){
+    if((u.zekeNextTickV453Dev69B5||0)>now)continue;
+    u.zekeNextTickV453Dev69B5=now+1;
+    for(const foe of this.units.filter(v=>v.team!==u.team&&v.hp>0&&this.mapDistance(v,u)<=r.zekes_convergence.radius&&this.visible(u.team,v))){
+     this.damage(foe,r.zekes_convergence.magicDps,u,'magic','item_zeke_b5');
+     this.applyEffectV41(foe,'slow',{source:u,power:r.zekes_convergence.slow,duration:1,key:'zeke_b5_'+u.id});
+    }
+   }
+  }
+ }
+ afterSupportKillV453Dev69B5(dead,credited,assists=[]){
+  const r=ITEM_SUPPORT_RULES_V453_DEV69_B5.cryptbloom;
+  for(const u of [credited,...assists]){
+   if(!u?.items?.includes('cryptbloom')||u.hp<=0||(u.cryptbloomReadyAtV453Dev69B5||0)>this.gameTime)continue;
+   u.cryptbloomReadyAtV453Dev69B5=this.gameTime+r.cooldown;
+   for(const ally of this.units.filter(v=>v.team===u.team&&v.hp>0&&this.mapDistance(v,dead)<=r.radius))this.effectResolverV41().heal(ally,r.healBase+u.ap*r.healApRatio,u);
+  }
+ }
  // Shared, snapshot-deterministic reactive item families. No ESM imports in engine.
  derivedItemStatsV453Dev69(u){
   if(!u?.champ)return {ad:0,ap:0,mr:0};
@@ -3585,6 +3773,17 @@ export class Arena {
    const delta=next-u.itemDerivedHealthV453Dev69B4;u.itemDerivedHealthV453Dev69B4=next;u.maxHp=Math.max(1,u.maxHp+delta);u.hp=Math.min(u.hp,u.maxHp);
   }
   if(itemId==='dead_mans_plate')u.deadmanChargesV453Dev69B4=0;
+  if(Object.prototype.hasOwnProperty.call(ITEM_SUPPORT_RULES_V453_DEV69_B5,itemId)){
+   if(itemId==='knights_vow')u.knightsVowTargetV453Dev69B5=null;
+   if(itemId==='redemption')u.redemptionPendingV453Dev69B5=null;
+   if(itemId==='shurelyas_battlesong')u.shurelyaUntilV453Dev69B5=0;
+   if(itemId==='zekes_convergence')u.zekeStormUntilV453Dev69B5=0;
+   if(itemId==='bandocanos')u.bandocanosUntilV453Dev69B5=0;
+   if(itemId==='echoes_of_helia')u.heliaChargesV453Dev69B5=0;
+   if(itemId==='cryptbloom')u.cryptbloomReadyAtV453Dev69B5=0;
+   if(u.supportReadyV453Dev69B5)delete u.supportReadyV453Dev69B5[itemId];
+   for(const ally of this.units.filter(v=>v.team===u.team))for(const e of ally.statusEffectsV41||[])if(e.sourceId===u.id&&e.key?.startsWith('locket_b5_'))e.until=this.gameTime;
+  }
   if(itemId==='yun_tal_wildarrows'){u.critChance=Math.max(0,(u.critChance||0)-(u.yunTalCritAppliedV453Dev69B3||0));u.yunTalStacksV453Dev69B3=0;u.yunTalCritAppliedV453Dev69B3=0;u.yunTalFrenzyUntilV453Dev69B3=0;}
   if(itemId==='terminus')u.terminusV453Dev69B3=null;
   if(itemId==='eclipse')u.eclipseHitsV453Dev69B3=null;
@@ -4138,7 +4337,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -4404,7 +4603,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.supportTeamMovePercentV453Dev69B5(u)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5063,7 +5262,8 @@ export class Arena {
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
   const frenzy=u.items?.includes('yun_tal_wildarrows')&&u.yunTalFrenzyUntilV453Dev69B3>this.gameTime?ITEM_ATTACK_RULES_V453_DEV69_B3.yun_tal_wildarrows.frenzyAttackSpeed:0;
   const hexplate=u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.attackSpeedPct:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+frenzy+hexplate)/100;
+  const supportAttack=(u.ardentUntilV453Dev69B5>this.gameTime?ITEM_SUPPORT_RULES_V453_DEV69_B5.ardent_censer.attackSpeedPct:0)+(this.units.some(v=>v.team===u.team&&v.hp>0&&v.items?.includes('bandocanos')&&v.bandocanosUntilV453Dev69B5>this.gameTime&&this.mapDistance(v,u)<=ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.radius)?ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.attackSpeedPct:0);
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+frenzy+hexplate+supportAttack)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -5306,6 +5506,10 @@ export class Arena {
    if(damageType==='magic'&&attacker.items?.includes('oblivion_orb'))this.applyEffectV41(target,'grievous_wounds',{duration:3,source:attacker,key:'oblivion_orb'});
    if(damageType==='physical'&&attacker.items?.includes('executioners_calling'))this.applyEffectV41(target,'grievous_wounds',{duration:3,source:attacker,key:'executioners_calling'});
   }
+ // Support Mandate mark: damage amplification is visible only to the receiving server state.
+ if(final>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team&&
+   target.imperialVulnerableV453Dev69B5?.until>this.gameTime&&!sourceType.startsWith('item_'))
+  final*=1+ITEM_SUPPORT_RULES_V453_DEV69_B5.imperial_mandate.damageAmp;
 // Apply on-hit item effects only to legal enemy targets. A protected
   // spell-shielded hit returned above and cannot add stacks.
  if(amount2>0&&attacker?.champ&&attacker.team!==target.team&&sourceType==='basic'&&
@@ -5360,6 +5564,13 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
  if(target.champ&&damageType==='magic'&&final>0&&attacker?.team&&attacker.team!==target.team&&target.items?.includes('kaenic_rookern'))
   target.kaenicReadyAtV453Dev69=this.gameTime+ITEM_FAMILY_RULES_V453_DEV69.kaenic_rookern.rechargeSeconds;
  final=absorbedV41.remaining;
+ // Knight's Vow: redirect actual HP damage, never shields or reflection loops.
+ if(final>0&&target?.champ&&attacker?.team&&attacker.team!==target.team&&sourceType!=='item_knights_vow_b5'){
+  const owner=this.units.find(v=>v.hp>0&&v.team===target.team&&v.id!==target.id&&v.items?.includes('knights_vow')&&
+    v.knightsVowTargetV453Dev69B5===target.id&&this.mapDistance(v,target)<=ITEM_SUPPORT_RULES_V453_DEV69_B5.knights_vow.range);
+  if(owner){const redirect=final*ITEM_SUPPORT_RULES_V453_DEV69_B5.knights_vow.redirect;
+   final=Math.max(0,final-redirect);this.damage(owner,redirect,attacker,damageType,'item_knights_vow_b5');}
+ }
  // Guardian Angel intercepts only actual lethal post-shield champion HP damage.
  if(target?.champ&&target.items?.includes('guardian_angel')&&final>=target.hp&&target.hp>0&&
     (target.gaReadyAtV453Dev69B4||0)<=this.gameTime){
@@ -5390,6 +5601,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   this.onBulkItemChampionHitV453Dev69(attacker,target,dealt,damageType,sourceType);
   this.afterChampionHitItemsV453Dev69B3(attacker,target,dealt,sourceType);
   this.afterTankHitV453Dev69B4(attacker,target,dealt,damageType,sourceType);
+  this.afterSupportDamageV453Dev69B5(attacker,target,dealt,sourceType);
   if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
    if(attacker.items?.includes('maw_of_malmortius')&&(attacker.mawVampUntilV453Dev69||0)>this.gameTime){
@@ -5526,6 +5738,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);}
     }}
     target.damageContributors={};
+    this.afterSupportKillV453Dev69B5(target,credited,assistingChampions);
     if(credited){this.onDefensiveTakedownV453Dev69B4(credited);this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
      const bonus=ITEM_FAMILY_RULES_V453_DEV69.the_collector.killGold;
      this.creditGoldV452d4Dev7(credited,bonus,'collector');this.recordEconomyV43(credited,'collector',bonus,'the_collector');

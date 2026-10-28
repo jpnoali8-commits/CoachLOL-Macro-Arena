@@ -84,7 +84,7 @@ function dispatch(arena,unit,kind,p){
   case 'item.sell':return arena.sellItemV43(team,id,p.index);
   case 'item.undo':return arena.undoShopV453Dev61(team,id);
   case 'item.cancelQueue':return arena.cancelQueuedPurchase(team,id,p.index)?{ok:true}:fail('cancelamento_indisponivel');
-  case 'item.activate':return arena.activateItemV453Dev59(team,id,p.itemId);
+  case 'item.activate':return arena.activateItemV453Dev59(team,id,p.itemId,p.targetId??null);
   default:return fail('acao_nao_certificada');
  }
 }

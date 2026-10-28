@@ -13,7 +13,7 @@ const near=(a,u,v)=>{v.x=u.x;v.y=u.y;v.hp=v.maxHp=30000;v.armor=v.mr=0;};
 const entries=[['2502','eternal_despair'],['3068','sunfire_aegis'],['6664','hollow_radiance'],['3083','warmogs_armor'],['3084','heartsteel'],['6665','jaksho_the_protean'],['3742','dead_mans_plate'],['3026','guardian_angel'],['6333','deaths_dance'],['6657','rod_of_ages'],['3119','winters_approach'],['3003','archangels_staff'],['3004','manamune'],['3073','experimental_hexplate'],['3161','spear_of_shojin']];
 let total=0;const test=(name,fn)=>{try{fn();total++;console.log('✓ B4 '+name)}catch(e){console.error('✗ B4 '+name);throw e}};
 test('15 official Riot IDs/recipe/price/sell, 50 locked remain',()=>{
- assert.deepEqual([sr.counts.normalPlayable,sr.counts.referenceOnly],[152,50]);
+ assert.deepEqual([sr.counts.normalPlayable,sr.counts.referenceOnly],[167,35]);
  for(const [id,key] of entries){const o=riot[id],c=catalog.find(v=>v.id===key);assert.ok(c,key);assert.equal(c.riotId,Number(id));assert.equal(c.cost,o.gold.total);assert.equal(officialSaleValueV453Dev60(key),o.gold.sell);assert.deepEqual(ITEM_RECIPES[key].map(p=>recipeId[p]),o.from);assert.equal(sr.rows[id].status,'engine_playable');assert.equal(sr.rows[id].localId,key)}
  assert.equal(Object.values(sr.rows).filter(x=>x.status==='reference_only'&&x.localId).length,0);
 });
