@@ -2437,7 +2437,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
-  if(!u||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||!rule||!['line','line_recast','two_blade_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
+  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
   const gate=recastE?{ok:true}:castGateV39(u,slot,this.gameTime);
@@ -2447,33 +2447,97 @@ export class Arena {
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
  }
+ // Dev69: only the actual team seat may queue an R2. First-hit mark
+ // gives temporary visibility to that team; no target ID can come from fog.
  queueVexRecast(team,unitId){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),mark=u?.vexMark;
-  if(!u||u.champ!=='Vex'||!mark||mark.until<this.gameTime)return {ok:false,reason:'A segunda ativação da Vex R não está disponível.'};
+  if(!u||u.champ!=='Vex'||u.hp<=0||this.ended||this.teams[team].ready||
+      !['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
+  if(u.queuedVexRecast||u.vexDashV453Dev69)return {ok:false,reason:'recast_duplicado'};
+  if(!mark||mark.until<=this.gameTime)return {ok:false,reason:'recast_sem_marca'};
   const t=this.units.find(v=>v.id===mark.targetId&&v.team!==team&&v.hp>0);
-  if(!t)return {ok:false,reason:'Alvo marcado indisponível.'};
-  u.queuedVexRecast=true;return {ok:true};
+  if(!t)return {ok:false,reason:'alvo_indisponível'};
+  u.queuedVexRecast=true;
+  this.recordIntentV40(team,unitId,'vex_r_recast',{slot:'R'});
+  return {ok:true};
+ }
+ startVexShadowDashV453Dev69(u){
+  const mark=u?.vexMark,now=this.gameTime;
+  const t=mark&&this.units.find(v=>v.id===mark.targetId&&v.hp>0&&v.team!==u.team);
+  if(!u||u.champ!=='Vex'||u.hp<=0||!mark||mark.until<=now||!t)
+   return {ok:false,reason:'recast_sem_marca'};
+  if(u.vexDashV453Dev69)return {ok:false,reason:'recast_duplicado'};
+  const fx=this.effectResolverV41();
+  if((u.rootUntil||0)>now||(u.groundedUntil||0)>now||fx.has(u,'root')||fx.has(u,'grounded')||
+     (u.stasisUntil||0)>now||!fx.canAct(u,'skill').ok)
+   return {ok:false,reason:'deslocamento_interrompido'};
+  if((t.stasisUntil||0)>now||fx.has(t,'stasis')||fx.has(t,'untargetable'))
+   return {ok:false,reason:'alvo_inalcançável'};
+  const commit=this.performActionV40({actorId:u.id,kind:'recast',slot:'R',targetId:t.id,
+   source:'vex_r2_v453_dev69',requireVision:false});
+  if(!commit.ok)return commit;
+  u.vexDashV453Dev69={targetId:t.id,startedAt:now,lastAt:now,
+   speed:2200,sourceMarkAt:mark.until};
+  u.vexMark=null;
+  this.event('Vex iniciou a segunda ativação de Rajada Sombria.',u.team,'skill_vfx',u.id,{
+   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u)),
+   vfx:{type:'shadow_surge_recast',from:{x:u.x,y:u.y},to:{x:t.x,y:t.y},
+    width:100,expiresAt:now+2}});
+  return {...commit,pending:true};
+ }
+ advanceVexShadowDashV453Dev69(){
+  const now=this.gameTime;
+  for(const u of this.units){
+   const dash=u.vexDashV453Dev69;
+   if(!dash)continue;
+   const t=this.units.find(v=>v.id===dash.targetId&&v.team!==u.team&&v.hp>0);
+   if(u.hp<=0||!t){u.vexDashV453Dev69=null;continue;}
+   const elapsed=Math.max(0,now-(dash.lastAt??dash.startedAt));
+   if(elapsed<=0)continue;
+   dash.lastAt=now;
+   const dx=t.x-u.x,dy=t.y-u.y,dist=Math.hypot(dx*this.worldWidth,dy*this.worldHeight);
+   const step=dash.speed*elapsed;
+   if(dist>step+180){
+    // Following the marked target ignores map terrain during the dash.
+    const ratio=step/Math.max(1,dist);
+    u.x+=dx*ratio;u.y+=dy*ratio;
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    continue;
+   }
+   const m=Math.hypot(dx,dy)||1;
+   const destination=[180,240,320,450].map(offset=>({
+    x:t.x-dx/m*offset/this.worldWidth,
+    y:t.y-dy/m*offset/this.worldHeight
+   })).find(point=>this.walkable(point.x,point.y));
+   if(!destination){u.vexDashV453Dev69=null;continue;}
+   u.x=destination.x;u.y=destination.y;
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   u.vexDashV453Dev69=null; // once-only arrival, including replay after restore
+   const rule=kitSpellV42('Vex','R'),rank=Math.max(1,Math.min(3,u.skillRanks?.R||1));
+   this.damage(t,rule.recastDamage[rank-1]+this.elementalStatsV452d3(u).ap*rule.recastApRatio,u,'magic','spell');
+   this.event('Vex concluiu a segunda ativação de Rajada Sombria.',u.team,'skill_vfx',u.id,{
+    observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u)),
+    vfx:{type:'shadow_surge_arrival',at:{x:u.x,y:u.y},expiresAt:now+1}});
+  }
  }
  resolveDirectionalSkills(){
   for(const u of this.units){
    if(u.hp<=0)continue;
    if(u.queuedVexRecast){
-    u.queuedVexRecast=false;const mark=u.vexMark,t=this.units.find(v=>v.id===mark?.targetId&&v.team!==u.team&&v.hp>0);
-    if(mark&&mark.until>=this.gameTime&&t&&this.performActionV40({actorId:u.id,kind:'recast',slot:'R',targetId:t.id,source:'vex_r2',requireVision:false}).ok){
-     // Closest navigable arrival point, not teleport directly into terrain.
-     const dx=u.x-t.x,dy=u.y-t.y,m=Math.hypot(dx,dy)||1;
-     for(const off of [180,240,320,450]){const p={x:t.x+dx/m*off/this.worldWidth,y:t.y+dy/m*off/this.worldWidth};if(this.walkable(p.x,p.y)){u.x=p.x;u.y=p.y;this.invalidateShopUndoOnDepartureV453Dev61(u);break;}}
-     const rank=u.skillRanks.R||1;
-     const vexRule=kitSpellV42('Vex','R');this.damage(t,vexRule.recastDamage[Math.min(rank-1,2)]+this.elementalStatsV452d3(u).ap*vexRule.recastApRatio,u,'magic','spell');
-     this.event(`${u.champ}: Shadow Surge segunda ativação no alvo marcado.`,u.team,'skill_vfx',u.id,{vfx:{type:'shadow_surge_recast',from:{x:u.x,y:u.y},to:{x:t.x,y:t.y},width:100,expiresAt:this.gameTime+2}});
-     u.vexMark=null;
-    }
+    u.queuedVexRecast=false;
+    this.startVexShadowDashV453Dev69(u);
    }
    const q=u.queuedDirectional;if(!q)continue;
    if(u.champ==='Irelia'&&q.slot==='E'){
     const result=this.castIreliaFlawlessDuetV453Dev43(u,q.point);
     if(result.ok)u.queuedDirectional=null;
     else if(!['incapacitado','recast_aguarde'].includes(result.reason))u.queuedDirectional=null;
+    continue;
+   }
+   if((u.champ==='Nami'||u.champ==='Vex')&&q.slot==='R'){
+    const shot=this.launchWaveShadowV453Dev69(u,'R',q.point);
+    if(shot.ok||!['incapacitado','deslocamento_interrompido'].includes(shot.reason))
+     u.queuedDirectional=null;
     continue;
    }
    if((u.stasisUntil||0)>this.gameTime||(u.stunUntil||0)>this.gameTime)continue;
@@ -3518,7 +3582,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -4959,6 +5023,35 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   this.event('Lux lançou Ligação da Luz.',u.team,'champion_projectile_launch_v453_dev68',u.id);
   return {...commit,pending:true,projectileId:projectile.id,dueAt:projectile.dueAt};
  }
+ // Dev69: Nami and Vex R have individual travelling missiles (no instant damage).
+ launchWaveShadowV453Dev69(u,slot,point){
+  if(!u||!['Nami','Vex'].includes(u.champ)||slot!=='R'||u.hp<=0||
+     !point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||
+     point.x<0||point.x>1||point.y<0||point.y>1)
+   return {ok:false,reason:'ponto_inválido'};
+  const rule=kitSpellV42(u.champ,'R'),origin={x:u.x,y:u.y};
+  const dx=(point.x-origin.x)*this.worldWidth,dy=(point.y-origin.y)*this.worldHeight;
+  const magnitude=Math.hypot(dx,dy);
+  if(magnitude<1)return {ok:false,reason:'direção_inválida'};
+  const rank=Math.max(1,Math.min(3,u.skillRanks?.R||1));
+  const range=rule.rangeByRank?.[rank-1]||rule.range;
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   point,source:u.champ.toLowerCase()+'_r_v453_dev69',
+   costOverride:rule.mana[Math.min(rank-1,rule.mana.length-1)],
+   cooldownOverride:this.abilityCooldownV452d3(u,'R'),checkRange:false});
+  if(!commit.ok)return commit;
+  const speed=u.champ==='Nami'?850:1600;
+  const p={id:u.champ.toLowerCase()+'_r_'+(++this.championProjectileSeqV453Dev42),
+   kind:u.champ.toLowerCase()+'_r',ownerId:u.id,team:u.team,origin,
+   unit:{x:dx/magnitude,y:dy/magnitude},range,width:rule.width,speed,
+   raw:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+   hitIds:[],createdAt:this.gameTime,dueAt:this.gameTime+range/speed,
+   traveledV453Dev43:0,riftRevision:this.riftV452d4?.revision??0};
+  this.championProjectilesV453Dev42.push(p);
+  this.event(u.champ+' lançou sua ultimate direcional.',u.team,'champion_projectile_launch_v453_dev69',u.id,{
+   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
+  return {...commit,projectileId:p.id,pending:true,dueAt:p.dueAt};
+ }
  // Swept cast direction is fixed, but potential interceptors are looked up at
  // the tick of impact: a minion that walks into the ray can stop the shot.
  // DEV43: incremental swept intervals, not a full-range ray evaluated after 1s.
@@ -5001,6 +5094,46 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(p.kind==='nami_r'||p.kind==='vex_r'){
+    // These ultimates cross map terrain but obey enemy projectile barriers.
+    // Sweep only the untraversed segment, one hit per physical unit ID.
+    const cutoff=barrierDepth;
+    let reason=null,lastDepth=to;
+    for(const {v,depth} of line){
+     if(depth>=cutoff-1e-7)break;
+     if(p.hitIds.includes(v.id))continue;
+     if((v.projectileGuardUntil||0)>now){reason='bloqueio_projétil';lastDepth=depth;break;}
+     const shielded=this.effectResolverV41().has(v,'spell_shield');
+     this.damage(v,p.raw,owner,'magic','spell');
+     p.hitIds.push(v.id);lastDepth=depth;
+     if(p.kind==='nami_r'&&v.champ&&!shielded&&v.hp>0){
+      this.applyEffectV41(v,'knockup',{source:owner,duration:.5,key:'nami_r_'+p.id});
+      this.applyEffectV41(v,'slow',{source:owner,
+       duration:2+2*Math.min(1,Math.max(0,depth)/p.range),
+       power:.70,key:'nami_r_slow_'+p.id});
+     }
+     if(p.kind==='vex_r'&&v.champ){
+      // The first enemy champion absorbs the missile even if shielded.
+      if(!shielded&&v.hp>0){
+       owner.vexMark={targetId:v.id,until:now+4};
+       v.revealedUntil??={};v.revealedUntil[p.team]=Math.max(v.revealedUntil[p.team]||0,now+4);
+      }
+      reason=shielded?'escudo_de_feitiço':'impacto_marca';break;
+     }
+    }
+    if(!reason&&Number.isFinite(cutoff)){reason='bloqueio_posicional';lastDepth=cutoff;}
+    p.traveledV453Dev43=to;
+    if(!reason&&to<p.range-1e-7){still.push(p);continue;}
+    reason??='fim_alcance';
+    (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,ownerId:p.ownerId,
+     hitIds:[...p.hitIds],hitId:owner.vexMark?.targetId||null,reason,
+     origin,end:position(lastDepth),traveled:lastDepth,riftRevision:p.riftRevision});
+    if(this.championProjectileHistoryV453Dev42.length>100)this.championProjectileHistoryV453Dev42.shift();
+    this.event((p.kind==='nami_r'?'Onda Violenta: ':'Rajada Sombria: ')+reason,
+     p.team,'champion_projectile_impact_v453_dev69',p.ownerId,{
+      observedBy:['blue','red'].filter(team=>team===p.team||this.canSeePoint(team,position(lastDepth)))});
+    continue;
    }
    if(p.kind==='lux_q'){
     // Incremental sweep: each already-hit entity consumes exactly one slot.
@@ -5246,7 +5379,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(!defensive&&!this.duelPermission(u,target,false)){o.comboStatus='alvo não autorizado pela visão';continue;}
    const summonerRange=['IGNITE','EXHAUST'].includes(slot)?650:0;
    const slotRange=summonerRange||(u.champ==='Lux'&&slot==='Q'?kitSpellV42('Lux','Q').range:(['Q','W','E','R'].includes(slot)?abilityRule(u,slot).range:(u.range||.035)*this.worldWidth));
-   if(!defensive&&slot!=='FLASH'&&this.mapDistance(u,target)>slotRange){o.comboStatus='fora de alcance: '+Math.round(slotRange)+' unidades';continue;}
+   const vexR2=u.champ==='Vex'&&slot==='R'&&u.vexMark?.until>this.gameTime&&u.vexMark?.targetId===target?.id;
+   if(!defensive&&slot!=='FLASH'&&!vexR2&&this.mapDistance(u,target)>slotRange){o.comboStatus='fora de alcance: '+Math.round(slotRange)+' unidades';continue;}
    if(['IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(slot)&&!this.hasSummonerV452d4Dev11(u,slot.toLowerCase())){
     o.comboStatus=slot+' não equipado';o.comboIndex++;continue;
    }
@@ -5293,6 +5427,21 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(u.champ==='Lux'&&slot==='Q'){
     const result=this.launchLuxBindingV453Dev68(u,{x:target.x,y:target.y});
     if(!result.ok){o.comboStatus=result.reason;continue;}
+    o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
+    o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
+    continue;
+   }
+   // R2 in a combo is a movement recast, not a second paid ultimate.
+   if(vexR2){
+    const dash=this.startVexShadowDashV453Dev69(u);
+    if(!dash.ok){o.comboStatus=dash.reason;continue;}
+    o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
+    o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
+    continue;
+   }
+   if(slot==='R'&&['Nami','Vex'].includes(u.champ)){
+    const launched=this.launchWaveShadowV453Dev69(u,slot,{x:target.x,y:target.y});
+    if(!launched.ok){o.comboStatus=launched.reason;continue;}
     o.comboIndex=(o.comboIndex||0)+1;o.comboNextAt=this.gameTime+1;
     o.comboStatus=o.comboIndex>=sequence.length?'concluído':'próximo: '+sequence[o.comboIndex];
     continue;

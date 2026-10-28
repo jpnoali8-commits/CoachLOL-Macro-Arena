@@ -1,0 +1,31 @@
+name: CoachLOL dev69 — Skills projectile contracts
+
+on:
+  pull_request:
+    branches:
+      - dev69/integration
+
+permissions:
+  contents: read
+
+jobs:
+  nami-vex:
+    name: Nami R / Vex R / PvP / checkpoint
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node syntax check
+        run: |
+          node --check engine.mjs
+          node --check tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+      - name: New gameplay contracts
+        run: node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+      - name: Existing Lux and individual skills regressions
+        run: |
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs
+          node tests/v453_dev43_projectiles_irelia_e.test.mjs
+          node tests/v42_champion_kits.test.mjs
