@@ -51,7 +51,7 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
      Object.entries(BOARD_KITS_V453_DEV69).map(([champ,row])=>[champ,
       Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
        shape:row[slot].shape,range:row[slot].range,passiveOnly:!!row[slot].passiveOnly,
-       originSelf:!!row[slot].originSelf,implemented:row[slot].implemented}]))]))});
+       originSelf:!!row[slot].originSelf,boardTemporal:row[slot].boardTemporal||null,implemented:row[slot].implemented}]))]))});
    if(req.method==='GET'&&path==='/api/shop')return json(res,200,{ok:true,patch:'26.21',items:catalog.filter(i=>!i.notPurchasable&&!i.tags.includes('trinket')).map(i=>({id:i.id,name:i.name,cost:i.cost,refund:officialSaleValueV453Dev60(i.id),recipe:ITEM_RECIPES[i.id]||[],roleLock:i.roleLock||null,tags:i.tags,stats:i.stats})),referenceItems:Object.values(SHOP_REFERENCE_V453_DEV62.rows).filter(x=>x.status==='reference_only').map(x=>({id:x.id,name:x.name,cost:x.price,recipe:x.from||[],tags:x.tags||[],stats:null,playable:false}))});
    if(req.method==='GET'&&path==='/api/shop/quote'){
     const url=new URL(req.url,'http://localhost'),unitId=url.searchParams.get('unitId'),itemId=url.searchParams.get('itemId');

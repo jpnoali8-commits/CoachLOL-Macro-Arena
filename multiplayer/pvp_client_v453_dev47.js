@@ -109,6 +109,10 @@ function renderBoardSlotsV453(v){
   o.value=x.id;o.textContent=(x.team===v.team?'ALIADO · ':'INIMIGO · ')+x.champ;return o;}));
  select.value=targets.some(x=>x.id===prior)?prior:targets.find(x=>x.team!==v.team)?.id||'';
  const rule=selectedBoardRuleV453(),targeted=rule&&['target_enemy','target_ally'].includes(rule.shape);
+ const recast=(v.projection?.boardRecastsV453Dev69?.[selectedUnitId]||[])
+  .find(x=>x.slot===boardSlotV453&&x.expiresAt>(v.projection?.time||0));
+ $('boardRecastV453').classList.toggle('hidden',!recast);
+ $('boardRecastV453').disabled=!can||!recast;
  $('boardCastTargetV453').disabled=!can||!targeted||!select.value;
  $('boardTargetV453').disabled=!can||!targeted;
  $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!kit?
@@ -126,6 +130,12 @@ $('boardSkillToolbarV453').onclick=e=>{
  if(boardSelfV453(rule)){send('skill.self',{slot},selectedUnitId);setMode('move');}
  else setMode('skill');
  if(state)renderBoardSlotsV453(state);
+};
+$('boardRecastV453').onclick=()=>{
+ const can=(state?.projection?.boardRecastsV453Dev69?.[selectedUnitId]||[])
+  .some(x=>x.slot===boardSlotV453);
+ if(!can)return;
+ return send('skill.self',{slot:boardSlotV453},selectedUnitId);
 };
 $('boardCastTargetV453').onclick=()=>{
  const rule=selectedBoardRuleV453(),id=$('boardTargetV453').value;
