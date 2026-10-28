@@ -2747,6 +2747,86 @@ export class Arena {
   return this.damage(v,30+10*(Math.max(1,u.level)-1)+.35*this.elementalStatsV452d3(u).ap,
    u,'magic','lux_illumination_v453_dev69_m2');
  }
+ // Milestone M3: Lux Final Spark has a one-second wind-up and resolves from
+ // the snapshotted launch origin/direction; not an instant legacy R.
+ castLuxFinalSparkV453Dev69M3(u,point){
+  const rule=kitSpellV42(u?.champ,'R');
+  if(!u||u.champ!=='Lux'||u.hp<=0||!rule||!point||
+    !Number.isFinite(point.x)||!Number.isFinite(point.y))return {ok:false,reason:'ponto_inválido'};
+  const x=(point.x-u.x)*this.worldWidth,y=(point.y-u.y)*this.worldHeight;
+  const length=Math.hypot(x,y);
+  if(length<1)return {ok:false,reason:'direção_inválida'};
+  const rank=u.skillRanks?.R||0;
+  if(rank<1||rank>3)return {ok:false,reason:'não_aprendido'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   point,checkRange:false,source:'lux_final_spark_v453_dev69_m3'});
+  if(!commit.ok)return commit;
+  const id='lux_final_spark_'+(++this.championProjectileSeqV453Dev42);
+  const state={id,ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},
+   unit:{x:x/length,y:y/length},range:rule.range,width:rule.width,
+   raw:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+   castAt:this.gameTime,impactAt:this.gameTime+1,rank};
+  (this.luxFinalSparkPendingV453Dev69M3??=[]).push(state);
+  this.event('Lux iniciou Final Spark.',u.team,'lux_final_spark_cast_v453_dev69_m3',u.id,
+   {observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
+  return {...commit,pending:true,projectileId:id,dueAt:state.impactAt};
+ }
+ advanceLuxFinalSparkV453Dev69M3(){
+  const next=[];
+  for(const p of this.luxFinalSparkPendingV453Dev69M3||[]){
+   if(this.gameTime<p.impactAt){next.push(p);continue;}
+   const u=this.units.find(v=>v.id===p.ownerId&&v.team===p.team);
+   if(!u||u.hp<=0)continue; // Death cancels beam, never charges again.
+   const hits=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)).map(v=>{
+      const x=(v.x-p.origin.x)*this.worldWidth,y=(v.y-p.origin.y)*this.worldHeight;
+      return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};
+     }).filter(h=>h.depth>=0&&h.depth<=p.range&&h.side<=p.width/2)
+      .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id)));
+   for(const {v} of hits){
+    const dealt=this.damage(v,p.raw,u,'magic','spell');
+    if(dealt>0&&v.champ){
+     this.luxConsumeIlluminationV453Dev69M2(u,v);
+     if(v.hp>0){
+      this.luxMarkIlluminationV453Dev69M2(u,v);
+      v.revealedUntil??={};v.revealedUntil[p.team]=Math.max(v.revealedUntil[p.team]||0,this.gameTime+1.5);
+     }
+    }
+   }
+   this.event('Final Spark atingiu '+hits.length+' alvos.',p.team,'lux_final_spark_hit_v453_dev69_m3',
+    u.id,{observedBy:['blue','red'].filter(team=>team===p.team||
+     this.canSeePoint(team,p.origin))});
+  }
+  this.luxFinalSparkPendingV453Dev69M3=next;
+ }
+ // The return leg of Prismatic Barrier homes toward Lux's CURRENT position,
+ // unlike fixed inverse rays. Process only traveled segments and never award
+ // more than one shield per ally on this pass.
+ advanceLuxWReturnV453Dev69M3(p,owner,now){
+  if(!owner||owner.hp<=0)return true;
+  if(now<=(p.lastReturnAtV453Dev69M3??p.createdAt))return false;
+  const from=p.returnPositionV453Dev69M3||p.origin;
+  const ux=(owner.x-from.x)*this.worldWidth,uy=(owner.y-from.y)*this.worldHeight;
+  const len=Math.hypot(ux,uy),step=Math.max(0,(now-(p.lastReturnAtV453Dev69M3??p.createdAt))*p.speed);
+  const travel=Math.min(len,step),xdir=len>0?ux/len:0,ydir=len>0?uy/len:0;
+  for(const v of this.units.filter(v=>v.team===p.team&&v.hp>0&&v.id!==owner.id)){
+   if((p.hitIds||[]).includes(v.id)||len<=0)continue;
+   const rx=(v.x-from.x)*this.worldWidth,ry=(v.y-from.y)*this.worldHeight;
+   const depth=rx*xdir+ry*ydir,side=Math.abs(rx*ydir-ry*xdir);
+   if(depth>=-1e-7&&depth<=travel+1e-7&&side<=p.width/2){
+    p.hitIds.push(v.id);
+    this.luxPrismaticShieldV453Dev69M2(v,p.shield,p.id+'_'+v.id,owner);
+   }
+  }
+  p.returnPositionV453Dev69M3={x:from.x+xdir*travel/this.worldWidth,
+   y:from.y+ydir*travel/this.worldHeight};
+  p.lastReturnAtV453Dev69M3=now;
+  if(travel>=len-1e-7){
+   this.luxPrismaticShieldV453Dev69M2(owner,p.shield,p.id+'_self_return',owner);
+   return true;
+  }
+  return false;
+ }
  // Dev69 M2: directed skillshots for Ahri Q/E, Jinx W and Lux W.
  // Spells commit cost and cooldown at launch, never when an intention is queued.
  launchChampionDirectionalV453Dev69M2(u,slot,point){
@@ -2997,6 +3077,12 @@ export class Arena {
    if((u.champ==='Nami'||u.champ==='Vex')&&q.slot==='R'){
     const shot=this.launchWaveShadowV453Dev69(u,'R',q.point);
     if(shot.ok||!['incapacitado','deslocamento_interrompido'].includes(shot.reason))
+     u.queuedDirectional=null;
+    continue;
+   }
+   if(u.champ==='Lux'&&q.slot==='R'){
+    const cast=this.castLuxFinalSparkV453Dev69M3(u,q.point);
+    if(cast.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(cast.reason))
      u.queuedDirectional=null;
     continue;
    }
@@ -4075,7 +4161,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5616,6 +5702,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(now<=p.createdAt){still.push(p);continue;}
    const owner=this.units.find(u=>u.id===p.ownerId);
    if(!owner)continue;
+   if(p.kind==='lux_w_back'){
+    if(!this.advanceLuxWReturnV453Dev69M3(p,owner,now))still.push(p);
+    continue;
+   }
    const from=Math.min(p.range,Math.max(0,p.traveledV453Dev43||0));
    const elapsed=now-p.createdAt;
    const travelled=p.kind==='vex_q'?(elapsed<=p.accelAt/p.speed?elapsed*p.speed:
@@ -5696,8 +5786,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const back={...previous,id:previous.id+'_return',kind:isOrb?'ahri_q_back':'lux_w_back',
       origin:start,unit:{x:-p.unit.x,y:-p.unit.y},hitIds:[],
       createdAt:now,traveledV453Dev43:0,phase:'return'};
+     if(isWand){back.returnPositionV453Dev69M3={...start};back.lastReturnAtV453Dev69M3=now;}
      still.push(back);
-     if(isWand)this.luxPrismaticShieldV453Dev69M2(owner,p.shield,p.id+'_self_return');
      continue;
     }
     reason??='fim_alcance';
