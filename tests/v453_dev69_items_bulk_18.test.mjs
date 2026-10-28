@@ -141,7 +141,7 @@ test('Kaenic purchase requires 15 seconds without incoming magic before the firs
  const a=make(),u=equip(a,'kaenic_rookern'),v=hero(a,'red');
  assert.equal(u.kaenicReadyAtV453Dev69,a.gameTime+15);
  a.damage(u,45,v,'magic','spell');assert.equal(a.effectResolverV41().list(u).some(x=>x.key==='kaenic_v453_dev69'),false);
- a.gameTime+=15;a.refreshKaenicShieldV453Dev69(u);
+ a.gameTime+=15;
  assert.ok(a.effectResolverV41().list(u).some(x=>x.key==='kaenic_v453_dev69'));
 });
 test('Undo in fountain restores complete reactive item state and money',()=>{
