@@ -1,3 +1,5 @@
+> **MARCO DE PRODUÇÃO ATUAL — V4.5.3-dev69 candidata, NÃO release.** Base canônica de origem V4.5.3-dev68; usar somente `dev69/integration` como integração após PRs #6 e #7. Ler `docs/parallel/FAST_LANE_DEV69.md`, `STATUS_DEV69.md`, `QA_DEV69_INTEGRACAO.md`. `main` intocada. Kits e itens parciais, assets GitHub pendentes. Adendos abaixo são históricos, não substituem esta base.
+
 > **MARCO CANÔNICO — V4.5.3-dev67.** Base única: ZIP dev67. Ler `README_CONTINUAR_DEV67.md`, `QA_V453_DEV67.md`, `ROADMAP_V453_DEV67.md`, `MEMORIA_CONTINUIDADE_V453_DEV67.md`. Preserve `.git`, PvP 1x1 e regra Desfazer da fonte.
 
 > **MARCO CANÔNICO — V4.5.3-dev66.** Base única: pacote mestre dev66. Ler `README_CONTINUAR_DEV66.md`, `QA_V453_DEV66.md`, `ROADMAP_V453_DEV66.md`, `MEMORIA_CONTINUIDADE_V453_DEV66.md`. Nunca retornar a versões antigas; preservar `.git`, PvP 1×1/5 campeões por pessoa e Desfazer da fonte.
