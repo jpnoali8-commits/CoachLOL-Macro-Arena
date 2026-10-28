@@ -180,3 +180,13 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - Implementações ainda **board_prototype** e não paridade 1:1: Tibbers não é um pet móvel/atacável, falta geometria contínua do anel de Veigar, passos visuais/timing de projéteis e efeitos adicionais específicos de cada campeão. Os 30 perfis continuam com pendências para certificação.
 - QA: `tests/v453_dev69_board_m11.test.mjs` + QA M10/M9 + regressões PvP/Skills. Testes exercitam azul e vermelho, snapshot, alvo oculto, controle de spells e API do próprio servidor (cookie e posse).
 - Integrated QA Node/browser ainda falha deliberadamente em sync pré-merge; cabe ao integrador reconciliar todas as branches e regenerar o artefato browser, antes de declarar entrega final.
+
+
+## M12 — Recasts e passivas condicionais (contratos de tabuleiro, não certificados)
+- Motor: Ziggs W lança carga temporizada no tabuleiro (`satchel_charge`, 4s simulados); recast da mesma W aciona a detonação sem segundo débito de mana/cooldown e sem duplicar hits. Expiração detona uma única vez. Deslocamento usa colisor/área caminhável do motor.
+- Cliente PvP: botão compacto `Reativar` aparece se existir carga válida para o campeão selecionado. `PvPRoom.view` entrega só slots de recast dos cinco campeões do jogador, sem o estado/posição/IDs das cargas da equipe adversária. Endpoint de kits inclui campo `boardTemporal` apenas como metadado.
+- Brand: Q verifica marca `Ablaze` pré-existente no alvo para stun; R alcança uma cadeia de até 3 inimigos distintos e próximos com ordem determinística. Ainda faltam rebotes completos entre alvos e a simulação de tempo de projétil.
+- Darius: ataques básicos e Q/W constroem marcas de Hemorrhage em campeões, limitadas a 5; DoT em ticks e aumento de R de acordo com marcas antes do cast. Ainda falta reset completo da R e alguns detalhes do buff Noxian Might.
+- `tests/v453_dev69_board_m12.test.mjs`: 19/19 PASS nas equipes azul e vermelha, incluindo separação de cookies HTTP, recast sem custo, auto-detonation, stacks, Brand e checkpoint.
+- Execução Skills: https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40783592904 (SUCCESS; M9 28/28, M10 263/263, M11 22/22, M12 19/19). Logic QA SUCCESS; Integrated QA falha exclusivamente em `Verify official Node to browser regeneration` antes de executar suite combinada; sincronização é responsabilidade do integrador.
+- **0 kits M12 declarados certificados**. Sem merge, sem alteração de `main`, `version.json` ou `engine.browser.js`.
