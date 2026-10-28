@@ -4487,7 +4487,7 @@ export class Arena {
  // Currently Nami W is implemented; unsupported abilities fail instead of inventing effects.
  queueTargetedSkill(team,unitId,slot,targetId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),target=this.units.find(v=>v.id===targetId);
-  if(u&&BOARD_KITS_V453_DEV69[u.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
+  if(u&&(BOARD_KITS_V453_DEV69[u.champ]||FORM_KITS_V453_M14[u.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
   if(!u||!target||u.hp<=0||target.hp<=0||this.teams[team].ready||this.ended||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Campeão ou fase indisponível.'};
   if(u.champ!=='Nami'||!['W','E'].includes(slot))return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
   if(slot==='E'&&target.team!==team)return {ok:false,reason:'E_requer_aliado'};
