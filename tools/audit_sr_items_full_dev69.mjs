@@ -84,6 +84,8 @@ const cell=v=>'"'+String(Array.isArray(v)?v.join(';'):v??'').replaceAll('"','""'
 writeFileSync(resolve(out,'matrix.csv'),cols.join(',')+'\n'+records.map(r=>cols.map(k=>cell(r[k])).join(',')).join('\n')+'\n');
 writeFileSync(resolve(out,'discrepancies.json'),JSON.stringify(issues,null,2)+'\n');
 console.log('DEV69 SR ITEM FULL-AUDIT',JSON.stringify(report.summary,null,2));
+const issueKinds=Object.fromEntries([...new Set(issues.map(i=>i.code))].sort().map(code=>[code,issues.filter(x=>x.code===code).map(x=>x.riot_id+':'+(x.local_id||'-'))]));
+console.log('AUDIT_DISCREPANCIES_BY_TYPE',JSON.stringify(issueKinds,null,2));
 console.log('Artifacts: '+out);
 if(normals.length!==202||sr.counts.normalStore!==202||sr.counts.referenceOnly!==0){
  console.error('Full-audit gate: unexpected normal-shop counts');process.exitCode=1;
