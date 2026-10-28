@@ -1,0 +1,37 @@
+name: Dev69 - verify 78 binary assets and full test
+on:
+  push:
+    branches:
+      - dev69/assets-import
+  pull_request:
+    branches:
+      - dev69/integration
+permissions:
+  contents: read
+jobs:
+  assets-integrity:
+    name: Original binary assets SHA-256 78/78
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate every original asset (SHA-256, no placeholders)
+        run: python tools/verify_binary_assets_dev69.py
+  full-regression:
+    name: npm test full on restored assets
+    needs: assets-integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and browser generation parity
+        run: |
+          node --check engine.mjs
+          node --check engine.browser.js
+          python tools/sync_browser_v43.py
+          git diff --exit-code -- engine.browser.js
+      - name: Full regression on binary-complete checkout
+        run: npm test
