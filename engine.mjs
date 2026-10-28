@@ -91,7 +91,7 @@ export const CLASS_STATS={
  enchanter:{hp:760,mana:770,ad:43,ap:75,armor:23,range:.082,speed:.00212,atkSpeed:1.3,skill:130},
  support:{hp:1060,mana:580,ad:54,ap:48,armor:42,range:.020,speed:.00215,atkSpeed:1.1,skill:110},
 };
-const CK={Kennen:'mage',Khazix:'assassin',Ekko:'assassin',Vayne:'marksman',Nami:'enchanter',Volibear:'fighter',Darius:'fighter',Akali:'assassin',Yuumi:'enchanter',Jinx:'marksman',Caitlyn:'marksman',Lux:'mage',Ahri:'mage',Warwick:'fighter',Mordekaiser:'fighter',Vex:'mage',Lucian:'marksman',Senna:'enchanter',Thresh:'support',Leona:'tank',Yasuo:'fighter',Yone:'fighter',Vi:'fighter',LeeSin:'fighter',JarvanIV:'fighter',Riven:'fighter',Gwen:'fighter',Orianna:'mage',Zed:'assassin',Talon:'assassin',Janna:'enchanter',Braum:'tank',Sona:'enchanter',Jhin:'marksman',Kaisa:'marksman',Ezreal:'marksman',Ashe:'marksman',Pantheon:'fighter',Graves:'marksman',Zyra:'mage',Qiyana:'assassin',Veigar:'mage',Olaf:'fighter',Irelia:'fighter',Nasus:'tank',Chogath:'tank',Viktor:'mage',KSante:'tank'};
+const CK={Kennen:'mage',Khazix:'assassin',Ekko:'assassin',Vayne:'marksman',Nami:'enchanter',Volibear:'fighter',Darius:'fighter',Akali:'assassin',Yuumi:'enchanter',Jinx:'marksman',Caitlyn:'marksman',Lux:'mage',Ahri:'mage',Warwick:'fighter',Mordekaiser:'fighter',Vex:'mage',Lucian:'marksman',Senna:'enchanter',Thresh:'support',Leona:'tank',Yasuo:'fighter',Yone:'fighter',Vi:'fighter',LeeSin:'fighter',JarvanIV:'fighter',Riven:'fighter',Gwen:'fighter',Orianna:'mage',Zed:'assassin',Talon:'assassin',Janna:'enchanter',Braum:'tank',Sona:'enchanter',Jhin:'marksman',Kaisa:'marksman',Ezreal:'marksman',Ashe:'marksman',Pantheon:'fighter',Graves:'marksman',Zyra:'mage',Qiyana:'assassin',Veigar:'mage',Olaf:'fighter',Irelia:'fighter',Nasus:'tank',Chogath:'tank',Viktor:'mage',KSante:'tank',Fiddlesticks:'mage',Kalista:'marksman',Sylas:'fighter'};
 export const catalog=[
 // DEV69 Batch5 — support actives and reactive procs, verified PC 26.21 / DDragon 16.21.1.
 {id:'shurelyas_battlesong',name:"Hino Bélico de Shurelya",cost:2200,stats:{"ap":50,"abilityHaste":15,"movePercent":4,"manaRegenBasePct":125},tags:['support','legendary','unique','active'],icon:'◈',riotId:2065},
@@ -1190,6 +1190,10 @@ export class Arena {
    if(u.role==='JG')u.smiteKey=u.summonerSlots[0]==='smite'?'d':'f';
    else u.summonerSpell=u.summonerSlots.find(x=>x!=='flash')||u.summonerSlots[1];
   }
+  for(const u of this.units){
+   if(u.champ==='Fiddlesticks'){u.trinket='effigy';u.wardCharges=2;u.trinketNextChargeAt=115;}
+   if(u.champ==='Kalista'){u.blackSpearAvailableV453Dev69C=true;u.oathswornIdV453Dev69C=null;}
+  }
   // In 2026 the SUPPORT starter is role-assigned. Deduct its cost from opening gold.
   for(const u of this.units.filter(u=>u.role==='SUP'))this.buy(u.team,u.id,'support_atlas');
   // Jungle pet choice remains selectable during preparation; before execution
@@ -1920,13 +1924,13 @@ export class Arena {
   if(!found)return null;let indices=[],it=goal;while(it!==start&&it>=0&&indices.length<2000){indices.push(it);it=parent[it]}indices.reverse();let pts=indices.map(i=>({x:((i%N)+.5)/N,y:(Math.floor(i/N)+.5)/N}));if(pts.length)pts[pts.length-1]={...to};return compress(pts);
  }
  wardActive(w){return (w.until===null||w.until===undefined||w.until>this.gameTime)&&(w.hp===undefined||w.hp>0);}
- wardRadius(w){return (WARD_RULES_2026[w.type||'stealth']?.vision||900)/this.worldWidth*(w.faelightSiteId&&w.faelightUntil>this.gameTime?1.25:1);}
+ wardRadius(w){return (w.type==='effigy'?900:(WARD_RULES_2026[w.type||'stealth']?.vision||900))/this.worldWidth*(w.faelightSiteId&&w.faelightUntil>this.gameTime?1.25:1);}
  // A live control ward is not disabled by an opposing control ward. Other
  // wards lose BOTH ordinary vision and their Faelight bonus while suppressed.
  // Reuse one predicate for fog and bonus-region visibility to avoid leaks.
  wardVisionSuppressedV452d4Dev26(w,enemyControls=null){
   if(!this.wardActive(w)||(w.disabledUntil||0)>this.gameTime)return true;
-  if(w.type==='control')return false; // control wards are not disabled by other controls or sweeps
+  if(w.type==='control'||w.type==='effigy')return false; // Effigy vision is never disabled.
   // Oracle drone is a radial electronic scan: terrain and brush do not block it.
   // A lingering scan cannot persist past the 2-second tail after leaving range.
   if(this.oracleDetectsWardV452d4Dev28(w.team==='blue'?'red':'blue',w)||
@@ -1937,14 +1941,17 @@ export class Arena {
  // Dev28: unlike control wards, the Oracle sweeper detects through geometry.
  // Detection does not grant normal terrain sight or permission to attack walls.
  oracleDetectsWardV452d4Dev28(team,w){
-  return this.wardActive(w)&&this.units.some(u=>u.team===team&&u.hp>0&&u.deadUntil<=this.gameTime&&
-   u.oracleUntil>this.gameTime&&this.mapDistance(u,w)<=WARD_RULES_2026.oracle.radius);
+  if(w.type==='effigy')return false;
+  return this.wardActive(w)&&(
+   (this.effigyScansV453Dev69C||[]).some(x=>x.team===team&&x.until>this.gameTime&&this.mapDistance(x,w)<=WARD_RULES_2026.oracle.radius)||
+   this.units.some(u=>u.team===team&&u.hp>0&&u.deadUntil<=this.gameTime&&
+    u.oracleUntil>this.gameTime&&this.mapDistance(u,w)<=WARD_RULES_2026.oracle.radius));
  }
  // Update the two-second ward-disabling tail while the drone actually scans it.
  // The field is serialized with the ward; no mutable global detector cache.
  refreshOracleWardsV452d4Dev28(){
   for(const w of this.wards){
-   if(w.type==='control'||!this.wardActive(w))continue;
+   if(['control','effigy'].includes(w.type)||!this.wardActive(w))continue;
    const enemy=w.team==='blue'?'red':'blue';
    if(this.oracleDetectsWardV452d4Dev28(enemy,w))
     w.oracleSuppressedUntilV452d4Dev28=Math.max(w.oracleSuppressedUntilV452d4Dev28||0,this.gameTime+2);
@@ -1957,15 +1964,17 @@ export class Arena {
   if(this.oracleDetectsWardV452d4Dev28(team,w))return true;
   if(!this.canSeePoint(team,w,sources))return false;
   if(w.riftRevealedByV452d4?.[team]>this.gameTime)return true;
-  if((w.type||'stealth')==='control')return true;
+  if(['control','effigy'].includes(w.type||'stealth'))return true;
   return this.wards.some(own=>own.team===team&&own.type==='control'&&this.wardActive(own)&&
    (own.disabledUntil||0)<=this.gameTime&&this.mapDistance(own,w)<=WARD_RULES_2026.control.vision&&this.lineOfSight(own,w));
  }
  addWard(team,owner,point,type='stealth'){
   const u=this.units.find(v=>v.id===owner&&v.team===team);
   if(!u||u.hp<=0||!this.walkable(point.x,point.y)||this.mapDistance(u,point)>(type==='farsight'?ITEM_REMAINDER_RULES_V453_DEV69_B7.farsight.range:625))return {ok:false,reason:'Posição fora de alcance ou bloqueada.'};
+  if(u.champ==='Fiddlesticks'&&type==='stealth'&&!(u.role==='SUP'&&u.supportQuest>=400))type='effigy';
+  if(type==='effigy'&&(u.champ!=='Fiddlesticks'||u.trinket!=='effigy'))return {ok:false,reason:'efigie_exclusiva'};
   if(type==='stealth'&&u.role==='SUP'&&u.supportQuest>=400)type='support';
-  if(type==='stealth'&&['oracle','farsight'].includes(u.trinket))return {ok:false,reason:'Troque o trinket na fonte para usar ward amarela.'};
+  if(type==='stealth'&&['oracle','farsight','effigy'].includes(u.trinket))return {ok:false,reason:'Troque o trinket na fonte para usar ward amarela.'};
   if(type==='farsight'&&u.trinket!=='farsight')return {ok:false,reason:'Equipe o trinket Sentinela Azul na fonte.'};
   if(type==='control'){
    if((u.controlWardStock||0)<1)return {ok:false,reason:'Compre uma sentinela de controle na fonte.'};
@@ -1976,13 +1985,19 @@ export class Arena {
   }else{
    if(u.wardCharges<1)return {ok:false,reason:'Sem cargas de ward.'};
    u.wardCharges--;
-   const max=WARD_RULES_2026[type==='farsight'?'farsight':'stealth'].limit;
-   const existing=this.wards.filter(w=>w.owner===owner&&w.type!=='control').sort((a,b)=>a.createdAt-b.createdAt);
+   const max=type==='effigy'?Infinity:WARD_RULES_2026[type==='farsight'?'farsight':'stealth'].limit;
+   const existing=this.wards.filter(w=>w.owner===owner&&w.type===type).sort((a,b)=>a.createdAt-b.createdAt);
    if(existing.length>=max){const removed=new Set(existing.slice(0,existing.length-max+1));this.wards=this.wards.filter(w=>!removed.has(w));}
   }
-  const duration=['control','farsight'].includes(type)?null:type==='support'?WARD_RULES_2026.support.duration:Math.round(90+30*Math.min(1,(this.units.reduce((sum,x)=>sum+x.level,0)/this.units.length-1)/17));
+  const duration=type==='effigy'?120+10*Math.min(18,Math.max(1,u.level)):['control','farsight'].includes(type)?null:type==='support'?WARD_RULES_2026.support.duration:Math.round(90+30*Math.min(1,(this.units.reduce((sum,x)=>sum+x.level,0)/this.units.length-1)/17));
   const w={id:'ward_'+this.nextId++,owner,team,x:point.x,y:point.y,type,
-   hp:type==='control'?4:type==='farsight'?1:3,maxHp:type==='control'?4:type==='farsight'?1:3,createdAt:this.gameTime,until:duration===null?null:this.gameTime+duration,disabledUntil:0};
+   hp:type==='control'?4:['effigy','farsight'].includes(type)?1:3,maxHp:type==='control'?4:['effigy','farsight'].includes(type)?1:3,createdAt:this.gameTime,until:duration===null?null:this.gameTime+duration,disabledUntil:0};
+  if(type==='effigy'){
+   w.disguiseChampV453Dev69C='Fiddlesticks';w.triggeredAtV453Dev69C=null;
+   w.fakeActionV453Dev69C=['flash','approach','retreat','terrify','crowstorm'][this.nextId%5];
+   if(u.level>=6)(this.effigyScansV453Dev69C||(this.effigyScansV453Dev69C=[])).push({team,owner,at:this.gameTime,until:this.gameTime+6,x:point.x,y:point.y});
+   if(u.wardCharges<2)u.trinketNextChargeAt=Math.max(this.gameTime+120-5*Math.min(18,Math.max(1,u.level)),u.trinketNextChargeAt||0);
+  }
   const site=['stealth','support','control','farsight'].includes(type)?this.riftAllFeaturesV452d4('faelights').find(f=>f.activationVerified===true&&Math.hypot(f.x-point.x,f.y-point.y)<=f.radius):null;
   if(site){
    this.wards=this.wards.filter(other=>!(other.team===team&&other.faelightSiteId===site.id));
@@ -1998,8 +2013,60 @@ export class Arena {
   if(this.mapDistance(u,w)>u.range*this.worldWidth)return {ok:false,reason:'Aproxime-se para atacar a sentinela.'};
   // A scan behind a wall gives a silhouette, not a wall-piercing basic attack.
   if(!this.lineOfSight(u,w))return {ok:false,reason:'Sentinela detectada, mas sem acesso para atacar através da parede.'};
-  w.hp=Math.max(0,w.hp-(u.items?.includes('umbral_glaive')?ITEM_REMAINDER_RULES_V453_DEV69_B7.umbral_glaive.wardBonusHits:1));if(w.hp<=0){this.wards=this.wards.filter(v=>v!==w);this.creditGoldV452d4Dev7(u,(WARD_RULES_2026[w.type||'stealth']?.bounty||10),'ward_bounty');this.postgameEntryV452d4Dev7(u).wardsDestroyed++;this.event(`${u.champ} destruiu sentinela inimiga.`,team,'ward_destroy',u.id);}
+  w.hp=Math.max(0,w.hp-(u.items?.includes('umbral_glaive')?ITEM_REMAINDER_RULES_V453_DEV69_B7.umbral_glaive.wardBonusHits:1));if(w.hp<=0){this.wards=this.wards.filter(v=>v!==w);this.creditGoldV452d4Dev7(u,w.type==='effigy'?3:(WARD_RULES_2026[w.type||'stealth']?.bounty||10),'ward_bounty');this.postgameEntryV452d4Dev7(u).wardsDestroyed++;this.event(`${u.champ} destruiu sentinela inimiga.`,team,'ward_destroy',u.id);}
   return {ok:true,destroyed:w.hp<=0,hp:w.hp};
+ }
+
+ // DEV69 conditional equipment: Fiddlesticks decoys and Kalista's oath.
+ advanceConditionalItemsV453Dev69C(){
+  this.effigyScansV453Dev69C=(this.effigyScansV453Dev69C||[]).filter(x=>x.until>this.gameTime);
+  for(const w of this.wards){
+   if(w.type!=='effigy'||!this.wardActive(w))continue;
+   if(w.triggeredAtV453Dev69C!=null){
+    if(this.gameTime>=w.triggeredAtV453Dev69C+2)w.hp=0;
+    continue;
+   }
+   const enemy=this.units.filter(u=>u.hp>0&&u.team!==w.team&&
+    this.mapDistance(u,w)<=900&&this.canSeePoint(u.team,w))
+    .sort((a,b)=>this.mapDistance(a,w)-this.mapDistance(b,w)||a.id.localeCompare(b.id))[0];
+   if(enemy){
+    w.triggeredAtV453Dev69C=this.gameTime;w.triggeredByV453Dev69C=enemy.id;
+    this.event('Efígie de Fiddlesticks ativada: perigo na área!',w.team,'effigy_danger',w.owner);
+   }
+  }
+  for(const u of this.units){
+   const p=u.pendingOathswornV453Dev69C;
+   if(!p||p.resolveAt>this.gameTime)continue;
+   u.pendingOathswornV453Dev69C=null;
+   const ally=this.units.find(v=>v.id===p.targetId&&v.team===u.team&&v.hp>0);
+   if(!ally)continue;
+   const previous=this.units.find(v=>v.id===u.oathswornIdV453Dev69C);
+   if(previous&&previous.oathswornByV453Dev69C===u.id)previous.oathswornByV453Dev69C=null;
+   u.oathswornIdV453Dev69C=ally.id;ally.oathswornByV453Dev69C=u.id;
+   ally.oathswornAnimationUntilV453Dev69C=this.gameTime+6;
+   this.event('Kalista vinculou '+ally.champ+' como Juramentado.',u.team,'kalista_oath',u.id);
+  }
+ }
+ bindBlackSpearV453Dev69C(team,unitId,targetId){
+  const u=this.units.find(v=>v.id===unitId&&v.team===team),ally=this.units.find(v=>v.id===targetId&&v.team===team&&v.hp>0);
+  if(!u||!ally||u.hp<=0||u.id===ally.id||this.ended||this.teams[team].ready)return {ok:false,reason:'aliado_indisponivel'};
+  if(u.champ!=='Kalista'&&!(u.champ==='Sylas'&&u.hijackedFatesCallV453Dev69C))return {ok:false,reason:'lanca_negra_exclusiva'};
+  if(this.gameTime>=180)return {ok:false,reason:'pacto_encerrado_3min'};
+  if(!u.blackSpearAvailableV453Dev69C||u.pendingOathswornV453Dev69C)return {ok:false,reason:'lanca_negra_indisponivel'};
+  u.blackSpearAvailableV453Dev69C=false;
+  u.pendingOathswornV453Dev69C={targetId,castAt:this.gameTime,resolveAt:this.gameTime+6.5};
+  this.recordIntentV40(team,unitId,'black_spear',{targetId});
+  return {ok:true,resolveAt:u.pendingOathswornV453Dev69C.resolveAt};
+ }
+ recoverBlackSpearV453Dev69C(team,unitId){
+  const u=this.units.find(v=>v.id===unitId&&v.team===team);
+  if(!u||u.hp<=0||this.gameTime>=180||this.ended||this.teams[team].ready||
+     (u.champ!=='Kalista'&&!(u.champ==='Sylas'&&u.hijackedFatesCallV453Dev69C)))return {ok:false,reason:'lanca_negra_indisponivel'};
+  const shop=this.map.objects.find(o=>o.id===team+'_spawn_shop');
+  if(!shop||this.mapDistance(u,shop)>1125)return {ok:false,reason:'retorne_a_fonte'};
+  if(u.pendingOathswornV453Dev69C||u.blackSpearAvailableV453Dev69C)return {ok:false,reason:'ja_possui_lanca_negra'};
+  u.blackSpearAvailableV453Dev69C=true;
+  return {ok:true,cost:0};
  }
  // Trinkets are zero-cost, exclusive-slot purchases. No six-slot inventory occupancy.
  // Switching preserves the existing recharge timer, so it cannot reset cooldown.
@@ -2008,6 +2075,7 @@ export class Arena {
   if(!u||!['stealth','oracle','farsight'].includes(type)||this.teams[team].ready||!['preparation','planning'].includes(this.phase))return {ok:false,reason:'Troca de trinket indisponível.'};
   const shop=this.map.objects.find(o=>o.id===team+'_spawn_shop');
   if(u.hp<=0||!shop||this.mapDistance(u,shop)>1125)return {ok:false,reason:'Troque o trinket somente na fonte.'};
+  if(u.champ==='Fiddlesticks')return {ok:false,reason:'trinket_exclusivo_efigie'};
   if((u.trinket||'stealth')===type)return {ok:false,reason:'Trinket já equipado.'};
   u.trinket=type;
   if(type==='oracle')u.wardCharges=0;
@@ -4498,6 +4566,12 @@ export class Arena {
  }
  restoreVisionCharges(){
   for(const u of this.units){
+   if(u.trinket==='effigy'){
+    const cd=120-5*Math.min(18,Math.max(1,u.level));
+    if(u.wardCharges>=2){u.trinketNextChargeAt=Math.max(this.gameTime,u.trinketNextChargeAt||0);continue;}
+    if(this.gameTime>=(u.trinketNextChargeAt||cd)){u.wardCharges=Math.min(2,u.wardCharges+1);u.trinketNextChargeAt=this.gameTime+cd;}
+    continue;
+   }
    if(u.trinket==='oracle'||u.role==='SUP'&&u.supportQuest>=400)continue;
    if(u.wardCharges>=2){u.trinketNextChargeAt=Math.max(this.gameTime,u.trinketNextChargeAt||0);continue;}
    if(this.gameTime>=(u.trinketNextChargeAt||210)){
@@ -4832,7 +4906,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.b7MidQuestPassive();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.advanceRemainderItemsV453Dev69B7();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.b7MidQuestPassive();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.advanceRemainderItemsV453Dev69B7();this.refreshOracleWardsV452d4Dev28();this.advanceConditionalItemsV453Dev69C();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
