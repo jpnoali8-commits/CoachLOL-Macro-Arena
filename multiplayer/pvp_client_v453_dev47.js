@@ -283,6 +283,59 @@ function render(v){state=v;sequence=Math.max(sequence,v.nextSequence||1);
  renderShopUI();renderPlanningComboV453Dev65(v);renderBoardSlotsV453(v);draw();}
 $('pvpResultContinue').onclick=()=>{resultDismissedFor=state?.roomId;$('pvpResultOverlay').classList.add('hidden');};
 function connect(){if(stream)stream.close();stream=new EventSource('/api/stream');stream.addEventListener('state',e=>{try{const v=JSON.parse(e.data);if(v.revision>=lastRevision){lastRevision=v.revision;render(v);}}catch{}});stream.onerror=()=>{$('status').textContent='Reconectando…';};}
+// The viewport uses the SAME map image and the server-provided active
+// elemental terrain samples; a filter is visual only. No simulated 2nd map.
+function renderRealmV453(){
+ const realm=state?.projection?.realm,el=$('realmOverlayV453');
+ el.classList.toggle('hidden',!realm);
+ if(!realm)return;
+ $('realmTimeV453').textContent=Math.max(0,Math.ceil(realm.endsAt-(state.projection.time||0)))+'s';
+ const c=$('realmCanvasV453'),g=c.getContext('2d'),w=c.width,h=c.height,
+  cx=realm.centerWorld.x,cy=realm.centerWorld.y,rr=realm.radiusWorld;
+ g.clearRect(0,0,w,h);
+ g.fillStyle='#0a0d13';g.fillRect(0,0,w,h);
+ g.save();g.beginPath();g.arc(w/2,h/2,w*.48,0,Math.PI*2);g.clip();
+ if(map.complete&&map.naturalWidth){
+  const sw=rr*2/realm.worldWidth*map.naturalWidth,
+   sh=rr*2/realm.worldHeight*map.naturalHeight,
+   sx=cx*map.naturalWidth-sw/2,sy=cy*map.naturalHeight-sh/2;
+  g.filter='grayscale(.72) sepia(.32) contrast(1.2) brightness(.75)';
+  g.drawImage(map,sx,sy,sw,sh,0,0,w,h);
+  g.filter='none';
+ }
+ const rows=realm.terrain||[],n=rows.length,cell=n?w/n:0;
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+  if(rows[y].wall[x]==='1'){g.fillStyle='rgba(10,8,17,.64)';g.fillRect(x*cell,y*cell,cell+.4,cell+.4);}
+  else if(rows[y].brush[x]==='1'){g.fillStyle='rgba(87,75,100,.40)';g.fillRect(x*cell,y*cell,cell+.4,cell+.4);}
+ }
+ for(const u of realm.units||[]){
+  const x=w/2+(u.x-cx)*realm.worldWidth/(2*rr)*w,
+   y=h/2+(u.y-cy)*realm.worldHeight/(2*rr)*h;
+  g.beginPath();g.arc(x,y,8,0,Math.PI*2);
+  g.fillStyle=u.team==='blue'?'#d9bf87':'#b66b75';g.fill();
+  g.strokeStyle='#08080b';g.lineWidth=2;g.stroke();
+  g.fillStyle='#f5f0e3';g.font='11px system-ui';
+  g.fillText(u.champ,x+10,y-6);
+  g.fillStyle='#180b0f';g.fillRect(x-15,y+9,30,4);
+  g.fillStyle='#bc6270';g.fillRect(x-15,y+9,30*Math.max(0,u.hp/u.maxHp),4);
+ }
+ g.restore();
+ g.beginPath();g.arc(w/2,h/2,w*.48,0,Math.PI*2);
+ g.strokeStyle='#cba75e';g.lineWidth=3;g.stroke();
+ $('realmPlayersV453').textContent=(realm.units||[])
+  .map(u=>u.champ+' '+Math.round(u.hp)+'/'+Math.round(u.maxHp)).join(' · ');
+}
+$('realmCanvasV453').onclick=e=>{
+ const realm=state?.projection?.realm;if(!realm)return;
+ const actor=realm.units.find(u=>u.id===selectedUnitId&&u.team===state.team);
+ if(!actor){announce('Selecione seu campeão que está no Reino da Morte');return;}
+ const bounds=e.currentTarget.getBoundingClientRect(),
+  x=(e.clientX-bounds.left)/bounds.width,y=(e.clientY-bounds.top)/bounds.height,
+  point={x:realm.centerWorld.x+(x-.5)*2*realm.radiusWorld/realm.worldWidth,
+   y:realm.centerWorld.y+(y-.5)*2*realm.radiusWorld/realm.worldHeight};
+ if((x-.5)**2+(y-.5)**2>.48**2){announce('Fora do limite circular do Reino');return;}
+ return send('order.move',{point},actor.id);
+};
 function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complete&&map.naturalWidth)ctx.drawImage(map,0,0,800,800);
  if(!state?.projection)return;const p=state.projection;
  for(const v of p.wards||[]){ctx.fillStyle=v.team==='blue'?'#5eceff':'#ef756c';ctx.fillRect(v.x*800-4,v.y*800-4,8,8);}
@@ -293,5 +346,6 @@ function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complet
   ctx.fillStyle='#fff1cd';ctx.font='11px system-ui';ctx.fillText('T',s.x*800-4,s.y*800+4);
  }
  for(const v of p.units||[]){ctx.beginPath();ctx.arc(v.x*800,v.y*800,v.id===selectedUnitId?12:7,0,Math.PI*2);ctx.fillStyle=v.team==='blue'?'#49b9ff':'#e46863';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=v.id===selectedUnitId?'#f7d485':'#131b1e';ctx.stroke();if(v.id===selectedUnitId){ctx.fillStyle='#fff2c4';ctx.font='16px system-ui';ctx.fillText(v.champ,v.x*800+13,v.y*800-8);}}
+ renderRealmV453();
 }
 try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();await fetchBoardKitsV453();connect();}}catch{}
