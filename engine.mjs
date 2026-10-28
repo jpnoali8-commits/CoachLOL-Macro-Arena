@@ -784,7 +784,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
  Annie:{passive:'pyromania',Q:BS('target_enemy',625,60,4,[80,115,150,185,220],{apRatio:.8}),
   W:BS('cone_enemy',625,70,8,[70,115,160,205,250],{apRatio:.85,arc:55}),
   E:BS('target_ally',800,40,12,[],{shield:[60,90,120,150,180],apRatio:.4}),
-  R:BS('circle_enemy',600,100,[120,100,80],[150,275,400],{apRatio:.75,radius:290,missing:'tibbers_summon'})},
+  R:BS('circle_enemy',600,100,[120,100,80],[150,275,400],{apRatio:.75,radius:290,boardTemporal:'tibbers_aura',missing:'targetable_mobile_tibbers'})},
  Ashe:{passive:'frost_shot',Q:BS('target_enemy',650,50,10,[35,55,75,95,115],{type:'physical',adRatio:.8}),
   W:BS('cone_enemy',1200,60,12,[60,95,130,165,200],{type:'physical',adRatio:1,cc:'slow',ccSeconds:2,ccPower:.4,arc:70}),
   E:BS('vision_point',25000,0,65,[],{radius:650,visionSeconds:4}),
@@ -794,7 +794,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   E:BS('circle_enemy',925,70,20,[70,95,120,145,170],{apRatio:.4,cc:'silence',ccSeconds:1.5,radius:250}),
   R:BS('global_ally',0,100,[160,145,130],[],{heal:[150,250,350],apRatio:.6})},
  Morgana:{passive:'soul_siphon',Q:BS('line_enemy',1300,50,10,[80,135,190,245,300],{apRatio:.9,cc:'root',ccSeconds:2,width:160,maxHits:1}),
-  W:BS('circle_enemy',900,70,12,[50,80,110,140,170],{apRatio:.4,radius:280,dotSeconds:3}),
+  W:BS('circle_enemy',900,70,12,[50,80,110,140,170],{apRatio:.4,radius:280,boardTemporal:'damage_pool',zoneSeconds:3}),
   E:BS('target_ally',800,60,18,[],{shield:[80,110,140,170,200],apRatio:.7,shieldType:'magic_shield',spellShieldSeconds:3}),
   R:BS('circle_enemy',0,100,[120,110,100],[150,225,300],{originSelf:true,apRatio:.7,radius:625,cc:'stun',ccSeconds:1.5})},
  Malphite:{passive:'granite_shield',Q:BS('target_enemy',625,70,8,[70,120,170,220,270],{apRatio:.6,cc:'slow',ccSeconds:3,ccPower:.25}),
@@ -807,7 +807,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   R:BS('circle_enemy',1200,100,[90,75,60],[100,175,250],{apRatio:.8,cc:'stun',ccSeconds:1.5,radius:300})},
  Veigar:{passive:'phenomenal_evil',Q:BS('line_enemy',950,40,7,[80,120,160,200,240],{apRatio:.7,width:120,maxHits:2}),
   W:BS('circle_enemy',900,60,8,[80,120,160,200,240],{apRatio:1,radius:220}),
-  E:BS('circle_enemy',725,70,18,[],{cc:'stun',ccSeconds:1.5,radius:350,missing:'cage_ring'}),
+  E:BS('circle_enemy',725,70,18,[],{cc:'stun',ccSeconds:1.5,radius:350,boardTemporal:'cage_ring',missing:'frame_exact_ring_collision'}),
   R:BS('target_enemy',650,100,[120,90,60],[175,250,325],{apRatio:.75,missingHpRatio:.4})},
  Brand:{passive:'blaze',Q:BS('line_enemy',1050,50,8,[80,110,140,170,200],{apRatio:.55,width:130,maxHits:1,missing:'ablaze_stun'}),
   W:BS('circle_enemy',900,60,10,[75,120,165,210,255],{apRatio:.6,radius:260}),
@@ -815,7 +815,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   R:BS('target_enemy',750,100,[105,90,75],[100,200,300],{apRatio:.25,missing:'bounce'})},
  Sona:{passive:'power_chord',Q:BS('circle_enemy',0,50,7,[40,70,100,130,160],{originSelf:true,apRatio:.4,radius:800,maxHits:2}),
   W:BS('circle_ally',0,80,10,[],{heal:[30,45,60,75,90],shield:[25,45,65,85,105],apRatio:.3,radius:650}),
-  E:BS('circle_ally',0,65,12,[],{heal:[20,25,30,35,40],radius:650,missing:'movement_buff'}),
+  E:BS('circle_ally',0,65,12,[],{radius:650,allySpeedBuff:.12,buffSeconds:3,missing:'power_chord_speed_modifiers'}),
   R:BS('line_enemy',900,100,[140,120,100],[150,250,350],{apRatio:.5,cc:'stun',ccSeconds:1.5,width:220})},
  Janna:{passive:'tailwind',Q:BS('line_enemy',1700,60,12,[80,115,150,185,220],{apRatio:.35,cc:'knockup',ccSeconds:1,width:210}),
   W:BS('target_enemy',650,50,12,[55,85,115,145,175],{apRatio:.5,cc:'slow',ccSeconds:2,ccPower:.3}),
@@ -850,7 +850,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
  MissFortune:{passive:'love_tap',Q:BS('target_enemy',650,40,[7,6,5,4,3],[20,45,70,95,120],{type:'physical',adRatio:1,bounce:1}),
   W:BS('self',0,45,12,[],{speedBuff:.25,buffSeconds:4,missing:'attack_speed_activation'}),
   E:BS('circle_enemy',1000,80,[18,17,16,15,14],[60,90,120,150,180],{radius:320,dotSeconds:3,apRatio:.6,cc:'slow',ccSeconds:2,ccPower:.4}),
-  R:BS('cone_enemy',25000,100,[120,110,100],[250,400,550],{type:'physical',adRatio:1.1,arc:60,missing:'channeled_waves'})},
+  R:BS('cone_enemy',25000,100,[120,110,100],[250,400,550],{type:'physical',adRatio:1.1,arc:60,boardTemporal:'cone_channel',missing:'continuous_bullet_projectiles'})},
  Chogath:{passive:'carnivore',Q:BS('circle_enemy',950,50,6,[80,135,190,245,300],{apRatio:1,radius:260,cc:'knockup',ccSeconds:1}),
   W:BS('cone_enemy',300,[70,75,80,85,90],[11,10.5,10,9.5,9],[80,135,190,245,300],{apRatio:.7,arc:60,cc:'silence',ccSeconds:1.5}),
   E:BS('cone_enemy',300,30,[8,7,6,5,4],[30,45,60,75,90],{arc:45,cc:'slow',ccSeconds:1.5,ccPower:.3,missing:'empowered_attacks'}),
@@ -881,12 +881,12 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   R:BS('circle_enemy',0,100,[120,110,100],[100,175,250],{originSelf:true,radius:500,adRatio:.6,knockback:450,missing:'challenge_duel_zone'})},
  Ziggs:{passive:'short_fuse',Q:BS('circle_enemy',850,[50,55,60,65,70],[6,5.5,5,4.5,4],[85,135,185,235,285],{apRatio:.65,radius:220}),
   W:BS('circle_enemy',1000,80,[20,18,16,14,12],[60,95,130,165,200],{apRatio:.4,radius:260,knockback:300,missing:'self_satchel_recast'}),
-  E:BS('circle_enemy',900,[70,80,90,100,110],16,[40,60,80,100,120],{apRatio:.3,radius:320,cc:'slow',ccSeconds:2,ccPower:.35,dotSeconds:3,missing:'individual_mines'}),
+  E:BS('circle_enemy',900,[70,80,90,100,110],16,[40,60,80,100,120],{apRatio:.3,radius:320,cc:'slow',ccSeconds:2,ccPower:.35,boardTemporal:'minefield',missing:'individual_mine_positions'}),
   R:BS('circle_enemy',5000,100,[120,95,70],[250,375,500],{apRatio:1.1,radius:550,missing:'inner_blast_multiplier'})},
  Taric:{passive:'bravado',Q:BS('circle_ally',0,60,3,[],{radius:325,heal:[60,100,140,180,220],apRatio:.4,missing:'charge_scaling'}),
   W:BS('target_ally',800,60,15,[],{shield:[70,100,130,160,190],apRatio:.5,missing:'linked_bastion'}),
   E:BS('line_enemy',610,40,[16,15,14,13,12],[80,115,150,185,220],{apRatio:.5,cc:'stun',ccSeconds:1,width:150,missing:'linked_beam'}),
-  R:BS('circle_ally',0,100,[180,150,120],[],{radius:400,invulnerableSeconds:2,missing:'delayed_radiance'})},
+  R:BS('circle_ally',0,100,[180,150,120],[],{radius:400,invulnerableSeconds:2,boardTemporal:'delayed_radiance',missing:'linked_bastion_radiance'})},
  Warwick:{passive:'eternal_hunger',Q:BS('target_enemy',365,[80,85,90,95,100],[8,7.5,7,6.5,6],[70,95,120,145,170],{apRatio:.5,healFromDamage:.3}),
   W:BS('self',0,55,[80,70,60,50,40],[],{speedBuff:.35,buffSeconds:5,missing:'low_hp_blood_hunt'}),
   E:BS('circle_enemy',0,40,[15,14,13,12,11],[],{originSelf:true,radius:375,cc:'fear',ccSeconds:1.5,shield:[75,100,125,150,175],missing:'damage_reduction_channel'}),
@@ -1276,7 +1276,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.boardVisionV453Dev69=[];this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -1888,6 +1888,7 @@ export class Arena {
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
   a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
+  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -2869,6 +2870,34 @@ export class Arena {
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  // Authoritative discrete temporal effects: resolution is scheduled once;
+  // no client frame loop, no hidden target IDs and no double resource charge.
+  if(s.boardTemporal){
+   const rank=Math.max(1,u.skillRanks[q.slot]||1),stats=this.elementalStatsV452d3(u);
+   const power=Number(s.damage[Math.min(rank-1,s.damage.length-1)]||0)+
+    stats.ap*(s.apRatio||0)+stats.ad*(s.adRatio||0);
+   const temporal={id:++this.boardTemporalIdV453Dev69,kind:s.boardTemporal,
+    ownerId:u.id,team:u.team,slot:q.slot,point:q.point?{...q.point}:{x:u.x,y:u.y},
+    origin:{x:u.x,y:u.y},radius:s.radius||300,arc:s.arc||60,range:s.range,
+    power,hitIds:[],nextAt:this.gameTime+1,until:this.gameTime+(s.zoneSeconds||4),
+    stunSeconds:s.ccSeconds||1.5,slowPower:s.ccPower||0,
+    invulnerableSeconds:s.invulnerableSeconds||0};
+   if(s.boardTemporal==='delayed_radiance'){
+    temporal.nextAt=this.gameTime+2.5;temporal.until=temporal.nextAt+.01;
+   }else if(s.boardTemporal==='cone_channel'){
+    temporal.ticksLeft=3;temporal.until=this.gameTime+3.2;
+    u.boardChannelUntilV453Dev69=temporal.until;
+   }else if(s.boardTemporal==='cage_ring')temporal.until=this.gameTime+3.5;
+   else if(s.boardTemporal==='tibbers_aura'){
+    temporal.nextAt=this.gameTime+2;temporal.until=this.gameTime+8;
+   }else if(s.boardTemporal==='minefield')temporal.until=this.gameTime+5;
+   (this.boardTemporalV453Dev69??=[]).push(temporal);
+   if(s.boardTemporal!=='tibbers_aura'){
+    this.event(u.champ+' '+q.slot+' criou efeito tático temporal.',u.team,'skill_vfx',u.id,
+     {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
+    return {...committed,scheduled:true};
+   }
+  }
   const enemyPool=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0);
@@ -2997,8 +3026,77 @@ export class Arena {
   for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
    u.pendingBoardV453Dev69=null;this.executeBoardSkillV453Dev69(u,q);}
  }
+ // Simulated-second scheduler for delayed zones, a stationary Tibbers proxy,
+ // and channels. Every effect is serializable and keyed by stable sequence ID.
+ advanceBoardTemporalV453Dev69(){
+  const now=this.gameTime,keep=[];
+  for(const z of this.boardTemporalV453Dev69||[]){
+   const u=this.units.find(v=>v.id===z.ownerId);
+   if(!u){continue;}
+   let ended=false;
+   if(z.kind==='cone_channel'&&(!u.hp||!this.effectResolverV41().canAct(u,'skill').ok||
+    this.mapDistance(u,z.origin)>60)){
+    u.boardChannelUntilV453Dev69=0;ended=true;
+   }
+   if(!ended&&now>=z.nextAt&&now<=z.until+.001){
+    const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
+     this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
+    if(z.kind==='delayed_radiance'){
+     if(u.hp>0){
+      for(const ally of this.units.filter(v=>v.team===z.team&&v.hp>0&&
+       this.mapDistance(u,v)<=z.radius))
+       this.applyEffectV41(ally,'invulnerable',{source:u,duration:z.invulnerableSeconds,
+        key:'board_radiance_'+z.id+'_'+ally.id});
+      this.event(u.champ+' R: proteção liberada após atraso.',u.team,'skill_vfx',u.id);
+     }
+     ended=true;
+    }else if(z.kind==='cage_ring'){
+     for(const enemy of circle(z.point,z.radius)){
+      if(z.hitIds.includes(enemy.id))continue;
+      const d=this.mapDistance(enemy,z.point);
+      if(d<z.radius-95)continue; // center is SAFE, only the annulus stuns.
+      const cc=this.applyEffectV41(enemy,'stun',{source:u,
+       duration:z.stunSeconds,key:'board_cage_'+z.id+'_'+enemy.id});
+      if(cc.ok)z.hitIds.push(enemy.id);
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='damage_pool'||z.kind==='minefield'||z.kind==='tibbers_aura'){
+     const pool=circle(z.point,z.radius);
+     for(const enemy of pool){
+      if(z.kind==='minefield'&&z.hitIds.includes(enemy.id))continue;
+      if(z.kind==='minefield')z.hitIds.push(enemy.id);
+      const blocked=this.effectResolverV41().has(enemy,'spell_shield');
+      const tick=z.kind==='damage_pool'?z.power/3:z.kind==='tibbers_aura'?z.power*.18:z.power;
+      const dealt=this.damage(enemy,tick,u,'magic','spell');
+      if(dealt>0&&z.kind==='minefield'&&!blocked)this.applyEffectV41(enemy,'slow',{
+       source:u,duration:2,power:z.slowPower,key:'board_mine_'+z.id+'_'+enemy.id});
+     }
+     z.nextAt=now+(z.kind==='tibbers_aura'?2:1);
+    }else if(z.kind==='cone_channel'){
+     const dx=(z.point.x-z.origin.x)*this.worldWidth,
+      dy=(z.point.y-z.origin.y)*this.worldHeight,len=Math.hypot(dx,dy);
+     if(len>0){
+      const ux=dx/len,uy=dy/len,spread=Math.tan(z.arc*Math.PI/360);
+      const pool=this.units.filter(v=>v.hp>0&&v.team!==z.team)
+       .map(v=>{const x=(v.x-z.origin.x)*this.worldWidth,
+        y=(v.y-z.origin.y)*this.worldHeight;
+        return {v,d:x*ux+y*uy,side:Math.abs(x*uy-y*ux)};})
+       .filter(v=>v.d>=0&&v.d<=z.range&&v.side<=v.d*spread+25)
+       .sort((a,b)=>a.d-b.d||a.v.id.localeCompare(b.v.id));
+      for(const entry of pool)this.damage(entry.v,z.power/3,u,'physical','spell');
+     }
+     z.ticksLeft--;z.nextAt=now+1;
+     if(z.ticksLeft<=0){u.boardChannelUntilV453Dev69=0;ended=true;}
+    }
+   }
+   if(!ended&&now<z.until)keep.push(z);
+   else if(z.kind==='cone_channel')u.boardChannelUntilV453Dev69=0;
+  }
+  this.boardTemporalV453Dev69=keep;
+ }
  advanceBoardPassivesV453Dev69(){
   this.boardVisionV453Dev69=(this.boardVisionV453Dev69||[]).filter(v=>v.until>this.gameTime);
+  this.advanceBoardTemporalV453Dev69();
   for(const u of this.units)if(u.champ==='Garen'&&u.hp>0&&
     this.gameTime>=(u.combatUntil||0)+8&&(u.boardRegenAtV453Dev69||-1)<this.gameTime){
    this.effectResolverV41().heal(u,u.maxHp*.012,u);
@@ -7345,7 +7443,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   }
  }
  resolveCombat(){this.autoWaveSkillV451();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
-  for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||(u.stunUntil||0)>this.gameTime||
+  for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||
+    u.boardChannelUntilV453Dev69>this.gameTime||(u.stunUntil||0)>this.gameTime||
     (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
      this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)||
     !this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
