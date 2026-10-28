@@ -158,7 +158,7 @@ t('Snapshot V4.0 restaura zonas, ordem de kit e seu estado determinístico',()=>
  a.resolveKitSkillsV42();assert.ok(lux.luxZoneV42);
  const copy=Arena.fromSnapshotV40(a.map,a.mask,a.snapshotV40());
  assert.deepEqual(u(copy,'blue_SUP').luxZoneV42,lux.luxZoneV42);
- a.gameTime+=5;copy.gameTime+=5;a.resolveKitSkillsV42();copy.resolveKitSkillsV42();
+ a.gameTime+=6;copy.gameTime+=6;a.resolveKitSkillsV42();copy.resolveKitSkillsV42();
  assert.equal(u(copy,'blue_SUP').luxZoneV42,null);assert.deepEqual(a.actionJournalV40,copy.actionJournalV40);
 });
 t('Browser/Node compatibilidade completa do registry e métodos',()=>{
