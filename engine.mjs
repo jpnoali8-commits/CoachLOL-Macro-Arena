@@ -478,6 +478,11 @@ export function recipePurchasePartsV453Dev30(itemId,inventory=[]){
   if(path.includes(id)||path.length>12)return;
   const pos=available.indexOf(id);
   if(pos>=0){available.splice(pos,1);consumed.push(id);return;}
+  // A spent Seeker's Armguard keeps its full recipe credit for Zhonya.
+  if(itemId==='zhonyas_hourglass'&&id==='seekers_armguard'){
+   const broken=available.indexOf('shattered_armguard');
+   if(broken>=0){available.splice(broken,1);consumed.push('shattered_armguard');return;}
+  }
   for(const child of ITEM_RECIPES[id]||[])visit(child,[...path,id]);
  };
  for(const component of ITEM_RECIPES[itemId]||[])visit(component,[itemId]);
@@ -3971,7 +3976,6 @@ export class Arena {
   if(item.tags.includes('trinket'))return {ok:false,reason:'Trinkets são trocados sem custo na fonte.'};
   if(item.tags.includes('elixir')&&u.level<9)return {ok:false,reason:'elixir_exige_nivel_9'};
   if(itemId==='seekers_armguard'&&u.b7ArmguardEverUsed)return {ok:false,reason:'armaguarda_gasta'};
-  if(itemId==='shattered_armguard'&&!u.b7ArmguardEverUsed)return {ok:false,reason:'armaguarda_gasta_precisa'};
   if(itemId==='shattered_armguard'&&!u.b7ArmguardEverUsed)return {ok:false,reason:'somente_apos_armaguarda_consumida'};
   if(item.tags.includes('elixir')&&u.items.some(id=>catalog.find(i=>i.id===id)?.tags.includes('elixir')))return {ok:false,reason:'elixir_exclusivo'};
   if(itemId==='ward'&&(u.controlWardStock||0)>=2)return {ok:false,reason:'Limite de duas pinks no inventário.'};
@@ -4807,6 +4811,8 @@ export class Arena {
  finishStructureDeathsV451(){
   for(const s of this.structures)if(s.alive&&s.hp<=0){
    s.hp=0;s.alive=false;s.aggro=null;
+   if(s.type==='tower')for(const mid of this.units.filter(u=>u.role==='MID'&&u.team!==s.team&&u.hp>0&&this.mapDistance(u,s)<=1500))
+    this.b7MidQuestAdd(mid,s.lane==='mid'?50:25,'tower_takedown');
    s.respawnAt=s.type==='inhibitor'?this.gameTime+LANE_STRUCTURE_RULES_V451.inhibitorRespawnSeconds:
      (s.type==='tower'&&s.lane==='nexus'?this.gameTime+LANE_STRUCTURE_RULES_V451.nexusTurretRespawnSeconds:0);
    this.event(`${s.name||s.id} destruído.`,null,'structure');
@@ -7570,6 +7576,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const participants=this.units.filter(u=>u.hp>0&&u.team===owner&&
     this.mapDistance(u,c)<=OBJECTIVE_REWARD_V44.participationRadius&&
     (u.id===finisher.id||(c.damageByActorV44?.[u.id]||0)>0));
+   if(epic)for(const mid of participants.filter(u=>u.role==='MID'))this.b7MidQuestAdd(mid,30,'epic_takedown');
    this.objectiveLedgerV44??=[];
    this.objectiveLedgerV44.push({time:this.gameTime,objective:timer,owner,finisherId:finisher.id,
     participants:participants.map(u=>u.id),contested:(c.contestedTicksV44||0)>0,
