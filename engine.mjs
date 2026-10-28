@@ -4991,6 +4991,10 @@ export class Arena {
   return null; // unit body blocks a move when both side passages are unavailable.
  }
  moveAlong(u,stage,remaining){
+  // Defiant Dance is an uninterruptible rooted stance while charging;
+  // the release and its 0.5s mitigation tail are distinct states.
+  if(u?.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
+     this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)return 0;
   if(!stage?.path?.length)return 0;
   let moved=0;
   while(stage.path.length&&remaining>.0001){
@@ -5945,6 +5949,12 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }else if(sourceType==='basic'&&target.ezrealFluxV453Dev69M7?.ownerId===attacker.id)
     this.ezrealConsumeFluxV453Dev69M7(attacker,target,{spell:false});
   }
+  // Tidecaller's Blessing also empowers one direct ability hit per
+  // authoritative simulation instant; effect damage, item procs and the
+  // bonus itself must never consume another charge recursively.
+  if(dealt>0&&attacker?.champ&&attacker.team!==target.team&&
+     ['spell','ability_onhit_v453_dev40'].includes(sourceType)&&target.hp>0)
+   this.procNamiTidecallerV453Dev69M1(attacker,target,{viaSpell:true});
   if(dealt>0)this.effectResolverV41().record('damage',target,attacker,{amount:dealt,damageType,sourceType});
   if(dealt>0&&attacker?.champ&&target?.kind&&attacker.team!==target.team&&this.soulTypeV452d2(attacker)==='ocean')
    this.soulHitV452d2(attacker,target,sourceType);
@@ -6149,13 +6159,15 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(attacker.champ&&target.champ&&attacker.team!==target.team){for(const turret of this.structures){if(turret.type==='tower'&&turret.team===target.team&&turret.alive&&dist(turret,attacker)<.08&&dist(turret,target)<.10){turret.aggro=attacker.id;this.event(`${turret.name}: aggro de dive em ${attacker.champ}.`);}}}}
  // Dev69 milestone: only successful basic attacks against valid combat units
  // consume Tidecaller's Blessing charges. Buff owner is kept in snapshot state.
- procNamiTidecallerV453Dev69M1(attacker,target){
+ procNamiTidecallerV453Dev69M1(attacker,target,{viaSpell=false}={}){
   const buff=attacker?.namiTidecallerV453Dev69M1,now=this.gameTime;
+  if(viaSpell&&buff?.lastSpellProcAt===now)return 0;
   if(!buff||buff.until<=now||buff.charges<=0||!target||target.hp<=0||
      attacker.team===target.team||!target.champ&&!target.kind)return 0;
   const nami=this.units.find(v=>v.id===buff.sourceId&&v.team===attacker.team);
   if(!nami)return 0;
   buff.charges--;
+  if(viaSpell)buff.lastSpellProcAt=now;
   const dealt=this.damage(target,buff.bonus,attacker,'magic','nami_e_bonus');
   if(target.hp>0&&dealt>0)this.applyEffectV41(target,'slow',{
    source:nami,duration:1,power:buff.slow,key:'nami_e_'+attacker.id});
@@ -6926,7 +6938,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   }
  }
  resolveCombat(){this.autoWaveSkillV451();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
-  for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||(u.stunUntil||0)>this.gameTime||!this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
+  for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||(u.stunUntil||0)>this.gameTime||
+    (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
+     this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)||
+    !this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
    let stage=this.activeStage(u);const activeAction=stage?.startedAt!==null?stage?.action:null;
    const effectiveAARange=this.itemAttackRangeV453Dev38(u);
    const enemies=this.units.filter(x=>x.team!==u.team&&x.hp>0&&dist(u,x)<=effectiveAARange&&this.visible(u.team,x));
