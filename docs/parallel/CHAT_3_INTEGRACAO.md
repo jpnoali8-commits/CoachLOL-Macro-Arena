@@ -1,6 +1,6 @@
 # Chat 3 — Integrador principal / PvP
 
-**Branch exclusiva:** `dev69/integration`; `main` é versão canônica, nunca playground. **Não iniciar integração antes de STATUS_DEV69.md = READY e da base dev68 importada.**
+**Branch exclusiva:** `dev69/integration`; `main` é versão canônica, nunca playground. **Integração de lógica liberada em SOURCE_READY. Não promover release/main até obter o clone completo com assets, preservar backup do Git e fechar Issue #1.**
 
 ## Missão
 
