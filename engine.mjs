@@ -873,7 +873,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   R:BS('target_enemy',550,100,100,[275,375,475],{apRatio:1,knockback:500})},
  TwistedFate:{passive:'loaded_dice',Q:BS('line_enemy',1300,[60,70,80,90,100],[6,5.75,5.5,5.25,5],[60,105,150,195,240],{apRatio:.8,width:230,missing:'three_parallel_cards'}),
   W:BS('self',0,[50,55,60,65,70],6,[],{nextBasic:[40,60,80,100,120],basicApRatio:.5,basicCC:'stun',basicCCSeconds:1,charges:1,missing:'three_card_choices'}),
-  E:BS('self',0,0,1,[],{nextBasic:[30,45,60,75,90],basicApRatio:.35,charges:1,missing:'automatic_fourth_attack'}),
+  E:BS('self',0,0,1,[],{passiveOnly:true,missing:'automatic_fourth_attack'}),
   R:BS('vision_point',5500,100,[170,140,110],[],{radius:1000,visionSeconds:5,missing:'global_reveal_and_gate'})},
  XinZhao:{passive:'determination',Q:BS('self',0,30,[7,6.5,6,5.5,5],[],{nextBasic:[20,30,40,50,60],basicAdRatio:.3,charges:3,basicThirdCC:'knockup',basicCCSeconds:.75}),
   W:BS('line_enemy',1000,60,[12,11,10,9,8],[70,105,140,175,210],{type:'physical',adRatio:.9,width:210,cc:'slow',ccSeconds:2,ccPower:.4}),
@@ -892,7 +892,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   E:BS('circle_enemy',0,40,[15,14,13,12,11],[],{originSelf:true,radius:375,cc:'fear',ccSeconds:1.5,shield:[75,100,125,150,175],missing:'damage_reduction_channel'}),
   R:BS('line_enemy',1500,100,[110,90,70],[150,250,350],{type:'magic',adRatio:1,cc:'suppression',ccSeconds:1.5,width:180,maxHits:1,dashToHit:true,missing:'three_on_hit_ticks'})},
  Vayne:{passive:'night_hunter',Q:BS('move_point',300,30,[6,5,4,3,2],[],{nextBasic:[40,55,70,85,100],basicAdRatio:.4,charges:1,missing:'tumble_invisibility_during_r'}),
-  W:BS('self',0,0,1,[],{missing:'silver_bolts_third_hit_passive'}),
+  W:BS('self',0,0,1,[],{passiveOnly:true,missing:'silver_bolts_third_hit_passive'}),
   E:BS('target_enemy',550,90,[20,18,16,14,12],[50,85,120,155,190],{type:'physical',adRatio:.5,knockback:450,missing:'wall_collision_stun'}),
   R:BS('self',0,80,[100,85,70],[],{speedBuff:.3,buffSeconds:8,missing:'bonus_ad_invisibility'})},
  Olaf:{passive:'berserker_rage',Q:BS('line_enemy',1000,[50,55,60,65,70],9,[80,125,170,215,260],{type:'physical',adRatio:.85,cc:'slow',ccSeconds:2,ccPower:.35,width:220}),
@@ -2826,7 +2826,7 @@ export class Arena {
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=BOARD_KITS_V453_DEV69[u?.champ]?.[slot];
-  if(!u||!s||u.hp<=0||this.ended||this.teams[team]?.ready||
+  if(!u||!s||s.passiveOnly||u.hp<=0||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6)return {ok:false,reason:'ultimate_nivel_6'};
@@ -2887,6 +2887,15 @@ export class Arena {
      return {v,depth:x*ux+y*uy,side:Math.abs(x*uy-y*ux)};})
     .filter(v=>v.depth>=0&&v.depth<=s.range&&v.side<=v.depth*spread+25)
     .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id))).map(v=>v.v);
+  }
+  if(s.bounce&&hits.length===1&&hits[0].team!==u.team){
+   const primary=hits[0],dx=primary.x-u.x,dy=primary.y-u.y;
+   const extra=enemyPool.filter(v=>v.id!==primary.id&&v.hp>0&&
+    this.mapDistance(primary,v)<=450&&
+    ((v.x-primary.x)*dx+(v.y-primary.y)*dy)>0)
+    .sort((a,b)=>this.mapDistance(primary,a)-this.mapDistance(primary,b)||
+     String(a.id).localeCompare(String(b.id))).slice(0,s.bounce);
+   hits.push(...extra);
   }
   if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
   const dashTarget=s.dashToHit?hits.find(v=>v.champ&&v.hp>0):null;
@@ -6230,6 +6239,35 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
  }
  const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  // Per-attack buffs and stacking passives are triggered by real basic hits,
+  // never another skill, item proc or a nested board proc.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ&&attacker.team!==target.team){
+   const b=attacker.boardNextBasicV453Dev69;
+   if(b?.charges>0&&b.until>this.gameTime){
+    b.charges--;
+    const power=Math.max(0,b.base+
+     b.adRatio*this.elementalStatsV452d3(attacker).ad+
+     b.apRatio*this.elementalStatsV452d3(attacker).ap+
+     (attacker.champ==='Nasus'?(attacker.boardSiphonStacksV453Dev69||0):0));
+    if(target.hp>0)this.damage(target,power,attacker,'physical','board_basic_proc');
+    if(target.champ&&target.hp>0&&(b.cc||(b.charges===0&&b.thirdCC)))
+     this.applyEffectV41(target,b.cc||b.thirdCC,{source:attacker,
+      duration:b.ccSeconds,key:'board_basic_'+attacker.id});
+    if(attacker.champ==='Nasus'&&target.hp<=0&&b.stackOnKill>0)
+     attacker.boardSiphonStacksV453Dev69=(attacker.boardSiphonStacksV453Dev69||0)+b.stackOnKill;
+    if(b.charges<=0)attacker.boardNextBasicV453Dev69=null;
+   }
+   // Vayne's Silver Bolts is a PASSIVE W, not a one-second active cast.
+   if(attacker.champ==='Vayne'&&target.hp>0){
+    const mark=target.boardSilverBoltsV453Dev69;
+    const count=mark?.sourceId===attacker.id&&mark.until>this.gameTime?mark.stacks:0;
+    if(count>=2){
+     target.boardSilverBoltsV453Dev69=null;
+     this.damage(target,Math.max(20,target.maxHp*.06),attacker,'true','board_silver_bolts_proc');
+    }else target.boardSilverBoltsV453Dev69={
+     sourceId:attacker.id,stacks:count+1,until:this.gameTime+4};
+   }
+  }
   // Passive triggers only on an actual landed basic attack by Ashe.
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Ashe'&&
    target.team!==attacker.team&&target.hp>0)
