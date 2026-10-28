@@ -155,3 +155,10 @@ efeitos reutilizáveis, com P/Q/W/E/R e gatilhos individuais, sem
 frame simulation de RTS nem caminhos de motor concorrentes.
 Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 2 drafts PvP de 10 campeões, snapshot). Integração/browser aguardam auditor.
+
+
+## M9 — Gramática compartilhada de tabuleiro (PR #9, não certificado)
+- Executor autoritativo único `queueBoardSkillV453Dev69` → `executeBoardSkillV453Dev69`, usando `performActionV40`, geometria compartilhada, CC/escudos/cura/DoT e journal privado. Não exige novos arquivos de import no browser.
+- **12 campeões adicionais** com 48 slots jogáveis em protótipo de tabuleiro: Garen, Annie, Ashe, Soraka, Morgana, Malphite, Leona, Veigar, Brand, Sona, Janna e Darius. Não são classificados como completos; o catálogo declara lacunas específicas (invocações, teleporte/dash, passivas, empurrões, recasts e geometria).
+- Regras de acesso: o adversário não controla suas unidades; queue sem debitar recursos, resolução única, slots de ult requerem nível 6, alvo visível nos casts direcionados, skillshots por coordenadas sem usar IDs ocultos, timestamps e visão temporária serializáveis.
+- Próxima etapa: expandir a biblioteca e completar particularidades dos kits em vez de copiar lógica; validar CI e paridade patch 26.21 antes de qualquer certificação. **Sem merge**.

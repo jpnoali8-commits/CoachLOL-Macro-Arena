@@ -770,6 +770,64 @@ export const CHAMPION_ONHIT_SKILLS_V453_DEV41=Object.freeze({
  Irelia:Object.freeze({slot:'Q',name:'Surto da Lâmina',kind:'target_dash_onhit',maturity:'partial_26_21',
   damage:[5,25,45,65,85],adRatio:.7,healAdRatio:[.09,.10,.11,.12,.13]})
 });
+// Dev69 Board Grammar: compact, individual tactical contracts. Never certify
+// a champion from the presence of these slots; each remains a gameplay prototype.
+const boardSkillV453=(shape,range,mana,cooldown,damage=[],more={})=>({
+ kind:'board_effect',shape,range,mana:[].concat(mana),cooldown:[].concat(cooldown),
+ damage:[].concat(damage),implemented:'board_prototype',...more});
+const BS=boardSkillV453;
+export const BOARD_KITS_V453_DEV69=Object.freeze({
+ Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
+  W:BS('self',0,0,23,[],{shield:[80,105,130,155,180]}),
+  E:BS('circle_enemy',0,0,9,[60,95,130,165,200],{originSelf:true,radius:325,type:'physical',adRatio:.7}),
+  R:BS('target_enemy',400,0,[120,100,80],[150,300,450],{type:'true',missingHpRatio:.25})},
+ Annie:{passive:'pyromania',Q:BS('target_enemy',625,60,4,[80,115,150,185,220],{apRatio:.8}),
+  W:BS('cone_enemy',625,70,8,[70,115,160,205,250],{apRatio:.85,arc:55}),
+  E:BS('target_ally',800,40,12,[],{shield:[60,90,120,150,180],apRatio:.4}),
+  R:BS('circle_enemy',600,100,[120,100,80],[150,275,400],{apRatio:.75,radius:290,missing:'tibbers_summon'})},
+ Ashe:{passive:'frost_shot',Q:BS('target_enemy',650,50,10,[35,55,75,95,115],{type:'physical',adRatio:.8}),
+  W:BS('cone_enemy',1200,60,12,[60,95,130,165,200],{type:'physical',adRatio:1,cc:'slow',ccSeconds:2,ccPower:.4,arc:70}),
+  E:BS('vision_point',25000,0,65,[],{radius:650,visionSeconds:4}),
+  R:BS('line_enemy',25000,100,[100,80,60],[200,400,600],{apRatio:1,cc:'stun',ccSeconds:2,width:250,maxHits:1})},
+ Soraka:{passive:'salvation',Q:BS('circle_enemy',800,45,8,[85,120,155,190,225],{apRatio:.35,cc:'slow',ccSeconds:1.5,ccPower:.3,radius:240,selfHeal:[30,45,60,75,90]}),
+  W:BS('target_ally',550,40,6,[],{heal:[100,135,170,205,240],apRatio:.7}),
+  E:BS('circle_enemy',925,70,20,[70,95,120,145,170],{apRatio:.4,cc:'silence',ccSeconds:1.5,radius:250}),
+  R:BS('global_ally',0,100,[160,145,130],[],{heal:[150,250,350],apRatio:.6})},
+ Morgana:{passive:'soul_siphon',Q:BS('line_enemy',1300,50,10,[80,135,190,245,300],{apRatio:.9,cc:'root',ccSeconds:2,width:160,maxHits:1}),
+  W:BS('circle_enemy',900,70,12,[50,80,110,140,170],{apRatio:.4,radius:280,dotSeconds:3}),
+  E:BS('target_ally',800,60,18,[],{shield:[80,110,140,170,200],apRatio:.7,shieldType:'magic_shield',spellShieldSeconds:3}),
+  R:BS('circle_enemy',0,100,[120,110,100],[150,225,300],{originSelf:true,apRatio:.7,radius:625,cc:'stun',ccSeconds:1.5})},
+ Malphite:{passive:'granite_shield',Q:BS('target_enemy',625,70,8,[70,120,170,220,270],{apRatio:.6,cc:'slow',ccSeconds:3,ccPower:.25}),
+  W:BS('circle_enemy',0,30,12,[40,60,80,100,120],{originSelf:true,radius:260,type:'physical',adRatio:.4}),
+  E:BS('circle_enemy',0,50,7,[70,110,150,190,230],{originSelf:true,apRatio:.6,radius:400,cc:'slow',ccSeconds:2,ccPower:.2}),
+  R:BS('circle_enemy',1000,100,[130,105,80],[200,300,400],{apRatio:.9,cc:'knockup',ccSeconds:1.5,radius:300,missing:'dash'})},
+ Leona:{passive:'sunlight',Q:BS('target_enemy',175,45,6,[10,35,60,85,110],{apRatio:.3,cc:'stun',ccSeconds:1}),
+  W:BS('self',0,60,14,[],{shield:[75,110,145,180,215],apRatio:.4}),
+  E:BS('line_enemy',900,60,12,[50,90,130,170,210],{apRatio:.4,cc:'root',ccSeconds:.5,width:140,missing:'dash'}),
+  R:BS('circle_enemy',1200,100,[90,75,60],[100,175,250],{apRatio:.8,cc:'stun',ccSeconds:1.5,radius:300})},
+ Veigar:{passive:'phenomenal_evil',Q:BS('line_enemy',950,40,7,[80,120,160,200,240],{apRatio:.7,width:120,maxHits:2}),
+  W:BS('circle_enemy',900,60,8,[80,120,160,200,240],{apRatio:1,radius:220}),
+  E:BS('circle_enemy',725,70,18,[],{cc:'stun',ccSeconds:1.5,radius:350,missing:'cage_ring'}),
+  R:BS('target_enemy',650,100,[120,90,60],[175,250,325],{apRatio:.75,missingHpRatio:.4})},
+ Brand:{passive:'blaze',Q:BS('line_enemy',1050,50,8,[80,110,140,170,200],{apRatio:.55,width:130,maxHits:1,missing:'ablaze_stun'}),
+  W:BS('circle_enemy',900,60,10,[75,120,165,210,255],{apRatio:.6,radius:260}),
+  E:BS('target_enemy',675,70,9,[60,90,120,150,180],{apRatio:.5,missing:'spread'}),
+  R:BS('target_enemy',750,100,[105,90,75],[100,200,300],{apRatio:.25,missing:'bounce'})},
+ Sona:{passive:'power_chord',Q:BS('circle_enemy',0,50,7,[40,70,100,130,160],{originSelf:true,apRatio:.4,radius:800,maxHits:2}),
+  W:BS('circle_ally',0,80,10,[],{heal:[30,45,60,75,90],shield:[25,45,65,85,105],apRatio:.3,radius:650}),
+  E:BS('circle_ally',0,65,12,[],{heal:[20,25,30,35,40],radius:650,missing:'movement_buff'}),
+  R:BS('line_enemy',900,100,[140,120,100],[150,250,350],{apRatio:.5,cc:'stun',ccSeconds:1.5,width:220})},
+ Janna:{passive:'tailwind',Q:BS('line_enemy',1700,60,12,[80,115,150,185,220],{apRatio:.35,cc:'knockup',ccSeconds:1,width:210}),
+  W:BS('target_enemy',650,50,12,[55,85,115,145,175],{apRatio:.5,cc:'slow',ccSeconds:2,ccPower:.3}),
+  E:BS('target_ally',800,70,12,[],{shield:[80,115,150,185,220],apRatio:.55}),
+  R:BS('circle_ally',0,100,[130,115,100],[],{heal:[150,250,350],apRatio:.6,radius:725,missing:'knockback'})},
+ Darius:{passive:'hemorrhage',Q:BS('circle_enemy',0,30,9,[50,80,110,140,170],{originSelf:true,type:'physical',adRatio:1,radius:425,selfHeal:[35,45,55,65,75]}),
+  W:BS('target_enemy',250,40,7,[40,50,60,70,80],{type:'physical',adRatio:1.2,cc:'slow',ccSeconds:1.5,ccPower:.4}),
+  E:BS('cone_enemy',550,45,18,[],{cc:'root',ccSeconds:1,arc:50,missing:'pull'}),
+  R:BS('target_enemy',460,100,[100,100,100],[125,250,375],{type:'true',adRatio:.75,missingHpRatio:.15})}
+});
+// No "certified" entries: complex recasts, pets and bespoke passives have
+// explicit QA debt and must not be replaced with fabricated generic effects.
 export function kitSpellV42(champ,slot){const s=CHAMPION_KITS_V42[champ]?.spells?.[slot];return s&&s.implemented!=='planned'&&s.implemented!=='training'?s:null;}
 // Geometry is shared between different champions, while hit caps and effects remain individual.
 export function skillshotHitsV42(caster,point,targets,{range,width,maxHits=Infinity,worldWidth=15000,worldHeight=15000}={}){
@@ -787,6 +845,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
 export function abilityRule(u,slot){
+ const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -1143,7 +1202,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -1754,7 +1813,7 @@ export class Arena {
   // reconstructing charges or extending previously elapsed cooldowns.
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
-  a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;
+  a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -2002,6 +2061,7 @@ export class Arena {
   const activeTeamWards=this.wards.filter(w=>w.team===team&&!this.wardVisionSuppressedV452d4Dev26(w,enemyControls));
   for(const w of activeTeamWards)sources.push({x:w.x,y:w.y,r:this.wardRadius(w),kind:'ward'});
   for(const s of this.structures){if(s.team===team&&s.alive)sources.push({x:s.x,y:s.y,r:.075,kind:'structure'});}
+  for(const scout of this.boardVisionV453Dev69||[])if(scout.team===team&&scout.until>this.gameTime)sources.push({x:scout.x,y:scout.y,r:scout.r,kind:'board_scout'});
   for(const trap of this.jinxChompersV453Dev69M5||[]){
    if(trap.team===team&&trap.landAt<=this.gameTime&&trap.expireAt>this.gameTime)
     for(const center of trap.centers)sources.push({x:center.x,y:center.y,r:150/this.worldWidth,kind:'jinx_e'});
@@ -2688,6 +2748,127 @@ export class Arena {
   candidates.sort((a,b)=>a.length-b.length);
   return candidates[0]?.route||null;
  }
+ // Authoritative, reusable board-effect runtime. Queueing records intent;
+ // resolution alone commits mana/CD. Geometry and CC are common primitives.
+ queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
+  const u=this.units.find(v=>v.id===id&&v.team===team),s=BOARD_KITS_V453_DEV69[u?.champ]?.[slot];
+  if(!u||!s||u.hp<=0||this.ended||this.teams[team]?.ready||
+    !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
+   return {ok:false,reason:'board_indisponivel'};
+  if(slot==='R'&&u.level<6)return {ok:false,reason:'ultimate_nivel_6'};
+  const target=targetId?this.units.find(v=>v.id===targetId&&v.hp>0):null;
+  if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
+  if(s.shape==='target_ally'&&(!target||target.team!==team))return {ok:false,reason:'alvo_aliado'};
+  if(target&&target.team!==team&&!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
+  if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
+  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point'].includes(s.shape)&&!s.originSelf;
+  if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
+     point.x<0||point.x>1||point.y<0||point.y>1||
+     this.mapDistance(u,point)<1||
+     (['circle_enemy','vision_point'].includes(s.shape)&&this.mapDistance(u,point)>s.range)))
+   return {ok:false,reason:'ponto_invalido'};
+  const gate=castGateV39(u,slot,this.gameTime);if(!gate.ok)return gate;
+  u.pendingBoardV453Dev69={slot,targetId:target?.id||null,
+   point:aimed?{x:point.x,y:point.y}:null};
+  this.recordIntentV40(team,id,'board_skill',{slot,
+    ...(target?{targetId:target.id}:{}),
+    ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
+  return {ok:true,queued:true};
+ }
+ executeBoardSkillV453Dev69(u,q){
+  const s=BOARD_KITS_V453_DEV69[u?.champ]?.[q?.slot];
+  if(!s||!u||u.hp<=0)return {ok:false,reason:'board_indisponivel'};
+  const target=q.targetId?this.units.find(v=>v.id===q.targetId&&v.hp>0):null;
+  if(['target_enemy','target_ally'].includes(s.shape)&&(!target||
+    (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team)||
+    this.mapDistance(u,target)>s.range||
+    (target.team!==u.team&&!this.visible(u.team,target))))
+   return {ok:false,reason:'alvo_invalido'};
+  if(['circle_enemy','line_enemy','cone_enemy','vision_point'].includes(s.shape)&&
+    !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)))
+   return {ok:false,reason:'ponto'};
+  if(s.shape==='circle_enemy'&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
+   return {ok:false,reason:'fora_alcance'};
+  const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+    targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
+  if(!committed.ok)return committed;
+  const enemyPool=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
+    (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
+  const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0);
+  let hits=[];const point=q.point||u;
+  if(s.shape==='target_enemy'||s.shape==='target_ally')hits=[target];
+  else if(s.shape==='self')hits=[u];
+  else if(s.shape==='global_ally')hits=allyPool;
+  else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,s.radius,this.worldWidth,this.worldHeight);
+  else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
+  else if(s.shape==='line_enemy')hits=skillshotHitsV42(u,point,enemyPool,{range:s.range,
+    width:s.width||180,maxHits:s.maxHits??Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+  else if(s.shape==='cone_enemy'){
+   const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
+    len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,spread=Math.tan((s.arc||60)*Math.PI/360);
+   hits=enemyPool.map(v=>{const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
+     return {v,depth:x*ux+y*uy,side:Math.abs(x*uy-y*ux)};})
+    .filter(v=>v.depth>=0&&v.depth<=s.range&&v.side<=v.depth*spread+25)
+    .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id))).map(v=>v.v);
+  }
+  if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
+  const rank=Math.max(1,u.skillRanks[q.slot]||1),stats=this.elementalStatsV452d3(u),
+   amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
+   power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
+  const instance=++this.championProjectileSeqV453Dev42;
+  let damaged=0;
+  const annieReady=u.champ==='Annie'&&(u.boardSpellCountV453Dev69||0)>=3;
+  if(u.champ==='Annie')u.boardSpellCountV453Dev69=annieReady?0:(u.boardSpellCountV453Dev69||0)+1;
+  if(s.shape==='vision_point'){
+   (this.boardVisionV453Dev69??=[]).push({x:point.x,y:point.y,
+    team:u.team,r:(s.radius||600)/this.worldWidth,until:this.gameTime+(s.visionSeconds||4)});
+  }
+  for(const v of hits){
+   if(!v||v.hp<=0)continue;
+   const enemy=v.team!==u.team;
+   const blocked=enemy&&this.effectResolverV41().has(v,'spell_shield');
+   if(enemy&&s.damage.length){
+    const raw=power(s.damage)+(s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp);
+    if(s.dotSeconds){
+     this.applyEffectV41(v,'dot',{source:u,duration:s.dotSeconds,
+      power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
+    }else{
+     const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
+     if(done>0&&u.champ==='Morgana'&&v.champ)this.effectResolverV41().heal(u,done*.12,u);
+     if(done>0&&u.champ==='Veigar'&&v.champ)u.ap=(u.ap||0)+1;
+     if(done>0&&u.champ==='Brand')this.applyEffectV41(v,'dot',{source:u,
+      duration:4,power:8+u.level,interval:1,key:'brand_board_'+u.id});
+    }
+   }
+   if(enemy&&s.cc&&!blocked&&v.hp>0)this.applyEffectV41(v,s.cc,{
+    source:u,duration:s.ccSeconds||1,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
+   if(enemy&&annieReady&&v.champ&&!blocked&&v.hp>0)
+    this.applyEffectV41(v,'stun',{source:u,duration:1.25,key:'annie_board_'+instance+'_'+v.id});
+   if(!enemy){
+    if(s.heal)this.effectResolverV41().heal(v,power(s.heal),u);
+    if(s.shield)this.applyEffectV41(v,s.shieldType||'shield',{source:u,duration:3,
+     power:power(s.shield),key:'board_shield_'+instance+'_'+v.id});
+    if(s.spellShieldSeconds)this.applyEffectV41(v,'spell_shield',{source:u,
+     duration:s.spellShieldSeconds,key:'board_spellshield_'+instance+'_'+v.id});
+   }
+  }
+  if(s.selfHeal)this.effectResolverV41().heal(u,power(s.selfHeal,0,0),u);
+  this.event(u.champ+' '+q.slot+' tabuleiro: '+damaged+' impactos.',u.team,
+    'skill_vfx',u.id,{observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
+  return {...committed,hitCount:damaged};
+ }
+ resolveBoardSkillsV453Dev69(){
+  for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
+   u.pendingBoardV453Dev69=null;this.executeBoardSkillV453Dev69(u,q);}
+ }
+ advanceBoardPassivesV453Dev69(){
+  this.boardVisionV453Dev69=(this.boardVisionV453Dev69||[]).filter(v=>v.until>this.gameTime);
+  for(const u of this.units)if(u.champ==='Garen'&&u.hp>0&&
+    this.gameTime>=(u.combatUntil||0)+8&&(u.boardRegenAtV453Dev69||-1)<this.gameTime){
+   this.effectResolverV41().heal(u,u.maxHp*.012,u);
+   u.boardRegenAtV453Dev69=this.gameTime;
+  }
+ }
  // V4.2: skill location input is an intent, never an instant long-distance hit.
  queueKitSkillV42(team,unitId,slot,point){
   // Jinx W / Ahri E must use their true temporal projectile engine; never
@@ -2695,6 +2876,8 @@ export class Arena {
   if((this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Jinx')&&slot==='W')||
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
+  const bu=this.units.find(v=>v.team===team&&v.id===unitId);
+  if(bu&&BOARD_KITS_V453_DEV69[bu.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -2825,6 +3008,8 @@ export class Arena {
  // V3.9 directional targeting adapter. Coordinates, not target ids, are submitted.
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
+  const bu=this.units.find(v=>v.id===unitId&&v.team===team);
+  if(bu&&BOARD_KITS_V453_DEV69[bu.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
@@ -3816,6 +4001,7 @@ export class Arena {
  // Currently Nami W is implemented; unsupported abilities fail instead of inventing effects.
  queueTargetedSkill(team,unitId,slot,targetId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),target=this.units.find(v=>v.id===targetId);
+  if(u&&BOARD_KITS_V453_DEV69[u.champ])return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
   if(!u||!target||u.hp<=0||target.hp<=0||this.teams[team].ready||this.ended||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Campeão ou fase indisponível.'};
   if(u.champ!=='Nami'||!['W','E'].includes(slot))return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
   if(slot==='E'&&target.team!==team)return {ok:false,reason:'E_requer_aliado'};
@@ -4701,7 +4887,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advanceBoardPassivesV453Dev69();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -6966,7 +7152,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    u.pendingKitCastV42={slot,point:best.point,issuedAt:this.gameTime,castPath:[],autoWaveV451:true};
   }
  }
- resolveCombat(){this.autoWaveSkillV451();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
+ resolveCombat(){this.autoWaveSkillV451();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
   for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||(u.stunUntil||0)>this.gameTime||
     (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
      this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)||
