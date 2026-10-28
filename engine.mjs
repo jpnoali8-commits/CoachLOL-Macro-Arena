@@ -2775,6 +2775,7 @@ export class Arena {
   if(slot!=='W'&&(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||
      this.mapDistance(u,point)>rule.range+1e-7))
    return {ok:false,reason:'ponto_fora_alcance'};
+  if(slot==='Q'&&this.mapDistance(u,point)<1)return {ok:false,reason:'direção_zero'};
   const commit=this.performActionV40({actorId:u.id,kind:'skill',slot,
    point:slot==='W'?null:point,source:'vex_'+slot.toLowerCase()+'_v453_dev69_m1',
    checkRange:false});
