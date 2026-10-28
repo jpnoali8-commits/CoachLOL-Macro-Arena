@@ -51,7 +51,7 @@ for(const team of ['blue','red'])for(const champ of ['Nidalee','Elise']){
   a.resolveBoardSkillsV453Dev69();
   assert.equal(u.boardFormV453M14,champ==='Nidalee'?'cougar':'spider');
   assert.equal(u.skillCds.Q,0,'second form has own Q timer');
-  assert.notEqual(abilityRule(u,'Q').shape,h.shape);
+  assert.notDeepEqual(abilityRule(u,'Q'),h,'same target shape can still hold different form mechanics');
   a.gameTime=1; // Different simulated second; global same-tick action lock still applies.
   assert.equal(a.queueTargetedSkill(team,u.id,'Q',enemy.id).ok,true);
   a.resolveBoardSkillsV453Dev69();
