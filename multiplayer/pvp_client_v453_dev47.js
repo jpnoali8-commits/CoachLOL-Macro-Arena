@@ -8,7 +8,7 @@ let shopCatalog=[],shopReference=[],selectedShopItemId=null,shopUnitId=null,shop
 const announce=t=>{$('feed').textContent=t;};
 async function fetchBoardKitsV453(){try{
  const response=await fetch('/api/kits',{credentials:'same-origin'});if(!response.ok)return;
- const x=await response.json();boardKitsV453=x.kits||{};
+ const x=await response.json();boardKitsV453={...(x.kits||{}),...(x.specials||{})};
  if(state)renderBoardSlotsV453(state);
 }catch(e){announce('Habilidades: '+e.message);}}
 async function api(path,payload){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),credentials:'same-origin'});const data=await res.json();if(!res.ok)throw Error(data.reason||'Falha');return data;}
@@ -148,7 +148,7 @@ $('boardSkillToolbarV453').onclick=e=>{
  const b=e.target.closest('[data-board-slot]');if(!b||b.disabled)return;
  const slot=b.dataset.boardSlot;boardSlotV453=slot;const rule=selectedBoardRuleV453(slot);
  if(!rule)return;
- if(boardSelfV453(rule)){send('skill.self',{slot},selectedUnitId);setMode('move');}
+ if(boardSelfV453(rule)){send(rule.specialUltimate?'skill.ultimate':'skill.self',rule.specialUltimate?{}:{slot},selectedUnitId);setMode('move');}
  else setMode('skill');
  if(state)renderBoardSlotsV453(state);
 };
@@ -165,7 +165,7 @@ $('boardCastTargetV453').onclick=()=>{
  if(!target||(rule.shape==='target_enemy')===(target.team===state.team)){
   announce('Alvo incompatível com a habilidade');return;
  }
- return send('skill.targeted',{slot:boardSlotV453,targetId:id},selectedUnitId);
+ return send(rule.specialUltimate?'skill.ultimate':'skill.targeted',rule.specialUltimate?{targetId:id}:{slot:boardSlotV453,targetId:id},selectedUnitId);
 };
 
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};
@@ -183,7 +183,7 @@ canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:M
  }else if(mode==='skill'){
   const rule=selectedBoardRuleV453();
   if(!rule){announce('Habilidade indisponível no catálogo tático');return;}
-  const kind=boardSlotV453==='R'?'skill.ultimate':
+  const kind=rule.specialUltimate?'skill.ultimate':boardSlotV453==='R'?'skill.ultimate':
    ['line_enemy','cone_enemy'].includes(rule.shape)?'skill.directional':'skill.ground';
   await send(kind,kind==='skill.ultimate'?{point}:{slot:boardSlotV453,point},selectedUnitId);
  }else await sendGroup('skill.directional',{point,slot:'Q'});

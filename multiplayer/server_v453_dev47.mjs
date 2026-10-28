@@ -47,7 +47,16 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
    const {room,player}=session;
    if(req.method==='GET'&&path==='/api/session')return json(res,200,{ok:true,...room.view(player)});
    if(req.method==='GET'&&path==='/api/kits')return json(res,200,{ok:true,
-    patch:'26.21',maturity:'board_prototype',kits:Object.fromEntries(
+    patch:'26.21',maturity:'board_prototype',
+    specials:{
+     Mordekaiser:{R:{shape:'target_enemy',range:650,specialUltimate:true,implemented:'realm_prototype'}},
+     Jinx:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Ezreal:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Ashe:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Karthus:{R:{shape:'self',range:0,specialUltimate:true,implemented:'legacy_channel'}},
+     Soraka:{R:{shape:'self',range:0,specialUltimate:true,implemented:'legacy_global_heal'}}
+    },
+    kits:Object.fromEntries(
      Object.entries(BOARD_KITS_V453_DEV69).map(([champ,row])=>[champ,
       Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
        shape:row[slot].shape,range:row[slot].range,passiveOnly:!!row[slot].passiveOnly,

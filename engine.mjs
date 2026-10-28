@@ -2199,8 +2199,7 @@ export class Arena {
  // once, not separately for every champion, minion, ward and jungle camp.
  // No persistent cache: same-tick mutations (wards, fog, bushes) remain visible.
  perspective(team){const sources=this.visionSources(team);const canSee=point=>this.canSeePoint(team,point,sources);return {round:this.round,time:this.gameTime,
-  units:this.units.filter(u=>!this.realmOfV453Dev69(u)&&
-    (u.team===team||(u.hp>0&&this.visible(team,u,sources)))).map(u=>u.team===team?u:
+  units:this.units.filter(u=>u.team===team||(!this.realmOfV453Dev69(u)&&u.hp>0&&this.visible(team,u,sources))).map(u=>u.team===team?u:
     ({id:u.id,team:u.team,role:u.role,champ:u.champ,klass:u.klass,x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,level:u.level})),
    realm:this.realmViewV453Dev69(team),
   minions:this.minions.filter(m=>m.team===team||this.visible(team,m,sources)),
@@ -2676,7 +2675,12 @@ export class Arena {
    u.order={kind:'ward',wardType:order.wardType||'stealth',destination:{x:p.x,y:p.y},wardPath:path||[],spell:'none'};
    return {ok:true};
   }
-  if(order.kind==='move'||order.kind==='roam'||order.kind==='gank'||order.kind==='route'||order.kind==='jungle'||order.kind==='objective'){
+  if(this.realmOfV453Dev69(u)&&['move','roam','gank','route'].includes(order.kind)){
+    const points=order.points?.length?order.points:(order.destination?[order.destination]:[]);
+    if(points.some(p=>!this.realmValidV453Dev69(u,p)))
+     return {ok:false,reason:'reino_limite_ou_colisor'};
+   }
+   if(order.kind==='move'||order.kind==='roam'||order.kind==='gank'||order.kind==='route'||order.kind==='jungle'||order.kind==='objective'){
    const pts=order.points?.length?order.points:(order.destination?[order.destination]:[]);
    if(pts.length){if(order.kind==='move'||order.kind==='route')u.manualMoveHold=true;const action=order.kind==='jungle'?'jungle':order.kind==='objective'?'objective':['roam','gank'].includes(order.kind)?'gank':'move';return this.setPlan(team,unitId,pts.map(point=>({point,action,duration:0})),order.policy);}
   }
