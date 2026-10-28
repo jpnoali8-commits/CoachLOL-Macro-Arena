@@ -1951,6 +1951,12 @@ export class Arena {
   const activeTeamWards=this.wards.filter(w=>w.team===team&&!this.wardVisionSuppressedV452d4Dev26(w,enemyControls));
   for(const w of activeTeamWards)sources.push({x:w.x,y:w.y,r:this.wardRadius(w),kind:'ward'});
   for(const s of this.structures){if(s.team===team&&s.alive)sources.push({x:s.x,y:s.y,r:.075,kind:'structure'});}
+  // Lucent Singularity grants real team-limited fog vision only after travel;
+  // the enemy team never receives this source simply from a cast.
+  for(const lux of this.units)if(lux.team===team&&lux.champ==='Lux'&&lux.hp>0){
+   const z=lux.luxZoneV42;if(z&&this.gameTime>=(z.arriveAt??0)&&this.gameTime<z.expiresAt)
+    sources.push({x:z.point.x,y:z.point.y,r:310/this.worldWidth,kind:'lux_e'});
+  }
   // Faelight bonus regions must obey the same suppression as the parent ward.
   // Both the bonus region and the +25% ward radius expire with the temporary buff.
   const faelights=this.riftAllFeaturesV452d4('faelights');
@@ -2657,13 +2663,14 @@ export class Arena {
   for(const u of this.units){
    if(u.hp<=0){u.pendingKitCastV42=null;u.luxZoneV42=null;continue;}
    const zone=u.luxZoneV42;
-   if(zone){
+   if(zone&&this.gameTime>=(zone.arriveAt??-Infinity)){
     if(zone.detonate||(zone.autoWaveV451&&this.gameTime>=zone.placedAt+2)||this.gameTime>=zone.expiresAt){
      const rule=kitSpellV42('Lux','E'),rank=Math.max(1,u.skillRanks.E);
      const hits=areaHitsV42(zone.point,[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&(v.spawnAt===undefined||v.spawnAt<=this.gameTime)),rule.radius,this.worldWidth,this.worldHeight);
      for(const victim of hits){
       const dealt=this.damage(victim,rule.damage[Math.min(rank-1,4)]+this.elementalStatsV452d3(u).ap*rule.apRatio,u,'magic','spell');
-      if(dealt>0&&victim.champ)this.luxMarkIlluminationV453Dev69M2(u,victim);
+      if(dealt>0&&victim.champ){this.luxMarkIlluminationV453Dev69M2(u,victim);
+       fx.apply(victim,'slow',{source:u,duration:1,power:rule.slow[Math.min(rank-1,4)]/100,key:'lux_e_exit_'+u.id});}
      }
      this.event(`${u.champ}: E detonada (${hits.length} alvo(s)).`,u.team,'skill_vfx',u.id,
       {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,zone.point)),vfx:{type:'lucent_singularity_explode',at:zone.point,radius:rule.radius,expiresAt:this.gameTime+1}});
@@ -2715,9 +2722,11 @@ export class Arena {
     this.event(`${u.champ}: Light Binding (${hits.length} colisões).`,u.team,'skill_vfx',u.id,
      {observedBy:observers,vfx:{type:rule.effect,from:{x:u.x,y:u.y},to:q.point,width:rule.width,expiresAt:this.gameTime+2}});
    }else if(rule.kind==='ground_zone'){
-    u.luxZoneV42={point:{...q.point},expiresAt:this.gameTime+rule.duration,detonate:false,autoWaveV451:!!q.autoWaveV451,placedAt:this.gameTime};
+    const arriveAt=this.gameTime+.25+this.mapDistance(u,q.point)/1200;
+    u.luxZoneV42={point:{...q.point},arriveAt,expiresAt:arriveAt+rule.duration,
+     detonate:false,autoWaveV451:!!q.autoWaveV451,placedAt:this.gameTime};
     this.event(`${u.champ}: Lucent Singularity posicionada.`,u.team,'skill_vfx',u.id,
-     {observedBy:observers,vfx:{type:rule.effect,at:q.point,radius:rule.radius,expiresAt:this.gameTime+rule.duration}});
+     {observedBy:observers,vfx:{type:rule.effect,at:q.point,radius:rule.radius,expiresAt:u.luxZoneV42.expiresAt}});
    }
   }
  }
