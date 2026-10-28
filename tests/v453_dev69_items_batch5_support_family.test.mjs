@@ -13,7 +13,7 @@ const equip=(a,id,role='MID')=>{const u=hero(a,'blue',role);u.gold=100000;u.item
 let passes=0;const test=(name,fn)=>{try{fn();passes++;console.log('✓ B5 '+name)}catch(e){console.error('✗ B5 '+name);throw e;}};
 const ids={aether_wisp:'3113',bandleglass_mirror:'4642',fiendish_codex:'3108',forbidden_idol:'3114',kindlegem:'3067',cloth_armor:'1029',null_magic_mantle:'1033',chain_vest:'1031',rejuvenation_bead:'1006',blasting_wand:'1026',amp_tome:'1052',blighting_jewel:'4630',vampiric_scepter:'1053',hextech_alternator:'3145'};
 test('15 Riot official IDs/prices/recipes/sale and 35 reference-only',()=>{
- assert.deepEqual([sr.counts.normalPlayable,sr.counts.referenceOnly],[167,35]);assert.equal(entries.length,15);
+ assert.ok(sr.counts.normalPlayable>=167&&sr.counts.referenceOnly<=35,'catalog coverage must not regress');assert.equal(sr.counts.normalPlayable+sr.counts.referenceOnly,202);assert.equal(entries.length,15);
  for(const {riotId,localId} of entries){const c=catalog.find(x=>x.id===localId),d=riot[riotId];assert.ok(c,localId);assert.equal(c.riotId,Number(riotId));assert.equal(c.cost,d.gold.total);assert.equal(officialSaleValueV453Dev60(localId),d.gold.sell);assert.deepEqual(ITEM_RECIPES[localId].map(x=>ids[x]),d.from);assert.equal(sr.rows[riotId].localId,localId);assert.equal(sr.rows[riotId].status,'engine_playable');}
  assert.equal(Object.values(sr.rows).filter(x=>x.status==='reference_only'&&x.localId).length,0);
 });
