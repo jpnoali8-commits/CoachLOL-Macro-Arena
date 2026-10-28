@@ -118,5 +118,43 @@ for(const team of ['blue','red']){
   assert.equal(w.a.effectResolverV41().list(w.u).filter(x=>x.type==='shield').length,2);
   assert.equal(checksumV40(w.a.snapshotV40()),checksumV40(copy.snapshotV40()));
  });
+ const e=make(team);
+ const center={x:e.enemy.x,y:e.enemy.y};
+ assert.equal(e.a.queueKitSkillV42(team,e.u.id,'E',center).ok,true);
+ e.a.resolveKitSkillsV42();
+ test(team+' Lux E spends exactly once and travels before arriving',()=>{
+  assert.equal(e.u.mana,430);
+  assert.ok(e.u.luxZoneV42?.arriveAt>.7);
+  assert.equal(e.a.visionSources(team).some(x=>x.kind==='lux_e'),false);
+  assert.equal(e.a.effectResolverV41().has(e.enemy,'slow'),false);
+ });
+ e.a.gameTime=.25;
+ const recast=e.a.queueKitSkillV42(team,e.u.id,'E',center);
+ e.a.resolveKitSkillsV42();
+ test(team+' Lux E can queue recast in flight without a second mana charge',()=>{
+  assert.equal(recast.ok,true);assert.equal(e.u.mana,430);
+  assert.equal(e.enemy.hp,2000);
+  assert.ok(e.u.luxZoneV42);
+ });
+ const savedE=Arena.fromSnapshotV40(map,mask,e.a.snapshotV40());
+ e.a.gameTime=savedE.gameTime=.9;
+ e.a.resolveKitSkillsV42();savedE.resolveKitSkillsV42();
+ test(team+' Lux E flight-recast detonates on arrival exactly once',()=>{
+  assert.ok(e.enemy.hp<2000);
+  assert.equal(e.u.luxZoneV42,null);
+  assert.equal(e.u.mana,430);
+  assert.equal(e.enemy.luxIlluminationV453Dev69M2?.ownerId,e.u.id);
+  assert.ok(e.a.effectResolverV41().has(e.enemy,'slow'));
+  assert.equal(checksumV40(e.a.snapshotV40()),checksumV40(savedE.snapshotV40()));
+ });
+ const eZone=make(team);
+ assert.equal(eZone.a.queueKitSkillV42(team,eZone.u.id,'E',{x:.54,y:.5}).ok,true);
+ eZone.a.resolveKitSkillsV42();
+ eZone.a.gameTime=.9;eZone.a.resolveKitSkillsV42();
+ test(team+' Lux E active zone adds team-only vision after physical arrival',()=>{
+  assert.ok(eZone.a.visionSources(team).some(x=>x.kind==='lux_e'));
+  assert.equal(eZone.a.visionSources(foe).some(x=>x.kind==='lux_e'),false);
+  assert.ok(eZone.a.effectResolverV41().has(eZone.enemy,'slow'));
+ });
 }
 console.log('DEV69 MULTI CHAMPIONS M3 '+pass+'/'+pass+' PASS');
