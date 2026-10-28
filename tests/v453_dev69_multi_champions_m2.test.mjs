@@ -145,14 +145,21 @@ for(const team of ['blue','red']){
   assert.equal(layers.length,1);assert.equal(layers[0].power,40);
  });
  lux.a.gameTime=.53;lux.a.advanceChampionProjectilesV453Dev42();
- test(team+' Lux W starts return flight and adds second self layer',()=>{
+ test(team+' Lux W begins homing return without prematurely shielding caster',()=>{
   assert.equal(lux.a.championProjectilesV453Dev42[0].kind,'lux_w_back');
-  assert.equal(lux.a.effectResolverV41().list(lux.u).filter(x=>x.type==='shield').length,2);
+  assert.equal(lux.a.effectResolverV41().list(lux.u).filter(x=>x.type==='shield').length,1);
  });
  const save=Arena.fromSnapshotV40(map,mask,lux.a.snapshotV40());
  lux.a.gameTime=save.gameTime=.93;lux.a.advanceChampionProjectilesV453Dev42();save.advanceChampionProjectilesV453Dev42();
  test(team+' Lux W return shield stacks twice and survives reconnect checkpoint',()=>{
   assert.equal(lux.a.effectResolverV41().list(lux.ally).filter(x=>x.type==='shield').length,2);
+  assert.equal(checksumV40(lux.a.snapshotV40()),checksumV40(save.snapshotV40()));
+ });
+ lux.a.gameTime=save.gameTime=1.15;
+ lux.a.advanceChampionProjectilesV453Dev42();save.advanceChampionProjectilesV453Dev42();
+ test(team+' Lux W shields caster again only on actual retrieval',()=>{
+  assert.equal(lux.a.effectResolverV41().list(lux.u).filter(x=>x.type==='shield').length,2);
+  assert.equal(lux.a.championProjectilesV453Dev42.length,0);
   assert.equal(checksumV40(lux.a.snapshotV40()),checksumV40(save.snapshotV40()));
  });
 }
