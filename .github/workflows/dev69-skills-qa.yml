@@ -34,6 +34,7 @@ jobs:
           node --check tests/v453_dev69_board_grammar.test.mjs
           node --check tests/v453_dev69_board_m10.test.mjs
           node --check tests/v453_dev69_board_m11.test.mjs
+          node --check tests/v453_dev69_board_m12.test.mjs
           node --check multiplayer/authoritative_actions_v453_dev44.mjs
           node --check multiplayer/pvp_client_v453_dev47.js
           node --check multiplayer/server_v453_dev47.mjs
@@ -51,6 +52,7 @@ jobs:
           node tests/v453_dev69_board_grammar.test.mjs
           node tests/v453_dev69_board_m10.test.mjs
           node tests/v453_dev69_board_m11.test.mjs
+          node tests/v453_dev69_board_m12.test.mjs
           node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
       - name: Existing Lux and individual skills regressions
         run: |
