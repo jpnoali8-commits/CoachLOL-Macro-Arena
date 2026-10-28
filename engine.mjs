@@ -784,7 +784,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
  Annie:{passive:'pyromania',Q:BS('target_enemy',625,60,4,[80,115,150,185,220],{apRatio:.8}),
   W:BS('cone_enemy',625,70,8,[70,115,160,205,250],{apRatio:.85,arc:55}),
   E:BS('target_ally',800,40,12,[],{shield:[60,90,120,150,180],apRatio:.4}),
-  R:BS('circle_enemy',600,100,[120,100,80],[150,275,400],{apRatio:.75,radius:290,boardTemporal:'tibbers_aura',missing:'targetable_mobile_tibbers'})},
+  R:BS('circle_enemy',600,100,[120,100,80],[150,275,400],{apRatio:.75,radius:290,boardSummon:'tibbers',missing:'full_tibbers_AI_enrage'})},
  Ashe:{passive:'frost_shot',Q:BS('target_enemy',650,50,10,[35,55,75,95,115],{type:'physical',adRatio:.8}),
   W:BS('cone_enemy',1200,60,12,[60,95,130,165,200],{type:'physical',adRatio:1,cc:'slow',ccSeconds:2,ccPower:.4,arc:70}),
   E:BS('vision_point',25000,0,65,[],{radius:650,visionSeconds:4}),
@@ -1276,7 +1276,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -1888,7 +1888,7 @@ export class Arena {
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
   a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
-  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;
+  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -2200,6 +2200,11 @@ export class Arena {
  perspective(team){const sources=this.visionSources(team);const canSee=point=>this.canSeePoint(team,point,sources);return {round:this.round,time:this.gameTime,
   units:this.units.filter(u=>u.team===team||(u.hp>0&&this.visible(team,u,sources))).map(u=>u.team===team?u:({id:u.id,team:u.team,role:u.role,champ:u.champ,klass:u.klass,x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,level:u.level})),
   minions:this.minions.filter(m=>m.team===team||this.visible(team,m,sources)),
+  boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
+   s.until>this.gameTime&&(s.team===team||canSee(s)))
+   .map(s=>s.team===team?{id:s.id,kind:s.kind,team:s.team,ownerId:s.ownerId,
+    x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp,until:s.until,targetId:s.targetId}:
+    {id:s.id,kind:s.kind,team:s.team,x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}),
   // Structures are public objectives: destroyed state and inhibitor respawn remain observable.
   structures:this.structures.map(s=>({...s})),
   // Never leak cleared/respawning neutral camps outside team vision.
@@ -2646,7 +2651,10 @@ export class Arena {
  setOrder(team,unitId,order){
   const u=this.units.find(v=>v.id===unitId&&v.team===team);if(!u||this.teams[team].ready||this.ended||u.hp<=0)return {ok:false,reason:'Unidade indisponível'};
   if(!order||typeof order.kind!=='string')return {ok:false,reason:'Ordem inválida'};
-  if(order.targetId){const enemy=this.units.find(e=>e.id===order.targetId&&e.team!==team);if(enemy&&!this.visible(team,enemy))return {ok:false,reason:'Alvo oculto na fog'};}
+  if(order.targetId){const enemy=this.units.find(e=>e.id===order.targetId&&e.team!==team);
+    const summon=this.boardSummonsV453Dev69?.find(s=>s.id===order.targetId&&s.team!==team&&s.hp>0);
+    if(summon&&!this.canSeePoint(team,summon))return {ok:false,reason:'Invocacao oculta na fog'};
+    if(enemy&&!this.visible(team,enemy))return {ok:false,reason:'Alvo oculto na fog'};}
   if(order.kind==='chase'&&!order.targetId)return {ok:false,reason:'Escolha um alvo para perseguir.'};
   if(order.kind==='attack'&&Array.isArray(order.combo)){
    if(order.combo.length>12||order.combo.some(slot=>!['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(slot)))return {ok:false,reason:'Combo inválido (máximo 12 etapas QWER e feitiços equipados).'};
@@ -2908,6 +2916,17 @@ export class Arena {
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  if(s.boardSummon==='tibbers'){
+   this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(v=>
+    !(v.ownerId===u.id&&v.kind==='tibbers'));
+   const rank=Math.max(1,u.skillRanks.R||1),hp=900+rank*350,
+    stats=this.elementalStatsV452d3(u);
+   this.boardSummonsV453Dev69.push({id:'tibbers_'+(++this.boardSummonIdV453Dev69),
+    kind:'tibbers',team:u.team,ownerId:u.id,x:q.point.x,y:q.point.y,
+    hp,maxHp:hp,armor:30,mr:30,until:this.gameTime+20,lastTick:this.gameTime,
+    nextAttackAt:this.gameTime+1,commandPoint:null,targetId:null,
+    power:45+rank*25+stats.ap*.15,moveSpeed:260,attackRange:195});
+  }
   if(s.boardCardCycle)u.boardCardCycleV453Dev69={
    startedAt:this.gameTime,until:this.gameTime+6,slot:q.slot};
   // Authoritative discrete temporal effects: resolution is scheduled once;
@@ -3194,6 +3213,7 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.boardVisionV453Dev69=(this.boardVisionV453Dev69||[]).filter(v=>v.until>this.gameTime);
   this.advanceBoardTemporalV453Dev69();
+  this.advanceBoardSummonsV453Dev69();
   for(const u of this.units)if(u.champ==='Garen'&&u.hp>0&&
     this.gameTime>=(u.combatUntil||0)+8&&(u.boardRegenAtV453Dev69||-1)<this.gameTime){
    this.effectResolverV41().heal(u,u.maxHp*.012,u);
@@ -7562,6 +7582,9 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(o.kind==='chase')continue; // follow-only never forces an attack
    let candidate=null;const requested=o.targetId||u.reactionCombo?.targetId||stage?.targetId;
    if(requested)candidate=enemies.find(x=>x.id===requested)||null;
+    if(!candidate&&requested)candidate=(this.boardSummonsV453Dev69||[]).find(s=>
+     s.id===requested&&s.team!==u.team&&s.hp>0&&s.until>this.gameTime&&
+     this.mapDistance(u,s)<=effectiveAARange&&this.canSeePoint(u.team,s))||null;
    // Attacks validate vision/range, never consent from the defender.
    if(!candidate&&enemies.length){
     // Retreat is not immunity: aggression and authorized attacks still connect
