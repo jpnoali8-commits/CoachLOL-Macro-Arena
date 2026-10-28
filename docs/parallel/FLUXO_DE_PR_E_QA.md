@@ -4,7 +4,7 @@
 
 Ver `STATUS_DEV69.md`: enquanto estiver `BOOTSTRAP`, as três branches têm apenas documentação. Não iniciar alterações reais de engine nesse repositório. O integrador importará a dev68 real, aferirá integridade, alinhará branches e mudará status para `READY`.
 
-## Desenvolvimento após READY
+## Desenvolvimento após SOURCE_READY
 
 1. Chat 1 lê `CHAT_1_SKILLS.md` e modifica somente `dev69/skills`; Chat 2 lê `CHAT_2_ITENS.md` e modifica somente `dev69/items`; Chat 3 trabalha em `dev69/integration`.
 2. Especialistas escrevem teste que falha no comportamento antigo, implementam incremento mínimo e apresentam teste novo verde + regressões relevantes.
