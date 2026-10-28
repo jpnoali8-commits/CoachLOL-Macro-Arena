@@ -59,6 +59,15 @@ for(const team of ['blue','red']){
  a.gameTime=1;
  assert.equal(a.queueKitSkillV42(team,j.id,'Q',{x:.5,y:.5}).ok,true);
  a.resolveKitSkillsV42();
+ test(team+' Jinx Q/P stats produce real attack interval changes',()=>{
+  const normal=setup(team);
+  const base=normal.a.basicAttackIntervalV452c(normal.j);
+  normal.j.jinxPowPowStacksV453Dev69M5=3;normal.j.jinxPowPowUntilV453Dev69M5=5;
+  assert.ok(normal.a.basicAttackIntervalV452c(normal.j)<base);
+  normal.j.jinxExcitedV453Dev69M5={at:0,until:6,stacks:3};
+  assert.ok(normal.a.basicAttackIntervalV452c(normal.j)<base);
+  normal.a.gameTime=7;assert.equal(normal.a.basicAttackIntervalV452c(normal.j),base);
+ });
  test(team+' Pow-Pow restores baseline range without paying mana',()=>{
   assert.equal(j.jinxRocketModeV453Dev69M5,false);
   assert.equal(a.itemAttackRangeV453Dev38(j),baseRange);
@@ -83,6 +92,10 @@ for(const team of ['blue','red']){
  });
  const save=Arena.fromSnapshotV40(map,mask,t.a.snapshotV40());
  t.a.gameTime=save.gameTime=1;t.a.advanceJinxChompersV453Dev69M5();save.advanceJinxChompersV453Dev69M5();
+ test(team+' Jinx E grants allied-only fog sight while traps exist',()=>{
+  assert.ok(t.a.visionSources(team).some(v=>v.kind==='jinx_e'));
+  assert.equal(t.a.visionSources(other).some(v=>v.kind==='jinx_e'),false);
+ });
  test(team+' E arms, roots and damages enemy, preserving checkpoint determinism',()=>{
   assert.ok(t.foe.hp<2000);
   assert.ok(t.a.effectResolverV41().has(t.foe,'root'));
