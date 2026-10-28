@@ -700,7 +700,10 @@ export const CHAMPION_KITS_V42=Object.freeze({
    projectileSpeed:1300,implemented:'prototype'},
   R:{name:'Shadow Surge',kind:'line_recast',range:2000,rangeByRank:[2000,2500,3000],width:260,mana:[100],cooldown:[140,120,100],damage:[75,125,175],apRatio:.2,recastDamage:[150,250,350],recastApRatio:.5,recastSeconds:4,effect:'shadow_surge',projectile:true,implemented:'prototype'}
  })}),
- Jinx:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'get_excited',status:'planned'},spells:Object.freeze({
+ Jinx:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'get_excited',status:'prototype_kill_trigger'},spells:Object.freeze({
+  Q:{name:'Switcheroo!',kind:'self_toggle',range:0,mana:[0],cooldown:[.9],rocketManaPerAttack:20,rocketRange:[100,125,150,175,200],splashRadius:250,implemented:'prototype'},
+  E:{name:'Flame Chompers!',kind:'ground_traps',range:925,mana:[90],cooldown:[24,20.5,17,13.5,10],armSeconds:.9,expireSeconds:5,damage:[90,140,190,240,290],apRatio:1,rootSeconds:1.5,implemented:'prototype'},
+  R:{name:'Super Mega Death Rocket!',kind:'line_global',range:25000,width:280,speed:1700,mana:[100],cooldown:[85,65,45],damage:[200,350,500],missingFraction:[.25,.30,.35],explosionRadius:400,implemented:'prototype'},
   W:{name:'Zap!',kind:'line_projectile',range:1500,width:120,speed:3300,mana:[40,45,50,55,60],cooldown:[8,7,6,5,4],
    damage:[10,60,110,160,210],adRatio:1.4,slow:[40,50,60,70,80],implemented:'prototype'}
  })}),
@@ -2645,6 +2648,15 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
+  if(u?.champ==='Jinx'&&slot==='Q'){
+   if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
+    return {ok:false,reason:'fase_indisponível'};
+   const gate=castGateV39(u,'Q',this.gameTime);if(!gate.ok)return {ok:false,reason:gate.reason};
+   if(u.pendingJinxQToggleV453Dev69M5)return {ok:false,reason:'ação_pendente'};
+   u.pendingJinxQToggleV453Dev69M5=true;
+   this.recordIntentV40(team,u.id,'kit_self',{slot:'Q'});
+   return {ok:true};
+  }
   if(u?.champ==='Ahri'&&slot==='W'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
     return {ok:false,reason:'fase_indisponível'};
@@ -2656,7 +2668,7 @@ export class Arena {
    return {ok:true};
   }
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
-  if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
+  if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle','ground_traps'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
   // Lux E recast has no second mana/cooldown cost. A zone is not the same as a QWER spell cast.
   if(slot==='E'&&u.champ==='Lux'&&u.luxZoneV42?.expiresAt>this.gameTime){
    u.luxZoneV42.detonate=true;this.recordIntentV40(team,u.id,'kit_recast',{slot});return {ok:true,recast:true};
@@ -2695,6 +2707,10 @@ export class Arena {
       fx.apply(enemy,'slow',{source:u,duration:1.25,power:slow(kitSpellV42('Lux','E'))/100,key:'lux_e_'+u.id});
     }
    }
+   if(u.pendingJinxQToggleV453Dev69M5){
+    const switched=this.castJinxSwitchV453Dev69M5(u);
+    if(switched.ok||switched.reason!=='incapacitado')u.pendingJinxQToggleV453Dev69M5=false;
+   }
    if(u.pendingAhriFoxFireV453Dev69M4){
     const fired=this.castAhriFoxFireV453Dev69M4(u);
     if(fired.ok||fired.reason!=='incapacitado')u.pendingAhriFoxFireV453Dev69M4=false;
@@ -2709,6 +2725,11 @@ export class Arena {
     const launch=this.launchLuxBindingV453Dev68(u,q.point);
     if(launch.ok)u.pendingKitCastV42=null;
     else if(['recarga','mana','não_aprendido'].includes(launch.reason))u.pendingKitCastV42=null;
+    continue;
+   }
+   if(u.champ==='Jinx'&&q.slot==='E'){
+    const cast=this.castJinxChompersV453Dev69M5(u,q.point);
+    if(cast.ok||cast.reason!=='incapacitado')u.pendingKitCastV42=null;
     continue;
    }
    if(u.champ==='Vex'&&['Q','W','E'].includes(q.slot)){
@@ -2752,7 +2773,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
-  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
+  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
   const recastAhriR=u.champ==='Ahri'&&slot==='R'&&u.ahriSpiritRushV453Dev69M4?.until>this.gameTime&&u.ahriSpiritRushV453Dev69M4?.charges>0;
@@ -2762,6 +2783,95 @@ export class Arena {
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
+ }
+ // Jinx M5: each of P/Q/E/R owns a distinct serialized, server-side contract.
+ jinxExcitedV453Dev69M5(u,{champion=false}={}){
+  if(u?.champ!=='Jinx'||u.hp<=0)return false;
+  const active=u.jinxExcitedV453Dev69M5?.until>this.gameTime;
+  const previous=active?u.jinxExcitedV453Dev69M5.stacks:0;
+  u.jinxExcitedV453Dev69M5={at:this.gameTime,until:this.gameTime+6,
+   stacks:champion?Math.min(5,previous+1):Math.max(1,previous)};
+  return true;
+ }
+ castJinxSwitchV453Dev69M5(u){
+  const rule=kitSpellV42(u?.champ,'Q');
+  if(!u||u.champ!=='Jinx'||u.hp<=0||!rule)return {ok:false,reason:'invalid'};
+  const result=this.performActionV40({actorId:u.id,kind:'skill',slot:'Q',
+   source:'jinx_switch_v453_dev69_m5',costOverride:0,cooldownOverride:.9,checkRange:false});
+  if(!result.ok)return result;
+  u.jinxRocketModeV453Dev69M5=!u.jinxRocketModeV453Dev69M5;
+  return {...result,rocketMode:u.jinxRocketModeV453Dev69M5};
+ }
+ castJinxChompersV453Dev69M5(u,point){
+  const rule=kitSpellV42(u?.champ,'E');
+  if(!u||u.champ!=='Jinx'||u.hp<=0||!point||![point.x,point.y].every(Number.isFinite))
+   return {ok:false,reason:'invalid'};
+  if(this.mapDistance(u,point)>rule.range)return {ok:false,reason:'range'};
+  const res=this.performActionV40({actorId:u.id,kind:'skill',slot:'E',point,
+   source:'jinx_chompers_v453_dev69_m5'});
+  if(!res.ok)return res;
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight;
+  const len=Math.max(1,Math.hypot(dx,dy)),normal={x:-dy/len,y:dx/len};
+  const centers=[-90,0,90].map(offset=>({x:point.x+normal.x*offset/this.worldWidth,
+   y:point.y+normal.y*offset/this.worldHeight}));
+  const rank=Math.max(1,Math.min(5,u.skillRanks.E));
+  (this.jinxChompersV453Dev69M5??=[]).push({
+   id:'jinx_e_'+(++this.championProjectileSeqV453Dev42),ownerId:u.id,
+   team:u.team,centers,landAt:this.gameTime+.4,armedAt:this.gameTime+rule.armSeconds,
+   expireAt:this.gameTime+rule.expireSeconds,rootSeconds:rule.rootSeconds,
+   damage:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+   hitIds:[]});
+  return {...res,pending:true,armedAt:this.gameTime+rule.armSeconds};
+ }
+ advanceJinxChompersV453Dev69M5(){
+  const next=[];
+  for(const p of this.jinxChompersV453Dev69M5||[]){
+   const owner=this.units.find(u=>u.id===p.ownerId);
+   if(this.gameTime<p.armedAt){next.push(p);continue;}
+   const enemies=this.units.filter(v=>v.team!==p.team&&v.hp>0&&v.champ&&
+    p.centers.some(c=>this.mapDistance(c,v)<=115));
+   if(enemies.length){
+    const center=p.centers.find(c=>enemies.some(v=>this.mapDistance(c,v)<=115))||p.centers[1];
+    for(const v of [...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&this.mapDistance(center,v)<=225)){
+     if(p.hitIds.includes(v.id))continue;
+     p.hitIds.push(v.id);
+     const dealt=this.damage(v,p.damage,owner,'magic','spell');
+     if(v.champ&&dealt>0)this.applyEffectV41(v,'root',{source:owner,
+      duration:p.rootSeconds,key:p.id+'_'+v.id});
+    }
+    // Other traps may continue blocking but never damage a victim twice.
+   }
+   if(this.gameTime>=p.expireAt){
+    if(!enemies.length)for(const v of [...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&p.centers.some(c=>this.mapDistance(c,v)<=225))){
+     if(p.hitIds.includes(v.id))continue;
+     p.hitIds.push(v.id);this.damage(v,p.damage,owner,'magic','spell');
+    }
+   }else next.push(p);
+  }
+  this.jinxChompersV453Dev69M5=next;
+ }
+ launchJinxRocketV453Dev69M5(u,point){
+  const rule=kitSpellV42(u?.champ,'R');
+  if(!u||u.champ!=='Jinx'||u.hp<=0||!point||![point.x,point.y].every(Number.isFinite))
+   return {ok:false,reason:'invalid'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção_zero'};
+  const rank=Math.max(1,Math.min(3,u.skillRanks?.R||0));
+  if(!(u.skillRanks?.R>0))return {ok:false,reason:'não_aprendido'};
+  const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   source:'jinx_rocket_v453_dev69_m5',checkRange:false});
+  if(!committed.ok)return committed;
+  const p={kind:'jinx_r',id:'jinx_r_'+(++this.championProjectileSeqV453Dev42),
+   ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},unit:{x:dx/len,y:dy/len},
+   createdAt:this.gameTime,traveledV453Dev43:0,speed:rule.speed,
+   range:rule.range,width:rule.width,hitIds:[],base:rule.damage[rank-1],
+   missingFraction:rule.missingFraction[rank-1],splashRadius:rule.explosionRadius,
+   bonusAD:Math.max(0,this.elementalStatsV452d3(u).ad-(CHAMPION_LEVEL_STATS_V453_DEV69_M1.Jinx.ad+
+    (u.level-1)*CHAMPION_LEVEL_STATS_V453_DEV69_M1.Jinx.growth.ad)),riftRevision:this.riftV452d4?.revision||0};
+  this.championProjectilesV453Dev42.push(p);
+  return {...committed,pending:true,projectileId:p.id};
  }
  // Ahri M4 kit: W three individually scheduled fox-fires; R three real dash
  // charges and passive Essence Theft credited exclusively on confirmed takedowns.
@@ -3207,6 +3317,11 @@ export class Arena {
     const cast=this.castLuxFinalSparkV453Dev69M3(u,q.point);
     if(cast.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(cast.reason))
      u.queuedDirectional=null;
+    continue;
+   }
+   if(u.champ==='Jinx'&&q.slot==='R'){
+    const launch=this.launchJinxRocketV453Dev69M5(u,q.point);
+    if(launch.ok||launch.reason!=='incapacitado')u.queuedDirectional=null;
     continue;
    }
    if(u.champ==='Ahri'&&q.slot==='R'){
@@ -4289,7 +4404,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -4555,7 +4670,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.champ==='Ahri'&&u.ahriFoxFireSpeedUntilV453Dev69M4>this.gameTime?.40:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.champ==='Ahri'&&u.ahriFoxFireSpeedUntilV453Dev69M4>this.gameTime?.40:0)+(u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?1.75*Math.max(0,(u.jinxExcitedV453Dev69M5.until-this.gameTime)/6):0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5091,7 +5206,8 @@ export class Arena {
  // RFC extends only the ONE attack made with a fully Energized charge. The
  // range is an authorization check before commit, not a permanent u.range buff.
  itemAttackRangeV453Dev38(u){
-  const base=u.range||0;
+  const base=(u.range||0)+(u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?
+   (kitSpellV42('Jinx','Q').rocketRange[Math.max(0,Math.min(4,(u.skillRanks.Q||1)-1))]/this.worldWidth):0);
   if(!u.items?.includes('rapid_firecannon')||(u.energizeStacksV453Dev38||0)<100)return base;
   const spec=ITEM_EFFECTS_V43.rapid_firecannon;
   return base+Math.min(base*spec.bonusRangeRatio,spec.bonusRangeCap/this.worldWidth);
@@ -5601,8 +5717,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
-    if(credited)this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});
-    for(const helper of assistingChampions)this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});
+    if(credited){this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});this.jinxExcitedV453Dev69M5(credited,{champion:true});}
+    for(const helper of assistingChampions){this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});this.jinxExcitedV453Dev69M5(helper,{champion:true});}
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
     if(gloryItem)this.setGloryStacksV453Dev58(target,(target.gloryStacksV453Dev58||0)-ITEM_EFFECTS_V43[gloryItem].stacksLostOnDeath);
     target.deadUntil=this.gameTime+Math.min(55,10+target.level*3+Math.max(0,this.gameTime-1500)/110);
@@ -5704,8 +5820,22 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     !(target.stasisUntil>this.gameTime)&&!fx.has(target,'stasis')&&!fx.has(target,'invulnerable')&&
     !(onHitAbility&&fx.has(target,'spell_shield'))&&
     !(['tower','inhibitor','nexus'].includes(target.type)&&!this.structureVulnerable(target)));
+  const jinxRocket=basic&&landed&&attacker.champ==='Jinx'&&attacker.jinxRocketModeV453Dev69M5&&
+   attacker.mana>=kitSpellV42('Jinx','Q').rocketManaPerAttack;
+  if(jinxRocket)attacker.mana-=kitSpellV42('Jinx','Q').rocketManaPerAttack;
+  if(basic&&landed&&attacker.champ==='Jinx'&&!jinxRocket){
+   const timed=attacker.jinxPowPowUntilV453Dev69M5>this.gameTime;
+   attacker.jinxPowPowStacksV453Dev69M5=Math.min(3,(timed?attacker.jinxPowPowStacksV453Dev69M5:0)+1);
+   attacker.jinxPowPowUntilV453Dev69M5=this.gameTime+2.5;
+  }
   const energized=basic&&landed&&attacker.items?.includes('rapid_firecannon')&&(attacker.energizeStacksV453Dev38||0)>=100;
-  const dealt=this.damage(target,amount,attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
+  const dealt=this.damage(target,amount+(jinxRocket?Math.max(0,(attacker.ad||0)*.10):0),attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
+  if(jinxRocket&&dealt>0){
+   for(const splash of [...this.units,...this.minions].filter(v=>v.id!==target.id&&v.hp>0&&
+    v.team!==attacker.team&&this.mapDistance(v,target)<=250&&
+    (v.spawnAt==null||v.spawnAt<=this.gameTime)))
+    this.damage(splash,amount*1.1,attacker,'physical','jinx_rocket_splash_v453_dev69_m5');
+  }
   if(basic&&landed){
    if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
    if(target.hp>0&&attacker.champ==='Lux')this.luxConsumeIlluminationV453Dev69M2(attacker,target);
@@ -5871,6 +6001,33 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(p.kind==='jinx_r'){
+    // Rocket ignores ordinary minions, explodes at the FIRST enemy champion.
+    const blockers=line.filter(x=>x.v.champ&&x.depth<barrierDepth-1e-7);
+    const victim=blockers[0],impact=victim?.v;
+    if(impact){
+     const d=victim.depth,scale=.1+.9*Math.min(1,d/1500);
+     const primary=(v,ratio)=>{const missing=Math.max(0,v.maxHp-v.hp);
+      return (p.base*scale+1.2*p.bonusAD*scale+p.missingFraction*missing)*ratio;};
+     const hits=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+      (v.spawnAt==null||v.spawnAt<=now)&&this.mapDistance(v,impact)<=p.splashRadius);
+     for(const target of hits){
+      const ratio=target.id===impact.id?1:.8;
+      this.damage(target,primary(target,ratio),owner,'physical','spell');
+     }
+     (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,
+      ownerId:p.ownerId,hitId:impact.id,hitIds:hits.map(v=>v.id),reason:'primeiro_campeão',
+      origin,end:position(d),traveled:d,riftRevision:p.riftRevision});
+     continue;
+    }
+    p.traveledV453Dev43=to;
+    if(Number.isFinite(barrierDepth)||to>=p.range-1e-7){
+     (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,
+      ownerId:p.ownerId,hitIds:[],reason:Number.isFinite(barrierDepth)?'bloqueio_posicional':'fim_alcance'});
+     continue;
+    }
+    still.push(p);continue;
    }
    if(['ahri_q_out','ahri_q_back','ahri_e','jinx_w','lux_w_out','lux_w_back'].includes(p.kind)){
     const cutoff=barrierDepth,returning=p.kind.endsWith('_back');
