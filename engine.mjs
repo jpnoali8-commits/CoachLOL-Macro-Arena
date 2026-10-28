@@ -2910,7 +2910,7 @@ export class Arena {
    return {ok:true,recast:true,spentMana:0};
   }
   const target=q.targetId?this.units.find(v=>v.id===q.targetId&&v.hp>0):null;
-  if(['target_enemy','target_ally'].includes(s.shape)&&(!target||
+  if(['target_enemy','target_ally'].includes(s.shape)&&(!target||!this.sameCombatRealmV453Dev69(u,target)||
     (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team)||
     this.mapDistance(u,target)>s.range||
     (target.team!==u.team&&!this.visible(u.team,target))))
@@ -2967,9 +2967,9 @@ export class Arena {
     return {...committed,scheduled:true};
    }
   }
-  const enemyPool=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
+  const enemyPool=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
-  const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0);
+  const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
   let hits=[];const point=q.point||u;
   if(s.shape==='target_enemy'||s.shape==='target_ally')hits=[target];
   else if(s.shape==='self')hits=[u];
@@ -4308,8 +4308,9 @@ export class Arena {
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'Conjuração indisponível na fase atual.'};
   if(!['Zed','Karthus','Soraka','Jinx','Ashe','Ezreal','KSante','Mordekaiser'].includes(u.champ))return {ok:false,reason:'Ultimate individual ainda não implementada.'};
   if((u.skillRanks?.R||0)<1||u.level<6)return {ok:false,reason:'Ultimate exige nível 6 e ponto em R.'};
+   if(u.champ==='Mordekaiser'&&this.realmContextV453Dev69)return {ok:false,reason:'reino_ja_ativo'};
   if((u.skillCds.R||0)>this.gameTime)return {ok:false,reason:'Ultimate em recarga.'};
-  const cost=u.champ==='Zed'?0:100;
+  const cost=['Zed','Mordekaiser'].includes(u.champ)?0:100;
   if(u.mana<cost)return {ok:false,reason:'Mana insuficiente.'};
   if(['Zed','KSante','Mordekaiser'].includes(u.champ)){
    const target=this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0);
@@ -4325,11 +4326,12 @@ export class Arena {
    if(u.skillCds.R>this.gameTime||u.skillRanks.R<1)continue;
    const target=this.units.find(x=>x.id===q.targetId&&x.hp>0);
    if(['Zed','KSante','Mordekaiser'].includes(u.champ)){
+    if(u.champ==='Mordekaiser'&&this.realmContextV453Dev69){u.queuedUltimate=null;continue;}
     const limit=u.champ==='KSante'?300:u.champ==='Mordekaiser'?650:625;
     if(!target||!this.visible(u.team,target)||this.mapDistance(u,target)>limit){u.queuedUltimate=null;continue;}
     if(!this.duelPermission(u,target))continue;
    }
-   u.queuedUltimate=null;const cost=u.champ==='Zed'?0:100;
+   u.queuedUltimate=null;const cost=['Zed','Mordekaiser'].includes(u.champ)?0:100;
    const cds={Zed:120,Karthus:150,Soraka:150,Jinx:85,Ashe:100,Ezreal:120,KSante:120,Mordekaiser:120};
    const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',targetId:['Zed','KSante','Mordekaiser'].includes(u.champ)?target?.id:null,
     costOverride:cost,cooldownOverride:hasteCooldown(cds[u.champ],this.elementalStatsV452d3(u).abilityHaste+(u.ultimateHaste||0)),source:'special_ultimate'});
