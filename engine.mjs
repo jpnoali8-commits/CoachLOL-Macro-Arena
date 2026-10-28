@@ -4959,6 +4959,35 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   this.event('Lux lançou Ligação da Luz.',u.team,'champion_projectile_launch_v453_dev68',u.id);
   return {...commit,pending:true,projectileId:projectile.id,dueAt:projectile.dueAt};
  }
+ // Dev69: Nami and Vex R have individual travelling missiles (no instant damage).
+ launchWaveShadowV453Dev69(u,slot,point){
+  if(!u||!['Nami','Vex'].includes(u.champ)||slot!=='R'||u.hp<=0||
+     !point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||
+     point.x<0||point.x>1||point.y<0||point.y>1)
+   return {ok:false,reason:'ponto_inválido'};
+  const rule=kitSpellV42(u.champ,'R'),origin={x:u.x,y:u.y};
+  const dx=(point.x-origin.x)*this.worldWidth,dy=(point.y-origin.y)*this.worldHeight;
+  const magnitude=Math.hypot(dx,dy);
+  if(magnitude<1)return {ok:false,reason:'direção_inválida'};
+  const rank=Math.max(1,Math.min(3,u.skillRanks?.R||1));
+  const range=rule.rangeByRank?.[rank-1]||rule.range;
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   point,source:u.champ.toLowerCase()+'_r_v453_dev69',
+   costOverride:rule.mana[Math.min(rank-1,rule.mana.length-1)],
+   cooldownOverride:this.abilityCooldownV452d3(u,'R'),checkRange:false});
+  if(!commit.ok)return commit;
+  const speed=u.champ==='Nami'?850:1600;
+  const p={id:u.champ.toLowerCase()+'_r_'+(++this.championProjectileSeqV453Dev42),
+   kind:u.champ.toLowerCase()+'_r',ownerId:u.id,team:u.team,origin,
+   unit:{x:dx/magnitude,y:dy/magnitude},range,width:rule.width,speed,
+   raw:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+   hitIds:[],createdAt:this.gameTime,dueAt:this.gameTime+range/speed,
+   traveledV453Dev43:0,riftRevision:this.riftV452d4?.revision??0};
+  this.championProjectilesV453Dev42.push(p);
+  this.event(u.champ+' lançou sua ultimate direcional.',u.team,'champion_projectile_launch_v453_dev69',u.id,{
+   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
+  return {...commit,projectileId:p.id,pending:true,dueAt:p.dueAt};
+ }
  // Swept cast direction is fixed, but potential interceptors are looked up at
  // the tick of impact: a minion that walks into the ray can stop the shot.
  // DEV43: incremental swept intervals, not a full-range ray evaluated after 1s.
@@ -5001,6 +5030,46 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(p.kind==='nami_r'||p.kind==='vex_r'){
+    // These ultimates cross map terrain but obey enemy projectile barriers.
+    // Sweep only the untraversed segment, one hit per physical unit ID.
+    const cutoff=barrierDepth;
+    let reason=null,lastDepth=to;
+    for(const {v,depth} of line){
+     if(depth>=cutoff-1e-7)break;
+     if(p.hitIds.includes(v.id))continue;
+     if((v.projectileGuardUntil||0)>now){reason='bloqueio_projétil';lastDepth=depth;break;}
+     const shielded=this.effectResolverV41().has(v,'spell_shield');
+     this.damage(v,p.raw,owner,'magic','spell');
+     p.hitIds.push(v.id);lastDepth=depth;
+     if(p.kind==='nami_r'&&v.champ&&!shielded&&v.hp>0){
+      this.applyEffectV41(v,'knockup',{source:owner,duration:.5,key:'nami_r_'+p.id});
+      this.applyEffectV41(v,'slow',{source:owner,
+       duration:2+2*Math.min(1,Math.max(0,depth)/p.range),
+       power:.70,key:'nami_r_slow_'+p.id});
+     }
+     if(p.kind==='vex_r'&&v.champ){
+      // The first enemy champion absorbs the missile even if shielded.
+      if(!shielded&&v.hp>0){
+       owner.vexMark={targetId:v.id,until:now+4};
+       v.revealedUntil??={};v.revealedUntil[p.team]=Math.max(v.revealedUntil[p.team]||0,now+4);
+      }
+      reason=shielded?'escudo_de_feitiço':'impacto_marca';break;
+     }
+    }
+    if(!reason&&Number.isFinite(cutoff)){reason='bloqueio_posicional';lastDepth=cutoff;}
+    p.traveledV453Dev43=to;
+    if(!reason&&to<p.range-1e-7){still.push(p);continue;}
+    reason??='fim_alcance';
+    this.championProjectileHistoryV453Dev42.push({id:p.id,time:now,ownerId:p.ownerId,
+     hitIds:[...p.hitIds],hitId:owner.vexMark?.targetId||null,reason,
+     origin,end:position(lastDepth),traveled:lastDepth,riftRevision:p.riftRevision});
+    if(this.championProjectileHistoryV453Dev42.length>100)this.championProjectileHistoryV453Dev42.shift();
+    this.event((p.kind==='nami_r'?'Onda Violenta: ':'Rajada Sombria: ')+reason,
+     p.team,'champion_projectile_impact_v453_dev69',p.ownerId,{
+      observedBy:['blue','red'].filter(team=>team===p.team||this.canSeePoint(team,position(lastDepth)))});
+    continue;
    }
    if(p.kind==='lux_q'){
     // Incremental sweep: each already-hit entity consumes exactly one slot.
