@@ -709,13 +709,13 @@ export const CHAMPION_KITS_V42=Object.freeze({
  })}),
  Ahri:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'essence_theft',status:'planned'},spells:Object.freeze({
   Q:{name:'Orb of Deception',kind:'line_return',range:970,width:200,speed:1550,mana:[55,65,75,85,95],cooldown:[7],
-   damage:[35,60,85,110,135],apRatio:.45,implemented:'prototype'},
+   damage:[35,60,85,110,135],apRatio:.50,implemented:'prototype'},
   E:{name:'Charm',kind:'line_projectile',range:1000,width:120,speed:1550,mana:[60],cooldown:[12],
    damage:[80,120,160,200,240],apRatio:.85,duration:[1.2,1.35,1.5,1.65,1.8],implemented:'prototype'},
   W:{name:'Fox-Fire',kind:'self_burst',range:700,mana:[30],cooldown:[9,8,7,6,5],
-   damage:[40,60,80,100,120],apRatio:.30,fireCount:3,speedBuff:.40,speedDuration:2,implemented:'prototype'},
-  R:{name:'Spirit Rush',kind:'dash_recast',range:450,mana:[100],cooldown:[140,120,100],
-   damage:[60,90,120],apRatio:.35,shots:3,charges:3,recastSeconds:15,implemented:'prototype'}
+   damage:[40,60,80,100,120],apRatio:.30,subsequentRatio:.40,fireCount:3,speedBuff:.40,speedDuration:2,implemented:'prototype'},
+  R:{name:'Spirit Rush',kind:'dash_recast',range:450,mana:[100],cooldown:[130,115,100],
+   damage:[75,125,175],apRatio:.35,shots:3,charges:3,recastSeconds:15,implemented:'prototype'}
  })})
 });
 // Dev41: only the explicitly audited Q abilities may use the Dev40 on-hit
@@ -2877,6 +2877,53 @@ export class Arena {
   this.championProjectilesV453Dev42.push(p);
   return {...committed,pending:true,projectileId:p.id};
  }
+ // Ahri Q returning orb tracks the caster's *current* location.
+ // Independent outbound/return hit ledgers prevent duplicate spell hits.
+ advanceAhriOrbReturnV453Dev69M6(p,owner,now){
+  if(!owner)return true;
+  const from=p.returnPositionV453Dev69M6||p.origin;
+  const dx=(owner.x-from.x)*this.worldWidth,dy=(owner.y-from.y)*this.worldHeight;
+  const length=Math.hypot(dx,dy),speed=Math.max(1,p.speed);
+  const duration=Math.max(0,now-(p.lastReturnAtV453Dev69M6??p.createdAt));
+  const travel=Math.min(length,speed*duration),vx=length>0?dx/length:0,vy=length>0?dy/length:0;
+  let blockedAt=Infinity;
+  for(const wall of this.projectileBarriersV453Dev43||[]){
+   if(wall.team===p.team||!(wall.until>now))continue;
+   const rx=(wall.x-from.x)*this.worldWidth,ry=(wall.y-from.y)*this.worldHeight;
+   const depth=rx*vx+ry*vy,side=Math.abs(rx*vy-ry*vx),radius=Math.max(0,wall.radius||0);
+   if(side<=radius&&depth+radius>=0&&depth-radius<=travel)
+    blockedAt=Math.min(blockedAt,Math.max(0,depth-Math.sqrt(Math.max(0,radius*radius-side*side))));
+  }
+  const distance=Math.min(travel,blockedAt),width=p.width/2;
+  const hits=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+    (v.spawnAt==null||v.spawnAt<=now)).map(v=>{
+     const x=(v.x-from.x)*this.worldWidth,y=(v.y-from.y)*this.worldHeight;
+     return {v,depth:x*vx+y*vy,side:Math.abs(x*vy-y*vx)};
+    }).filter(h=>h.depth>=-1e-7&&h.depth<=distance+1e-7&&h.side<=width)
+    .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id)));
+  for(const {v} of hits){
+   if(p.hitIds.includes(v.id))continue;
+   if((v.projectileGuardUntil||0)>now){
+    blockedAt=Math.min(blockedAt,Math.max(0,
+     (v.x-from.x)*this.worldWidth*vx+(v.y-from.y)*this.worldHeight*vy));
+    break;
+   }
+   p.hitIds.push(v.id);
+   this.damage(v,p.raw,owner,'true','spell');
+  }
+  const allowed=Math.min(distance,blockedAt);
+  const position={x:from.x+vx*allowed/this.worldWidth,y:from.y+vy*allowed/this.worldHeight};
+  p.returnPositionV453Dev69M6=position;p.lastReturnAtV453Dev69M6=now;
+  const finished=Number.isFinite(blockedAt)||allowed>=length-1e-7;
+  if(finished){
+   (this.championProjectileHistoryV453Dev42??=[]).push({
+    id:p.id,ownerId:p.ownerId,time:now,hitIds:[...p.hitIds],
+    reason:Number.isFinite(blockedAt)?'bloqueio_projétil':'retorno_ao_caster',
+    origin:p.origin,end:position,traveled:allowed,riftRevision:p.riftRevision
+   });
+  }
+  return finished;
+ }
  // Ahri M4 kit: W three individually scheduled fox-fires; R three real dash
  // charges and passive Essence Theft credited exclusively on confirmed takedowns.
  castAhriFoxFireV453Dev69M4(u){
@@ -2909,7 +2956,7 @@ export class Arena {
      this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)));
     const target=enemies[0];
     if(target){const repeat=p.hitCounts[target.id]||0;
-     this.damage(target,p.raw*(repeat? .3:1),u,'magic','spell');
+     this.damage(target,p.raw*(repeat? .40:1),u,'magic','spell');
      p.hitCounts[target.id]=repeat+1;
     }
     p.remaining--;p.nextAt+=.2;
@@ -5977,6 +6024,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     if(!this.advanceLuxWReturnV453Dev69M3(p,owner,now))still.push(p);
     continue;
    }
+   if(p.kind==='ahri_q_back'){
+    if(!this.advanceAhriOrbReturnV453Dev69M6(p,owner,now))still.push(p);
+    continue;
+   }
    const from=Math.min(p.range,Math.max(0,p.traveledV453Dev43||0));
    const elapsed=now-p.createdAt;
    const travelled=p.kind==='vex_q'?(elapsed<=p.accelAt/p.speed?elapsed*p.speed:
@@ -6085,6 +6136,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       origin:start,unit:{x:-p.unit.x,y:-p.unit.y},hitIds:[],
       createdAt:now,traveledV453Dev43:0,phase:'return'};
      if(isWand){back.returnPositionV453Dev69M3={...start};back.lastReturnAtV453Dev69M3=now;}
+     if(isOrb){back.returnPositionV453Dev69M6={...start};back.lastReturnAtV453Dev69M6=now;}
      still.push(back);
      continue;
     }
