@@ -51,3 +51,14 @@ jobs:
           name: dev69-full-items-audit-matrix
           path: artifacts/items_full_audit_dev69/
           if-no-files-found: warn
+
+  full-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Full historical, item, skill and PvP regression
+        run: npm test
