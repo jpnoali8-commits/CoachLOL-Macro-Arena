@@ -3365,7 +3365,7 @@ export class Arena {
    target=this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0);
   if(!u||!target||u.hp<=0||this.ended||this.teams[team]?.ready||
    !['planning','preparation'].includes(this.phase)||!(u.skillRanks?.R>0)||
-   u.pendingSylasHijackV453M14||u.sylasStolenV453M14)
+   u.pendingSylasHijackV453M14||u.sylasStolenV453M14?.expiresAt>this.gameTime)
    return {ok:false,reason:'hijack_indisponivel'};
   if(!this.visible(team,target)||this.mapDistance(u,target)>950||
    !this.sameCombatRealmV453Dev69(u,target))
