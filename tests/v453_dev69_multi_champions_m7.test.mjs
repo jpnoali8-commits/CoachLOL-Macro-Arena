@@ -141,4 +141,65 @@ test('seven-roster PvP saves/reloads without state drift',()=>{
  const snap=combined.snapshotV40(),copy=Arena.fromSnapshotV40(map,mask,snap);
  assert.equal(checksumV40(snap),checksumV40(copy.snapshotV40()));
 });
+// Mixed roster integration QA (no separate PR, no item mutations, same server match).
+for(const u of combined.units){
+ Object.assign(u,{x:.06,y:.06,autoAttack:false,autoFollow:false,autoFarm:false,autoJungle:false});
+}
+const by=(team,role)=>combined.units.find(v=>v.team===team&&v.role===role);
+const ez=by('blue','JG'),irelia=by('blue','TOP'),jinx=by('blue','ADC'),ahri=by('blue','MID'),
+ lux=by('blue','SUP'),nami=by('red','MID'),vex=by('red','TOP');
+for(const u of [ez,irelia,jinx,ahri,lux,nami,vex]){
+ u.mana=500;u.maxMana=500;u.skillRanks={Q:1,W:1,E:1,R:1};
+ u.skillCds={Q:0,W:0,E:0,R:0};
+ u.hp=1500;u.maxHp=1500;u.mr=0;u.armor=0;
+}
+Object.assign(ez,{x:.5,y:.5});Object.assign(irelia,{x:.5,y:.52});
+Object.assign(jinx,{x:.5,y:.54});Object.assign(ahri,{x:.5,y:.56});
+Object.assign(lux,{x:.5,y:.58});
+Object.assign(nami,{x:.535,y:.5});Object.assign(vex,{x:.535,y:.52});
+combined.visible=()=>true;
+test('seven-roster mixed PvP prohibits blue seat from ordering red Nami E',()=>{
+ const illegal=combined.queueTargetedSkill('blue',nami.id,'E',vex.id);
+ assert.equal(illegal.ok,false);
+ assert.equal(nami.mana,500);
+});
+test('mixed PvP red Nami buffs red Vex; Ezreal cannot steal ally buff',()=>{
+ assert.equal(combined.queueTargetedSkill('red',nami.id,'E',vex.id).ok,true);
+ combined.resolveTargetedCasts();
+ assert.equal(nami.mana,445);
+ assert.equal(vex.namiTidecallerV453Dev69M1.charges,3);
+ assert.equal(ez.namiTidecallerV453Dev69M1??null,null);
+});
+const ahriBefore=ahri.hp;
+combined.attack(vex,ahri,55);
+test('mixed PvP Nami E empowers Vex basic, deals damage against Ahri once',()=>{
+ assert.ok(ahri.hp<ahriBefore-55);
+ assert.equal(vex.namiTidecallerV453Dev69M1.charges,2);
+});
+test('mixed PvP Ezreal W marks Nami without damage and without consuming other-team resources',()=>{
+ assert.equal(combined.castEzrealEssenceFluxV453Dev69M7(ez,{x:.65,y:.5}).ok,true);
+ assert.equal(nami.hp,1500);assert.equal(nami.mana,445);
+});
+combined.gameTime=.45;combined.advanceChampionProjectilesV453Dev42();
+test('mixed PvP Ezreal W mark belongs only to Ezreal',()=>{
+ assert.equal(nami.ezrealFluxV453Dev69M7?.ownerId,ez.id);
+});
+assert.equal(combined.castIreliaVanguardV453Dev69M7(irelia,{x:.65,y:.52}).ok,true);
+combined.gameTime=.85;combined.advanceChampionProjectilesV453Dev42();
+test('mixed PvP Irelia R marks Vex but cannot detonate Ezreal W on Nami',()=>{
+ assert.equal(vex.ireliaMarkV453Dev42?.ownerId,irelia.id);
+ assert.equal(nami.ezrealFluxV453Dev69M7?.ownerId,ez.id);
+});
+const beforeFlux=nami.hp;
+assert.equal(combined.castEzrealArcaneShiftV453Dev69M7(ez,{x:.510,y:.5}).ok,true);
+test('mixed PvP Ezreal E detonates own W after Irelia R, with no enemy cross-control',()=>{
+ assert.ok(nami.hp<beforeFlux);
+ assert.equal(nami.ezrealFluxV453Dev69M7,null);
+ assert.equal(vex.namiTidecallerV453Dev69M1.charges,2);
+});
+const mixedCopy=Arena.fromSnapshotV40(map,mask,combined.snapshotV40());
+test('mixed seven-champion interaction state round-trips in a single PvP checkpoint',()=>{
+ assert.equal(checksumV40(combined.snapshotV40()),checksumV40(mixedCopy.snapshotV40()));
+ assert.equal(mixedCopy.units.find(v=>v.id===vex.id).namiTidecallerV453Dev69M1.charges,2);
+});
 console.log('DEV69 MULTI CHAMPIONS M7 '+n+'/'+n+' PASS');
