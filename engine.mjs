@@ -2734,7 +2734,7 @@ export class Arena {
   const mark=v?.luxIlluminationV453Dev69M2;
   if(u?.champ!=='Lux'||!mark||mark.ownerId!==u.id||mark.until<=this.gameTime||v.hp<=0)return 0;
   v.luxIlluminationV453Dev69M2=null; // clear before any damage/death recursion
-  return this.damage(v,30+10*Math.max(1,u.level)+.20*this.elementalStatsV452d3(u).ap,
+  return this.damage(v,30+10*(Math.max(1,u.level)-1)+.35*this.elementalStatsV452d3(u).ap,
    u,'magic','lux_illumination_v453_dev69_m2');
  }
  // Dev69 M2: directed skillshots for Ahri Q/E, Jinx W and Lux W.
@@ -2770,8 +2770,8 @@ export class Arena {
    observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
   return {...commit,pending:true,projectileId:p.id};
  }
- luxPrismaticShieldV453Dev69M2(ally,power,key){
-  return this.applyEffectV41(ally,'shield',{source:ally,duration:2.5,power,stack:'independent',key});
+ luxPrismaticShieldV453Dev69M2(ally,power,key,owner=null){
+  return this.applyEffectV41(ally,'shield',{source:owner||ally,duration:2.5,power,stack:'independent',key});
  }
  // Dev69: only the actual team seat may queue an R2. First-hit mark
  // gives temporary visibility to that team; no target ID can come from fog.
@@ -5643,7 +5643,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     }
    }
    if(['ahri_q_out','ahri_q_back','ahri_e','jinx_w','lux_w_out','lux_w_back'].includes(p.kind)){
-    const cutoff=Math.min(terrainDepth,barrierDepth),returning=p.kind.endsWith('_back');
+    const cutoff=barrierDepth,returning=p.kind.endsWith('_back');
     const isOrb=p.kind.startsWith('ahri_q'),isWand=p.kind.startsWith('lux_w');
     let reason=null,lastDepth=to;
     const candidates=isWand?this.units.filter(v=>v.team===p.team&&v.hp>0).map(v=>{
@@ -5659,7 +5659,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      }
      p.hitIds.push(v.id);lastDepth=depth;
      if(isWand){
-      if(v.id!==owner.id)this.luxPrismaticShieldV453Dev69M2(v,p.shield,p.id+'_'+v.id);
+      if(v.id!==owner.id)this.luxPrismaticShieldV453Dev69M2(v,p.shield,p.id+'_'+v.id,owner);
       continue;
      }
      const shielded=this.effectResolverV41().has(v,'spell_shield');
