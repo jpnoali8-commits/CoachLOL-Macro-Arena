@@ -61,19 +61,41 @@ test('Lux/Nami possuem R direcional no mapa com faixa de colisão e sigilo',()=>
   const a=game(),u=a.units.find(x=>x.id==='blue_MID'),t=a.units.find(x=>x.id==='red_MID');
   u.champ=name;u.level=6;u.skillRanks.R=1;u.mana=2000;u.x=.5;u.y=.5;t.x=.57;t.y=.5;
   const out=a.queueDirectionalSkill('blue',u.id,'R',{x:.9,y:.5});assert.ok(out.ok,out.reason);
-  const hp=t.hp;a.resolveDirectionalSkills();assert.ok(t.hp<hp,name+' R direcional deve atingir');
-  assert.ok(a.events.some(e=>e.kind==='skill_vfx'&&e.unitId===u.id));
-  assert.ok(u.skillCds.R>a.gameTime);
+  const hp=t.hp;a.resolveDirectionalSkills();
+  if(name==='Nami'){
+   // Dev69: Nami R travels; it must not deal instant cast damage.
+   assert.equal(t.hp,hp,'Nami R não pode atingir instantaneamente');
+   assert.ok(a.championProjectilesV453Dev42.some(p=>p.kind==='nami_r'));
+   assert.ok(a.events.some(e=>e.kind==='champion_projectile_launch_v453_dev69'&&e.unitId===u.id));
+   a.gameTime=2;
+   a.advanceChampionProjectilesV453Dev42();
+  }else{
+   assert.ok(a.events.some(e=>e.kind==='skill_vfx'&&e.unitId===u.id));
+  }
+  assert.ok(t.hp<hp,name+' R direcional deve atingir no impacto');
+  assert.ok(u.skillCds.R>0);
  }
 });
 test('Vex R usa trajeto, marca e permite segunda ativação sem recobrar mana/cooldown',()=>{
  const a=game(),u=a.units.find(x=>x.id==='blue_MID'),t=a.units.find(x=>x.id==='red_MID');
  u.champ='Vex';u.level=6;u.skillRanks.R=1;u.mana=2000;u.x=.5;u.y=.5;t.x=.56;t.y=.5;
  const plan=a.queueDirectionalSkill('blue',u.id,'R',{x:.9,y:.5});assert.ok(plan.ok,plan.reason);
- a.resolveDirectionalSkills();assert.equal(u.vexMark?.targetId,t.id);
+ a.resolveDirectionalSkills();
+ assert.equal(u.vexMark??null,null,'Vex R não marca antes do impacto temporal');
+ const initialHp=t.hp;
+ a.gameTime=1;
+ a.advanceChampionProjectilesV453Dev42();
+ assert.equal(u.vexMark?.targetId,t.id,'Vex R marca somente no impacto');
+ assert.ok(t.hp<initialHp,'Vex R1 causa dano ao atingir');
  const mana=u.mana,cd=u.skillCds.R,hp=t.hp;
- assert.equal(a.queueVexRecast('blue',u.id).ok,true);a.gameTime++;a.resolveDirectionalSkills();
- assert.ok(t.hp<hp);assert.equal(u.mana,mana);assert.equal(u.skillCds.R,cd);assert.equal(u.vexMark,null);
+ assert.equal(a.queueVexRecast('blue',u.id).ok,true);
+ a.resolveDirectionalSkills();
+ assert.ok(u.vexDashV453Dev69,'Vex R2 inicia dash temporal');
+ assert.equal(t.hp,hp,'Vex R2 não causa dano antes da chegada');
+ a.gameTime=2;
+ a.advanceVexShadowDashV453Dev69();
+ assert.ok(t.hp<hp,'Vex R2 causa dano na chegada');
+ assert.equal(u.mana,mana);assert.equal(u.skillCds.R,cd);assert.equal(u.vexMark,null);
 });
 
 test('Loja soma bônus e consome componentes em upgrade de botas, impedindo duplicata',()=>{
