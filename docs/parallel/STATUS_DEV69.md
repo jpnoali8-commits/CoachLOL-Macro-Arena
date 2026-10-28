@@ -1,3 +1,19 @@
+# Status integrado — 28/10/2026 (após PRs #6 e #7)
+
+**Estado atual: INTEGRATION_CANDIDATE / RELEASE_BLOCKED.** A fonte dev68 e as duas alterações Dev69 foram mescladas apenas em `dev69/integration`. Não modificar `main` nem chamar isso de release certificada.
+
+- Skills PR #6: merge `3b6df51e` — Nami R e Vex R/R2 parciais.
+- Itens PR #7: merge `4c1e7a0b` — Abatedora implementada/não certificada e Lorde Dominik parcial/não certificado. 98 entradas ainda reference_only.
+- Browser gerado da Node engine: `fffbac61`; 73 exports. Paridade de geração auditada; navegador visual não certificado.
+- `npm run test:v453:dev69:integration` inclui dois lotes novos e regressões dev61–68; `npm test` passou a incluir Skills + Itens. Workflow remoto de integração criada; resultados pós-merge exigem consulta do CI (PR #8, QA isolado).
+- Biblioteca `/CoachLOL/Dev69/`: `CoachLOL_Dev68_Runtime_Fiel_1702_Arquivos_Para_3_Chats.zip` (SHA-256 `fe555cd97732160029a5a4e3169b16c5e8e80154caa1f0f2ac70788b4ec384b4`), `CoachLOL_Dev68_Git_Legacy.bundle`, relatório de comparação e log da base dev68. Runtime 1702 arquivos originais idênticos ao mestre; bundle conserva histórico legado separadamente.
+- **P0 Issue #1 continua aberto:** 78 assets binários não estão no GitHub remoto; evidências, imagens, QA e backups do ZIP mestre originais não devem ser descartados. O clone remoto não é ainda um ZIP mestre completo.
+- QA `npm test` da dev68 anterior aos dois merges **não prova** QA da dev69. Não afirmar PASS na integração sem consultar o workflow conjunto.
+
+Detalhes: [QA_DEV69_INTEGRACAO.md](QA_DEV69_INTEGRACAO.md). Abaixo fica o registro histórico da migração da fonte.
+
+---
+
 # CoachLOL dev69 — Status de colaboração
 
 **Atualizado em 2026-10-28. Status: SOURCE_READY / RELEASE_BLOCKED.**
