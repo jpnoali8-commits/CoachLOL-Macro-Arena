@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 167,
-    "referenceOnly": 35,
-    "localCatalog": 170
+    "normalPlayable": 182,
+    "referenceOnly": 20,
+    "localCatalog": 185
   },
   "rows": {
     "1001": {
@@ -1200,11 +1200,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "blackfire_torch",
       "passiveOrActiveDescription": "<mainText><stats><attention>80</attention> de Poder de Habilidade<br><attention>600</attention> de Mana<br><attention>20</attention> de Aceleração de Habilidade</stats><br><br><passive>Labareda Nefasta</passive><br>Habilidades de dano causam <magicDamage>Dano Mágico</magicDamage> adicional por 3s.<br><br><passive>Chamas Negras</passive><br>Para cada Campeão inimigo, monstro grande ou monstro épico afetado pela sua <passive>Labareda Nefasta</passive>, recebe <scaleAP>4% de Poder de Habilidade</scaleAP>. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.blackfire_torch",
+      "recipeVerified": true
     },
     "2504": {
       "id": "2504",
@@ -1273,11 +1273,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "dusk_and_dawn",
       "passiveOrActiveDescription": "<mainText><stats><attention>300</attention> de Vida<br><attention>60</attention> de Poder de Habilidade<br><attention>20</attention> de Aceleração de Habilidade<br><attention>20%</attention> de Velocidade de Ataque</stats><br><br><passive>Lâmina Arcana</passive> (0s)<br>Após usar uma habilidade, seu próximo ataque causa <magicDamage>0 de Dano Mágico adicional</magicDamage>, <healing>cura você em 0</healing> <OnHit>ao contato</OnHit> e então aplica efeitos <OnHit>ao contato</OnHit> uma vez a mais.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.dusk_and_dawn",
+      "recipeVerified": true
     },
     "2512": {
       "id": "2512",
@@ -1297,11 +1297,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "yun_tal_demon_arrows",
       "passiveOrActiveDescription": "<mainText><stats><attention>45%</attention> de Velocidade de Ataque<br><attention>25%</attention> de Chance de Acerto Crítico<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Vigília Noturna</passive><br>Recebe 30 de Aceleração da Habilidade Ultimate.<br><br><passive>Barragem de Abertura</passive><br>Depois de conjurar sua ultimate, seus próximos 3 ataques básicos recebem <attackSpeed>50% de Velocidade de Ataque</attackSpeed> + Acerto Crítico de 80% do seu dano de Acerto Crítico normal por 8s. Se algum ataque já for um Acerto Crítico, em vez disso, ele causa <trueDamage>15% de Dano Verdadeiro adicional</trueDamage>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.yun_tal_demon_arrows",
+      "recipeVerified": true
     },
     "2517": {
       "id": "2517",
@@ -2492,11 +2492,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "statikk_shiv",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Dano de Ataque<br><attention>45</attention> de Poder de Habilidade<br><attention>30%</attention> de Velocidade de Ataque<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Eletrocentelha</passive><br>Seus <keyword>Ataques Energizados</keyword> disparam uma cadeia de relâmpagos, aplicando efeitos <OnHit>ao contato</OnHit> e causando <magicDamage>Dano Mágico</magicDamage> aos alvos próximos.<br><br><passive>Eletrochoque</passive> <br>Ataques básicos concedem acúmulos de <keyword>Energizado</keyword> adicionais.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.statikk_shiv",
+      "recipeVerified": true
     },
     "3089": {
       "id": "3089",
@@ -2586,11 +2586,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "stormrazor",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>25%</attention> de Velocidade de Ataque<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Energizado</passive><br>Mover-se e Atacar gera um <keyword>Ataque Energizado</keyword>.<br><br><passive>Raio</passive><br>Seu <keyword>Ataque Energizado</keyword> causa <magicDamage>0 de Dano Mágico adicional</magicDamage> e concede <speed>45% de Velocidade de Movimento</speed> por 1.5s.<br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.stormrazor",
+      "recipeVerified": true
     },
     "3100": {
       "id": "3100",
@@ -2611,11 +2611,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "lich_bane",
       "passiveOrActiveDescription": "<mainText><stats><attention>100</attention> de Poder de Habilidade<br><attention>6%</attention> de Velocidade de Movimento<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Lâmina Arcana</passive><br>Após usar uma Habilidade, seu próximo Ataque causa <magicDamage>Dano Mágico adicional</magicDamage> <OnHit>ao contato</OnHit>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.lich_bane",
+      "recipeVerified": true
     },
     "3102": {
       "id": "3102",
@@ -2907,11 +2907,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "malignance",
       "passiveOrActiveDescription": "<mainText><stats><attention>90</attention> de Poder de Habilidade<br><attention>600</attention> de Mana<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Escárnio</passive><br>Recebe 20 de Aceleração de Habilidade da Ultimate.<br><br><passive>Névoa Odiosa</passive><br>Causar dano a um Campeão com sua Ultimate queima o chão abaixo dele por 3s, causando <magicDamage>Dano Mágico</magicDamage> por segundo e reduzindo-lhe a <scaleMR>Resistência Mágica</scaleMR>.<br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.malignance",
+      "recipeVerified": true
     },
     "3119": {
       "id": "3119",
@@ -4382,11 +4382,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "horizon_focus",
       "passiveOrActiveDescription": "<mainText><stats><attention>75</attention> de Poder de Habilidade<br><attention>25</attention> de Aceleração de Habilidade</stats><br><br><passive>Hiperdisparo</passive><br>Causar Dano de Habilidade a Campeões a 600 de alcance ou mais irá <keywordStealth>Revelá-los</keywordStealth> por 6s. <br><br><passive>Foco</passive><br>Quando <passive>Hiperdisparo</passive> é acionado, <keywordStealth>Revela</keywordStealth> todos os demais Campeões inimigos em até 1400 de alcance por 3s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.horizon_focus",
+      "recipeVerified": true
     },
     "4629": {
       "id": "4629",
@@ -4560,11 +4560,11 @@
         "MagicPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "stormsurge",
       "passiveOrActiveDescription": "<mainText><stats><attention>90</attention> de Poder de Habilidade<br><attention>15</attention> de Penetração Mágica<br><attention>6%</attention> de Velocidade de Movimento</stats><br><br><passive>Invasor da Tempestade</passive><br>Causar dano equivalente a 25% da Vida máxima de um Campeão dentro de 2.5s aplica <passive>Dilúvio</passive> a ele.<br><br><passive>Dilúvio</passive><br>Depois de 2s, causa <magicDamage>Dano Mágico</magicDamage>. Se o alvo morrer antes que <passive>Dilúvio</passive> seja acionado, causa dano a inimigos próximos.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.stormsurge",
+      "recipeVerified": true
     },
     "6333": {
       "id": "6333",
@@ -4801,11 +4801,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "ludens_companion",
       "passiveOrActiveDescription": "<mainText><stats><attention>100</attention> de Poder de Habilidade<br><attention>600</attention> de Mana<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Eco</passive><br>Habilidades de dano lançam 6 Ecos que causam <magicDamage>Dano Mágico adicional</magicDamage> ao alvo e a inimigos próximos. Ecos restantes atingem o alvo primeiro, causando 20% de dano.<br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.ludens_companion",
+      "recipeVerified": true
     },
     "6657": {
       "id": "6657",
@@ -4878,11 +4878,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "iceborn_gauntlet",
       "passiveOrActiveDescription": "<mainText><stats><attention>300</attention> de Vida<br><attention>50</attention> de Armadura<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Lâmina Arcana</passive><br>Depois de usar uma Habilidade, seu próximo Ataque causará <physicalDamage>Dano Físico adicional</physicalDamage> <OnHit>ao contato</OnHit> e criará um campo congelado por 2s, causando <status>Lentidão</status>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.iceborn_gauntlet",
+      "recipeVerified": true
     },
     "6664": {
       "id": "6664",
@@ -5144,11 +5144,11 @@
         "ArmorPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "serpents_fang",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>15</attention> de Letalidade</stats><br><br><passive>Ceifador de Escudos</passive><br>Causar dano a um Campeão inimigo reduz em 0% Escudos que ele receba por 3s. <br>Se ele ainda não tiver sido afetado por <passive>Ceifador de Escudos</passive>, reduz os Escudos recebidos em 0%.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.serpents_fang",
+      "recipeVerified": true
     },
     "6696": {
       "id": "6696",
@@ -5167,11 +5167,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "axiom_arc",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>18</attention> de Letalidade<br><attention>20</attention> de Aceleração de Habilidade</stats><br><br><passive>Fluxo</passive><br>Quando um Campeão a quem você tenha causado dano nos últimos 3s for abatido, restaura parte do Tempo de Recarga total da ultimate do usuário.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.axiom_arc",
+      "recipeVerified": true
     },
     "6697": {
       "id": "6697",
@@ -5192,11 +5192,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hubris",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>18</attention> de Letalidade<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Eminência</passive><br>Quando um Campeão a quem você tenha causado dano nos últimos 3s for abatido, recebe <physicalDamage>0 de Dano de Ataque mais 0 por Campeão abatido</physicalDamage> por 90s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.hubris",
+      "recipeVerified": true
     },
     "6698": {
       "id": "6698",
@@ -5243,11 +5243,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "voltaic_cyclosword",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>10</attention> de Letalidade<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Galvanizar</passive><br>Causar dano a Campeões inimigos com uma habilidade ativa <keyword>Energizado</keyword> se o efeito estiver pronto.<br><br><passive>Firmamento</passive><br>Seu <keyword>Ataque Energizado</keyword> causa <physicalDamage>% da Vida atual do alvo como Dano Físico adicional</physicalDamage> e concede a você <scaleLethality>Letalidade adicional</scaleLethality> por 4s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b6.voltaic_cyclosword",
+      "recipeVerified": true
     },
     "8010": {
       "id": "8010",

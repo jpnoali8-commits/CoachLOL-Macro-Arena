@@ -294,13 +294,28 @@ export const catalog=[
 {id:'trinket_stealth',name:'Totem de Vigilância · Ward Amarela',cost:0,stats:{},tags:['vision','trinket'],icon:'◈'},
 {id:'trinket_oracle',name:'Lente Reveladora · Varredura',cost:0,stats:{},tags:['vision','trinket'],icon:'◎'},
 {id:'trinket_farsight',name:'Alteração Vidente · Sentinela Azul',cost:0,stats:{},tags:['vision','trinket'],icon:'◉'},
+{id:'statikk_shiv',name:"Faca de Statikk",cost:3000,stats:{"ad":45,"ap":45,"attackSpeedPct":30,"movePercent":4},tags:["marksman","legendary","unique"],icon:'✦',riotId:3087},
+{id:'stormrazor',name:"Chuva de Canivete",cost:3200,stats:{"ad":50,"attackSpeedPct":25,"critChance":25},tags:["marksman","legendary","unique"],icon:'✦',riotId:3095},
+{id:'lich_bane',name:"Perdição de Lich",cost:2900,stats:{"ap":100,"movePercent":6,"abilityHaste":10},tags:["mage","legendary","unique","spellblade"],icon:'✦',riotId:3100},
+{id:'malignance',name:"Malevolência",cost:2700,stats:{"ap":90,"mana":600,"abilityHaste":15,"ultimateHaste":20},tags:["mage","legendary","unique"],icon:'✦',riotId:3118},
+{id:'horizon_focus',name:"Foco do Horizonte",cost:2700,stats:{"ap":75,"abilityHaste":25},tags:["mage","legendary","unique"],icon:'✦',riotId:4628},
+{id:'stormsurge',name:"Ápice da Tempestade",cost:2800,stats:{"ap":90,"magicPenFlat":15,"movePercent":6},tags:["mage","legendary","unique"],icon:'✦',riotId:4646},
+{id:'ludens_companion',name:"Eco de Luden",cost:2750,stats:{"ap":100,"mana":600,"abilityHaste":10},tags:["mage","legendary","unique"],icon:'✦',riotId:6655},
+{id:'iceborn_gauntlet',name:"Manopla dos Glacinatas",cost:2900,stats:{"hp":300,"armor":50,"abilityHaste":15},tags:["tank","legendary","unique","spellblade"],icon:'✦',riotId:6662},
+{id:'serpents_fang',name:"Presa da Serpente",cost:2500,stats:{"ad":55,"lethality":15},tags:["assassin","legendary","unique"],icon:'✦',riotId:6695},
+{id:'axiom_arc',name:"Arco do Axioma",cost:2750,stats:{"ad":55,"lethality":18,"abilityHaste":20},tags:["assassin","legendary","unique"],icon:'✦',riotId:6696},
+{id:'hubris',name:"Húbris",cost:2800,stats:{"ad":55,"lethality":18,"abilityHaste":10},tags:["assassin","legendary","unique"],icon:'✦',riotId:6697},
+{id:'voltaic_cyclosword',name:"Cicloespada Voltaica",cost:3000,stats:{"ad":55,"lethality":10,"abilityHaste":10},tags:["assassin","legendary","unique"],icon:'✦',riotId:6699},
+{id:'blackfire_torch',name:"Tocha de Chamas Negras",cost:2800,stats:{"ap":80,"mana":600,"abilityHaste":20},tags:["mage","legendary","unique"],icon:'✦',riotId:2503},
+{id:'yun_tal_demon_arrows',name:"Dardos de Caça-Demônios",cost:2650,stats:{"attackSpeedPct":45,"critChance":25,"movePercent":4,"ultimateHaste":30},tags:["marksman","legendary","unique"],icon:'✦',riotId:2512},
+{id:'dusk_and_dawn',name:"Aurora e Crepúsculo",cost:3100,stats:{"hp":300,"ap":60,"abilityHaste":20,"attackSpeedPct":20},tags:["fighter","legendary","unique","spellblade"],icon:'✦',riotId:2510},
 /* DEV30_OFFICIAL_ITEMS_START (generated only from authentic input) */
 /* DEV30_OFFICIAL_ITEMS_END */
 ];
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310,"eternal_despair":1960,"sunfire_aegis":1960,"hollow_radiance":1960,"warmogs_armor":2170,"heartsteel":2100,"jaksho_the_protean":2240,"dead_mans_plate":2030,"guardian_angel":1280,"deaths_dance":2310,"rod_of_ages":1820,"winters_approach":1680,"archangels_staff":2030,"manamune":2030,"experimental_hexplate":2100,"spear_of_shojin":2170,"shurelyas_battlesong":1540,"redemption":1610,"locket_of_the_iron_solari":1540,"mikaels_blessing":1610,"knights_vow":1610,"ardent_censer":1540,"staff_of_flowing_water":1575,"moonstone_renewer":1540,"echoes_of_helia":1540,"dawncore":1750,"imperial_mandate":1680,"zekes_convergence":1540,"bandocanos":1610,"cryptbloom":2100,"hextech_gunblade":2100});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310,"eternal_despair":1960,"sunfire_aegis":1960,"hollow_radiance":1960,"warmogs_armor":2170,"heartsteel":2100,"jaksho_the_protean":2240,"dead_mans_plate":2030,"guardian_angel":1280,"deaths_dance":2310,"rod_of_ages":1820,"winters_approach":1680,"archangels_staff":2030,"manamune":2030,"experimental_hexplate":2100,"spear_of_shojin":2170,"shurelyas_battlesong":1540,"redemption":1610,"locket_of_the_iron_solari":1540,"mikaels_blessing":1610,"knights_vow":1610,"ardent_censer":1540,"staff_of_flowing_water":1575,"moonstone_renewer":1540,"echoes_of_helia":1540,"dawncore":1750,"imperial_mandate":1680,"zekes_convergence":1540,"bandocanos":1610,"cryptbloom":2100,"hextech_gunblade":2100,"statikk_shiv":2100,"stormrazor":2240,"lich_bane":2030,"malignance":1890,"horizon_focus":1890,"stormsurge":1960,"ludens_companion":1925,"iceborn_gauntlet":2030,"serpents_fang":1750,"axiom_arc":1925,"hubris":1960,"voltaic_cyclosword":2100,"blackfire_torch":1960,"yun_tal_demon_arrows":1855,"dusk_and_dawn":2170});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -349,7 +364,23 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
  /* DEV30_OFFICIAL_RECIPES_START */
  /* DEV30_OFFICIAL_RECIPES_END */
- // DEV69 support Batch5 verified recipes (Riot 16.21.1).
+ // DEV69 Batch6 recipes verified from DDragon 16.21.1
+ statikk_shiv:["scouts_slingshot","aether_wisp","pickaxe"],
+ stormrazor:["bf_sword","agility_cloak","scouts_slingshot"],
+ lich_bane:["sheen","aether_wisp","blasting_wand"],
+ malignance:["lost_chapter","blasting_wand"],
+ horizon_focus:["fiendish_codex","fiendish_codex","amp_tome"],
+ stormsurge:["hextech_alternator","aether_wisp"],
+ ludens_companion:["lost_chapter","hextech_alternator"],
+ iceborn_gauntlet:["sheen","ruby_crystal","chain_vest"],
+ serpents_fang:["serrated_dirk","pickaxe"],
+ axiom_arc:["brutalizer","caulfields_warhammer"],
+ hubris:["serrated_dirk","caulfields_warhammer"],
+ voltaic_cyclosword:["brutalizer","long_sword","long_sword"],
+ blackfire_torch:["lost_chapter","fated_ashes"],
+ yun_tal_demon_arrows:["zeal","scouts_slingshot"],
+ dusk_and_dawn:["sheen","blasting_wand","kindlegem","dagger"],
+// DEV69 support Batch5 verified recipes (Riot 16.21.1).
  shurelyas_battlesong:["aether_wisp", "bandleglass_mirror"],
  redemption:["fiendish_codex", "forbidden_idol"],
  locket_of_the_iron_solari:["kindlegem", "cloth_armor", "null_magic_mantle"],
@@ -539,6 +570,23 @@ export const ITEM_SUPPORT_RULES_V453_DEV69_B5=Object.freeze({
  bandocanos:{duration:4,radius:850,flatMove:20,attackSpeedPct:15},
  cryptbloom:{radius:750,healBase:100,healApRatio:.25,cooldown:60},
  hextech_gunblade:{range:700,cooldown:30,baseMagic:150,apRatio:.25,slow:.25,slowDuration:1.5}
+});
+export const ITEM_OFFENSE_RULES_V453_DEV69_B6=Object.freeze({
+ statikk_shiv:{chainRadius:500,chainTargets:4,magicDamage:70},
+ stormrazor:{bonusMagic:90,movePct:.45,moveSeconds:1.5},
+ lich_bane:{baseADRatio:.75,apRatio:.40},
+ malignance:{seconds:3,damagePerSecond:35},
+ horizon_focus:{minRange:600,revealSeconds:6,splashRadius:1400,splashSeconds:3},
+ stormsurge:{requiredPct:.25,window:2.5,delay:2,damage:130,cooldown:30,radius:450},
+ ludens_companion:{echoes:6,magicPerEcho:24,cooldown:10,splashRadius:500},
+ iceborn_gauntlet:{baseADRatio:1,slow:.30,slowDuration:2,fieldRadius:300},
+ serpents_fang:{shieldCut:.35,rangedCut:.25,seconds:3},
+ axiom_arc:{ultimateRefundFraction:.15,assistRefundFraction:.10},
+ hubris:{baseBonusAd:10,perKillBonusAd:2,seconds:90},
+ voltaic_cyclosword:{healthRatio:.08,buffSeconds:4},
+ blackfire_torch:{duration:3,magicPerSecond:22,apRatio:.10,bonusApPerTarget:.04},
+ yun_tal_demon_arrows:{shots:3,seconds:8,attackSpeedPct:50,bonusTrueFraction:.15},
+ dusk_and_dawn:{baseMagic:50,apRatio:.40,healBase:30,healApRatio:.15}
 });
 export const ITEM_EFFECTS_V43=Object.freeze({
  // Annul spell-shields: cooldowns from SR item rules; DDragon 16.21.1 stats/recipes.
