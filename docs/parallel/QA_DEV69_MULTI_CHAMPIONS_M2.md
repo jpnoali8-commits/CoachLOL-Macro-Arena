@@ -195,3 +195,51 @@ Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
 - Referência League of Legends Wiki de Annie (consultada 28/10/2026): Tibbers permanece até **45 segundos** e usa blink/teleporte quando se afasta demais de Annie. A fonte não especifica de forma inequívoca o limite atual exato da distância em vida; os **1200 unidades são parâmetro provisório de tabuleiro**, não paridade certificada. https://wiki.leagueoflegends.com/en-us/Annie
 - A regra no servidor retorna o pet a uma célula caminhável próxima de Annie (raio ~150), limpa perseguir/andar para destino remoto, impede comandos com alvos/destinos além do leash, preserva HP e cooldown e evita aplicação duplicada no mesmo segundo. Expiração aos 45s independente de distância. Snapshots e projeções visíveis permanecem exclusivos da equipe.
 - QA em `tests/v453_dev69_board_m13.test.mjs`: ambos os lados, blink sob leash, reset de ordens, célula válida, snapshot e término no segundo 45.
+
+
+## M14 — Reino da Morte, transformações, vínculos, roubo de R e globais
+
+**Escopo de branch:** `dev69/skills-batch2` (PR #9 Draft para `dev69/integration`). Nenhum merge. Não modificar `engine.browser.js` na branch de Skills; o integrador regenera-o via `python tools/sync_browser_v43.py` após reconciliar Skills e Itens.
+
+### Mordekaiser (Reino da Morte)
+- R individual, custo de mana zero, alvo inimigo visível até 650u, arena 7 segundos e raio lógico 1200u. O estado `realmContextV453Dev69` registra caster/target, centro em coordenada original, duração, revisão geométrica, variante elemental e últimas coordenadas válidas.
+- **Uma arena com duas partições de combate, não um segundo mapa independente**: mesmas coordenadas reais, máscaras de paredes/brush ativas e versão elemental. O servidor rejeita dano cruzando Reino↔Tabuleiro; os outros oito campeões permanecem no mundo normal. Se o Rift mudar geometricamente durante a R, a arena termina em vez de apresentar colisores diferentes no HUD.
+- No cliente PvP: painel **quadrado fixo no canto superior esquerdo** da área do tabuleiro, círculo de limite, crop filtrado da própria imagem do mapa, amostragem visual de colisor/brush, HP e posição dos dois duelistas, botão de movimento pelo painel. Fecha ao expirar ou morte. É overlay visual, não altera a geometria do motor.
+- Ao terminar, cada combatente retém sua **posição final real** em coordenadas do tabuleiro, com ajuste apenas por posição inválida. Nunca reposicionar ambos automaticamente no local inicial. Checagem de parede/círculo antes e depois do movimento; permanecer com os outros oito campeões fora da arena.
+- Lacunas antes de paridade/certificação: roubo/retorno dos atributos, cancelamentos e imunidades específicas, redesenho das variantes elementais pixel a pixel, geometria visual de alta resolução, testes Chromium com dois navegadores, priorização efetiva sobre overlays do Smite no cliente final. Status `realm_prototype`, **não kit Mordekaiser certificado**.
+
+### Nidalee, Elise e Shyvana (gramática universal por forma)
+- `FORM_KITS_V453_M14`: duas formas × QWE individual por campeão, troca R e memória separada de cooldowns QWE por forma no mesmo estado serializável. Nidalee Humana/Puma e Elise Humana/Aranha têm R desde nível 1; Shyvana usa Emberstrike / Inferno Aegis / Molten Burst / Dragon's Descent conforme os JSONs oficiais locais do patch 16.21.1, não o kit antigo.
+- Shyvana: Fury/forma Dragão provisórios, bloqueio da R sem Fury cheia, reversão ao acabar duração modelada. Esses números ainda devem ser calibrados conforme patch.
+- Lacunas: marca Hunted e caça na Nidalee, armadilhas/revelação, buffs, Rappel em duas etapas, aranhinhas e passivas da Elise, recasts extras e buffs da Shyvana, tempo/efeito exato da R. Não contar as seis descrições por forma como **seis habilidades oficiais certificadas**.
+
+### Kalista + Lança Negra do engenheiro de Itens
+- Integração **por contrato**, sem duplicar item: usa `oathswornIdV453Dev69C`, pactuação `pendingOathswornV453Dev69C` e `kalista_black_spear` já definidos na **outra branch `dev69/items-full-audit`**.
+- R da Kalista valida aliado Juramentado existente, recolhe-o em stasis, conserva vínculo em snapshot, recebe lançamento ao ponto por `skill.kalista_launch` autenticado, libera-o no destino e causa knockup em inimigos do raio. Sem vínculo, R falha explicitamente. Pactuação real com a Lança Negra necessita reconciliação de código e QA pós-merge pelo integrador.
+- Pendências: escolha/consentimento do Juramentado, todas as colisões e antirrecuos, duração/reações exatas e integração de `bindBlackSpearV453Dev69C` na interface final. `oath_bound_prototype`, não certificado.
+
+### Sylas — reutilizar ultimate original, não fallback inventado
+- `queueSylasHijackV453M14` valida alvo visível até 950u, paga 75 mana uma vez, usa CD por rank 80/55/30, armazena campeão de origem e prazo. `boardKitForV453Dev69` reaproveita a **mesma descrição R** do catálogo de 30 protótipos do inimigo. O segundo cast da R roubada não debita novamente a mana ou o CD do roubo; consome o contrato roubado.
+- Auth PvP: comando `skill.hijack` com targetId, botão `Roubar Ultimate` de Sylas e R dinâmica do campeão roubado. Exemplos em QA: R global de Soraka e execução de Garen. Impede fog, replay e invasão de assento rival.
+- R sem adaptador (incluindo Jinx, Ezreal, Karthus e outras específicas ainda fora do catálogo board) **não é inventada nem declarada compatível**. Falta adaptador universal dos 173 campeões, cooldown por inimigo, passivas associadas, cópias especiais como Morde/Kalista, casos de formas/pets. Status `hijack_board_subset`, não certificado.
+
+### Ultimates globais auditadas
+| Campeão | R executável | M14 aprimorou | Ainda NÃO certificado |
+|---|---|---|---|
+| Jinx | adaptador legado de projétil global | primeiro campeão impactado, dano aumentando com distância, explosão e dano em área baseado na vida perdida | trajetória animada e tempos reais, colisão/escala exatas e exceções |
+| Ezreal | adaptador legado + outros estados individuais | perfuração por múltiplos campeões e tropas, atenuação de dano em tropas | VFX/viagem, consistência com o resolver individual e monstros |
+| Ashe | R board em `BOARD_KITS_V453_DEV69` | duração do stun cresce com distância e desaceleração em área | temporalidade do projétil, hit/CC precisos e trajetórias |
+| Karthus | canalização legada | interrompe caso CC impeça habilidade durante a canalização, dano mágico global aos inimigos elegíveis | interação com passiva após morte e sincronização exata de turno/3 segundos |
+| Soraka | R board global_ally | QA confirma cura dos aliados e ausência de efeito ofensivo | interação completa com cura ferida e regras de patch |
+
+### QA e handoff
+- Skills QA e Logic QA **PASS** em `dev69/skills-batch2`:
+  `DEV69 M14 16/16 PASS` (realm),
+  `DEV69 FORMS M14 14/14 PASS`,
+  `DEV69 KALISTA M14 12/12 PASS`,
+  `DEV69 SYLAS M14 16/16 PASS`,
+  `DEV69 GLOBAL M14 14/14 PASS`.
+  **72/72 novos testes M14**. As suites M9 28/28, M10 263/263, M11 22/22, M12 19/19, M13 29/29 continuam PASS.
+- `engine.mjs` é autocontido novamente: o gerador oficial de `engine.browser.js` usa substituição textual de exportações, não um bundler. Evitar imports ESM relativos dentro do engine até modernizar o gerador.
+- **Integrated QA continua FALHANDO antes da suíte combinada** em `Verify official Node to browser regeneration` porque a branch Skills não altera `engine.browser.js` de propósito. Integrador reconcilia `dev69/items-full-audit` + Skills, regenera artefato browser, roda os testes combinados e valida UI Chromium real.
+- **Nenhum novo campeão foi declarado certificado 100%.** O catálogo de 30 contratos anteriores, e os novos 3 perfis transformáveis, são instrumentos de implementação/QA; paridade final por campeão permanece uma meta de produção.
