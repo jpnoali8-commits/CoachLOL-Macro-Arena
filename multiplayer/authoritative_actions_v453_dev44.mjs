@@ -9,7 +9,7 @@ import {canonicalStateV40} from '../engine.mjs';
 const VALID_KINDS=Object.freeze([
  'order.move','order.attack','order.stop','order.recall','order.ward',
  'skill.directional','skill.ground','skill.targeted','skill.self','skill.onhit_target','skill.ultimate',
- 'skill.recast_vex','skill.upgrade','summoner.queue','item.queue','item.activate'
+ 'skill.recast_vex','skill.upgrade','summon.order','summoner.queue','item.queue','item.activate'
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
@@ -36,6 +36,9 @@ function validated(kind,p){
   case 'skill.ultimate':return shape(p,[],['point','targetId'])&&(!own(p,'point')||point(p.point))&&(!own(p,'targetId')||stringId(p.targetId));
   case 'skill.recast_vex':return shape(p,[]);
   case 'skill.upgrade':return shape(p,['slot'])&&slot(p.slot);
+  case 'summon.order':return shape(p,['summonId'],['point','targetId'])&&
+   validId(p.summonId)&&(own(p,'point')!==own(p,'targetId'))&&
+   (!own(p,'point')||point(p.point))&&(!own(p,'targetId')||validId(p.targetId));
   case 'summoner.queue':return shape(p,['type'],['targetId'])&&['heal','ignite','exhaust','tp','barrier','ghost','cleanse'].includes(p.type)&&(!own(p,'targetId')||stringId(p.targetId));
   case 'item.queue':case 'item.buy':case 'item.activate':return shape(p,['itemId'])&&stringId(p.itemId);
   case 'item.undo':return shape(p,[]);
@@ -81,6 +84,8 @@ function dispatch(arena,unit,kind,p){
    arena.queueBoardSkillV453Dev69(team,id,'R',{point:p.point??null,targetId:p.targetId??null}):
    arena.queueSpecialUltimate(team,id,p.targetId??null,p.point??null);
   case 'skill.recast_vex':return arena.queueVexRecast(team,id);
+  case 'summon.order':return arena.queueBoardSummonOrderV453Dev69(team,id,p.summonId,
+   {point:p.point??null,targetId:p.targetId??null});
   case 'skill.upgrade':return arena.upgradeSkill(team,id,p.slot);
   case 'summoner.queue':return arena.queueSummoner(team,id,p.type,p.targetId??null);
   case 'item.queue':return arena.queuePurchase(team,id,p.itemId);

@@ -111,14 +111,35 @@ function renderBoardSlotsV453(v){
  const rule=selectedBoardRuleV453(),targeted=rule&&['target_enemy','target_ally'].includes(rule.shape);
  const recast=(v.projection?.boardRecastsV453Dev69?.[selectedUnitId]||[])
   .find(x=>x.slot===boardSlotV453&&x.expiresAt>(v.projection?.time||0));
+ $('boardRecastV453').textContent=recast?.kind==='pick_card'?'Escolher '+recast.card:'Reativar';
  $('boardRecastV453').classList.toggle('hidden',!recast);
  $('boardRecastV453').disabled=!can||!recast;
+ const ownSummon=activeOwnSummonV453();
+ $('boardSummonMoveV453').classList.toggle('hidden',!ownSummon);
+ $('boardSummonAttackV453').classList.toggle('hidden',!ownSummon);
+ $('boardSummonMoveV453').disabled=!can||!ownSummon;
+ $('boardSummonAttackV453').disabled=!can||!ownSummon;
+ $('boardEnemySummonV453').classList.toggle('hidden',
+  !(v.projection?.boardSummons||[]).some(s=>s.team!==v.team));
+ $('boardEnemySummonV453').disabled=!can;
  $('boardCastTargetV453').disabled=!can||!targeted||!select.value;
  $('boardTargetV453').disabled=!can||!targeted;
  $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!kit?
   'Kit ainda em auditoria na interface · combos continuam disponíveis':rule?
   unit.champ+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
 }
+function activeOwnSummonV453(){
+ return (state?.projection?.boardSummons||[]).find(s=>s.ownerId===selectedUnitId&&
+  s.team===state.team&&s.hp>0)||null;
+}
+$('boardSummonMoveV453').onclick=()=>{if(activeOwnSummonV453())setMode('summon_move');};
+$('boardSummonAttackV453').onclick=()=>{
+ const summon=activeOwnSummonV453(),id=$('boardTargetV453').value,
+  foe=state?.projection?.units?.find(u=>u.id===id&&u.team!==state.team);
+ if(summon&&foe)return send('summon.order',{summonId:summon.id,targetId:id},selectedUnitId);
+ announce('Escolha um inimigo visível para Tibbers');
+};
+$('boardEnemySummonV453').onclick=()=>setMode('summon_enemy');
 function boardSelfV453(rule){
  return ['self','circle_ally','global_ally'].includes(rule.shape)||
   (rule.shape==='circle_enemy'&&rule.originSelf);
@@ -150,7 +171,16 @@ $('boardCastTargetV453').onclick=()=>{
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};
  if(mode==='move')await sendGroup('order.move',{point});
  else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});
- else if(mode==='skill'){
+ else if(mode==='summon_move'){
+  const summon=activeOwnSummonV453();
+  if(summon)await send('summon.order',{summonId:summon.id,point},selectedUnitId);
+ }else if(mode==='summon_enemy'){
+  const pet=(state.projection?.boardSummons||[]).filter(s=>s.team!==state.team&&
+   Math.hypot(s.x-point.x,s.y-point.y)<=.025)
+   .sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y))[0];
+  if(pet)await send('order.attack',{targetId:pet.id},selectedUnitId);
+  else announce('Clique numa invocação inimiga visível');
+ }else if(mode==='skill'){
   const rule=selectedBoardRuleV453();
   if(!rule){announce('Habilidade indisponível no catálogo tático');return;}
   const kind=boardSlotV453==='R'?'skill.ultimate':
@@ -256,6 +286,12 @@ function connect(){if(stream)stream.close();stream=new EventSource('/api/stream'
 function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complete&&map.naturalWidth)ctx.drawImage(map,0,0,800,800);
  if(!state?.projection)return;const p=state.projection;
  for(const v of p.wards||[]){ctx.fillStyle=v.team==='blue'?'#5eceff':'#ef756c';ctx.fillRect(v.x*800-4,v.y*800-4,8,8);}
+ for(const s of p.boardSummons||[]){
+  ctx.beginPath();ctx.arc(s.x*800,s.y*800,11,0,Math.PI*2);
+  ctx.fillStyle=s.team==='blue'?'#c1a65e':'#a86d59';ctx.fill();
+  ctx.strokeStyle='#2b2319';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#fff1cd';ctx.font='11px system-ui';ctx.fillText('T',s.x*800-4,s.y*800+4);
+ }
  for(const v of p.units||[]){ctx.beginPath();ctx.arc(v.x*800,v.y*800,v.id===selectedUnitId?12:7,0,Math.PI*2);ctx.fillStyle=v.team==='blue'?'#49b9ff':'#e46863';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=v.id===selectedUnitId?'#f7d485':'#131b1e';ctx.stroke();if(v.id===selectedUnitId){ctx.fillStyle='#fff2c4';ctx.font='16px system-ui';ctx.fillText(v.champ,v.x*800+13,v.y*800-8);}}
 }
 try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();await fetchBoardKitsV453();connect();}}catch{}
