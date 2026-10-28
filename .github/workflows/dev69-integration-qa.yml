@@ -1,0 +1,43 @@
+name: CoachLOL dev69 - integrated QA (Skills + Items)
+on:
+  push:
+    branches: [dev69/integration]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    name: Dev69 merged engine contracts and Node/browser sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify merge scope and baseline
+        run: |
+          node -e "const v=require('./version.json');if(v.version!=='4.5.3-dev68'&&!v.version.startsWith('4.5.3-dev69'))process.exit(1)"
+          node -e "const fs=require('fs');const s=fs.readFileSync('engine.mjs','utf8');for(const k of ['advanceVexShadowDashV453Dev69','giantSlayerMultiplierV453Dev69','launchWaveShadowV453Dev69','cullMinionsV453Dev69'])if(!s.includes(k))throw new Error('missing '+k)"
+          node --check engine.mjs
+          node --check engine.browser.js
+          node --check app.js
+      - name: Verify official Node to browser regeneration
+        run: |
+          python tools/sync_browser_v43.py
+          git diff --exit-code -- engine.browser.js
+      - name: Integration tests Skills + Items + PvP
+        run: npm run test:v453:dev69:integration
+      - name: Report browser scope
+        run: echo "Node/SSE automated contracts only. Chromium/manual PvP and assets not certified."
+  full-regression:
+    name: npm test full - no binary assets on remote yet
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Full suite from remote checkout (may fail on missing assets)
+        run: npm test
