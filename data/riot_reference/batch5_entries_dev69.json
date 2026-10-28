@@ -1,0 +1,160 @@
+[
+  {
+    "riotId": "2065",
+    "localId": "shurelyas_battlesong",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3113",
+      "4642"
+    ]
+  },
+  {
+    "riotId": "3107",
+    "localId": "redemption",
+    "price": 2300,
+    "sell": 1610,
+    "from": [
+      "3108",
+      "3114"
+    ]
+  },
+  {
+    "riotId": "3190",
+    "localId": "locket_of_the_iron_solari",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3067",
+      "1029",
+      "1033"
+    ]
+  },
+  {
+    "riotId": "3222",
+    "localId": "mikaels_blessing",
+    "price": 2300,
+    "sell": 1610,
+    "from": [
+      "3067",
+      "3114"
+    ]
+  },
+  {
+    "riotId": "3109",
+    "localId": "knights_vow",
+    "price": 2300,
+    "sell": 1610,
+    "from": [
+      "3067",
+      "1031",
+      "1006"
+    ]
+  },
+  {
+    "riotId": "3504",
+    "localId": "ardent_censer",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3113",
+      "3114"
+    ]
+  },
+  {
+    "riotId": "6616",
+    "localId": "staff_of_flowing_water",
+    "price": 2250,
+    "sell": 1575,
+    "from": [
+      "3108",
+      "3114"
+    ]
+  },
+  {
+    "riotId": "6617",
+    "localId": "moonstone_renewer",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3067",
+      "4642"
+    ]
+  },
+  {
+    "riotId": "6620",
+    "localId": "echoes_of_helia",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3067",
+      "4642"
+    ]
+  },
+  {
+    "riotId": "6621",
+    "localId": "dawncore",
+    "price": 2500,
+    "sell": 1750,
+    "from": [
+      "1026",
+      "3114",
+      "3114"
+    ]
+  },
+  {
+    "riotId": "4005",
+    "localId": "imperial_mandate",
+    "price": 2400,
+    "sell": 1680,
+    "from": [
+      "1052",
+      "4642",
+      "1052"
+    ]
+  },
+  {
+    "riotId": "3050",
+    "localId": "zekes_convergence",
+    "price": 2200,
+    "sell": 1540,
+    "from": [
+      "3067",
+      "1029",
+      "1033"
+    ]
+  },
+  {
+    "riotId": "2524",
+    "localId": "bandocanos",
+    "price": 2300,
+    "sell": 1610,
+    "from": [
+      "3067",
+      "1029",
+      "1033"
+    ]
+  },
+  {
+    "riotId": "3137",
+    "localId": "cryptbloom",
+    "price": 3000,
+    "sell": 2100,
+    "from": [
+      "4630",
+      "3108",
+      "3108"
+    ]
+  },
+  {
+    "riotId": "3146",
+    "localId": "hextech_gunblade",
+    "price": 3000,
+    "sell": 2100,
+    "from": [
+      "1053",
+      "3145",
+      "1052"
+    ]
+  }
+]
