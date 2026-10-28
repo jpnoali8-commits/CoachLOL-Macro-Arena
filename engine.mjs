@@ -1,3 +1,4 @@
+import {realmOf,sameRealm,validRealmPoint,startRealm,endRealm,advanceRealm,realmView} from './multiplayer/realm_kernel_v453_m14.mjs';
 /* CoachLOL Macro Arena — deterministic simultaneous turn core v4.3.
  * Ticks are deterministic in seeded game time; UI frame rate has no gameplay impact.
  * v1.6 canonical mode: simultaneous planning while frozen, followed by deterministic short execution.
@@ -1276,7 +1277,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.realmContextV453Dev69=null;this.realmSeqV453Dev69=0;this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -1888,7 +1889,7 @@ export class Arena {
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
   a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
-  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;
+  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;a.realmContextV453Dev69??=null;a.realmSeqV453Dev69??=0;
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -4287,18 +4288,25 @@ export class Arena {
    this.event(`${u.champ} lançou ${q.slot} direcional: ${hits.length} alvo(s) na linha.`,u.team,'skill_vfx',u.id,{observedBy:spectators,vfx:{type:gate.rule.effect,from:{x:u.x,y:u.y},to:endpoint,width:gate.rule.width,expiresAt:this.gameTime+2}});
   }
  }
+ realmOfV453Dev69(u){return realmOf(this,u);}
+ sameCombatRealmV453Dev69(a,b){return sameRealm(this,a,b);}
+ realmValidV453Dev69(u,p){return validRealmPoint(this,u,p);}
+ startRealmV453Dev69(a,b){return startRealm(this,a,b);}
+ endRealmV453Dev69(reason){return endRealm(this,reason);}
+ advanceRealmV453Dev69(){return advanceRealm(this);}
+ realmViewV453Dev69(team){return realmView(this,team);}
  // The following specials are patch-aware tactical adapters, not full kits.
  queueSpecialUltimate(team,unitId,targetId=null,point=null){
   const u=this.units.find(v=>v.team===team&&v.id===unitId);
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'Conjuração indisponível na fase atual.'};
-  if(!['Zed','Karthus','Soraka','Jinx','Ashe','Ezreal','KSante'].includes(u.champ))return {ok:false,reason:'Ultimate individual ainda não implementada.'};
+  if(!['Zed','Karthus','Soraka','Jinx','Ashe','Ezreal','KSante','Mordekaiser'].includes(u.champ))return {ok:false,reason:'Ultimate individual ainda não implementada.'};
   if((u.skillRanks?.R||0)<1||u.level<6)return {ok:false,reason:'Ultimate exige nível 6 e ponto em R.'};
   if((u.skillCds.R||0)>this.gameTime)return {ok:false,reason:'Ultimate em recarga.'};
   const cost=u.champ==='Zed'?0:100;
   if(u.mana<cost)return {ok:false,reason:'Mana insuficiente.'};
-  if(['Zed','KSante'].includes(u.champ)){
+  if(['Zed','KSante','Mordekaiser'].includes(u.champ)){
    const target=this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0);
-   const limit=u.champ==='KSante'?300:625;
+   const limit=u.champ==='KSante'?300:u.champ==='Mordekaiser'?650:625;
    if(!target||!this.visible(team,target)||this.mapDistance(u,target)>limit)return {ok:false,reason:u.champ+' R exige alvo visível a até '+limit+' unidades.'};
   }
   if(['Jinx','Ashe','Ezreal'].includes(u.champ)&&(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||this.mapDistance(u,point)<1))return {ok:false,reason:'Selecione a direção no mapa.'};
@@ -4309,16 +4317,17 @@ export class Arena {
    if(u.hp<=0){u.queuedUltimate=null;continue;}
    if(u.skillCds.R>this.gameTime||u.skillRanks.R<1)continue;
    const target=this.units.find(x=>x.id===q.targetId&&x.hp>0);
-   if(['Zed','KSante'].includes(u.champ)){
-    const limit=u.champ==='KSante'?300:625;
+   if(['Zed','KSante','Mordekaiser'].includes(u.champ)){
+    const limit=u.champ==='KSante'?300:u.champ==='Mordekaiser'?650:625;
     if(!target||!this.visible(u.team,target)||this.mapDistance(u,target)>limit){u.queuedUltimate=null;continue;}
     if(!this.duelPermission(u,target))continue;
    }
    u.queuedUltimate=null;const cost=u.champ==='Zed'?0:100;
-   const cds={Zed:120,Karthus:150,Soraka:150,Jinx:85,Ashe:100,Ezreal:120,KSante:120};
-   const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',targetId:['Zed','KSante'].includes(u.champ)?target?.id:null,
+   const cds={Zed:120,Karthus:150,Soraka:150,Jinx:85,Ashe:100,Ezreal:120,KSante:120,Mordekaiser:120};
+   const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',targetId:['Zed','KSante','Mordekaiser'].includes(u.champ)?target?.id:null,
     costOverride:cost,cooldownOverride:hasteCooldown(cds[u.champ],this.elementalStatsV452d3(u).abilityHaste+(u.ultimateHaste||0)),source:'special_ultimate'});
    if(!cast.ok)continue;
+   if(u.champ==='Mordekaiser'&&target){this.startRealmV453Dev69(u,target);continue;}
    if(u.champ==='KSante'&&target){
     const push=this.pushChampionThroughTerrain(u,target,750);
     this.attack(u,target,70+u.skillPower*.4+(push.crossedWall?85:0),'skill');
