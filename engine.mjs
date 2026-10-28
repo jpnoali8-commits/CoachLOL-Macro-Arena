@@ -81,6 +81,245 @@ export function growthAtLevelV42(perLevel,level){
  return Number(perLevel||0)*(.7025+.0175*(2*level-3));
 }
 export const CHAMPION_GROWTH_V38=Object.freeze({Jinx:{hp:105,mana:50,ad:3,armor:4.2,mr:1.1},Nami:{hp:88,mana:43,ad:3.1,armor:5.2,mr:1.3},Ahri:{hp:104,mana:25,ad:3,armor:4.2,mr:1.3},Vex:{hp:104,mana:32,ad:2.75,armor:4.45,mr:1.3},Lux:{hp:99,mana:23.5,ad:3.3,armor:5.2,mr:1.3}});
+// Dev69 multi-champion milestone: Data Dragon 16.21.1 audited base/level data.
+// Riot Data Dragon attackdamageperlevel is corrupted (zero globally) since 16.5.1,
+// https://github.com/RiotGames/developer-relations/issues/1144; keep the
+// curated per-champion AD growth where available, never treat zero as real.
+export const CHAMPION_LEVEL_STATS_V453_DEV69_M1=Object.freeze({
+ "Nami": {
+  "hp": 560,
+  "mana": 365,
+  "ad": 54,
+  "armor": 29,
+  "mr": 30,
+  "moveSpeed": 335,
+  "attackRange": 550,
+  "hpRegen": 5.5,
+  "manaRegen": 11.5,
+  "attackSpeedBase": 0.644,
+  "growth": {
+   "hp": 88,
+   "mana": 43,
+   "armor": 5.2,
+   "mr": 1.3,
+   "hpRegen": 0.55,
+   "manaRegen": 0.4,
+   "attackSpeedPct": 2.61
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Vex": {
+  "hp": 590,
+  "mana": 490,
+  "ad": 54,
+  "armor": 23,
+  "mr": 28,
+  "moveSpeed": 335,
+  "attackRange": 550,
+  "hpRegen": 6.5,
+  "manaRegen": 6,
+  "attackSpeedBase": 0.669,
+  "growth": {
+   "hp": 104,
+   "mana": 32,
+   "armor": 4.45,
+   "mr": 1.3,
+   "hpRegen": 0.6,
+   "manaRegen": 0.8,
+   "attackSpeedPct": 1
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Lux": {
+  "hp": 580,
+  "mana": 440,
+  "ad": 54,
+  "armor": 21,
+  "mr": 30,
+  "moveSpeed": 330,
+  "attackRange": 550,
+  "hpRegen": 5.5,
+  "manaRegen": 9,
+  "attackSpeedBase": 0.669,
+  "growth": {
+   "hp": 99,
+   "mana": 23.5,
+   "armor": 5.2,
+   "mr": 1.3,
+   "hpRegen": 0.55,
+   "manaRegen": 0.8,
+   "attackSpeedPct": 3
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Jinx": {
+  "hp": 610,
+  "mana": 260,
+  "ad": 59,
+  "armor": 26,
+  "mr": 33,
+  "moveSpeed": 325,
+  "attackRange": 525,
+  "hpRegen": 3.75,
+  "manaRegen": 6.7,
+  "attackSpeedBase": 0.625,
+  "growth": {
+   "hp": 105,
+   "mana": 50,
+   "armor": 4.2,
+   "mr": 1.1,
+   "hpRegen": 0.5,
+   "manaRegen": 1,
+   "attackSpeedPct": 1
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Ahri": {
+  "hp": 590,
+  "mana": 418,
+  "ad": 53,
+  "armor": 21,
+  "mr": 30,
+  "moveSpeed": 330,
+  "attackRange": 550,
+  "hpRegen": 2.5,
+  "manaRegen": 8,
+  "attackSpeedBase": 0.668,
+  "growth": {
+   "hp": 104,
+   "mana": 25,
+   "armor": 4.2,
+   "mr": 1.3,
+   "hpRegen": 0.6,
+   "manaRegen": 0.8,
+   "attackSpeedPct": 2.2
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Ezreal": {
+  "hp": 600,
+  "mana": 375,
+  "ad": 60,
+  "armor": 24,
+  "mr": 33,
+  "moveSpeed": 325,
+  "attackRange": 550,
+  "hpRegen": 4,
+  "manaRegen": 8.5,
+  "attackSpeedBase": 0.625,
+  "growth": {
+   "hp": 102,
+   "mana": 70,
+   "armor": 4.2,
+   "mr": 1.1,
+   "hpRegen": 0.65,
+   "manaRegen": 1,
+   "attackSpeedPct": 2.5
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Irelia": {
+  "hp": 630,
+  "mana": 350,
+  "ad": 65,
+  "armor": 36,
+  "mr": 30,
+  "moveSpeed": 335,
+  "attackRange": 200,
+  "hpRegen": 3.5,
+  "manaRegen": 8,
+  "attackSpeedBase": 0.656,
+  "growth": {
+   "hp": 115,
+   "mana": 50,
+   "armor": 4.7,
+   "mr": 2.05,
+   "hpRegen": 0.85,
+   "manaRegen": 0.8,
+   "attackSpeedPct": 2.5
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Caitlyn": {
+  "hp": 580,
+  "mana": 315,
+  "ad": 62,
+  "armor": 27,
+  "mr": 33,
+  "moveSpeed": 325,
+  "attackRange": 650,
+  "hpRegen": 3.5,
+  "manaRegen": 7.4,
+  "attackSpeedBase": 0.681,
+  "growth": {
+   "hp": 107,
+   "mana": 40,
+   "armor": 4.7,
+   "mr": 1.1,
+   "hpRegen": 0.55,
+   "manaRegen": 0.7,
+   "attackSpeedPct": 4
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Leona": {
+  "hp": 646,
+  "mana": 302,
+  "ad": 60,
+  "armor": 43,
+  "mr": 32,
+  "moveSpeed": 335,
+  "attackRange": 125,
+  "hpRegen": 8.5,
+  "manaRegen": 6,
+  "attackSpeedBase": 0.625,
+  "growth": {
+   "hp": 101,
+   "mana": 40,
+   "armor": 4.8,
+   "mr": 2.05,
+   "hpRegen": 0.85,
+   "manaRegen": 0.8,
+   "attackSpeedPct": 2.9
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ },
+ "Volibear": {
+  "hp": 650,
+  "mana": 350,
+  "ad": 65,
+  "armor": 35,
+  "mr": 32,
+  "moveSpeed": 340,
+  "attackRange": 150,
+  "hpRegen": 9,
+  "manaRegen": 6.25,
+  "attackSpeedBase": 0.625,
+  "growth": {
+   "hp": 104,
+   "mana": 70,
+   "armor": 5.2,
+   "mr": 2.05,
+   "hpRegen": 0.75,
+   "manaRegen": 0.5,
+   "attackSpeedPct": 2
+  },
+  "adGrowthSource": "pending_wiki_ad_growth"
+ }
+});
+export function championLevelStatsV453Dev69M1(champ,level){
+ const src=CHAMPION_LEVEL_STATS_V453_DEV69_M1[champ];
+ if(!src||!Number.isInteger(level)||level<1||level>18)return null;
+ const n=level-1,growthFactor=n*(.7025+.0175*n),g=src.growth;
+ const adGrowth=CHAMPION_GROWTH_V38[champ]?.ad;
+ const attackSpeed=src.attackSpeedBase*(1+growthFactor*g.attackSpeedPct/100);
+ return {level,hp:src.hp+g.hp*growthFactor,mana:src.mana+g.mana*growthFactor,
+  ad:src.ad+(Number.isFinite(adGrowth)?adGrowth*growthFactor:0),
+  adGrowthVerified:Number.isFinite(adGrowth),armor:src.armor+g.armor*growthFactor,
+  mr:src.mr+g.mr*growthFactor,hpRegen:src.hpRegen+g.hpRegen*growthFactor,
+  manaRegen:src.manaRegen+g.manaRegen*growthFactor,attackSpeed,
+  attackRange:src.attackRange,moveSpeed:src.moveSpeed};
+}
 export const CLASS_MAGIC_RESIST=Object.freeze({tank:32,fighter:32,mage:30,assassin:32,marksman:30,enchanter:30,support:32});
 export const CLASS_STATS={
  tank:{hp:1250,mana:360,ad:56,ap:0,armor:48,range:.019,speed:.00195,atkSpeed:1.05,skill:130},
@@ -834,8 +1073,13 @@ export class Arena {
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
-  for(const team of ['blue','red'])for(const role of ROLES){let champ=picks[team]?.[role]||defaults[team][role];let klass=CK[champ]||(role==='TOP'?'fighter':role==='JG'?'fighter':role==='MID'?'mage':role==='ADC'?'marksman':'enchanter');const stats={...CLASS_STATS[klass],...CHAMPION_STATS_V38[champ]};const sp=map.objects.find(o=>o.id===team+'_spawn_shop');let x=sp?.x||(team==='blue'?.065:.93), y=sp?.y||(team==='blue'?.93:.07);
-   this.units.push({id:team+'_'+role,team,role,champ,klass,x,y,hp:stats.hp,maxHp:stats.hp,mana:stats.mana,maxMana:stats.mana,ad:stats.ad,ap:stats.ap,armor:stats.armor,mr:stats.mr??CLASS_MAGIC_RESIST[klass],baseStats2026:!!CHAMPION_STATS_V38[champ],range:baseAttackRangeWorld(champ,stats.range),moveSpeed:stats.moveSpeed??BASE_MS_BY_CLASS[klass],flatMoveSpeed:0,percentMoveSpeed:0,slowPercent:0,atkSpeed:stats.atkSpeed,skillPower:stats.skill,level:1,xp:0,skillPoints:1,skillRanks:{Q:0,W:0,E:0,R:SPECIAL_R_FROM_LEVEL_ONE.has(champ)?1:0},skillPriority:['Q','E','W'],skillBuild:null,autoLevelSkills:false,explicitOrder:false,gold:500,postgameV452d4Dev7:{schema:'coachlol.postgame.player.v1',initialGold:500,goldEarned:0,goldSpent:0,goldRefunded:0,damageDealtChampions:{physical:0,magic:0,true:0},damageTakenChampions:{physical:0,magic:0,true:0},wardsPlaced:0,wardsDestroyed:0,complete:true},cs:0,runePageV43:'none',runeProcNextV43:0,runeStacksV43:0,runeLastHitAtV43:-999,rabadonBonusV43:0,economyLedgerV43:[],economySeqV43:0,runeCombatAtV43:null,runeGraspLastProcAtV43:-999,critChance:0,abilityHaste:0,basicHaste:0,ultimateHaste:0,summonerHaste:0,itemHaste:0,lethality:0,armorPenFlat:0,armorPenPercent:0,magicPenFlat:0,magicPenPercent:0,lifeSteal:0,omnivamp:0,physicalVamp:0,spellVamp:0,healShieldPower:0,tenacity:0,slowResist:0,hpRegen:0,manaRegen:0,critDamage:175,kills:0,deaths:0,assists:0,damageContributors:{},items:[],deadUntil:0,shield:0,statusEffectsV41:[],stasisUntil:0,stasisCd:0,rootUntil:0,groundedUntil:0,flashCd:0,exhaustCd:0,igniteCd:0,healCd:0,tpCd:0,barrierCd:0,barrierAmount:0,barrierUntil:0,summonerSpell:role==='JG'?'smite':role==='SUP'?'exhaust':role==='TOP'?'tp':role==='ADC'?'heal':'ignite',baronBuffUntilV452:0,elderBuffUntilV452:0,ghostCd:0,ghostUntil:0,cleanseCd:0,cleanseTenacityUntilV453Dev66:0,elderPendingV452:null,skillCd:0,attackAt:0,combatStyle:'auto',onHitStacks:0,retreatUntil:0,retreatPath:[],path:[],order:{kind:'auto',focus:null,spell:'none'},spentMove:0,wardCharges:2,controlWardStock:0,trinket:"stealth",oracleCd:0,oracleUntil:0,trinketNextChargeAt:210,smiteTier:role==='JG'?1:0,smiteDamage:role==='JG'?600:0,smiteCd:0,smiteCharges:role==='JG'?1:0,smiteRecoveries:role==='JG'?[48]:[],smitePolicy:{mode:'auto',rules:[]},smiteCastHistory:{},junglePet:null,jungleTreats:0,jungleBonusTreats:0,jungleNextBonusAt:60,jungleBuff:null,junglePetStage:0,supportQuest:0,supportCharges:role==='SUP'?3:0,supportNextChargeAt:20,supportLastGoldTick:0,buildPlan:[],purchaseQueue:[],policy:'balanced',reaction:'balanced',autoRespond:team==='red'&&this.mode!=='pvp',reactionCd:0,tactics:{wave:'normal',trade:'normal',poke:'off',conserveMana:false},skillCds:{Q:0,W:0,E:0,R:0},manualMoveHold:false,autoFarm:role!=='JG'&&role!=='SUP',autoAttack:true,autoFollow:role!=='JG',autoJungle:role==='JG',laneFollowPath:[],laneFollowGoal:null,nextLaneUpdate:0,plan:null,lastHitBy:null,lastHitAt:-999,combatUntil:0,threatId:null,reactAt:0,holdUntil:0,regenAt:0,hpRegenBasePct:0,manaRegenBasePct:0,scoutBullseyeReadyAtV453Dev38:0,doransCombatManaUntilV453Dev38:0,energizeStacksV453Dev38:0,ireliaMarkV453Dev42:null});
+  for(const team of ['blue','red'])for(const role of ROLES){let champ=picks[team]?.[role]||defaults[team][role];let klass=CK[champ]||(role==='TOP'?'fighter':role==='JG'?'fighter':role==='MID'?'mage':role==='ADC'?'marksman':'enchanter');const source=CHAMPION_LEVEL_STATS_V453_DEV69_M1[champ];
+   const stats={...CLASS_STATS[klass],...CHAMPION_STATS_V38[champ],
+    ...(source?{hp:source.hp,mana:source.mana,ad:source.ad,armor:source.armor,mr:source.mr,
+     moveSpeed:source.moveSpeed,hpRegen:source.hpRegen,manaRegen:source.manaRegen,
+     attackSpeedBaseV453Dev69M1:source.attackSpeedBase,attackSpeedRealV453Dev69M1:source.attackSpeedBase,
+     attackRange:source.attackRange}:{} )};const sp=map.objects.find(o=>o.id===team+'_spawn_shop');let x=sp?.x||(team==='blue'?.065:.93), y=sp?.y||(team==='blue'?.93:.07);
+   this.units.push({id:team+'_'+role,team,role,champ,klass,x,y,hp:stats.hp,maxHp:stats.hp,mana:stats.mana,maxMana:stats.mana,ad:stats.ad,ap:stats.ap,armor:stats.armor,mr:stats.mr??CLASS_MAGIC_RESIST[klass],baseStats2026:!!CHAMPION_STATS_V38[champ],range:source?source.attackRange/ATLAS_SIDE_UNITS:baseAttackRangeWorld(champ,stats.range),moveSpeed:stats.moveSpeed??BASE_MS_BY_CLASS[klass],flatMoveSpeed:0,percentMoveSpeed:0,slowPercent:0,atkSpeed:stats.atkSpeed,skillPower:stats.skill,level:1,xp:0,skillPoints:1,skillRanks:{Q:0,W:0,E:0,R:SPECIAL_R_FROM_LEVEL_ONE.has(champ)?1:0},skillPriority:['Q','E','W'],skillBuild:null,autoLevelSkills:false,explicitOrder:false,gold:500,postgameV452d4Dev7:{schema:'coachlol.postgame.player.v1',initialGold:500,goldEarned:0,goldSpent:0,goldRefunded:0,damageDealtChampions:{physical:0,magic:0,true:0},damageTakenChampions:{physical:0,magic:0,true:0},wardsPlaced:0,wardsDestroyed:0,complete:true},cs:0,runePageV43:'none',runeProcNextV43:0,runeStacksV43:0,runeLastHitAtV43:-999,rabadonBonusV43:0,economyLedgerV43:[],economySeqV43:0,runeCombatAtV43:null,runeGraspLastProcAtV43:-999,critChance:0,abilityHaste:0,basicHaste:0,ultimateHaste:0,summonerHaste:0,itemHaste:0,lethality:0,armorPenFlat:0,armorPenPercent:0,magicPenFlat:0,magicPenPercent:0,lifeSteal:0,omnivamp:0,physicalVamp:0,spellVamp:0,healShieldPower:0,tenacity:0,slowResist:0,hpRegen:stats.hpRegen||0,manaRegen:stats.manaRegen||0,attackSpeedRealV453Dev69M1:stats.attackSpeedRealV453Dev69M1||null,critDamage:175,kills:0,deaths:0,assists:0,damageContributors:{},items:[],deadUntil:0,shield:0,statusEffectsV41:[],stasisUntil:0,stasisCd:0,rootUntil:0,groundedUntil:0,flashCd:0,exhaustCd:0,igniteCd:0,healCd:0,tpCd:0,barrierCd:0,barrierAmount:0,barrierUntil:0,summonerSpell:role==='JG'?'smite':role==='SUP'?'exhaust':role==='TOP'?'tp':role==='ADC'?'heal':'ignite',baronBuffUntilV452:0,elderBuffUntilV452:0,ghostCd:0,ghostUntil:0,cleanseCd:0,cleanseTenacityUntilV453Dev66:0,elderPendingV452:null,skillCd:0,attackAt:0,combatStyle:'auto',onHitStacks:0,retreatUntil:0,retreatPath:[],path:[],order:{kind:'auto',focus:null,spell:'none'},spentMove:0,wardCharges:2,controlWardStock:0,trinket:"stealth",oracleCd:0,oracleUntil:0,trinketNextChargeAt:210,smiteTier:role==='JG'?1:0,smiteDamage:role==='JG'?600:0,smiteCd:0,smiteCharges:role==='JG'?1:0,smiteRecoveries:role==='JG'?[48]:[],smitePolicy:{mode:'auto',rules:[]},smiteCastHistory:{},junglePet:null,jungleTreats:0,jungleBonusTreats:0,jungleNextBonusAt:60,jungleBuff:null,junglePetStage:0,supportQuest:0,supportCharges:role==='SUP'?3:0,supportNextChargeAt:20,supportLastGoldTick:0,buildPlan:[],purchaseQueue:[],policy:'balanced',reaction:'balanced',autoRespond:team==='red'&&this.mode!=='pvp',reactionCd:0,tactics:{wave:'normal',trade:'normal',poke:'off',conserveMana:false},skillCds:{Q:0,W:0,E:0,R:0},manualMoveHold:false,autoFarm:role!=='JG'&&role!=='SUP',autoAttack:true,autoFollow:role!=='JG',autoJungle:role==='JG',laneFollowPath:[],laneFollowGoal:null,nextLaneUpdate:0,plan:null,lastHitBy:null,lastHitAt:-999,combatUntil:0,threatId:null,reactAt:0,holdUntil:0,regenAt:0,hpRegenBasePct:0,manaRegenBasePct:0,scoutBullseyeReadyAtV453Dev38:0,doransCombatManaUntilV453Dev38:0,energizeStacksV453Dev38:0,ireliaMarkV453Dev42:null});
   }
   for(const u of this.units){
    const chosen=draftSpellsV452[u.team]?.[u.role];
@@ -4070,8 +4314,10 @@ export class Arena {
   if(!u||u.hp<=0)return;
   u.xp+=xp;
   while(u.level<18&&u.xp>=(LEVEL_THRESHOLDS[u.level+1]??Infinity)){
-   u.level++;u.skillPoints=(u.skillPoints||0)+1;this.autoSpendSkills(u);const growth=CHAMPION_GROWTH_V38[u.champ]||{};
-   const audited=!!CHAMPION_GROWTH_V38[u.champ],inc=value=>audited?growthAtLevelV42(value,u.level):value;
+   u.level++;u.skillPoints=(u.skillPoints||0)+1;this.autoSpendSkills(u);
+   const auditedGrowth=CHAMPION_LEVEL_STATS_V453_DEV69_M1[u.champ]?.growth;
+   const growth=auditedGrowth?{...CHAMPION_GROWTH_V38[u.champ],...auditedGrowth}:CHAMPION_GROWTH_V38[u.champ]||{};
+   const audited=!!(auditedGrowth||CHAMPION_GROWTH_V38[u.champ]),inc=value=>audited?growthAtLevelV42(value,u.level):value;
    const hpGain=inc(growth.hp??72),manaGain=inc(growth.mana??28);
    this.removeRabadonV43(u);
    u.maxHp+=hpGain;u.hp+=hpGain;u.maxMana+=manaGain;u.mana+=manaGain;
@@ -4081,7 +4327,13 @@ export class Arena {
     u.lostChapterManaPulsesV453Dev53??=[];
     u.lostChapterManaPulsesV453Dev53.push({amount:u.maxMana*.2/3,remaining:3});
    }
-   u.ad+=inc(growth.ad??3);u.ap+=audited?0:inc(u.klass==='mage'?7:2);u.armor+=inc(growth.armor??3);u.mr+=inc(growth.mr??1.3);this.reapplyRabadonV43(u);
+   u.ad+=inc(growth.ad??3);u.ap+=audited?0:inc(u.klass==='mage'?7:2);u.armor+=inc(growth.armor??3);u.mr+=inc(growth.mr??1.3);
+   if(auditedGrowth){
+    u.hpRegen=(u.hpRegen||0)+inc(growth.hpRegen);
+    u.manaRegen=(u.manaRegen||0)+inc(growth.manaRegen);
+    u.attackSpeedRealV453Dev69M1=championLevelStatsV453Dev69M1(u.champ,u.level).attackSpeed;
+   }
+   this.reapplyRabadonV43(u);
    this.event(`${u.champ} alcançou nível ${u.level}.`,u.team,'level',u.id);
   }
  }
