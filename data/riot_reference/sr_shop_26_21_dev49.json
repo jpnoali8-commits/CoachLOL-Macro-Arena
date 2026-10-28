@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 152,
-    "referenceOnly": 50,
-    "localCatalog": 155
+    "normalPlayable": 167,
+    "referenceOnly": 35,
+    "localCatalog": 170
   },
   "rows": {
     "1001": {
@@ -1019,11 +1019,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "shurelyas_battlesong",
       "passiveOrActiveDescription": "<mainText><stats><attention>50</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>4%</attention> de Velocidade de Movimento<br><attention>125%</attention> de Regeneração de Mana base</stats><br><br><active>Discurso Inspirador</active><br>Concede aos aliados próximos <speed>30% de Velocidade de Movimento</speed> por 4s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_shurelyas_battlesong",
+      "recipeVerified": true
     },
     "2138": {
       "id": "2138",
@@ -1419,11 +1419,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "bandocanos",
       "passiveOrActiveDescription": "<mainText><stats><attention>200</attention> de Vida<br><attention>15</attention> de Aceleração de Habilidade<br><attention>20</attention> de Armadura<br><attention>20</attention> de Resistência Mágica</stats><br><br><passive>Fanfarra</passive><br>Causar <keyword>Lentidão</keyword> ou <keyword>Imobilizar</keyword> um Campeão inimigo concede Fanfarra por 0s. Fanfarra concede <speed>20 de Velocidade de Movimento</speed>. Enquanto tiver Fanfarra, aliados próximos, incluindo você, recebem <attackSpeed>0 de Velocidade de Ataque</attackSpeed>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_bandocanos",
+      "recipeVerified": true
     },
     "2525": {
       "id": "2525",
@@ -1906,11 +1906,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "zekes_convergence",
       "passiveOrActiveDescription": "<mainText><stats><attention>300</attention> de Vida<br><attention>25</attention> de Armadura<br><attention>25</attention> de Resistência Mágica<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Tempestade do Raio de Gelo</passive><br>Conjurar sua ultimate invoca uma tempestade ao seu redor por 5s. A tempestade causa <magicDamage>30 de Dano Mágico</magicDamage> por segundo e 30% de <keyword>Lentidão</keyword> a Campeões inimigos.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_zekes_convergence",
+      "recipeVerified": true
     },
     "3051": {
       "id": "3051",
@@ -2657,11 +2657,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "redemption",
       "passiveOrActiveDescription": "<mainText><stats><attention>30</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>100%</attention> de Regeneração de Mana base<br><attention>10%</attention> de Cura e Resistência do Escudo</stats><br><br><active>Intervenção</active><br>Depois de 2,5s, restaura <healing>150 - 350 da Vida</healing> das unidades aliadas e causa <trueDamage>10% da Vida máxima como Dano Verdadeiro</trueDamage> a Campeões inimigos.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_redemption",
+      "recipeVerified": true
     },
     "3108": {
       "id": "3108",
@@ -2721,11 +2721,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "knights_vow",
       "passiveOrActiveDescription": "<mainText><stats><attention>200</attention> de Vida<br><attention>40</attention> de Armadura<br><attention>10</attention> de Aceleração de Habilidade<br><attention>100%</attention> de Regeneração de Vida base</stats><br><br><passive>Sacrifício</passive><br>Enquanto seu aliado <attention>Digno</attention> estiver próximo, você sofre 14% do dano sofrido por ele e se <healing>cura em 12%</healing> do dano causado por ele a Campeões.<active>Pacto</active> (0s)<br>Designa um aliado como <attention>Digno</attention>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_knights_vow",
+      "recipeVerified": true
     },
     "3110": {
       "id": "3110",
@@ -3098,11 +3098,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "cryptbloom",
       "passiveOrActiveDescription": "<mainText><stats><attention>75</attention> de Poder de Habilidade<br><attention>30%</attention> de Penetração Mágica<br><attention>20</attention> de Aceleração de Habilidade</stats><br><br><passive>Vida na Morte</passive><br>Quando um Campeão a quem você tenha causado dano nos últimos 3s for abatido, uma explosão de <healing>cura</healing> se propagará do cadáver.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_cryptbloom",
+      "recipeVerified": true
     },
     "3139": {
       "id": "3139",
@@ -3279,11 +3279,11 @@
         "SpellVamp"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hextech_gunblade",
       "passiveOrActiveDescription": "<mainText><stats><attention>80</attention> de Poder de Habilidade<br><attention>40</attention> de Dano de Ataque<br><attention>10%</attention> de Vampirismo Universal</stats><br><br><br><br><active>ATIVOS</active> (0s)<br><active>Disparo Elétrico</active><br>Dá um choque no Campeão-alvo inimigo, causando 0 de Dano Mágico e 25% de Lentidão por 1.5s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_hextech_gunblade",
+      "recipeVerified": true
     },
     "3147": {
       "id": "3147",
@@ -3731,11 +3731,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "locket_of_the_iron_solari",
       "passiveOrActiveDescription": "<mainText><stats><attention>200</attention> de Vida<br><attention>30</attention> de Armadura<br><attention>30</attention> de Resistência Mágica<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><active>Devoção</active><br>Concede a aliados próximos <shield>290 - 360 de Escudo</shield>, e esse valor decai ao longo de 2.5s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_locket_of_the_iron_solari",
+      "recipeVerified": true
     },
     "3211": {
       "id": "3211",
@@ -3785,11 +3785,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "mikaels_blessing",
       "passiveOrActiveDescription": "<mainText><stats><attention>250</attention> de Vida<br><attention>100%</attention> de Regeneração de Mana base<br><attention>12%</attention> de Cura e Resistência do Escudo<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><active>Purificar</active><br>Remove todos os efeitos de Controle de Grupo de um Campeão aliado (exceto <keyword>Arremesso ao Ar</keyword> e <keyword>Supressão</keyword>) e restaura <healing>100 - 250 de Vida</healing>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_mikaels_blessing",
+      "recipeVerified": true
     },
     "3302": {
       "id": "3302",
@@ -3918,11 +3918,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "ardent_censer",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Poder de Habilidade<br><attention>10%</attention> de Cura e Resistência do Escudo<br><attention>125%</attention> de Regeneração de Mana base<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Santificar</passive><br>Curar um aliado ou conceder-lhe Escudo fortalece vocês dois por 6s, concedendo <attackSpeed>25% de Velocidade de Ataque</attackSpeed> e <magicDamage>20 de Dano Mágico</magicDamage> <OnHit>ao contato</OnHit>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_ardent_censer",
+      "recipeVerified": true
     },
     "3508": {
       "id": "3508",
@@ -4335,11 +4335,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "imperial_mandate",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>150%</attention> de Regeneração de Mana base</stats><br><br><passive>Controle</passive><br>Recebe 20 de Aceleração de Habilidade para suas habilidades com efeitos de <keyword>Imobilização</keyword>.<br><br><passive>Comando</passive><br>Ao <keyword>Imobilizar</keyword> um Campeão inimigo, você aplica uma marca que o deixa 7% <Keyword>Vulnerável</Keyword> por 4s.<br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_imperial_mandate",
+      "recipeVerified": true
     },
     "4401": {
       "id": "4401",
@@ -4657,11 +4657,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "staff_of_flowing_water",
       "passiveOrActiveDescription": "<mainText><stats><attention>35</attention> de Poder de Habilidade<br><attention>10%</attention> de Cura e Resistência do Escudo<br><attention>125%</attention> de Regeneração de Mana base<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Corredeira</passive><br>Conceder cura ou Escudo a um aliado concede a vocês dois <magicDamage>40 de Poder de Habilidade</magicDamage> e <attention>15 de Aceleração de Habilidade</attention> por 6s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_staff_of_flowing_water",
+      "recipeVerified": true
     },
     "6617": {
       "id": "6617",
@@ -4682,11 +4682,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "moonstone_renewer",
       "passiveOrActiveDescription": "<mainText><stats><attention>25</attention> de Poder de Habilidade<br><attention>200</attention> de Vida<br><attention>20</attention> de Aceleração de Habilidade<br><attention>125%</attention> de Regeneração de Mana base</stats><br><br><passive>Graça Estrelada</passive><br>Curar um aliado ou conceder Escudo a ele ativa um efeito em cadeia em outro aliado (menos em si), <healing>curando-o em 30%</healing> ou concedendo a ele um <shield>Escudo de 35%</shield> do valor original.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_moonstone_renewer",
+      "recipeVerified": true
     },
     "6620": {
       "id": "6620",
@@ -4707,11 +4707,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "echoes_of_helia",
       "passiveOrActiveDescription": "<mainText><stats><attention>35</attention> de Poder de Habilidade<br><attention>200</attention> de Vida<br><attention>20</attention> de Aceleração de Habilidade<br><attention>125%</attention> de Regeneração de Mana base</stats><br><br><passive>Sifão da Alma</passive><br>Recebe 30% do dano pré-mitigação causado a Campeões como Cargas de Alma. Conceder curas ou Escudos a um aliado consome todas as <passive>Cargas de Alma</passive> para restaurar <healing>Vida</healing>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_echoes_of_helia",
+      "recipeVerified": true
     },
     "6621": {
       "id": "6621",
@@ -4730,11 +4730,11 @@
         "ManaRegen"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "dawncore",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Poder de Habilidade<br><attention>16%</attention> de Cura e Resistência do Escudo<br><attention>100%</attention> de Regeneração de Mana base</stats><br><br><passive>Primeira Luz</passive><br>Recebe <healing>2% de cura e Resistência do Escudo</healing> e <scaleAP>15 de Poder de Habilidade</scaleAP> a cada 100% de Regeneração de Mana base.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "support_b5_dawncore",
+      "recipeVerified": true
     },
     "6631": {
       "id": "6631",
