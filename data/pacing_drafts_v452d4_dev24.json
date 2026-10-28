@@ -1,0 +1,26 @@
+{
+  "schema": "coachlol.pacing.drafts.v1",
+  "notes": "Synthetic 5v5 stress compositions. Champion kits outside audited roster use training fallbacks, not LoL parity. Each profile preserves one JG and separate blue/red champions.",
+  "profiles": {
+    "baseline": {
+      "blue": {"TOP":"Volibear","JG":"Warwick","MID":"Ahri","ADC":"Jinx","SUP":"Nami"},
+      "red":  {"TOP":"Darius","JG":"LeeSin","MID":"Vex","ADC":"Caitlyn","SUP":"Leona"}
+    },
+    "poke": {
+      "blue": {"TOP":"Kennen","JG":"Vi","MID":"Lux","ADC":"Caitlyn","SUP":"Nami"},
+      "red":  {"TOP":"KSante","JG":"Warwick","MID":"Vex","ADC":"Jinx","SUP":"Leona"}
+    },
+    "engage": {
+      "blue": {"TOP":"Darius","JG":"JarvanIV","MID":"Yasuo","ADC":"Lucian","SUP":"Braum"},
+      "red":  {"TOP":"Volibear","JG":"LeeSin","MID":"Akali","ADC":"Vayne","SUP":"Thresh"}
+    },
+    "scaling": {
+      "blue": {"TOP":"Nasus","JG":"Warwick","MID":"Orianna","ADC":"Jinx","SUP":"Janna"},
+      "red":  {"TOP":"Gwen","JG":"Vi","MID":"Veigar","ADC":"Ashe","SUP":"Sona"}
+    },
+    "assassins": {
+      "blue": {"TOP":"Riven","JG":"Khazix","MID":"Zed","ADC":"Ezreal","SUP":"Leona"},
+      "red":  {"TOP":"Irelia","JG":"Ekko","MID":"Talon","ADC":"Kaisa","SUP":"Nami"}
+    }
+  }
+}

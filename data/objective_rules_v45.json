@@ -1,0 +1,26 @@
+{
+  "schema": "coachlol.objectives.v4.5",
+  "patch": "26.21", "mode": "Summoners Rift PC", "maturity": "functional_prototype",
+  "voidgrubs": {
+    "spawnTime": 480, "despawnTime": 885, "total": 3, "respawns": 0,
+    "eachGrubHasIndependentHP": true, "lastHitByTeam": true,
+    "voidmitesPerLivingGrub": 4, "neutralMiteInterval": 12, "neutralMiteLifetime": 6,
+    "touchOfVoidStacks": {"max": 3, "structureBurnDuration": 4, "tickEvery": 0.5,
+      "meleeTickByStacks": [0,4,12,16], "rangedTickByStacks": [0,2,6,8]},
+    "hungerAtStacks": 3, "voidmiteSiegeCooldown": 15,
+    "limitations": ["non-frame-perfect neutral AI", "simplified hunger siege/minion interactions", "Defensive Measures approximate"]
+  },
+  "herald": {
+    "spawnTime": 900, "despawnTime": 1185, "respawns": 0,
+    "eyePickupWindow": 20, "eyeInventoryLifetime": 240,
+    "trinketTemporaryReplacement": true, "summonOnPlayerAction": true,
+    "mercenary": {"targetsLegalTurrets": true, "chargeCooldownTraining": 12, "chargeDamageTraining": 950},
+    "limitations": ["no ride steering", "no official rear-eye critical strike", "no full navmesh/HP interactions", "training charge damage"]
+  },
+  "sources": [
+    "https://www.leagueoflegends.com/en-au/news/game-updates/patch-25-09-notes/",
+    "https://wiki.leagueoflegends.com/en-us/Voidgrub_camp",
+    "https://wiki.leagueoflegends.com/en-us/Touch_of_the_Void",
+    "https://wiki.leagueoflegends.com/en-us/Rift_Herald"
+  ]
+}

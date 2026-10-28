@@ -1,0 +1,14 @@
+{
+  "status": "IMPLEMENTED_PARTIAL_NOT_CERTIFIED",
+  "sourceMasks": [
+    "6-earlygame-PointsWards-Vision-mask.jpg",
+    "4-PointsWards-Vision-late-gamemask.jpg"
+  ],
+  "totals": {
+    "early": 6,
+    "late": 4,
+    "all": 10
+  },
+  "lateUnlockSeconds": 900,
+  "remarks": "Counts and polygons extracted from user masks. Extra 4 unlock at 15:00 per user guidance; this diverges from official 26.1 Faelight note and should be treated as project canon for this branch until re-audited."
+}

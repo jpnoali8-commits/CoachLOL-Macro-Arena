@@ -1,0 +1,45 @@
+{
+  "schema": "coachlol.objective.v44",
+  "version": "4.4.0",
+  "mode": "Summoners Rift standard, training approximation",
+  "reference_patch": "26.21",
+  "phase_windows": {
+    "voidgrubs": {
+      "spawn_s": 480,
+      "leave_s": 885,
+      "group_size": 3,
+      "implementation": "grouped_training"
+    },
+    "herald": {
+      "spawn_s": 900,
+      "leave_s": 1185,
+      "group_size": 1,
+      "implementation": "grouped_training"
+    },
+    "baron": {
+      "spawn_s": 1200,
+      "respawn_s": 360,
+      "implementation": "partial"
+    },
+    "dragon": {
+      "spawn_s": 300,
+      "respawn_s": 300,
+      "implementation": "partial"
+    }
+  },
+  "smite": {
+    "max_range_units": 500,
+    "priority": "simultaneous_smite_before_basic_attack",
+    "tie_break": "highest_hit_then_actor_id",
+    "fidelity": "tactical approximation"
+  },
+  "capture": {
+    "public": "winner_objective_time",
+    "private": "actor_contributions_smite_route_intents",
+    "ally_assist": "within_radius_and_contributed"
+  },
+  "sources": [
+    "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-21-notes/",
+    "https://support.riotgames.com/en-us/league-of-legends/gameplay/swiftplay-game-mode"
+  ]
+}

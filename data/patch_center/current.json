@@ -1,0 +1,42 @@
+{
+  "schema": "coachlol.patch.center.status.v1",
+  "activePatch": "26.21",
+  "activeDataDragon": "16.21.1",
+  "gameVersion": "4.5.3-dev36",
+  "mode": "SummonersRift",
+  "activation": "PINNED_REVIEWED_LOCAL_RULES_ONLY",
+  "status": "COMPLETE_OFFICIAL_STATIC_REFERENCE_PARTIAL_PLAYABLE_ITEMS_CHAMPIONS",
+  "knownLocalItems": 67,
+  "officialReferenceSnapshot": "data/riot_reference/catalog_26_21_dev36.json",
+  "nextPatch": {
+    "patch": "26.22",
+    "scheduled": "2026-11-04",
+    "state": "FUTURE_NOT_RELEASED_AS_OF_2026-10-27"
+  },
+  "warning": "Verbatim user-supplied Riot static snapshots verified against collector manifest (not digitally Riot-signed). Complete reference does NOT imply all effects playable, and 26.22 must be downloaded after release and reviewed.",
+  "sources": [
+    "https://support.riotgames.com/en-us/league-of-legends/gameplay/patch-schedule-league-of-legends",
+    "https://developer.riotgames.com/docs/lol",
+    "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-21-notes/"
+  ],
+  "upcomingPatches": [
+    {
+      "patch": "26.22",
+      "date": "2026-11-04"
+    },
+    {
+      "patch": "26.23",
+      "date": "2026-11-18"
+    },
+    {
+      "patch": "26.24",
+      "date": "2026-12-09"
+    }
+  ],
+  "releasePreflight": "tools/patch_release_v453_dev34.mjs",
+  "pacingPolicy": "About 30 minutes is reference, modestly below 30 minutes acceptable; must end via Nexus without clock forcing",
+  "unifiedCatalogStager": "tools/catalog_unified_v453_dev35.mjs",
+  "unitBalanceBaseline": "data/patch_center/unit_balance_26_21_local_baseline_dev35.json",
+  "unitBalancePatchPolicy": "MINION_TURRET_INTERNAL_ITEMS_ARE_UNIT_MODIFIERS_NOT_SHOP_ITEMS",
+  "catalogTaxonomyAudit": "wiki categories require independently reviewed per-item IDs; unclassified records stay unclassified"
+}

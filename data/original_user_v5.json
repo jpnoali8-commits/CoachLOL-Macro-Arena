@@ -1,0 +1,1403 @@
+{
+  "schemaVersion": 5,
+  "sourceMasks": {
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "manifest": "assets/mask_layers/manifest.json",
+    "referenceMode": "manual-raster-authoritative",
+    "visibility": {
+      "wall": true,
+      "brush": true,
+      "river": true,
+      "routes": true,
+      "spawn_shop": true,
+      "towers": true,
+      "inhibitors": true,
+      "nexus": true,
+      "monsters": true
+    },
+    "showReference": true,
+    "classification": "objects-from-connected-components"
+  },
+  "meta": {
+    "name": "Rift CoachLOL — Mapeamento",
+    "createdWith": "CoachLOL Map Studio v5",
+    "exportedAt": "2026-10-25T03:25:10.244Z",
+    "image": "assets/map_reference.jpg",
+    "mapDimensions": {
+      "w": 4096,
+      "h": 4096
+    }
+  },
+  "geometry": [],
+  "objects": [
+    {
+      "id": "red_top_t1",
+      "type": "tower",
+      "name": "RED TOP T1",
+      "x": 0.2975736851274586,
+      "y": 0.06862849042745502,
+      "team": "red",
+      "lane": "top",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1213.34,
+        288.07
+      ],
+      "sourceBbox": [
+        1182,
+        256,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_top_t2",
+      "type": "tower",
+      "name": "RED TOP T2",
+      "x": 0.5393262037764238,
+      "y": 0.10110413083789427,
+      "team": "red",
+      "lane": "top",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2207.34,
+        402.54
+      ],
+      "sourceBbox": [
+        2175,
+        371,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_top_t3",
+      "type": "tower",
+      "name": "RED TOP T3",
+      "x": 0.7078329859071679,
+      "y": 0.08384723915928298,
+      "team": "red",
+      "lane": "top",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3476.09,
+        494.17
+      ],
+      "sourceBbox": [
+        3444,
+        462,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_nexus_guard_1",
+      "type": "tower",
+      "name": "RED NEXUS GUARD 1",
+      "x": 0.8807018035451579,
+      "y": 0.15318102799570552,
+      "team": "red",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3599.7,
+        622.45
+      ],
+      "sourceBbox": [
+        3568,
+        591,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t3",
+      "type": "tower",
+      "name": "RED MID T3",
+      "x": 0.7515667300873857,
+      "y": 0.24717212946574357,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3077.57,
+        1020.95
+      ],
+      "sourceBbox": [
+        3046,
+        989,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t3",
+      "type": "tower",
+      "name": "RED BOT T3",
+      "x": 0.9173308958987368,
+      "y": 0.2901124549848423,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3750.93,
+        1190.42
+      ],
+      "sourceBbox": [
+        3719,
+        1159,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t1",
+      "type": "tower",
+      "name": "BLUE TOP T1",
+      "x": 0.07351161863762028,
+      "y": 0.2994720256364164,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        297.2,
+        1217.91
+      ],
+      "sourceBbox": [
+        265,
+        1186,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t2",
+      "type": "tower",
+      "name": "RED MID T2",
+      "x": 0.6596601,
+      "y": 0.3197057,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2701.97,
+        1309.51
+      ],
+      "sourceBbox": [
+        2670,
+        1278,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t1",
+      "type": "tower",
+      "name": "RED MID T1",
+      "x": 0.6048646,
+      "y": 0.4248165,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2477.53,
+        1740.05
+      ],
+      "sourceBbox": [
+        2446,
+        1708,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t2",
+      "type": "tower",
+      "name": "RED BOT T2",
+      "x": 0.8978439,
+      "y": 0.4449486,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3677.57,
+        1822.51
+      ],
+      "sourceBbox": [
+        3646,
+        1791,
+        64,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t2",
+      "type": "tower",
+      "name": "BLUE TOP T2",
+      "x": 0.10993816634597607,
+      "y": 0.5471929039072653,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        448.41,
+        2234.74
+      ],
+      "sourceBbox": [
+        417,
+        2203,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t1",
+      "type": "tower",
+      "name": "BLUE MID T1",
+      "x": 0.39904487979077974,
+      "y": 0.5674106221368633,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1634.75,
+        2321.81
+      ],
+      "sourceBbox": [
+        1603,
+        2290,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t2",
+      "type": "tower",
+      "name": "BLUE MID T2",
+      "x": 0.3461529340363923,
+      "y": 0.6732931926489114,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1414.87,
+        2747.82
+      ],
+      "sourceBbox": [
+        1383,
+        2716,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t1",
+      "type": "tower",
+      "name": "RED BOT T1",
+      "x": 0.9337814174367629,
+      "y": 0.6938814759290823,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3819.61,
+        2843.96
+      ],
+      "sourceBbox": [
+        3788,
+        2812,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t3",
+      "type": "tower",
+      "name": "BLUE TOP T3",
+      "x": 0.08660104538278011,
+      "y": 0.708041794596635,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        347.62,
+        2885.21
+      ],
+      "sourceBbox": [
+        316,
+        2853,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t3",
+      "type": "tower",
+      "name": "BLUE MID T3",
+      "x": 0.2526055,
+      "y": 0.7468902,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1034.67,
+        3059.26
+      ],
+      "sourceBbox": [
+        1003,
+        3027,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_nexus_guard_1",
+      "type": "tower",
+      "name": "BLUE NEXUS GUARD 1",
+      "x": 0.1262412,
+      "y": 0.8419447,
+      "team": "blue",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        517.08,
+        3448.61
+      ],
+      "sourceBbox": [
+        485,
+        3417,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_nexus_guard_2",
+      "type": "tower",
+      "name": "BLUE NEXUS GUARD 2",
+      "x": 0.1541907,
+      "y": 0.874383,
+      "team": "blue",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        631.57,
+        3581.47
+      ],
+      "sourceBbox": [
+        600,
+        3550,
+        64,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t2",
+      "type": "tower",
+      "name": "BLUE BOT T2",
+      "x": 0.469569,
+      "y": 0.8956253,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1923.35,
+        3668.48
+      ],
+      "sourceBbox": [
+        1891,
+        3637,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t3",
+      "type": "tower",
+      "name": "BLUE BOT T3",
+      "x": 0.2951817883815219,
+      "y": 0.9122236628524311,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1204.16,
+        3741.77
+      ],
+      "sourceBbox": [
+        1172,
+        3710,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t1",
+      "type": "tower",
+      "name": "BLUE BOT T1",
+      "x": 0.7094769250369557,
+      "y": 0.9252489839202463,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2908.08,
+        3787.56
+      ],
+      "sourceBbox": [
+        2876,
+        3756,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_nexus",
+      "type": "nexus",
+      "name": "Nexus Red",
+      "x": 0.893,
+      "y": 0.111,
+      "team": "red",
+      "lane": "base",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 84.7,
+      "vision": 0,
+      "sourceMask": "nexus",
+      "sourceCentroid": [
+        3654.73,
+        452.98
+      ],
+      "sourceBbox": [
+        3613,
+        411,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de Nexus."
+    },
+    {
+      "id": "blue_nexus",
+      "type": "nexus",
+      "name": "Nexus Blue",
+      "x": 0.11277169504673493,
+      "y": 0.8835734042131684,
+      "team": "blue",
+      "lane": "base",
+      "tier": null,
+      "shape": "circle",
+      "radius": 75.59310576731093,
+      "vision": 0,
+      "sourceMask": "nexus",
+      "sourceCentroid": [
+        455.53,
+        3619.46
+      ],
+      "sourceBbox": [
+        406,
+        3571,
+        99,
+        99
+      ],
+      "notes": "Posição inicial extraída da máscara manual de Nexus."
+    },
+    {
+      "id": "red_top_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red TOP",
+      "x": 0.7601199531285057,
+      "y": 0.08251790948416422,
+      "team": "red",
+      "lane": "top",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3109.63,
+        333.89
+      ],
+      "sourceBbox": [
+        3068,
+        292,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "red_mid_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red MID",
+      "x": 0.781557,
+      "y": 0.2168234,
+      "team": "red",
+      "lane": "mid",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3201.26,
+        888.11
+      ],
+      "sourceBbox": [
+        3159,
+        846,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "red_bot_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red BOT",
+      "x": 0.9162969728180889,
+      "y": 0.2397456306275649,
+      "team": "red",
+      "lane": "bot",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3760.07,
+        979.73
+      ],
+      "sourceBbox": [
+        3718,
+        938,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_top_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue TOP",
+      "x": 0.0871108,
+      "y": 0.7547184,
+      "team": "blue",
+      "lane": "top",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        356.81,
+        3091.33
+      ],
+      "sourceBbox": [
+        315,
+        3049,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_mid_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue MID",
+      "x": 0.2235334,
+      "y": 0.7804425,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        915.59,
+        3196.69
+      ],
+      "sourceBbox": [
+        874,
+        3155,
+        84,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_bot_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue BOT",
+      "x": 0.24001574948299453,
+      "y": 0.9119425620172793,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        979.72,
+        3741.76
+      ],
+      "sourceBbox": [
+        938,
+        3700,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "jungle_spot_01",
+      "type": "smallkrug",
+      "name": "Red Krugue",
+      "x": 0.44,
+      "y": 0.182,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1799.88,
+        743.3
+      ],
+      "sourceBbox": [
+        1742,
+        683,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_02",
+      "type": "monster_spot",
+      "name": "Red Rubivira",
+      "x": 0.47700000000000004,
+      "y": 0.275,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1955.26,
+        1126.8
+      ],
+      "sourceBbox": [
+        1897,
+        1066,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "baron_pit",
+      "type": "baron",
+      "name": "Barão Na’Shor",
+      "x": 0.3405635672662744,
+      "y": 0.2989458475410578,
+      "team": "neutral",
+      "lane": "epic",
+      "tier": null,
+      "shape": "circle",
+      "radius": 126,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1393.27,
+        1206.1
+      ],
+      "sourceBbox": [
+        1270,
+        1081,
+        248,
+        251
+      ],
+      "notes": "Pit épico detectado pela máscara. O tipo corresponde à posição do pit; confirme visualmente."
+    },
+    {
+      "id": "jungle_spot_04",
+      "type": "raptors",
+      "name": "Red Acuamina",
+      "x": 0.5329999999999999,
+      "y": 0.36200000000000004,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2183.35,
+        1483.82
+      ],
+      "sourceBbox": [
+        2125,
+        1424,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_05",
+      "type": "gromp",
+      "name": "Blue Grompe",
+      "x": 0.153,
+      "y": 0.433,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        626.33,
+        1774.73
+      ],
+      "sourceBbox": [
+        568,
+        1714,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_06",
+      "type": "wolves",
+      "name": "Red Lobos",
+      "x": 0.743,
+      "y": 0.435,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3042.86,
+        1781.32
+      ],
+      "sourceBbox": [
+        2985,
+        1721,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_07",
+      "type": "blue",
+      "name": "Blue Azupora",
+      "x": 0.265,
+      "y": 0.47,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1085.83,
+        1923.44
+      ],
+      "sourceBbox": [
+        1028,
+        1863,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_08",
+      "type": "blue",
+      "name": "Red Azupora",
+      "x": 0.74,
+      "y": 0.529,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3029.64,
+        2164.8
+      ],
+      "sourceBbox": [
+        2971,
+        2105,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_09",
+      "type": "wolves",
+      "name": "Blue Lobos",
+      "x": 0.264,
+      "y": 0.562,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1082.51,
+        2303.62
+      ],
+      "sourceBbox": [
+        1024,
+        2243,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_10",
+      "type": "gromp",
+      "name": "Red Grompe",
+      "x": 0.851,
+      "y": 0.5710000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3485.86,
+        2340
+      ],
+      "sourceBbox": [
+        3428,
+        2280,
+        117,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_11",
+      "type": "raptors",
+      "name": "Blue Acuaminas",
+      "x": 0.475,
+      "y": 0.633,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1945.33,
+        2594.53
+      ],
+      "sourceBbox": [
+        1887,
+        2534,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "dragon_pit",
+      "type": "dragon",
+      "name": "Dragão / Dragão Ancião",
+      "x": 0.6691047,
+      "y": 0.6999194,
+      "team": "neutral",
+      "lane": "epic",
+      "tier": null,
+      "shape": "circle",
+      "radius": 132,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2740.65,
+        2866.87
+      ],
+      "sourceBbox": [
+        2611,
+        2735,
+        260,
+        265
+      ],
+      "notes": "Pit épico detectado pela máscara. O tipo corresponde à posição do pit; confirme visualmente."
+    },
+    {
+      "id": "jungle_spot_13",
+      "type": "red",
+      "name": "Blue Rubivira",
+      "x": 0.528,
+      "y": 0.7240000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2163.5,
+        2964.79
+      ],
+      "sourceBbox": [
+        2105,
+        2905,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_14",
+      "type": "smallkrug",
+      "name": "Blue Kruge",
+      "x": 0.5670000000000001,
+      "y": 0.8170000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2322.18,
+        3344.98
+      ],
+      "sourceBbox": [
+        2264,
+        3285,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "red_spawn_shop",
+      "type": "spawn",
+      "name": "Fonte e compra Red",
+      "x": 0.9537021565428672,
+      "y": 0.04617218571056246,
+      "team": "red",
+      "lane": "base",
+      "tier": "spawn",
+      "shape": "circle",
+      "radius": 184,
+      "vision": 0,
+      "sourceMask": "spawn_shop",
+      "sourceCentroid": [
+        3927.34,
+        172.49
+      ],
+      "sourceBbox": [
+        3735,
+        0,
+        361,
+        369
+      ],
+      "notes": "Área raster de spawn/compra preservada na máscara. O ponto marca o centro da região."
+    },
+    {
+      "id": "blue_spawn_shop",
+      "type": "spawn",
+      "name": "Fonte e compra Blue",
+      "x": 0.0451041,
+      "y": 0.9537322,
+      "team": "blue",
+      "lane": "base",
+      "tier": "spawn",
+      "shape": "circle",
+      "radius": 199,
+      "vision": 0,
+      "sourceMask": "spawn_shop",
+      "sourceCentroid": [
+        184.75,
+        3906.49
+      ],
+      "sourceBbox": [
+        0,
+        3698,
+        392,
+        398
+      ],
+      "notes": "Área raster de spawn/compra preservada na máscara. O ponto marca o centro da região."
+    },
+    {
+      "id": "red_nexus_guard_2",
+      "type": "tower",
+      "name": "RED NEXUS GUARD 2",
+      "x": 0.85,
+      "y": 0.12300000000000001,
+      "team": "red",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 35.7,
+      "vision": 180,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    },
+    {
+      "id": "scuttle_neutral",
+      "type": "scuttle",
+      "name": "Aronguejo",
+      "x": 0.3015122930113831,
+      "y": 0.3480002775808644,
+      "team": "neutral",
+      "lane": "unassigned",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 45,
+      "vision": 0,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    },
+    {
+      "id": "scuttle_neutral_2",
+      "type": "scuttle",
+      "name": "Aronguejo",
+      "x": 0.706669912536399,
+      "y": 0.6547083744696309,
+      "team": "neutral",
+      "lane": "unassigned",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 45,
+      "vision": 0,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    }
+  ],
+  "layers": [
+    {
+      "id": "wall",
+      "label": "Colisor / parede",
+      "color": "#b1b3b9",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "brush",
+      "label": "Moita",
+      "color": "#58d17f",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "river",
+      "label": "Rio",
+      "color": "#47a9f2",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "routes",
+      "label": "Rotas originais (1:1)",
+      "color": "#e8bd69",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "spawn_shop",
+      "label": "Spawn e loja (1:1)",
+      "color": "#e6c178",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "top",
+      "label": "Rota TOP",
+      "color": "#dbb767",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "mid",
+      "label": "Rota MID",
+      "color": "#fd9470",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "bot",
+      "label": "Rota BOT",
+      "color": "#e8d080",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "jungle_blue",
+      "label": "Path JG Azul",
+      "color": "#5cbac1",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "jungle_red",
+      "label": "Path JG Vermelha",
+      "color": "#b98cf2",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "blue_base",
+      "label": "Base Azul",
+      "color": "#4dafff",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "red_base",
+      "label": "Base Vermelha",
+      "color": "#ff6877",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "buy_zone",
+      "label": "Área de compra",
+      "color": "#e5b965",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "vision_block",
+      "label": "Bloqueio de visão",
+      "color": "#8975a3",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "objective_zone",
+      "label": "Zona objetivo",
+      "color": "#e3a35c",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "spawn_zone",
+      "label": "Spawn / minions",
+      "color": "#7bcac2",
+      "visible": true,
+      "locked": false
+    }
+  ],
+  "rules": {
+    "mode": "standard2026",
+    "timers": {
+      "blue": {
+        "spawn": 55,
+        "respawn": 300
+      },
+      "red": {
+        "spawn": 55,
+        "respawn": 300
+      },
+      "wolves": {
+        "spawn": 55,
+        "respawn": 135
+      },
+      "raptors": {
+        "spawn": 55,
+        "respawn": 135
+      },
+      "gromp": {
+        "spawn": 67,
+        "respawn": 135
+      },
+      "krugs": {
+        "spawn": 67,
+        "respawn": 135
+      },
+      "scuttle": {
+        "spawn": 175,
+        "respawn": 150
+      },
+      "dragon": {
+        "spawn": 300,
+        "respawn": 300
+      },
+      "elder": {
+        "spawn": null,
+        "respawn": 360,
+        "conditional": "4 dragões elementais por equipe, surgimento 360 s após a alma"
+      },
+      "baron": {
+        "spawn": 1200,
+        "respawn": 360
+      },
+      "voidgrub": {
+        "spawn": 480,
+        "respawn": null
+      },
+      "herald": {
+        "spawn": 900,
+        "respawn": null
+      },
+      "atakhan": {
+        "spawn": null,
+        "respawn": null
+      }
+    },
+    "secPerRound": 30,
+    "decisionClock": 30,
+    "dragonSeed": 2026,
+    "dragonTypes": [
+      "Nuvens",
+      "Infernal",
+      "Hextec"
+    ],
+    "dragonKills": [],
+    "waves": {
+      "first": 30,
+      "interval": 30,
+      "melee": 3,
+      "casters": 3,
+      "siegeEvery": 3
+    },
+    "championDeath": {
+      "base": 15
+    }
+  },
+  "compat": {
+    "coordinates": "normalized_0_1",
+    "collisionRadius": "map_pixels_dynamic",
+    "perTurnSeconds": "simulated_game_time"
+  }
+}

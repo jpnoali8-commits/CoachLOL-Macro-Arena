@@ -1,0 +1,546 @@
+{
+  "schema": "coachlol.items.v43",
+  "patch": "26.21",
+  "mode": "Summoners Rift PC",
+  "warning": "Catalogo parcial; stats legadas podem ser abstracoes de treinamento; nao certifica passivas por item",
+  "items": [
+    {
+      "id": "dorans_blade",
+      "name": "Lâmina de Doran",
+      "cost": 450,
+      "stats": {
+        "ad": 10,
+        "hp": 80
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "dorans_ring",
+      "name": "Anel de Doran",
+      "cost": 450,
+      "stats": {
+        "ap": 18,
+        "hp": 70,
+        "mana": 35
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "dorans_shield",
+      "name": "Escudo de Doran",
+      "cost": 450,
+      "stats": {
+        "hp": 140,
+        "armor": 7
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "support_atlas",
+      "name": "Atlas Mundial",
+      "cost": 400,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "support_compass",
+      "name": "Bússola Rúnica",
+      "cost": 0,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "support_bounty",
+      "name": "Recompensa dos Mundos",
+      "cost": 0,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "jungle_gustwalker",
+      "name": "Filhote de Gustwalker · azul",
+      "cost": 450,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "jungle_mosstomper",
+      "name": "Broto de Mosstomper · verde",
+      "cost": 450,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "jungle_scorchclaw",
+      "name": "Filhote de Scorchclaw · vermelho",
+      "cost": 450,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "boots",
+      "name": "Botas",
+      "cost": 300,
+      "stats": {
+        "speed": 25
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "long_sword",
+      "name": "Espada Longa",
+      "cost": 350,
+      "stats": {
+        "ad": 10
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Long_Sword"
+    },
+    {
+      "id": "amp_tome",
+      "name": "Tomo Amplificador",
+      "cost": 400,
+      "stats": {
+        "ap": 20
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "ruby_crystal",
+      "name": "Cristal de Rubi",
+      "cost": 400,
+      "stats": {
+        "hp": 150
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "cloth_armor",
+      "name": "Armadura de Pano",
+      "cost": 300,
+      "stats": {
+        "armor": 15
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "null_magic_mantle",
+      "name": "Manto Anula-Magia",
+      "cost": 400,
+      "stats": {
+        "mr": 20
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "sapphire_crystal",
+      "name": "Cristal de Safira",
+      "cost": 300,
+      "stats": {
+        "mana": 250
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "bf_sword",
+      "name": "Espada G.P.C.",
+      "cost": 1300,
+      "stats": {
+        "ad": 45
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "pickaxe",
+      "name": "Picareta",
+      "cost": 875,
+      "stats": {
+        "ad": 25
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "agility_cloak",
+      "name": "Manto da Agilidade",
+      "cost": 600,
+      "stats": {
+        "critChance": 25
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "infinity_edge",
+      "name": "Gume do Infinito",
+      "cost": 3500,
+      "stats": {
+        "ad": 75,
+        "critChance": 25
+      },
+      "recipe": [
+        "bf_sword",
+        "pickaxe",
+        "agility_cloak"
+      ],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "rabadon",
+      "name": "Capuz da Morte de Rabadon",
+      "cost": 3500,
+      "stats": {
+        "ap": 130
+      },
+      "recipe": [
+        "needless_rod",
+        "needless_rod"
+      ],
+      "effect": {
+        "kind": "ap_multiplier",
+        "ratio": 0.3,
+        "maturity": "audited_stat"
+      },
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Rabadon%27s_Deathcap"
+    },
+    {
+      "id": "needless_rod",
+      "name": "Bastão Desnecessário",
+      "cost": 1200,
+      "stats": {
+        "ap": 65
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "giants_belt",
+      "name": "Cinto do Gigante",
+      "cost": 900,
+      "stats": {
+        "hp": 350
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "serrated_dirk",
+      "name": "Punhal Serrilhado",
+      "cost": 1000,
+      "stats": {
+        "ad": 20,
+        "lethality": 10
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "recurve_bow",
+      "name": "Arco Recurvo",
+      "cost": 700,
+      "stats": {
+        "atkSpeed": -0.12,
+        "ad": 8
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "zhonyas_hourglass",
+      "name": "Ampulheta de Zhonya",
+      "cost": 3250,
+      "stats": {
+        "ap": 90,
+        "armor": 50
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "glowing_mote",
+      "name": "Partícula Brilhante",
+      "cost": 250,
+      "stats": {
+        "abilityHaste": 5
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "kindlegem",
+      "name": "Gema Ardente",
+      "cost": 800,
+      "stats": {
+        "hp": 200,
+        "abilityHaste": 10
+      },
+      "recipe": [
+        "ruby_crystal",
+        "glowing_mote"
+      ],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "caulfields_warhammer",
+      "name": "Martelo de Guerra de Caulfield",
+      "cost": 1050,
+      "stats": {
+        "ad": 20,
+        "abilityHaste": 10
+      },
+      "recipe": [
+        "long_sword",
+        "glowing_mote",
+        "long_sword"
+      ],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "ionian_boots",
+      "name": "Botas Ionianas da Lucidez",
+      "cost": 900,
+      "stats": {
+        "speed": 45,
+        "abilityHaste": 10,
+        "summonerHaste": 10
+      },
+      "recipe": [
+        "boots",
+        "glowing_mote"
+      ],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Ionian_Boots_of_Lucidity"
+    },
+    {
+      "id": "vampiric_scepter",
+      "name": "Cetro Vampírico",
+      "cost": 900,
+      "stats": {
+        "ad": 15,
+        "lifeSteal": 7
+      },
+      "recipe": [
+        "long_sword"
+      ],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "blasting_wand",
+      "name": "Varinha Explosiva",
+      "cost": 850,
+      "stats": {
+        "ap": 45
+      },
+      "recipe": [],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Blasting_Wand"
+    },
+    {
+      "id": "oblivion_orb",
+      "name": "Orbe do Oblívio",
+      "cost": 800,
+      "stats": {
+        "ap": 25
+      },
+      "recipe": [
+        "amp_tome"
+      ],
+      "effect": {
+        "kind": "grievous_magic",
+        "duration": 3,
+        "maturity": "prototype"
+      },
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Oblivion_Orb"
+    },
+    {
+      "id": "executioners_calling",
+      "name": "Chamado do Carrasco",
+      "cost": 800,
+      "stats": {
+        "ad": 15
+      },
+      "recipe": [
+        "long_sword"
+      ],
+      "effect": {
+        "kind": "grievous_physical",
+        "duration": 3,
+        "maturity": "prototype"
+      },
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Executioner%27s_Calling"
+    },
+    {
+      "id": "sorcerers_shoes",
+      "name": "Sapatos do Feiticeiro",
+      "cost": 1100,
+      "stats": {
+        "speed": 45,
+        "magicPenFlat": 12
+      },
+      "recipe": [
+        "boots"
+      ],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Sorcerer%27s_Shoes"
+    },
+    {
+      "id": "mercurys_treads",
+      "name": "Passos de Mercúrio",
+      "cost": 1250,
+      "stats": {
+        "speed": 45,
+        "mr": 20,
+        "tenacity": 30
+      },
+      "recipe": [
+        "boots",
+        "null_magic_mantle"
+      ],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Mercury%27s_Treads"
+    },
+    {
+      "id": "void_staff",
+      "name": "Cajado do Vazio",
+      "cost": 3000,
+      "stats": {
+        "ap": 95,
+        "magicPenPercent": 40
+      },
+      "recipe": [
+        "blasting_wand",
+        "amp_tome"
+      ],
+      "effect": null,
+      "maturity": "audited_basic_stats",
+      "source": "https://wiki.leagueoflegends.com/en-us/Void_Staff"
+    },
+    {
+      "id": "last_whisper",
+      "name": "Último Sussurro",
+      "cost": 1450,
+      "stats": {
+        "ad": 20,
+        "armorPenPercent": 18
+      },
+      "recipe": [
+        "long_sword",
+        "long_sword"
+      ],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "ward",
+      "name": "Sentinela de Controle",
+      "cost": 75,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "trinket_stealth",
+      "name": "Totem de Vigilância · Ward Amarela",
+      "cost": 0,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    },
+    {
+      "id": "trinket_oracle",
+      "name": "Lente Reveladora · Varredura",
+      "cost": 0,
+      "stats": {},
+      "recipe": [],
+      "effect": null,
+      "maturity": "training_or_unverified",
+      "source": null
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "coachlol.rift-bundle.v1",
+  "element": "cloud",
+  "size": 128,
+  "addWall": [],
+  "removeWall": [],
+  "addBrush": [],
+  "removeBrush": [],
+  "features": {
+    "windZones": [
+      {
+        "id": "cloud_wind_01",
+        "x": 0.479479,
+        "y": 0.288935,
+        "radius": 0.09033,
+        "moveBonus": 0.2,
+        "sourcePixels": 278941,
+        "approximation": "circle_over_painted_zone"
+      },
+      {
+        "id": "cloud_wind_02",
+        "x": 0.271084,
+        "y": 0.463691,
+        "radius": 0.09375,
+        "moveBonus": 0.2,
+        "sourcePixels": 260872,
+        "approximation": "circle_over_painted_zone"
+      },
+      {
+        "id": "cloud_wind_03",
+        "x": 0.739339,
+        "y": 0.529324,
+        "radius": 0.10291,
+        "moveBonus": 0.2,
+        "sourcePixels": 318750,
+        "approximation": "circle_over_painted_zone"
+      },
+      {
+        "id": "cloud_wind_04",
+        "x": 0.529544,
+        "y": 0.701846,
+        "radius": 0.08447,
+        "moveBonus": 0.2,
+        "sourcePixels": 276484,
+        "approximation": "circle_over_painted_zone"
+      }
+    ]
+  }
+}

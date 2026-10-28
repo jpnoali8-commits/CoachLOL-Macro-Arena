@@ -1,0 +1,15 @@
+{
+  "status": "IMPLEMENTED_PARTIAL_NOT_CERTIFIED",
+  "sourceMasks": [
+    "8-earlygame-PointsWards-Vision-mask.jpg",
+    "4-PointsWards-Vision-late-gamemask.jpg"
+  ],
+  "totals": {
+    "early": 8,
+    "late": 4,
+    "all": 12
+  },
+  "lateUnlockSeconds": 900,
+  "lateUnlockMode": "time_or_rift",
+  "remarks": "Counts and polygons extracted from updated user masks. Extra 4 unlock at 15:00 or on Elemental Rift transformation, whichever comes first, per project canon for this branch until re-audited."
+}

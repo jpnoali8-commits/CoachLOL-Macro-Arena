@@ -1,0 +1,10 @@
+{
+  "schema": "coachlol.rift-bundle.v1",
+  "element": "chemtech",
+  "size": 128,
+  "addWall": [],
+  "removeWall": [],
+  "addBrush": [],
+  "removeBrush": [],
+  "features": {}
+}

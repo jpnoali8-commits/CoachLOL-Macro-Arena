@@ -1,0 +1,93 @@
+{
+  "schema": "coachlol.unit.balance.v1",
+  "patch": "26.21",
+  "dataDragon": "16.21.1",
+  "source": "LOCAL_ENGINE_BASELINE_NOT_OFFICIAL_RIOT_STATS",
+  "sourceCode": [
+    "engine.mjs waveStatsV452d4Dev23",
+    "engine.mjs Arena() constructor structure HP",
+    "engine.mjs structureResistanceV452d4Dev23"
+  ],
+  "status": "PINNED_LOCAL_TRAINING_BALANCE",
+  "units": {
+    "melee": {
+      "hp": 465,
+      "damage": 18,
+      "range": 0.014,
+      "speed": 0.013,
+      "interval": 1.6,
+      "hpGainPer90s": 35,
+      "damageGainPer90s": 2.4,
+      "hpCap": 1550,
+      "damageCap": 80
+    },
+    "caster": {
+      "hp": 290,
+      "damage": 27,
+      "range": 0.041,
+      "speed": 0.013,
+      "interval": 1.5,
+      "hpGainPer90s": 13,
+      "damageGainPer90s": 3.6,
+      "hpCap": 600,
+      "damageCap": 125
+    },
+    "siege": {
+      "hp": 835,
+      "damage": 48,
+      "range": 0.055,
+      "speed": 0.012,
+      "interval": 2,
+      "hpGainPer90s": 105,
+      "damageGainPer90s": 3.5,
+      "hpCap": 5850,
+      "damageCap": 126
+    },
+    "super": {
+      "hp": 1600,
+      "damage": 145,
+      "range": 0.016,
+      "speed": 0.0081,
+      "interval": 1.65,
+      "hpGainPer90s": 65,
+      "damageGainPer90s": 2.5,
+      "hpCap": 3300,
+      "damageCap": 200
+    },
+    "turret_outer": {
+      "hp": 9000,
+      "armor": 60,
+      "resistanceDecay": {
+        "armorPerMinute11To15": 10,
+        "magicResistPerMinute11To15": 15
+      }
+    },
+    "turret_inner": {
+      "hp": 5000,
+      "armor": 60
+    },
+    "turret_inhibitor": {
+      "hp": 4750,
+      "armor": 60
+    },
+    "turret_nexus": {
+      "hp": 3500,
+      "armor": 60
+    },
+    "inhibitor": {
+      "hp": 4000,
+      "armor": 20
+    },
+    "nexus": {
+      "hp": 5500,
+      "armor": 20
+    }
+  },
+  "limitations": [
+    "Minion growth is local pacing calibration, not Riot 1:1",
+    "Turret attack values are computed elsewhere and intentionally not inferred",
+    "No external wiki internal item record has been auto-applied to unit stats",
+    "Any future values require verification against 26.x patch notes and engine regression"
+  ],
+  "gameplayApplied": "EXISTING_DEV34_VALUES_ONLY_NO_NEW_MODIFIERS"
+}

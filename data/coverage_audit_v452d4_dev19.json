@@ -1,0 +1,774 @@
+{
+  "schema": "coachlol.parityAudit.v1",
+  "gamePatch": "26.21",
+  "auditedAt": "2026-10-27",
+  "state": "PARTIAL_NOT_CERTIFIED",
+  "referenceImportStatus": "NOT_AVAILABLE_IN_THIS_EXECUTION",
+  "summary": {
+    "selectableChampions": 14,
+    "championsWithAuditedStats": 5,
+    "championsWithAuditedGrowth": 5,
+    "championsWithAll18LevelsAudited": 5,
+    "championKitManifests": 5,
+    "completeKits": 0,
+    "shopItems": 41,
+    "itemsWithAuditedBasicStats": 9,
+    "fullyVerifiedItems": 0,
+    "prototypeKeystones": 3,
+    "verifiedCompleteRuneTrees": 0,
+    "referenceChampions": null,
+    "referenceShopItems": null
+  },
+  "mechanicGaps": [
+    {
+      "id": "forms_nidalee",
+      "champion": "Nidalee",
+      "state": "NOT_REGISTERED",
+      "requirements": [
+        "R human-cougar form toggle",
+        "QWER separate forms",
+        "hunted target mark",
+        "cooldowns per form",
+        "combo transitions and fog"
+      ]
+    },
+    {
+      "id": "forms_elise",
+      "champion": "Elise",
+      "state": "NOT_REGISTERED",
+      "requirements": [
+        "human-spider R",
+        "QWER distinct",
+        "spiderlings",
+        "Rappel untargetable range and landing",
+        "shared/independent cooldown transitions"
+      ]
+    },
+    {
+      "id": "dragon_form_shyvana",
+      "champion": "Shyvana",
+      "state": "NOT_REGISTERED",
+      "requirements": [
+        "Fury resource",
+        "dragon form via R",
+        "QWER dragon variants",
+        "form expiry and temporary movement"
+      ]
+    },
+    {
+      "id": "realm_mordekaiser",
+      "champion": "Mordekaiser",
+      "state": "NOT_REGISTERED",
+      "requirements": [
+        "7s isolated 1v1 realm",
+        "targets/collision/visibility scoped by realm",
+        "bounded arena",
+        "death/dispel cleanup",
+        "stat steal",
+        "snapshot/replay"
+      ]
+    },
+    {
+      "id": "other_transforms",
+      "state": "NOT_AUDITED",
+      "requirements": [
+        "Jayce",
+        "Nidalee",
+        "Elise",
+        "Gnar",
+        "Kayn",
+        "Kled",
+        "Aphelios",
+        "Udyr",
+        "Viego",
+        "Neeko and others demand kit-specific state machines"
+      ]
+    },
+    {
+      "id": "item_passive_active",
+      "state": "PARTIAL",
+      "requirements": [
+        "item recipes/costs from versioned reference",
+        "item stats applied by runtime",
+        "trigger/target/CD/charges/damage/effect resolver for every active/passive"
+      ]
+    },
+    {
+      "id": "champion_base_stats_1_18",
+      "state": "PARTIAL",
+      "requirements": [
+        "stat growth per champion/resource",
+        "AS ratio/bonus and range",
+        "hp/mana regeneration",
+        "champion-specific transforms or growth passives"
+      ]
+    },
+    {
+      "id": "full_game_long_match",
+      "state": "NOT_CERTIFIED",
+      "requirements": [
+        "non-scripted 20–40 min match",
+        "objectives/teamfights/win condition",
+        "endgame/fog/replay"
+      ]
+    }
+  ],
+  "champions": [
+    {
+      "id": "Ahri",
+      "baseStatsAudited": true,
+      "growthAudited": true,
+      "allLevelsAudited": true,
+      "rangeRegistered": true,
+      "passive": "planned",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Caitlyn",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Darius",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Jinx",
+      "baseStatsAudited": true,
+      "growthAudited": true,
+      "allLevelsAudited": true,
+      "rangeRegistered": true,
+      "passive": "planned",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "KSante",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "LeeSin",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Leona",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Lux",
+      "baseStatsAudited": true,
+      "growthAudited": true,
+      "allLevelsAudited": true,
+      "rangeRegistered": true,
+      "passive": "planned",
+      "spells": {
+        "Q": "prototype",
+        "W": "planned",
+        "E": "prototype",
+        "R": "legacy_adapter"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Nami",
+      "baseStatsAudited": true,
+      "growthAudited": true,
+      "allLevelsAudited": true,
+      "rangeRegistered": true,
+      "passive": "planned",
+      "spells": {
+        "Q": "prototype",
+        "W": "legacy_adapter",
+        "E": "planned",
+        "R": "legacy_adapter"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Udyr",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Vayne",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Vex",
+      "baseStatsAudited": true,
+      "growthAudited": true,
+      "allLevelsAudited": true,
+      "rangeRegistered": true,
+      "passive": "planned",
+      "spells": {
+        "Q": "training",
+        "W": "training",
+        "E": "training",
+        "R": "prototype"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Volibear",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    },
+    {
+      "id": "Warwick",
+      "baseStatsAudited": false,
+      "growthAudited": false,
+      "allLevelsAudited": false,
+      "rangeRegistered": true,
+      "passive": "missing",
+      "spells": {
+        "Q": "generic_training_fallback",
+        "W": "generic_training_fallback",
+        "E": "generic_training_fallback",
+        "R": "generic_training_fallback"
+      },
+      "hasCompleteKit": false,
+      "referenceImported": false,
+      "productionReady": false
+    }
+  ],
+  "items": [
+    {
+      "id": "dorans_blade",
+      "name": "Lâmina de Doran",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "dorans_ring",
+      "name": "Anel de Doran",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "dorans_shield",
+      "name": "Escudo de Doran",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "support_atlas",
+      "name": "Atlas Mundial",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "support_compass",
+      "name": "Bússola Rúnica",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "support_bounty",
+      "name": "Recompensa dos Mundos",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "jungle_gustwalker",
+      "name": "Filhote de Gustwalker · azul",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "jungle_mosstomper",
+      "name": "Broto de Mosstomper · verde",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "jungle_scorchclaw",
+      "name": "Filhote de Scorchclaw · vermelho",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "boots",
+      "name": "Botas",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "long_sword",
+      "name": "Espada Longa",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "amp_tome",
+      "name": "Tomo Amplificador",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "ruby_crystal",
+      "name": "Cristal de Rubi",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "cloth_armor",
+      "name": "Armadura de Pano",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "null_magic_mantle",
+      "name": "Manto Anula-Magia",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "sapphire_crystal",
+      "name": "Cristal de Safira",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "bf_sword",
+      "name": "Espada G.P.C.",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "pickaxe",
+      "name": "Picareta",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "agility_cloak",
+      "name": "Manto da Agilidade",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "infinity_edge",
+      "name": "Gume do Infinito",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 3,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "rabadon",
+      "name": "Capuz da Morte de Rabadon",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": true,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "needless_rod",
+      "name": "Bastão Desnecessário",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "giants_belt",
+      "name": "Cinto do Gigante",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "serrated_dirk",
+      "name": "Punhal Serrilhado",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "recurve_bow",
+      "name": "Arco Recurvo",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "zhonyas_hourglass",
+      "name": "Ampulheta de Zhonya",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "glowing_mote",
+      "name": "Partícula Brilhante",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "kindlegem",
+      "name": "Gema Ardente",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "caulfields_warhammer",
+      "name": "Martelo de Guerra de Caulfield",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 3,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "ionian_boots",
+      "name": "Botas Ionianas da Lucidez",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "vampiric_scepter",
+      "name": "Cetro Vampírico",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 1,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "blasting_wand",
+      "name": "Varinha Explosiva",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "oblivion_orb",
+      "name": "Orbe do Oblívio",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 1,
+      "recipeAudited": false,
+      "passiveEffectImplemented": true,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "executioners_calling",
+      "name": "Chamado do Carrasco",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 1,
+      "recipeAudited": false,
+      "passiveEffectImplemented": true,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "sorcerers_shoes",
+      "name": "Sapatos do Feiticeiro",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 1,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "mercurys_treads",
+      "name": "Passos de Mercúrio",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "void_staff",
+      "name": "Cajado do Vazio",
+      "statsMaturity": "audited_basic_stats",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "last_whisper",
+      "name": "Último Sussurro",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 2,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "ward",
+      "name": "Sentinela de Controle",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "trinket_stealth",
+      "name": "Totem de Vigilância · Ward Amarela",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    },
+    {
+      "id": "trinket_oracle",
+      "name": "Lente Reveladora · Varredura",
+      "statsMaturity": "training_or_unverified",
+      "recipeComponents": 0,
+      "recipeAudited": false,
+      "passiveEffectImplemented": false,
+      "activeEffectVerified": false,
+      "referenceLinked": false
+    }
+  ],
+  "limitations": [
+    "A champion in a manifest is not a certified complete playable LoL champion.",
+    "The training fallback for skills is NOT that champion real Q/W/E/R.",
+    "Data Dragon does not specify all active/passive behavior, dynamic transformations, or realm isolation.",
+    "No complete official champion/item set can be asserted unless a version-pinned Data Dragon source was ingested and independently audited."
+  ]
+}

@@ -1,0 +1,3445 @@
+{
+  "schemaVersion": 6,
+  "sourceMasks": {
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "manifest": "assets/mask_layers/manifest.json",
+    "referenceMode": "manual-raster-authoritative",
+    "visibility": {
+      "wall": true,
+      "brush": true,
+      "river": true,
+      "routes": true,
+      "spawn_shop": true,
+      "towers": true,
+      "inhibitors": true,
+      "nexus": true,
+      "monsters": true
+    },
+    "showReference": true,
+    "classification": "objects-from-connected-components"
+  },
+  "meta": {
+    "name": "Rift CoachLOL — Mapeamento",
+    "createdWith": "CoachLOL Map Studio v6 (dados v5 preservados)",
+    "exportedAt": "2026-10-25T03:25:10.244Z",
+    "image": "assets/map_reference.jpg",
+    "mapDimensions": {
+      "w": 4096,
+      "h": 4096
+    }
+  },
+  "geometry": [],
+  "objects": [
+    {
+      "id": "red_top_t1",
+      "type": "tower",
+      "name": "RED TOP T1",
+      "x": 0.2975736851274586,
+      "y": 0.06862849042745502,
+      "team": "red",
+      "lane": "top",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1213.34,
+        288.07
+      ],
+      "sourceBbox": [
+        1182,
+        256,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_top_t2",
+      "type": "tower",
+      "name": "RED TOP T2",
+      "x": 0.5393262037764238,
+      "y": 0.10110413083789427,
+      "team": "red",
+      "lane": "top",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2207.34,
+        402.54
+      ],
+      "sourceBbox": [
+        2175,
+        371,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_top_t3",
+      "type": "tower",
+      "name": "RED TOP T3",
+      "x": 0.7078329859071679,
+      "y": 0.08384723915928298,
+      "team": "red",
+      "lane": "top",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3476.09,
+        494.17
+      ],
+      "sourceBbox": [
+        3444,
+        462,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_nexus_guard_1",
+      "type": "tower",
+      "name": "RED NEXUS GUARD 1",
+      "x": 0.8807018035451579,
+      "y": 0.15318102799570552,
+      "team": "red",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3599.7,
+        622.45
+      ],
+      "sourceBbox": [
+        3568,
+        591,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t3",
+      "type": "tower",
+      "name": "RED MID T3",
+      "x": 0.7515667300873857,
+      "y": 0.24717212946574357,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3077.57,
+        1020.95
+      ],
+      "sourceBbox": [
+        3046,
+        989,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t3",
+      "type": "tower",
+      "name": "RED BOT T3",
+      "x": 0.9173308958987368,
+      "y": 0.2901124549848423,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3750.93,
+        1190.42
+      ],
+      "sourceBbox": [
+        3719,
+        1159,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t1",
+      "type": "tower",
+      "name": "BLUE TOP T1",
+      "x": 0.07351161863762028,
+      "y": 0.2994720256364164,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        297.2,
+        1217.91
+      ],
+      "sourceBbox": [
+        265,
+        1186,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t2",
+      "type": "tower",
+      "name": "RED MID T2",
+      "x": 0.6596601,
+      "y": 0.3197057,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2701.97,
+        1309.51
+      ],
+      "sourceBbox": [
+        2670,
+        1278,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_mid_t1",
+      "type": "tower",
+      "name": "RED MID T1",
+      "x": 0.6048646,
+      "y": 0.4248165,
+      "team": "red",
+      "lane": "mid",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2477.53,
+        1740.05
+      ],
+      "sourceBbox": [
+        2446,
+        1708,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t2",
+      "type": "tower",
+      "name": "RED BOT T2",
+      "x": 0.8978439,
+      "y": 0.4449486,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3677.57,
+        1822.51
+      ],
+      "sourceBbox": [
+        3646,
+        1791,
+        64,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t2",
+      "type": "tower",
+      "name": "BLUE TOP T2",
+      "x": 0.10993816634597607,
+      "y": 0.5471929039072653,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        448.41,
+        2234.74
+      ],
+      "sourceBbox": [
+        417,
+        2203,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t1",
+      "type": "tower",
+      "name": "BLUE MID T1",
+      "x": 0.39904487979077974,
+      "y": 0.5674106221368633,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1634.75,
+        2321.81
+      ],
+      "sourceBbox": [
+        1603,
+        2290,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t2",
+      "type": "tower",
+      "name": "BLUE MID T2",
+      "x": 0.3461529340363923,
+      "y": 0.6732931926489114,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1414.87,
+        2747.82
+      ],
+      "sourceBbox": [
+        1383,
+        2716,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_bot_t1",
+      "type": "tower",
+      "name": "RED BOT T1",
+      "x": 0.9337814174367629,
+      "y": 0.6938814759290823,
+      "team": "red",
+      "lane": "bot",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        3819.61,
+        2843.96
+      ],
+      "sourceBbox": [
+        3788,
+        2812,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_top_t3",
+      "type": "tower",
+      "name": "BLUE TOP T3",
+      "x": 0.08660104538278011,
+      "y": 0.708041794596635,
+      "team": "blue",
+      "lane": "top",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        347.62,
+        2885.21
+      ],
+      "sourceBbox": [
+        316,
+        2853,
+        64,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_mid_t3",
+      "type": "tower",
+      "name": "BLUE MID T3",
+      "x": 0.2526055,
+      "y": 0.7468902,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1034.67,
+        3059.26
+      ],
+      "sourceBbox": [
+        1003,
+        3027,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_nexus_guard_1",
+      "type": "tower",
+      "name": "BLUE NEXUS GUARD 1",
+      "x": 0.1262412,
+      "y": 0.8419447,
+      "team": "blue",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        517.08,
+        3448.61
+      ],
+      "sourceBbox": [
+        485,
+        3417,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_nexus_guard_2",
+      "type": "tower",
+      "name": "BLUE NEXUS GUARD 2",
+      "x": 0.1541907,
+      "y": 0.874383,
+      "team": "blue",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        631.57,
+        3581.47
+      ],
+      "sourceBbox": [
+        600,
+        3550,
+        64,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t2",
+      "type": "tower",
+      "name": "BLUE BOT T2",
+      "x": 0.469569,
+      "y": 0.8956253,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t2",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1923.35,
+        3668.48
+      ],
+      "sourceBbox": [
+        1891,
+        3637,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t3",
+      "type": "tower",
+      "name": "BLUE BOT T3",
+      "x": 0.2951817883815219,
+      "y": 0.9122236628524311,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t3",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        1204.16,
+        3741.77
+      ],
+      "sourceBbox": [
+        1172,
+        3710,
+        65,
+        65
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "blue_bot_t1",
+      "type": "tower",
+      "name": "BLUE BOT T1",
+      "x": 0.7094769250369557,
+      "y": 0.9252489839202463,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "t1",
+      "shape": "circle",
+      "radius": 32,
+      "vision": 180,
+      "sourceMask": "towers",
+      "sourceCentroid": [
+        2908.08,
+        3787.56
+      ],
+      "sourceBbox": [
+        2876,
+        3756,
+        65,
+        64
+      ],
+      "notes": "Posição inicial extraída da máscara manual de torres. Arraste para ajustar."
+    },
+    {
+      "id": "red_nexus",
+      "type": "nexus",
+      "name": "Nexus Red",
+      "x": 0.893,
+      "y": 0.111,
+      "team": "red",
+      "lane": "base",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 84.7,
+      "vision": 0,
+      "sourceMask": "nexus",
+      "sourceCentroid": [
+        3654.73,
+        452.98
+      ],
+      "sourceBbox": [
+        3613,
+        411,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de Nexus."
+    },
+    {
+      "id": "blue_nexus",
+      "type": "nexus",
+      "name": "Nexus Blue",
+      "x": 0.11277169504673493,
+      "y": 0.8835734042131684,
+      "team": "blue",
+      "lane": "base",
+      "tier": null,
+      "shape": "circle",
+      "radius": 75.59310576731093,
+      "vision": 0,
+      "sourceMask": "nexus",
+      "sourceCentroid": [
+        455.53,
+        3619.46
+      ],
+      "sourceBbox": [
+        406,
+        3571,
+        99,
+        99
+      ],
+      "notes": "Posição inicial extraída da máscara manual de Nexus."
+    },
+    {
+      "id": "red_top_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red TOP",
+      "x": 0.7601199531285057,
+      "y": 0.08251790948416422,
+      "team": "red",
+      "lane": "top",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3109.63,
+        333.89
+      ],
+      "sourceBbox": [
+        3068,
+        292,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "red_mid_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red MID",
+      "x": 0.781557,
+      "y": 0.2168234,
+      "team": "red",
+      "lane": "mid",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3201.26,
+        888.11
+      ],
+      "sourceBbox": [
+        3159,
+        846,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "red_bot_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Red BOT",
+      "x": 0.9162969728180889,
+      "y": 0.2397456306275649,
+      "team": "red",
+      "lane": "bot",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        3760.07,
+        979.73
+      ],
+      "sourceBbox": [
+        3718,
+        938,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_top_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue TOP",
+      "x": 0.0871108,
+      "y": 0.7547184,
+      "team": "blue",
+      "lane": "top",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        356.81,
+        3091.33
+      ],
+      "sourceBbox": [
+        315,
+        3049,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_mid_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue MID",
+      "x": 0.2235334,
+      "y": 0.7804425,
+      "team": "blue",
+      "lane": "mid",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        915.59,
+        3196.69
+      ],
+      "sourceBbox": [
+        874,
+        3155,
+        84,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "blue_bot_inhibitor",
+      "type": "inhibitor",
+      "name": "Inibidor Blue BOT",
+      "x": 0.24001574948299453,
+      "y": 0.9119425620172793,
+      "team": "blue",
+      "lane": "bot",
+      "tier": "inhibitor",
+      "shape": "circle",
+      "radius": 42,
+      "vision": 0,
+      "sourceMask": "inhibitors",
+      "sourceCentroid": [
+        979.72,
+        3741.76
+      ],
+      "sourceBbox": [
+        938,
+        3700,
+        85,
+        85
+      ],
+      "notes": "Posição inicial extraída da máscara manual de inibidores."
+    },
+    {
+      "id": "jungle_spot_01",
+      "type": "krugs",
+      "name": "Red Krugue",
+      "x": 0.44,
+      "y": 0.182,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1799.88,
+        743.3
+      ],
+      "sourceBbox": [
+        1742,
+        683,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor. | Normalizado: objeto representa campo com Krugue Ancião + Krugue, sem criar extras no mapa."
+    },
+    {
+      "id": "jungle_spot_02",
+      "type": "red",
+      "name": "Red Rubivira",
+      "x": 0.47700000000000004,
+      "y": 0.275,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1955.26,
+        1126.8
+      ],
+      "sourceBbox": [
+        1897,
+        1066,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor. | Normalizado pelo nome: campo Rubivira."
+    },
+    {
+      "id": "baron_pit",
+      "type": "baron",
+      "name": "Barão Na’Shor",
+      "x": 0.3405635672662744,
+      "y": 0.2989458475410578,
+      "team": "neutral",
+      "lane": "epic",
+      "tier": null,
+      "shape": "circle",
+      "radius": 126,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1393.27,
+        1206.1
+      ],
+      "sourceBbox": [
+        1270,
+        1081,
+        248,
+        251
+      ],
+      "notes": "Pit épico detectado pela máscara. O tipo corresponde à posição do pit; confirme visualmente."
+    },
+    {
+      "id": "jungle_spot_04",
+      "type": "raptors",
+      "name": "Red Acuamina",
+      "x": 0.5329999999999999,
+      "y": 0.36200000000000004,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2183.35,
+        1483.82
+      ],
+      "sourceBbox": [
+        2125,
+        1424,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_05",
+      "type": "gromp",
+      "name": "Blue Grompe",
+      "x": 0.153,
+      "y": 0.433,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        626.33,
+        1774.73
+      ],
+      "sourceBbox": [
+        568,
+        1714,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_06",
+      "type": "wolves",
+      "name": "Red Lobos",
+      "x": 0.743,
+      "y": 0.435,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3042.86,
+        1781.32
+      ],
+      "sourceBbox": [
+        2985,
+        1721,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_07",
+      "type": "blue",
+      "name": "Blue Azupora",
+      "x": 0.265,
+      "y": 0.47,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1085.83,
+        1923.44
+      ],
+      "sourceBbox": [
+        1028,
+        1863,
+        117,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_08",
+      "type": "blue",
+      "name": "Red Azupora",
+      "x": 0.74,
+      "y": 0.529,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3029.64,
+        2164.8
+      ],
+      "sourceBbox": [
+        2971,
+        2105,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_09",
+      "type": "wolves",
+      "name": "Blue Lobos",
+      "x": 0.264,
+      "y": 0.562,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1082.51,
+        2303.62
+      ],
+      "sourceBbox": [
+        1024,
+        2243,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_10",
+      "type": "gromp",
+      "name": "Red Grompe",
+      "x": 0.851,
+      "y": 0.5710000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        3485.86,
+        2340
+      ],
+      "sourceBbox": [
+        3428,
+        2280,
+        117,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_11",
+      "type": "raptors",
+      "name": "Blue Acuaminas",
+      "x": 0.475,
+      "y": 0.633,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 61,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        1945.33,
+        2594.53
+      ],
+      "sourceBbox": [
+        1887,
+        2534,
+        118,
+        122
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "dragon_pit",
+      "type": "dragon",
+      "name": "Dragão / Dragão Ancião",
+      "x": 0.6691047,
+      "y": 0.6999194,
+      "team": "neutral",
+      "lane": "epic",
+      "tier": null,
+      "shape": "circle",
+      "radius": 132,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2740.65,
+        2866.87
+      ],
+      "sourceBbox": [
+        2611,
+        2735,
+        260,
+        265
+      ],
+      "notes": "Pit épico detectado pela máscara. O tipo corresponde à posição do pit; confirme visualmente."
+    },
+    {
+      "id": "jungle_spot_13",
+      "type": "red",
+      "name": "Blue Rubivira",
+      "x": 0.528,
+      "y": 0.7240000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2163.5,
+        2964.79
+      ],
+      "sourceBbox": [
+        2105,
+        2905,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor."
+    },
+    {
+      "id": "jungle_spot_14",
+      "type": "krugs",
+      "name": "Blue Kruge",
+      "x": 0.5670000000000001,
+      "y": 0.8170000000000001,
+      "team": "neutral",
+      "lane": "jungle",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 60,
+      "vision": 0,
+      "sourceMask": "monsters",
+      "sourceCentroid": [
+        2322.18,
+        3344.98
+      ],
+      "sourceBbox": [
+        2264,
+        3285,
+        118,
+        121
+      ],
+      "notes": "Centro extraído da máscara de monstros. Selecione o tipo exato (Grompe, Rubivira, etc.) no inspetor. | Normalizado: objeto representa campo com Krugue Ancião + Krugue, sem criar extras no mapa."
+    },
+    {
+      "id": "red_spawn_shop",
+      "type": "spawn",
+      "name": "Fonte e compra Red",
+      "x": 0.9537021565428672,
+      "y": 0.04617218571056246,
+      "team": "red",
+      "lane": "base",
+      "tier": "spawn",
+      "shape": "circle",
+      "radius": 184,
+      "vision": 0,
+      "sourceMask": "spawn_shop",
+      "sourceCentroid": [
+        3927.34,
+        172.49
+      ],
+      "sourceBbox": [
+        3735,
+        0,
+        361,
+        369
+      ],
+      "notes": "Área raster de spawn/compra preservada na máscara. O ponto marca o centro da região."
+    },
+    {
+      "id": "blue_spawn_shop",
+      "type": "spawn",
+      "name": "Fonte e compra Blue",
+      "x": 0.0451041,
+      "y": 0.9537322,
+      "team": "blue",
+      "lane": "base",
+      "tier": "spawn",
+      "shape": "circle",
+      "radius": 199,
+      "vision": 0,
+      "sourceMask": "spawn_shop",
+      "sourceCentroid": [
+        184.75,
+        3906.49
+      ],
+      "sourceBbox": [
+        0,
+        3698,
+        392,
+        398
+      ],
+      "notes": "Área raster de spawn/compra preservada na máscara. O ponto marca o centro da região."
+    },
+    {
+      "id": "red_nexus_guard_2",
+      "type": "tower",
+      "name": "RED NEXUS GUARD 2",
+      "x": 0.85,
+      "y": 0.12300000000000001,
+      "team": "red",
+      "lane": "nexus",
+      "tier": "guard",
+      "shape": "circle",
+      "radius": 35.7,
+      "vision": 180,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    },
+    {
+      "id": "scuttle_neutral",
+      "type": "scuttle",
+      "name": "Aronguejo",
+      "x": 0.3015122930113831,
+      "y": 0.3480002775808644,
+      "team": "neutral",
+      "lane": "unassigned",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 45,
+      "vision": 0,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    },
+    {
+      "id": "scuttle_neutral_2",
+      "type": "scuttle",
+      "name": "Aronguejo",
+      "x": 0.706669912536399,
+      "y": 0.6547083744696309,
+      "team": "neutral",
+      "lane": "unassigned",
+      "tier": "unassigned",
+      "shape": "circle",
+      "radius": 45,
+      "vision": 0,
+      "sourceMask": null,
+      "notes": "Adicionado manualmente"
+    }
+  ],
+  "layers": [
+    {
+      "id": "wall",
+      "label": "Colisor / parede",
+      "color": "#b1b3b9",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "brush",
+      "label": "Moita",
+      "color": "#58d17f",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "river",
+      "label": "Rio",
+      "color": "#47a9f2",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "routes",
+      "label": "Rotas originais (1:1)",
+      "color": "#e8bd69",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "spawn_shop",
+      "label": "Spawn e loja (1:1)",
+      "color": "#e6c178",
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "top",
+      "label": "Rota TOP",
+      "color": "#dbb767",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "mid",
+      "label": "Rota MID",
+      "color": "#fd9470",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "bot",
+      "label": "Rota BOT",
+      "color": "#e8d080",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "jungle_blue",
+      "label": "Path JG Azul",
+      "color": "#5cbac1",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "jungle_red",
+      "label": "Path JG Vermelha",
+      "color": "#b98cf2",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "blue_base",
+      "label": "Base Azul",
+      "color": "#4dafff",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "red_base",
+      "label": "Base Vermelha",
+      "color": "#ff6877",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "buy_zone",
+      "label": "Área de compra",
+      "color": "#e5b965",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "vision_block",
+      "label": "Bloqueio de visão",
+      "color": "#8975a3",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "objective_zone",
+      "label": "Zona objetivo",
+      "color": "#e3a35c",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "spawn_zone",
+      "label": "Spawn / minions",
+      "color": "#7bcac2",
+      "visible": true,
+      "locked": false
+    }
+  ],
+  "rules": {
+    "mode": "standard2026",
+    "timers": {
+      "blue": {
+        "spawn": 55,
+        "respawn": 300
+      },
+      "red": {
+        "spawn": 55,
+        "respawn": 300
+      },
+      "wolves": {
+        "spawn": 55,
+        "respawn": 135
+      },
+      "raptors": {
+        "spawn": 55,
+        "respawn": 135
+      },
+      "gromp": {
+        "spawn": 67,
+        "respawn": 135
+      },
+      "krugs": {
+        "spawn": 67,
+        "respawn": 135
+      },
+      "scuttle": {
+        "spawn": 175,
+        "respawn": 150
+      },
+      "dragon": {
+        "spawn": 300,
+        "respawn": 300
+      },
+      "elder": {
+        "spawn": null,
+        "respawn": 360,
+        "conditional": "4 dragões elementais por equipe, surgimento 360 s após a alma"
+      },
+      "baron": {
+        "spawn": 1200,
+        "respawn": 360
+      },
+      "voidgrub": {
+        "spawn": 480,
+        "respawn": null
+      },
+      "herald": {
+        "spawn": 900,
+        "respawn": null
+      },
+      "atakhan": {
+        "spawn": null,
+        "respawn": null
+      }
+    },
+    "secPerRound": 30,
+    "decisionClock": 30,
+    "dragonSeed": 2026,
+    "dragonTypes": [
+      "Nuvens",
+      "Infernal",
+      "Hextec"
+    ],
+    "dragonKills": [],
+    "waves": {
+      "first": 30,
+      "interval": 30,
+      "melee": 3,
+      "casters": 3,
+      "siegeEvery": 3
+    },
+    "championDeath": {
+      "base": 15
+    }
+  },
+  "compat": {
+    "coordinates": "normalized_0_1",
+    "collisionRadius": "map_pixels_dynamic",
+    "perTurnSeconds": "simulated_game_time"
+  },
+  "camps": [
+    {
+      "main": {
+        "type": "ancient_krug",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "krug",
+          "count": 1
+        }
+      ],
+      "onDeath": [
+        {
+          "on": "ancient_krug",
+          "summon": {
+            "type": "mini_krug",
+            "count": 4
+          }
+        },
+        {
+          "on": "krug",
+          "summon": {
+            "type": "mini_krug",
+            "count": 2
+          }
+        }
+      ],
+      "id": "camp_jungle_spot_01",
+      "objectId": "jungle_spot_01",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_01"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "krugs"
+    },
+    {
+      "main": {
+        "type": "red_brambleback",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_02",
+      "objectId": "jungle_spot_02",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_02"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "red"
+    },
+    {
+      "main": {
+        "type": "baron_nashor",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_baron_pit",
+      "objectId": "baron_pit",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "baron_pit"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "baron"
+    },
+    {
+      "main": {
+        "type": "crimson_raptor",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "small_raptor",
+          "count": 5
+        }
+      ],
+      "onDeath": [],
+      "id": "camp_jungle_spot_04",
+      "objectId": "jungle_spot_04",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_04"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "raptors"
+    },
+    {
+      "main": {
+        "type": "gromp",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_05",
+      "objectId": "jungle_spot_05",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_05"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "gromp"
+    },
+    {
+      "main": {
+        "type": "greater_murk_wolf",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "small_murk_wolf",
+          "count": 2
+        }
+      ],
+      "onDeath": [],
+      "id": "camp_jungle_spot_06",
+      "objectId": "jungle_spot_06",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_06"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "wolves"
+    },
+    {
+      "main": {
+        "type": "blue_sentinel",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_07",
+      "objectId": "jungle_spot_07",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_07"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "blue"
+    },
+    {
+      "main": {
+        "type": "blue_sentinel",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_08",
+      "objectId": "jungle_spot_08",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_08"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "blue"
+    },
+    {
+      "main": {
+        "type": "greater_murk_wolf",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "small_murk_wolf",
+          "count": 2
+        }
+      ],
+      "onDeath": [],
+      "id": "camp_jungle_spot_09",
+      "objectId": "jungle_spot_09",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_09"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "wolves"
+    },
+    {
+      "main": {
+        "type": "gromp",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_10",
+      "objectId": "jungle_spot_10",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_10"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "gromp"
+    },
+    {
+      "main": {
+        "type": "crimson_raptor",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "small_raptor",
+          "count": 5
+        }
+      ],
+      "onDeath": [],
+      "id": "camp_jungle_spot_11",
+      "objectId": "jungle_spot_11",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_11"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "raptors"
+    },
+    {
+      "main": {
+        "type": "dragon_variant",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_dragon_pit",
+      "objectId": "dragon_pit",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "dragon_pit"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "dragon"
+    },
+    {
+      "main": {
+        "type": "red_brambleback",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_jungle_spot_13",
+      "objectId": "jungle_spot_13",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_13"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "red"
+    },
+    {
+      "main": {
+        "type": "ancient_krug",
+        "count": 1
+      },
+      "companions": [
+        {
+          "type": "krug",
+          "count": 1
+        }
+      ],
+      "onDeath": [
+        {
+          "on": "ancient_krug",
+          "summon": {
+            "type": "mini_krug",
+            "count": 4
+          }
+        },
+        {
+          "on": "krug",
+          "summon": {
+            "type": "mini_krug",
+            "count": 2
+          }
+        }
+      ],
+      "id": "camp_jungle_spot_14",
+      "objectId": "jungle_spot_14",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "jungle_spot_14"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "krugs"
+    },
+    {
+      "main": {
+        "type": "scuttle_crab",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_scuttle_neutral",
+      "objectId": "scuttle_neutral",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "scuttle_neutral"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "scuttle"
+    },
+    {
+      "main": {
+        "type": "scuttle_crab",
+        "count": 1
+      },
+      "companions": [],
+      "onDeath": [],
+      "id": "camp_scuttle_neutral_2",
+      "objectId": "scuttle_neutral_2",
+      "team": "neutral",
+      "groupRendering": "single_map_marker",
+      "childPositioning": "relative_to_parent",
+      "parentPositionAuthority": "objects_by_id",
+      "center": {
+        "source": "linked_object",
+        "id": "scuttle_neutral_2"
+      },
+      "leashRadiusPx": 180,
+      "clearedAtSeconds": null,
+      "timerKey": "scuttle"
+    }
+  ],
+  "waveSystem": {
+    "schemaVersion": 1,
+    "source": "Riot patch 26.1 plus user mask traced endpoints",
+    "mapResolution": [
+      4096,
+      4096
+    ],
+    "spawnPoints": [
+      {
+        "id": "blue_top_wave_spawn",
+        "team": "blue",
+        "lane": "top",
+        "pos": [
+          0.078278,
+          0.847358
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      },
+      {
+        "id": "red_top_wave_spawn",
+        "team": "red",
+        "lane": "top",
+        "pos": [
+          0.849315,
+          0.09002
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      },
+      {
+        "id": "blue_mid_wave_spawn",
+        "team": "blue",
+        "lane": "mid",
+        "pos": [
+          0.1409,
+          0.849315
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      },
+      {
+        "id": "red_mid_wave_spawn",
+        "team": "red",
+        "lane": "mid",
+        "pos": [
+          0.8591,
+          0.1409
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      },
+      {
+        "id": "blue_bot_wave_spawn",
+        "team": "blue",
+        "lane": "bot",
+        "pos": [
+          0.1409,
+          0.911937
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      },
+      {
+        "id": "red_bot_wave_spawn",
+        "team": "red",
+        "lane": "bot",
+        "pos": [
+          0.917808,
+          0.1409
+        ],
+        "source": "derived_from_route_mask_trace",
+        "approvedByUser": false
+      }
+    ],
+    "lanes": {
+      "top": {
+        "routeMask": "assets/mask_layers/routes_binary.png",
+        "source": "guided_trace_snapped_to_authoritative_raster",
+        "confidence": "requires_editor_verification",
+        "blueToRed": [
+          [
+            0.078278,
+            0.847358
+          ],
+          [
+            0.080235,
+            0.837573
+          ],
+          [
+            0.080235,
+            0.827789
+          ],
+          [
+            0.080235,
+            0.818004
+          ],
+          [
+            0.080235,
+            0.808219
+          ],
+          [
+            0.080235,
+            0.798434
+          ],
+          [
+            0.080235,
+            0.78865
+          ],
+          [
+            0.080235,
+            0.778865
+          ],
+          [
+            0.080235,
+            0.76908
+          ],
+          [
+            0.080235,
+            0.759295
+          ],
+          [
+            0.080235,
+            0.749511
+          ],
+          [
+            0.080235,
+            0.739726
+          ],
+          [
+            0.080235,
+            0.729941
+          ],
+          [
+            0.080235,
+            0.720157
+          ],
+          [
+            0.080235,
+            0.710372
+          ],
+          [
+            0.080235,
+            0.700587
+          ],
+          [
+            0.080235,
+            0.690802
+          ],
+          [
+            0.080235,
+            0.681018
+          ],
+          [
+            0.080235,
+            0.671233
+          ],
+          [
+            0.080235,
+            0.661448
+          ],
+          [
+            0.080235,
+            0.651663
+          ],
+          [
+            0.080235,
+            0.641879
+          ],
+          [
+            0.080235,
+            0.632094
+          ],
+          [
+            0.080235,
+            0.622309
+          ],
+          [
+            0.080235,
+            0.612524
+          ],
+          [
+            0.082192,
+            0.60274
+          ],
+          [
+            0.082192,
+            0.592955
+          ],
+          [
+            0.082192,
+            0.58317
+          ],
+          [
+            0.082192,
+            0.573386
+          ],
+          [
+            0.082192,
+            0.563601
+          ],
+          [
+            0.082192,
+            0.553816
+          ],
+          [
+            0.082192,
+            0.544031
+          ],
+          [
+            0.082192,
+            0.534247
+          ],
+          [
+            0.082192,
+            0.524462
+          ],
+          [
+            0.082192,
+            0.514677
+          ],
+          [
+            0.082192,
+            0.504892
+          ],
+          [
+            0.082192,
+            0.495108
+          ],
+          [
+            0.082192,
+            0.485323
+          ],
+          [
+            0.082192,
+            0.475538
+          ],
+          [
+            0.082192,
+            0.465753
+          ],
+          [
+            0.082192,
+            0.455969
+          ],
+          [
+            0.082192,
+            0.446184
+          ],
+          [
+            0.082192,
+            0.436399
+          ],
+          [
+            0.082192,
+            0.426614
+          ],
+          [
+            0.082192,
+            0.41683
+          ],
+          [
+            0.082192,
+            0.407045
+          ],
+          [
+            0.082192,
+            0.39726
+          ],
+          [
+            0.084149,
+            0.387476
+          ],
+          [
+            0.084149,
+            0.377691
+          ],
+          [
+            0.084149,
+            0.367906
+          ],
+          [
+            0.084149,
+            0.358121
+          ],
+          [
+            0.084149,
+            0.348337
+          ],
+          [
+            0.084149,
+            0.338552
+          ],
+          [
+            0.084149,
+            0.328767
+          ],
+          [
+            0.084149,
+            0.318982
+          ],
+          [
+            0.084149,
+            0.309198
+          ],
+          [
+            0.082192,
+            0.299413
+          ],
+          [
+            0.084149,
+            0.289628
+          ],
+          [
+            0.084149,
+            0.279843
+          ],
+          [
+            0.084149,
+            0.270059
+          ],
+          [
+            0.086106,
+            0.260274
+          ],
+          [
+            0.088063,
+            0.250489
+          ],
+          [
+            0.091977,
+            0.240705
+          ],
+          [
+            0.093933,
+            0.23092
+          ],
+          [
+            0.097847,
+            0.221135
+          ],
+          [
+            0.107632,
+            0.21135
+          ],
+          [
+            0.11546,
+            0.201566
+          ],
+          [
+            0.125245,
+            0.191781
+          ],
+          [
+            0.135029,
+            0.181996
+          ],
+          [
+            0.144814,
+            0.172211
+          ],
+          [
+            0.154599,
+            0.162427
+          ],
+          [
+            0.164384,
+            0.152642
+          ],
+          [
+            0.174168,
+            0.142857
+          ],
+          [
+            0.183953,
+            0.133072
+          ],
+          [
+            0.193738,
+            0.123288
+          ],
+          [
+            0.203523,
+            0.113503
+          ],
+          [
+            0.209393,
+            0.103718
+          ],
+          [
+            0.215264,
+            0.099804
+          ],
+          [
+            0.225049,
+            0.099804
+          ],
+          [
+            0.234834,
+            0.099804
+          ],
+          [
+            0.244618,
+            0.09589
+          ],
+          [
+            0.254403,
+            0.091977
+          ],
+          [
+            0.264188,
+            0.091977
+          ],
+          [
+            0.273973,
+            0.091977
+          ],
+          [
+            0.283757,
+            0.091977
+          ],
+          [
+            0.293542,
+            0.091977
+          ],
+          [
+            0.303327,
+            0.091977
+          ],
+          [
+            0.313112,
+            0.091977
+          ],
+          [
+            0.322896,
+            0.09002
+          ],
+          [
+            0.332681,
+            0.09002
+          ],
+          [
+            0.342466,
+            0.09002
+          ],
+          [
+            0.35225,
+            0.09002
+          ],
+          [
+            0.362035,
+            0.088063
+          ],
+          [
+            0.37182,
+            0.088063
+          ],
+          [
+            0.381605,
+            0.088063
+          ],
+          [
+            0.391389,
+            0.088063
+          ],
+          [
+            0.401174,
+            0.088063
+          ],
+          [
+            0.410959,
+            0.088063
+          ],
+          [
+            0.420744,
+            0.091977
+          ],
+          [
+            0.430528,
+            0.088063
+          ],
+          [
+            0.440313,
+            0.088063
+          ],
+          [
+            0.450098,
+            0.088063
+          ],
+          [
+            0.459883,
+            0.088063
+          ],
+          [
+            0.469667,
+            0.088063
+          ],
+          [
+            0.479452,
+            0.088063
+          ],
+          [
+            0.489237,
+            0.088063
+          ],
+          [
+            0.499022,
+            0.088063
+          ],
+          [
+            0.508806,
+            0.088063
+          ],
+          [
+            0.518591,
+            0.088063
+          ],
+          [
+            0.528376,
+            0.088063
+          ],
+          [
+            0.53816,
+            0.088063
+          ],
+          [
+            0.547945,
+            0.088063
+          ],
+          [
+            0.55773,
+            0.088063
+          ],
+          [
+            0.567515,
+            0.088063
+          ],
+          [
+            0.577299,
+            0.086106
+          ],
+          [
+            0.587084,
+            0.086106
+          ],
+          [
+            0.596869,
+            0.086106
+          ],
+          [
+            0.606654,
+            0.086106
+          ],
+          [
+            0.616438,
+            0.086106
+          ],
+          [
+            0.626223,
+            0.086106
+          ],
+          [
+            0.636008,
+            0.086106
+          ],
+          [
+            0.645793,
+            0.086106
+          ],
+          [
+            0.655577,
+            0.086106
+          ],
+          [
+            0.665362,
+            0.086106
+          ],
+          [
+            0.675147,
+            0.086106
+          ],
+          [
+            0.684932,
+            0.086106
+          ],
+          [
+            0.694716,
+            0.086106
+          ],
+          [
+            0.704501,
+            0.086106
+          ],
+          [
+            0.714286,
+            0.086106
+          ],
+          [
+            0.72407,
+            0.086106
+          ],
+          [
+            0.733855,
+            0.086106
+          ],
+          [
+            0.74364,
+            0.086106
+          ],
+          [
+            0.753425,
+            0.086106
+          ],
+          [
+            0.763209,
+            0.086106
+          ],
+          [
+            0.772994,
+            0.086106
+          ],
+          [
+            0.782779,
+            0.086106
+          ],
+          [
+            0.792564,
+            0.086106
+          ],
+          [
+            0.802348,
+            0.086106
+          ],
+          [
+            0.812133,
+            0.086106
+          ],
+          [
+            0.821918,
+            0.086106
+          ],
+          [
+            0.831703,
+            0.086106
+          ],
+          [
+            0.841487,
+            0.086106
+          ],
+          [
+            0.849315,
+            0.09002
+          ]
+        ],
+        "start": {
+          "blue": [
+            0.078278,
+            0.847358
+          ],
+          "red": [
+            0.849315,
+            0.09002
+          ]
+        },
+        "spawnRule": "at_lane_route_extremes",
+        "allowEdit": true
+      },
+      "mid": {
+        "routeMask": "assets/mask_layers/routes_binary.png",
+        "source": "guided_trace_snapped_to_authoritative_raster",
+        "confidence": "requires_editor_verification",
+        "blueToRed": [
+          [
+            0.1409,
+            0.849315
+          ],
+          [
+            0.150685,
+            0.847358
+          ],
+          [
+            0.16047,
+            0.837573
+          ],
+          [
+            0.170254,
+            0.827789
+          ],
+          [
+            0.180039,
+            0.818004
+          ],
+          [
+            0.189824,
+            0.808219
+          ],
+          [
+            0.199609,
+            0.798434
+          ],
+          [
+            0.209393,
+            0.78865
+          ],
+          [
+            0.219178,
+            0.778865
+          ],
+          [
+            0.228963,
+            0.76908
+          ],
+          [
+            0.238748,
+            0.759295
+          ],
+          [
+            0.248532,
+            0.749511
+          ],
+          [
+            0.258317,
+            0.739726
+          ],
+          [
+            0.268102,
+            0.729941
+          ],
+          [
+            0.277886,
+            0.720157
+          ],
+          [
+            0.287671,
+            0.710372
+          ],
+          [
+            0.297456,
+            0.700587
+          ],
+          [
+            0.307241,
+            0.690802
+          ],
+          [
+            0.317025,
+            0.681018
+          ],
+          [
+            0.324853,
+            0.675147
+          ],
+          [
+            0.334638,
+            0.665362
+          ],
+          [
+            0.344423,
+            0.655577
+          ],
+          [
+            0.354207,
+            0.645793
+          ],
+          [
+            0.363992,
+            0.636008
+          ],
+          [
+            0.373777,
+            0.626223
+          ],
+          [
+            0.383562,
+            0.616438
+          ],
+          [
+            0.393346,
+            0.606654
+          ],
+          [
+            0.403131,
+            0.596869
+          ],
+          [
+            0.412916,
+            0.587084
+          ],
+          [
+            0.422701,
+            0.577299
+          ],
+          [
+            0.432485,
+            0.567515
+          ],
+          [
+            0.44227,
+            0.55773
+          ],
+          [
+            0.452055,
+            0.547945
+          ],
+          [
+            0.46184,
+            0.53816
+          ],
+          [
+            0.471624,
+            0.530333
+          ],
+          [
+            0.481409,
+            0.520548
+          ],
+          [
+            0.491194,
+            0.510763
+          ],
+          [
+            0.500978,
+            0.500978
+          ],
+          [
+            0.510763,
+            0.491194
+          ],
+          [
+            0.520548,
+            0.481409
+          ],
+          [
+            0.530333,
+            0.471624
+          ],
+          [
+            0.540117,
+            0.46184
+          ],
+          [
+            0.549902,
+            0.452055
+          ],
+          [
+            0.559687,
+            0.44227
+          ],
+          [
+            0.569472,
+            0.432485
+          ],
+          [
+            0.579256,
+            0.422701
+          ],
+          [
+            0.589041,
+            0.412916
+          ],
+          [
+            0.598826,
+            0.403131
+          ],
+          [
+            0.608611,
+            0.393346
+          ],
+          [
+            0.618395,
+            0.383562
+          ],
+          [
+            0.62818,
+            0.373777
+          ],
+          [
+            0.637965,
+            0.363992
+          ],
+          [
+            0.64775,
+            0.354207
+          ],
+          [
+            0.657534,
+            0.344423
+          ],
+          [
+            0.667319,
+            0.334638
+          ],
+          [
+            0.677104,
+            0.324853
+          ],
+          [
+            0.682975,
+            0.318982
+          ],
+          [
+            0.692759,
+            0.309198
+          ],
+          [
+            0.702544,
+            0.299413
+          ],
+          [
+            0.712329,
+            0.289628
+          ],
+          [
+            0.722114,
+            0.279843
+          ],
+          [
+            0.731898,
+            0.270059
+          ],
+          [
+            0.741683,
+            0.260274
+          ],
+          [
+            0.751468,
+            0.250489
+          ],
+          [
+            0.761252,
+            0.240705
+          ],
+          [
+            0.771037,
+            0.23092
+          ],
+          [
+            0.780822,
+            0.221135
+          ],
+          [
+            0.790607,
+            0.21135
+          ],
+          [
+            0.800391,
+            0.201566
+          ],
+          [
+            0.810176,
+            0.191781
+          ],
+          [
+            0.819961,
+            0.181996
+          ],
+          [
+            0.829746,
+            0.172211
+          ],
+          [
+            0.83953,
+            0.162427
+          ],
+          [
+            0.849315,
+            0.152642
+          ],
+          [
+            0.8591,
+            0.142857
+          ],
+          [
+            0.8591,
+            0.1409
+          ]
+        ],
+        "start": {
+          "blue": [
+            0.1409,
+            0.849315
+          ],
+          "red": [
+            0.8591,
+            0.1409
+          ]
+        },
+        "spawnRule": "at_lane_route_extremes",
+        "allowEdit": true
+      },
+      "bot": {
+        "routeMask": "assets/mask_layers/routes_binary.png",
+        "source": "guided_trace_snapped_to_authoritative_raster",
+        "confidence": "requires_editor_verification",
+        "blueToRed": [
+          [
+            0.1409,
+            0.911937
+          ],
+          [
+            0.150685,
+            0.915851
+          ],
+          [
+            0.16047,
+            0.915851
+          ],
+          [
+            0.170254,
+            0.915851
+          ],
+          [
+            0.180039,
+            0.915851
+          ],
+          [
+            0.189824,
+            0.915851
+          ],
+          [
+            0.199609,
+            0.915851
+          ],
+          [
+            0.209393,
+            0.915851
+          ],
+          [
+            0.219178,
+            0.915851
+          ],
+          [
+            0.228963,
+            0.915851
+          ],
+          [
+            0.238748,
+            0.915851
+          ],
+          [
+            0.248532,
+            0.915851
+          ],
+          [
+            0.258317,
+            0.915851
+          ],
+          [
+            0.268102,
+            0.915851
+          ],
+          [
+            0.277886,
+            0.915851
+          ],
+          [
+            0.287671,
+            0.915851
+          ],
+          [
+            0.297456,
+            0.915851
+          ],
+          [
+            0.307241,
+            0.915851
+          ],
+          [
+            0.317025,
+            0.915851
+          ],
+          [
+            0.32681,
+            0.915851
+          ],
+          [
+            0.336595,
+            0.915851
+          ],
+          [
+            0.34638,
+            0.913894
+          ],
+          [
+            0.356164,
+            0.913894
+          ],
+          [
+            0.365949,
+            0.913894
+          ],
+          [
+            0.375734,
+            0.913894
+          ],
+          [
+            0.385519,
+            0.913894
+          ],
+          [
+            0.395303,
+            0.913894
+          ],
+          [
+            0.405088,
+            0.913894
+          ],
+          [
+            0.414873,
+            0.913894
+          ],
+          [
+            0.424658,
+            0.913894
+          ],
+          [
+            0.434442,
+            0.913894
+          ],
+          [
+            0.444227,
+            0.913894
+          ],
+          [
+            0.454012,
+            0.913894
+          ],
+          [
+            0.463796,
+            0.913894
+          ],
+          [
+            0.473581,
+            0.913894
+          ],
+          [
+            0.483366,
+            0.913894
+          ],
+          [
+            0.493151,
+            0.913894
+          ],
+          [
+            0.502935,
+            0.913894
+          ],
+          [
+            0.51272,
+            0.913894
+          ],
+          [
+            0.522505,
+            0.913894
+          ],
+          [
+            0.53229,
+            0.913894
+          ],
+          [
+            0.542074,
+            0.913894
+          ],
+          [
+            0.551859,
+            0.913894
+          ],
+          [
+            0.561644,
+            0.913894
+          ],
+          [
+            0.571429,
+            0.913894
+          ],
+          [
+            0.581213,
+            0.913894
+          ],
+          [
+            0.590998,
+            0.913894
+          ],
+          [
+            0.600783,
+            0.90998
+          ],
+          [
+            0.610568,
+            0.911937
+          ],
+          [
+            0.620352,
+            0.911937
+          ],
+          [
+            0.630137,
+            0.911937
+          ],
+          [
+            0.639922,
+            0.911937
+          ],
+          [
+            0.649706,
+            0.911937
+          ],
+          [
+            0.659491,
+            0.911937
+          ],
+          [
+            0.669276,
+            0.911937
+          ],
+          [
+            0.679061,
+            0.90998
+          ],
+          [
+            0.688845,
+            0.90998
+          ],
+          [
+            0.69863,
+            0.90998
+          ],
+          [
+            0.708415,
+            0.90998
+          ],
+          [
+            0.7182,
+            0.90998
+          ],
+          [
+            0.727984,
+            0.90998
+          ],
+          [
+            0.737769,
+            0.90998
+          ],
+          [
+            0.747554,
+            0.902153
+          ],
+          [
+            0.757339,
+            0.900196
+          ],
+          [
+            0.767123,
+            0.900196
+          ],
+          [
+            0.776908,
+            0.894325
+          ],
+          [
+            0.786693,
+            0.888454
+          ],
+          [
+            0.796477,
+            0.878669
+          ],
+          [
+            0.806262,
+            0.868885
+          ],
+          [
+            0.816047,
+            0.8591
+          ],
+          [
+            0.825832,
+            0.849315
+          ],
+          [
+            0.829746,
+            0.83953
+          ],
+          [
+            0.83953,
+            0.83953
+          ],
+          [
+            0.849315,
+            0.829746
+          ],
+          [
+            0.8591,
+            0.821918
+          ],
+          [
+            0.868885,
+            0.812133
+          ],
+          [
+            0.878669,
+            0.802348
+          ],
+          [
+            0.888454,
+            0.792564
+          ],
+          [
+            0.898239,
+            0.782779
+          ],
+          [
+            0.902153,
+            0.772994
+          ],
+          [
+            0.90411,
+            0.763209
+          ],
+          [
+            0.906067,
+            0.753425
+          ],
+          [
+            0.90998,
+            0.74364
+          ],
+          [
+            0.911937,
+            0.733855
+          ],
+          [
+            0.911937,
+            0.72407
+          ],
+          [
+            0.911937,
+            0.714286
+          ],
+          [
+            0.911937,
+            0.704501
+          ],
+          [
+            0.911937,
+            0.694716
+          ],
+          [
+            0.911937,
+            0.684932
+          ],
+          [
+            0.911937,
+            0.675147
+          ],
+          [
+            0.911937,
+            0.665362
+          ],
+          [
+            0.911937,
+            0.655577
+          ],
+          [
+            0.913894,
+            0.645793
+          ],
+          [
+            0.913894,
+            0.636008
+          ],
+          [
+            0.913894,
+            0.626223
+          ],
+          [
+            0.913894,
+            0.616438
+          ],
+          [
+            0.913894,
+            0.606654
+          ],
+          [
+            0.913894,
+            0.596869
+          ],
+          [
+            0.913894,
+            0.587084
+          ],
+          [
+            0.913894,
+            0.577299
+          ],
+          [
+            0.913894,
+            0.567515
+          ],
+          [
+            0.913894,
+            0.55773
+          ],
+          [
+            0.913894,
+            0.547945
+          ],
+          [
+            0.913894,
+            0.53816
+          ],
+          [
+            0.913894,
+            0.528376
+          ],
+          [
+            0.913894,
+            0.518591
+          ],
+          [
+            0.913894,
+            0.508806
+          ],
+          [
+            0.913894,
+            0.499022
+          ],
+          [
+            0.913894,
+            0.489237
+          ],
+          [
+            0.913894,
+            0.479452
+          ],
+          [
+            0.913894,
+            0.469667
+          ],
+          [
+            0.913894,
+            0.459883
+          ],
+          [
+            0.913894,
+            0.450098
+          ],
+          [
+            0.913894,
+            0.440313
+          ],
+          [
+            0.915851,
+            0.430528
+          ],
+          [
+            0.915851,
+            0.420744
+          ],
+          [
+            0.915851,
+            0.410959
+          ],
+          [
+            0.915851,
+            0.401174
+          ],
+          [
+            0.915851,
+            0.391389
+          ],
+          [
+            0.917808,
+            0.381605
+          ],
+          [
+            0.915851,
+            0.37182
+          ],
+          [
+            0.915851,
+            0.362035
+          ],
+          [
+            0.915851,
+            0.35225
+          ],
+          [
+            0.915851,
+            0.342466
+          ],
+          [
+            0.915851,
+            0.332681
+          ],
+          [
+            0.915851,
+            0.322896
+          ],
+          [
+            0.915851,
+            0.313112
+          ],
+          [
+            0.915851,
+            0.303327
+          ],
+          [
+            0.915851,
+            0.293542
+          ],
+          [
+            0.915851,
+            0.283757
+          ],
+          [
+            0.915851,
+            0.273973
+          ],
+          [
+            0.915851,
+            0.264188
+          ],
+          [
+            0.915851,
+            0.254403
+          ],
+          [
+            0.915851,
+            0.244618
+          ],
+          [
+            0.915851,
+            0.234834
+          ],
+          [
+            0.915851,
+            0.225049
+          ],
+          [
+            0.917808,
+            0.215264
+          ],
+          [
+            0.917808,
+            0.205479
+          ],
+          [
+            0.917808,
+            0.195695
+          ],
+          [
+            0.917808,
+            0.18591
+          ],
+          [
+            0.917808,
+            0.176125
+          ],
+          [
+            0.917808,
+            0.166341
+          ],
+          [
+            0.917808,
+            0.156556
+          ],
+          [
+            0.917808,
+            0.146771
+          ],
+          [
+            0.917808,
+            0.1409
+          ]
+        ],
+        "start": {
+          "blue": [
+            0.1409,
+            0.911937
+          ],
+          "red": [
+            0.917808,
+            0.1409
+          ]
+        },
+        "spawnRule": "at_lane_route_extremes",
+        "allowEdit": true
+      }
+    },
+    "simulation": {
+      "firstWaveSeconds": 30,
+      "intervalTimeline": [
+        {
+          "from": 0,
+          "seconds": 30
+        },
+        {
+          "from": 840,
+          "seconds": 25
+        },
+        {
+          "from": 1800,
+          "seconds": 20
+        }
+      ],
+      "defaultGroup": {
+        "melee": 3,
+        "caster": 3
+      },
+      "siege": {
+        "firstWave": 3,
+        "until840EveryNWaves": 3,
+        "from840To1500EveryNWaves": 2,
+        "after1500EveryNWaves": 1
+      },
+      "superMinions": {
+        "whenEnemyInhibitorDestroyed": 1,
+        "allEnemyInhibitorsDestroyed": 2,
+        "replaceSiege": true
+      },
+      "unitSpawnGapSeconds": 0.792,
+      "movement": "lane_curve_follow",
+      "targetPriorities": [
+        "attacking_enemy",
+        "enemy_minion",
+        "enemy_champion",
+        "enemy_tower"
+      ],
+      "fightOnContact": true,
+      "resolveOnRoundEnd": true,
+      "turretTargeting": "future_core_implementation"
+    },
+    "trainerRound": {
+      "secPerRound": 30,
+      "realDecisionClockSeconds": 30
+    },
+    "validation": {
+      "routesInsideWhitePixels": true,
+      "uniqueSpawns": 6,
+      "sourceBinary": "assets/mask_layers/routes_binary.png",
+      "notes": "Trajetos derivam da máscara, mas a atribuição TOP/MID/BOT e seus extremos requerem conferência visual."
+    }
+  }
+}

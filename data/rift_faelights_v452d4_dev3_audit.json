@@ -1,0 +1,29 @@
+{
+  "status": "PARTIAL_NOT_CERTIFIED",
+  "officialPatch": "26.1",
+  "countFromUserMask": 11,
+  "inferredUnconfirmedId": "faelight_12",
+  "categoryMapping": {
+    "base_gate": [
+      "02",
+      "04",
+      "08",
+      "10"
+    ],
+    "island_brush": [
+      "01",
+      "11"
+    ],
+    "banana_brush": [
+      "06",
+      "12"
+    ],
+    "post_rift_side_lane": [
+      "03",
+      "05",
+      "07",
+      "09"
+    ]
+  },
+  "remarks": "Site locations and bonus region polygons require author-confirmed 12th mask. Never claim Riot 1:1."
+}

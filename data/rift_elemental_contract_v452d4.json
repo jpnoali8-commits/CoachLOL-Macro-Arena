@@ -1,0 +1,75 @@
+{
+  "$schemaName": "coachlol.rift-map.v1",
+  "patch": "26.21",
+  "mode": "standard",
+  "baseMask": "masks_128.json",
+  "approvedGeometry": false,
+  "status": "user_masks_imported_not_1_to_1_certified",
+  "base_map_immutable": true,
+  "variants": {
+    "mountain": {
+      "bundleFile": "rift_bundles/mountain.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "wall_additions",
+        "pathfinding",
+        "line_of_sight",
+        "skillshots"
+      ]
+    },
+    "ocean": {
+      "bundleFile": "rift_bundles/ocean.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "brush_additions",
+        "concealment",
+        "plant_repositioning"
+      ]
+    },
+    "infernal": {
+      "bundleFile": "rift_bundles/infernal.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "infernal_cinders",
+        "pickup_ability_haste",
+        "death_drop"
+      ]
+    },
+    "cloud": {
+      "bundleFile": "rift_bundles/cloud.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "wind_zones",
+        "movement_speed"
+      ]
+    },
+    "hextech": {
+      "bundleFile": "rift_bundles/hextech.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "hexgates",
+        "channel_interrupts",
+        "reveal_destination"
+      ]
+    },
+    "chemtech": {
+      "bundleFile": "rift_bundles/chemtech.json",
+      "certification": "NOT_CERTIFIED",
+      "effects": [
+        "stim_fruit",
+        "blast_cone",
+        "firelight_bloom"
+      ]
+    }
+  },
+  "season2026": {
+    "faelights": "12 engine sites (11 user-painted + 1 mirror-inferred UNVERIFIED); 8 initial/4 post-transformation; directional provisional polygons. Position and shape NOT certified.",
+    "scryersBloom": "15 chemtech bloom markers; shape/coverage and exact timing not official 1:1",
+    "topLaneMask": "user route mask kept; sampled lane vertices align with any painted corridor; semantic centerline not yet validated/activated"
+  },
+  "engineStatus": "V4.5.2d-4-dev5 faelight masks v2 8+4, time-or-rift unlock, extracted polygons, borderless region fill, victory/defeat results flow; partial only",
+  "features": {
+    "faelights": "12 engine sites from updated user masks v2; 8 initial and 4 unlocked at 15:00 or on Elemental Rift transformation. Bonus-region polygons extracted from authored masks and rendered without border."
+  },
+  "uiStatus": "Endgame intro overlay (victory/defeat) and results overlay with frag/team metrics implemented."
+}

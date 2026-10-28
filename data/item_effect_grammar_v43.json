@@ -1,0 +1,68 @@
+{
+  "schema": "coachlol.action_modifiers.v43",
+  "patch": "26.21",
+  "status": "design_contract_not_prompt_executor",
+  "actionNodes": [
+    {
+      "kind": "purchase",
+      "inputs": [
+        "actorId",
+        "itemId"
+      ],
+      "preconditions": [
+        "source",
+        "gold",
+        "slots",
+        "recipe"
+      ],
+      "commit": [
+        "gold",
+        "consumeIngredients",
+        "recalculateEquipment"
+      ]
+    },
+    {
+      "kind": "sale",
+      "inputs": [
+        "actorId",
+        "inventoryIndex"
+      ],
+      "preconditions": [
+        "source",
+        "ownership"
+      ],
+      "commit": [
+        "goldRefund",
+        "removeItemStats"
+      ]
+    },
+    {
+      "kind": "rune_trigger",
+      "inputs": [
+        "actorId",
+        "eventId",
+        "damageType",
+        "sourceType"
+      ],
+      "preconditions": [
+        "keystoneEquipped",
+        "cooldown",
+        "validHit"
+      ],
+      "commit": [
+        "statusDelta",
+        "damageOrHeal",
+        "cooldown"
+      ]
+    }
+  ],
+  "invariants": [
+    "vision filtered to observer perspective",
+    "seconds are simulated independent 1x/2x",
+    "no duplicate reward from rune nested damage",
+    "item recipes consume counted physical copies",
+    "one unique boots slot",
+    "transactions are local prototype until server validated",
+    "future prompts must validate ownership/range/visibility"
+  ]
+}
