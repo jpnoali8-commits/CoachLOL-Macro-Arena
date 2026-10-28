@@ -3401,7 +3401,6 @@ export class Arena {
       .sort((a,b)=>this.mapDistance(target,a)-this.mapDistance(target,b)||a.id.localeCompare(b.id)).slice(0,s.chainTargets);
     for(const v of victims)this.damage(v,s.magicDamage,u,'magic','item_statikk_b6');
    }
-   u.energizeStacksV453Dev38=0;
   }
   if(ids.includes('yun_tal_demon_arrows')&&u.b6DartUntil>now&&(u.b6DartShots||0)>0){
    u.b6DartShots--;this.damage(target,Math.max(1,u.ad*r.yun_tal_demon_arrows.bonusTrueFraction),u,'true','item_darts_b6');
@@ -5673,7 +5672,13 @@ export class Arena {
  }
  itemAttackChargeV453Dev38(u,target){
   if(!u?.champ||u.team===target?.team)return;
-  if(u.items?.some(id=>['rapid_firecannon','statikk_shiv','stormrazor','voltaic_cyclosword'].includes(id)))u.energizeStacksV453Dev38=Math.min(100,(u.energizeStacksV453Dev38||0)+20);
+  // Legacy RFC/Stormrazor/Voltaic basic hit builds six stacks; Statikk
+  // adds extra Energized stacks through Eletrochoque. Charges are awarded
+  // after consuming the previous empowered shot, never erased by B6.
+  if(u.items?.some(id=>['rapid_firecannon','statikk_shiv','stormrazor','voltaic_cyclosword'].includes(id))){
+   const gained=u.items.includes('statikk_shiv')?20:6;
+   u.energizeStacksV453Dev38=Math.min(100,(u.energizeStacksV453Dev38||0)+gained);
+  }
   if(u.items?.includes('scouts_slingshot')&&(u.scoutBullseyeReadyAtV453Dev38||0)>this.gameTime)
    u.scoutBullseyeReadyAtV453Dev38=Math.max(this.gameTime,u.scoutBullseyeReadyAtV453Dev38-ITEM_EFFECTS_V43.scouts_slingshot.attackReduction);
  }
@@ -6411,6 +6416,9 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     attacker.energizeStacksV453Dev38=0;
     if(target.hp>0)this.damage(target,ITEM_EFFECTS_V43.rapid_firecannon.bonusMagicDamage,attacker,'magic','item_energized_v453_dev38');
    }
+   // Consume charged Eletrochoque/Stormrazor/Voltaic BEFORE gaining new
+   // basic-hit charge. RFC performs its own consume in the block above.
+   if(chargedB6&&!energized)attacker.energizeStacksV453Dev38=0;
    this.itemAttackChargeV453Dev38(attacker,target);
    this.afterBasicAttackItemsV453Dev69B3(attacker,target,{landed,preHp});
    this.onOffensiveBasicV453Dev69B6(attacker,target,{energized:chargedB6,preHp});
