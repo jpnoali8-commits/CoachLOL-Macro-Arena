@@ -2818,6 +2818,88 @@ export class Arena {
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
  }
+ // Unified package — Irelia P/W/R, reusing native Q dash and E blade states.
+ ireliaFervorV453Dev69M7(u,stacks=1){
+  if(u?.champ!=='Irelia'||u.hp<=0)return;
+  const old=u.ireliaFervorV453Dev69M7;
+  const prev=old?.until>this.gameTime?old.stacks:0;
+  u.ireliaFervorV453Dev69M7={stacks:Math.min(4,prev+stacks),until:this.gameTime+6};
+ }
+ castIreliaDanceV453Dev69M7(u,point){
+  const rule=kitSpellV42(u?.champ,'W');
+  if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção_zero'};
+  const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'W',
+   source:'irelia_dance_v453_dev69_m7',checkRange:false});
+  if(!cast.ok)return cast;
+  const rank=Math.max(1,Math.min(5,u.skillRanks.W));
+  u.ireliaDanceV453Dev69M7={
+   origin:{x:u.x,y:u.y},unit:{x:dx/len,y:dy/len},rank,
+   startedAt:this.gameTime,releaseAt:this.gameTime+rule.channelSeconds,
+   physicalReduction:.40+.30*Math.min(1,(u.level-1)/17)+.0008*Math.max(0,u.ap||0),
+   magicReduction:.20+.15*Math.min(1,(u.level-1)/17)+.0004*Math.max(0,u.ap||0),
+   endAt:this.gameTime+rule.channelSeconds+.5
+  };
+  return {...cast,pending:true,releaseAt:u.ireliaDanceV453Dev69M7.releaseAt};
+ }
+ advanceIreliaDanceV453Dev69M7(){
+  for(const u of this.units){
+   const p=u.ireliaDanceV453Dev69M7;if(!p)continue;
+   if(u.hp<=0){u.ireliaDanceV453Dev69M7=null;continue;}
+   if(!p.released&&this.gameTime>=p.releaseAt){
+    const rule=kitSpellV42('Irelia','W'),rank=p.rank,stats=this.elementalStatsV452d3(u);
+    const raw=rule.maxDamage[rank-1]+1.2*stats.ad+1.5*stats.ap;
+    const hits=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)).map(v=>{
+      const dx=(v.x-p.origin.x)*this.worldWidth,dy=(v.y-p.origin.y)*this.worldHeight;
+      return {v,depth:dx*p.unit.x+dy*p.unit.y,side:Math.abs(dx*p.unit.y-dy*p.unit.x),
+       distance:Math.hypot(dx,dy)};
+     }).filter(c=>c.distance<=300||(c.depth>=0&&c.depth<=rule.range&&c.side<=rule.width/2))
+      .sort((a,b)=>String(a.v.id).localeCompare(String(b.v.id)));
+    p.released=true;p.hitIds=[];
+    for(const {v} of hits){
+     const dealt=this.damage(v,raw,u,'physical','spell');
+     if(dealt>0){this.ireliaFervorV453Dev69M7(u);p.hitIds.push(v.id);}
+    }
+   }
+   if(this.gameTime>=p.endAt)u.ireliaDanceV453Dev69M7=null;
+  }
+ }
+ castIreliaVanguardV453Dev69M7(u,point){
+  const rule=kitSpellV42(u?.champ,'R');
+  if(!rule||!point||![point.x,point.y].every(Number.isFinite))return {ok:false,reason:'point'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção_zero'};
+  const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+   source:'irelia_vanguard_v453_dev69_m7',checkRange:false});
+  if(!cast.ok)return cast;
+  const rank=Math.max(1,Math.min(3,u.skillRanks.R));
+  const p={id:'irelia_r_'+(++this.championProjectileSeqV453Dev42),kind:'irelia_r',
+   ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},unit:{x:dx/len,y:dy/len},
+   range:rule.range,width:rule.width,speed:rule.speed,createdAt:this.gameTime,
+   traveledV453Dev43:0,hitIds:[],raw:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
+   slow:rule.slow,duration:rule.duration};
+  this.championProjectilesV453Dev42.push(p);
+  return {...cast,pending:true,projectileId:p.id};
+ }
+ advanceIreliaVanguardWallsV453Dev69M7(){
+  const next=[];
+  for(const wall of this.ireliaVanguardWallsV453Dev69M7||[]){
+   if(this.gameTime>=wall.expiresAt)continue;
+   const owner=this.units.find(u=>u.id===wall.ownerId);
+   if(!owner)continue;
+   for(const v of this.units.filter(u=>u.team!==wall.team&&u.hp>0&&u.champ)){
+    if(wall.hitIds.includes(v.id))continue;
+    if(this.mapDistance(v,wall.center)>wall.radius)continue;
+    wall.hitIds.push(v.id);
+    this.applyEffectV41(v,'slow',{source:owner,duration:1.5,power:wall.slow,key:'irelia_r_wall_'+wall.id});
+    this.damage(v,wall.damage,owner,'magic','spell');
+   }
+   next.push(wall);
+  }
+  this.ireliaVanguardWallsV453Dev69M7=next;
+ }
  // Unified package — Ezreal P/W/E/R on the same authoritative action spine.
  ezrealRisingSpellForceV453Dev69M7(u){
   if(!u||u.champ!=='Ezreal'||u.hp<=0)return;
@@ -3491,6 +3573,12 @@ export class Arena {
     const cast=this.castLuxFinalSparkV453Dev69M3(u,q.point);
     if(cast.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(cast.reason))
      u.queuedDirectional=null;
+    continue;
+   }
+   if(u.champ==='Irelia'&&['W','R'].includes(q.slot)){
+    const result=q.slot==='W'?this.castIreliaDanceV453Dev69M7(u,q.point):
+     this.castIreliaVanguardV453Dev69M7(u,q.point);
+    if(result.ok||result.reason!=='incapacitado')u.queuedDirectional=null;
     continue;
    }
    if(u.champ==='Ezreal'&&['W','R'].includes(q.slot)){
@@ -4584,7 +4672,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5516,6 +5604,8 @@ export class Arena {
   // this is not a champion-specific LoL attack-speed/windup formula.
   const interval=this.elementalStatsV452d3(u).attackInterval;
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
+  const ireliaBuff=u.champ==='Irelia'&&u.ireliaFervorV453Dev69M7?.until>this.gameTime?
+   u.ireliaFervorV453Dev69M7.stacks*(10+15*Math.max(0,u.level-1)/17):0;
   const ezrealBuff=u.champ==='Ezreal'&&u.ezrealRisingForceV453Dev69M7?.until>this.gameTime?
    10*u.ezrealRisingForceV453Dev69M7.stacks:0;
   const excited=u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?
@@ -5524,7 +5614,7 @@ export class Arena {
    u.jinxPowPowUntilV453Dev69M5>this.gameTime?
    (u.jinxPowPowStacksV453Dev69M5||0)*(30+Math.max(0,u.level-1)*.7)/3:0;
   const rocketPenalty=u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?10:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+revved-rocketPenalty)/100;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+ireliaBuff+revved-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -5721,6 +5811,13 @@ export class Arena {
    amount*=1+Math.min(.06,.02*Math.floor(elapsed));
    attacker.hauntingGuiseCombatV453Dev54={started,lastHit:this.gameTime};
  }
+  // Irelia W is a defensive channel even during crowd control; apply only
+  // to incoming champion damage before resistance, never to true damage.
+  if(target?.champ==='Irelia'&&damageType!=='true'&&
+    target.ireliaDanceV453Dev69M7?.endAt>this.gameTime){
+   const stance=target.ireliaDanceV453Dev69M7;
+   amount*=1-Math.min(.85,Math.max(0,damageType==='magic'?stance.magicReduction:stance.physicalReduction));
+  }
   // DEV69: Giant Slayer applies only champion-authored physical/magic damage
   // to opposing champions. It does not amplify true damage or reflected effects.
   if(damageType!=='true'&&attacker?.champ&&target?.champ&&
@@ -6036,6 +6133,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(basic&&landed){
    if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
    if(target.hp>0&&attacker.champ==='Lux')this.luxConsumeIlluminationV453Dev69M2(attacker,target);
+   if(attacker.champ==='Irelia'&&attacker.ireliaFervorV453Dev69M7?.until>this.gameTime){
+    attacker.ireliaFervorV453Dev69M7.until=this.gameTime+6;
+    if(attacker.ireliaFervorV453Dev69M7.stacks>=4&&target.hp>0)
+     this.damage(target,10+51*(attacker.level-1)/17,attacker,'magic','irelia_passive_onhit_m7');
+   }
    // A shield absorbing the full AA and even a lethal primary AA consume a
    // prepared shot. Immune/blocked attacks do not consume OR generate stacks.
    if(energized){
@@ -6202,6 +6304,27 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
      barrierDepth=Math.min(barrierDepth,crossing);
     }
+   }
+   if(p.kind==='irelia_r'){
+    const champs=line.filter(x=>x.v.champ&&x.depth<barrierDepth-1e-7);
+    for(const {v,depth} of champs){
+     if(p.hitIds.includes(v.id))continue;
+     p.hitIds.push(v.id);
+     const damage=this.damage(v,p.raw,owner,'magic','spell');
+     if(damage>0){
+      this.ireliaFervorV453Dev69M7(owner);
+      this.markIreliaTargetV453Dev42(owner,v,'R');
+      (this.ireliaVanguardWallsV453Dev69M7??=[]).push({
+       id:p.id+'_'+v.id,ownerId:owner.id,team:p.team,
+       center:{x:v.x,y:v.y},radius:350,damage:p.raw*.2,
+       slow:p.slow,duration:p.duration,expiresAt:now+p.duration,hitIds:[]});
+     }
+    }
+    p.traveledV453Dev43=to;
+    if(!Number.isFinite(barrierDepth)&&to<p.range-1e-7){still.push(p);continue;}
+    (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,
+     ownerId:p.ownerId,hitIds:[...p.hitIds],reason:'fim'});
+    continue;
    }
    if(p.kind==='ezreal_w'){
     const matching=[
@@ -6510,7 +6633,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     if(v.stasisUntil>this.gameTime||this.effectResolverV41().has(v,'invulnerable'))continue;
     this.damage(v,b.raw,owner,'magic','spell');
     if(v.hp>0){this.applyEffectV41(v,'stun',{source:owner,duration:.75,key:'irelia_e_'+ownerId});
-     if(v.champ)this.markIreliaTargetV453Dev42(owner,v,'E');}
+     if(v.champ)this.markIreliaTargetV453Dev42(owner,v,'E');this.ireliaFervorV453Dev69M7(owner);}
     hitIds.push(v.id);
    }
    (this.ireliaBladeHistoryV453Dev43??=[]).push({ownerId,time:this.gameTime,
