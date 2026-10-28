@@ -2835,11 +2835,12 @@ export class Arena {
   if(s.shape==='target_ally'&&(!target||target.team!==team))return {ok:false,reason:'alvo_aliado'};
   if(target&&target.team!==team&&!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
   if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
-  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point'].includes(s.shape)&&!s.originSelf;
+  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
-     (['circle_enemy','vision_point'].includes(s.shape)&&this.mapDistance(u,point)>s.range)))
+     (['circle_enemy','vision_point','move_point'].includes(s.shape)&&this.mapDistance(u,point)>s.range)||
+     (s.shape==='move_point'&&!this.walkable(point.x,point.y))))
    return {ok:false,reason:'ponto_invalido'};
   const gate=castGateV39(u,slot,this.gameTime);if(!gate.ok)return gate;
   u.pendingBoardV453Dev69={slot,targetId:target?.id||null,
@@ -2858,11 +2859,12 @@ export class Arena {
     this.mapDistance(u,target)>s.range||
     (target.team!==u.team&&!this.visible(u.team,target))))
    return {ok:false,reason:'alvo_invalido'};
-  if(['circle_enemy','line_enemy','cone_enemy','vision_point'].includes(s.shape)&&
+  if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&
     !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)))
    return {ok:false,reason:'ponto'};
-  if(s.shape==='circle_enemy'&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
+  if(['circle_enemy','move_point','vision_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
+  if(s.shape==='move_point'&&!this.walkable(q.point.x,q.point.y))return {ok:false,reason:'destino_bloqueado'};
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
@@ -2875,6 +2877,7 @@ export class Arena {
   else if(s.shape==='global_ally')hits=allyPool;
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
+  else if(s.shape==='move_point')hits=areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
   else if(s.shape==='line_enemy')hits=skillshotHitsV42(u,point,enemyPool,{range:s.range,
     width:s.width||180,maxHits:s.maxHits??Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
   else if(s.shape==='cone_enemy'){
@@ -2886,12 +2889,38 @@ export class Arena {
     .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id))).map(v=>v.v);
   }
   if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
+  const dashTarget=s.dashToHit?hits.find(v=>v.champ&&v.hp>0):null;
+  if(s.dashToHit&&dashTarget&&this.walkable(dashTarget.x,dashTarget.y)){
+   const start={x:u.x,y:u.y},vx=dashTarget.x-u.x,vy=dashTarget.y-u.y;
+   const end={x:dashTarget.x-vx*.15,y:dashTarget.y-vy*.15};
+   if(this.walkable(end.x,end.y)){
+    u.x=end.x;u.y=end.y;this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,start,end,{kind:'dash'});
+    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   }
+  }else if(s.shape==='move_point'){
+   const start={x:u.x,y:u.y};
+   u.x=point.x;u.y=point.y;this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,start,point,{kind:'dash'});
+   u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+  }
   const rank=Math.max(1,u.skillRanks[q.slot]||1),stats=this.elementalStatsV452d3(u),
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
   let damaged=0;
   const annieReady=u.champ==='Annie'&&(u.boardSpellCountV453Dev69||0)>=3;
+  if(s.nextBasic?.length)u.boardNextBasicV453Dev69={
+   until:this.gameTime+5,charges:s.charges||1,total:s.charges||1,
+   base:amount(s.nextBasic),adRatio:s.basicAdRatio||0,apRatio:s.basicApRatio||0,
+   cc:s.basicCC||null,thirdCC:s.basicThirdCC||null,ccSeconds:s.basicCCSeconds||1,
+   stackOnKill:s.stackOnKill||0,sourceSlot:q.slot};
+  if(s.speedBuff)u.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.speedBuff};
+  if(s.allySpeedBuff)for(const ally of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+   this.mapDistance(u,v)<=(s.radius||650)))
+   ally.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.allySpeedBuff};
+  if(s.ccImmunitySeconds)this.applyEffectV41(u,'cc_immunity',{
+   source:u,duration:s.ccImmunitySeconds,key:'board_immunity_'+u.id});
   if(u.champ==='Annie')u.boardSpellCountV453Dev69=annieReady?0:(u.boardSpellCountV453Dev69||0)+1;
   if(s.shape==='vision_point'){
    (this.boardVisionV453Dev69??=[]).push({x:point.x,y:point.y,
@@ -2908,11 +2937,31 @@ export class Arena {
       power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
     }else{
      const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
+     if(done>0&&s.healFromDamage)this.effectResolverV41().heal(u,done*s.healFromDamage,u);
+     if(done>0&&s.feastStackHp&&v.hp<=0&&v.champ){
+      u.boardFeastStacksV453Dev69=(u.boardFeastStacksV453Dev69||0)+1;
+      u.maxHp+=s.feastStackHp;u.hp+=s.feastStackHp;
+     }
      if(done>0&&u.champ==='Morgana'&&v.champ)this.effectResolverV41().heal(u,done*.12,u);
      if(done>0&&u.champ==='Veigar'&&v.champ)u.ap=(u.ap||0)+1;
      if(done>0&&u.champ==='Brand')this.applyEffectV41(v,'dot',{source:u,
       duration:4,power:8+u.level,interval:1,key:'brand_board_'+u.id});
     }
+   }
+   if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked)
+    this.pushChampionThroughTerrain(u,v,s.knockback,{maxWallUnits:0});
+   if(enemy&&s.pull&&v.champ&&v.hp>0&&!blocked&&!this.obstacleLine(u,v)){
+    const from={x:v.x,y:v.y},distance=this.mapDistance(u,v),
+     reach=Math.max(0,Math.min(s.pull,distance-140));
+    let end=from;
+    for(let d=20;d<=reach+20;d+=20){
+     const t=Math.min(d,reach)/Math.max(1,distance);
+     const next={x:from.x+(u.x-from.x)*t,y:from.y+(u.y-from.y)*t};
+     if(!this.walkable(next.x,next.y)||this.obstacleLine(from,next))break;
+     end=next;
+    }
+    v.x=end.x;v.y=end.y;this.invalidateShopUndoOnDepartureV453Dev61(v);
+    v.path=[];v.laneFollowPath=[];v.retreatPath=[];
    }
    if(enemy&&s.cc&&!blocked&&v.hp>0)this.applyEffectV41(v,s.cc,{
     source:u,duration:s.ccSeconds||1,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
@@ -2922,11 +2971,14 @@ export class Arena {
     if(s.heal)this.effectResolverV41().heal(v,power(s.heal),u);
     if(s.shield)this.applyEffectV41(v,s.shieldType||'shield',{source:u,duration:3,
      power:power(s.shield),key:'board_shield_'+instance+'_'+v.id});
+    if(s.invulnerableSeconds)this.applyEffectV41(v,'invulnerable',{source:u,
+     duration:s.invulnerableSeconds,key:'board_invuln_'+instance+'_'+v.id});
     if(s.spellShieldSeconds)this.applyEffectV41(v,'spell_shield',{source:u,
      duration:s.spellShieldSeconds,key:'board_spellshield_'+instance+'_'+v.id});
    }
   }
-  if(s.selfHeal)this.effectResolverV41().heal(u,power(s.selfHeal,0,0),u);
+  if(s.selfHeal&&damaged>0)this.effectResolverV41().heal(u,power(s.selfHeal,0,0),u);
+  if(s.selfHealthCost&&u.hp>0)u.hp=Math.max(1,u.hp-s.selfHealthCost);
   this.event(u.champ+' '+q.slot+' tabuleiro: '+damaged+' impactos.',u.team,
     'skill_vfx',u.id,{observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
   return {...committed,hitCount:damaged};
@@ -5227,7 +5279,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.champ==='Ahri'&&u.ahriFoxFireSpeedUntilV453Dev69M4>this.gameTime?.40:0)+(u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?1.75*Math.max(0,(u.jinxExcitedV453Dev69M5.until-this.gameTime)/6):0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+(u.boardSpeedV453Dev69?.until>this.gameTime?(u.boardSpeedV453Dev69.fraction||0):0)+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.champ==='Ahri'&&u.ahriFoxFireSpeedUntilV453Dev69M4>this.gameTime?.40:0)+(u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?1.75*Math.max(0,(u.jinxExcitedV453Dev69M5.until-this.gameTime)/6):0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
