@@ -32,6 +32,11 @@ jobs:
         run: node tests/v453_dev69_items_full_audit_mid_quest.test.mjs
       - name: Riot PC 26.20–26.21 item mechanics
         run: node tests/v453_dev69_items_full_audit_patch2621.test.mjs
+      - name: Conditional and exclusive item mechanics — Fiddle, Kalista, five support rewards
+        run: |
+          node tests/v453_dev69_items_conditionals_effigy_oath.test.mjs
+          node tests/v453_dev69_items_conditionals_support_final.test.mjs
+          node tests/v453_dev69_items_conditionals_gateway_pvp.test.mjs
       - name: Batch 7 and 6 mechanics
         run: |
           npm run test:v453:dev69:items-batch7
