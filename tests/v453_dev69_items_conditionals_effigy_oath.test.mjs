@@ -49,6 +49,23 @@ test('spending second effigy charge never shifts the first recharge timer',()=>{
  assert.equal(f.trinketNextChargeAt,230);
  a.gameTime=230;a.restoreVisionCharges();assert.equal(f.wardCharges,2);
 });
+test('Fiddlesticks SUP keeps two effigy charges separate from support quest vision',()=>{
+ const picks={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Kalista',SUP:'Fiddlesticks'},
+  red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Jinx',SUP:'Leona'}};
+ const a=new Arena(map,mask,{draft:picks,seed:713,mode:'pvp'}),u=hero(a,'blue','SUP');
+ near(u,p);assert.equal(u.trinket,'effigy');assert.equal(u.wardCharges,2);
+ assert.equal(a.progressSupport(u,400),true);
+ assert.equal(u.wardCharges,2);assert.equal(u.supportVisionChargesV453Dev69C,3);
+ const placed=a.addWard('blue',u.id,p,'stealth');
+ assert.equal(placed.ok,true);assert.equal(placed.ward.type,'effigy');
+ assert.equal(u.wardCharges,1);assert.equal(u.supportVisionChargesV453Dev69C,3);
+ const supp=a.addWard('blue',u.id,p,'support');
+ assert.equal(supp.ok,true);assert.equal(supp.ward.type,'support');
+ assert.equal(u.wardCharges,1);assert.equal(u.supportVisionChargesV453Dev69C,2);
+ assert.equal(a.progressSupport(u,400),true);
+ assert.equal(u.supportVisionChargesV453Dev69C,4);
+ assert.equal(u.wardCharges,1);
+});
 test('visible enemy activates decoy exactly once; 2s self-destruct, no fog reveal',()=>{
  const a=make(),f=hero(a,'blue','JG'),enemy=hero(a,'red','JG');near(f,p);near(enemy,p);
  const w=a.addWard('blue',f.id,p).ward;
@@ -95,4 +112,4 @@ test('conditional state snapshots restore active decoys and pending oath without
  b.gameTime=7;b.advanceConditionalItemsV453Dev69C();
  assert.equal(hero(b,'blue','ADC').oathswornIdV453Dev69C,'blue_SUP');
 });
-console.log('DEV69 CONDITIONAL EXCLUSIVES 8/8 PASS');
+console.log('DEV69 CONDITIONAL EXCLUSIVES 9/9 PASS');
