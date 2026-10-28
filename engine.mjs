@@ -93,6 +93,13 @@ export const CLASS_STATS={
 };
 const CK={Kennen:'mage',Khazix:'assassin',Ekko:'assassin',Vayne:'marksman',Nami:'enchanter',Volibear:'fighter',Darius:'fighter',Akali:'assassin',Yuumi:'enchanter',Jinx:'marksman',Caitlyn:'marksman',Lux:'mage',Ahri:'mage',Warwick:'fighter',Mordekaiser:'fighter',Vex:'mage',Lucian:'marksman',Senna:'enchanter',Thresh:'support',Leona:'tank',Yasuo:'fighter',Yone:'fighter',Vi:'fighter',LeeSin:'fighter',JarvanIV:'fighter',Riven:'fighter',Gwen:'fighter',Orianna:'mage',Zed:'assassin',Talon:'assassin',Janna:'enchanter',Braum:'tank',Sona:'enchanter',Jhin:'marksman',Kaisa:'marksman',Ezreal:'marksman',Ashe:'marksman',Pantheon:'fighter',Graves:'marksman',Zyra:'mage',Qiyana:'assassin',Veigar:'mage',Olaf:'fighter',Irelia:'fighter',Nasus:'tank',Chogath:'tank',Viktor:'mage',KSante:'tank',Fiddlesticks:'mage',Kalista:'marksman',Sylas:'fighter'};
 export const catalog=[
+// Five mutually exclusive quest-only support rewards; never sold by the normal shop.
+// Cost represents the already-paid World Atlas, upgrade costs exactly zero gold.
+{id:'support_celestial_opposition',name:'Oposição Celestial',cost:400,riotId:3869,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique'],roleLock:'SUP',notPurchasable:true,icon:'⬡'},
+{id:'support_dream_maker',name:'Criassonhos',cost:400,riotId:3870,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique'],roleLock:'SUP',notPurchasable:true,icon:'◈'},
+{id:'support_zaz_zak',name:'Invadomínio de Zaz’Zak',cost:400,riotId:3871,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique'],roleLock:'SUP',notPurchasable:true,icon:'✧'},
+{id:'support_solstice_sleigh',name:'Trenó do Solstício',cost:400,riotId:3876,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique'],roleLock:'SUP',notPurchasable:true,icon:'❄'},
+{id:'support_bloodsong',name:'Canção de Sangue',cost:400,riotId:3877,stats:{hp:200,hpRegenBasePct:75,manaRegenBasePct:75},tags:['SUP','quest','starter','unique','spellblade'],roleLock:'SUP',notPurchasable:true,icon:'⚔'},
 // DEV69 Batch5 — support actives and reactive procs, verified PC 26.21 / DDragon 16.21.1.
 {id:'shurelyas_battlesong',name:"Hino Bélico de Shurelya",cost:2200,stats:{"ap":50,"abilityHaste":15,"movePercent":4,"manaRegenBasePct":125},tags:['support','legendary','unique','active'],icon:'◈',riotId:2065},
 {id:'redemption',name:"Redenção",cost:2300,stats:{"ap":30,"abilityHaste":15,"manaRegenBasePct":100,"healShieldPower":10},tags:['support','legendary','unique','active'],icon:'◈',riotId:3107},
@@ -1077,10 +1084,11 @@ export class EffectResolverV41 {
   this.record('apply',target,source,{effectId:effect.id,type,until,power});
   if(['shield','physical_shield','magic_shield'].includes(type)){
     this.a.afterSupportProtectionV453Dev69B5(source,target,power,'shield');
+    this.a.afterConditionalSupportProtectionV453Dev69C(source,target);
     if(source?.items?.includes('scarlet_lucidity'))source.b7ScarletUntil=this.a.gameTime+ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.sprintSeconds;
     if(source?.items?.includes('diadem_of_songs'))source.b7ConsonanceUntil=this.a.gameTime+3;
    }
-  if(EFFECT_TYPES_V41[type].cc&&source?.champ&&source.team!==target.team)this.a.afterSupportCCV453Dev69B5(source,target,type);
+  if(EFFECT_TYPES_V41[type].cc&&source?.champ&&source.team!==target.team)this.a.afterSupportCCV453Dev69B5(source,target,type);this.a.afterConditionalSupportCCV453Dev69C(source,target,type);
   return {ok:true,id:effect.id,until};
  }
  // Typed shield resolution is stable: earliest-expiring layer, then effect ID.
@@ -1099,7 +1107,7 @@ export class EffectResolverV41 {
    (target.items?.includes('immortal_journey')&&target.hp<target.maxHp*.5?1+ITEM_REMAINDER_RULES_V453_DEV69_B7.immortal_journey.healBelowHalf:1);
   const received=Math.max(0,Math.min(target.maxHp-target.hp,amount*modifier*amplification));
   target.hp+=received;
-  if(received>0){this.record('heal',target,source,{amount:received});this.a.afterSupportProtectionV453Dev69B5(source,target,received,'heal');
+  if(received>0){this.record('heal',target,source,{amount:received});this.a.afterSupportProtectionV453Dev69B5(source,target,received,'heal');this.a.afterConditionalSupportProtectionV453Dev69C(source,target);
     if(source?.items?.includes('scarlet_lucidity'))source.b7ScarletUntil=this.a.gameTime+ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.sprintSeconds;
     if(source?.items?.includes('diadem_of_songs'))source.b7ConsonanceUntil=this.a.gameTime+3;}
   return received;
@@ -1729,6 +1737,7 @@ export class Arena {
    this.actionJournalV40.push(entry);
    if(kind==='skill'&&u.items?.some(id=>id==='sheen'||id==='trinity_force'||id==='essence_reaver'||id==='lich_bane'||id==='iceborn_gauntlet'||id==='dusk_and_dawn')&&
       (u.spellbladeNextV453Dev29||0)<=now){u.spellbladeArmedUntilV453Dev29=now+10;}
+   if(kind==='skill'&&u.items?.includes('support_bloodsong')&&(u.conditionalBloodsongReadyV453Dev69C||0)<=now)u.conditionalBloodsongPrimedV453Dev69C=now+10;
    if(kind==='skill')this.onOffensiveCastV453Dev69B6(u,slot);
    if(kind==='skill'||kind==='summoner')this.onRemainderCastV453Dev69B7(u,slot,kind);
    if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate')&&(u.hexplateReadyAtV453Dev69Audit||0)<=now){
@@ -2020,6 +2029,31 @@ export class Arena {
  // DEV69 conditional equipment: Fiddlesticks decoys and Kalista's oath.
  advanceConditionalItemsV453Dev69C(){
   this.effigyScansV453Dev69C=(this.effigyScansV453Dev69C||[]).filter(x=>x.until>this.gameTime);
+  for(const q of this.pendingSupportBlastsV453Dev69C||[]){
+   if(q.at>this.gameTime||q.done)continue;
+   q.done=true;const caster=this.units.find(u=>u.id===q.owner&&u.hp>0&&u.team===q.team);
+   if(!caster?.items?.includes('support_zaz_zak'))continue;
+   for(const victim of this.units.filter(u=>u.hp>0&&u.team!==q.team&&this.mapDistance(u,q)<=250)){
+    this.damage(victim,10+.15*caster.ap+.03*victim.maxHp,caster,'magic','item_support_zaz_zak');
+   }
+  }
+  this.pendingSupportBlastsV453Dev69C=(this.pendingSupportBlastsV453Dev69C||[]).filter(q=>!q.done);
+  for(const u of this.units){
+   if(u.conditionalCelestialEndingV453Dev69C!=null&&this.gameTime>=u.conditionalCelestialEndingV453Dev69C){
+    u.conditionalCelestialEndingV453Dev69C=null;
+    for(const enemy of this.units.filter(v=>v.hp>0&&v.team!==u.team&&this.mapDistance(u,v)<=500)){
+     this.applyEffectV41(enemy,'slow',{source:u,duration:1.5,power:.5,key:'celestial_'+u.id});
+    }
+   }
+   if(u.items?.includes('support_celestial_opposition')&&!u.conditionalCelestialBlessedV453Dev69C&&
+      (u.conditionalCelestialReadyAtV453Dev69C||0)<=this.gameTime)u.conditionalCelestialBlessedV453Dev69C=true;
+   if((u.conditionalSleighUntilV453Dev69C||0)>0&&u.conditionalSleighUntilV453Dev69C<=this.gameTime){
+    u.maxHp=Math.max(1,u.maxHp-(u.conditionalSleighHpV453Dev69C||0));
+    u.hp=Math.min(u.hp,u.maxHp);
+    u.percentMoveSpeed=(u.percentMoveSpeed||0)-.2;
+    u.conditionalSleighHpV453Dev69C=0;u.conditionalSleighUntilV453Dev69C=0;
+   }
+  }
   for(const w of this.wards){
    if(w.type!=='effigy'||!this.wardActive(w))continue;
    if(w.triggeredAtV453Dev69C!=null){
@@ -4059,6 +4093,52 @@ export class Arena {
   const spec=this.itemAnnulSpecV453Dev69Batch2(u);
   if(spec)u.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+spec.cooldown;
  }
+
+ // DEV69 quest-only upgrade choice: even outside the shop; only one final reward.
+ chooseSupportFinalV453Dev69C(team,unitId,itemId){
+  const finals=['support_celestial_opposition','support_dream_maker','support_zaz_zak','support_solstice_sleigh','support_bloodsong'];
+  const u=this.units.find(x=>x.id===unitId&&x.team===team);
+  if(!u||u.role!=='SUP'||u.hp<=0||this.ended||this.teams[team].ready||
+    !finals.includes(itemId)||u.supportQuest<800||!u.items.includes('support_bounty')||u.supportFinalV453Dev69C)
+    return {ok:false,reason:'recompensa_suporte_indisponivel'};
+  if(itemId==='support_bloodsong'&&u.items.some(id=>id!=='support_bounty'&&catalog.find(x=>x.id===id)?.tags.includes('spellblade')))
+   return {ok:false,reason:'spellblade_exclusivo'};
+  const selected=catalog.find(x=>x.id===itemId);
+  if(!selected)return {ok:false,reason:'item_inexistente'};
+  u.items[u.items.indexOf('support_bounty')]=itemId;
+  u.supportFinalV453Dev69C=itemId;
+  u.conditionalCelestialBlessedV453Dev69C=itemId==='support_celestial_opposition';
+  this.applyItemStatsV43(u,selected,1);
+  this.event(u.champ+' concluiu missão de suporte: '+selected.name+'.',team,'support_final',u.id);
+  return {ok:true,itemId,cost:0};
+ }
+ afterConditionalSupportProtectionV453Dev69C(source,target){
+  if(!source?.champ||source.hp<=0||!source.items?.includes('support_dream_maker')||
+    !target?.champ||target.hp<=0||target.team!==source.team||target.id===source.id)return;
+  if((source.conditionalDreamReadyV453Dev69C||0)>this.gameTime)return;
+  source.conditionalDreamReadyV453Dev69C=this.gameTime+8;
+  const level=Math.max(1,Math.min(18,source.level||1));
+  target.conditionalDreamBlueV453Dev69C={until:this.gameTime+3,power:50+144*(level-1)/17};
+  target.conditionalDreamPurpleV453Dev69C={until:this.gameTime+3,power:40+120*(level-1)/17};
+ }
+ afterConditionalSupportCCV453Dev69C(source,target,type){
+  if(!source?.champ||source.hp<=0||!target?.champ||target.team===source.team||
+    !source.items?.includes('support_solstice_sleigh')||!['slow','stun','root','fear','charm','taunt','sleep','suppression','knockup'].includes(type)||
+    (source.conditionalSleighReadyV453Dev69C||0)>this.gameTime)return;
+  const ally=this.units.filter(u=>u.hp>0&&u.team===source.team&&u.id!==source.id&&this.mapDistance(u,source)<=1500)
+   .sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0];
+  if(!ally)return;
+  const bonus=50+180*(Math.max(1,Math.min(18,source.level||1))-1)/17;
+  source.conditionalSleighReadyV453Dev69C=this.gameTime+30;
+  for(const u of [source,ally]){
+   if(u.conditionalSleighUntilV453Dev69C>this.gameTime)continue;
+   u.maxHp+=bonus;u.hp+=bonus;
+   u.percentMoveSpeed=(u.percentMoveSpeed||0)+.2;
+   u.conditionalSleighHpV453Dev69C=bonus;
+   u.conditionalSleighUntilV453Dev69C=this.gameTime+2.5;
+  }
+ }
+
  // Role-specific shop eligibility: no other role may use support/jungle quests.
  canBuy(team,unitId,itemId){
   const u=this.units.find(x=>x.id===unitId&&x.team===team), item=catalog.find(i=>i.id===itemId);
@@ -4583,7 +4663,7 @@ export class Arena {
  supportPassiveTick(){
   for(const u of this.units.filter(u=>u.role==='SUP'&&u.hp>0)){
    if(!u.items.some(id=>id.startsWith('support_')))continue;
-   if(this.gameTime>=(u.supportLastGoldTick||0)+10){u.supportLastGoldTick=this.gameTime;this.creditGoldV452d4Dev7(u,u.supportQuest>=400?5:3,'support_passive');this.progressSupport(u,u.supportQuest>=400?5:3);}
+   if(this.gameTime>=(u.supportLastGoldTick||0)+10){u.supportLastGoldTick=this.gameTime;this.creditGoldV452d4Dev7(u,u.supportFinalV453Dev69C?9:u.supportQuest>=400?5:3,'support_passive');this.progressSupport(u,u.supportQuest>=400?5:3);}
    if(this.gameTime>=u.supportNextChargeAt){u.supportCharges=Math.min(3,u.supportCharges+1);u.supportNextChargeAt=this.gameTime+20;}
   }
  }
@@ -6011,6 +6091,24 @@ export class Arena {
    if(attacker.items?.includes('immortal_journey')&&attacker.hp>=attacker.maxHp*.5)amount*=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.immortal_journey.damageAboveHalf;
    if(attacker.items?.includes('actualizer')&&attacker.b7ActualizerUntil>this.gameTime&&['spell','ability_onhit_v453_dev40'].includes(sourceType))amount*=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.spellDamageAmp;
   }
+ if(target?.champ&&attacker?.champ&&attacker.team!==target.team&&
+   target.items?.includes('support_celestial_opposition')&&target.conditionalCelestialBlessedV453Dev69C){
+   amount*=this.isRangedChampionV453Dev69Audit(target)?.75:.65;
+   target.conditionalCelestialEndingV453Dev69C=this.gameTime+2;
+   target.conditionalCelestialReadyAtV453Dev69C=this.gameTime+18;
+  }
+  if(sourceType==='basic'&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
+    attacker.items?.includes('support_bloodsong')&&attacker.conditionalBloodsongPrimedV453Dev69C>=this.gameTime&&
+    (attacker.conditionalBloodsongReadyV453Dev69C||0)<=this.gameTime){
+   const itemAD=attacker.items.reduce((total,id)=>total+(catalog.find(v=>v.id===id)?.stats?.ad||0),0);
+   const baseAD=Math.max(1,attacker.ad-itemAD);
+   amount+=baseAD;
+   attacker.conditionalBloodsongPrimedV453Dev69C=-1;
+   attacker.conditionalBloodsongReadyV453Dev69C=this.gameTime+1.5;
+   target.conditionalBloodsongExposeV453Dev69C={until:this.gameTime+4,ratio:this.isRangedChampionV453Dev69Audit(attacker)?.05:.08};
+  }
+  if(target?.champ&&attacker?.team!==target.team&&target.conditionalBloodsongExposeV453Dev69C?.until>this.gameTime&&
+    !sourceType.startsWith('item_support_bloodsong'))amount*=1+target.conditionalBloodsongExposeV453Dev69C.ratio;
  if(damageType!=='true'&&target.kind&&target.team!==attacker?.team){
   const protection=this.baronMinionModifiersV452d(target);
   if(protection.empowered){
@@ -6091,7 +6189,11 @@ export class Arena {
  const term=attacker?.items?.includes('terminus')&&attacker.terminusV453Dev69B3?.until>this.gameTime?attacker.terminusV453Dev69B3.dark||0:0;
  const termPen=term*ITEM_ATTACK_RULES_V453_DEV69_B3.terminus.penPerDark;
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-((attacker?.magicPenPercent||0)+termPen)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-((attacker?.armorPenPercent||0)+termPen)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
- const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
+ const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;
+ if(target?.champ&&attacker?.team!==target.team&&attacker?.champ&&target.conditionalDreamBlueV453Dev69C?.until>this.gameTime){
+  final=Math.max(0,final-target.conditionalDreamBlueV453Dev69C.power);
+  target.conditionalDreamBlueV453Dev69C=null;
+ }if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
  // separately: deliberately scoped to the primary basic hit.
  if(sourceType==='basic'&&target.champ&&target.items?.includes('plated_steelcaps'))final=Math.max(1,Math.round(final*.90));
@@ -6287,6 +6389,19 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     if(overflow>0)this.effectResolverV41().apply(attacker,'shield',{source:attacker,duration:30,power:Math.min(ITEM_ATTACK_RULES_V453_DEV69_B3.bloodthirster.overhealShieldLimit,overflow),key:'bloodthirster_b3'});
    }
    this.effectResolverV41().heal(attacker,expected,attacker);
+  }
+  if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team){
+   if(attacker.conditionalDreamPurpleV453Dev69C?.until>this.gameTime&&
+      ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
+    const power=attacker.conditionalDreamPurpleV453Dev69C.power;
+    attacker.conditionalDreamPurpleV453Dev69C=null;
+    if(target.hp>0)this.damage(target,power,attacker,'magic','item_support_dream_maker');
+   }
+   if(sourceType==='spell'&&attacker.items?.includes('support_zaz_zak')&&
+      (attacker.conditionalZazReadyAtV453Dev69C||0)<=this.gameTime){
+    attacker.conditionalZazReadyAtV453Dev69C=this.gameTime+10;
+    (this.pendingSupportBlastsV453Dev69C||(this.pendingSupportBlastsV453Dev69C=[])).push({owner:attacker.id,team:attacker.team,x:target.x,y:target.y,at:this.gameTime+.5});
+   }
   }
   if(dealt>0)this.effectResolverV41().record('damage',target,attacker,{amount:dealt,damageType,sourceType});
   if(dealt>0&&attacker?.champ&&target?.kind&&attacker.team!==target.team&&this.soulTypeV452d2(attacker)==='ocean')
