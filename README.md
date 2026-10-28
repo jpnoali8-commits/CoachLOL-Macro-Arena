@@ -29,3 +29,28 @@ Projeto: jogo web de estratégia PvP, 1 jogador humano controlando 5 campeões a
 ## Próximo bloqueio
 
 **Importar o conteúdo exato da V4.5.3-dev68 para uma branch base (com verificação de integridade), antes de liberar as branches dev69.** Este README é apenas a inicialização do repositório e **não contém o código jogável**.
+
+## Painel de coordenação dev69
+
+**Status atual: BOOTSTRAP / BLOQUEADO — a dev68 ainda não foi importada para o GitHub.**
+
+### Documentação para cada chat
+
+- [Status e gate da base dev68](docs/parallel/STATUS_DEV69.md)
+- [Chat 1 — Skills](docs/parallel/CHAT_1_SKILLS.md)
+- [Chat 2 — Itens](docs/parallel/CHAT_2_ITENS.md)
+- [Chat 3 — Integração](docs/parallel/CHAT_3_INTEGRACAO.md)
+- [Matriz de propriedade dos arquivos](docs/parallel/ESCOPO_E_CONFLITOS.md)
+- [Fluxo de PR, testes e release](docs/parallel/FLUXO_DE_PR_E_QA.md)
+- [Modelo de handoff entre equipes](docs/parallel/MODELO_HANDOFF.md)
+- [Plano de importação da dev68](docs/parallel/PLANO_IMPORTACAO_DEV68.md)
+
+### Tarefas de trabalho
+
+1. [#1 — Bloqueador: importar dev68 canônica](../../issues/1)
+2. [#2 — Skills: Nami R e Vex R](../../issues/2)
+3. [#3 — Itens: primeiro lote certificado](../../issues/3)
+4. [#4 — Integração: HTTP/SSE PvP navegador real](../../issues/4)
+5. [#5 — Infra: QA e assets grandes](../../issues/5)
+
+**Importante:** criar branches/docs e issues não equivale a transferir o código. Até completar #1, as branches são para planejamento e auditoria de fontes; não é permitido declarar testes do jogo executados a partir do repositório.
