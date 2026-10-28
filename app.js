@@ -907,9 +907,9 @@ function updateInspector(){updateRoster();$('emptyInspector').hidden=!!selected;
  // different inventory resources; sweeper reveals but never auto-destroys.
  let visionTray=$('visionActions');if(!visionTray){visionTray=document.createElement('div');visionTray.id='visionActions';visionTray.className='visionActions';row.after(visionTray);}
  visionTray.innerHTML='';
- for(const [type,label,icon,tone] of [[ 'stealth',u.trinket==='effigy'?'Espantalho':'Ward',u.trinket==='effigy'?'♙':'◈','gold'],['control','Pink','◆','rose'],['farsight','Azul','◉','cyan'],['oracle','Lente','◎','cyan']]){
+ for(const [type,label,icon,tone] of [[ 'stealth',u.trinket==='effigy'?'Espantalho':'Ward',u.trinket==='effigy'?'♙':'◈','gold'],['control','Pink','◆','rose'],...(u.champ==='Fiddlesticks'&&u.role==='SUP'&&u.supportQuest>=400?[['support','Suporte','◈','gold']]:[]),['farsight','Azul','◉','cyan'],['oracle','Lente','◎','cyan']]){
   const b=document.createElement('button');b.type='button';b.className='visionChoice '+tone+(type===selectedWardType&&action==='ward'?' active':'');
-  const rest=type==='control'?(u.controlWardStock||0):type==='oracle'?Math.max(0,(u.oracleCd||0)-match.gameTime):u.wardCharges;
+  const rest=type==='control'?(u.controlWardStock||0):type==='support'?(u.supportVisionChargesV453Dev69C||0):type==='oracle'?Math.max(0,(u.oracleCd||0)-match.gameTime):u.wardCharges;
   b.innerHTML=`<strong>${icon}</strong><span>${label}</span><small>${type==='oracle'?(rest>0?Math.ceil(rest)+'s':'PRONTA'):rest}</small>`;
   b.title=type==='stealth'&&u.trinket==='effigy'?'Fiddlesticks: efígie exclusiva do slot 4 · duas cargas · imita campeão ao ser encontrada':type==='control'?'Sentinela de controle · permanece até destruir ou substituir':type==='oracle'?'Trinket Lente Reveladora · um turno de varredura':type==='farsight'?'Sentinela Azul · pode ativar pontos de visão':'Trinket Ward Amarela';
   b.disabled=type==='stealth'&&['oracle','farsight'].includes(u.trinket)||type==='farsight'&&u.trinket!=='farsight'||type==='oracle'&&(u.trinket||'stealth')!=='oracle';
