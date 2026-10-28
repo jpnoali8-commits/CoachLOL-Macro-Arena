@@ -917,6 +917,35 @@ function updateInspector(){updateRoster();$('emptyInspector').hidden=!!selected;
   else{selectedWardType=type;mode('ward');}};
   visionTray.append(b);
  }
+ // Quest-only item choices are an in-game action, never a shop purchase.
+ // Keep the tray compact and scoped to the currently selected owned champion.
+ let conditionalTray=$('conditionalItemsTrayV453Dev69C');
+ if(!conditionalTray){conditionalTray=document.createElement('div');conditionalTray.id='conditionalItemsTrayV453Dev69C';conditionalTray.className='visionActions';visionTray.after(conditionalTray);}
+ conditionalTray.replaceChildren();
+ if(u.role==='SUP'&&u.supportQuest>=800&&u.items?.includes('support_bounty')){
+  for(const [id,label] of [['support_celestial_opposition','Oposição'],['support_dream_maker','Sonhos'],['support_zaz_zak','Zaz’Zak'],['support_solstice_sleigh','Trenó'],['support_bloodsong','Canção']]){
+   const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+   btn.textContent=label;btn.title='Missão SUP concluída: escolher '+label+' grátis, somente uma vez';
+   btn.onclick=()=>{const out=match.chooseSupportFinalV453Dev69C('blue',u.id,id);notify(out.ok?label+' equipado sem gastar ouro.':out.reason);updateInspector();requestDraw();};
+   conditionalTray.append(btn);
+  }
+ }
+ if(u.champ==='Kalista'&&match.gameTime<180&&u.hp>0){
+  if(u.blackSpearAvailableV453Dev69C&&!u.pendingOathswornV453Dev69C){
+   for(const ally of match.units.filter(v=>v.team===u.team&&v.id!==u.id&&v.hp>0)){
+    const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+    btn.textContent='Pacto: '+ally.champ;btn.title='Lança Negra: vincular aliado, canal 6,5 segundos';
+    btn.onclick=()=>{const out=match.bindBlackSpearV453Dev69C('blue',u.id,ally.id);notify(out.ok?'Pacto solicitado para '+ally.champ:out.reason);updateInspector();requestDraw();};
+    conditionalTray.append(btn);
+   }
+  }else if(!u.blackSpearAvailableV453Dev69C&&!u.pendingOathswornV453Dev69C){
+   const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+   btn.textContent='Recuperar Lança';btn.title='Recomprar a Lança Negra grátis na fonte antes de 03:00';
+   btn.onclick=()=>{const out=match.recoverBlackSpearV453Dev69C('blue',u.id);notify(out.ok?'Lança recuperada.':out.reason);updateInspector();};
+   conditionalTray.append(btn);
+  }
+ }
+ conditionalTray.hidden=!conditionalTray.childElementCount;
  renderTactics();$('routeTools').hidden=!drawRoute;renderRouteEditor();
  if($('quickToggles')){
   $('quickToggles').innerHTML='';
