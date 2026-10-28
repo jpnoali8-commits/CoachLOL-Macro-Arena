@@ -200,7 +200,7 @@ export const catalog=[
 {id:'mejais_soulstealer',name:'Ladrão de Almas de Mejai',cost:1500,stats:{ap:20,hp:100},tags:['mage','legendary','unique'],icon:'◆',riotId:3041},
 // DEV57: SR 26.21; numbers in non-numeric passives are explicit CoachLOL adaptations.
 {id:'bamis_cinder',name:'Brasa de Bami',cost:900,stats:{hp:150,abilityHaste:5},tags:['tank','epic','defense'],icon:'🔥',riotId:6660},
-{id:'hexdrinker',name:'Hexdrinker',cost:1300,stats:{ad:25,mr:25},tags:['fighter','epic','defense'],icon:'⬡',riotId:3155},
+{id:'hexdrinker',name:'Hexdrinker',cost:1300,stats:{ad:25,mr:25},tags:['fighter','epic','defense','lifeline'],icon:'⬡',riotId:3155},
 {id:'hextech_alternator',name:'Alternador Hextec',cost:1100,stats:{ap:45},tags:['mage','epic'],icon:'✧',riotId:3145},
 {id:'phantom_dancer',name:'Dançarina Fantasma',cost:2650,stats:{attackSpeedPct:65,critChance:25,movePercent:10},tags:['marksman','legendary','unique'],icon:'◉',riotId:3046},
 {id:'randuins_omen',name:'Presságio de Randuin',cost:2700,stats:{armor:75,hp:350},tags:['tank','legendary','unique','active','defense'],icon:'⬡',riotId:3143},
@@ -216,6 +216,26 @@ export const catalog=[
 // DEV69 / items batch 1 — Riot 16.21.1; individual effects resolved below.
 {id:'cull',name:'Abatedora',cost:450,stats:{ad:7},tags:['marksman','starter','unique'],icon:'⚔',riotId:1083},
 {id:'lord_dominiks_regards',name:'Lembranças do Lorde Dominik',cost:3300,stats:{ad:35,armorPenPercent:35,critChance:25},tags:['marksman','legendary','unique','fatality'],icon:'➶',riotId:3036},
+// DEV69 batch 2 — Annul family; PC 26.21 / Data Dragon 16.21.1.
+{id:'verdant_barrier',name:'Barreira Verdejante',cost:1600,stats:{ap:40,mr:25},tags:['mage','epic','defense','annul'],icon:'◈',riotId:4632},
+{id:'banshees_veil',name:'Véu da Banshee',cost:3000,stats:{ap:105,mr:40},tags:['mage','legendary','unique','defense','annul'],icon:'◈',riotId:3102},
+{id:'edge_of_night',name:'Limiar da Noite',cost:3000,stats:{ad:50,lethality:15,hp:250},tags:['assassin','legendary','unique','defense','annul'],icon:'⬡',riotId:3814},
+// DEV69 batch 2 expansion: data-verified reactive/on-hit item families.
+{id:'chempunk_chainsword',name:'Serrespada Quimiopunk',cost:3000,stats:{"ad":45,"hp":450,"abilityHaste":15},tags:["fighter","legendary","unique"],icon:'☣',riotId:6609},
+{id:'seryldas_grudge',name:'Rancor de Serylda',cost:3000,stats:{"ad":45,"armorPenPercent":35,"abilityHaste":15},tags:["assassin","legendary","unique","fatality"],icon:'❄',riotId:6694},
+{id:'shadowflame',name:'Chama Sombria',cost:3200,stats:{"ap":110,"magicPenFlat":15},tags:["mage","legendary","unique"],icon:'◆',riotId:4645},
+{id:'the_collector',name:'A Coletora',cost:3000,stats:{"ad":50,"critChance":25,"lethality":10},tags:["assassin","marksman","legendary","unique"],icon:'⚔',riotId:6676},
+{id:'abyssal_mask',name:'Máscara Abissal',cost:2650,stats:{"hp":350,"mr":45,"abilityHaste":15},tags:["tank","legendary","unique"],icon:'◈',riotId:8020},
+{id:'cosmic_drive',name:'Ímpeto Cósmico',cost:3000,stats:{"hp":350,"ap":70,"abilityHaste":25,"movePercent":4},tags:["mage","legendary","unique"],icon:'➤',riotId:4629},
+{id:'overlords_bloodmail',name:'Armadura Sangrenta do Suserano',cost:3300,stats:{"hp":550,"ad":30},tags:["fighter","legendary","unique"],icon:'♥',riotId:2501},
+{id:'riftmaker',name:'Criafendas',cost:3100,stats:{"hp":350,"ap":70,"abilityHaste":15},tags:["mage","legendary","unique"],icon:'◈',riotId:4633},
+{id:'liandrys_torment',name:'Tormento de Liandry',cost:3000,stats:{"hp":300,"ap":60},tags:["mage","legendary","unique"],icon:'🔥',riotId:6653},
+{id:'bloodletters_curse',name:'Maldição Sanguinária',cost:2900,stats:{"hp":400,"ap":65,"abilityHaste":15},tags:["mage","legendary","unique"],icon:'◆',riotId:8010},
+{id:'kaenic_rookern',name:'Rookern Lamúrico',cost:2900,stats:{"hp":400,"mr":80,"hpRegenBasePct":100},tags:["tank","legendary","unique"],icon:'◈',riotId:2504},
+{id:'maw_of_malmortius',name:'Mandíbula de Malmortius',cost:3100,stats:{"ad":60,"mr":40,"abilityHaste":15},tags:["fighter","legendary","unique","lifeline"],icon:'◈',riotId:3156},
+{id:'immortal_shieldbow',name:'Arco-escudo Imortal',cost:3000,stats:{"ad":55,"critChance":25},tags:["marksman","legendary","unique","lifeline"],icon:'◈',riotId:6673},
+{id:'steraks_gage',name:'Sinal de Sterak',cost:3200,stats:{"hp":400,"tenacity":20},tags:["fighter","legendary","unique","lifeline"],icon:'◈',riotId:3053},
+{id:'force_of_nature',name:'Força da Natureza',cost:2800,stats:{"hp":400,"mr":55,"movePercent":4},tags:["tank","legendary","unique"],icon:'➤',riotId:4401},
 // DEV33 — checked SR 26.21 components and combat effects; does not certify full catalog parity.
 {id:'fiendish_codex',name:'Códice Demoníaco',cost:850,stats:{ap:25,abilityHaste:10},tags:['mage','epic'],icon:'◈',riotId:3108},
 {id:'nashors_tooth',name:"Dente de Na'Shor",cost:2900,stats:{ap:80,abilityHaste:15,attackSpeedPct:50},tags:['mage','legendary','unique'],icon:'✦',riotId:3115},
@@ -232,7 +252,7 @@ export const catalog=[
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -261,10 +281,27 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  fiendish_codex:['amp_tome','glowing_mote'],nashors_tooth:['recurve_bow','blasting_wand','fiendish_codex'],
  mortal_reminder:['executioners_calling','last_whisper','agility_cloak'],
  lord_dominiks_regards:['last_whisper','noonquiver'],
+ verdant_barrier:['amp_tome','null_magic_mantle','amp_tome'],banshees_veil:['needless_rod','verdant_barrier'],edge_of_night:['serrated_dirk','tunneler'],
  morellonomicon:['oblivion_orb','blasting_wand','kindlegem'],
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
  /* DEV30_OFFICIAL_RECIPES_START */
  /* DEV30_OFFICIAL_RECIPES_END */
+ // DEV69 reactive batch: exact Riot 16.21.1 component IDs.
+ chempunk_chainsword:['executioners_calling','giants_belt','caulfields_warhammer'],
+ seryldas_grudge:['caulfields_warhammer','last_whisper'],
+ shadowflame:['hextech_alternator','needless_rod'],
+ the_collector:['pickaxe','serrated_dirk','agility_cloak'],
+ abyssal_mask:['kindlegem','negatron_cloak'],
+ cosmic_drive:['kindlegem','aether_wisp','fiendish_codex'],
+ overlords_bloodmail:['tunneler','tunneler'],
+ riftmaker:['haunting_guise','fiendish_codex'],
+ liandrys_torment:['haunting_guise','fated_ashes'],
+ bloodletters_curse:['haunting_guise','fiendish_codex'],
+ kaenic_rookern:['spectres_cowl','negatron_cloak'],
+ maw_of_malmortius:['hexdrinker','caulfields_warhammer'],
+ immortal_shieldbow:['pickaxe','noonquiver'],
+ steraks_gage:['pickaxe','tunneler','ruby_crystal'],
+ force_of_nature:['negatron_cloak','ruby_crystal','winged_moonplate'],
 };
 // V4.5.3-dev30 — inventory-aware recursive recipe graph. A prebuilt item
 // takes priority over its subcomponents, so a component is never redeemed twice.
@@ -332,7 +369,30 @@ export const RUNE_PAGES_V43=Object.freeze({
  precision:Object.freeze({name:'Precisão · Ritmo Experimental',shards:{ad:5.4},keystone:'fleet_footwork',maturity:'prototype'}),
  resolve:Object.freeze({name:'Determinação · Aperto dos Mortos-Vivos',shards:{hp:65},keystone:'grasp',maturity:'prototype'})
 });
+// SR batch family parameters; no new ESM imports because Node/browser share one engine.
+// Snapshot-safe: transient state is recorded only on champion units, never in UI.
+export const ITEM_FAMILY_RULES_V453_DEV69=Object.freeze({
+ kaenic_rookern:{rechargeSeconds:15,shieldMaxHpRatio:.15},
+ maw_of_malmortius:{cooldown:90,threshold:.30,shieldSeconds:3,flatMelee:200,flatRanged:150,bonusAdMelee:1.5,bonusAdRanged:1.125},
+ immortal_shieldbow:{cooldown:90,threshold:.30,shieldSeconds:3,shieldBase:400,shieldPerLevel:300/17},
+ steraks_gage:{cooldown:90,threshold:.30,shieldSeconds:4.5,shieldBonusHealthRatio:.60,baseAdRatio:.50},
+ force_of_nature:{stacks:8,mr:70,speedFraction:.06,stackSeconds:5},
+ cosmic_drive:{flatSpeed:20,seconds:4},
+ shadowflame:{threshold:.40,bonusFraction:.20},
+ the_collector:{executeThreshold:.05,killGold:25},
+ liandrys_torment:{burnMaxHpPerSecond:.02,burnSeconds:3,ampPerSecond:.02,maxAmp:.06},
+ riftmaker:{bonusHpToAp:.02,ampPerSecond:.02,maxAmp:.08},
+ overlords_bloodmail:{bonusHpToAd:.025,maxMissingHpAdRatio:.12},
+ bloodletters_curse:{shredPerStack:.075,maxStacks:4,seconds:6},
+ abyssal_mask:{amplifyMagic:.12,radius:550},
+ seryldas_grudge:{slowFraction:.30,seconds:1,threshold:.50},
+ chempunk_chainsword:{woundsSeconds:3}
+});
 export const ITEM_EFFECTS_V43=Object.freeze({
+ // Annul spell-shields: cooldowns from SR item rules; DDragon 16.21.1 stats/recipes.
+ verdant_barrier:{kind:'annul',cooldown:60},
+ banshees_veil:{kind:'annul',cooldown:40},
+ edge_of_night:{kind:'annul',cooldown:40},
  // DEV69: no guessed data: 1083/3036, SR patch 26.21, Data Dragon 16.21.1.
  cull:{kind:'reap',healOnHit:3,goldPerMinion:1,maxMinions:100,questCompletionGold:350,maturity:'dev69_item_batch1'},
  lord_dominiks_regards:{kind:'giant_slayer',maxBonusFraction:.15,maxBonusHealth:1500,maturity:'dev69_item_batch1'},
@@ -696,7 +756,7 @@ export const EFFECT_TYPES_V41=Object.freeze({
 });
 export class EffectResolverV41 {
  constructor(arena){this.a=arena;}
- list(target){return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
+ list(target){if(target?.champ){this.a.refreshItemAnnulV453Dev69Batch2(target);this.a.refreshKaenicShieldV453Dev69(target);}return (target?.statusEffectsV41||[]).filter(e=>e.until>this.a.gameTime);}
  has(target,type){return this.list(target).some(e=>e.type===type);}
  slowFraction(target){const slow=Math.max(0,...this.list(target).filter(e=>e.type==='slow').map(e=>e.power<=1?e.power:e.power/100));const resistance=target?.champ?this.a.elementalStatsV452d3(target).slowResist:target?.slowResist||0;return Math.min(.95,slow*(1-Math.min(1,Math.max(0,resistance/100))));}
  canAct(target,action){
@@ -713,7 +773,7 @@ export class EffectResolverV41 {
  apply(target,type,{source=null,duration=1,power=0,damageType='magic',interval=1,stack='refresh',key=null}={}){
   if(!target||target.hp<=0||!EFFECT_TYPES_V41[type]||!Number.isFinite(duration)||duration<=0||!Number.isFinite(power)||power<0||!Number.isFinite(interval)||interval<=0)return {ok:false,reason:'spec_inválida'};
   if(EFFECT_TYPES_V41[type].cc&&source?.team!==target.team&&this.has(target,'cc_immunity'))return {ok:false,reason:'cc_immunity'};
-  if(EFFECT_TYPES_V41[type].cc&&source?.team&&source.team!==target.team&&this.has(target,'spell_shield')){const shield=this.list(target).find(e=>e.type==='spell_shield');shield.until=this.a.gameTime;this.record('spell_shield_block',target,source,{effectId:shield.id,type});return {ok:false,reason:'spell_shield'};}
+  if(EFFECT_TYPES_V41[type].cc&&source?.team&&source.team!==target.team&&this.has(target,'spell_shield')){const shield=this.list(target).find(e=>e.type==='spell_shield');shield.until=this.a.gameTime;this.a.consumeItemAnnulV453Dev69Batch2(target,shield);this.record('spell_shield_block',target,source,{effectId:shield.id,type});return {ok:false,reason:'spell_shield'};}
   if(type==='stasis'&&this.has(target,'stasis'))return {ok:false,reason:'stasis_ativa'};
   if(type==='spell_shield'&&this.has(target,'spell_shield'))return {ok:false,reason:'spell_shield_ativo'};
   if(['dot','hot'].includes(type)&&!['magic','physical','true'].includes(damageType))return {ok:false,reason:'tipo_dano_inválido'};
@@ -1253,7 +1313,9 @@ export class Arena {
  // Permanent dragon stacks are read from the team source of truth on every use.
  elementalStatsV452d3(u){
   const bonus=this.baronChampionBonusV452d4Dev14(u);
-  const source=bonus?{...u,ad:(Number(u.ad)||0)+bonus.ad,ap:(Number(u.ap)||0)+bonus.ap}:u;
+  const extra=u?.champ?this.derivedItemStatsV453Dev69(u):{ad:0,ap:0,mr:0};
+  const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad,
+   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap,mr:(Number(u?.mr)||0)+extra.mr};
   return elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
  }
  abilityCooldownV452d3(u,slot){return abilityCooldown(u,slot,this.elementalStatsV452d3(u).counts.hextech*ELEMENTAL_DRAKE_RULES_V452D3.hextech.abilityHaste);}
@@ -2793,6 +2855,8 @@ export class Arena {
  queuePurchase(team,unitId,itemId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),item=catalog.find(i=>i.id===itemId);
   if(!u||!item||item.notPurchasable||item.tags.includes('trinket')||this.ended||this.teams[team].ready||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Compra programada indisponível.'};
+  if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
+  if(item.tags.includes('lifeline')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('lifeline')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Um único efeito Salva-Vidas por campeão.'};
   if(item.tags.includes('fatality')&&u.items.some(i=>catalog.find(v=>v.id===i)?.tags.includes('fatality')&&i!==itemId))return {ok:false,reason:'Apenas um item de Penetração Fatal por campeão.'};
   if(item.roleLock&&item.roleLock!==u.role)return {ok:false,reason:'Item exclusivo de outra função.'};
   if(['sheen','trinity_force'].includes(itemId)&&[...u.items,...(u.purchaseQueue||[])].some(id=>['sheen','trinity_force'].includes(id)&&!this.itemRecipe(itemId).includes(id)))return {ok:false,reason:'Lâmina Arcana exclusiva.'};
@@ -2839,6 +2903,99 @@ export class Arena {
   if(check.ok){this.buy(team,unitId,itemId);return {ok:true,bought:true};}
   return this.queuePurchase(team,unitId,itemId);
  }
+ // Shared, snapshot-deterministic reactive item families. No ESM imports in engine.
+ derivedItemStatsV453Dev69(u){
+  if(!u?.champ)return {ad:0,ap:0,mr:0};
+  const ids=u.items||[],bonusHp=this.bonusHealthForGiantSlayerV453Dev69(u);
+  let ad=0,ap=0,mr=0;
+  if(ids.includes('overlords_bloodmail')){
+   const f=ITEM_FAMILY_RULES_V453_DEV69.overlords_bloodmail;
+   ad+=bonusHp*f.bonusHpToAd;
+   ad+=Math.max(0,u.ad)*f.maxMissingHpAdRatio*Math.max(0,1-u.hp/Math.max(1,u.maxHp));
+  }
+  if(ids.includes('steraks_gage')){
+   const itemAd=ids.reduce((n,id)=>n+(catalog.find(v=>v.id===id)?.stats?.ad||0),0);
+   ad+=Math.max(0,(u.ad||0)-itemAd)*ITEM_FAMILY_RULES_V453_DEV69.steraks_gage.baseAdRatio;
+  }
+  if(ids.includes('riftmaker'))ap+=bonusHp*ITEM_FAMILY_RULES_V453_DEV69.riftmaker.bonusHpToAp;
+  if(ids.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime)
+   mr+=ITEM_FAMILY_RULES_V453_DEV69.force_of_nature.mr;
+  return {ad,ap,mr};
+ }
+ itemBattleRampV453Dev69(attacker,id,sourceType){
+  if(!attacker?.items?.includes(id)||!['basic','spell','ability_onhit_v453_dev40'].includes(sourceType))return 1;
+  const spec=ITEM_FAMILY_RULES_V453_DEV69[id];
+  const key=id==='riftmaker'?'riftmakerFightV453Dev69':'liandryFightV453Dev69';
+  const prior=attacker[key];
+  const start=prior&&prior.lastAt>=this.gameTime-5?prior.started:this.gameTime;
+  const ratio=Math.min(spec.maxAmp,spec.ampPerSecond*Math.max(0,Math.floor(this.gameTime-start)));
+  attacker[key]={started:start,lastAt:this.gameTime};
+  return 1+ratio;
+ }
+ refreshKaenicShieldV453Dev69(u){
+  if(!u?.champ||u.hp<=0||!u.items?.includes('kaenic_rookern')||(u.kaenicReadyAtV453Dev69||0)>this.gameTime)return;
+  const spec=ITEM_FAMILY_RULES_V453_DEV69.kaenic_rookern;
+  const list=u.statusEffectsV41||(u.statusEffectsV41=[]);
+  const key='kaenic_v453_dev69';let shield=list.find(e=>e.key===key&&e.until>this.gameTime);
+  if(shield){shield.power=Math.max(0,u.maxHp*spec.shieldMaxHpRatio);return;}
+  list.push({id:++this.effectIdV41,type:'magic_shield',sourceId:u.id,key,
+   power:Math.max(0,u.maxHp*spec.shieldMaxHpRatio),until:1e12,appliedAt:this.gameTime,
+   damageType:'magic',interval:1,nextTick:this.gameTime+1});
+ }
+ procLifelineV453Dev69(u,damage,damageType){
+  if(!u?.champ||damage<=0||u.hp-damage>=u.maxHp*.30||
+     (u.lifelineReadyAtV453Dev69||0)>this.gameTime)return;
+  const id=u.items?.find(i=>['maw_of_malmortius','immortal_shieldbow','steraks_gage'].includes(i));
+  if(!id||id==='maw_of_malmortius'&&damageType!=='magic')return;
+  const spec=ITEM_FAMILY_RULES_V453_DEV69[id];
+  const bonusAd=(u.items||[]).reduce((n,i)=>n+Math.max(0,catalog.find(v=>v.id===i)?.stats?.ad||0),0);
+  let power=id==='maw_of_malmortius'?(u.range>.05?spec.flatRanged+bonusAd*spec.bonusAdRanged:spec.flatMelee+bonusAd*spec.bonusAdMelee):
+   id==='immortal_shieldbow'?(spec.shieldBase+Math.min(17,Math.max(0,(u.level||1)-1))*spec.shieldPerLevel)*(u.range>.05?.8:1):
+   this.bonusHealthForGiantSlayerV453Dev69(u)*spec.shieldBonusHealthRatio;
+  const type=id==='maw_of_malmortius'?'magic_shield':'shield';
+  this.effectResolverV41().apply(u,type,{source:u,power,duration:spec.shieldSeconds,key:'lifeline_v453_dev69'});
+  u.lifelineReadyAtV453Dev69=this.gameTime+spec.cooldown;
+  if(id==='maw_of_malmortius')u.mawVampUntilV453Dev69=this.gameTime+6;
+ }
+ onBulkItemChampionHitV453Dev69(attacker,target,dealt,damageType,sourceType){
+  if(!(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team))return;
+  const ids=attacker.items||[],now=this.gameTime,fx=this.effectResolverV41();
+  if(damageType==='physical'&&ids.includes('chempunk_chainsword')&&!sourceType.startsWith('item_'))
+   fx.apply(target,'grievous_wounds',{source:attacker,duration:3,key:'chempunk_'+attacker.id});
+  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&ids.includes('seryldas_grudge')&&target.hp/Math.max(1,target.maxHp)<.50)
+   fx.apply(target,'slow',{source:attacker,duration:1,power:.30,key:'serylda_'+attacker.id});
+  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&damageType==='magic'&&ids.includes('bloodletters_curse')){
+   const old=target.bloodletterShredV453Dev69?.until>now?target.bloodletterShredV453Dev69:{stacks:0,until:0};
+   target.bloodletterShredV453Dev69={stacks:Math.min(4,old.stacks+1),until:now+6};
+  }
+  if(ids.includes('cosmic_drive')&&['magic','true'].includes(damageType)&&!sourceType.startsWith('item_'))attacker.cosmicSprintUntilV453Dev69=now+4;
+  if(ids.includes('liandrys_torment')&&sourceType==='spell'){
+   const spec=ITEM_FAMILY_RULES_V453_DEV69.liandrys_torment;
+   fx.apply(target,'dot',{source:attacker,duration:spec.burnSeconds,
+    power:Math.max(1,target.maxHp*spec.burnMaxHpPerSecond),damageType:'magic',interval:1,key:'liandry_'+attacker.id});
+  }
+ }
+ // Item Annul is unique per champion. Real status effect is restored only
+ // when cooldown elapses with no subsequent enemy-champion damage.
+ itemAnnulSpecV453Dev69Batch2(u){
+  const id=u?.items?.find(id=>['verdant_barrier','banshees_veil','edge_of_night'].includes(id));
+  return id?ITEM_EFFECTS_V43[id]:null;
+ }
+ refreshItemAnnulV453Dev69Batch2(u){
+  if(!u?.champ||u.hp<=0)return;
+  const spec=this.itemAnnulSpecV453Dev69Batch2(u);
+  if(!spec||(u.itemAnnulReadyAtV453Dev69Batch2||0)>this.gameTime)return;
+  const effects=u.statusEffectsV41||(u.statusEffectsV41=[]);
+  if(effects.some(e=>e.type==='spell_shield'&&e.until>this.gameTime))return;
+  effects.push({id:++this.effectIdV41,type:'spell_shield',sourceId:u.id,
+   key:'item_annul_v453_dev69b2',power:0,until:1e12,appliedAt:this.gameTime,
+   damageType:'magic',interval:1,nextTick:this.gameTime+1});
+ }
+ consumeItemAnnulV453Dev69Batch2(u,layer){
+  if(layer?.key!=='item_annul_v453_dev69b2')return;
+  const spec=this.itemAnnulSpecV453Dev69Batch2(u);
+  if(spec)u.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+spec.cooldown;
+ }
  // Role-specific shop eligibility: no other role may use support/jungle quests.
  canBuy(team,unitId,itemId){
   const u=this.units.find(x=>x.id===unitId&&x.team===team), item=catalog.find(i=>i.id===itemId);
@@ -2851,6 +3008,9 @@ export class Arena {
   if(item.tags.includes('trinket'))return {ok:false,reason:'Trinkets são trocados sem custo na fonte.'};
   if(itemId==='ward'&&(u.controlWardStock||0)>=2)return {ok:false,reason:'Limite de duas pinks no inventário.'};
   if((item.tags.includes('unique')||item.tags.includes('legendary')||item.tags.includes('epic'))&&u.items.includes(itemId))return {ok:false,reason:'Equipamento completo único: compra duplicada bloqueada.'};
+  if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
+  if(item.tags.includes('lifeline')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('lifeline')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Um único efeito Salva-Vidas por campeão.'};
+  if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
   if(item.tags.includes('fatality')&&u.items.some(i=>catalog.find(v=>v.id===i)?.tags.includes('fatality')&&i!==itemId))return {ok:false,reason:'Apenas um item de Penetração Fatal por campeão.'};
   if(item.roleLock&&item.roleLock!==u.role)return {ok:false,reason:'Item exclusivo da função '+item.roleLock+'.'};
   if(['sheen','trinity_force'].includes(itemId)&&u.items.some(id=>['sheen','trinity_force'].includes(id)&&!this.itemRecipe(itemId).includes(id)))return {ok:false,reason:'Apenas um efeito Lâmina Arcana.'};
@@ -2882,6 +3042,12 @@ export class Arena {
   // Scout's Slingshot cannot keep its proc active after upgrading into RFC.
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
   if(itemId==='cull')u.cullMinionsV453Dev69=0;
+  if(itemId==='kaenic_rookern')u.kaenicReadyAtV453Dev69=this.gameTime+ITEM_FAMILY_RULES_V453_DEV69.kaenic_rookern.rechargeSeconds;
+  if(item.tags.includes('annul')){
+   // Verdant -> Banshee preserves the cooldown of the consumed component.
+   if(!undoBeforeV453Dev61.items?.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')))u.itemAnnulReadyAtV453Dev69Batch2=this.gameTime;
+   this.refreshItemAnnulV453Dev69Batch2(u);
+  }
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -3056,6 +3222,17 @@ export class Arena {
   if(itemId==='seekers_armguard')u.armguardSpentV453Dev37=false;
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
   if(itemId==='cull')u.cullMinionsV453Dev69=0;
+  if(ITEM_FAMILY_RULES_V453_DEV69[itemId]){
+   if(itemId==='kaenic_rookern')u.kaenicReadyAtV453Dev69=0;
+   if(['maw_of_malmortius','immortal_shieldbow','steraks_gage'].includes(itemId)){u.lifelineReadyAtV453Dev69=0;u.mawVampUntilV453Dev69=0;}
+   if(itemId==='force_of_nature'){u.forceNatureStacksV453Dev69=0;u.forceNatureUntilV453Dev69=0;}
+   if(itemId==='cosmic_drive')u.cosmicSprintUntilV453Dev69=0;
+   for(const e of u.statusEffectsV41||[])if(['kaenic_v453_dev69','lifeline_v453_dev69'].includes(e.key))e.until=this.gameTime;
+  }
+  if(item.tags.includes('annul')){
+   u.itemAnnulReadyAtV453Dev69Batch2=0;
+   for(const effect of u.statusEffectsV41||[])if(effect.key==='item_annul_v453_dev69b2')effect.until=this.gameTime;
+  }
   if(itemId==='rapid_firecannon')u.energizeStacksV453Dev38=0;
   if(itemId==='kraken_slayer')delete u.krakenHitV453Dev32;
   if(itemId==='guinsoos_rageblade'){
@@ -3857,7 +4034,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat,(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -4653,7 +4830,7 @@ export class Arena {
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
   // Explicit opt-in ability hits can apply item on-hit, without masquerading as
   // basic attacks. Spell shields still block the primary ability and its procs.
-  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
+  if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.consumeItemAnnulV453Dev69Batch2(target,layer);this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
   if(target.hp<=0||target.stasisUntil>this.gameTime||this.effectResolverV41().has(target,'stasis')||this.effectResolverV41().has(target,'invulnerable'))return 0;
   // Dev66: Exaustão também reduz dano de habilidades e procs do campeão.
   // AAs normais já recebem a redução ao calcular basicAttackPowerV452c;
@@ -4716,9 +4893,22 @@ export class Arena {
   if(damageType!=='true'&&attacker?.champ&&target?.champ&&
      !['item','rune','dot'].includes(sourceType)&&!sourceType.startsWith('item_'))
    amount*=this.giantSlayerMultiplierV453Dev69(attacker,target);
+ // Family amp affects primary legitimate hits, not recursive item procs.
+ if(attacker?.champ&&target?.champ&&attacker.team!==target.team&&!sourceType.startsWith('item_')){
+  if(attacker.items?.includes('shadowflame')&&['magic','true'].includes(damageType)&&target.hp/Math.max(1,target.maxHp)<.40)
+   amount*=1+ITEM_FAMILY_RULES_V453_DEV69.shadowflame.bonusFraction;
+  if(attacker.items?.includes('riftmaker'))amount*=this.itemBattleRampV453Dev69(attacker,'riftmaker',sourceType);
+  if(attacker.items?.includes('liandrys_torment'))amount*=this.itemBattleRampV453Dev69(attacker,'liandrys_torment',sourceType);
+ }
+ // Abyssal's aura is owned by an ally near the victim; no fog or enemy inventory broadcast.
+ if(damageType==='magic'&&attacker?.team&&target.team!==attacker.team&&
+    this.units.some(u=>u.hp>0&&u.team===attacker.team&&u.items?.includes('abyssal_mask')&&
+      this.mapDistance(u,target)<=ITEM_FAMILY_RULES_V453_DEV69.abyssal_mask.radius))
+  amount*=1+ITEM_FAMILY_RULES_V453_DEV69.abyssal_mask.amplifyMagic;
+ if(target.champ)this.refreshKaenicShieldV453Dev69(target);
  const derivedTarget=target.champ?this.elementalStatsV452d3(target):target;
  const cleaverDebuffV453Dev29=target.champ&&target.cleaverDebuffV453Dev29?.until>this.gameTime?target.cleaverDebuffV453Dev29:null;
- const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0);
+ const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):damageType==='magic'?((derivedTarget.mr||0)*(1-(target.bloodletterShredV453Dev69?.until>this.gameTime?Math.min(4,target.bloodletterShredV453Dev69.stacks)*.075:0))):(derivedTarget.armor||0);
  const effectiveTargetResV453Dev29=damageType==='physical'&&cleaverDebuffV453Dev29?targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes;
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
  const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
@@ -4776,8 +4966,19 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    final-=absorbed;target.hexdrinkerMagicBarrierV453Dev57-=absorbed;
   }
  }
- const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+ // Shared Lifeline checks are one-shot and absorb the triggering hit.
+ this.procLifelineV453Dev69(target,final,damageType);
+ const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);
+ if(target.champ&&damageType==='magic'&&final>0&&attacker?.team&&attacker.team!==target.team&&target.items?.includes('kaenic_rookern'))
+  target.kaenicReadyAtV453Dev69=this.gameTime+ITEM_FAMILY_RULES_V453_DEV69.kaenic_rookern.rechargeSeconds;
+ final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  // Champion damage while Annul is DOWN resets its recovery cooldown.
+  if(dealt>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team){
+   const spec=this.itemAnnulSpecV453Dev69Batch2(target);
+   if(spec&&(target.itemAnnulReadyAtV453Dev69Batch2||0)>this.gameTime)
+    target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+spec.cooldown;
+  }
   // DEV53 Eternidade: somente dano EFETIVAMENTE sofrido de campeão inimigo.
   // Escudos absorvidos, ataques inválidos e fontes neutras não recuperam mana.
   if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team&&
@@ -4789,9 +4990,31 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(dealt>0&&attacker?.champ&&attacker.team!==target.team&&
      ['spell','ability_onhit_v453_dev40'].includes(sourceType))
    this.procTearManaV453Dev56(attacker,target);
+  this.onBulkItemChampionHitV453Dev69(attacker,target,dealt,damageType,sourceType);
+  if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
+    ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
+   if(attacker.items?.includes('maw_of_malmortius')&&(attacker.mawVampUntilV453Dev69||0)>this.gameTime){
+    this.effectResolverV41().heal(attacker,dealt*.10,attacker);
+    attacker.mawVampUntilV453Dev69=Math.max(attacker.mawVampUntilV453Dev69,this.gameTime+6);
+   }
+   const fight=attacker.riftmakerFightV453Dev69;
+   if(attacker.items?.includes('riftmaker')&&fight?.lastAt>=this.gameTime&&this.gameTime-fight.started>=4)
+    this.effectResolverV41().heal(attacker,dealt*(attacker.range>.05?.06:.10),attacker);
+  }
+  if(dealt>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team&&damageType==='magic'&&
+      target.items?.includes('force_of_nature')){
+   const prev=target.forceNatureUntilV453Dev69>this.gameTime?(target.forceNatureStacksV453Dev69||0):0;
+   target.forceNatureStacksV453Dev69=Math.min(8,prev+1);
+   target.forceNatureUntilV453Dev69=this.gameTime+5;
+  }
   // Snapshot the PRIMARY hit outcome before nested soul/rune/elder damage.
   // Nested damage owns its own death credit; the outer action must not double it.
   const lethalPrimaryHitV452d2=target.hp<=0;
+  // Collector execution: only primary, non-item champion damage; nested kill is idempotent.
+  if(dealt>0&&target?.champ&&target.hp>0&&attacker?.champ&&attacker.team!==target.team&&
+      attacker.items?.includes('the_collector')&&!sourceType.startsWith('item_')&&
+      target.hp/Math.max(1,target.maxHp)<.05)this.damage(target,target.hp+1,attacker,'true','item_collector_execute');
+
   // DEV31 Thorns: real post-mitigation attacks only. Item reflection cannot
   // recursively trigger a second Thorns, spellblade or Grievous from this item.
   if(sourceType==='basic'&&dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team){
@@ -4883,7 +5106,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
     target.deaths=(target.deaths||0)+1;
-    target.baronBuffUntilV452=0;target.baronCapturedAtV452d4Dev14=null;target.elderBuffUntilV452=0;target.elderPendingV452=null;target.elderBurnV452d=null;
+    // Dying places Annul on cooldown; never grant a fresh shield on respawn.
+     const annul=this.itemAnnulSpecV453Dev69Batch2(target);
+     if(annul){target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+annul.cooldown;
+      for(const effect of target.statusEffectsV41||[])if(effect.key==='item_annul_v453_dev69b2')effect.until=this.gameTime;}
+     target.baronBuffUntilV452=0;target.baronCapturedAtV452d4Dev14=null;target.elderBuffUntilV452=0;target.elderPendingV452=null;target.elderBurnV452d=null;
     // Assist window remains independent from the environmental kill-credit window.
     const credited=this.championKillCreditV453Dev47(target,attacker);
     const assistingChampions=[];
@@ -4893,7 +5120,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);}
     }}
     target.damageContributors={};
-    if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
+    if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
+     const bonus=ITEM_FAMILY_RULES_V453_DEV69.the_collector.killGold;
+     this.creditGoldV452d4Dev7(credited,bonus,'collector');this.recordEconomyV43(credited,'collector',bonus,'the_collector');
+    }}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
     if(gloryItem)this.setGloryStacksV453Dev58(target,(target.gloryStacksV453Dev58||0)-ITEM_EFFECTS_V43[gloryItem].stacksLostOnDeath);

@@ -216,6 +216,6 @@ await test('Catálogo e valor de revenda para os dois novos iniciadores são fi�
   const item=catalog.find(v=>v.id===local);assert.equal(item.cost,raw[id].gold.total);
   assert.equal(sr.rows[id].price,item.cost);assert.equal(sr.rows[id].basePrice,item.cost);
  }
- assert.equal(sr.counts.normalPlayable,104);assert.equal(sr.counts.referenceOnly,98);
+ assert.equal(sr.counts.normalPlayable,122);assert.equal(sr.counts.referenceOnly,80);
 });
 console.log(`DEV61 ${count}/${count} PASS`);
