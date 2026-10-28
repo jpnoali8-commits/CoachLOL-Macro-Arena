@@ -1,3 +1,5 @@
+> **Instrução vigente dev69:** Leia [FAST_LANE_DEV69.md](FAST_LANE_DEV69.md). Um PR por lote de itens, testes focalizados; não editar browser/versionamento. Não reimplementar PR #7 (já mesclado). Preservar 98 itens reference-only, Undo e autorização PvP.
+
 # Chat 2 — Especialista de itens e economia
 
 **Branch exclusiva:** `dev69/items`. **Ponto de partida obrigatório:** dev68 real após STATUS_DEV69.md = SOURCE_READY. O estado SOURCE_READY permite implementar e testar lógica/economia no código real; assets binários e release completo ainda estão pendentes.
