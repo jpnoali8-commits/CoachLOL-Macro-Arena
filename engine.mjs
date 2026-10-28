@@ -3358,6 +3358,47 @@ export class Arena {
    u.boardRegenAtV453Dev69=this.gameTime;
   }
  }
+ // Sylas Hijack: steals one supported R contract without changing champion
+ // identity. Unsupported unique or legacy ultimates fail explicitly.
+ queueSylasHijackV453M14(team,id,targetId){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Sylas'),
+   target=this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0);
+  if(!u||!target||u.hp<=0||this.ended||this.teams[team]?.ready||
+   !['planning','preparation'].includes(this.phase)||!(u.skillRanks?.R>0)||
+   u.pendingSylasHijackV453M14||u.sylasStolenV453M14)
+   return {ok:false,reason:'hijack_indisponivel'};
+  if(!this.visible(team,target)||this.mapDistance(u,target)>950||
+   !this.sameCombatRealmV453Dev69(u,target))
+   return {ok:false,reason:'hijack_sem_visao_ou_alcance'};
+  const stolen=BOARD_KITS_V453_DEV69[target.champ]?.R;
+  if(!stolen||stolen.passiveOnly)
+   return {ok:false,reason:'ultimate_sem_adaptador_hijack'};
+  const rank=Math.max(1,u.skillRanks.R),cd=[80,55,30][Math.min(2,rank-1)];
+  if((u.skillCds?.R||0)>this.gameTime||u.mana<75)
+   return {ok:false,reason:'hijack_recarga_ou_mana'};
+  u.pendingSylasHijackV453M14={targetId:target.id,sourceChamp:target.champ,
+   issuedAt:this.gameTime,cd};
+  this.recordIntentV40(team,id,'hijack_request',{targetId});
+  return {ok:true,queued:true,sourceChamp:target.champ};
+ }
+ resolveSylasHijacksV453M14(){
+  for(const u of this.units.filter(v=>v.pendingSylasHijackV453M14)){
+   const request=u.pendingSylasHijackV453M14;u.pendingSylasHijackV453M14=null;
+   const target=this.units.find(v=>v.id===request.targetId&&v.team!==u.team&&v.hp>0);
+   if(!u.hp||!target||!this.visible(u.team,target)||
+    this.mapDistance(u,target)>950||!this.sameCombatRealmV453Dev69(u,target))continue;
+   const rule=BOARD_KITS_V453_DEV69[target.champ]?.R;
+   if(!rule||rule.passiveOnly)continue;
+   const spent=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+    targetId:target.id,costOverride:75,cooldownOverride:request.cd,
+    rangeOverride:950,source:'sylas_hijack'});
+   if(!spent.ok)continue;
+   u.sylasStolenV453M14={sourceChamp:target.champ,
+    stolenAt:this.gameTime,expiresAt:this.gameTime+90};
+   this.event('Sylas roubou ultimate de '+target.champ+'.',u.team,
+    'skill_hijack',u.id);
+  }
+ }
  // V4.2: skill location input is an intent, never an instant long-distance hit.
  queueKitSkillV42(team,unitId,slot,point){
   // Jinx W / Ahri E must use their true temporal projectile engine; never
@@ -3366,7 +3407,7 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const bu=this.units.find(v=>v.team===team&&v.id===unitId);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -3498,7 +3539,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const bu=this.units.find(v=>v.id===unitId&&v.team===team);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
@@ -4552,7 +4593,7 @@ export class Arena {
  // Currently Nami W is implemented; unsupported abilities fail instead of inventing effects.
  queueTargetedSkill(team,unitId,slot,targetId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),target=this.units.find(v=>v.id===targetId);
-  if(u&&(BOARD_KITS_V453_DEV69[u.champ]||FORM_KITS_V453_M14[u.champ]))return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
+  if(u&&(BOARD_KITS_V453_DEV69[u.champ]||FORM_KITS_V453_M14[u.champ]||(u.champ==='Sylas'&&u.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
   if(!u||!target||u.hp<=0||target.hp<=0||this.teams[team].ready||this.ended||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Campeão ou fase indisponível.'};
   if(u.champ!=='Nami'||!['W','E'].includes(slot))return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
   if(slot==='E'&&target.team!==team)return {ok:false,reason:'E_requer_aliado'};
@@ -7770,7 +7811,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    u.pendingKitCastV42={slot,point:best.point,issuedAt:this.gameTime,castPath:[],autoWaveV451:true};
   }
  }
- resolveCombat(){this.autoWaveSkillV451();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
+ resolveCombat(){this.autoWaveSkillV451();this.resolveSylasHijacksV453M14();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
   for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||
     u.boardChannelUntilV453Dev69>this.gameTime||(u.stunUntil||0)>this.gameTime||
     (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
