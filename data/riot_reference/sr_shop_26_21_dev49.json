@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 102,
-    "referenceOnly": 100,
-    "localCatalog": 105
+    "normalPlayable": 104,
+    "referenceOnly": 98,
+    "localCatalog": 107
   },
   "rows": {
     "1001": {
@@ -717,11 +717,11 @@
         "Lane"
       ],
       "tier": "starter",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "cull",
       "passiveOrActiveDescription": "<mainText><stats><attention>7</attention> de Dano de Ataque</stats><br><br><passive>Ceifar</passive><br>Restaura <healing>3 de Vida</healing><OnHit>ao contato</OnHit>.<br>Abater uma tropa concede <gold>1 de ouro</gold>, até um máximo de <gold>100</gold>. Atingir o limite concede mais <gold>350 de ouro</gold>.<br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "reap",
+      "recipeVerified": true
     },
     "1086": {
       "id": "1086",
@@ -1783,11 +1783,11 @@
         "ArmorPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "lord_dominiks_regards",
       "passiveOrActiveDescription": "<mainText><stats><attention>35</attention> de Dano de Ataque<br><attention>35%</attention> de Penetração de Armadura<br><attention>25%</attention> de Chance de Acerto Crítico</stats><br><br><passive>Mata-Gigantes</passive><br>Causa até 15% de dano adicional a Campeões com base na Vida adicional deles. Adicional de dano máximo atingido com 1500 de Vida adicional.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "giant_slayer",
+      "recipeVerified": true
     },
     "3041": {
       "id": "3041",
