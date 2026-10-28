@@ -101,6 +101,18 @@ for(const team of ['blue','red']){
   assert.ok(w.ok);assert.equal(i.u.mana,430);
   assert.equal(i.u.ireliaDanceV453Dev69M7.releaseAt,i.a.gameTime+1.5);
  });
+ const stanceOrigin={x:i.u.x,y:i.u.y};
+ const moveTo={x:i.u.x+.012,y:i.u.y};
+ const attempted=i.a.moveAlong(i.u,{path:[moveTo],point:moveTo},200);
+ test(team+' Irelia W real channel blocks path movement before release',()=>{
+  assert.equal(attempted,0);
+  assert.deepEqual({x:i.u.x,y:i.u.y},stanceOrigin);
+ });
+ i.u.autoAttack=true;i.u.policy='aggressive';
+ i.v.x=i.u.x+.005;i.v.y=i.u.y;
+ const untouched=i.v.hp;
+ i.a.resolveCombat();
+ test(team+' Irelia W prevents automatic basic attack during charge',()=>assert.equal(i.v.hp,untouched));
  const hp=i.u.hp;
  i.a.damage(i.u,100,i.v,'physical','spell');
  test(team+' Irelia W mitigates actual incoming physical damage while charging',()=>assert.ok(i.u.hp>hp-100));
@@ -196,6 +208,24 @@ test('mixed PvP Ezreal E detonates own W after Irelia R, with no enemy cross-con
  assert.ok(nami.hp<beforeFlux);
  assert.equal(nami.ezrealFluxV453Dev69M7,null);
  assert.equal(vex.namiTidecallerV453Dev69M1.charges,2);
+});
+const preNamiVex=ahri.hp,preCharges=vex.namiTidecallerV453Dev69M1.charges;
+combined.damage(ahri,90,vex,'magic','spell');
+test('same-match Nami E empowers allied Vex spell without touching enemy mana',()=>{
+ assert.ok(ahri.hp<preNamiVex-90);
+ assert.equal(vex.namiTidecallerV453Dev69M1.charges,preCharges-1);
+ assert.equal(nami.mana,445);
+});
+combined.damage(ahri,40,vex,'magic','spell');
+test('Nami E does not consume multiple charges from one same-instant area spell',()=>{
+ assert.equal(vex.namiTidecallerV453Dev69M1.charges,preCharges-1);
+});
+const beforeNext=ahri.hp;
+combined.gameTime+=1;
+combined.damage(ahri,40,vex,'magic','spell');
+test('next temporal spell consumes final Nami E charge and clears serializable buff',()=>{
+ assert.ok(ahri.hp<beforeNext-40);
+ assert.equal(vex.namiTidecallerV453Dev69M1,null);
 });
 const mixedCopy=Arena.fromSnapshotV40(map,mask,combined.snapshotV40());
 test('mixed seven-champion interaction state round-trips in a single PvP checkpoint',()=>{
