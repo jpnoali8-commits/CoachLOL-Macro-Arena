@@ -25,10 +25,10 @@ test('registry holds 10 individual source records, not generic class defaults',(
  assert.equal(championLevelStatsV453Dev69M1('NoSuchChampion',18),null);
 });
 for(const champ of champions){
- const a=prepared(champ).a,u=a.units.find(v=>v.id==='blue_MID');
+ const a=new Arena(map,mask,{seed:6920,roundSeconds:10,draft:{blue:{MID:champ}}}),u=a.units.find(v=>v.id==='blue_MID');
  const lvl1=championLevelStatsV453Dev69M1(champ,1),lvl18=championLevelStatsV453Dev69M1(champ,18);
  test(champ+' base stats are source-specific and world AA range matches meters',()=>{
-  for(const [k,got] of [['hp',u.maxHp],['mana',champ==='Vex'||champ==='Nami'?u.maxMana:championLevelStatsV453Dev69M1(champ,1).mana],['ad',u.ad],['armor',u.armor],['mr',u.mr],['hpRegen',u.hpRegen],['manaRegen',u.manaRegen]])
+  for(const [k,got] of [['hp',u.maxHp],['mana',u.maxMana],['ad',u.ad],['armor',u.armor],['mr',u.mr],['hpRegen',u.hpRegen],['manaRegen',u.manaRegen]])
    assert.ok(Math.abs(lvl1[k]-got)<1e-8,k+' '+got+' expected '+lvl1[k]);
   assert.equal(Math.round(u.range*15000),lvl1.attackRange);
   assert.equal(u.moveSpeed,lvl1.moveSpeed);
