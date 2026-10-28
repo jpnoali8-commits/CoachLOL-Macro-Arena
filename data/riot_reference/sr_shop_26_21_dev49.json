@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 182,
-    "referenceOnly": 20,
-    "localCatalog": 185
+    "normalPlayable": 202,
+    "referenceOnly": 0,
+    "localCatalog": 204
   },
   "rows": {
     "1001": {
@@ -1040,11 +1040,11 @@
         "Tenacity"
       ],
       "tier": "basic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "elixir_of_iron",
       "passiveOrActiveDescription": "<mainText><stats></stats><br><br><active>Consumir</active><br>Concede <scaleHealth>300 de Vida</scaleHealth>, 25% de Tenacidade e aumenta o tamanho por 3min. Enquanto ativo, você deixa um rastro atrás de você que aumenta em <speed>15% a Velocidade de Movimento</speed> dos Campeões aliados.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.elixir_of_iron",
+      "recipeVerified": true
     },
     "2139": {
       "id": "2139",
@@ -1060,11 +1060,11 @@
         "SpellDamage"
       ],
       "tier": "basic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "elixir_of_sorcery",
       "passiveOrActiveDescription": "<mainText><stats></stats><br><br><active>Consumir</active><br>Concede <scaleAP>50 de Poder de Habilidade</scaleAP> e <scaleMana>15% de Regeneração de Mana</scaleMana> por 3min. Enquanto ativo, causar dano a um Campeão ou torre causa <trueDamage>25 de Dano Verdadeiro</trueDamage> adicional (5s contra Campeões).</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.elixir_of_sorcery",
+      "recipeVerified": true
     },
     "2140": {
       "id": "2140",
@@ -1081,11 +1081,11 @@
         "SpellVamp"
       ],
       "tier": "basic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "elixir_of_wrath",
       "passiveOrActiveDescription": "<mainText><stats></stats><br><br><active>Consumir</active><br>Concede <scaleAD>30 de Dano de Ataque</scaleAD> e <lifeSteal>12% de Vampirismo Físico</lifeSteal> contra Campeões por 3min.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.elixir_of_wrath",
+      "recipeVerified": true
     },
     "2420": {
       "id": "2420",
@@ -1129,11 +1129,11 @@
       "icon": "2421.png",
       "tags": [],
       "tier": "epic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "shattered_armguard",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Poder de Habilidade<br><attention>25</attention> de Armadura</stats><br><br><passive>Tempo Estilhaçado</passive><br>A Armaguarda está quebrada, mas ainda pode ser aprimorada.<br><br><rules>Após quebrar uma Armaguarda, a loja venderá apenas <rarityGeneric>Armaguarda Despedaçada</rarityGeneric>.</rules><br><br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.shattered_armguard",
+      "recipeVerified": true
     },
     "2501": {
       "id": "2501",
@@ -1323,11 +1323,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "endless_hunger",
       "passiveOrActiveDescription": "<mainText><stats><attention>65</attention> de Dano de Ataque<br><attention>5%</attention> de Vampirismo Universal<br><attention>20%</attention> de Tenacidade</stats><br><br><passive>Fome</passive><br>Recebe Aceleração de Habilidade com base no seu DdA adicional.<br><br><passive>Banquete</passive><br>Quando um Campeão a quem você causou dano recentemente é abatido, recebe Vampirismo Universal por um período moderado. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.endless_hunger",
+      "recipeVerified": true
     },
     "2520": {
       "id": "2520",
@@ -1346,11 +1346,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "bastionbreaker",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>18</attention> de Letalidade<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Investida Esculpida</passive> (0s)<br>Causar dano de habilidade a um Campeão ou monstro épico causa <trueDamage>0 de Dano Verdadeiro</trueDamage> adicional.<br><br><passive>Sabotagem</passive><br>Eliminar um Campeão até 3s após você causar dano a ele concede Sabotagem por 25000s. Enquanto você tiver Sabotagem, seu próximo ataque contra um monstro épico ou torre causará <trueDamage>0 de Dano Verdadeiro</trueDamage> adicional ao longo de 3s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.bastionbreaker",
+      "recipeVerified": true
     },
     "2522": {
       "id": "2522",
@@ -1369,11 +1369,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "actualizer",
       "passiveOrActiveDescription": "<mainText><stats><attention>90</attention> de Poder de Habilidade<br><attention>300</attention> de Mana<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><active>Mana Concretizado</active> (0s)<br>Por 8s, seu Mana é Fortalecido. Enquanto Fortalecido, suas habilidades custam 100% de Mana a mais, você recebe 0 de dano de habilidade, Escudo e cura aumentados e os Tempos de Recarga das habilidades básicas avançam 30% mais rápido.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.actualizer",
+      "recipeVerified": true
     },
     "2523": {
       "id": "2523",
@@ -1443,11 +1443,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "protoplasm_harness",
       "passiveOrActiveDescription": "<mainText><stats><attention>600</attention> de Vida<br><attention>20</attention> de Aceleração de Habilidade</stats><br><br><passive>Salva-Vidas</passive> (0s)<br>Ao sofrer dano suficiente para reduzir sua Vida a menos de 30%, você recebe <health>0 de Vida máxima</health> por 5s, depois cura <health>0 de Vida</health> ao longo da duração. Enquanto regenera Vida, você recebe 15% de aumento de Tamanho, 10% de Velocidade de Movimento e 25% de Tenacidade. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.protoplasm_harness",
+      "recipeVerified": true
     },
     "2526": {
       "id": "2526",
@@ -1469,11 +1469,11 @@
         "ManaRegen"
       ],
       "tier": "epic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "whispering_circlet",
       "passiveOrActiveDescription": "<mainText><stats><attention>200</attention> de Vida<br><attention>8%</attention> de Cura e Resistência do Escudo<br><attention>75%</attention> de Regeneração de Mana base<br><attention>300</attention> de Mana</stats><br><br><passive>Harmonia</passive><br>Recebe 0% de Potência de Escudo e Cura.<br><br><passive>Fluxo de Mana</passive> (8s, máx. de 5 cargas)<br>Acertar Habilidades concede <scaleMana>4 de Mana</scaleMana> máximo (dobrado contra Campeões).<br>Transforma-se em <rarityLegendary>Diadema de Canções</rarityLegendary> com <scaleMana>360 de Mana máximo</scaleMana>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.whispering_circlet",
+      "recipeVerified": true
     },
     "3003": {
       "id": "3003",
@@ -1568,11 +1568,11 @@
         "Boots"
       ],
       "tier": "epic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "voracious_greaves",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Velocidade de Movimento<br><attention>4%</attention> de Vampirismo Universal</stats><br><br><passive>Eliminar</passive><br>Recebe 0.6% de Vampirismo Universal ao eliminar um Campeão. Acumula até 10 vezes.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.voracious_greaves",
+      "recipeVerified": true
     },
     "3009": {
       "id": "3009",
@@ -3332,11 +3332,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hextech_rocketbelt",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>350</attention> de Vida<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><active>Supersônico</active><br>Avança na direção-alvo, disparando projéteis que causam <magicDamage>Dano Mágico</magicDamage>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.hextech_rocketbelt",
+      "recipeVerified": true
     },
     "3153": {
       "id": "3153",
@@ -3526,11 +3526,11 @@
         "Boots"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "immortal_journey",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Velocidade de Movimento<br><attention>4%</attention> de Vampirismo Universal</stats><br><br><passive>Eliminar</passive><br>Recebe 0.6% de Vampirismo Universal ao eliminar um Campeão. Acumula até 10 vezes.<br><br><passive>Hoje e Sempre</passive><br>Enquanto está com mais da metade da Vida, causa 4% de dano aumentado. <br><br>Enquanto está com menos da metade da Vida, recebe mais 12% de cura, Escudo e Regeneração.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.immortal_journey",
+      "recipeVerified": true
     },
     "3170": {
       "id": "3170",
@@ -3546,11 +3546,11 @@
         "Boots"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "swift_march",
       "passiveOrActiveDescription": "<mainText><stats><attention>65</attention> de Velocidade de Movimento</stats><br><br><passive>Pés Velozes</passive><br>Reduz a eficácia dos efeitos de <keyword>Lentidão</keyword> em 25%.<br><br><passive>Fervor Noxiano</passive><br>Recebe 5% da sua <speed>Velocidade de Movimento</speed> como Força Adaptativa.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.swift_march",
+      "recipeVerified": true
     },
     "3171": {
       "id": "3171",
@@ -3567,11 +3567,11 @@
         "Boots"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "scarlet_lucidity",
       "passiveOrActiveDescription": "<mainText><stats><attention>20</attention> de Aceleração de Habilidade<br><attention>45</attention> de Velocidade de Movimento</stats><br><br><passive>Perspicácia Ioniana</passive><br>Recebe 20 de Aceleração de Feitiço de Invocador.<br><br><passive>Aceleração Noxiana</passive><br>Fortalecer ou proteger aliados com Habilidades, causar dano a Campeões inimigos com Habilidades ou conjurar um Feitiço de Invocador concede <speed>0 de Velocidade de Movimento</speed> por 4s.<br><br><rules>Aceleração Noxiana só pode ser acionada uma vez por conjuração de Habilidade.</rules></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.scarlet_lucidity",
+      "recipeVerified": true
     },
     "3172": {
       "id": "3172",
@@ -3589,11 +3589,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "war_greaves",
       "passiveOrActiveDescription": "<mainText><stats><attention>45%</attention> de Velocidade de Ataque<br><attention>45</attention> de Velocidade de Movimento<br><attention>5%</attention> de Roubo de Vida</stats><br><br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.war_greaves",
+      "recipeVerified": true
     },
     "3173": {
       "id": "3173",
@@ -3612,11 +3612,11 @@
         "MagicResist"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "chained_crushers",
       "passiveOrActiveDescription": "<mainText><stats><attention>25</attention> de Resistência Mágica<br><attention>45</attention> de Velocidade de Movimento<br><attention>30%</attention> de Tenacidade</stats><br><br><passive>Persistência Noxiana</passive> (0s)<br>Depois de sofrer Dano Mágico de um Campeão, recebe <shield>0</shield> de <shield>Escudo</shield> contra <magicDamage>Dano Mágico</magicDamage> por 5s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.chained_crushers",
+      "recipeVerified": true
     },
     "3174": {
       "id": "3174",
@@ -3633,11 +3633,11 @@
         "Boots"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "armored_mobilization",
       "passiveOrActiveDescription": "<mainText><stats><attention>35</attention> de Armadura<br><attention>45</attention> de Velocidade de Movimento</stats><br><br><passive>Barricada</passive><br>Reduz o dano sofrido de Ataques em 10%.<br><br><passive>Vigor Noxiano</passive> (0s)<br>Depois de sofrer Dano Físico de um Campeão, recebe <shield>0</shield> de <shield>Escudo</shield> contra <physicalDamage>Dano Físico</physicalDamage> por 5s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.armored_mobilization",
+      "recipeVerified": true
     },
     "3175": {
       "id": "3175",
@@ -3654,11 +3654,11 @@
         "MagicPenetration"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "enchanted_footwear",
       "passiveOrActiveDescription": "<mainText><stats><attention>20</attention> de Penetração Mágica<br><attention>8%</attention> de Penetração Mágica<br><attention>45</attention> de Velocidade de Movimento</stats><br><br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.enchanted_footwear",
+      "recipeVerified": true
     },
     "3179": {
       "id": "3179",
@@ -3679,11 +3679,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "umbral_glaive",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Dano de Ataque<br><attention>18</attention> de Letalidade<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Predador Noturno</passive><br>Após ficar oculto para inimigos por um breve período, seu próximo Ataque contra um Campeão causa <trueDamage>Dano Verdadeiro</trueDamage> adicional.<br><br><passive>Blecaute</passive><br>Quando você estiver perto de armadilhas ou Sentinelas Invisíveis inimigas, elas serão reveladas por um breve período. Ao revelar sentinelas, seus Ataques causam dano adicional a elas.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.umbral_glaive",
+      "recipeVerified": true
     },
     "3181": {
       "id": "3181",
@@ -3874,11 +3874,11 @@
         "Vision"
       ],
       "tier": "basic",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "trinket_farsight",
       "passiveOrActiveDescription": "<mainText><stats></stats><br><br><active>Ativo</active> (<scaleLevel>198s - 99s</scaleLevel>)<br>Revela uma área distante por 2s e deixa uma Sentinela que expira ao avistar um Campeão inimigo.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "dev69.items.b7.farsight",
+      "recipeVerified": true
     },
     "3364": {
       "id": "3364",
