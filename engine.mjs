@@ -429,7 +429,7 @@ export const CHAMPION_SPELL_RULES_V382=Object.freeze({
 // Each partial kit can mix audited abilities and explicitly flagged training fallbacks.
 export const KIT_PATCH_V42='26.21';
 export const CHAMPION_KITS_V42=Object.freeze({
- Nami:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'surging_tides',status:'planned'},spells:Object.freeze({
+ Nami:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'surging_tides',status:'partial_r_only'},spells:Object.freeze({
   Q:{name:'Aqua Prison',kind:'ground_circle',range:850,radius:225,mana:[60],cooldown:[12,11,10,9,8],damage:[90,145,200,255,310],apRatio:.50,cc:'suspension',ccSeconds:1.5,effect:'aqua_prison',implemented:'prototype'},
   W:{name:'Ebb and Flow',kind:'unit_target',range:725,bounceRange:800,mana:[70,75,80,85,90],cooldown:[10],effect:'ebb_flow',implemented:'legacy_adapter'},
   E:{name:'Tidecallers Blessing',kind:'ally_target',implemented:'planned'},
@@ -2474,6 +2474,29 @@ export class Arena {
   if(!u||u.champ!=='Vex'||u.hp<=0||!mark||mark.until<=now||!t)
    return {ok:false,reason:'recast_sem_marca'};
   if(u.vexDashV453Dev69)return {ok:false,reason:'recast_duplicado'};
+ // Batch 2: Nami's R applies normal Surging Tides to herself on cast and
+ // its empowered version to allied champions when the travelling wave reaches them.
+ // Store per-unit temporary values; never mutate permanent item/rune move-speed stats.
+ grantNamiSurgingV453Dev69B2(source,ally,{empowered=false,power=null}={}){
+  if(source?.champ!=='Nami'||!ally?.champ||ally.hp<=0||source.team!==ally.team)return {ok:false,reason:'aliado_inválido'};
+  const key=empowered?'empowered':'normal',now=this.gameTime;
+  const base=empowered?200:100,ratio=empowered?.50:.25;
+  const speed=Number.isFinite(power)?Math.max(0,power):base+ratio*this.elementalStatsV452d3(source).ap;
+  ally.namiSurgingV453Dev69B2??={};
+  ally.namiSurgingV453Dev69B2[key]={sourceId:source.id,startedAt:now,until:now+1.5,power:speed};
+  return {ok:true,until:now+1.5,power:speed,empowered};
+ }
+ namiSurgingSpeedV453Dev69B2(u){
+  const now=this.gameTime,state=u?.namiSurgingV453Dev69B2;
+  // Empowered Tidal Wave takes precedence; an ongoing normal buff resumes
+  // only if it has not already expired. All decay uses simulated time.
+  for(const key of ['empowered','normal']){
+   const buff=state?.[key];
+   if(buff&&Number.isFinite(buff.power)&&buff.until>now&&buff.startedAt<=now)
+    return Math.max(0,buff.power*Math.min(1,(buff.until-now)/1.5));
+  }
+  return 0;
+ }
   const fx=this.effectResolverV41();
   if((u.rootUntil||0)>now||(u.groundedUntil||0)>now||fx.has(u,'root')||fx.has(u,'grounded')||
      (u.stasisUntil||0)>now||!fx.canAct(u,'skill').ok)
@@ -2498,7 +2521,20 @@ export class Arena {
    const dash=u.vexDashV453Dev69;
    if(!dash)continue;
    const t=this.units.find(v=>v.id===dash.targetId&&v.team!==u.team&&v.hp>0);
-   if(u.hp<=0||!t){u.vexDashV453Dev69=null;continue;}
+   // Do not cancel a dash just because root/grounded/ordinary stun started
+   // AFTER takeoff. Airborne displacement, suppression, stasis or death
+   // interrupt it; no second activation or damage at a cancelled arrival.
+   const fx=this.effectResolverV41();
+   const interrupted=u.hp<=0?'caster_morto':!t?'alvo_morto':
+    ((u.stasisUntil||0)>now||fx.has(u,'stasis'))?'stasis':
+    (fx.has(u,'knockup')||fx.has(u,'suppression'))?'deslocamento_interrompido':null;
+   if(interrupted){
+    u.vexDashV453Dev69=null;
+    u.vexDashLastInterruptV453Dev69B2={at:now,reason:interrupted};
+    this.event('Vex R2 interrompida: '+interrupted,u.team,'skill_vfx',u.id,{
+     observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))});
+    continue;
+   }
    const elapsed=Math.max(0,now-(dash.lastAt??dash.startedAt));
    if(elapsed<=0)continue;
    dash.lastAt=now;
@@ -3857,7 +3893,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat,(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5082,12 +5118,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    costOverride:rule.mana[Math.min(rank-1,rule.mana.length-1)],
    cooldownOverride:this.abilityCooldownV452d3(u,'R'),checkRange:false});
   if(!commit.ok)return commit;
+  if(u.champ==='Nami')this.grantNamiSurgingV453Dev69B2(u,u);
   const speed=u.champ==='Nami'?850:1600;
   const p={id:u.champ.toLowerCase()+'_r_'+(++this.championProjectileSeqV453Dev42),
    kind:u.champ.toLowerCase()+'_r',ownerId:u.id,team:u.team,origin,
    unit:{x:dx/magnitude,y:dy/magnitude},range,width:rule.width,speed,
    raw:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
-   hitIds:[],createdAt:this.gameTime,dueAt:this.gameTime+range/speed,
+   hitIds:[],allyIds:[],surgingPower:u.champ==='Nami'?200+.50*this.elementalStatsV452d3(u).ap:0,
+   createdAt:this.gameTime,dueAt:this.gameTime+range/speed,
    traveledV453Dev43:0,riftRevision:this.riftV452d4?.revision??0};
   this.championProjectilesV453Dev42.push(p);
   this.event(u.champ+' lançou sua ultimate direcional.',u.team,'champion_projectile_launch_v453_dev69',u.id,{
@@ -5142,6 +5180,21 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     // Sweep only the untraversed segment, one hit per physical unit ID.
     const cutoff=barrierDepth;
     let reason=null,lastDepth=to;
+    if(p.kind==='nami_r'){
+     // Ally buff uses the same swept segment and positional blocker cutoff as
+     // the damage wave. Never choose targets based on enemy fog/intents.
+     p.allyIds??=[];
+     const allies=this.units.filter(v=>v.team===p.team&&v.hp>0&&v.champ&&v.id!==p.ownerId)
+      .map(v=>{const x=(v.x-origin.x)*this.worldWidth,y=(v.y-origin.y)*this.worldHeight;
+       return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};})
+      .filter(h=>h.depth>=from-1e-7&&h.depth<=to+1e-7&&h.depth<cutoff-1e-7&&h.side<=p.width/2)
+      .sort((a,b)=>a.depth-b.depth||a.v.id.localeCompare(b.v.id));
+     for(const {v} of allies){
+      if(p.allyIds.includes(v.id))continue;
+      p.allyIds.push(v.id);
+      this.grantNamiSurgingV453Dev69B2(owner,v,{empowered:true,power:p.surgingPower});
+     }
+    }
     for(const {v,depth} of line){
      if(depth>=cutoff-1e-7)break;
      if(p.hitIds.includes(v.id))continue;
