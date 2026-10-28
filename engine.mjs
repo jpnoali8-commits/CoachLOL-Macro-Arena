@@ -2651,7 +2651,10 @@ export class Arena {
     if(zone.detonate||(zone.autoWaveV451&&this.gameTime>=zone.placedAt+2)||this.gameTime>=zone.expiresAt){
      const rule=kitSpellV42('Lux','E'),rank=Math.max(1,u.skillRanks.E);
      const hits=areaHitsV42(zone.point,[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&(v.spawnAt===undefined||v.spawnAt<=this.gameTime)),rule.radius,this.worldWidth,this.worldHeight);
-     for(const victim of hits)this.damage(victim,rule.damage[Math.min(rank-1,4)]+this.elementalStatsV452d3(u).ap*rule.apRatio,u,'magic','spell');
+     for(const victim of hits){
+      const dealt=this.damage(victim,rule.damage[Math.min(rank-1,4)]+this.elementalStatsV452d3(u).ap*rule.apRatio,u,'magic','spell');
+      if(dealt>0&&victim.champ)this.luxMarkIlluminationV453Dev69M2(u,victim);
+     }
      this.event(`${u.champ}: E detonada (${hits.length} alvo(s)).`,u.team,'skill_vfx',u.id,
       {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,zone.point)),vfx:{type:'lucent_singularity_explode',at:zone.point,radius:rule.radius,expiresAt:this.gameTime+1}});
      u.luxZoneV42=null;
@@ -2721,6 +2724,18 @@ export class Arena {
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
+ }
+ // M2 Lux Illumination: source-owned mark, never shared across Lux players.
+ luxMarkIlluminationV453Dev69M2(u,v){
+  if(u?.champ!=='Lux'||!v?.champ||v.hp<=0||u.team===v.team)return false;
+  v.luxIlluminationV453Dev69M2={ownerId:u.id,until:this.gameTime+6};return true;
+ }
+ luxConsumeIlluminationV453Dev69M2(u,v){
+  const mark=v?.luxIlluminationV453Dev69M2;
+  if(u?.champ!=='Lux'||!mark||mark.ownerId!==u.id||mark.until<=this.gameTime||v.hp<=0)return 0;
+  v.luxIlluminationV453Dev69M2=null; // clear before any damage/death recursion
+  return this.damage(v,30+10*Math.max(1,u.level)+.20*this.elementalStatsV452d3(u).ap,
+   u,'magic','lux_illumination_v453_dev69_m2');
  }
  // Dev69 M2: directed skillshots for Ahri Q/E, Jinx W and Lux W.
  // Spells commit cost and cooldown at launch, never when an intention is queued.
@@ -3001,7 +3016,11 @@ export class Arena {
     if(gate.rule.projectile&&hit.target.projectileGuardUntil>this.gameTime)continue;
     const spec=kitSpellV42(u.champ,'R');const amount=spec?.damage?.[Math.min(rank-1,spec.damage.length-1)]+this.elementalStatsV452d3(u).ap*(spec?.apRatio||0)||75+50*(rank-1)+this.elementalStatsV452d3(u).ap*.20;
     const shielded=this.effectResolverV41().has(hit.target,'spell_shield');
-    this.damage(hit.target,amount,u,'magic','spell');
+    const dealt=this.damage(hit.target,amount,u,'magic','spell');
+    if(dealt>0&&u.champ==='Lux'&&hit.target.champ){
+     this.luxConsumeIlluminationV453Dev69M2(u,hit.target);
+     this.luxMarkIlluminationV453Dev69M2(u,hit.target);
+    }
     if(!shielded&&u.champ==='Nami'){this.applyCC(u,hit.target,'knockup',.5);this.effectResolverV41().apply(hit.target,'slow',{source:u,duration:2.5,power:.70,key:'nami_r_'+u.id});}
     if(!shielded&&u.champ==='Vex'){u.vexMark={targetId:hit.target.id,until:this.gameTime+4};}
    }
@@ -5463,6 +5482,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   const dealt=this.damage(target,amount,attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
   if(basic&&landed){
    if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
+   if(target.hp>0&&attacker.champ==='Lux')this.luxConsumeIlluminationV453Dev69M2(attacker,target);
    // A shield absorbing the full AA and even a lethal primary AA consume a
    // prepared shot. Immune/blocked attacks do not consume OR generate stacks.
    if(energized){
@@ -5747,7 +5767,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      lastDepth=depth;
      if((v.projectileGuardUntil||0)>now){reason='bloqueio_projétil';break;}
      const shielded=this.effectResolverV41().has(v,'spell_shield');
-     this.damage(v,p.raw,owner,'magic','spell');
+     const hit=this.damage(v,p.raw,owner,'magic','spell');
+     if(hit>0&&v.champ)this.luxMarkIlluminationV453Dev69M2(owner,v);
      if(v.champ&&!shielded&&v.hp>0)this.applyEffectV41(v,'root',{
       source:owner,duration:p.rootSeconds,key:'lux_q_'+p.id});
      p.hitIds??=[];p.hitIds.push(v.id);lastHit=v.id;
