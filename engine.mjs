@@ -329,6 +329,7 @@ export const catalog=[
 {id:'armored_mobilization',name:"Mobilização Blindada",cost:1200,stats:{"speed":45,"armor":35},tags:["move","boots","unique","noxian"],icon:'✦',riotId:3174},
 {id:'enchanted_footwear',name:"Sapatos Enfeitiçados",cost:1100,stats:{"speed":45,"magicPenFlat":20,"magicPenPercent":8},tags:["move","boots","unique","noxian"],icon:'✦',riotId:3175},
 {id:'umbral_glaive',name:"Glaive Sombria",cost:2800,stats:{"ad":60,"lethality":18,"abilityHaste":15},tags:["assassin","legendary","unique","vision"],icon:'✦',riotId:3179},
+{id:'diadem_of_songs',name:'Diadema de Canções',cost:2250,stats:{hp:200,mana:1000,manaRegenBasePct:100,healShieldPower:8},tags:['support','quest','unique'],notPurchasable:true,icon:'◈',riotId:2530},
 /* DEV30_OFFICIAL_ITEMS_START (generated only from authentic input) */
 /* DEV30_OFFICIAL_ITEMS_END */
 ];
@@ -3968,6 +3969,7 @@ export class Arena {
   if(item.tags.includes('trinket'))return {ok:false,reason:'Trinkets são trocados sem custo na fonte.'};
   if(item.tags.includes('elixir')&&u.level<9)return {ok:false,reason:'elixir_exige_nivel_9'};
   if(itemId==='seekers_armguard'&&u.b7ArmguardEverUsed)return {ok:false,reason:'armaguarda_gasta'};
+  if(itemId==='shattered_armguard'&&!u.b7ArmguardEverUsed)return {ok:false,reason:'armaguarda_gasta_precisa'};
   if(itemId==='shattered_armguard'&&!u.b7ArmguardEverUsed)return {ok:false,reason:'somente_apos_armaguarda_consumida'};
   if(item.tags.includes('elixir')&&u.items.some(id=>catalog.find(i=>i.id===id)?.tags.includes('elixir')))return {ok:false,reason:'elixir_exclusivo'};
   if(itemId==='ward'&&(u.controlWardStock||0)>=2)return {ok:false,reason:'Limite de duas pinks no inventário.'};
