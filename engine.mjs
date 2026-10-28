@@ -790,7 +790,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
  Ashe:{passive:'frost_shot',Q:BS('target_enemy',650,50,10,[35,55,75,95,115],{type:'physical',adRatio:.8}),
   W:BS('cone_enemy',1200,60,12,[60,95,130,165,200],{type:'physical',adRatio:1,cc:'slow',ccSeconds:2,ccPower:.4,arc:70}),
   E:BS('vision_point',25000,0,65,[],{radius:650,visionSeconds:4}),
-  R:BS('line_enemy',25000,100,[100,80,60],[200,400,600],{apRatio:1,cc:'stun',ccSeconds:2,width:250,maxHits:1})},
+  R:BS('line_enemy',25000,100,[100,80,60],[200,400,600],{apRatio:1,cc:'stun',ccSeconds:2,distanceStun:{min:1,max:3.5,at:2800},width:250,maxHits:1,impactSplash:{radius:250,slow:.35,duration:2}})},
  Soraka:{passive:'salvation',Q:BS('circle_enemy',800,45,8,[85,120,155,190,225],{apRatio:.35,cc:'slow',ccSeconds:1.5,ccPower:.3,radius:240,selfHeal:[30,45,60,75,90]}),
   W:BS('target_ally',550,40,6,[],{heal:[100,135,170,205,240],apRatio:.7}),
   E:BS('circle_enemy',925,70,20,[70,95,120,145,170],{apRatio:.4,cc:'silence',ccSeconds:1.5,radius:250}),
@@ -3127,8 +3127,23 @@ export class Arena {
     v.x=end.x;v.y=end.y;this.invalidateShopUndoOnDepartureV453Dev61(v);
     v.path=[];v.laneFollowPath=[];v.retreatPath=[];
    }
-   if(enemy&&s.cc&&!blocked&&v.hp>0)this.applyEffectV41(v,s.cc,{
-    source:u,duration:s.ccSeconds||1,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
+   if(enemy&&s.cc&&!blocked&&v.hp>0){
+    const scaled=s.distanceStun?Math.min(s.distanceStun.max,
+     s.distanceStun.min+(s.distanceStun.max-s.distanceStun.min)*
+      Math.min(1,this.mapDistance(u,v)/s.distanceStun.at)):s.ccSeconds||1;
+    this.applyEffectV41(v,s.cc,{
+     source:u,duration:scaled,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
+   }
+   if(enemy&&s.impactSplash&&v.champ){
+    const extra=enemyPool.filter(t=>t.id!==v.id&&t.hp>0&&
+     this.mapDistance(v,t)<=s.impactSplash.radius);
+    for(const splash of extra){
+     this.damage(splash,power(s.damage)*.5,u,'magic','spell');
+     if(splash.champ)this.applyEffectV41(splash,'slow',{source:u,
+      duration:s.impactSplash.duration,power:s.impactSplash.slow,
+      key:'board_splash_'+instance+'_'+splash.id});
+    }
+   }
    if(enemy&&annieReady&&v.champ&&!blocked&&v.hp>0)
     this.applyEffectV41(v,'stun',{source:u,duration:1.25,key:'annie_board_'+instance+'_'+v.id});
    if(!enemy){
@@ -4496,8 +4511,14 @@ export class Arena {
  resolveDelayedEffects(){
   const remaining=[];
   for(const effect of this.delayedEffects){
-   if(this.round<effect.dueRound||this.gameTime<effect.dueAt){remaining.push(effect);continue;}
    const source=this.units.find(v=>v.id===effect.owner);
+   if(effect.kind==='karthus_channel'&&(!source?.hp||
+    !this.effectResolverV41().canAct(source,'skill').ok)){
+    this.event('Réquiem interrompido por incapacitação.',effect.team,
+     'ultimate_cancel',effect.owner);
+    continue;
+   }
+   if(this.round<effect.dueRound||this.gameTime<effect.dueAt){remaining.push(effect);continue;}
    if(effect.kind==='zed_mark'){
     const target=this.units.find(v=>v.id===effect.targetId);
     if(target&&target.hp>0){if(target.stasisUntil>this.gameTime)this.event('Marca Fatal anulada por estase.',target.team,'stasis',target.id);
@@ -4507,14 +4528,40 @@ export class Arena {
     if(target?.hp>0)this.damage(target,effect.power,source,'true','dot');
     if(effect.ticksLeft>1){effect.ticksLeft--;effect.dueAt=this.gameTime+1;remaining.push(effect);}
    }else if(effect.kind==='karthus_channel'){
-    if(source?.hp>0){for(const enemy of this.units.filter(v=>v.team!==effect.team&&v.hp>0))this.damage(enemy,effect.power,source);
+    if(source?.hp>0){for(const enemy of this.units.filter(v=>v.team!==effect.team&&v.hp>0&&this.sameCombatRealmV453Dev69(source,v)))this.damage(enemy,effect.power,source,'magic','spell');
      this.event('Réquiem: canalização concluída.',effect.team,'ultimate',source.id);}
     else this.event('Réquiem interrompido.',effect.team,'ultimate',effect.owner);
    }else if(effect.kind==='global_projectile'){
     if(source&&effect.point){const dx=effect.point.x-effect.origin.x,dy=effect.point.y-effect.origin.y,len=Math.hypot(dx,dy)||1;
-     const targets=this.units.filter(v=>v.team!==effect.team&&v.hp>0).map(v=>({v,along:((v.x-effect.origin.x)*dx+(v.y-effect.origin.y)*dy)/len,side:Math.abs((v.x-effect.origin.x)*dy-(v.y-effect.origin.y)*dx)/len})).filter(o=>o.along>0&&o.side<.012&&o.along<len).sort((a,b)=>a.along-b.along);
+     const candidates=effect.champ==='Ezreal'?[...this.units,...this.minions]:this.units;
+     const targets=candidates.filter(v=>v.team!==effect.team&&v.hp>0&&
+      (v.spawnAt===undefined||v.spawnAt<=this.gameTime)&&
+      this.sameCombatRealmV453Dev69(source,v))
+      .map(v=>({v,along:((v.x-effect.origin.x)*dx+(v.y-effect.origin.y)*dy)/len,
+       side:Math.abs((v.x-effect.origin.x)*dy-(v.y-effect.origin.y)*dx)/len}))
+      .filter(o=>o.along>0&&o.side<.012&&o.along<len)
+      .sort((a,b)=>a.along-b.along||String(a.v.id).localeCompare(String(b.v.id)));
      const hits=effect.champ==='Ezreal'?targets:targets.slice(0,1);
-     for(const hit of hits)this.damage(hit.v,effect.power,source);
+     for(const hit of hits){
+      if(effect.champ==='Jinx'){
+       const travel=this.mapDistance(effect.origin,hit.v),
+        amp=1+Math.min(1,travel/1500),
+        missing=Math.max(0,hit.v.maxHp-hit.v.hp),
+        direct=effect.power*amp+missing*.25;
+       this.damage(hit.v,direct,source,'physical','spell');
+       for(const adjacent of [...this.units,...this.minions].filter(v=>v.hp>0&&
+        v.team!==effect.team&&v.id!==hit.v.id&&
+        this.sameCombatRealmV453Dev69(source,v)&&this.mapDistance(v,hit.v)<=250))
+        this.damage(adjacent,direct*.6+Math.max(0,adjacent.maxHp-adjacent.hp)*.2,
+         source,'physical','spell');
+      }else if(effect.champ==='Ashe'){
+       const impact=this.damage(hit.v,effect.power,source,'magic','spell');
+       if(impact>0&&hit.v.champ){
+        const duration=Math.min(3.5,1+this.mapDistance(effect.origin,hit.v)/2800*2.5);
+        this.applyEffectV41(hit.v,'stun',{source,duration,key:'ashe_r_global_'+effect.id});
+       }
+      }else this.damage(hit.v,effect.power*(hit.v.champ?1:.5),source,'magic','spell');
+     }
      this.event(effect.champ+' R: '+hits.length+' alvo(s) atingido(s) pela trajetória.',effect.team,'ultimate',effect.owner);
     }
    }
