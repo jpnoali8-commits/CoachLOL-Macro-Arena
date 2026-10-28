@@ -4336,12 +4336,16 @@ export class Arena {
  queueSpecialUltimate(team,unitId,targetId=null,point=null){
   const u=this.units.find(v=>v.team===team&&v.id===unitId);
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'Conjuração indisponível na fase atual.'};
-  if(!['Zed','Karthus','Soraka','Jinx','Ashe','Ezreal','KSante','Mordekaiser'].includes(u.champ))return {ok:false,reason:'Ultimate individual ainda não implementada.'};
+  if(!['Zed','Karthus','Soraka','Jinx','Ashe','Ezreal','KSante','Mordekaiser','Kalista'].includes(u.champ))return {ok:false,reason:'Ultimate individual ainda não implementada.'};
   if((u.skillRanks?.R||0)<1||u.level<6)return {ok:false,reason:'Ultimate exige nível 6 e ponto em R.'};
    if(u.champ==='Mordekaiser'&&this.realmContextV453Dev69)return {ok:false,reason:'reino_ja_ativo'};
   if((u.skillCds.R||0)>this.gameTime)return {ok:false,reason:'Ultimate em recarga.'};
   const cost=['Zed','Mordekaiser'].includes(u.champ)?0:100;
   if(u.mana<cost)return {ok:false,reason:'Mana insuficiente.'};
+  if(u.champ==='Kalista'){
+   const oath=this.units.find(v=>v.id===u.oathswornIdV453Dev69C&&v.team===team&&v.hp>0);
+   if(!oath||oath.id===u.id||this.mapDistance(u,oath)>1200)return {ok:false,reason:'juramentado_ausente_ou_distante'};
+  }
   if(['Zed','KSante','Mordekaiser'].includes(u.champ)){
    const target=this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0);
    const limit=u.champ==='KSante'?300:u.champ==='Mordekaiser'?650:625;
@@ -4349,6 +4353,42 @@ export class Arena {
   }
   if(['Jinx','Ashe','Ezreal'].includes(u.champ)&&(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||this.mapDistance(u,point)<1))return {ok:false,reason:'Selecione a direção no mapa.'};
   u.queuedUltimate={targetId,point:point?{x:point.x,y:point.y}:null};this.recordIntentV40(team,unitId,'ultimate',{targetId,point});return {ok:true};
+ }
+ queueKalistaLaunchV453M14(team,id,point){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Kalista'&&v.hp>0);
+  if(!u||this.teams[team]?.ready||!['planning','preparation'].includes(this.phase))
+   return {ok:false,reason:'kalista_lancamento_indisponivel'};
+  const bond=this.units.find(v=>v.id===u.oathswornIdV453Dev69C&&v.team===team&&v.hp>0);
+  if(!bond||(!u.queuedUltimate&&!u.fatesCallV453M14))
+   return {ok:false,reason:'juramentado_ou_R_invalido'};
+  if(!point||![point.x,point.y].every(Number.isFinite)||
+   !this.walkable(point.x,point.y)||this.mapDistance(u,point)>1200)
+   return {ok:false,reason:'destino_lancamento_invalido'};
+  if(u.fatesCallV453M14)u.fatesCallV453M14.launchPoint={...point};
+  else u.plannedFatesLaunchV453M14={...point};
+  this.recordIntentV40(team,id,'fates_call_launch',{point:{...point}});
+  return {ok:true};
+ }
+ advanceKalistaFatesV453M14(){
+  for(const u of this.units.filter(v=>v.champ==='Kalista'&&v.fatesCallV453M14)){
+   const call=u.fatesCallV453M14,ally=this.units.find(v=>v.id===call.allyId);
+   if(!ally||!ally.hp){u.fatesCallV453M14=null;continue;}
+   if(this.gameTime<call.startedAt+1)continue;
+   const planned=call.launchPoint;
+   if(!planned&&this.gameTime<call.until)continue;
+   const sign=u.team==='blue'?1:-1;
+   let landing=planned||{x:u.x+sign*900/this.worldWidth,y:u.y-sign*900/this.worldHeight};
+   if(!this.walkable(landing.x,landing.y))landing={x:u.x,y:u.y};
+   ally.x=landing.x;ally.y=landing.y;
+   ally.stasisUntil=0;ally.fatesHeldByV453M14=null;
+   const hits=this.units.filter(v=>v.hp>0&&v.team!==u.team&&
+    this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,ally)<=250);
+   for(const enemy of hits)this.applyEffectV41(enemy,'knockup',{
+    source:u,duration:1.25,key:'fates_call_'+u.id+'_'+enemy.id});
+   u.fatesCallV453M14=null;
+   this.event('Kalista R: Juramentado lançado ('+hits.length+' impacto(s)).',
+    u.team,'ultimate',u.id);
+  }
  }
  resolveSpecialUltimates(){
   for(const u of this.units){const q=u.queuedUltimate;if(!q)continue;
@@ -4362,11 +4402,23 @@ export class Arena {
     if(!this.duelPermission(u,target))continue;
    }
    u.queuedUltimate=null;const cost=['Zed','Mordekaiser'].includes(u.champ)?0:100;
-   const cds={Zed:120,Karthus:150,Soraka:150,Jinx:85,Ashe:100,Ezreal:120,KSante:120,Mordekaiser:120};
+   const cds={Zed:120,Karthus:150,Soraka:150,Jinx:85,Ashe:100,Ezreal:120,KSante:120,Mordekaiser:120,Kalista:[160,140,120][Math.min(2,Math.max(0,(u.skillRanks.R||1)-1))]};
    const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',targetId:['Zed','KSante','Mordekaiser'].includes(u.champ)?target?.id:null,
     costOverride:cost,cooldownOverride:hasteCooldown(cds[u.champ],this.elementalStatsV452d3(u).abilityHaste+(u.ultimateHaste||0)),source:'special_ultimate'});
    if(!cast.ok)continue;
    if(u.champ==='Mordekaiser'&&target){this.startRealmV453Dev69(u,target);continue;}
+   if(u.champ==='Kalista'){
+    const oath=this.units.find(v=>v.id===u.oathswornIdV453Dev69C&&v.hp>0&&v.team===u.team);
+    if(!oath||this.mapDistance(u,oath)>1200)continue;
+    u.fatesCallV453M14={allyId:oath.id,until:this.gameTime+4,
+     startedAt:this.gameTime,launchPoint:u.plannedFatesLaunchV453M14||null};
+    u.plannedFatesLaunchV453M14=null;
+    oath.fatesHeldByV453M14=u.id;
+    oath.stasisUntil=Math.max(oath.stasisUntil||0,this.gameTime+4);
+    oath.x=u.x;oath.y=u.y;
+    this.event('Kalista R: Juramentado resgatado.',u.team,'ultimate',u.id);
+    continue;
+   }
    if(u.champ==='KSante'&&target){
     const push=this.pushChampionThroughTerrain(u,target,750);
     this.attack(u,target,70+u.skillPower*.4+(push.crossedWall?85:0),'skill');
@@ -5373,7 +5425,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advanceRealmV453Dev69();this.advanceBoardPassivesV453Dev69();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.advanceRealmV453Dev69();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advanceRealmV453Dev69();this.advanceKalistaFatesV453M14();this.advanceBoardPassivesV453Dev69();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.advanceRealmV453Dev69();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
