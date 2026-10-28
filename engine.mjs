@@ -2786,12 +2786,16 @@ export class Arena {
  setPlan(team,unitId,steps,policy){
   const u=this.units.find(v=>v.id===unitId&&v.team===team);if(!u||this.teams[team].ready||this.ended||u.hp<=0)return {ok:false,reason:'Unidade indisponível'};
   if(!Array.isArray(steps)||!steps.length||steps.length>16)return {ok:false,reason:'Escolha de 1 a 16 etapas'};
+  if(this.realmOfV453Dev69(u)&&steps.some(step=>!['move','fight','defend','wait','gank','roam'].includes(step.action||'move')))
+   return {ok:false,reason:'reino_ordem_fora_do_duelo'};
   const legal=['move','farm','gank','fight','ward','jungle','objective','recall','wait','defend','roam','push'];
   let anchor={x:u.x,y:u.y}, normalized=[];
   for(const step of steps){
    if(!legal.includes(step.action||'move'))return {ok:false,reason:'Ação de etapa inválida'};
    if(!step.point||!Number.isFinite(step.point.x)||!Number.isFinite(step.point.y)||!this.walkable(step.point.x,step.point.y))return {ok:false,reason:'Ponto fora da malha navegável'};
    let path=this.findPath(anchor,step.point);if(!path)return {ok:false,reason:'Rota sem passagem entre etapas'};
+   if(!this.realmPathValidV453M14(u,anchor,[...path,step.point]))
+    return {ok:false,reason:'reino_caminho_fora_do_circulo'};
    if(step.targetId){let e=this.units.find(v=>v.id===step.targetId&&v.team!==team);if(e&&!this.visible(team,e))return {ok:false,reason:'Não é possível fixar inimigo oculto'};}
    if(step.targetId&&['jungle','objective'].includes(step.action)){const camp=this.camps.find(c=>c.id===step.targetId);if(!camp)return {ok:false,reason:'Acampamento escolhido não existe.'};if(dist(camp,step.point)>.065)return {ok:false,reason:'Ponto distante do monstro selecionado.'};}
    normalized.push({point:{x:step.point.x,y:step.point.y},action:step.action||'move',duration:clamp(Number(step.duration)||0,0,180),targetId:step.targetId||(step.action==='jungle'?(this.camps.filter(c=>c.x&&c.y&&dist(c,step.point)<.035).sort((a,b)=>dist(a,step.point)-dist(b,step.point))[0]?.id||null):null),path:path.map(p=>({...p})),startedAt:null});anchor=step.point;
@@ -2806,10 +2810,14 @@ export class Arena {
  setOrder(team,unitId,order){
   const u=this.units.find(v=>v.id===unitId&&v.team===team);if(!u||this.teams[team].ready||this.ended||u.hp<=0)return {ok:false,reason:'Unidade indisponível'};
   if(!order||typeof order.kind!=='string')return {ok:false,reason:'Ordem inválida'};
+  if(this.realmOfV453Dev69(u)&&['ward','recall','jungle','objective','farm','push','tp'].includes(order.kind))
+   return {ok:false,reason:'reino_ordem_fora_do_duelo'};
   if(order.targetId){const enemy=this.units.find(e=>e.id===order.targetId&&e.team!==team);
     const summon=this.boardSummonsV453Dev69?.find(s=>s.id===order.targetId&&s.team!==team&&s.hp>0);
     if(summon&&!this.canSeePoint(team,summon))return {ok:false,reason:'Invocacao oculta na fog'};
-    if(enemy&&!this.visible(team,enemy))return {ok:false,reason:'Alvo oculto na fog'};}
+    if(enemy&&!this.visible(team,enemy))return {ok:false,reason:'Alvo oculto na fog'};
+    if(enemy&&!this.sameCombatRealmV453Dev69(u,enemy))
+     return {ok:false,reason:'reino_alvo_fora_do_duelo'};}
   if(order.kind==='chase'&&!order.targetId)return {ok:false,reason:'Escolha um alvo para perseguir.'};
   if(order.kind==='attack'&&Array.isArray(order.combo)){
    if(order.combo.length>12||order.combo.some(slot=>!['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(slot)))return {ok:false,reason:'Combo inválido (máximo 12 etapas QWER e feitiços equipados).'};
@@ -2878,6 +2886,8 @@ export class Arena {
   const u=this.units.find(v=>v.team===team&&v.id===unitId);
   if(!u||u.hp<=0||this.ended)return {ok:false,reason:'Campeão indisponível.'};
   if(!destination||!Number.isFinite(destination.x)||!Number.isFinite(destination.y)||!this.walkable(destination.x,destination.y))return {ok:false,reason:'Ponto final bloqueado.'};
+  if(!this.realmValidV453Dev69(u,destination))
+   return {ok:false,reason:'reino_limite_ou_colisor'};
   if(u.stasisUntil>this.gameTime||u.rootUntil>this.gameTime||u.groundedUntil>this.gameTime)return {ok:false,reason:'Controle de grupo impede deslocamento.'};
   const variants={flash:{range:400,cd:300,key:'flashCd'},Ezreal:{type:'E',range:475,cost:70,cd:26,key:'E'},Tristana:{type:'W',range:900,cost:30,cd:22,key:'W'}};
   const cfg=type==='flash'?variants.flash:(u.champ==='Ezreal'&&type==='E'?variants.Ezreal:u.champ==='Tristana'&&type==='W'?variants.Tristana:null);
@@ -3021,6 +3031,8 @@ export class Arena {
   if(target&&target.team!==team&&(!this.visible(team,target)||!this.sameCombatRealmV453Dev69(u,target)))return {ok:false,reason:'alvo_oculto_ou_reino'};
   if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
   const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
+  if(this.realmOfV453Dev69(u)&&aimed&&point&&!this.realmValidV453Dev69(u,point))
+   return {ok:false,reason:'reino_alvo_fora_do_circulo'};
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
@@ -4548,6 +4560,21 @@ export class Arena {
  realmOfV453Dev69(u){return realmOf(this,u);}
  sameCombatRealmV453Dev69(a,b){return sameRealm(this,a,b);}
  realmValidV453Dev69(u,p){return validRealmPoint(this,u,p);}
+ realmPathValidV453M14(u,start,path){
+  if(!this.realmOfV453Dev69(u))return true;
+  let from=start;
+  for(const end of path){
+   if(!this.realmValidV453Dev69(u,end))return false;
+   const steps=Math.max(1,Math.ceil(this.mapDistance(from,end)/20));
+   for(let i=1;i<=steps;i++){
+    const point={x:from.x+(end.x-from.x)*i/steps,
+     y:from.y+(end.y-from.y)*i/steps};
+    if(!this.realmValidV453Dev69(u,point))return false;
+   }
+   from=end;
+  }
+  return true;
+ }
  startRealmV453Dev69(a,b){return startRealm(this,a,b);}
  endRealmV453Dev69(reason){return endRealm(this,reason);}
  advanceRealmV453Dev69(){return advanceRealm(this);}
@@ -4756,12 +4783,16 @@ export class Arena {
   if(['ignite','exhaust'].includes(type)&&target&&target.team===team)return {ok:false,reason:'Selecione um inimigo.'};
   if(type==='heal'&&target&&target.team!==team)return {ok:false,reason:'Curar exige aliado.'};
   if(target&&target.team!==team&&!this.visible(team,target))return {ok:false,reason:'Alvo não visível.'};
+  if(target&&!this.sameCombatRealmV453Dev69(u,target))
+   return {ok:false,reason:'alvo_em_outro_reino'};
+  if(type==='tp'&&this.realmOfV453Dev69(u))
+   return {ok:false,reason:'teleporte_incompativel_com_reino'};
   u.queuedSummoner={type,targetId};this.recordIntentV40(team,unitId,'summoner',{type,targetId});return {ok:true};
  }
  resolveSummonerCasts(){for(const u of this.units){const q=u.queuedSummoner;if(!q)continue;u.queuedSummoner=null;if(u.hp<=0)continue;const target=this.units.find(x=>x.id===q.targetId&&x.hp>0);const time=this.gameTime;
    // Resolve targets first so an invalid targeted spell does not consume its cooldown.
    if(['ignite','exhaust'].includes(q.type)){
-    const candidates=this.units.filter(x=>x.team!==u.team&&x.hp>0&&this.visible(u.team,x)&&this.mapDistance(u,x)<=650);
+    const candidates=this.units.filter(x=>x.team!==u.team&&x.hp>0&&this.visible(u.team,x)&&this.mapDistance(u,x)<=650&&this.sameCombatRealmV453Dev69(u,x));
     // Never substitute a different enemy when an explicit target walked away
     // or entered fog. Targetless casts retain the historical auto-pick.
     const foe=q.targetId?(target&&candidates.includes(target)?target:null):candidates.sort((a,b)=>this.mapDistance(a,u)-this.mapDistance(b,u))[0];
@@ -4780,7 +4811,7 @@ export class Arena {
    if(q.type==='barrier'){const power=100+Math.round((u.level-1)*402.35/17);u.shield+=power;u.barrierAmount=(u.barrierAmount||0)+power;u.barrierUntil=time+3;this.event(u.champ+' usou Barreira.',u.team,'summoner',u.id);}
    if(q.type==='heal'){this.applySummonerHealV453Dev67(u,target?.team===u.team?target:null,{lockTarget:!!q.targetId});this.event(u.champ+' usou Curar.',u.team,'summoner',u.id);}
    if(q.type==='tp'){const tower=this.structures.filter(t=>t.team===u.team&&t.alive&&t.type==='tower').sort((a,b)=>this.mapDistance(u,b)-this.mapDistance(u,a))[0];if(!tower)continue;let p=null;for(const r of [.018,.025,.035,.05]){for(let n=0;n<16;n++){const a=n*Math.PI/8,candidate={x:tower.x+Math.cos(a)*r,y:tower.y+Math.sin(a)*r};if(this.walkable(candidate.x,candidate.y)){p=candidate;break;}}if(p)break;}if(!p)continue;const cast=this.performActionV40({actorId:u.id,kind:'summoner',type:'tp',source:'planned'});if(!cast.ok)continue;u.x=p.x;u.y=p.y;this.invalidateShopUndoOnDepartureV453Dev61(u);this.event(u.champ+' usou Teleporte para uma torre aliada.',u.team,'summoner',u.id);}
-   if(['ignite','exhaust'].includes(q.type)){const candidates=this.units.filter(x=>x.team!==u.team&&x.hp>0&&this.visible(u.team,x)&&this.mapDistance(u,x)<=650);const foe=q.targetId?(target&&candidates.includes(target)?target:null):candidates.sort((a,b)=>this.mapDistance(a,u)-this.mapDistance(b,u))[0];if(!foe)continue; if(q.type==='ignite'){
+   if(['ignite','exhaust'].includes(q.type)){const candidates=this.units.filter(x=>x.team!==u.team&&x.hp>0&&this.visible(u.team,x)&&this.mapDistance(u,x)<=650&&this.sameCombatRealmV453Dev69(u,x));const foe=q.targetId?(target&&candidates.includes(target)?target:null):candidates.sort((a,b)=>this.mapDistance(a,u)-this.mapDistance(b,u))[0];if(!foe)continue; if(q.type==='ignite'){
     this.damage(foe,20+u.level*3,u,'true','spell');
     this.delayedEffects.push({id:'fx'+this.nextId++,kind:'ignite_dot',owner:u.id,team:u.team,targetId:foe.id,power:13+u.level*3,ticksLeft:4,createdAt:time,dueRound:this.round,dueAt:time+1});
     this.applyEffectV41(foe,'grievous_wounds',{source:u,duration:5,key:'ignite'});
