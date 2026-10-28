@@ -20,7 +20,7 @@ for(const row of normal){
   supportQuest:0,b7MidQuestComplete:false,b7ArmguardEverUsed:false,junglePet:null});
  // T3 quest prizes, trinket swaps and consumed/cursed state are NOT
  // ordinary purchases even though their Riot IDs appear in the SR catalog.
- const nonShop=!!(item.tags?.includes('noxian')||item.tags?.includes('trinket')||item.notPurchasable);
+ const nonShop=!!(item.tags?.includes('noxian')||item.tags?.includes('trinket')||item.notPurchasable||item.id==='shattered_armguard');
  const eligibility=a.canBuy('blue',u.id,item.id);
  if(nonShop){
   if(eligibility.ok)failures.push(row.id+': restricted mission/trinket purchase incorrectly allowed');
