@@ -1,6 +1,6 @@
 # Chat 1 — Especialista de campeões / Skills
 
-**Branch exclusiva:** `dev69/skills`. **Ponto de partida obrigatório:** dev68 real, após STATUS_DEV69.md = READY. Se estiver BOOTSTRAP, faça apenas levantamento, planejamento e preparação de QA, sem modificar fonte inexistente.
+**Branch exclusiva:** `dev69/skills`. **Ponto de partida obrigatório:** dev68 real, após STATUS_DEV69.md = SOURCE_READY. A base SOURCE_READY contém 1.624 arquivos de fonte e permite desenvolvimento e testes de lógica, mas não certificação visual ou release sem os assets binários.
 
 ## Missão
 
