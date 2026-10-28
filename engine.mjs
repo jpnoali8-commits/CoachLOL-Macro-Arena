@@ -872,7 +872,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   E:BS('target_enemy',550,[50,55,60,65,70],[16,15.5,15,14.5,14],[50,80,110,140,170],{adRatio:.5,missing:'bomb_stacks_and_explosion'}),
   R:BS('target_enemy',550,100,100,[275,375,475],{apRatio:1,knockback:500})},
  TwistedFate:{passive:'loaded_dice',Q:BS('line_enemy',1300,[60,70,80,90,100],[6,5.75,5.5,5.25,5],[60,105,150,195,240],{apRatio:.8,width:230,missing:'three_parallel_cards'}),
-  W:BS('self',0,[50,55,60,65,70],6,[],{nextBasic:[40,60,80,100,120],basicApRatio:.5,basicCC:'stun',basicCCSeconds:1,charges:1,missing:'three_card_choices'}),
+  W:BS('self',0,[50,55,60,65,70],6,[],{boardCardCycle:true,missing:'full_card_particle_audio'}),
   E:BS('self',0,0,1,[],{passiveOnly:true,missing:'automatic_fourth_attack'}),
   R:BS('vision_point',5500,100,[170,140,110],[],{radius:1000,visionSeconds:5,missing:'global_reveal_and_gate'})},
  XinZhao:{passive:'determination',Q:BS('self',0,30,[7,6.5,6,5.5,5],[],{nextBasic:[20,30,40,50,60],basicAdRatio:.3,charges:3,basicThirdCC:'knockup',basicCCSeconds:.75}),
@@ -2832,6 +2832,12 @@ export class Arena {
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6)return {ok:false,reason:'ultimate_nivel_6'};
   // A second cast reactivates an existing charge without mana or cooldown.
+  const cycle=s.boardCardCycle&&u.boardCardCycleV453Dev69?.until>this.gameTime;
+  if(cycle){
+   u.pendingBoardV453Dev69={slot,recast:true,cardPick:true};
+   this.recordIntentV40(team,id,'board_recast',{slot,kind:'card_pick'});
+   return {ok:true,queued:true,recast:true};
+  }
   const satchel=s.boardTemporal==='satchel_charge'&&
    this.boardTemporalV453Dev69?.find(z=>z.kind==='satchel_charge'&&
     z.ownerId===u.id&&z.until>=this.gameTime);
@@ -2864,6 +2870,21 @@ export class Arena {
  executeBoardSkillV453Dev69(u,q){
   const s=BOARD_KITS_V453_DEV69[u?.champ]?.[q?.slot];
   if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
+  if(q?.cardPick&&s.boardCardCycle){
+   const cycle=u.boardCardCycleV453Dev69;
+   if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
+   const names=['blue','red','gold'],choice=names[Math.floor(
+    Math.max(0,this.gameTime-cycle.startedAt))%names.length];
+   const rank=Math.max(1,u.skillRanks.W||1);
+   u.boardNextBasicV453Dev69={until:this.gameTime+5,charges:1,total:1,
+    base:[40,60,80,100,120][Math.min(rank-1,4)],adRatio:0,apRatio:.5,
+    cc:choice==='gold'?'stun':null,ccSeconds:1,
+    card:choice,sourceSlot:'W'};
+   u.boardCardCycleV453Dev69=null;
+   this.event('Twisted Fate W: carta '+choice+' selecionada.',u.team,'skill_vfx',u.id,
+    {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
+   return {ok:true,recast:true,card:choice,spentMana:0};
+  }
   if(q?.recast&&s.boardTemporal==='satchel_charge'){
    const index=(this.boardTemporalV453Dev69||[]).findIndex(z=>z.id===q.temporalId&&
     z.kind==='satchel_charge'&&z.ownerId===u.id);
@@ -2887,6 +2908,8 @@ export class Arena {
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  if(s.boardCardCycle)u.boardCardCycleV453Dev69={
+   startedAt:this.gameTime,until:this.gameTime+6,slot:q.slot};
   // Authoritative discrete temporal effects: resolution is scheduled once;
   // no client frame loop, no hidden target IDs and no double resource charge.
   if(s.boardTemporal){
@@ -6422,7 +6445,15 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      b.adRatio*this.elementalStatsV452d3(attacker).ad+
      b.apRatio*this.elementalStatsV452d3(attacker).ap+
      (attacker.champ==='Nasus'?(attacker.boardSiphonStacksV453Dev69||0):0));
-    if(target.hp>0)this.damage(target,power,attacker,'physical','board_basic_proc');
+    if(target.hp>0)this.damage(target,power,attacker,'magic','board_basic_proc');
+    if(b.card==='blue')attacker.mana=Math.min(attacker.maxMana,attacker.mana+60);
+    if(b.card==='red'&&target.hp>0){
+     const other=this.units.filter(v=>v.team!==attacker.team&&v.id!==target.id&&
+      v.hp>0&&this.mapDistance(v,target)<=200);
+     for(const enemy of other)this.damage(enemy,power*.5,attacker,'magic','board_card_splash');
+     this.applyEffectV41(target,'slow',{source:attacker,duration:2,
+      power:.3,key:'twisted_card_red_'+attacker.id});
+    }
     if(target.champ&&target.hp>0&&(b.cc||(b.charges===0&&b.thirdCC)))
      this.applyEffectV41(target,b.cc||b.thirdCC,{source:attacker,
       duration:b.ccSeconds,key:'board_basic_'+attacker.id});
