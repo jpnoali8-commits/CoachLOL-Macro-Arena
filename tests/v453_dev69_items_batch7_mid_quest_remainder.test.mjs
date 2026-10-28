@@ -141,4 +141,39 @@ test('PvP ownership preserves enemy shop, elixir, upgrade and passive mission st
  assert.equal(a.canBuy('red',u.id,'elixir_of_iron').ok,false);
  a.b7MidQuestAdd(u,1350);assert.equal(op.b7MidQuestPoints||0,0);
 });
+
+test('all seven Tier 2 pairs evolve to their corresponding Tier 3 on MID quest only',()=>{
+ const pairs={voracious_greaves:'immortal_journey',swifties:'swift_march',ionian_boots:'scarlet_lucidity',
+   berserkers_greaves:'war_greaves',mercurys_treads:'chained_crushers',plated_steelcaps:'armored_mobilization',
+   sorcerers_shoes:'enchanted_footwear'};
+ for(const [tier2,tier3] of Object.entries(pairs)){
+  const a=mk(),u=equip(a,tier2),gold=u.gold;
+  a.b7MidQuestAdd(u,1350);
+  assert.deepEqual(u.items,[tier3],tier2);assert.equal(u.gold,gold,tier2);
+  assert.equal(a.b7MidBootUpgrade(u),false,'upgrade must be idempotent');
+ }
+});
+test('used Seeker Armguard transforms into Shattered and keeps Zhonya recipe credit',()=>{
+ const a=mk(),u=equip(a,'seekers_armguard');
+ const s=a.activateStasis('blue',u.id);assert.equal(s.ok,true,JSON.stringify(s));
+ assert.equal(u.items.includes('shattered_armguard'),true);
+ assert.equal(u.items.includes('seekers_armguard'),false);
+ const full=catalog.find(x=>x.id==='zhonyas_hourglass').cost;
+ const discount=catalog.find(x=>x.id==='shattered_armguard').cost;
+ assert.equal(a.itemPurchaseCost(u,'zhonyas_hourglass'),full-discount);
+ assert.equal(a.buy('blue',u.id,'zhonyas_hourglass'),true);
+ assert.equal(u.items.filter(x=>x==='zhonyas_hourglass').length,1);
+ assert.equal(u.items.includes('shattered_armguard'),false);
+});
+test('MID quest ownership remains per-team and per-role after snapshots and restarts',()=>{
+ const a=mk(),blue=hero(a,'blue'),red=hero(a,'red');
+ a.b7MidQuestAdd(blue,600);
+ const b=Arena.fromSnapshotV40(map,mask,a.snapshotV40());
+ assert.equal(hero(b,'blue').b7MidQuestPoints,600);
+ assert.equal(hero(b,'red').b7MidQuestPoints||0,0);
+ b.b7MidQuestAdd(hero(b,'red'),100);
+ assert.equal(hero(b,'blue').b7MidQuestPoints,600);
+ assert.equal(hero(b,'red').b7MidQuestPoints,100);
+});
+
 console.log('DEV69 B7 '+count+'/'+count+' PASS');
