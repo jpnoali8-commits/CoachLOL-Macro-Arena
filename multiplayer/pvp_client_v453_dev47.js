@@ -90,12 +90,14 @@ $('planningSubmitPvp').onclick=()=>{const id=$('planningTargetPvp').value;
 // Server owns ranges, fog, resource commits and the actual kit.
 function selectedBoardRuleV453(slot=boardSlotV453){
  const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
- return (formKitsV453[u?.champ]?.[u?.boardFormV453M14||'human']||boardKitsV453[u?.champ])?.[slot]||null;
+ return (u?.champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?boardKitsV453[u.sylasStolenV453M14.sourceChamp]?.R:null)||
+  (formKitsV453[u?.champ]?.[u?.boardFormV453M14||'human']||boardKitsV453[u?.champ])?.[slot]||null;
 }
 function renderBoardSlotsV453(v){
  const unit=v.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===v.team);
  const can=!!v.started&&!v.ended&&!v.paused&&['planning','preparation'].includes(v.phase)&&!v.ready?.includes(v.seatId);
- const kit=formKitsV453[unit?.champ]?.[unit?.boardFormV453M14||'human']||boardKitsV453[unit?.champ]||null;
+ const kit=formKitsV453[unit?.champ]?.[unit?.boardFormV453M14||'human']||boardKitsV453[unit?.champ]||
+  (unit?.champ==='Sylas'&&unit.sylasStolenV453M14?{R:boardKitsV453[unit.sylasStolenV453M14.sourceChamp]?.R}:null);
  for(const b of $('boardSkillToolbarV453').querySelectorAll('[data-board-slot]')){
   const slot=b.dataset.boardSlot,rule=kit?.[slot];
   b.disabled=!can||!rule||rule.passiveOnly||!(unit?.skillRanks?.[slot]>0);
@@ -114,6 +116,8 @@ function renderBoardSlotsV453(v){
  $('boardRecastV453').textContent=recast?.kind==='pick_card'?'Escolher '+recast.card:'Reativar';
  $('boardRecastV453').classList.toggle('hidden',!recast);
  $('boardRecastV453').disabled=!can||!recast;
+ $('sylasHijackV453').classList.toggle('hidden',unit?.champ!=='Sylas'||!!unit.sylasStolenV453M14);
+ $('sylasHijackV453').disabled=!can||!unit||!(unit.skillRanks?.R>0);
  const ownSummon=activeOwnSummonV453();
  $('boardSummonMoveV453').classList.toggle('hidden',!ownSummon);
  $('boardSummonAttackV453').classList.toggle('hidden',!ownSummon);
@@ -163,6 +167,12 @@ $('boardRecastV453').onclick=()=>{
  if(!can)return;
  return send('skill.self',{slot:boardSlotV453},selectedUnitId);
 };
+$('sylasHijackV453').onclick=()=>{
+ const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
+ const targetId=$('boardTargetV453').value;
+ if(u?.champ==='Sylas'&&targetId)return send('skill.hijack',{targetId},u.id);
+ announce('Sylas precisa selecionar uma ultimate inimiga disponível');
+};
 $('boardCastTargetV453').onclick=()=>{
  const rule=selectedBoardRuleV453(),id=$('boardTargetV453').value;
  if(!rule||!['target_enemy','target_ally'].includes(rule.shape)||!id)return;
@@ -170,7 +180,7 @@ $('boardCastTargetV453').onclick=()=>{
  if(!target||(rule.shape==='target_enemy')===(target.team===state.team)){
   announce('Alvo incompatível com a habilidade');return;
  }
- return send(rule.specialUltimate?'skill.ultimate':'skill.targeted',rule.specialUltimate?{targetId:id}:{slot:boardSlotV453,targetId:id},selectedUnitId);
+ return send(rule.specialUltimate||boardSlotV453==='R'?'skill.ultimate':'skill.targeted',rule.specialUltimate||boardSlotV453==='R'?{targetId:id}:{slot:boardSlotV453,targetId:id},selectedUnitId);
 };
 
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};

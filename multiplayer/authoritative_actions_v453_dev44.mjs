@@ -9,7 +9,7 @@ import {canonicalStateV40} from '../engine.mjs';
 const VALID_KINDS=Object.freeze([
  'order.move','order.attack','order.stop','order.recall','order.ward',
  'skill.directional','skill.ground','skill.targeted','skill.self','skill.onhit_target','skill.ultimate',
- 'skill.recast_vex','skill.upgrade','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
+ 'skill.recast_vex','skill.upgrade','skill.hijack','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
@@ -33,6 +33,7 @@ function validated(kind,p){
   case 'skill.targeted':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.self':return shape(p,['slot'])&&slot(p.slot);
   case 'skill.kalista_launch':return shape(p,['point'])&&point(p.point);
+  case 'skill.hijack':return shape(p,['targetId'])&&validId(p.targetId);
   case 'skill.onhit_target':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.ultimate':return shape(p,[],['point','targetId'])&&(!own(p,'point')||point(p.point))&&(!own(p,'targetId')||stringId(p.targetId));
   case 'skill.recast_vex':return shape(p,[]);
@@ -75,6 +76,7 @@ function dispatch(arena,unit,kind,p){
   case 'skill.targeted':return arena.queueTargetedSkill(team,id,p.slot,p.targetId);
   case 'skill.self':return arena.queueKitSkillV42(team,id,p.slot,null);
   case 'skill.kalista_launch':return arena.queueKalistaLaunchV453M14(team,id,p.point);
+  case 'skill.hijack':return arena.queueSylasHijackV453M14(team,id,p.targetId);
   case 'skill.onhit_target': {
    // Only audited Q variants. Never auto-convert all skills to a generic on-hit.
    if(p.slot!=='Q'||!['Ezreal','Irelia'].includes(unit.champ)||!(unit.skillRanks?.Q>0))return fail('habilidade_individual_nao_certificada');
@@ -82,7 +84,7 @@ function dispatch(arena,unit,kind,p){
    if(!target)return fail('alvo_invalido');
    return arena.setOrder(team,id,{kind:'attack',targetId:target.id,combo:['Q']});
   }
-  case 'skill.ultimate':return arena.boardKitForV453Dev69?.(unit.champ,'R')?
+  case 'skill.ultimate':return arena.boardKitForV453Dev69?.(unit.champ,'R',unit)?
    arena.queueBoardSkillV453Dev69(team,id,'R',{point:p.point??null,targetId:p.targetId??null}):
    arena.queueSpecialUltimate(team,id,p.targetId??null,p.point??null);
   case 'skill.recast_vex':return arena.queueVexRecast(team,id);
