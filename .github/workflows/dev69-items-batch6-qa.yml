@@ -1,0 +1,43 @@
+name: CoachLOL dev69 — Items Batch 6 FAST QA
+
+on:
+  push:
+    branches:
+      - dev69/items-batch6
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offensive-items:
+    name: 15 items · combat, economy, PvP, Undo
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        run: |
+          node --check engine.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tests/v453_dev69_items_batch6_offensive_family.test.mjs
+      - name: Batch 6 contracts
+        run: node tests/v453_dev69_items_batch6_offensive_family.test.mjs
+      - name: Previous item batch regressions
+        run: |
+          node tests/v453_dev69_items_batch5_support_family.test.mjs
+          node tests/v453_dev69_items_batch4_tank_family.test.mjs
+          node tests/v453_dev69_items_batch3_attack_family.test.mjs
+          node tests/v453_dev69_items_bulk_18.test.mjs
+          node tests/v453_dev69_items_batch2.test.mjs
+          node tests/v453_dev69_items_batch1.test.mjs
+      - name: PvP and shop invariants
+        run: |
+          node tests/v453_dev61_shop_undo_pvp.test.mjs
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs
+
+# Specialized branch QA. Full browser sync and release certification are
+# intentionally reserved to auditor/integrator after sequential merges.
