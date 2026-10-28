@@ -1047,6 +1047,7 @@ export class EffectResolverV41 {
   if(['shield','physical_shield','magic_shield'].includes(type)){
    if(source?.champ&&source.team===target.team)power*=1+Math.max(0,this.a.elementalStatsV452d3(source).healShieldPower)/100;
    if(target.champ&&target.items?.includes('spirit_visage'))power*=1.25;
+   if(source?.items?.includes('actualizer')&&source.b7ActualizerUntil>this.a.gameTime)power*=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.shieldHealAmp;
    if(target.b6SerpentUntil>this.a.gameTime&&source?.team===target.team)power*=1-Math.max(0,Math.min(.75,target.b6SerpentCut||0));
   }
   const until=this.a.gameTime+adjusted;
@@ -1066,7 +1067,11 @@ export class EffectResolverV41 {
   if(type==='slow')target.slowUntil=Math.max(target.slowUntil||0,until);
   if(EFFECT_TYPES_V41[type].cc)target.ccStatus={kind:type,until,source:source?.id||null};
   this.record('apply',target,source,{effectId:effect.id,type,until,power});
-  if(['shield','physical_shield','magic_shield'].includes(type))this.a.afterSupportProtectionV453Dev69B5(source,target,power,'shield');
+  if(['shield','physical_shield','magic_shield'].includes(type)){
+    this.a.afterSupportProtectionV453Dev69B5(source,target,power,'shield');
+    if(source?.items?.includes('scarlet_lucidity'))source.b7ScarletUntil=this.a.gameTime+ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.sprintSeconds;
+    if(source?.items?.includes('diadem_of_songs'))source.b7ConsonanceUntil=this.a.gameTime+3;
+   }
   if(EFFECT_TYPES_V41[type].cc&&source?.champ&&source.team!==target.team)this.a.afterSupportCCV453Dev69B5(source,target,type);
   return {ok:true,id:effect.id,until};
  }
@@ -1081,10 +1086,14 @@ export class EffectResolverV41 {
  heal(target,amount,source=null,{ignoreGrievous=false}={}){
   if(!target||target.hp<=0||!Number.isFinite(amount)||amount<=0)return 0;
   const modifier=ignoreGrievous||!this.has(target,'grievous_wounds')?1:.6;
-  const amplification=(source?.champ?1+Math.max(0,this.a.elementalStatsV452d3(source).healShieldPower)/100:1)*(target.champ&&target.items?.includes('spirit_visage')?1.25:1);
+  const amplification=(source?.champ?1+Math.max(0,this.a.elementalStatsV452d3(source).healShieldPower)/100:1)*(target.champ&&target.items?.includes('spirit_visage')?1.25:1)*
+   (source?.items?.includes('actualizer')&&source.b7ActualizerUntil>this.a.gameTime?1+ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.shieldHealAmp:1)*
+   (target.items?.includes('immortal_journey')&&target.hp<target.maxHp*.5?1+ITEM_REMAINDER_RULES_V453_DEV69_B7.immortal_journey.healBelowHalf:1);
   const received=Math.max(0,Math.min(target.maxHp-target.hp,amount*modifier*amplification));
   target.hp+=received;
-  if(received>0){this.record('heal',target,source,{amount:received});this.a.afterSupportProtectionV453Dev69B5(source,target,received,'heal');}
+  if(received>0){this.record('heal',target,source,{amount:received});this.a.afterSupportProtectionV453Dev69B5(source,target,received,'heal');
+    if(source?.items?.includes('scarlet_lucidity'))source.b7ScarletUntil=this.a.gameTime+ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.sprintSeconds;
+    if(source?.items?.includes('diadem_of_songs'))source.b7ConsonanceUntil=this.a.gameTime+3;}
   return received;
  }
  remove(target,{types=null,ccOnly=false,sourceId=null,includeSuppression=false}={}){
@@ -1578,10 +1587,12 @@ export class Arena {
  elementalStatsV452d3(u){
   const bonus=this.baronChampionBonusV452d4Dev14(u);
   const extra=u?.champ?this.derivedItemStatsV453Dev69(u):{ad:0,ap:0,mr:0,armor:0};
+  const b7=u?.champ?this.b7DerivedStats(u):{ad:0,ap:0,abilityHaste:0,tenacity:0,healShieldPower:0,omnivamp:0,physicalVamp:0};
   const support=u?.champ?this.supportBuffsV453Dev69B5(u):{ap:0,abilityHaste:0,healShieldPower:0};
-  const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad,
-   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap+support.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0),
-   abilityHaste:(Number(u?.abilityHaste)||0)+support.abilityHaste,healShieldPower:(Number(u?.healShieldPower)||0)+support.healShieldPower};
+  const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad+b7.ad,
+   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap+support.ap+b7.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0),
+   abilityHaste:(Number(u?.abilityHaste)||0)+support.abilityHaste+b7.abilityHaste,healShieldPower:(Number(u?.healShieldPower)||0)+support.healShieldPower+b7.healShieldPower,
+    tenacity:(Number(u?.tenacity)||0)+b7.tenacity,omnivamp:(Number(u?.omnivamp)||0)+b7.omnivamp,physicalVamp:(Number(u?.physicalVamp)||0)+b7.physicalVamp};
   return elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
  }
  abilityCooldownV452d3(u,slot){return abilityCooldown(u,slot,this.elementalStatsV452d3(u).counts.hextech*ELEMENTAL_DRAKE_RULES_V452D3.hextech.abilityHaste);}
@@ -1636,6 +1647,10 @@ export class Arena {
    if(!(u.skillRanks?.[slot]>0))return {ok:false,reason:'não_aprendido'};
    const rule=abilityRule(u,slot);
    cost=costOverride??abilityCost(u,slot);cd=cooldownOverride??this.abilityCooldownV452d3(u,slot);
+   if(u.items?.includes('actualizer')&&u.b7ActualizerUntil>now){
+    cost*=ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.manaCostMultiplier;
+    if(slot!=='R')cd/=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.basicCdRate;
+   }
    range=rangeOverride??rule.rangeByRank?.[Math.min((u.skillRanks[slot]||1)-1,rule.rangeByRank.length-1)]??rule.range;
    cdField='skillCds.'+slot;
   }else if(kind==='summoner'){
@@ -1702,6 +1717,7 @@ export class Arena {
    if(kind==='skill'&&u.items?.some(id=>id==='sheen'||id==='trinity_force'||id==='essence_reaver'||id==='lich_bane'||id==='iceborn_gauntlet'||id==='dusk_and_dawn')&&
       (u.spellbladeNextV453Dev29||0)<=now){u.spellbladeArmedUntilV453Dev29=now+10;}
    if(kind==='skill')this.onOffensiveCastV453Dev69B6(u,slot);
+   if(kind==='skill'||kind==='summoner')this.onRemainderCastV453Dev69B7(u,slot,kind);
    if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate'))u.hexplateBuffUntilV453Dev69B4=now+ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.ultimateBuffSeconds;
    if(kind==='skill'&&slot==='R'&&u.items?.includes('zekes_convergence'))u.zekeStormUntilV453Dev69B5=now+ITEM_SUPPORT_RULES_V453_DEV69_B5.zekes_convergence.duration;
    if(kind==='skill'&&slot==='R'&&this.soulTypeV452d2(u)==='cloud'&&
@@ -1934,7 +1950,7 @@ export class Arena {
  }
  addWard(team,owner,point,type='stealth'){
   const u=this.units.find(v=>v.id===owner&&v.team===team);
-  if(!u||u.hp<=0||!this.walkable(point.x,point.y)||this.mapDistance(u,point)>625)return {ok:false,reason:'Posição fora de alcance ou bloqueada.'};
+  if(!u||u.hp<=0||!this.walkable(point.x,point.y)||this.mapDistance(u,point)>(type==='farsight'?ITEM_REMAINDER_RULES_V453_DEV69_B7.farsight.range:625))return {ok:false,reason:'Posição fora de alcance ou bloqueada.'};
   if(type==='stealth'&&u.role==='SUP'&&u.supportQuest>=400)type='support';
   if(type==='stealth'&&['oracle','farsight'].includes(u.trinket))return {ok:false,reason:'Troque o trinket na fonte para usar ward amarela.'};
   if(type==='farsight'&&u.trinket!=='farsight')return {ok:false,reason:'Equipe o trinket Sentinela Azul na fonte.'};
@@ -1969,7 +1985,7 @@ export class Arena {
   if(this.mapDistance(u,w)>u.range*this.worldWidth)return {ok:false,reason:'Aproxime-se para atacar a sentinela.'};
   // A scan behind a wall gives a silhouette, not a wall-piercing basic attack.
   if(!this.lineOfSight(u,w))return {ok:false,reason:'Sentinela detectada, mas sem acesso para atacar através da parede.'};
-  w.hp=Math.max(0,w.hp-1);if(w.hp<=0){this.wards=this.wards.filter(v=>v!==w);this.creditGoldV452d4Dev7(u,(WARD_RULES_2026[w.type||'stealth']?.bounty||10),'ward_bounty');this.postgameEntryV452d4Dev7(u).wardsDestroyed++;this.event(`${u.champ} destruiu sentinela inimiga.`,team,'ward_destroy',u.id);}
+  w.hp=Math.max(0,w.hp-(u.items?.includes('umbral_glaive')?ITEM_REMAINDER_RULES_V453_DEV69_B7.umbral_glaive.wardBonusHits:1));if(w.hp<=0){this.wards=this.wards.filter(v=>v!==w);this.creditGoldV452d4Dev7(u,(WARD_RULES_2026[w.type||'stealth']?.bounty||10),'ward_bounty');this.postgameEntryV452d4Dev7(u).wardsDestroyed++;this.event(`${u.champ} destruiu sentinela inimiga.`,team,'ward_destroy',u.id);}
   return {ok:true,destroyed:w.hp<=0,hp:w.hp};
  }
  // Trinkets are zero-cost, exclusive-slot purchases. No six-slot inventory occupancy.
@@ -2613,7 +2629,14 @@ export class Arena {
   const cast=this.performActionV40({actorId:u.id,kind:'item',type,source:'active_item'});if(!cast.ok)return cast;
   // A armaguarda permanece como item de atributos após sua ativação única.
   // Sua carga só é consumida depois do gate autoritativo aceitar o comando.
-  if(type==='seekers_armguard')u.armguardSpentV453Dev37=true;
+  if(type==='seekers_armguard'){
+   u.armguardSpentV453Dev37=true;u.b7ArmguardEverUsed=true;
+   const i=u.items.indexOf('seekers_armguard');
+   if(i>=0){
+    const old=catalog.find(v=>v.id==='seekers_armguard'),next=catalog.find(v=>v.id==='shattered_armguard');
+    this.removeRabadonV43(u);this.applyItemStatsV43(u,old,-1);u.items[i]='shattered_armguard';this.applyItemStatsV43(u,next,1);this.reapplyRabadonV43(u);
+   }
+  }
   this.applyEffectV41(u,'stasis',{source:u,duration:2.5});
   this.event(u.champ+' ativou '+(zhonya?'a Ampulheta':'a Armaguarda')+' (estase).',team,'stasis',u.id);
   return {ok:true,itemId:type,until:u.stasisUntil};
@@ -3106,7 +3129,13 @@ export class Arena {
  // is independent of movement and survives subsequent turns/respawns.
  // DEV59: active items execute on the server, not client-side. A champion
  // can use Mercury while stunned/suppressed, but airborne CC is not removed.
- activateItemV453Dev59(team,unitId,itemId,targetId=null){
+ activateItemV453Dev59(team,unitId,itemId,targetId=null,point=null){
+  if(['elixir_of_iron','elixir_of_sorcery','elixir_of_wrath','actualizer','hextech_rocketbelt'].includes(itemId))return this.activateRemainderItemV453Dev69B7(team,unitId,itemId,targetId,point);
+  if(itemId==='trinket_farsight'){
+   const u=this.units.find(v=>v.team===team&&v.id===unitId);
+   if(!u||u.trinket!=='farsight'||!point||this.mapDistance(u,point)>ITEM_REMAINDER_RULES_V453_DEV69_B7.farsight.range)return {ok:false,reason:'farsight_nao_equipado_ou_ponto_invalido'};
+   return this.addWard(team,unitId,point,'farsight');
+  }
   if(Object.prototype.hasOwnProperty.call(ITEM_SUPPORT_RULES_V453_DEV69_B5,itemId)&&['shurelyas_battlesong','redemption','locket_of_the_iron_solari','mikaels_blessing','knights_vow','hextech_gunblade'].includes(itemId))return this.activateSupportItemV453Dev69B5(team,unitId,itemId,targetId);
   if(['tiamat','ravenous_hydra','titanic_hydra','profane_hydra','stridebreaker'].includes(itemId))return this.activateCleaveItemV453Dev69B3(team,unitId,itemId);
   const u=this.units.find(v=>v.id===unitId&&v.team===team&&v.hp>0);
@@ -3937,6 +3966,10 @@ export class Arena {
   if(itemId==='health_potion'&&u.items.includes('refillable_potion')||itemId==='refillable_potion'&&u.items.includes('health_potion'))return {ok:false,reason:'Um único tipo de poção por campeão.'};
   if(item.notPurchasable)return {ok:false,reason:'Este equipamento evolui por missão.'};
   if(item.tags.includes('trinket'))return {ok:false,reason:'Trinkets são trocados sem custo na fonte.'};
+  if(item.tags.includes('elixir')&&u.level<9)return {ok:false,reason:'elixir_exige_nivel_9'};
+  if(itemId==='seekers_armguard'&&u.b7ArmguardEverUsed)return {ok:false,reason:'armaguarda_gasta'};
+  if(itemId==='shattered_armguard'&&!u.b7ArmguardEverUsed)return {ok:false,reason:'somente_apos_armaguarda_consumida'};
+  if(item.tags.includes('elixir')&&u.items.some(id=>catalog.find(i=>i.id===id)?.tags.includes('elixir')))return {ok:false,reason:'elixir_exclusivo'};
   if(itemId==='ward'&&(u.controlWardStock||0)>=2)return {ok:false,reason:'Limite de duas pinks no inventário.'};
   if((item.tags.includes('unique')||item.tags.includes('legendary')||item.tags.includes('epic'))&&u.items.includes(itemId))return {ok:false,reason:'Equipamento completo único: compra duplicada bloqueada.'};
   if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
@@ -4002,6 +4035,7 @@ export class Arena {
 
   if(itemId==='refillable_potion')u.refillableChargesV453Dev32=2;
   if(itemId==='seekers_armguard')u.armguardSpentV453Dev37=false;
+   if(['voracious_greaves','immortal_journey'].includes(itemId)&&!undoBeforeV453Dev61.items?.some(x=>['voracious_greaves','immortal_journey'].includes(x)))u.b7VoraciousKills=0;
   if(itemId==='zhonyas_hourglass'&&!u.items.includes('seekers_armguard'))u.armguardSpentV453Dev37=false;
   if(itemId==='ward')u.controlWardStock=(u.controlWardStock||0)+1;
   if(item.pet){u.junglePet=item.pet;u.junglePetStage=1;u.smiteTier=1;u.smiteDamage=600;}
@@ -4183,6 +4217,15 @@ export class Arena {
    const delta=next-u.itemDerivedHealthV453Dev69B4;u.itemDerivedHealthV453Dev69B4=next;u.maxHp=Math.max(1,u.maxHp+delta);u.hp=Math.min(u.hp,u.maxHp);
   }
   if(itemId==='dead_mans_plate')u.deadmanChargesV453Dev69B4=0;
+  if(Object.prototype.hasOwnProperty.call(ITEM_REMAINDER_RULES_V453_DEV69_B7,itemId)){
+   if(itemId==='whispering_circlet'||itemId==='diadem_of_songs'){
+    u.maxMana=Math.max(0,u.maxMana-(u.b7CircletMana||0));u.mana=Math.min(u.mana,u.maxMana);u.b7CircletMana=0;
+   }
+   if(itemId==='protoplasm_harness'&&u.b7ProtoplasmBonusHp){u.maxHp=Math.max(1,u.maxHp-u.b7ProtoplasmBonusHp);u.hp=Math.min(u.hp,u.maxHp);u.b7ProtoplasmBonusHp=0;u.b7ProtoplasmUntil=0;}
+   if(itemId==='actualizer')u.b7ActualizerUntil=0;
+   if(itemId==='scarlet_lucidity')u.b7ScarletUntil=0;
+   if(['voracious_greaves','immortal_journey'].includes(itemId))u.b7VoraciousKills=0;
+  }
   if(Object.hasOwn(ITEM_OFFENSE_RULES_V453_DEV69_B6,itemId)){
    if(itemId==='malignance')u.b6UltimateDamageUntil=0;
    if(itemId==='yun_tal_demon_arrows')u.b6DartShots=0;
@@ -4753,7 +4796,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.b7MidQuestPassive();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.b7MidQuestPassive();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.advanceRemainderItemsV453Dev69B7();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5019,7 +5062,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.supportTeamMovePercentV453Dev69B5(u)+(u.items?.includes('stormrazor')&&u.b6StormrazorUntil>this.gameTime?ITEM_OFFENSE_RULES_V453_DEV69_B6.stormrazor.movePct:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('scarlet_lucidity')&&u.b7ScarletUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.moveFlat:0)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.supportTeamMovePercentV453Dev69B5(u)+(u.items?.includes('protoplasm_harness')&&u.b7ProtoplasmUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness.movePct:0)+(u.items?.includes('stormrazor')&&u.b6StormrazorUntil>this.gameTime?ITEM_OFFENSE_RULES_V453_DEV69_B6.stormrazor.movePct:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5828,6 +5871,10 @@ export class Arena {
      (attacker.exhaustUntil||0)>this.gameTime)amount*=.65;if(['tower','inhibitor','nexus'].includes(target.type)&&!this.structureVulnerable(target))return 0;
  // Type-specific Baron defenses are evaluated against the attacker, rather
  // than inflating the persistent minion HP (which would break snapshots/farm).
+ if(attacker?.champ&&target?.champ&&target.team!==attacker.team&&!sourceType.startsWith('item_')){
+   if(attacker.items?.includes('immortal_journey')&&attacker.hp>=attacker.maxHp*.5)amount*=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.immortal_journey.damageAboveHalf;
+   if(attacker.items?.includes('actualizer')&&attacker.b7ActualizerUntil>this.gameTime&&['spell','ability_onhit_v453_dev40'].includes(sourceType))amount*=1+ITEM_REMAINDER_RULES_V453_DEV69_B7.actualizer.spellDamageAmp;
+  }
  if(damageType!=='true'&&target.kind&&target.team!==attacker?.team){
   const protection=this.baronMinionModifiersV452d(target);
   if(protection.empowered){
@@ -5952,6 +5999,21 @@ const farmHealthBeforeV452c=target.hp;
 const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final?this.captureFarmContextV452c(target,target.team==='blue'?'red':'blue'):null;
  // DEV31 Rock Solid: incoming basic damage reduced after mitigation (max 20%).
  if(sourceType==='basic'&&target.champ&&target.items?.includes('wardens_mail'))final-=Math.min(15,Math.floor(final*.2));
+  if(sourceType==='basic'&&target.champ&&target.items?.includes('armored_mobilization'))final*=1-ITEM_REMAINDER_RULES_V453_DEV69_B7.armored_mobilization.attackReduction;
+  if(target?.champ&&attacker?.champ&&attacker.team!==target.team&&damageType!=='true'){
+   const itemId=damageType==='magic'&&target.items?.includes('chained_crushers')?'chained_crushers':
+      damageType==='physical'&&target.items?.includes('armored_mobilization')?'armored_mobilization':null;
+   if(itemId&&(target.b7BootShieldReady||0)<=this.gameTime){
+    const s=ITEM_REMAINDER_RULES_V453_DEV69_B7[itemId];target.b7BootShieldReady=this.gameTime+s.cooldown;
+    this.applyEffectV41(target,itemId==='chained_crushers'?'magic_shield':'physical_shield',{source:target,power:s.shield,duration:s.seconds,key:'boot_b7_'+itemId});
+   }
+  }
+  if(final>0&&target?.champ&&target.items?.includes('protoplasm_harness')&&
+    (target.b7ProtoplasmReady||0)<=this.gameTime&&target.hp-final<target.maxHp*ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness.threshold){
+    const spec=ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness;
+    target.b7ProtoplasmReady=this.gameTime+spec.cooldown;target.b7ProtoplasmUntil=this.gameTime+spec.seconds;target.b7ProtoplasmBonusHp=spec.bonusHp;
+    target.maxHp+=spec.bonusHp;target.hp+=spec.bonusHp;
+  }
  // DEV57 magic-only lifeline triggers before HP crosses 30% from a magic hit.
  if(target.champ&&target.items?.includes('hexdrinker')&&damageType==='magic'){
   const spec=ITEM_EFFECTS_V43.hexdrinker;
@@ -6020,6 +6082,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   this.afterTankHitV453Dev69B4(attacker,target,dealt,damageType,sourceType);
   this.afterSupportDamageV453Dev69B5(attacker,target,dealt,sourceType);
    this.onOffensiveHitV453Dev69B6(attacker,target,dealt,sourceType);
+   this.onRemainderHitV453Dev69B7(attacker,target,dealt,damageType,sourceType);
    if(attacker?.role==='MID'&&target?.champ&&attacker.team!==target.team&&!sourceType.startsWith('item_'))
     this.b7MidQuestAdd(attacker,dealt*(attacker.range>.05?.015:.03),'champion_damage');
   if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
@@ -6160,6 +6223,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.damageContributors={};
     this.afterSupportKillV453Dev69B5(target,credited,assistingChampions);
     this.onOffensiveKillV453Dev69B6(target,credited,assistingChampions);
+    this.onRemainderKillV453Dev69B7(target,credited,assistingChampions);
     for(const owner of [credited,...assistingChampions])if(owner?.role==='MID')this.b7MidQuestAdd(owner,25,'champion_takedown');
     if(credited){this.onDefensiveTakedownV453Dev69B4(credited);this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
      const bonus=ITEM_FAMILY_RULES_V453_DEV69.the_collector.killGold;
