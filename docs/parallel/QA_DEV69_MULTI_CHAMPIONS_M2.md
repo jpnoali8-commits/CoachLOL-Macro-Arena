@@ -42,3 +42,40 @@ No commit `fd22d566873aa2be43a01ca81efe1f8a8b36eb66` o workflow FAST Skills [407
 - https://wiki.leagueoflegends.com/en-us/Jinx
 - https://riotcodex.net/champions/Ezreal , /Irelia , /Caitlyn , /Leona , /Volibear (referência da comunidade)
 - Reverter commits deste PR na `dev69/integration` após revisão por hunk; não force-push nem reset global.
+
+
+## Avanço de engenharia M3–M5 (2026-10-28, NÃO CERTIFICADO)
+
+**Status:** PR #9 Draft, nenhum merge, nenhuma promoção para `main`, nenhuma edição de `engine.browser.js` ou `version.json`. A frente de Itens tem marco independente e só será agregada quando o usuário solicitar ao auditor.
+
+### M3 — Lux
+- R: cast temporal de 1 segundo, registro serializável da origem/direção, múltiplos alvos, bloqueio por escudo de feitiço, interação de Illumination e fog, cancelamento por morte.
+- W: projétil de ida com escudo de auto/aliados, retorno acompanhado da posição atual da Lux, outro escudo no contato real.
+- E: viagem antes da chegada, recast durante o voo sem custo extra, lentidão, dano, marca e visão só da equipe com duração iniciada no impacto.
+- Passiva: proprietário exclusivo da marca, Q/E/R aplicam; AA/R detonam nos casos previstos.
+- **Aberto para certificação:** quantidades/ranks de todos os efeitos, responsividade de cast/interrupt, visão/brush, casos de duelo, integração no browser, regressões combinadas no ambiente do auditor.
+
+### M4 — Ahri (P+QWER agora possuem execução individual; kit AINDA NÃO CERTIFICADO)
+- P Essence Theft: cura após o nono minion efetivamente abatido, cura de takedown, extensão de R e carga adicional após abate/assistência.
+- Q Orb of Deception: magia na ida, dano verdadeiro na volta com históricos separados.
+- W Fox-Fire: três disparos server-side ordenados, escolha de alvos visíveis, alvos repetidos com multiplicador, aceleração de movimento por tempo definido.
+- E Charm: projétil real interceptável pelo primeiro alvo, escudo de feitiço, aplicação de CC.
+- R Spirit Rush: três avanços até o limite sem atravessar terreno, disparos nas proximidades, recasts sem novos custos.
+- **Aberto:** Q retorna à posição atual da Ahri (atualmente direção invertida fixa), prioridades completas de W e interações de projéteis, knockdown de E, cura de passiva por monstros e cases de reset R; teste de navegador/partida inteira e estatísticas de transição lv1–18.
+
+### M5 — Jinx (P+QWER agora possuem execução individual; kit AINDA NÃO CERTIFICADO)
+- P Get Excited: aceleração real de movimento e cadência de AA, até 5 stacks após mortes de campeões, assistências aceitas na janela de 3 segundos.
+- Q Switcheroo!: alternância autoritativa sem custo na troca; Fishbones com alcance maior, consumo de 20 mana no AA, dano de área; Pow-Pow com stacks de velocidade de ataque.
+- W Zap!: primeiro interceptor real, físico, lentidão/revelação por equipe.
+- E Flame Chompers!: três traps no mundo, chegada/armamento, root e dano sem procs duplicados por alvo, visão team-only.
+- R Super Mega Death Rocket!: projétil global direcional, atravessa minions e detona no primeiro campeão, explosão física escalada por distância/vida perdida.
+- **Aberto:** P por estruturas/monstros épicos, regra fina de Q em falta de mana, E múltiplas armadilhas/expiração/cancelamentos, R telegraph e testes detalhados de splash, status durante morte/respawn, inclusão integral na UI/browser.
+
+### Gate e testes (head 61f4d28c7319ee88a4be7cbf69b6436e89c650ed)
+- [QA Skills 40761361176](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40761361176) **PASS**: Batch2 44, M1 53, M2 52, M3 41, M4 37, M5 41, Skills original 64, Lux dev68 40, Ezreal/Irelia dev43 19, V4.2 legado 16 = **407/407**.
+- [QA logic 40761361257](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40761361257): verificar conclusão independente; jamais converter sucesso de FAST em certificação do browser.
+- [Workflow integrado 40761361232](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40761361232) **FAIL esperado** na etapa de regeneração Node→browser: sincronização é responsabilidade do integrador depois do merge; full npm test não rodou neste PR.
+- **Critério de contagem:** 10 perfis de stats auditados ≠ 10 campeões completos. 5 campeões com avanços relevantes ≠ 5 campeões certificados. Nenhum kit recebe `certified` sem verificação explícita de P/QWER+stats+interações+PvP+replay+browser/release.
+
+### Próximo bloco sem abrir PR concorrente
+Fechar lacunas individuais de Ahri e Jinx, depois Nami/Vex e Lux, abrangendo os demais membros do pacote de 6–10 (Ezreal e Irelia como próximos candidatos). Manter commits pequenos internamente, **um único PR por macro-marco**, sem entregas falsas de kits parciais; integrar apenas quando o usuário ordenar ao auditor.
