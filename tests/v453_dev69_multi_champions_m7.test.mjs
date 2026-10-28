@@ -121,6 +121,36 @@ for(const team of ['blue','red']){
   assert.ok(i.v.hp<2000);
   assert.equal(i.u.ireliaDanceV453Dev69M7.released,true);
  });
+ const early=setup('Irelia',team);
+ const wStarted=early.a.castIreliaDanceV453Dev69M7(early.u,{x:.6,y:.5});
+ assert.equal(wStarted.ok,true);
+ early.a.gameTime=.3;
+ const queuedW=early.a.queueDirectionalSkill(team,early.u.id,'W',{x:.6,y:.5});
+ test(team+' Irelia W can queue recast during original cooldown without spending mana',()=>{
+  assert.equal(queuedW.ok,true);
+  assert.equal(early.u.mana,430);
+ });
+ early.a.resolveDirectionalSkills();
+ test(team+' Irelia W releases early on second input with no second debit',()=>{
+  assert.equal(early.u.mana,430);
+  assert.equal(early.u.ireliaDanceV453Dev69M7.releaseAt,.3);
+  assert.equal(early.u.ireliaDanceV453Dev69M7.endAt,.8);
+  assert.equal(early.u.skillCds.W,wStarted.cooldownEndsAt||early.u.skillCds.W);
+ });
+ const earlierHealth=early.v.hp;
+ early.a.advanceIreliaDanceV453Dev69M7();
+ test(team+' Irelia W partial charge deals less than full W while retaining defense tail',()=>{
+  assert.ok(early.v.hp<earlierHealth);
+  const earlyHit=earlierHealth-early.v.hp;
+  const full=setup('Irelia',team);
+  assert.ok(full.a.castIreliaDanceV453Dev69M7(full.u,{x:.6,y:.5}).ok);
+  full.a.gameTime=1.5;full.a.advanceIreliaDanceV453Dev69M7();
+  assert.ok(earlyHit<2000-full.v.hp,'early-release must be weaker than maximum charge');
+  assert.equal(early.u.ireliaDanceV453Dev69M7.released,true);
+ });
+ const earlySaved=Arena.fromSnapshotV40(map,mask,early.a.snapshotV40());
+ test(team+' Irelia W early recast persists in deterministic checkpoint',()=>
+  assert.equal(checksumV40(early.a.snapshotV40()),checksumV40(earlySaved.snapshotV40())));
  const j=setup('Irelia',team);
  assert.equal(j.a.castIreliaVanguardV453Dev69M7(j.u,{x:.6,y:.5}).ok,true);
  test(team+' Irelia R is authored projectile with one mana cost',()=>{
