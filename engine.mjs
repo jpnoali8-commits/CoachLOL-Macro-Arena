@@ -880,7 +880,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   E:BS('target_enemy',650,60,11,[50,70,90,110,130],{apRatio:.6,dashToHit:true,cc:'slow',ccSeconds:1,ccPower:.35}),
   R:BS('circle_enemy',0,100,[120,110,100],[100,175,250],{originSelf:true,radius:500,adRatio:.6,knockback:450,missing:'challenge_duel_zone'})},
  Ziggs:{passive:'short_fuse',Q:BS('circle_enemy',850,[50,55,60,65,70],[6,5.5,5,4.5,4],[85,135,185,235,285],{apRatio:.65,radius:220}),
-  W:BS('circle_enemy',1000,80,[20,18,16,14,12],[60,95,130,165,200],{apRatio:.4,radius:260,knockback:300,missing:'self_satchel_recast'}),
+  W:BS('circle_enemy',1000,80,[20,18,16,14,12],[60,95,130,165,200],{apRatio:.4,radius:260,knockback:300,boardTemporal:'satchel_charge',missing:'tower_execution_threshold'}),
   E:BS('circle_enemy',900,[70,80,90,100,110],16,[40,60,80,100,120],{apRatio:.3,radius:320,cc:'slow',ccSeconds:2,ccPower:.35,boardTemporal:'minefield',missing:'individual_mine_positions'}),
   R:BS('circle_enemy',5000,100,[120,95,70],[250,375,500],{apRatio:1.1,radius:550,missing:'inner_blast_multiplier'})},
  Taric:{passive:'bravado',Q:BS('circle_ally',0,60,3,[],{radius:325,heal:[60,100,140,180,220],apRatio:.4,missing:'charge_scaling'}),
@@ -2831,6 +2831,15 @@ export class Arena {
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6)return {ok:false,reason:'ultimate_nivel_6'};
+  // A second cast reactivates an existing charge without mana or cooldown.
+  const satchel=s.boardTemporal==='satchel_charge'&&
+   this.boardTemporalV453Dev69?.find(z=>z.kind==='satchel_charge'&&
+    z.ownerId===u.id&&z.until>=this.gameTime);
+  if(satchel){
+   u.pendingBoardV453Dev69={slot,recast:true,temporalId:satchel.id};
+   this.recordIntentV40(team,id,'board_recast',{slot,temporalId:satchel.id});
+   return {ok:true,queued:true,recast:true};
+  }
   const target=targetId?this.units.find(v=>v.id===targetId&&v.hp>0):null;
   if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
   if(s.shape==='target_ally'&&(!target||target.team!==team))return {ok:false,reason:'alvo_aliado'};
@@ -2854,7 +2863,15 @@ export class Arena {
  boardKitForV453Dev69(champ,slot){return BOARD_KITS_V453_DEV69[champ]?.[slot]||null;}
  executeBoardSkillV453Dev69(u,q){
   const s=BOARD_KITS_V453_DEV69[u?.champ]?.[q?.slot];
-  if(!s||!u||u.hp<=0)return {ok:false,reason:'board_indisponivel'};
+  if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
+  if(q?.recast&&s.boardTemporal==='satchel_charge'){
+   const index=(this.boardTemporalV453Dev69||[]).findIndex(z=>z.id===q.temporalId&&
+    z.kind==='satchel_charge'&&z.ownerId===u.id);
+   if(index<0)return {ok:false,reason:'recast_expirado'};
+   const [charge]=this.boardTemporalV453Dev69.splice(index,1);
+   this.detonateBoardSatchelV453Dev69(charge);
+   return {ok:true,recast:true,spentMana:0};
+  }
   const target=q.targetId?this.units.find(v=>v.id===q.targetId&&v.hp>0):null;
   if(['target_enemy','target_ally'].includes(s.shape)&&(!target||
     (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team)||
@@ -2882,7 +2899,9 @@ export class Arena {
     power,hitIds:[],nextAt:this.gameTime+1,until:this.gameTime+(s.zoneSeconds||4),
     stunSeconds:s.ccSeconds||1.5,slowPower:s.ccPower||0,
     invulnerableSeconds:s.invulnerableSeconds||0};
-   if(s.boardTemporal==='delayed_radiance'){
+   if(s.boardTemporal==='satchel_charge'){
+    temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt;
+   }else if(s.boardTemporal==='delayed_radiance'){
     temporal.nextAt=this.gameTime+2.5;temporal.until=temporal.nextAt+.01;
    }else if(s.boardTemporal==='cone_channel'){
     temporal.ticksLeft=3;temporal.until=this.gameTime+3.2;
@@ -3026,6 +3045,26 @@ export class Arena {
   for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
    u.pendingBoardV453Dev69=null;this.executeBoardSkillV453Dev69(u,q);}
  }
+ detonateBoardSatchelV453Dev69(z){
+  const u=this.units.find(v=>v.id===z.ownerId);
+  if(!u)return;
+  const victims=[...this.units,...this.minions].filter(v=>v.hp>0&&
+   (v.spawnAt===undefined||v.spawnAt<=this.gameTime)&&
+   this.mapDistance(v,z.point)<=z.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  for(const target of victims){
+   if(target.team!==z.team){
+    const blocked=this.effectResolverV41().has(target,'spell_shield');
+    const dealt=this.damage(target,z.power,u,'magic','spell');
+    if(dealt>0&&target.champ&&!blocked&&target.hp>0)
+     this.pushChampionThroughTerrain(z.point,target,300,{maxWallUnits:0});
+   }else if(target.id===u.id){
+    // Own satchel can relocate Ziggs over limited, collision-checked terrain.
+    this.pushChampionThroughTerrain(z.point,target,300,{maxWallUnits:300});
+   }
+  }
+  this.event('Ziggs W: carga explosiva detonada.',u.team,'skill_vfx',u.id,
+   {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,z.point))});
+ }
  // Simulated-second scheduler for delayed zones, a stationary Tibbers proxy,
  // and channels. Every effect is serializable and keyed by stable sequence ID.
  advanceBoardTemporalV453Dev69(){
@@ -3038,10 +3077,12 @@ export class Arena {
     this.mapDistance(u,z.origin)>60)){
     u.boardChannelUntilV453Dev69=0;ended=true;
    }
-   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||z.kind==='delayed_radiance')){
+   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='delayed_radiance'){
+    if(z.kind==='satchel_charge'){
+     this.detonateBoardSatchelV453Dev69(z);ended=true;
+    }else if(z.kind==='delayed_radiance'){
      if(u.hp>0){
       for(const ally of this.units.filter(v=>v.team===z.team&&v.hp>0&&
        this.mapDistance(u,v)<=z.radius))
