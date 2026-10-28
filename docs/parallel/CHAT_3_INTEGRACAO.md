@@ -1,3 +1,5 @@
+> **Instrução vigente dev69:** Leia [FAST_LANE_DEV69.md](FAST_LANE_DEV69.md). Integrar um PR por vez; QA FAST nos especialistas, QA INTEGRATION após merges, QA RELEASE somente na candidata consolidada. PRs #6/#7 já mesclados; revisar regressão v39 e assets P0 antes de release.
+
 # Chat 3 — Integrador principal / PvP
 
 **Branch exclusiva:** `dev69/integration`; `main` é versão canônica, nunca playground. **Integração de lógica liberada em SOURCE_READY. Não promover release/main até obter o clone completo com assets, preservar backup do Git e fechar Issue #1.**
