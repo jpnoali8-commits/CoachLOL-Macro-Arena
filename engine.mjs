@@ -5126,7 +5126,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     p.traveledV453Dev43=to;
     if(!reason&&to<p.range-1e-7){still.push(p);continue;}
     reason??='fim_alcance';
-    this.championProjectileHistoryV453Dev42.push({id:p.id,time:now,ownerId:p.ownerId,
+    (this.championProjectileHistoryV453Dev42??=[]).push({id:p.id,time:now,ownerId:p.ownerId,
      hitIds:[...p.hitIds],hitId:owner.vexMark?.targetId||null,reason,
      origin,end:position(lastDepth),traveled:lastDepth,riftRevision:p.riftRevision});
     if(this.championProjectileHistoryV453Dev42.length>100)this.championProjectileHistoryV453Dev42.shift();
