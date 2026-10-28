@@ -907,16 +907,45 @@ function updateInspector(){updateRoster();$('emptyInspector').hidden=!!selected;
  // different inventory resources; sweeper reveals but never auto-destroys.
  let visionTray=$('visionActions');if(!visionTray){visionTray=document.createElement('div');visionTray.id='visionActions';visionTray.className='visionActions';row.after(visionTray);}
  visionTray.innerHTML='';
- for(const [type,label,icon,tone] of [['stealth','Ward','◈','gold'],['control','Pink','◆','rose'],['farsight','Azul','◉','cyan'],['oracle','Lente','◎','cyan']]){
+ for(const [type,label,icon,tone] of [[ 'stealth',u.trinket==='effigy'?'Espantalho':'Ward',u.trinket==='effigy'?'♙':'◈','gold'],['control','Pink','◆','rose'],...(u.champ==='Fiddlesticks'&&u.role==='SUP'&&u.supportQuest>=400?[['support','Suporte','◈','gold']]:[]),['farsight','Azul','◉','cyan'],['oracle','Lente','◎','cyan']]){
   const b=document.createElement('button');b.type='button';b.className='visionChoice '+tone+(type===selectedWardType&&action==='ward'?' active':'');
-  const rest=type==='control'?(u.controlWardStock||0):type==='oracle'?Math.max(0,(u.oracleCd||0)-match.gameTime):u.wardCharges;
+  const rest=type==='control'?(u.controlWardStock||0):type==='support'?(u.supportVisionChargesV453Dev69C||0):type==='oracle'?Math.max(0,(u.oracleCd||0)-match.gameTime):u.wardCharges;
   b.innerHTML=`<strong>${icon}</strong><span>${label}</span><small>${type==='oracle'?(rest>0?Math.ceil(rest)+'s':'PRONTA'):rest}</small>`;
-  b.title=type==='control'?'Sentinela de controle · permanece até destruir ou substituir':type==='oracle'?'Trinket Lente Reveladora · um turno de varredura':type==='farsight'?'Sentinela Azul · pode ativar pontos de visão':'Trinket Ward Amarela';
+  b.title=type==='stealth'&&u.trinket==='effigy'?'Fiddlesticks: efígie exclusiva do slot 4 · duas cargas · imita campeão ao ser encontrada':type==='control'?'Sentinela de controle · permanece até destruir ou substituir':type==='oracle'?'Trinket Lente Reveladora · um turno de varredura':type==='farsight'?'Sentinela Azul · pode ativar pontos de visão':'Trinket Ward Amarela';
   b.disabled=type==='stealth'&&['oracle','farsight'].includes(u.trinket)||type==='farsight'&&u.trinket!=='farsight'||type==='oracle'&&(u.trinket||'stealth')!=='oracle';
   b.onclick=()=>{if(type==='oracle'){const r=match.activateOracle('blue',u.id);notify(r.ok?'Lente reveladora ativada nesta resolução tática.':r.reason);updateInspector();requestDraw();}
   else{selectedWardType=type;mode('ward');}};
   visionTray.append(b);
  }
+ // Quest-only item choices are an in-game action, never a shop purchase.
+ // Keep the tray compact and scoped to the currently selected owned champion.
+ let conditionalTray=$('conditionalItemsTrayV453Dev69C');
+ if(!conditionalTray){conditionalTray=document.createElement('div');conditionalTray.id='conditionalItemsTrayV453Dev69C';conditionalTray.className='visionActions';visionTray.after(conditionalTray);}
+ conditionalTray.replaceChildren();
+ if(u.role==='SUP'&&u.supportQuest>=800&&u.items?.includes('support_bounty')){
+  for(const [id,label] of [['support_celestial_opposition','Oposição'],['support_dream_maker','Sonhos'],['support_zaz_zak','Zaz’Zak'],['support_solstice_sleigh','Trenó'],['support_bloodsong','Canção']]){
+   const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+   btn.textContent=label;btn.title='Missão SUP concluída: escolher '+label+' grátis, somente uma vez';
+   btn.onclick=()=>{const out=match.chooseSupportFinalV453Dev69C('blue',u.id,id);notify(out.ok?label+' equipado sem gastar ouro.':out.reason);updateInspector();requestDraw();};
+   conditionalTray.append(btn);
+  }
+ }
+ if(u.champ==='Kalista'&&match.gameTime<180&&u.hp>0){
+  if(u.blackSpearAvailableV453Dev69C&&!u.pendingOathswornV453Dev69C){
+   for(const ally of match.units.filter(v=>v.team===u.team&&v.id!==u.id&&v.hp>0)){
+    const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+    btn.textContent='Pacto: '+ally.champ;btn.title='Lança Negra: vincular aliado, canal 6,5 segundos';
+    btn.onclick=()=>{const out=match.bindBlackSpearV453Dev69C('blue',u.id,ally.id);notify(out.ok?'Pacto solicitado para '+ally.champ:out.reason);updateInspector();requestDraw();};
+    conditionalTray.append(btn);
+   }
+  }else if(!u.blackSpearAvailableV453Dev69C&&!u.pendingOathswornV453Dev69C){
+   const btn=document.createElement('button');btn.type='button';btn.className='visionChoice gold';
+   btn.textContent='Recuperar Lança';btn.title='Recomprar a Lança Negra grátis na fonte antes de 03:00';
+   btn.onclick=()=>{const out=match.recoverBlackSpearV453Dev69C('blue',u.id);notify(out.ok?'Lança recuperada.':out.reason);updateInspector();};
+   conditionalTray.append(btn);
+  }
+ }
+ conditionalTray.hidden=!conditionalTray.childElementCount;
  renderTactics();$('routeTools').hidden=!drawRoute;renderRouteEditor();
  if($('quickToggles')){
   $('quickToggles').innerHTML='';
@@ -2020,7 +2049,7 @@ function fitRecipeTreeV453Dev48(){
 function renderShop(filter){
  shopFilter=filter;const u=selected;if(!u)return;
  if(shopSelection&&!catalog.some(i=>i.id===shopSelection)&&!officialReferenceIndexV453Dev48.has(shopSelection))shopSelection=null;
- const suggested=[...recommendedItems(u),'trinket_stealth','trinket_oracle','trinket_farsight'];
+ const suggested=u.champ==='Fiddlesticks'?[...recommendedItems(u)]:[...recommendedItems(u),'trinket_stealth','trinket_oracle','trinket_farsight'];
  document.querySelectorAll('#shopTabs button').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
  let items=filter==='all'?catalog.filter(x=>!x.notPurchasable&&(!x.roleLock||x.roleLock===u.role)):filter==='starter'?catalog.filter(x=>x.tags.includes('starter')&&(u.role==='JG'?x.roleLock==='JG':u.role==='SUP'?x.roleLock==='SUP':!x.roleLock)):filter==='damage'?catalog.filter(x=>!x.notPurchasable&&(x.stats.ad||x.stats.ap||x.stats.atkSpeed||x.stats.attackSpeedPct||x.stats.critChance)&&(!x.roleLock||x.roleLock===u.role)):filter==='defense'?catalog.filter(x=>!x.notPurchasable&&(x.stats.hp||x.stats.armor||x.stats.mr)&&(!x.roleLock||x.roleLock===u.role)):filter==='utility'?catalog.filter(x=>!x.notPurchasable&&(x.tags.includes('move')||x.tags.includes('vision')||x.roleLock)&&(!x.roleLock||x.roleLock===u.role)):catalog.filter(x=>suggested.includes(x.id));
  if(['tank','fighter','mage','marksman','support'].includes(filter))items=catalog.filter(x=>!x.notPurchasable&&(!x.roleLock||x.roleLock===u.role)&&x.tags.includes(filter));

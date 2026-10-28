@@ -1,0 +1,100 @@
+name: CoachLOL dev69 — Items Full Audit
+on:
+  push:
+    branches: [dev69/items-full-audit]
+  pull_request:
+    branches: [dev69/items-batch7]
+permissions:
+  contents: read
+jobs:
+  audit-and-families:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Node syntax checks
+        run: |
+          node --check engine.mjs
+          node --check app.js
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tests/v453_dev69_items_full_audit_mid_quest.test.mjs
+          node --check tests/v453_dev69_items_full_audit_patch2621.test.mjs
+          node --check tools/audit_sr_items_full_dev69.mjs
+      - name: Original Dev68 asset byte integrity
+        run: node tests/v453_dev69_assets_runtime_integrity.test.mjs
+      - name: Full item inventory and discrepancy matrix
+        run: node tools/audit_sr_items_full_dev69.mjs
+      - name: Every normal SR item authoritative purchase and Undo
+        run: node tests/v453_dev69_items_full_audit_all202_shop_undo.test.mjs
+      - name: MID role quest 2026 mechanics
+        run: node tests/v453_dev69_items_full_audit_mid_quest.test.mjs
+      - name: Riot PC 26.20–26.21 item mechanics
+        run: node tests/v453_dev69_items_full_audit_patch2621.test.mjs
+      - name: Conditional and exclusive item mechanics — Fiddle, Kalista, five support rewards
+        run: |
+          node tests/v453_dev69_items_conditionals_effigy_oath.test.mjs
+          node tests/v453_dev69_items_conditionals_support_final.test.mjs
+          node tests/v453_dev69_items_conditionals_gateway_pvp.test.mjs
+      - name: Batch 7 and 6 mechanics
+        run: |
+          npm run test:v453:dev69:items-batch7
+          npm run test:v453:dev69:items-batch6
+      - name: Prior item-family regressions
+        run: |
+          node tests/v453_dev69_items_batch5_support_family.test.mjs
+          node tests/v453_dev69_items_batch4_tank_family.test.mjs
+          node tests/v453_dev69_items_batch3_attack_family.test.mjs
+          node tests/v453_dev69_items_bulk_18.test.mjs
+          node tests/v453_dev69_items_batch2.test.mjs
+          node tests/v453_dev69_items_batch1.test.mjs
+      - name: Ownership, Undo and Skills safety
+        run: |
+          node tests/v453_dev61_shop_undo_pvp.test.mjs
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs
+      - name: Upload item audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev69-full-items-audit-matrix
+          path: artifacts/items_full_audit_dev69/
+          if-no-files-found: warn
+
+  full-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Full historical, item, skill and PvP regression
+        run: npm test
+
+  independent-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit independent modern regression cases, collect all failures
+        shell: bash
+        run: |
+          fail=0
+          count=0
+          for file in tests/v453*.test.mjs; do
+            count=$((count+1))
+            if node "$file" > /tmp/coachlol-independent-test.log 2>&1; then
+              echo "PASS $file"
+            else
+              echo "FAIL $file"
+              tail -n 25 /tmp/coachlol-independent-test.log
+              fail=$((fail+1))
+            fi
+          done
+          echo "MODERN SUITE: $count independent files, $fail failed"
+          test "$fail" -eq 0

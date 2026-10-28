@@ -48,7 +48,7 @@ t('dev36 snapshot retains 67 mapped originals; reference-only IDs remain non-pur
  assert.equal(official.items['3869'].mechanicsCertified,false);
 });
 t('local/official recipe differences are reported without modifying game data',()=>{
- assert.deepEqual(official.audit.priceDeltas.map(x=>x.id).sort(),['3866','3867']); // conditional quest stages, not purchasable items
+ assert.deepEqual(official.audit.priceDeltas.map(x=>x.id).sort(),[]); // quest-only entries no longer pollute normal shop price audit
  assert.equal(official.audit.recipeDeltas.length,0); // dev37 reconciled the five originals
  assert.ok(Object.keys(ITEM_RECIPES).length>20);
  assert.ok(Object.keys(ITEM_EFFECTS_V43).length>10);

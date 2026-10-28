@@ -19,7 +19,7 @@ test('evoluções condicionais e exclusividades excluídas da compra comum',()=>
  for(const row of Object.values(sr.rows))if(['conditional_quest','champion_exclusive'].includes(row.status))assert.notEqual(row.status,'engine_playable');
 });
 test('referência sem mecânica não anuncia compra executável',()=>{
- assert.ok(sr.counts.referenceOnly>0);assert.equal(sr.counts.normalPlayable+sr.counts.referenceOnly,sr.counts.normalStore);
+ assert.equal(sr.counts.normalStore,202);assert.equal(sr.counts.normalPlayable,202);assert.equal(sr.counts.referenceOnly,0);
  const app=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
  assert.match(app,/row.status==='reference_only'/);assert.match(app,/notPurchasable:true/);
  assert.match(app,/buy.disabled=true;buy.textContent='INDISPONÍVEL'/);

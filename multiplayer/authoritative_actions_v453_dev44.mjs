@@ -13,8 +13,11 @@ const VALID_KINDS=Object.freeze([
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
-const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo']);
-const validV47=(kind,p)=>kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
+const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo','item.supportFinal','item.blackSpear','item.blackSpearRecover']);
+const validV47=(kind,p)=>kind==='item.supportFinal'?shape(p,['itemId'])&&validId(p.itemId):
+ kind==='item.blackSpear'?shape(p,['targetId'])&&validId(p.targetId):
+ kind==='item.blackSpearRecover'?shape(p,[]):
+ kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v)&&Object.getPrototypeOf(v)===Object.prototype;
 const validId=v=>typeof v==='string'&&v.length>0&&v.length<=96&&/^[A-Za-z0-9_-]+$/.test(v);
@@ -82,6 +85,9 @@ function dispatch(arena,unit,kind,p){
   case 'summoner.queue':return arena.queueSummoner(team,id,p.type,p.targetId??null);
   case 'item.queue':return arena.queuePurchase(team,id,p.itemId);
   case 'item.buy':return arena.buy(team,id,p.itemId)?{ok:true}:arena.canBuy(team,id,p.itemId);
+  case 'item.supportFinal':return arena.chooseSupportFinalV453Dev69C(team,id,p.itemId);
+  case 'item.blackSpear':return arena.bindBlackSpearV453Dev69C(team,id,p.targetId);
+  case 'item.blackSpearRecover':return arena.recoverBlackSpearV453Dev69C(team,id);
   case 'item.sell':return arena.sellItemV43(team,id,p.index);
   case 'item.undo':return arena.undoShopV453Dev61(team,id);
   case 'item.cancelQueue':return arena.cancelQueuedPurchase(team,id,p.index)?{ok:true}:fail('cancelamento_indisponivel');
