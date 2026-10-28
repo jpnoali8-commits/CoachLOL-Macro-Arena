@@ -92,6 +92,63 @@ for(const team of ['blue','red']){
  const z=prepare('Vex',team);z.a.applyEffectV41(z.v,'spell_shield',{source:z.v,duration:5});
  z.a.launchWaveShadowV453Dev69(z.u,'R',{x:.9,y:.5});z.a.gameTime=.5;z.a.advanceChampionProjectilesV453Dev42();
  test(team+' Vex spell shield consumes missile without marking',()=>{assert.equal(z.v.hp,2000);assert.equal(z.u.vexMark??null,null)});
+ const guarded=prepare('Nami',team);
+ guarded.a.projectileBarriersV453Dev43.push({id:'r69_barrier',team:enemyTeam,x:.515,y:.5,radius:70,until:3});
+ guarded.a.launchWaveShadowV453Dev69(guarded.u,'R',{x:.9,y:.5});
+ guarded.a.gameTime=.7;guarded.a.advanceChampionProjectilesV453Dev42();
+ test(team+' Nami wave stops on enemy projectile wall, no CC or HP loss',()=>{
+  assert.equal(guarded.v.hp,2000);
+  assert.equal(guarded.a.championProjectileHistoryV453Dev42.at(-1).reason,'bloqueio_posicional');
+  assert.equal(guarded.a.effectResolverV41().has(guarded.v,'knockup'),false);
+ });
+ const dodge=prepare('Nami',team);
+ dodge.a.launchWaveShadowV453Dev69(dodge.u,'R',{x:.9,y:.5});
+ dodge.v.y=.54;dodge.a.gameTime=.7;dodge.a.advanceChampionProjectilesV453Dev42();
+ test(team+' moving perpendicular to Nami wave avoids lateral collision',()=>assert.equal(dodge.v.hp,2000));
+ const passing=prepare('Vex',team);
+ const minion={id:'dev69_vex_minion_'+team,team:enemyTeam,x:.515,y:.5,
+  kind:'melee',lane:'mid',hp:400,maxHp:400,spawnAt:0,armor:0,mr:0};
+ passing.a.minions.push(minion);
+ passing.a.launchWaveShadowV453Dev69(passing.u,'R',{x:.9,y:.5});
+ passing.a.gameTime=.5;passing.a.advanceChampionProjectilesV453Dev42();
+ test(team+' Vex missile damages minion but only stops on first champion',()=>{
+  assert.ok(minion.hp<400);assert.equal(passing.u.vexMark?.targetId,passing.v.id);
+ });
+ const rooted=prepare('Vex',team);
+ rooted.a.launchWaveShadowV453Dev69(rooted.u,'R',{x:.9,y:.5});
+ rooted.a.gameTime=.5;rooted.a.advanceChampionProjectilesV453Dev42();
+ rooted.a.applyEffectV41(rooted.u,'root',{source:rooted.v,duration:3});
+ assert.ok(rooted.a.queueVexRecast(team,rooted.u.id).ok);
+ const manaBeforeRooted=rooted.u.mana;rooted.a.resolveDirectionalSkills();
+ test(team+' root interrupts Vex R2 before start, without second cost',()=>{
+  assert.equal(rooted.u.vexDashV453Dev69??null,null);
+  assert.equal(rooted.u.vexMark?.targetId,rooted.v.id);
+  assert.equal(rooted.u.mana,manaBeforeRooted);
+ });
+ rooted.a.gameTime=4.6;
+ test(team+' Vex cannot recast after mark expires',()=>assert.equal(rooted.a.queueVexRecast(team,rooted.u.id).ok,false));
+ const hidden=prepare('Vex',team);
+ const otherHidden=hidden.a.units.find(w=>w.id===enemyTeam+'_TOP');
+ hidden.a.launchWaveShadowV453Dev69(hidden.u,'R',{x:.9,y:.5});
+ hidden.a.gameTime=.5;hidden.a.advanceChampionProjectilesV453Dev42();
+ hidden.a.visible=Arena.prototype.visible.bind(hidden.a);
+ hidden.a.canSeePoint=()=>false; // Simulate fog with zero vision sources.
+ test(team+' mark reveals only struck target to casting team, no global fog reveal',()=>{
+  assert.equal(hidden.a.visible(team,hidden.v),true);
+  assert.equal(hidden.a.visible(team,otherHidden),false);
+  assert.equal(hidden.a.visible(enemyTeam,hidden.u),false);
+  assert.equal(hidden.a.perspective(team).units.some(w=>w.id===otherHidden.id),false);
+ });
+ hidden.a.gameTime=5;
+ test(team+' mark reveal expires and target returns to fog',()=>assert.equal(hidden.a.visible(team,hidden.v),false));
+ const combo=prepare('Nami',team);
+ combo.u.order={kind:'attack',targetId:combo.v.id,combo:['R'],comboIndex:0,comboNextAt:0};
+ combo.a.duelPermission=()=>true;combo.a.resolveQueuedCombos();
+ test(team+' offensive R combo uses temporal cast, not generic instant damage',()=>{
+  assert.equal(combo.v.hp,2000);
+  assert.equal(combo.a.championProjectilesV453Dev42[0]?.kind,'nami_r');
+  assert.equal(combo.u.order.comboIndex,1);
+ });
  const k=prepare('Vex',team);const invalid=k.a.launchWaveShadowV453Dev69(k.u,'R',{x:.5,y:.5});
  test(team+' zero direction rejected with no cost',()=>{assert.equal(invalid.ok,false);assert.equal(k.u.mana,500)});
 }
@@ -126,6 +183,26 @@ for(const team of ['blue','red']){
    const x=restored.arena.units.find(w=>w.id===u.id);
    assert.equal(x.mana,400);assert.equal(restored.arena.championProjectilesV453Dev42.length,1);
    assert.equal(restored.gateway.seats.get(team==='blue'?'p1':'p2').lastSequence,1);
+  });
+  const vex=a.units.find(w=>w.id===team+'_TOP');
+  const marked=a.units.find(w=>w.id===(team==='blue'?'red':'blue')+'_TOP');
+  Object.assign(vex,{champ:'Vex',x:.5,y:.5,skillRanks:{Q:1,W:1,E:1,R:1},
+   skillCds:{Q:0,W:0,E:0,R:120},mana:500,maxMana:500,vexMark:{targetId:marked.id,until:a.gameTime+4}});
+  Object.assign(marked,{x:.532,y:.5,hp:2000,maxHp:2000});
+  const recastReq={sequence:2,unitId:vex.id,kind:'skill.recast_vex',payload:{}};
+  const foreignR2=await call('action',recastReq,wrong),ownR2=await call('action',recastReq,own),
+   againR2=await call('action',recastReq,own);
+  test(team+' PvP Vex R2 rejects enemy seat and deduplicates authenticated sequence',()=>{
+   assert.equal(foreignR2.status,409);assert.equal(ownR2.status,200,JSON.stringify(ownR2.data));
+   assert.deepEqual(againR2.data,ownR2.data);assert.equal(vex.mana,500);
+  });
+  a.resolveDirectionalSkills();room.persist();
+  const restoredR2=new PvPRoomRegistryV453Dev47({map,mask,manifest,checkpointDir:tmp}).get(room.id);
+  test(team+' PvP Vex R2 dash survives checkpoint without extra mana',()=>{
+   const copy=restoredR2.arena.units.find(w=>w.id===vex.id);
+   assert.ok(copy.vexDashV453Dev69);assert.equal(copy.vexMark,null);
+   assert.equal(copy.mana,500);
+   assert.equal(restoredR2.gateway.seats.get(team==='blue'?'p1':'p2').lastSequence,2);
   });
   const mine=await call('session',undefined,own),other=await call('session',undefined,wrong);
   test(team+' both human seats scope their 5 champions and exclude hidden projectile state',()=>{
