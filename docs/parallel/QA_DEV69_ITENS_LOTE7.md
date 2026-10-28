@@ -49,3 +49,9 @@ O lote incorpora **19 itens normais anteriormente reference_only** e vincula **A
 Os efeitos ainda são *adaptadores treináveis* em parte de parâmetros de dano, geometria de ativos/escudos, interações em monstros/torres, rastro visual, porcentagens precisas e evolução por papel. Não declarar status `certified` enquanto existirem essas lacunas. `engine.browser.js` não foi sincronizado pelo especialista; auditor precisa regenerar, reconciliar Skills e rodar full npm test/Chromium PvP duas sessões/rollback.
 
 **Rollback:** `git revert` da cadeia de commits do PR. Nunca force push, reset hard ou merge fora do auditor.
+
+## Evidência CI final do especialista
+
+- [GitHub Actions FAST #40778402689](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40778402689): **SUCCESS**, 20/20 contratos Batch 7 e todas as regressões direcionadas anteriores.
+- Contagem do log: Batch7 20 + Batch6 23 + Batch5 23 + Batch4 26 + Batch3 19 + Bulk 23 + Batch2 11 + Batch1 8 + Dev61 22 + Dev68 40 = **215/215 PASS**. Sintaxe Node/dispatcher também PASS.
+- Este é **FAST QA**, não testes integrais, browser nem certificação dos valores exatos Riot. PR de revisão: [#16](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/pull/16), base Batch 6, sem merge.
