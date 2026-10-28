@@ -708,7 +708,11 @@ export const CHAMPION_KITS_V42=Object.freeze({
   Q:{name:'Orb of Deception',kind:'line_return',range:970,width:200,speed:1550,mana:[55,65,75,85,95],cooldown:[7],
    damage:[35,60,85,110,135],apRatio:.45,implemented:'prototype'},
   E:{name:'Charm',kind:'line_projectile',range:1000,width:120,speed:1550,mana:[60],cooldown:[12],
-   damage:[80,120,160,200,240],apRatio:.85,duration:[1.2,1.35,1.5,1.65,1.8],implemented:'prototype'}
+   damage:[80,120,160,200,240],apRatio:.85,duration:[1.2,1.35,1.5,1.65,1.8],implemented:'prototype'},
+  W:{name:'Fox-Fire',kind:'self_burst',range:700,mana:[30],cooldown:[9,8,7,6,5],
+   damage:[40,60,80,100,120],apRatio:.30,fireCount:3,speedBuff:.40,speedDuration:2,implemented:'prototype'},
+  R:{name:'Spirit Rush',kind:'dash_recast',range:450,mana:[100],cooldown:[140,120,100],
+   damage:[60,90,120],apRatio:.35,shots:3,charges:3,recastSeconds:15,implemented:'prototype'}
  })})
 });
 // Dev41: only the explicitly audited Q abilities may use the Dev40 on-hit
@@ -2641,6 +2645,16 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
+  if(u?.champ==='Ahri'&&slot==='W'){
+   if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
+    return {ok:false,reason:'fase_indisponível'};
+   // W self-cast is executed in the authoritative action resolver; no remote target.
+   if(u.pendingAhriFoxFireV453Dev69M4)return {ok:false,reason:'ação_pendente'};
+   const gate=castGateV39(u,'W',this.gameTime);if(!gate.ok)return {ok:false,reason:gate.reason};
+   u.pendingAhriFoxFireV453Dev69M4=true;
+   this.recordIntentV40(team,u.id,'kit_self',{slot:'W'});
+   return {ok:true};
+  }
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
   if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
   // Lux E recast has no second mana/cooldown cost. A zone is not the same as a QWER spell cast.
@@ -2680,6 +2694,10 @@ export class Arena {
      for(const enemy of areaHitsV42(zone.point,this.units.filter(v=>v.team!==u.team&&v.hp>0),310,this.worldWidth,this.worldHeight))
       fx.apply(enemy,'slow',{source:u,duration:1.25,power:slow(kitSpellV42('Lux','E'))/100,key:'lux_e_'+u.id});
     }
+   }
+   if(u.pendingAhriFoxFireV453Dev69M4){
+    const fired=this.castAhriFoxFireV453Dev69M4(u);
+    if(fired.ok||fired.reason!=='incapacitado')u.pendingAhriFoxFireV453Dev69M4=false;
    }
    const q=u.pendingKitCastV42;if(!q)continue;
    const rule=kitSpellV42(u.champ,q.slot);if(!rule){u.pendingKitCastV42=null;continue;}
@@ -2734,15 +2752,111 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
-  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
+  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
-  const gate=recastE?{ok:true}:castGateV39(u,slot,this.gameTime);
+  const recastAhriR=u.champ==='Ahri'&&slot==='R'&&u.ahriSpiritRushV453Dev69M4?.until>this.gameTime&&u.ahriSpiritRushV453Dev69M4?.charges>0;
+  const gate=recastE||recastAhriR?{ok:true}:castGateV39(u,slot,this.gameTime);
   if(!gate.ok)return {ok:false,reason:gate.reason};
   u.queuedDirectional={slot,point:{x:point.x,y:point.y},issuedAt:this.gameTime};
   this.recordIntentV40(team,unitId,'directional_skill',{slot,point:{x:point.x,y:point.y}});
   this.event(`${u.champ}: ${slot} direcional programado.`,team,'skill_order',u.id);
   return {ok:true};
+ }
+ // Ahri M4 kit: W three individually scheduled fox-fires; R three real dash
+ // charges and passive Essence Theft credited exclusively on confirmed takedowns.
+ castAhriFoxFireV453Dev69M4(u){
+  const rule=kitSpellV42(u?.champ,'W');
+  if(u?.champ!=='Ahri'||u.hp<=0||!rule)return {ok:false,reason:'campeão_inválido'};
+  const r=u.skillRanks?.W||0;if(r<1)return {ok:false,reason:'não_aprendido'};
+  const commit=this.performActionV40({actorId:u.id,kind:'skill',slot:'W',
+   source:'ahri_fox_fire_v453_dev69_m4',checkRange:false});
+  if(!commit.ok)return commit;
+  const ap=this.elementalStatsV452d3(u).ap;
+  u.ahriFoxFireSpeedUntilV453Dev69M4=this.gameTime+rule.speedDuration;
+  (this.ahriFoxFiresPendingV453Dev69M4??=[]).push({ownerId:u.id,team:u.team,
+   firedAt:this.gameTime,remaining:rule.fireCount,nextAt:this.gameTime,
+   range:rule.range,raw:rule.damage[Math.min(4,r-1)]+ap*rule.apRatio,
+   hitCounts:{},id:'ahri_w_'+(++this.championProjectileSeqV453Dev42)});
+  return {...commit,pending:true,fireCount:3};
+ }
+ advanceAhriFoxFireV453Dev69M4(){
+  const keep=[];
+  for(const p of this.ahriFoxFiresPendingV453Dev69M4||[]){
+   const u=this.units.find(v=>v.id===p.ownerId&&v.team===p.team);
+   if(!u||u.hp<=0)continue;
+   while(p.remaining>0&&this.gameTime>=p.nextAt){
+    // Targeting never reads from enemy fog: visible champion, then nearby minion.
+    const enemies=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&this.mapDistance(u,v)<=p.range&&
+     (!v.champ||this.visible(p.team,v)));
+    enemies.sort((a,b)=>Number(!!b.champ)-Number(!!a.champ)||
+     (p.hitCounts[a.id]||0)-(p.hitCounts[b.id]||0)||
+     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)));
+    const target=enemies[0];
+    if(target){const repeat=p.hitCounts[target.id]||0;
+     this.damage(target,p.raw*(repeat? .3:1),u,'magic','spell');
+     p.hitCounts[target.id]=repeat+1;
+    }
+    p.remaining--;p.nextAt+=.2;
+   }
+   if(p.remaining>0)keep.push(p);
+  }
+  this.ahriFoxFiresPendingV453Dev69M4=keep;
+ }
+ castAhriSpiritRushV453Dev69M4(u,point){
+  const rule=kitSpellV42(u?.champ,'R'),now=this.gameTime;
+  if(u?.champ!=='Ahri'||u.hp<=0||!rule||!point||![point.x,point.y].every(Number.isFinite))
+   return {ok:false,reason:'skill_inválida'};
+  if(!this.effectResolverV41().canAct(u,'dash').ok||!this.effectResolverV41().canAct(u,'skill').ok)
+   return {ok:false,reason:'incapacitado'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'direção_inválida'};
+  const travel=Math.min(len,rule.range),steps=Math.ceil(travel/25);
+  let to={x:u.x,y:u.y};
+  for(let step=1;step<=steps;step++){
+   const d=Math.min(travel,step*25),candidate={x:u.x+dx/len*d/this.worldWidth,y:u.y+dy/len*d/this.worldHeight};
+   if(!this.walkable(candidate.x,candidate.y))break;
+   to=candidate;
+  }
+  if(this.mapDistance(u,to)<1)return {ok:false,reason:'bloqueio_terreno'};
+  const current=u.ahriSpiritRushV453Dev69M4;
+  const recast=current?.until>now&&current?.charges>0;
+  if(!recast){
+   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
+    source:'ahri_spirit_rush_v453_dev69_m4',checkRange:false});
+   if(!committed.ok)return committed;
+   u.ahriSpiritRushV453Dev69M4={until:now+rule.recastSeconds,charges:rule.charges,
+    takedowns:0};
+  }
+  const state=u.ahriSpiritRushV453Dev69M4;
+  if(!(state?.charges>0&&state.until>now))return {ok:false,reason:'sem_cargas'};
+  state.charges--;u.x=to.x;u.y=to.y;
+  const rank=Math.max(1,Math.min(3,u.skillRanks.R));
+  const ap=this.elementalStatsV452d3(u).ap;
+  const targets=this.units.filter(v=>v.team!==u.team&&v.hp>0&&
+   this.mapDistance(u,v)<=600&&this.visible(u.team,v))
+   .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||a.id.localeCompare(b.id)).slice(0,3);
+  for(const v of targets)this.damage(v,rule.damage[rank-1]+ap*rule.apRatio,u,'magic','spell');
+  return {ok:true,recast,charges:state.charges,until:state.until,hits:targets.length,
+   at:to};
+ }
+ ahriEssenceDeathV453Dev69M4(hero,{champion=false}={}){
+  if(hero?.champ!=='Ahri'||hero.hp<=0)return;
+  if(champion){
+   this.effectResolverV41().heal(hero,80+120*Math.max(0,(hero.level-1)/17)+.35*this.elementalStatsV452d3(hero).ap,hero);
+   const r=hero.ahriSpiritRushV453Dev69M4;
+   if(r?.until>this.gameTime){
+    r.charges=Math.min(3,r.charges+1);
+    r.until=Math.min(this.gameTime+25,r.until+10);
+   }
+  }else{
+   hero.ahriEssenceMinionsV453Dev69M4=(hero.ahriEssenceMinionsV453Dev69M4||0)+1;
+   if(hero.ahriEssenceMinionsV453Dev69M4>=9){
+    hero.ahriEssenceMinionsV453Dev69M4=0;
+    this.effectResolverV41().heal(hero,35+(.10*this.elementalStatsV452d3(hero).ap),hero);
+   }
+  }
  }
  // M2 Lux Illumination: source-owned mark, never shared across Lux players.
  luxMarkIlluminationV453Dev69M2(u,v){
@@ -3093,6 +3207,11 @@ export class Arena {
     const cast=this.castLuxFinalSparkV453Dev69M3(u,q.point);
     if(cast.ok||!['incapacitado','cc_stun','cc_charm','cc_fear','cc_knockup','cc_suppression'].includes(cast.reason))
      u.queuedDirectional=null;
+    continue;
+   }
+   if(u.champ==='Ahri'&&q.slot==='R'){
+    const result=this.castAhriSpiritRushV453Dev69M4(u,q.point);
+    if(result.ok||result.reason!=='incapacitado')u.queuedDirectional=null;
     continue;
    }
    if((u.champ==='Ahri'&&['Q','E'].includes(q.slot))||
@@ -4170,7 +4289,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -4436,7 +4555,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.namiSurgingSpeedV453Dev69B2(u),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.champ==='Ahri'&&u.ahriFoxFireSpeedUntilV453Dev69M4>this.gameTime?.40:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5456,7 +5575,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     let hero=attacker.champ?attacker:null;
     // V4.5.1: minions/turrets do not transfer a kill to a nearby champion.
     // Only the source of the actual killing hit earns CS and last-hit gold.
-    if(hero){hero.cs++;const bounty=target.kind==='siege'?50:target.kind==='super'?55:target.kind==='caster'?14:20;const assigned=hero.role==='TOP'?'top':hero.role==='MID'?'mid':['SUP','ADC'].includes(hero.role)?'bot':null;const gained=assigned&&hero.level<3&&target.lane!==assigned?Math.round(bounty*.75):bounty;this.creditGoldV452d4Dev7(hero,gained,'minion');this.recordEconomyV43(hero,'minion',gained,target.kind);
+    if(hero){hero.cs++;this.ahriEssenceDeathV453Dev69M4(hero);const bounty=target.kind==='siege'?50:target.kind==='super'?55:target.kind==='caster'?14:20;const assigned=hero.role==='TOP'?'top':hero.role==='MID'?'mid':['SUP','ADC'].includes(hero.role)?'bot':null;const gained=assigned&&hero.level<3&&target.lane!==assigned?Math.round(bounty*.75):bounty;this.creditGoldV452d4Dev7(hero,gained,'minion');this.recordEconomyV43(hero,'minion',gained,target.kind);
       // DEV69: Reap advances on the authoritative unique minion kill event.
       // A dead minion cannot pay twice, even on replay or reconnect.
       if(hero.items?.includes('cull')){
@@ -5482,6 +5601,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
+    if(credited)this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});
+    for(const helper of assistingChampions)this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
     if(gloryItem)this.setGloryStacksV453Dev58(target,(target.gloryStacksV453Dev58||0)-ITEM_EFFECTS_V43[gloryItem].stacksLostOnDeath);
     target.deadUntil=this.gameTime+Math.min(55,10+target.level*3+Math.max(0,this.gameTime-1500)/110);
