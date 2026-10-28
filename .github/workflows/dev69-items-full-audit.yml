@@ -18,6 +18,7 @@ jobs:
       - name: Node syntax checks
         run: |
           node --check engine.mjs
+          node --check app.js
           node --check multiplayer/authoritative_actions_v453_dev44.mjs
           node --check tests/v453_dev69_items_full_audit_mid_quest.test.mjs
           node --check tests/v453_dev69_items_full_audit_patch2621.test.mjs
