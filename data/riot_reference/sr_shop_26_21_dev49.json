@@ -8,9 +8,9 @@
     "normalStore": 202,
     "conditional": 5,
     "championExclusive": 3,
-    "normalPlayable": 137,
-    "referenceOnly": 65,
-    "localCatalog": 140
+    "normalPlayable": 152,
+    "referenceOnly": 50,
+    "localCatalog": 155
   },
   "rows": {
     "1001": {
@@ -1176,11 +1176,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "eternal_despair",
       "passiveOrActiveDescription": "<mainText><stats><attention>400</attention> de Vida<br><attention>50</attention> de Armadura<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Angústia</passive><br>Enquanto estiver em combate contra Campeões, a cada 4s, causa <magicDamage>Dano Mágico</magicDamage> a Campeões inimigos próximos e <healing>cura 250%</healing> do dano causado.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "2503": {
       "id": "2503",
@@ -1493,11 +1493,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "archangels_staff",
       "passiveOrActiveDescription": "<mainText><stats><attention>70</attention> de Poder de Habilidade<br><attention>600</attention> de Mana<br><attention>25</attention> de Aceleração de Habilidade</stats><br><br><passive>Fascínio</passive><br>Recebe Poder de Habilidade equivalente a <scaleMana>1% do Mana adicional</scaleMana>.<br><br><passive>Fluxo de Mana</passive> (8s, máximo de 5 cargas)<br>Acertar Habilidades concede <scaleMana>5 de Mana máximo</scaleMana> (dobrado contra Campeões).<br>Transforma-se em <rarityLegendary>Abraço de Seraph</rarityLegendary> com <scaleMana>360 de Mana máximo</scaleMana>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3004": {
       "id": "3004",
@@ -1519,11 +1519,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "manamune",
       "passiveOrActiveDescription": "<mainText><stats><attention>35</attention> de Dano de Ataque<br><attention>500</attention> de Mana<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Fascínio</passive><br>Recebe <scaleAD>0 de Dano de Ataque adicional</scaleAD>.<br><br><passive>Fluxo de Mana</passive> (8s, máximo de 4 cargas)<br>Acertar Ataques e Habilidades concede <scaleMana>3 de Mana máximo</scaleMana> (dobrado contra Campeões).<br>Transforma-se em <rarityLegendary>Muramana</rarityLegendary> com <scaleMana>360 de Mana máximo</scaleMana>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3006": {
       "id": "3006",
@@ -1663,11 +1663,11 @@
         "Damage"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "guardian_angel",
       "passiveOrActiveDescription": "<mainText><stats><attention>55</attention> de Dano de Ataque<br><attention>45</attention> de Armadura</stats><br><br><passive>Renascimento</passive><br>Ao sofrer dano letal, restaura <healing>50% da Vida base</healing> e <scaleMana>100% do Mana máximo</scaleMana> após 4s de <keyword>Estase</keyword>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3031": {
       "id": "3031",
@@ -2112,11 +2112,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "sunfire_aegis",
       "passiveOrActiveDescription": "<mainText><stats><attention>350</attention> de Vida<br><attention>50</attention> de Armadura<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Imolar</passive><br>Depois de causar ou sofrer qualquer dano, você causa <magicDamage>Dano Mágico</magicDamage> por segundo a inimigos próximos por 3s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3070": {
       "id": "3070",
@@ -2214,11 +2214,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "experimental_hexplate",
       "passiveOrActiveDescription": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>20%</attention> de Velocidade de Ataque<br><attention>450</attention> de Vida</stats><br><br><passive>Hexcarregado</passive><br>Recebe 30 de Aceleração da Habilidade Ultimate.<br><br><passive>Turbo</passive><br>Depois de conjurar sua ultimate, recebe <attackSpeed>0% de Velocidade de Ataque</attackSpeed> e <speed>0% de Velocidade de Movimento</speed> por 8s. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3074": {
       "id": "3074",
@@ -2390,11 +2390,11 @@
         "HealthRegen"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "warmogs_armor",
       "passiveOrActiveDescription": "<mainText><stats><attention>1000</attention> de Vida<br><attention>100%</attention> de Regeneração de Vida base</stats><br><br><passive>Coração de Warmog</passive> <br>Caso você tenha 2000 de Vida adicional e não tenha sofrido dano nos últimos 8s, restaura <healing>0</healing> de Vida por segundo.<br><br><passive>Vitalidade de Warmog</passive><br>Recebe Vida adicional equivalente a 12% da sua Vida de itens (<healing>0</healing>).</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3084": {
       "id": "3084",
@@ -2413,11 +2413,11 @@
         "HealthRegen"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "heartsteel",
       "passiveOrActiveDescription": "<mainText><stats><attention>900</attention> de Vida<br><attention>100%</attention> de Regeneração de Vida base</stats><br><br><passive>Consumo Colossal</passive> (0s) por alvo<br>Se um Campeão inimigo permanecer próximo por alguns segundos, seu próximo Ataque contra ele causará <physicalDamage>70 mais 6%</physicalDamage> da sua Vida máxima como <physicalDamage>Dano Físico adicional</physicalDamage> e concederá <scaleHealth>10%</scaleHealth> do dano como <scaleHealth>Vida máxima.</scaleHealth><br><br><passive>Golias</passive><br>Para cada <scaleHealth>1000 de Vida máxima</scaleHealth>, recebe 3% de aumento de tamanho, chegando a até 30%. </mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3085": {
       "id": "3085",
@@ -2931,11 +2931,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "winters_approach",
       "passiveOrActiveDescription": "<mainText><stats><attention>550</attention> de Vida<br><attention>500</attention> de Mana<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Fascínio</passive><br>Recebe <scaleHealth>0 de Vida</scaleHealth>.<br><br><passive>Fluxo de Mana</passive> (8s, máximo de 4 cargas)<br>Acertar Ataques e Habilidades concede <scaleMana>3 de Mana máximo</scaleMana> (dobrado contra Campeões).<br>Transforma-se em <rarityLegendary>Fimbulwinter</rarityLegendary> com <scaleMana>360 de Mana máximo</scaleMana>.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3123": {
       "id": "3123",
@@ -3479,11 +3479,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "spear_of_shojin",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Dano de Ataque<br><attention>450</attention> de Vida</stats><br><br><passive>Força Dracônica</passive> <br>Recebe 25 de Aceleração de Habilidade Básica.<br><br><passive>Determinação Concentrada</passive> <br>Causar dano com Habilidades aumenta o dano de Habilidade e o dano da Passiva do seu Campeão em 3% por 6s (acumula 4x).</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3165": {
       "id": "3165",
@@ -4006,11 +4006,11 @@
         "NonbootsMovement"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "dead_mans_plate",
       "passiveOrActiveDescription": "<mainText><stats><attention>350</attention> de Vida<br><attention>55</attention> de Armadura<br><attention>4%</attention> de Velocidade de Movimento</stats><br><br><passive>Naufrágio</passive><br>Enquanto estiver se movendo, acumula até <speed>20 de Velocidade de Movimento adicional</speed>. Seu próximo Ataque descarrega a Velocidade de Movimento acumulada para causar <physicalDamage>Dano Físico adicional</physicalDamage>.<br><br><passive>Inafundável</passive><br>Reduz a eficácia de efeitos de <keyword>Lentidão</keyword> em 15%.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "3748": {
       "id": "3748",
@@ -4584,11 +4584,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "deaths_dance",
       "passiveOrActiveDescription": "<mainText><stats><attention>60</attention> de Dano de Ataque<br><attention>50</attention> de Armadura<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Dor Ignorada</passive><br>Uma porcentagem do dano sofrido é causada a você ao longo de 3s.<br><br><passive>Desafiar</passive><br>Ao eliminar um Campeão inimigo a quem você tenha causado dano nos últimos 3s, purifica o restante do dano de <passive>Dor Ignorada</passive> e restaura <healing>Vida</healing> ao longo de 2s.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "6609": {
       "id": "6609",
@@ -4826,11 +4826,11 @@
         "ManaRegen"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "rod_of_ages",
       "passiveOrActiveDescription": "<mainText><stats><attention>45</attention> de Poder de Habilidade<br><attention>350</attention> de Vida<br><attention>500</attention> de Mana</stats><br><br><passive>Atemporal</passive><br>Este item ganha <scaleHealth>10 de Vida</scaleHealth>, <scaleMana>30 de Mana</scaleMana> e <scaleAP>3 de Poder de Habilidade</scaleAP> a cada 60s até 10 vezes. Com o máximo de acúmulos, recebe um nível.<br><br><passive>Eternidade</passive><br>Sofrer dano de Campeões restaura <scaleMana>10%</scaleMana> do dano como <scaleMana>Mana</scaleMana>. <br>Conjurar uma Habilidade <healing>cura o equivalente a 25%</healing> do Mana gasto.</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "6660": {
       "id": "6660",
@@ -4904,11 +4904,11 @@
         "AbilityHaste"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "hollow_radiance",
       "passiveOrActiveDescription": "<mainText><stats><attention>400</attention> de Vida<br><attention>40</attention> de Resistência Mágica<br><attention>10</attention> de Aceleração de Habilidade<br><attention>100%</attention> de Regeneração de Vida base</stats><br><br><passive>Imolar</passive><br>Depois de causar ou sofrer qualquer dano, você causa <magicDamage>Dano Mágico</magicDamage> por segundo a inimigos próximos por 3s. <br><br><passive>Desolar</passive><br>Abater um inimigo causa <magicDamage>Dano Mágico</magicDamage> ao redor dele</mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "6665": {
       "id": "6665",
@@ -4929,11 +4929,11 @@
         "MagicResist"
       ],
       "tier": "legendary",
-      "status": "reference_only",
-      "localId": null,
+      "status": "engine_playable",
+      "localId": "jaksho_the_protean",
       "passiveOrActiveDescription": "<mainText><stats><attention>350</attention> de Vida<br><attention>45</attention> de Armadura<br><attention>45</attention> de Resistência Mágica</stats><br><br><passive>Resiliência do Vazio</passive><br>Depois de 5s de combate contra Campeões, aumenta sua <scaleArmor>Armadura</scaleArmor> e <scaleMR>Resistência Mágica</scaleMR> adicionais em 30% até o fim do combate.<br><br></mainText>",
-      "effectCode": null,
-      "recipeVerified": null
+      "effectCode": "item_defense_v453_dev69_b4",
+      "recipeVerified": true
     },
     "6670": {
       "id": "6670",
