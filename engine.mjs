@@ -678,6 +678,31 @@ export const CHAMPION_SPELL_RULES_V382=Object.freeze({
 // Each partial kit can mix audited abilities and explicitly flagged training fallbacks.
 export const KIT_PATCH_V42='26.21';
 export const CHAMPION_KITS_V42=Object.freeze({
+ // Complete kits require server gameplay AND full PvP/patch QA certification.
+ // Ezreal and Irelia are part of the SAME large 7-champion package; neither
+ // may be counted complete while any of their P/Q/W/E/R gates remain open.
+ Ezreal:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'rising_spell_force',status:'prototype'},spells:Object.freeze({
+  Q:{name:'Mystic Shot',kind:'line_onhit',range:1200,width:120,speed:2000,mana:[28,31,34,37,40],
+   cooldown:[5.5,5.25,5,4.75,4.5],damage:[20,45,70,95,120],adRatio:1.3,apRatio:.3,implemented:'legacy_adapter'},
+  W:{name:'Essence Flux',kind:'line_mark',range:1200,width:160,speed:1700,mana:[50],cooldown:[8],
+   damage:[80,135,190,245,300],bonusAdRatio:.6,apRatio:.70,duration:4,implemented:'prototype'},
+  E:{name:'Arcane Shift',kind:'blink_target',range:475,mana:[90],cooldown:[26,23,20,17,14],
+   damage:[80,130,180,230,280],apRatio:.75,implemented:'prototype'},
+  R:{name:'Trueshot Barrage',kind:'line_global',range:25000,width:320,speed:2000,mana:[100],
+   cooldown:[120,105,90],damage:[350,500,650],bonusAdRatio:1,apRatio:.9,
+   channelSeconds:1,implemented:'prototype'}
+ })}),
+ Irelia:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'ionian_fervor',status:'prototype'},spells:Object.freeze({
+  Q:{name:'Bladesurge',kind:'target_dash_onhit',range:600,mana:[20],cooldown:[11,10,9,8,7],
+   damage:[5,25,45,65,85],adRatio:.7,implemented:'legacy_adapter'},
+  W:{name:'Defiant Dance',kind:'channel_line',range:775,width:240,mana:[70,75,80,85,90],
+   cooldown:[20,18,16,14,12],minDamage:[10,20,30,40,50],maxDamage:[30,60,90,120,150],
+   adRatio:.4,apRatio:.5,channelSeconds:1.5,implemented:'prototype'},
+  E:{name:'Flawless Duet',kind:'two_blade_line',range:775,width:140,mana:[50],
+   cooldown:[16,14.5,13,11.5,10],implemented:'legacy_adapter'},
+  R:{name:"Vanguard's Edge",kind:'line_projectile',range:1000,width:280,speed:2000,mana:[100],
+   cooldown:[125,105,85],damage:[125,200,275],apRatio:.7,slow:.90,duration:2.5,implemented:'prototype'}
+ })}),
  Nami:Object.freeze({patch:KIT_PATCH_V42,certification:'partial',passive:{id:'surging_tides',status:'partial_r_only'},spells:Object.freeze({
   Q:{name:'Aqua Prison',kind:'ground_circle',range:850,radius:225,mana:[60],cooldown:[12,11,10,9,8],damage:[90,145,200,255,310],apRatio:.50,cc:'suspension',ccSeconds:1.5,effect:'aqua_prison',implemented:'prototype'},
   W:{name:'Ebb and Flow',kind:'unit_target',range:725,bounceRange:800,mana:[70,75,80,85,90],cooldown:[10],effect:'ebb_flow',implemented:'legacy_adapter'},
@@ -2672,7 +2697,7 @@ export class Arena {
    return {ok:true};
   }
   if(!u||u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))return {ok:false,reason:'fase_indisponível'};
-  if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle','ground_traps'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
+  if(!rule||!['ground_circle','ground_zone','line_projectile','self_circle','ground_traps','blink_target'].includes(rule.kind))return {ok:false,reason:'kit_não_suportado'};
   // Lux E recast has no second mana/cooldown cost. A zone is not the same as a QWER spell cast.
   if(slot==='E'&&u.champ==='Lux'&&u.luxZoneV42?.expiresAt>this.gameTime){
    u.luxZoneV42.detonate=true;this.recordIntentV40(team,u.id,'kit_recast',{slot});return {ok:true,recast:true};
@@ -2777,7 +2802,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
-  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
+  if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
   const recastE=u.champ==='Irelia'&&slot==='E'&&!!this.ireliaBladesV453Dev43?.[u.id];
   const recastAhriR=u.champ==='Ahri'&&slot==='R'&&u.ahriSpiritRushV453Dev69M4?.until>this.gameTime&&u.ahriSpiritRushV453Dev69M4?.charges>0;
