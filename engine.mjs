@@ -1597,8 +1597,9 @@ export class Arena {
   const extra=u?.champ?this.derivedItemStatsV453Dev69(u):{ad:0,ap:0,mr:0,armor:0};
   const b7=u?.champ?this.b7DerivedStats(u):{ad:0,ap:0,abilityHaste:0,tenacity:0,healShieldPower:0,omnivamp:0,physicalVamp:0};
   const support=u?.champ?this.supportBuffsV453Dev69B5(u):{ap:0,abilityHaste:0,healShieldPower:0};
-  const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad+b7.ad,
-   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap+support.ap+b7.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0),
+  const midReward=u?.champ?this.b7MidQuestStatReward(u,(bonus?.ad||0)+extra.ad+b7.ad,(bonus?.ap||0)+extra.ap+support.ap+b7.ap):{ad:0,ap:0};
+  const source={...u,ad:(Number(u?.ad)||0)+(bonus?.ad||0)+extra.ad+b7.ad+midReward.ad,
+   ap:(Number(u?.ap)||0)+(bonus?.ap||0)+extra.ap+support.ap+b7.ap+midReward.ap,mr:(Number(u?.mr)||0)+extra.mr,armor:(Number(u?.armor)||0)+(extra.armor||0),
    abilityHaste:(Number(u?.abilityHaste)||0)+support.abilityHaste+b7.abilityHaste,healShieldPower:(Number(u?.healShieldPower)||0)+support.healShieldPower+b7.healShieldPower,
     tenacity:(Number(u?.tenacity)||0)+b7.tenacity,omnivamp:(Number(u?.omnivamp)||0)+b7.omnivamp,physicalVamp:(Number(u?.physicalVamp)||0)+b7.physicalVamp};
   return elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
@@ -3454,6 +3455,19 @@ export class Arena {
   return {ad,ap,abilityHaste,tenacity,healShieldPower,omnivamp,physicalVamp};
  }
 
+ // Patch 26.11 reward: 8% of bonus AD, 8% of total AP. No permanent stat
+ // mutation: inventory, undo, level-up, snapshot and respawn stay idempotent.
+ b7MidQuestStatReward(u,otherAd=0,otherAp=0){
+  if(!u?.champ||u.role!=='MID'||!u.b7MidQuestComplete)return {ad:0,ap:0};
+  const stats=CHAMPION_STATS_V38[u.champ]||CLASS_STATS[u.klass]||{};
+  const growth=CHAMPION_GROWTH_V38[u.champ];
+  let nativeAd=Number(stats.ad)||0;
+  for(let level=2;level<=Math.max(1,Math.min(18,u.level||1));level++)
+   nativeAd+=growth?growthAtLevelV42(growth.ad??3,level):3;
+  const bonusAd=Math.max(0,(Number(u.ad)||0)+otherAd-nativeAd);
+  return {ad:bonusAd*.08,ap:Math.max(0,(Number(u.ap)||0)+otherAp)*.08};
+ }
+
  // Midlane role quest (Riot 2026). Tier 3 footwear is a FREE reward, never a shop purchase.
  b7MidQuestTier3Map(){return {voracious_greaves:'immortal_journey',swifties:'swift_march',ionian_boots:'scarlet_lucidity',
   berserkers_greaves:'war_greaves',mercurys_treads:'chained_crushers',plated_steelcaps:'armored_mobilization',
@@ -3490,9 +3504,17 @@ export class Arena {
   for(const u of this.units.filter(x=>x.role==='MID')){
    const last=u.b7MidQuestLastTick??this.gameTime-1;
    const delta=Math.max(0,Math.min(1,this.gameTime-last));u.b7MidQuestLastTick=this.gameTime;
-   if(this.gameTime<65||u.hp<=0||!delta)continue;
-   // Patch 26.09: in assigned lane 1.5 pts/s, elsewhere 1 pt per 3s.
-   this.b7MidQuestAdd(u,delta*(this.b7InMidLane(u)?1.5:1/3),'passive');
+   if(this.gameTime<65||u.hp<=0||!delta||u.b7MidQuestComplete)continue;
+   // Patch 26.09: no passive progress for 12s after completed recall.
+   // Roam allowance begins at level 3: 120s in lane banks 60s outside,
+   // capped at 60s. All amounts use simulated authoritative seconds.
+   if(this.gameTime<(u.b7MidQuestRecallBlockUntil||0))continue;
+   const inLane=this.b7InMidLane(u);
+   let bank=Math.max(0,Math.min(60,u.b7MidQuestRoamBank||0)),roam=0;
+   if(inLane&&u.level>=3)bank=Math.min(60,bank+delta*.5);
+   else if(!inLane&&u.level>=3){roam=Math.min(delta,bank);bank-=roam;}
+   u.b7MidQuestRoamBank=bank;
+   this.b7MidQuestAdd(u,inLane?delta*1.5:roam*1.5+(delta-roam)/3,'passive');
   }
  }
 
@@ -5324,7 +5346,7 @@ export class Arena {
    const p=this.map.objects.find(q=>q.id===u.team+'_spawn_shop');
    if(this.gameTime-u.lastHitAt<=6){u.recallProgress=0;continue}
    u.recallProgress=(u.recallProgress||0)+1;
-   if(u.recallProgress>=(this.hasBaronV452(u)?4:8)){u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.recallProgress=0;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.manualMoveHold=false;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.laneFollowPath=[];this.event(`${u.champ} completou recall. Loja disponível na fonte.`,u.team,'recall_complete',u.id)}
+   if(u.recallProgress>=(this.hasBaronV452(u)?4:8)){u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.recallProgress=0;if(u.role==='MID')u.b7MidQuestRecallBlockUntil=this.gameTime+12;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.manualMoveHold=false;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.laneFollowPath=[];this.event(`${u.champ} completou recall. Loja disponível na fonte.`,u.team,'recall_complete',u.id)}
    continue;
   }
   if(o.kind==='attack_herald'){
