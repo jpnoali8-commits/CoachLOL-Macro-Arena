@@ -3,7 +3,7 @@ import http from 'node:http';
 import {readFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60} from '../engine.mjs';
+import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60,BOARD_KITS_V453_DEV69} from '../engine.mjs';
 import {PvPRoomRegistryV453Dev47} from './room_v453_dev47.mjs';
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
 const read=n=>JSON.parse(readFileSync(new URL('../data/'+n,import.meta.url),'utf8'));
@@ -46,6 +46,12 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
    const session=rooms.session(cookie(req));if(!session)return fail(res,'sessao_ausente',401);
    const {room,player}=session;
    if(req.method==='GET'&&path==='/api/session')return json(res,200,{ok:true,...room.view(player)});
+   if(req.method==='GET'&&path==='/api/kits')return json(res,200,{ok:true,
+    patch:'26.21',maturity:'board_prototype',kits:Object.fromEntries(
+     Object.entries(BOARD_KITS_V453_DEV69).map(([champ,row])=>[champ,
+      Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
+       shape:row[slot].shape,range:row[slot].range,passiveOnly:!!row[slot].passiveOnly,
+       originSelf:!!row[slot].originSelf,implemented:row[slot].implemented}]))]))});
    if(req.method==='GET'&&path==='/api/shop')return json(res,200,{ok:true,patch:'26.21',items:catalog.filter(i=>!i.notPurchasable&&!i.tags.includes('trinket')).map(i=>({id:i.id,name:i.name,cost:i.cost,refund:officialSaleValueV453Dev60(i.id),recipe:ITEM_RECIPES[i.id]||[],roleLock:i.roleLock||null,tags:i.tags,stats:i.stats})),referenceItems:Object.values(SHOP_REFERENCE_V453_DEV62.rows).filter(x=>x.status==='reference_only').map(x=>({id:x.id,name:x.name,cost:x.price,recipe:x.from||[],tags:x.tags||[],stats:null,playable:false}))});
    if(req.method==='GET'&&path==='/api/shop/quote'){
     const url=new URL(req.url,'http://localhost'),unitId=url.searchParams.get('unitId'),itemId=url.searchParams.get('itemId');

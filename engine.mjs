@@ -2850,6 +2850,7 @@ export class Arena {
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
   return {ok:true,queued:true};
  }
+ boardKitForV453Dev69(champ,slot){return BOARD_KITS_V453_DEV69[champ]?.[slot]||null;}
  executeBoardSkillV453Dev69(u,q){
   const s=BOARD_KITS_V453_DEV69[u?.champ]?.[q?.slot];
   if(!s||!u||u.hp<=0)return {ok:false,reason:'board_indisponivel'};
