@@ -98,8 +98,8 @@ for(const team of ['blue','red']){
   const hp=pet.hp;
   a.a.resolveCombat();
   assert.ok(pet.hp<hp,pet.hp+' should be below '+hp);
-  pet.hp=1;a.enemy.attackAt=0;
-  a.a.resolveCombat();a.a.gameTime=3;a.a.advanceBoardSummonsV453Dev69();
+  pet.hp=1;a.a.gameTime=5;a.enemy.attackAt=0;
+  a.a.resolveCombat();a.a.advanceBoardSummonsV453Dev69();
   assert.equal(a.a.boardSummonsV453Dev69.length,0);
  });
  const tether=setup('Annie',team);
