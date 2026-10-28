@@ -103,7 +103,7 @@ for(const team of ['blue','red']){
   assert.equal(barrier.enemy.hp,2000);assert.equal(barrier.a.championProjectileHistoryV453Dev42.at(-1).reason,'bloqueio_posicional');
  });
  const passive=make('Lux',team);
- const qCast=passive.a.launchLuxBindingV453Dev68(passive.u,{x:.9,y:.5});
+ const qCast=passive.a.launchLuxBindingV453Dev68(passive.u,{x:.56,y:.5});
  test(team+' Lux Q launches genuine temporal binding before passive mark',()=>{
   assert.ok(qCast.ok);assert.equal(passive.enemy.luxIlluminationV453Dev69M2??null,null);
  });
