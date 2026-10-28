@@ -809,10 +809,10 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
   W:BS('circle_enemy',900,60,8,[80,120,160,200,240],{apRatio:1,radius:220}),
   E:BS('circle_enemy',725,70,18,[],{cc:'stun',ccSeconds:1.5,radius:350,boardTemporal:'cage_ring',missing:'frame_exact_ring_collision'}),
   R:BS('target_enemy',650,100,[120,90,60],[175,250,325],{apRatio:.75,missingHpRatio:.4})},
- Brand:{passive:'blaze',Q:BS('line_enemy',1050,50,8,[80,110,140,170,200],{apRatio:.55,width:130,maxHits:1,missing:'ablaze_stun'}),
+ Brand:{passive:'blaze',Q:BS('line_enemy',1050,50,8,[80,110,140,170,200],{apRatio:.55,width:130,maxHits:1,stunIfAblaze:true,missing:'projectile_travel_time'}),
   W:BS('circle_enemy',900,60,10,[75,120,165,210,255],{apRatio:.6,radius:260}),
   E:BS('target_enemy',675,70,9,[60,90,120,150,180],{apRatio:.5,missing:'spread'}),
-  R:BS('target_enemy',750,100,[105,90,75],[100,200,300],{apRatio:.25,missing:'bounce'})},
+  R:BS('target_enemy',750,100,[105,90,75],[100,200,300],{apRatio:.25,brandChain:3,brandChainRange:650,missing:'dynamic_target_rehit'})},
  Sona:{passive:'power_chord',Q:BS('circle_enemy',0,50,7,[40,70,100,130,160],{originSelf:true,apRatio:.4,radius:800,maxHits:2}),
   W:BS('circle_ally',0,80,10,[],{heal:[30,45,60,75,90],shield:[25,45,65,85,105],apRatio:.3,radius:650}),
   E:BS('circle_ally',0,65,12,[],{radius:650,allySpeedBuff:.12,buffSeconds:3,missing:'power_chord_speed_modifiers'}),
@@ -824,7 +824,7 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
  Darius:{passive:'hemorrhage',Q:BS('circle_enemy',0,30,9,[50,80,110,140,170],{originSelf:true,type:'physical',adRatio:1,radius:425,selfHeal:[35,45,55,65,75]}),
   W:BS('target_enemy',250,40,7,[40,50,60,70,80],{type:'physical',adRatio:1.2,cc:'slow',ccSeconds:1.5,ccPower:.4}),
   E:BS('cone_enemy',550,45,18,[],{cc:'root',ccSeconds:1,arc:50,missing:'pull'}),
-  R:BS('target_enemy',460,100,[100,100,100],[125,250,375],{type:'true',adRatio:.75,missingHpRatio:.15})},
+  R:BS('target_enemy',460,100,[100,100,100],[125,250,375],{type:'true',adRatio:.75,dariusExecutionScale:.2,missingHpRatio:.15,missing:'kill_reset'})},
  // M10 board-ready descriptors, source: locally mirrored Riot 16.21.1
  // champion files. Damage adaptations are NOT certified individual kits.
  Amumu:{passive:'cursed_touch',Q:BS('line_enemy',1100,50,3,[70,95,120,145,170],{apRatio:.85,width:145,maxHits:1,cc:'stun',ccSeconds:1,dashToHit:true}),
@@ -2937,6 +2937,17 @@ export class Arena {
     .filter(v=>v.depth>=0&&v.depth<=s.range&&v.side<=v.depth*spread+25)
     .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id))).map(v=>v.v);
   }
+  if(s.brandChain&&target){
+   const used=new Set([target.id]);let previous=target;
+   for(let hop=1;hop<s.brandChain;hop++){
+    const next=enemyPool.filter(v=>v.hp>0&&!used.has(v.id)&&
+     this.mapDistance(previous,v)<=(s.brandChainRange||650))
+     .sort((a,b)=>this.mapDistance(previous,a)-this.mapDistance(previous,b)||
+      String(a.id).localeCompare(String(b.id)))[0];
+    if(!next)break;
+    hits.push(next);used.add(next.id);previous=next;
+   }
+  }
   if(s.bounce&&hits.length===1&&hits[0].team!==u.team){
    const primary=hits[0],dx=primary.x-u.x,dy=primary.y-u.y;
    const extra=enemyPool.filter(v=>v.id!==primary.id&&v.hp>0&&
@@ -2989,7 +3000,13 @@ export class Arena {
    const enemy=v.team!==u.team;
    const blocked=enemy&&this.effectResolverV41().has(v,'spell_shield');
    if(enemy&&s.damage.length){
-    const raw=power(s.damage)+(s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp);
+    const stacks=u.champ==='Darius'&&q.slot==='R'&&v.champ&&
+     v.boardHemorrhageV453Dev69?.[u.id]?.until>this.gameTime?
+      v.boardHemorrhageV453Dev69[u.id].stacks:0;
+    const raw=(power(s.damage)+(s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp))*
+     (1+(s.dariusExecutionScale||0)*stacks);
+    const stunnedAblaze=s.stunIfAblaze&&v.champ&&
+     (v.boardBrandAblazeV453Dev69?.[u.id]||0)>this.gameTime;
     if(s.dotSeconds){
      this.applyEffectV41(v,'dot',{source:u,duration:s.dotSeconds,
       power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
@@ -3002,8 +3019,16 @@ export class Arena {
      }
      if(done>0&&u.champ==='Morgana'&&v.champ)this.effectResolverV41().heal(u,done*.12,u);
      if(done>0&&u.champ==='Veigar'&&v.champ)u.ap=(u.ap||0)+1;
-     if(done>0&&u.champ==='Brand')this.applyEffectV41(v,'dot',{source:u,
-      duration:4,power:8+u.level,interval:1,key:'brand_board_'+u.id});
+     if(done>0&&u.champ==='Brand'){
+      if(v.champ)(v.boardBrandAblazeV453Dev69??={})[u.id]=this.gameTime+4;
+      this.applyEffectV41(v,'dot',{source:u,duration:4,power:8+u.level,
+       interval:1,key:'brand_board_'+u.id});
+      if(stunnedAblaze&&!blocked&&v.hp>0)
+       this.applyEffectV41(v,'stun',{source:u,duration:1.5,
+        key:'brand_ablaze_'+instance+'_'+v.id});
+     }
+     if(done>0&&u.champ==='Darius'&&q.slot!=='R'&&v.champ)
+      this.applyBoardHemorrhageV453Dev69(u,v);
     }
    }
    if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked)
@@ -3064,6 +3089,14 @@ export class Arena {
   }
   this.event('Ziggs W: carga explosiva detonada.',u.team,'skill_vfx',u.id,
    {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,z.point))});
+ }
+ applyBoardHemorrhageV453Dev69(u,v){
+  if(u.champ!=='Darius'||!v.champ||u.team===v.team||v.hp<=0)return;
+  const ledger=v.boardHemorrhageV453Dev69??={},previous=ledger[u.id];
+  const stacks=Math.min(5,(previous?.until>this.gameTime?previous.stacks:0)+1);
+  ledger[u.id]={stacks,until:this.gameTime+5};
+  this.applyEffectV41(v,'dot',{source:u,duration:5,power:3+stacks*2,
+   interval:1,key:'darius_bleed_'+u.id});
  }
  // Simulated-second scheduler for delayed zones, a stationary Tibbers proxy,
  // and channels. Every effect is serializable and keyed by stable sequence ID.
@@ -6408,6 +6441,9 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      sourceId:attacker.id,stacks:count+1,until:this.gameTime+4};
    }
   }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Darius'&&
+   target.champ&&target.team!==attacker.team&&target.hp>0)
+   this.applyBoardHemorrhageV453Dev69(attacker,target);
   // Passive triggers only on an actual landed basic attack by Ashe.
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Ashe'&&
    target.team!==attacker.team&&target.hp>0)
