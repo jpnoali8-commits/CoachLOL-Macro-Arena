@@ -578,14 +578,14 @@ export const ITEM_DEFENSE_RULES_V453_DEV69_B4=Object.freeze({
  winters_approach:{maxManaBonus:360,bonusHpFromMana:.08},
  archangels_staff:{maxManaBonus:360,bonusApFromMana:.01},
  manamune:{maxManaBonus:360,bonusAdFromMana:.025},
- experimental_hexplate:{ultimateBuffSeconds:8,attackSpeedPct:30,movePercent:15},
+ experimental_hexplate:{ultimateBuffSeconds:8,cooldown:30,meleeAttackSpeedPct:50,meleeMovePercent:20,rangedAttackSpeedPct:25,rangedMovePercent:10},
  spear_of_shojin:{stacks:4,damagePerStack:.03,seconds:6}
 });
 
 export const ITEM_ATTACK_RULES_V453_DEV69_B3=Object.freeze({
  blade_of_ruined_king:{meleeCurrentHp:.10,rangedCurrentHp:.06,slow:.30,slowDuration:1,monsterCap:60},
  terminus:{magicOnHit:30,resistPerLight:4,penPerDark:10/3,maxStacks:3,seconds:5},
- runaans_hurricane:{bolts:2,damageRatio:.40,radius:550},
+ runaans_hurricane:{bolts:2,damageRatio:.60,radius:550},
  yun_tal_wildarrows:{critPerHit:.25,maxCrit:25,frenzyAttackSpeed:30,frenzyDuration:6,frenzyCooldown:30},
  hexoptik_c44:{maxBonus:.10,maxRange:500,killRangeBonus:100,killDuration:8},
  hullbreaker:{fifthRatio:.03,fifthStructureRatio:.06},
@@ -635,7 +635,7 @@ export const ITEM_REMAINDER_RULES_V453_DEV69_B7=Object.freeze({
  enchanted_footwear:{magicPenFlat:20,magicPenPct:8},
  chained_crushers:{shield:130,seconds:5,cooldown:20},
  armored_mobilization:{shield:130,seconds:5,cooldown:20,attackReduction:.10},
- hextech_rocketbelt:{distance:400,radius:250,magicDamage:130,apRatio:.25,cooldown:40},
+ hextech_rocketbelt:{distance:400,radius:250,magicDamage:135,apRatio:.15,cooldown:40},
  umbral_glaive:{concealSeconds:3,trueDamage:70,revealRadius:900,revealSeconds:5,wardBonusHits:2},
  noxian:{unlockTeamKills:5,minTimeSeconds:900},
  farsight:{range:2800}
@@ -651,7 +651,7 @@ export const ITEM_OFFENSE_RULES_V453_DEV69_B6=Object.freeze({
  iceborn_gauntlet:{baseADRatio:1,slow:.30,slowDuration:2,fieldRadius:300},
  serpents_fang:{shieldCut:.35,rangedCut:.25,seconds:3},
  axiom_arc:{ultimateRefundFraction:.15,assistRefundFraction:.10},
- hubris:{baseBonusAd:10,perKillBonusAd:2,seconds:90},
+ hubris:{meleeBaseBonusAd:15,meleePerKillBonusAd:3,rangedBaseBonusAd:10,rangedPerKillBonusAd:2,seconds:90},
  voltaic_cyclosword:{healthRatio:.08,buffSeconds:4},
  blackfire_torch:{duration:3,magicPerSecond:22,apRatio:.10,bonusApPerTarget:.04},
  yun_tal_demon_arrows:{shots:3,seconds:8,attackSpeedPct:50,bonusTrueFraction:.15},
@@ -1727,7 +1727,11 @@ export class Arena {
       (u.spellbladeNextV453Dev29||0)<=now){u.spellbladeArmedUntilV453Dev29=now+10;}
    if(kind==='skill')this.onOffensiveCastV453Dev69B6(u,slot);
    if(kind==='skill'||kind==='summoner')this.onRemainderCastV453Dev69B7(u,slot,kind);
-   if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate'))u.hexplateBuffUntilV453Dev69B4=now+ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.ultimateBuffSeconds;
+   if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate')&&(u.hexplateReadyAtV453Dev69Audit||0)<=now){
+    const spec=ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate;
+    u.hexplateBuffUntilV453Dev69B4=now+spec.ultimateBuffSeconds;
+    u.hexplateReadyAtV453Dev69Audit=now+spec.cooldown;
+   }
    if(kind==='skill'&&slot==='R'&&u.items?.includes('zekes_convergence'))u.zekeStormUntilV453Dev69B5=now+ITEM_SUPPORT_RULES_V453_DEV69_B5.zekes_convergence.duration;
    if(kind==='skill'&&slot==='R'&&this.soulTypeV452d2(u)==='cloud'&&
       (u.cloudSoulNextBoostAtV452d2||0)<=now){
@@ -3877,8 +3881,11 @@ export class Arena {
   if(!u?.champ)return {ad:0,ap:0,mr:0};
   const ids=u.items||[],bonusHp=this.bonusHealthForGiantSlayerV453Dev69(u);
   let ad=0,ap=0,mr=0,armor=0;
-  if(ids.includes('hubris')&&u.b6HubrisUntil>this.gameTime)
-    ad+=ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris.baseBonusAd+(u.b6HubrisKills||0)*ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris.perKillBonusAd;
+  if(ids.includes('hubris')&&u.b6HubrisUntil>this.gameTime){
+    const h=ITEM_OFFENSE_RULES_V453_DEV69_B6.hubris,ranged=(u.range||0)>.05;
+    ad+=(ranged?h.rangedBaseBonusAd:h.meleeBaseBonusAd)+
+     (u.b6HubrisKills||0)*(ranged?h.rangedPerKillBonusAd:h.meleePerKillBonusAd);
+   }
    if(ids.includes('blackfire_torch')){
     const n=this.units.filter(v=>v.team!==u.team&&v.hp>0&&(v.b6BlackfireUntil?.[u.id]||0)>this.gameTime).length;
     ap+=(u.ap||0)*ITEM_OFFENSE_RULES_V453_DEV69_B6.blackfire_torch.bonusApPerTarget*n;
@@ -5094,7 +5101,16 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('scarlet_lucidity')&&u.b7ScarletUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.moveFlat:0)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.supportTeamMovePercentV453Dev69B5(u)+(u.items?.includes('protoplasm_harness')&&u.b7ProtoplasmUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness.movePct:0)+(u.items?.includes('stormrazor')&&u.b6StormrazorUntil>this.gameTime?ITEM_OFFENSE_RULES_V453_DEV69_B6.stormrazor.movePct:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+this.supportTeamMoveFlatV453Dev69B5(u)+(u.items?.includes('scarlet_lucidity')&&u.b7ScarletUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.scarlet_lucidity.moveFlat:0)+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(this.hexplateOverdriveV453Dev69Audit(u).movePercent/100)+this.supportTeamMovePercentV453Dev69B5(u)+(u.items?.includes('protoplasm_harness')&&u.b7ProtoplasmUntil>this.gameTime?ITEM_REMAINDER_RULES_V453_DEV69_B7.protoplasm_harness.movePct:0)+(u.items?.includes('stormrazor')&&u.b6StormrazorUntil>this.gameTime?ITEM_OFFENSE_RULES_V453_DEV69_B6.stormrazor.movePct:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ // Patch 26.20: champion AA range (not spells or client flags) selects item modifiers.
+ hexplateOverdriveV453Dev69Audit(u){
+  if(!u?.items?.includes('experimental_hexplate')||(u.hexplateBuffUntilV453Dev69B4||0)<=this.gameTime)
+   return {attackSpeedPct:0,movePercent:0};
+  const s=ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate;
+  const ranged=(u.range||0)>.05;
+  return {attackSpeedPct:ranged?s.rangedAttackSpeedPct:s.meleeAttackSpeedPct,
+   movePercent:ranged?s.rangedMovePercent:s.meleeMovePercent};
+ }
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -5752,7 +5768,7 @@ export class Arena {
   const interval=this.elementalStatsV452d3(u).attackInterval;
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
   const frenzy=u.items?.includes('yun_tal_wildarrows')&&u.yunTalFrenzyUntilV453Dev69B3>this.gameTime?ITEM_ATTACK_RULES_V453_DEV69_B3.yun_tal_wildarrows.frenzyAttackSpeed:0;
-  const hexplate=u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.attackSpeedPct:0;
+  const hexplate=this.hexplateOverdriveV453Dev69Audit(u).attackSpeedPct;
   const b6Darts=u.items?.includes('yun_tal_demon_arrows')&&u.b6DartUntil>this.gameTime&&u.b6DartShots>0?ITEM_OFFENSE_RULES_V453_DEV69_B6.yun_tal_demon_arrows.attackSpeedPct:0;
   const supportAttack=(u.ardentUntilV453Dev69B5>this.gameTime?ITEM_SUPPORT_RULES_V453_DEV69_B5.ardent_censer.attackSpeedPct:0)+(this.units.some(v=>v.team===u.team&&v.hp>0&&v.items?.includes('bandocanos')&&v.bandocanosUntilV453Dev69B5>this.gameTime&&this.mapDistance(v,u)<=ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.radius)?ITEM_SUPPORT_RULES_V453_DEV69_B5.bandocanos.attackSpeedPct:0);
   const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+frenzy+hexplate+supportAttack+b6Darts)/100;
