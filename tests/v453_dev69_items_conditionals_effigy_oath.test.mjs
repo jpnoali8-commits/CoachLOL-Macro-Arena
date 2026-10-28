@@ -37,6 +37,18 @@ test('charge recovery 115 seconds at level 1 and 30 seconds at level 18, cap 2',
  a.gameTime=144;a.restoreVisionCharges();assert.equal(f.wardCharges,1);
  a.gameTime=145;a.restoreVisionCharges();assert.equal(f.wardCharges,2);
 });
+test('spending second effigy charge never shifts the first recharge timer',()=>{
+ const a=make(),f=hero(a,'blue','JG');near(f,p);
+ assert.equal(a.addWard('blue',f.id,p,'effigy').ok,true);
+ assert.equal(f.trinketNextChargeAt,115);
+ a.gameTime=20;
+ assert.equal(a.addWard('blue',f.id,p,'effigy').ok,true);
+ assert.equal(f.wardCharges,0);
+ assert.equal(f.trinketNextChargeAt,115);
+ a.gameTime=115;a.restoreVisionCharges();assert.equal(f.wardCharges,1);
+ assert.equal(f.trinketNextChargeAt,230);
+ a.gameTime=230;a.restoreVisionCharges();assert.equal(f.wardCharges,2);
+});
 test('visible enemy activates decoy exactly once; 2s self-destruct, no fog reveal',()=>{
  const a=make(),f=hero(a,'blue','JG'),enemy=hero(a,'red','JG');near(f,p);near(enemy,p);
  const w=a.addWard('blue',f.id,p).ward;
@@ -83,4 +95,4 @@ test('conditional state snapshots restore active decoys and pending oath without
  b.gameTime=7;b.advanceConditionalItemsV453Dev69C();
  assert.equal(hero(b,'blue','ADC').oathswornIdV453Dev69C,'blue_SUP');
 });
-console.log('DEV69 CONDITIONAL EXCLUSIVES 7/7 PASS');
+console.log('DEV69 CONDITIONAL EXCLUSIVES 8/8 PASS');
