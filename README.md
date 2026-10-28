@@ -1,3 +1,7 @@
+> **BASE PARA TRÊS CHATS — dev69 (28/10/2026):** este README abaixo preserva informações históricas do projeto. O GitHub possui a **fonte textual real da V4.5.3-dev68 (1.624 arquivos)** nas branches de desenvolvimento; skills/itens/integração podem programar em branches isoladas. **Não é clone/release completo:** binários/artefatos e história Git antiga ainda precisam de migração e certificação; `main` segue no bootstrap. Consulte [status](docs/parallel/STATUS_DEV69.md) e [plano de importação](docs/parallel/PLANO_IMPORTACAO_DEV68.md). Não publicar dev69 a partir do remoto textual sozinho.
+
+---
+
 # CoachLOL Macro Arena V4.5.2 — Offline
 
 **Base oficial:** V4.5.1, sem regressão de versões antigas. Abra `index.html` em um navegador desktop recente. Para desenvolvimento: `npm run test:v452`, `npm test` (falha legada de farm conhecida) e `python tools/sync_browser_v43.py`.
