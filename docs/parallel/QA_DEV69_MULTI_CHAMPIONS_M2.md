@@ -140,3 +140,18 @@ Fechar lacunas individuais de Ahri e Jinx, depois Nami/Vex e Lux, abrangendo os 
 **Ainda não certificado: 0/7.** Os testes cobrem o contrato parcial efetivamente implementado, mas os sete campeões ainda exigem paridade completa por habilidade/passiva/rank/level, respawn, uso de itens e feitiços, fog, casos de borda de colisores, reconexões de duas sessões e browser sincronizado. O workflow integrado seguirá vermelho na etapa Node→`engine.browser.js` até o auditor fazer a sincronização após autorização para merge. O projeto de Itens, `main`, `version.json` e `engine.browser.js` seguem intocados.
 
 **Fonte externa verificada:** https://wiki.leagueoflegends.com/en-us/Irelia e https://wiki.leagueoflegends.com/en-us/Nami. O fato de slots estarem registrados não autoriza declarar fidelidade integral.
+
+
+## Dev69 — escalabilidade do elenco SR, não certificação de habilidades
+O patch offline 16.21.1 já contido no repositório agora alimenta uma tabela
+compacta de 173 atributos base de campeões, sem 173 blocos manuais no motor.
+O draft PvP de duas equipes passa a usar o fallback por campeão, preservando
+prioridade dos 10 perfis já auditados. A tabela inclui crescimento de HP,
+recurso, resistências, regeneração e AS para geração/auditoria posterior; **AD
+growth não é inventado**, pois o dump contém zeros incorretos. Nenhum dos 163
+perfis novos ganha selo de kit completo por ter atributos base. O jogo continua
+com os sete kits atuais em revisão e deve migrar para lotes de dezenas via
+efeitos reutilizáveis, com P/Q/W/E/R e gatilhos individuais, sem
+frame simulation de RTS nem caminhos de motor concorrentes.
+Testes: `tests/v453_dev69_roster_scale.test.mjs` (173 contratos base,
+2 drafts PvP de 10 campeões, snapshot). Integração/browser aguardam auditor.

@@ -30,6 +30,7 @@ jobs:
           node --check tests/v453_dev69_multi_champions_m5.test.mjs
           node --check tests/v453_dev69_multi_champions_m6.test.mjs
           node --check tests/v453_dev69_multi_champions_m7.test.mjs
+          node --check tests/v453_dev69_roster_scale.test.mjs
       - name: New gameplay contracts
         run: |
           node tests/v453_dev69_skills_batch2.test.mjs
@@ -40,6 +41,7 @@ jobs:
           node tests/v453_dev69_multi_champions_m5.test.mjs
           node tests/v453_dev69_multi_champions_m6.test.mjs
           node tests/v453_dev69_multi_champions_m7.test.mjs
+          node tests/v453_dev69_roster_scale.test.mjs
           node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
       - name: Existing Lux and individual skills regressions
         run: |
