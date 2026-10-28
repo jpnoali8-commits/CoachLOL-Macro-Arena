@@ -1,0 +1,32 @@
+{
+  "patch": "26.21 / Riot 16.21.1",
+  "source": "CommunityDragon: arquivos do cliente Riot Games",
+  "urlBase": "https://raw.communitydragon.org/16.21/game/assets/ux/scoreboard/",
+  "note": "Online-first with local SVG fallback; original Riot PNGs could not be bundled in current environment; validate 16.21 remote availability and license before release",
+  "mapping": {
+    "red": "_redbuff.png",
+    "blue": "_bluebuff.png",
+    "baron": "_baronnashor.png",
+    "herald": "_riftherald.png",
+    "dragon": "_dragon.png",
+    "elder": "_elderdrake.png",
+    "infernal": "_infernaldrake.png",
+    "ocean": "_oceandrake.png",
+    "mountain": "_mountaindrake.png",
+    "cloud": "_clouddrake.png",
+    "hextech": "_hextechdrake.png",
+    "chemtech": "_chemtechdrake.png"
+  },
+  "fallbackLocal": [
+    "tower.svg",
+    "inhibitor.svg",
+    "nexus.svg",
+    "gromp.svg",
+    "raptors.svg",
+    "wolves.svg",
+    "krugs.svg",
+    "scuttle.svg",
+    "voidgrubs.svg"
+  ],
+  "security": "never infer private camp timers from internal arena state; epic objective respawns are global announcements"
+}
