@@ -79,3 +79,48 @@ No commit `fd22d566873aa2be43a01ca81efe1f8a8b36eb66` o workflow FAST Skills [407
 
 ### Próximo bloco sem abrir PR concorrente
 Fechar lacunas individuais de Ahri e Jinx, depois Nami/Vex e Lux, abrangendo os demais membros do pacote de 6–10 (Ezreal e Irelia como próximos candidatos). Manter commits pequenos internamente, **um único PR por macro-marco**, sem entregas falsas de kits parciais; integrar apenas quando o usuário ordenar ao auditor.
+
+
+## Macro-pacote único de 7 campeões — regra revisada após pedido do usuário (28/10/2026)
+
+**É proibido chamar M1/M2/M3/M4/M5/M6/M7 de "pacotes entregues".** São *etapas internas* do PR **#9**. O **único pacote de entrega** é o conjunto final de **sete kits individuais completos**: Nami, Vex, Lux, Ahri, Jinx, Ezreal e Irelia. A meta de 6–10 campeões completos por pacote permanece vigente para os próximos lotes. Nada é integrado em `dev69/integration`/ `main` antes da autorização do usuário ao auditor.
+
+### Matriz real do código na branch Skills
+
+| Campeão | Fonte de stats lvl 1–18 | Passiva | Q | W | E | R | Certificação |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Nami | 26.21 auditado | ativa em aliados, ainda sem paridade integral | Aqua Prison | Ebb and Flow | Tidecaller's Blessing (3 cargas AA) | Tidal Wave | **partial** |
+| Vex | 26.21 auditado | Doom/Gloom (subset) | Mistral Bolt | Personal Space | Looming Darkness | Shadow Surge R/R2 | **partial** |
+| Lux | 26.21 auditado | Illumination por dono | Light Binding | Prismatic Barrier ida/volta | Lucent Singularity temporal | Final Spark 1s | **partial** |
+| Ahri | 26.21 auditado | Essence Theft | Orb of Deception ida/volta homing | Fox-Fire 3 cargas | Charm 1º hit | Spirit Rush 3 dash/recasts | **partial** |
+| Jinx | 26.21 auditado | Get Excited (kills/assists) | Switcheroo! modos | Zap! 1º alvo | 3 Flame Chompers independentes | Super Mega Death Rocket | **partial** |
+| Ezreal | 26.21 auditado | Rising Spell Force por hits | Mystic Shot temporal | Essence Flux mark detonável | Arcane Shift blink e auto-hit | Trueshot Barrage com windup | **partial** |
+| Irelia | 26.21 auditado | Ionian Fervor stacks/AA | Bladesurge real dash/on-hit | Defiant Dance redução/canal | Flawless Duet com 2 lâminas | Vanguard's Edge com mark/wall | **partial** |
+
+**Esta tabela demonstra cobertura individual de execução, NÃO paridade exata já certificada.** Existem diferenças relevantes ainda a auditar contra fonte da versão: números/ranks de todas as habilidades, cooldown por habilidade, fatores AP/AD, resumos de cast, colisões, CC/tenacidade, mobs/estruturas, compra de itens (em branch separada), buffs/debuffs, spell shield, níveis, interrupções, fog e interações cruzadas, resultados no browser e duas sessões reais.
+
+### Integração autoritativa (já programada e validada no Node)
+
+- Cliente só envia ordens/intenção; executor central paga custos/cooldowns uma vez e administra efeitos por fonte e equipe.
+- Ezreal Flux marcado por `ownerId`, detonado por AA/skill do próprio Ezreal. Vex e Irelia não podem consumir marca alheia.
+- Nami E fortalece AA de aliado Vex; não concede proc ao adversário nem aparece em unidades de equipe errada.
+- Irelia R marca inimigo com Unsteady; Jinx E tem três armadilhas independentes e ledger de alvo; Ahri Q acompanha posição atual da lançadora no retorno.
+- O teste `tests/v453_dev69_multi_champions_m7.test.mjs` monta **uma partida com cinco campeões azuis (Irelia, Ezreal, Ahri, Jinx, Lux) e cinco vermelhos, incluindo Vex e Nami**, onde cada lado é controlado por UM jogador. Confere posse de comandos, interações cruzadas, limites de proc, mana, hit e `snapshotV40/fromSnapshotV40`.
+- Nenhum kit usa comportamento do bot como justificativa de gameplay PvP.
+
+### QA mais recente do macro-pacote
+
+- [Skills QA 40763275927](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40763275927) **PASS**: Batch2 44, M1 53, M2 52, M3 41, M4 37, M5 39, M6 15, M7 **45**, Skills anterior 64, Lux Dev68 40, Dev43 19, V4.2 16 → **465/465 testes dirigidos PASS**. Esses testes são distintos de certificado de paridade do jogo.
+- [Logic QA 40763276047](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40763276047) **PASS**.
+- [Integrated QA 40763276097](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40763276097) **FAIL na sincronização Node→`engine.browser.js`**, que pertence ao integrador após merge. Não alterar `engine.browser.js` em Skills.
+- Permanece **Draft sem merge**, `main`/versão/itens inalterados.
+
+### Gates finais para um CAMPEÃO ser contado como 1/7 completo
+
+1. Stats base/crescimento dos níveis 1–18 comparados ao patch, inclusive AD e AS, alcance, vida/mana, regeneração, XP e rank QWER.
+2. P/Q/W/E/R individualmente paritários em custo, cooldown, alcance, geometria, efeitos, recast, escudos, sustain, auto-ataques, visão, CC e estados temporários.
+3. Ordem simultânea real (um jogador controla 5), check de posse, recepção de ordens/journal, reação, fog, privacidade de eventos, itens e spells existentes, minions/monstros/estruturas.
+4. Snapshot/replay sem desvio, reconexão, idempotência, derrota por Nexus, Undo e consistência de buffs quando uma unidade morre.
+5. Testes de borda completos por campeão + matriz de interações entre os sete, **Node e browser sincronizados no integrador**, navegador/HTTP duas sessões e QA de assets e release.
+
+**Ninguém deve reportar "7 completos" ou "pacote concluído" antes de todos esses gates serem comprovados.** Os 465 testes verdes mostram avanço mensurável da implementação, mas a certificação atual permanece **0/7**, em revisão. A continuidade deverá fechar lacunas de completude e não reiniciar entregas de dois campeões.
