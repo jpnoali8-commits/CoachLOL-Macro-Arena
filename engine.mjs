@@ -626,6 +626,8 @@ export const ITEM_REMAINDER_RULES_V453_DEV69_B7=Object.freeze({
  immortal_journey:{damageAboveHalf:.04,healBelowHalf:.12},
  swift_march:{adaptiveFromMoveSpeed:.05},
  scarlet_lucidity:{sprintSeconds:4,moveFlat:20},
+ war_greaves:{attackSpeedPct:45,lifeStealPct:5},
+ enchanted_footwear:{magicPenFlat:20,magicPenPct:8},
  chained_crushers:{shield:130,seconds:5,cooldown:20},
  armored_mobilization:{shield:130,seconds:5,cooldown:20,attackReduction:.10},
  hextech_rocketbelt:{distance:400,radius:250,magicDamage:130,apRatio:.25,cooldown:40},
