@@ -42,3 +42,12 @@ Os ZIPs originais estão na **Biblioteca do ChatGPT**, caminhos `/CoachLOL_Macro
 Os 78 assets binários ainda não foram publicados no GitHub; distribuição via Biblioteca **não** equivale a clone remoto completo. Restam QA/previews binários e política para preservar o histórico Git sem alterar a ancestralidade remota. Gate `main` fechado até avaliar importação binária, full clone e QA navegador/CI. **Não declarar dev69 entregue** ou `npm test` integral certificado prematuramente.
 
 Quando chegarem PRs: integrar Skills antes de Itens, revisar todos os hunks e contratos, nunca trocar `engine.mjs` inteiro; executar sincronização Node/browser e regressões, com logs, antes de preparar release.
+
+## Auditoria complementar de browser e PRs
+
+- `node --check engine.mjs`, `node --check engine.browser.js`, `node --check app.js`: **PASS** na árvore original.
+- A reprodução da saída de `python tools/sync_browser_v43.py` **em memória, sem escrever sobre a fonte**, mostrou correspondência exata com `engine.browser.js` original: 73 exports e 448381 caracteres.
+- Tentativa adicional de **duas janelas Chromium isoladas**: endpoint HTTP `/api/health` respondeu, mas navegação do Chromium para `http://127.0.0.1:18971/multiplayer.html` foi bloqueada por política do ambiente (`net::ERR_BLOCKED_BY_ADMINISTRATOR`). Resultado **BLOCKED**, não PASS de browser.
+- PR Skills [#6](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/pull/6): identificado **DRAFT**, quatro arquivos modificados; workflows no head `467617c04a43ba852b26eff7f1638abd3a3bb732` concluídos `success`. Revisão `COMMENT` enviada; **não houve merge**.
+- Branch Itens divergiu da base com modificações em `engine.mjs`, catálogos e testes; ainda sem PR encontrado nesta consulta. A revisão/integração de Itens fica condicionada à entrega do PR.
+- Script de gate documental `tools/verify_dev68_distribution_dev69.py` adicionado à branch de integração. A verificação equivalente foi executada localmente sobre os quatro ZIPs, mas o script versionado exato ainda exige execução separada quando usado por outros workspaces.
