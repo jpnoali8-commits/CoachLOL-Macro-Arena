@@ -93,4 +93,16 @@ test('Guardian Angel cannot trigger twice while cooldown is live',()=>{
  a.damage(u,100000,e,'physical','spell');assert.equal(u.hp,0);assert.equal(u.gaReviveAtV453Dev69B4,0);
 });
 
+test('JakSho activates after 5 seconds while only dealing champion damage',()=>{
+ const a=mk(),u=equip(a,'jaksho_the_protean'),e=hero(a,'red');e.hp=e.maxHp=30000;e.armor=0;
+ const base=a.elementalStatsV452d3(u).armor;
+ a.gameTime=1;a.damage(e,20,u,'physical','spell');a.gameTime=6;a.damage(e,20,u,'physical','spell');
+ assert.ok(a.elementalStatsV452d3(u).armor>base);
+});
+test('Deaths Dance pending ticks never damage revived champion after a real death',()=>{
+ const a=mk(),u=equip(a,'deaths_dance'),e=hero(a,'red');u.hp=180;
+ a.damage(u,100,e,'physical','spell');assert.ok(u.deathDanceQueueV453Dev69B4?.length);
+ a.damage(u,100000,e,'true','spell');assert.equal(u.hp,0);assert.deepEqual(u.deathDanceQueueV453Dev69B4,[]);
+});
+
 console.log(`DEV69 B4 ${total}/${total} PASS`);
