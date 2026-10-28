@@ -102,6 +102,35 @@ for(const team of ['blue','red']){
  test(team+' Jinx W stops on enemy projectile blocker, not global cast',()=>{
   assert.equal(barrier.enemy.hp,2000);assert.equal(barrier.a.championProjectileHistoryV453Dev42.at(-1).reason,'bloqueio_posicional');
  });
+ const passive=make('Lux',team);
+ const qCast=passive.a.launchLuxBindingV453Dev68(passive.u,{x:.9,y:.5});
+ test(team+' Lux Q launches genuine temporal binding before passive mark',()=>{
+  assert.ok(qCast.ok);assert.equal(passive.enemy.luxIlluminationV453Dev69M2??null,null);
+ });
+ passive.a.gameTime=1.5;passive.a.advanceChampionProjectilesV453Dev42();
+ test(team+' Lux Q marks damaged champion with owner-only illumination',()=>{
+  assert.equal(passive.enemy.luxIlluminationV453Dev69M2?.ownerId,passive.u.id);
+ });
+ passive.ally.champ='Lux';const noDamage=passive.a.luxConsumeIlluminationV453Dev69M2(passive.ally,passive.enemy);
+ test(team+' other Lux cannot steal or consume first Lux mark',()=>{
+  assert.equal(noDamage,0);assert.equal(passive.enemy.luxIlluminationV453Dev69M2.ownerId,passive.u.id);
+ });
+ const hpPreAA=passive.enemy.hp;
+ passive.a.attack(passive.u,passive.enemy,50);
+ test(team+' Lux basic AA detonates own passive exactly once',()=>{
+  assert.ok(passive.enemy.hp<hpPreAA-50);
+  assert.equal(passive.enemy.luxIlluminationV453Dev69M2,null);
+  const hp=passive.enemy.hp;passive.a.attack(passive.u,passive.enemy,50);
+  assert.ok(Math.abs(hp-passive.enemy.hp-50)<1e-6);
+ });
+ const area=make('Lux',team);
+ assert.equal(area.a.queueKitSkillV42(team,area.u.id,'E',{x:area.enemy.x,y:area.enemy.y}).ok,true);
+ area.a.resolveKitSkillsV42();
+ assert.ok(area.u.luxZoneV42);
+ area.u.luxZoneV42.detonate=true;area.a.resolveKitSkillsV42();
+ test(team+' Lux E detonation applies passive only after actual damage',()=>{
+  assert.equal(area.enemy.luxIlluminationV453Dev69M2?.ownerId,area.u.id);
+ });
  const lux=make('Lux',team);
  const cast=lux.a.queueDirectionalSkill(team,lux.u.id,'W',{x:.9,y:.5});
  test(team+' Lux W queues as owned directional spell',()=>assert.equal(cast.ok,true));
