@@ -3125,7 +3125,7 @@ export class Arena {
  }
  queuePurchase(team,unitId,itemId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),item=catalog.find(i=>i.id===itemId);
-  if(!u||!item||item.notPurchasable||item.tags.includes('trinket')||this.ended||this.teams[team].ready||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Compra programada indisponível.'};
+  if(!u||!item||item.notPurchasable||item.tags.includes('trinket')||item.tags.includes('noxian')||this.ended||this.teams[team].ready||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Compra programada indisponível.'};
   if(item.tags.includes('annul')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('annul')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Apenas um item com Anular por campeão.'};
   if(item.tags.includes('cleave')&&u.items.some(id=>catalog.find(v=>v.id===id)?.tags.includes('cleave')&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Hidras/Fenda exclusivos por campeão.'};
   if(item.tags.includes('spellblade')&&u.items.some(id=>['sheen','trinity_force','essence_reaver','lich_bane','iceborn_gauntlet','dusk_and_dawn'].includes(id)&&!recipePurchasePartsV453Dev30(itemId,u.items).includes(id)))return {ok:false,reason:'Lâmina Arcana exclusiva.'};
@@ -3416,7 +3416,50 @@ export class Arena {
   if(ids.includes('scarlet_lucidity')&&u.b7ScarletUntil>now){} // speed resolved in effectiveMS
   return {ad,ap,abilityHaste,tenacity,healShieldPower,omnivamp,physicalVamp};
  }
- b7NoxianUnlocked(team){return this.gameTime>=ITEM_REMAINDER_RULES_V453_DEV69_B7.noxian.minTimeSeconds&&(this.teams[team]?.kills||0)>=ITEM_REMAINDER_RULES_V453_DEV69_B7.noxian.unlockTeamKills;}
+
+ // Midlane role quest (Riot 2026). Tier 3 footwear is a FREE reward, never a shop purchase.
+ b7MidQuestTier3Map(){return {voracious_greaves:'immortal_journey',swifties:'swift_march',ionian_boots:'scarlet_lucidity',
+  berserkers_greaves:'war_greaves',mercurys_treads:'chained_crushers',plated_steelcaps:'armored_mobilization',
+  sorcerers_shoes:'enchanted_footwear'};}
+ b7InMidLane(u){
+  if(!u||u.hp<=0||!this.lanes?.mid)return false;
+  const home=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');
+  if(home&&this.mapDistance(home,u)<600)return false;
+  for(let t=.06;t<=.94;t+=.04)if(this.mapDistance(u,sampleLine(this.lanes.mid,t))<1050)return true;
+  return false;
+ }
+ b7MidQuestAdd(u,points,reason='progress'){
+  if(!u?.champ||u.role!=='MID'||u.b7MidQuestComplete||!Number.isFinite(points)||points<=0)return 0;
+  const old=u.b7MidQuestPoints||0,after=Math.min(1350,old+points);
+  u.b7MidQuestPoints=after;
+  if(after>=1350){u.b7MidQuestComplete=true;this.b7MidBootUpgrade(u);
+   this.event(u.champ+' completou a missão do MID: botas nível 3 liberadas.',u.team,'role_quest',u.id);}
+  return after-old;
+ }
+ b7MidBootUpgrade(u){
+  if(!u?.champ||u.role!=='MID'||!u.b7MidQuestComplete)return false;
+  const pair=this.b7MidQuestTier3Map();
+  const idx=u.items.findIndex(id=>Object.hasOwn(pair,id));
+  if(idx<0)return false;
+  const old=catalog.find(i=>i.id===u.items[idx]),next=catalog.find(i=>i.id===pair[old.id]);
+  if(!old||!next)return false;
+  this.removeRabadonV43(u);this.applyItemStatsV43(u,old,-1);
+  u.items[idx]=next.id;this.applyItemStatsV43(u,next,1);this.reapplyRabadonV43(u);
+  u.shopUndoV453Dev61=[];u.shopUndoRevokedV453Dev61=true;
+  this.event(u.champ+' recebeu '+next.name+' gratuitamente pela missão do MID.',u.team,'item_upgrade',u.id);
+  return true;
+ }
+ b7MidQuestPassive(){
+  for(const u of this.units.filter(x=>x.role==='MID')){
+   const last=u.b7MidQuestLastTick??this.gameTime-1;
+   const delta=Math.max(0,Math.min(1,this.gameTime-last));u.b7MidQuestLastTick=this.gameTime;
+   if(this.gameTime<65||u.hp<=0||!delta)continue;
+   // Patch 26.09: in assigned lane 1.5 pts/s, elsewhere 1 pt per 3s.
+   this.b7MidQuestAdd(u,delta*(this.b7InMidLane(u)?1.5:1/3),'passive');
+  }
+ }
+
+ b7NoxianUnlocked(team){return !!this.units.find(u=>u.team===team&&u.role==='MID'&&u.b7MidQuestComplete);}
  activateRemainderItemV453Dev69B7(team,unitId,itemId,targetId=null,point=null){
   const u=this.units.find(v=>v.id===unitId&&v.team===team&&v.hp>0),now=this.gameTime,r=ITEM_REMAINDER_RULES_V453_DEV69_B7;
   if(!u||this.ended||!['preparation','planning','decision'].includes(this.phase)||(this.phase!=='decision'&&this.teams[team].ready))return {ok:false,reason:'fase_ou_unidade_invalida'};
@@ -3887,6 +3930,7 @@ export class Arena {
  canBuy(team,unitId,itemId){
   const u=this.units.find(x=>x.id===unitId&&x.team===team), item=catalog.find(i=>i.id===itemId);
   if(!u||!item||this.teams[team].ready||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Compras só durante o planejamento.'};
+  if(item.tags.includes('noxian'))return {ok:false,reason:'Evolução gratuita exclusiva da missão do MID.'};
   const shop=this.map.objects.find(o=>o.id===team+'_spawn_shop');
   if(u.hp>0&&(!shop||dist(u,shop)>.075))return {ok:false,reason:'É necessário voltar à fonte.'};
   if(itemId==='health_potion'&&u.items.filter(id=>id===itemId).length>=5)return {ok:false,reason:'Máximo de cinco poções de vida.'};
@@ -3964,6 +4008,7 @@ export class Arena {
   this.applyItemStatsV43(u,item,1);this.reapplyRabadonV43(u);
   this.recordEconomyV43(u,'purchase',-cost,itemId);
   this.recordShopUndoV453Dev61(u,'purchase',itemId,undoBeforeV453Dev61,cost);
+   if(u.role==='MID'&&u.b7MidQuestComplete)this.b7MidBootUpgrade(u);
   this.event(`${u.champ} comprou ${item.name}.`,team,'purchase',u.id);return true;
  }
  // Shop mutations are zero-sum over inventory components and gold. Temporary
@@ -4708,7 +4753,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.b7MidQuestPassive();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.advanceSupportItemsV453Dev69B5();this.advanceOffensiveItemsV453Dev69B6();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -5975,6 +6020,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   this.afterTankHitV453Dev69B4(attacker,target,dealt,damageType,sourceType);
   this.afterSupportDamageV453Dev69B5(attacker,target,dealt,sourceType);
    this.onOffensiveHitV453Dev69B6(attacker,target,dealt,sourceType);
+   if(attacker?.role==='MID'&&target?.champ&&attacker.team!==target.team&&!sourceType.startsWith('item_'))
+    this.b7MidQuestAdd(attacker,dealt*(attacker.range>.05?.015:.03),'champion_damage');
   if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
    if(attacker.items?.includes('maw_of_malmortius')&&(attacker.mawVampUntilV453Dev69||0)>this.gameTime){
@@ -6081,7 +6128,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     let hero=attacker.champ?attacker:null;
     // V4.5.1: minions/turrets do not transfer a kill to a nearby champion.
     // Only the source of the actual killing hit earns CS and last-hit gold.
-    if(hero){hero.cs++;const bounty=target.kind==='siege'?50:target.kind==='super'?55:target.kind==='caster'?14:20;const assigned=hero.role==='TOP'?'top':hero.role==='MID'?'mid':['SUP','ADC'].includes(hero.role)?'bot':null;const gained=assigned&&hero.level<3&&target.lane!==assigned?Math.round(bounty*.75):bounty;this.creditGoldV452d4Dev7(hero,gained,'minion');this.recordEconomyV43(hero,'minion',gained,target.kind);
+    if(hero){hero.cs++;if(hero.role==='MID')this.b7MidQuestAdd(hero,target.lane==='mid'?2:1,'last_hit');const bounty=target.kind==='siege'?50:target.kind==='super'?55:target.kind==='caster'?14:20;const assigned=hero.role==='TOP'?'top':hero.role==='MID'?'mid':['SUP','ADC'].includes(hero.role)?'bot':null;const gained=assigned&&hero.level<3&&target.lane!==assigned?Math.round(bounty*.75):bounty;this.creditGoldV452d4Dev7(hero,gained,'minion');this.recordEconomyV43(hero,'minion',gained,target.kind);
       // DEV69: Reap advances on the authoritative unique minion kill event.
       // A dead minion cannot pay twice, even on replay or reconnect.
       if(hero.items?.includes('cull')){
@@ -6113,6 +6160,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.damageContributors={};
     this.afterSupportKillV453Dev69B5(target,credited,assistingChampions);
     this.onOffensiveKillV453Dev69B6(target,credited,assistingChampions);
+    for(const owner of [credited,...assistingChampions])if(owner?.role==='MID')this.b7MidQuestAdd(owner,25,'champion_takedown');
     if(credited){this.onDefensiveTakedownV453Dev69B4(credited);this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
      const bonus=ITEM_FAMILY_RULES_V453_DEV69.the_collector.killGold;
      this.creditGoldV452d4Dev7(credited,bonus,'collector');this.recordEconomyV43(credited,'collector',bonus,'the_collector');
