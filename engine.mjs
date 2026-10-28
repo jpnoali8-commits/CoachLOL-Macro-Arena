@@ -2848,6 +2848,7 @@ export class Arena {
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(u.champ==='Shyvana'&&slot==='R'&&(u.boardFuryV453M14||0)<100)return {ok:false,reason:'fury_insuficiente'};
   // A second cast reactivates an existing charge without mana or cooldown.
   const cycle=s.boardCardCycle&&u.boardCardCycleV453Dev69?.until>this.gameTime;
   if(cycle){
@@ -2921,7 +2922,7 @@ export class Arena {
    return {ok:false,reason:'ponto'};
   if(['circle_enemy','move_point','vision_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
-  if(s.shape==='move_point'&&!this.walkable(q.point.x,q.point.y))return {ok:false,reason:'destino_bloqueado'};
+  if(s.shape==='move_point'&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
   const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
@@ -3323,6 +3324,18 @@ export class Arena {
    s.hp>0&&s.until>now);
  }
  advanceBoardPassivesV453Dev69(){
+  for(const u of this.units)if(u.champ==='Shyvana'&&u.hp>0){
+   if(u.boardFormV453M14==='dragon'){
+    if(this.gameTime>=(u.boardDragonUntilV453M14||0)){
+     u.boardFormCooldownsV453M14??={};
+     u.boardFormCooldownsV453M14.dragon={Q:u.skillCds.Q||0,W:u.skillCds.W||0,E:u.skillCds.E||0};
+     const human=u.boardFormCooldownsV453M14.human||{Q:0,W:0,E:0};
+     for(const slot of ['Q','W','E'])u.skillCds[slot]=human[slot]||0;
+     u.boardFormV453M14='human';
+     u.range=u.boardHumanRangeV453M14||u.range;
+    }
+   }else u.boardFuryV453M14=Math.min(100,(u.boardFuryV453M14||0)+1);
+  }
   this.boardVisionV453Dev69=(this.boardVisionV453Dev69||[]).filter(v=>v.until>this.gameTime);
   this.advanceBoardTemporalV453Dev69();
   this.advanceBoardSummonsV453Dev69();
