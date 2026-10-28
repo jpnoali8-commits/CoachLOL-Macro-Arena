@@ -1958,6 +1958,10 @@ export class Arena {
   const activeTeamWards=this.wards.filter(w=>w.team===team&&!this.wardVisionSuppressedV452d4Dev26(w,enemyControls));
   for(const w of activeTeamWards)sources.push({x:w.x,y:w.y,r:this.wardRadius(w),kind:'ward'});
   for(const s of this.structures){if(s.team===team&&s.alive)sources.push({x:s.x,y:s.y,r:.075,kind:'structure'});}
+  for(const trap of this.jinxChompersV453Dev69M5||[]){
+   if(trap.team===team&&trap.landAt<=this.gameTime&&trap.expireAt>this.gameTime)
+    for(const center of trap.centers)sources.push({x:center.x,y:center.y,r:150/this.worldWidth,kind:'jinx_e'});
+  }
   // Lucent Singularity grants real team-limited fog vision only after travel;
   // the enemy team never receives this source simply from a cast.
   for(const lux of this.units)if(lux.team===team&&lux.champ==='Lux'&&lux.hp>0){
@@ -5336,7 +5340,13 @@ export class Arena {
   // this is not a champion-specific LoL attack-speed/windup formula.
   const interval=this.elementalStatsV452d3(u).attackInterval;
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage)/100;
+  const excited=u.champ==='Jinx'&&u.jinxExcitedV453Dev69M5?.until>this.gameTime?
+   25*u.jinxExcitedV453Dev69M5.stacks:0;
+  const revved=u.champ==='Jinx'&&!u.jinxRocketModeV453Dev69M5&&
+   u.jinxPowPowUntilV453Dev69M5>this.gameTime?
+   (u.jinxPowPowStacksV453Dev69M5||0)*(30+Math.max(0,u.level-1)*.7)/3:0;
+  const rocketPenalty=u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?10:0;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+revved-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -5712,13 +5722,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     if(credited){for(const [champId,stamp] of Object.entries(target.damageContributors||{})){
      if(champId===credited.id||this.gameTime-stamp>12||stamp>this.gameTime)continue;
      const helper=this.units.find(v=>v.id===champId&&v.team===credited.team);
-     if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);}
+     if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);
+      if(this.gameTime-stamp<=3)this.jinxExcitedV453Dev69M5(helper,{champion:true});}
     }}
     target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
     if(credited){this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});this.jinxExcitedV453Dev69M5(credited,{champion:true});}
-    for(const helper of assistingChampions){this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});this.jinxExcitedV453Dev69M5(helper,{champion:true});}
+    for(const helper of assistingChampions)this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
     if(gloryItem)this.setGloryStacksV453Dev58(target,(target.gloryStacksV453Dev58||0)-ITEM_EFFECTS_V43[gloryItem].stacksLostOnDeath);
     target.deadUntil=this.gameTime+Math.min(55,10+target.level*3+Math.max(0,this.gameTime-1500)/110);
