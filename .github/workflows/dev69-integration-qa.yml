@@ -2,6 +2,8 @@ name: CoachLOL dev69 - integrated QA (Skills + Items)
 on:
   push:
     branches: [dev69/integration]
+  pull_request:
+    branches: [dev69/integration]
   workflow_dispatch:
 permissions:
   contents: read
