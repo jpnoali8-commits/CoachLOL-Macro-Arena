@@ -252,6 +252,22 @@ export const catalog=[
 {id:'titanic_hydra',name:'Hidra Titânica',cost:3300,stats:{"ad":40,"hp":600},tags:["fighter","tank","legendary","unique","cleave"],icon:'⌘',riotId:3748},
 {id:'profane_hydra',name:'Hidra Profana',cost:2850,stats:{"ad":55,"lethality":18,"abilityHaste":10},tags:["assassin","legendary","unique","cleave"],icon:'⌘',riotId:6698},
 {id:'stridebreaker',name:'Quebrapassos',cost:3300,stats:{"ad":40,"attackSpeedPct":25,"hp":450},tags:["fighter","legendary","unique","cleave"],icon:'⌘',riotId:6631},
+// Dev69 Batch4 — canonical patch 26.21 DDragon 16.21.1; deterministic defense/sustain rules.
+{id:'eternal_despair',name:'Desespero Eterno',cost:2800,stats:{"hp":400,"armor":50,"abilityHaste":15},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:2502},
+{id:'sunfire_aegis',name:'Égide de Fogo Solar',cost:2800,stats:{"hp":350,"armor":50,"abilityHaste":10},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:3068},
+{id:'hollow_radiance',name:'Resplendor Vazio',cost:2800,stats:{"hp":400,"mr":40,"abilityHaste":10,"hpRegenBasePct":100},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:6664},
+{id:'warmogs_armor',name:'Armadura de Warmog',cost:3100,stats:{"hp":1000,"hpRegenBasePct":100},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:3083},
+{id:'heartsteel',name:'Coração de Aço',cost:3000,stats:{"hp":900,"hpRegenBasePct":100},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:3084},
+{id:'jaksho_the_protean',name:"Jak'Sho, o Inconstante",cost:3200,stats:{"hp":350,"armor":45,"mr":45},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:6665},
+{id:'dead_mans_plate',name:'Couraça do Defunto',cost:2900,stats:{"hp":350,"armor":55,"movePercent":4},tags:['tank','legendary','unique','defense'],icon:'◈',riotId:3742},
+{id:'guardian_angel',name:'Anjo Guardião',cost:3200,stats:{"ad":55,"armor":45},tags:['fighter','legendary','unique','defense'],icon:'◈',riotId:3026},
+{id:'deaths_dance',name:'Dança da Morte',cost:3300,stats:{"ad":60,"armor":50,"abilityHaste":15},tags:['fighter','legendary','unique','defense'],icon:'◈',riotId:6333},
+{id:'rod_of_ages',name:'Bastão das Eras',cost:2600,stats:{"hp":350,"mana":500,"ap":45},tags:['mage','legendary','unique'],icon:'◈',riotId:6657},
+{id:'winters_approach',name:'Aproximação Invernal',cost:2400,stats:{"hp":550,"mana":500,"abilityHaste":15},tags:['tank','legendary','unique'],icon:'◈',riotId:3119},
+{id:'archangels_staff',name:'Cajado do Arcanjo',cost:2900,stats:{"ap":70,"mana":600,"abilityHaste":25},tags:['mage','legendary','unique'],icon:'◈',riotId:3003},
+{id:'manamune',name:'Manamune',cost:2900,stats:{"ad":35,"mana":500,"abilityHaste":15},tags:['fighter','legendary','unique'],icon:'◈',riotId:3004},
+{id:'experimental_hexplate',name:'Hexoplaca Experimental',cost:3000,stats:{"ad":40,"attackSpeedPct":20,"hp":450,"ultimateHaste":30},tags:['fighter','legendary','unique'],icon:'◈',riotId:3073},
+{id:'spear_of_shojin',name:'Lança de Shojin',cost:3100,stats:{"ad":45,"hp":450,"basicHaste":25},tags:['fighter','legendary','unique'],icon:'◈',riotId:3161},
 // DEV33 — checked SR 26.21 components and combat effects; does not certify full catalog parity.
 {id:'fiendish_codex',name:'Códice Demoníaco',cost:850,stats:{ap:25,abilityHaste:10},tags:['mage','epic'],icon:'◈',riotId:3108},
 {id:'nashors_tooth',name:"Dente de Na'Shor",cost:2900,stats:{ap:80,abilityHaste:15,attackSpeedPct:50},tags:['mage','legendary','unique'],icon:'✦',riotId:3115},
@@ -268,7 +284,7 @@ export const catalog=[
 // DEV60: Riot Data Dragon 16.21.1 / Summoner's Rift 26.21 gold.sell.
 // Authoritative, item-specific refund. Never assume 70% for starters,
 // consumables, Guardian Angel, and other official exceptions.
-export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310});
+export const ITEM_SELL_VALUES_V453_DEV60=Object.freeze({"aether_wisp":630,"agility_cloak":420,"amp_tome":280,"bamis_cinder":630,"bandleglass_mirror":630,"berserkers_greaves":770,"bf_sword":910,"black_cleaver":2100,"blasting_wand":595,"blighting_jewel":770,"boots":210,"bramble_vest":560,"brutalizer":936,"catalyst_of_aeons":910,"caulfields_warhammer":735,"chain_vest":560,"cloth_armor":210,"crystalline_bracer":560,"dagger":175,"dark_seal":140,"dorans_blade":180,"dorans_ring":160,"dorans_bow":160,"dorans_helm":180,"dorans_shield":180,"executioners_calling":560,"faerie_charm":140,"fated_ashes":630,"fiendish_codex":595,"forbidden_idol":420,"frozen_heart":1750,"giants_belt":630,"glacial_buckler":630,"glowing_mote":175,"guinsoos_rageblade":2100,"haunting_guise":910,"health_potion":20,"hearthbound_axe":840,"hexdrinker":910,"hextech_alternator":770,"infinity_edge":2450,"ionian_boots":630,"jungle_gustwalker":0,"jungle_mosstomper":0,"jungle_scorchclaw":0,"kindlegem":560,"kraken_slayer":2100,"last_whisper":1015,"long_sword":245,"lost_chapter":840,"mejais_soulstealer":1050,"mercurial_scimitar":2240,"mercurys_treads":875,"morellonomicon":1995,"mortal_reminder":2100,"nashors_tooth":2030,"navori_flickerblade":1855,"needless_rod":840,"negatron_cloak":595,"noonquiver":910,"null_magic_mantle":280,"oblivion_orb":560,"phage":770,"phantom_dancer":1855,"pickaxe":613,"plated_steelcaps":840,"quicksilver_sash":910,"rabadon":2450,"randuins_omen":1890,"rapid_firecannon":1855,"rectrix":543,"recurve_bow":490,"refillable_potion":60,"rejuvenation_bead":120,"ruby_crystal":280,"rylais_crystal_scepter":1820,"sapphire_crystal":210,"scouts_slingshot":420,"seekers_armguard":640,"serrated_dirk":700,"sheen":630,"sorcerers_shoes":770,"spectres_cowl":875,"spirit_visage":1890,"steel_sigil":770,"support_atlas":160,"swifties":700,"tear_of_the_goddess":280,"thornmail":1715,"trinity_force":2333,"trinket_oracle":0,"trinket_stealth":0,"tunneler":805,"vampiric_scepter":630,"void_staff":2100,"ward":30,"wardens_mail":700,"winged_moonplate":560,"wits_end":1960,"youmuus_ghostblade":1960,"zeal":840,"zhonyas_hourglass":2275,"cull":180,"lord_dominiks_regards":2310,"verdant_barrier":1120,"banshees_veil":2100,"edge_of_night":2100,"chempunk_chainsword":2100,"seryldas_grudge":2100,"shadowflame":2240,"the_collector":2100,"abyssal_mask":1855,"cosmic_drive":2100,"overlords_bloodmail":2310,"riftmaker":2170,"liandrys_torment":2100,"bloodletters_curse":2030,"kaenic_rookern":2030,"maw_of_malmortius":2170,"immortal_shieldbow":2100,"steraks_gage":2240,"force_of_nature":1960,"blade_of_ruined_king":2240,"terminus":2100,"runaans_hurricane":1855,"yun_tal_wildarrows":2100,"hexoptik_c44":1960,"hullbreaker":2100,"sundered_sky":2170,"eclipse":2030,"essence_reaver":2135,"bloodthirster":2380,"tiamat":840,"ravenous_hydra":2310,"titanic_hydra":2310,"profane_hydra":1995,"stridebreaker":2310,"eternal_despair":1960,"sunfire_aegis":1960,"hollow_radiance":1960,"warmogs_armor":2170,"heartsteel":2100,"jaksho_the_protean":2240,"dead_mans_plate":2030,"guardian_angel":1280,"deaths_dance":2310,"rod_of_ages":1820,"winters_approach":1680,"archangels_staff":2030,"manamune":2030,"experimental_hexplate":2100,"spear_of_shojin":2170});
 export const officialSaleValueV453Dev60=id=>Object.prototype.hasOwnProperty.call(ITEM_SELL_VALUES_V453_DEV60,id)?ITEM_SELL_VALUES_V453_DEV60[id]:null;
 
 // v3.2: structured component recipes. Other items retain standalone prices until catalog expansion.
@@ -297,6 +313,21 @@ export const ITEM_RECIPES={rabadon:['needless_rod','needless_rod'],infinity_edge
  fiendish_codex:['amp_tome','glowing_mote'],nashors_tooth:['recurve_bow','blasting_wand','fiendish_codex'],
  mortal_reminder:['executioners_calling','last_whisper','agility_cloak'],
  lord_dominiks_regards:['last_whisper','noonquiver'],
+ eternal_despair:['chain_vest','kindlegem','ruby_crystal'],
+ sunfire_aegis:['bamis_cinder','chain_vest','ruby_crystal'],
+ hollow_radiance:['bamis_cinder','spectres_cowl'],
+ warmogs_armor:['giants_belt','giants_belt','crystalline_bracer'],
+ heartsteel:['giants_belt','crystalline_bracer','giants_belt'],
+ jaksho_the_protean:['giants_belt','chain_vest','negatron_cloak'],
+ dead_mans_plate:['winged_moonplate','ruby_crystal','chain_vest'],
+ guardian_angel:['steel_sigil','bf_sword'],
+ deaths_dance:['steel_sigil','pickaxe','caulfields_warhammer'],
+ rod_of_ages:['blasting_wand','catalyst_of_aeons'],
+ winters_approach:['tear_of_the_goddess','giants_belt','kindlegem'],
+ archangels_staff:['tear_of_the_goddess','lost_chapter','fiendish_codex'],
+ manamune:['tear_of_the_goddess','caulfields_warhammer','long_sword'],
+ experimental_hexplate:['tunneler','dagger','phage'],
+ spear_of_shojin:['pickaxe','tunneler','ruby_crystal'],
  verdant_barrier:['amp_tome','null_magic_mantle','amp_tome'],banshees_veil:['needless_rod','verdant_barrier'],edge_of_night:['serrated_dirk','tunneler'],
  morellonomicon:['oblivion_orb','blasting_wand','kindlegem'],
  rylais_crystal_scepter:['blasting_wand','giants_belt','amp_tome'],
@@ -421,6 +452,27 @@ export const ITEM_FAMILY_RULES_V453_DEV69=Object.freeze({
 });
 
 // Batch3: narrow deterministic training adapters, not 1:1 LoL certification.
+
+// Dev69 Batch4; per-champion serialized state. Numeric combat values below are
+// training adaptations. They must not be labeled as Riot 1:1 certified.
+export const ITEM_DEFENSE_RULES_V453_DEV69_B4=Object.freeze({
+ eternal_despair:{pulseSeconds:4,radius:500,magicDamage:70,healFactor:2.5},
+ sunfire_aegis:{radius:325,baseDamage:15,hpRatio:.015,seconds:3},
+ hollow_radiance:{radius:325,baseDamage:12,hpRatio:.012,seconds:3,killDamage:90},
+ warmogs_armor:{requiredBonusHp:2000,outOfCombat:8,healPct:.05,bonusHpPct:.12},
+ heartsteel:{distance:700,chargeSeconds:3,targetCooldown:30,damageFlat:70,hpDamageRatio:.06,healthGainRatio:.10},
+ jaksho_the_protean:{combatSeconds:5,resistRatio:.30},
+ dead_mans_plate:{maxMoveSpeed:20,chargeSeconds:5,damageFlat:60,slowSeconds:1},
+ guardian_angel:{cooldown:300,stasisSeconds:4,reviveHpRatio:.50},
+ deaths_dance:{deferRatio:.30,duration:3,healOnTakedown:.10},
+ rod_of_ages:{stackSeconds:60,maxStacks:10,hpPerStack:10,manaPerStack:30,apPerStack:3},
+ winters_approach:{maxManaBonus:360,bonusHpFromMana:.08},
+ archangels_staff:{maxManaBonus:360,bonusApFromMana:.01},
+ manamune:{maxManaBonus:360,bonusAdFromMana:.025},
+ experimental_hexplate:{ultimateBuffSeconds:8,attackSpeedPct:30,movePercent:15},
+ spear_of_shojin:{stacks:4,damagePerStack:.03,seconds:6}
+});
+
 export const ITEM_ATTACK_RULES_V453_DEV69_B3=Object.freeze({
  blade_of_ruined_king:{meleeCurrentHp:.10,rangedCurrentHp:.06,slow:.30,slowDuration:1,monsterCap:60},
  terminus:{magicOnHit:30,resistPerLight:4,penPerDark:10/3,maxStacks:3,seconds:5},
@@ -1472,7 +1524,7 @@ export class Arena {
    u.mana-=cost;
    // DEV53: Eternidade cura 25% do mana gasto na habilidade validada.
    // Não dá vida em cast recusado, ataques ou spell de custo zero.
-   if(kind==='skill'&&cost>0&&u.items?.includes('catalyst_of_aeons'))
+   if(kind==='skill'&&cost>0&&u.items?.some(id=>id==='catalyst_of_aeons'||id==='rod_of_ages'))
     this.effectResolverV41().heal(u,cost*.25,u);
    if(kind==='skill'){u.skillCds??={Q:0,W:0,E:0,R:0};u.skillCds[slot]=now+cd;u.skillCd=u.skillCds[slot];}
    else u[cdField]=now+cd;
@@ -1485,6 +1537,7 @@ export class Arena {
    this.actionJournalV40.push(entry);
    if(kind==='skill'&&u.items?.some(id=>id==='sheen'||id==='trinity_force'||id==='essence_reaver')&&
       (u.spellbladeNextV453Dev29||0)<=now){u.spellbladeArmedUntilV453Dev29=now+10;}
+   if(kind==='skill'&&slot==='R'&&u.items?.includes('experimental_hexplate'))u.hexplateBuffUntilV453Dev69B4=now+ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.ultimateBuffSeconds;
    if(kind==='skill'&&slot==='R'&&this.soulTypeV452d2(u)==='cloud'&&
       (u.cloudSoulNextBoostAtV452d2||0)<=now){
     u.cloudSoulNextBoostAtV452d2=now+SOUL_RULES_V452D2.cloudUltimateCooldown;
@@ -3052,6 +3105,124 @@ export class Arena {
   this.event(u.champ+' ativou '+itemId+'.',team,'item_active',u.id);
   return {ok:true,itemId,hitIds:victims.map(v=>v.id),cooldownUntil:u[key]};
  }
+
+ // B4 family helpers are world-authoritative and use simulation seconds only.
+ bonusItemManaV453Dev69B4(u){return Math.max(0,(u?.items||[]).reduce((sum,id)=>sum+(catalog.find(v=>v.id===id)?.stats?.mana||0),0)+(u.tearManaBonusV453Dev56||0));}
+ refreshTearEvolutionV453Dev69B4(u){
+  const id=['winters_approach','archangels_staff','manamune'].find(id=>u.items?.includes(id));
+  u.tearEvolvedV453Dev69B4=!!id&&(u.tearManaBonusV453Dev56||0)>=360;
+ }
+ growRodV453Dev69B4(u){
+  if(!u.items?.includes('rod_of_ages')||!Number.isFinite(u.rodBoughtAtV453Dev69B4))return;
+  const s=ITEM_DEFENSE_RULES_V453_DEV69_B4.rod_of_ages;
+  const next=Math.max(0,Math.min(s.maxStacks,Math.floor((this.gameTime-u.rodBoughtAtV453Dev69B4)/s.stackSeconds)));
+  const delta=next-(u.rodStacksV453Dev69B4||0);if(delta<=0)return;
+  this.removeRabadonV43(u);
+  this.applyItemStatsV43(u,{stats:{hp:delta*s.hpPerStack,mana:delta*s.manaPerStack,ap:delta*s.apPerStack}},1);
+  u.rodStacksV453Dev69B4=next;this.reapplyRabadonV43(u);
+  if(next>=s.maxStacks&&!u.rodBonusLevelGrantedV453Dev69B4){u.rodBonusLevelGrantedV453Dev69B4=true;if(u.level<18){u.level++;u.skillPoints=(u.skillPoints||0)+1;}}
+ }
+ // Every emission is bounded to observed enemy units, never exposes hidden IDs.
+ advanceDefensiveItemsV453Dev69B4(){
+  const now=this.gameTime,r=ITEM_DEFENSE_RULES_V453_DEV69_B4,fx=this.effectResolverV41();
+  for(const u of this.units){
+   if(u.gaReviveAtV453Dev69B4&&now>=u.gaReviveAtV453Dev69B4){
+    u.gaReviveAtV453Dev69B4=0;
+    if(u.hp>0){u.hp=Math.max(u.hp,Math.round(u.maxHp*r.guardian_angel.reviveHpRatio));u.mana=u.maxMana;}
+   }
+   if(u.hp<=0)continue;
+   this.growRodV453Dev69B4(u);this.refreshTearEvolutionV453Dev69B4(u);
+   const warmog=ITEM_DEFENSE_RULES_V453_DEV69_B4.warmogs_armor;
+   const healthFromOtherItems=(u.items||[]).reduce((sum,id)=>sum+(id==='warmogs_armor'?0:(catalog.find(v=>v.id===id)?.stats?.hp||0)),0);
+   const warmogHp=u.items?.includes('warmogs_armor')?healthFromOtherItems*warmog.bonusHpPct:0;
+   const winterHp=u.items?.includes('winters_approach')?this.bonusItemManaV453Dev69B4(u)*ITEM_DEFENSE_RULES_V453_DEV69_B4.winters_approach.bonusHpFromMana:0;
+   const healthDelta=warmogHp+winterHp-(u.itemDerivedHealthV453Dev69B4||0);
+   if(healthDelta){u.maxHp=Math.max(1,u.maxHp+healthDelta);u.hp=Math.min(u.maxHp,Math.max(1,u.hp+healthDelta));u.itemDerivedHealthV453Dev69B4=warmogHp+winterHp;}
+   if(u.items?.includes('warmogs_armor')&&this.bonusHealthForGiantSlayerV453Dev69(u)>=r.warmogs_armor.requiredBonusHp&&
+      now-(u.lastChampionDamageAtV453Dev69B4??-1e9)>=r.warmogs_armor.outOfCombat)
+    fx.heal(u,u.maxHp*r.warmogs_armor.healPct,u);
+   if(u.items?.includes('deaths_dance')&&Array.isArray(u.deathDanceQueueV453Dev69B4)){
+    for(const d of u.deathDanceQueueV453Dev69B4){
+     while(d.next<=now&&d.remaining>0&&u.hp>0){
+      d.remaining--;d.next++;const source=this.units.find(v=>v.id===d.attackerId)||null;
+      this.damage(u,d.power,source,'true','item_deaths_dance_deferred_b4');
+     }
+    }
+    u.deathDanceQueueV453Dev69B4=u.deathDanceQueueV453Dev69B4.filter(d=>d.remaining>0);
+   }
+   if(u.items?.includes('heartsteel')){
+    const tracking=u.heartsteelNearbyV453Dev69B4||(u.heartsteelNearbyV453Dev69B4={});
+    for(const enemy of this.units.filter(v=>v.team!==u.team&&v.hp>0)){
+     if(this.mapDistance(u,enemy)<=r.heartsteel.distance&&this.canSeePoint(u.team,enemy)){
+      if(tracking[enemy.id]==null)tracking[enemy.id]=now;
+     }else delete tracking[enemy.id];
+    }
+   }
+   if(u.items?.includes('dead_mans_plate')){
+    // Server-validated movement only. Staying stationary does not charge Momentum.
+    const move=u.deadmanPreviousPositionV453Dev69B4;
+    if(move&&this.mapDistance(move,u)>2)u.deadmanChargesV453Dev69B4=Math.min(r.dead_mans_plate.chargeSeconds,(u.deadmanChargesV453Dev69B4||0)+1);
+    u.deadmanPreviousPositionV453Dev69B4={x:u.x,y:u.y};
+   }
+   const inFight=(u.combatUntil||0)>now;
+   if(!inFight)continue;
+   for(const id of ['sunfire_aegis','hollow_radiance','eternal_despair']){
+    if(!u.items.includes(id)||now<(u['pulseAt_'+id]||0))continue;
+    const spec=r[id];u['pulseAt_'+id]=now+(id==='eternal_despair'?spec.pulseSeconds:1);
+    let total=0;
+    for(const enemy of [...this.units,...this.minions]){
+     if(enemy.team===u.team||enemy.hp<=0||enemy.spawnAt>now||this.mapDistance(u,enemy)>spec.radius||!this.canSeePoint(u.team,enemy))continue;
+     const hit=this.damage(enemy,id==='eternal_despair'?spec.magicDamage:spec.baseDamage+u.maxHp*spec.hpRatio,u,'magic','item_immolate_b4');
+     if(id==='eternal_despair'&&enemy.champ)total+=hit;
+    }
+    if(total>0)fx.heal(u,total*r.eternal_despair.healFactor,u);
+   }
+  }
+ }
+ afterTankHitV453Dev69B4(attacker,target,dealt,damageType,sourceType){
+  if(!(dealt>0&&target?.champ))return;
+  if(attacker?.champ&&attacker.team!==target.team){
+   target.lastChampionDamageAtV453Dev69B4=this.gameTime;attacker.combatUntil=Math.max(attacker.combatUntil||0,this.gameTime+6);
+   if(attacker.items?.includes('jaksho_the_protean')&&!sourceType.startsWith('item_')){
+    const p=attacker.jakshoCombatV453Dev69B4;
+    attacker.jakshoCombatV453Dev69B4=p?.last>=this.gameTime-5?{start:p.start,last:this.gameTime}:{start:this.gameTime,last:this.gameTime};
+   }
+   if(target.items?.includes('jaksho_the_protean')){
+    const state=target.jakshoCombatV453Dev69B4;
+    target.jakshoCombatV453Dev69B4=state?.last>=this.gameTime-5?{start:state.start,last:this.gameTime}:{start:this.gameTime,last:this.gameTime};
+   }
+  }
+  if(!attacker?.champ||attacker.team===target.team||sourceType.startsWith('item_')||!['basic','spell','ability_onhit_v453_dev40'].includes(sourceType))return;
+  if(attacker.items?.includes('spear_of_shojin')&&sourceType!=='basic'){
+   const s=target.shojinDebuffV453Dev69B4?.[attacker.id],stacks=Math.min(4,(s?.until>this.gameTime?s.stacks:0)+1);
+   target.shojinDebuffV453Dev69B4??={};target.shojinDebuffV453Dev69B4[attacker.id]={stacks,until:this.gameTime+6};
+  }
+ }
+ afterTankBasicV453Dev69B4(u,target,landed){
+  if(!landed||!u?.champ||!target?.champ||u.team===target.team||target.hp<=0)return;
+  const r=ITEM_DEFENSE_RULES_V453_DEV69_B4;
+  if(u.items.includes('heartsteel')){
+   const ready=(u.heartsteelPerTargetV453Dev69B4||{})[target.id]||0;
+   if(ready<=this.gameTime&&this.gameTime-(u.heartsteelNearbyV453Dev69B4?.[target.id]??this.gameTime)>=r.heartsteel.chargeSeconds){
+    const raw=r.heartsteel.damageFlat+u.maxHp*r.heartsteel.hpDamageRatio;
+    const dealt=this.damage(target,raw,u,'physical','item_heartsteel_b4');
+    if(dealt>0){const gain=Math.max(1,Math.floor(dealt*r.heartsteel.healthGainRatio));u.heartsteelBonusHpV453Dev69B4=(u.heartsteelBonusHpV453Dev69B4||0)+gain;u.maxHp+=gain;u.hp+=gain;}
+    u.heartsteelPerTargetV453Dev69B4??={};u.heartsteelPerTargetV453Dev69B4[target.id]=this.gameTime+r.heartsteel.targetCooldown;
+   }
+  }
+  if(u.items.includes('dead_mans_plate')&&(u.deadmanChargesV453Dev69B4||0)>0){
+   const scale=(u.deadmanChargesV453Dev69B4||0)/r.dead_mans_plate.chargeSeconds;
+   this.damage(target,r.dead_mans_plate.damageFlat*scale,u,'physical','item_deadman_b4');
+   this.applyEffectV41(target,'slow',{source:u,power:.3*scale,duration:r.dead_mans_plate.slowSeconds,key:'deadman_b4'});
+   u.deadmanChargesV453Dev69B4=0;
+  }
+ }
+ onDefensiveTakedownV453Dev69B4(u){
+  if(!u?.items?.includes('deaths_dance'))return;
+  u.deathDanceQueueV453Dev69B4=[];
+  this.effectResolverV41().heal(u,u.maxHp*ITEM_DEFENSE_RULES_V453_DEV69_B4.deaths_dance.healOnTakedown,u);
+ }
+
  // Shared, snapshot-deterministic reactive item families. No ESM imports in engine.
  derivedItemStatsV453Dev69(u){
   if(!u?.champ)return {ad:0,ap:0,mr:0};
@@ -3073,6 +3244,15 @@ export class Arena {
    const light=u.terminusV453Dev69B3.light||0;
    armor+=light*ITEM_ATTACK_RULES_V453_DEV69_B3.terminus.resistPerLight;
    mr+=light*ITEM_ATTACK_RULES_V453_DEV69_B3.terminus.resistPerLight;
+  }
+  if(ids.includes('archangels_staff'))ap+=this.bonusItemManaV453Dev69B4(u)*ITEM_DEFENSE_RULES_V453_DEV69_B4.archangels_staff.bonusApFromMana;
+  if(ids.includes('manamune'))ad+=this.bonusItemManaV453Dev69B4(u)*ITEM_DEFENSE_RULES_V453_DEV69_B4.manamune.bonusAdFromMana;
+  if(ids.includes('jaksho_the_protean')&&u.jakshoCombatV453Dev69B4?.last>=this.gameTime-5&&
+     this.gameTime-u.jakshoCombatV453Dev69B4.start>=ITEM_DEFENSE_RULES_V453_DEV69_B4.jaksho_the_protean.combatSeconds){
+    const itemArmor=ids.reduce((n,id)=>n+(catalog.find(v=>v.id===id)?.stats?.armor||0),0);
+    const itemMr=ids.reduce((n,id)=>n+(catalog.find(v=>v.id===id)?.stats?.mr||0),0);
+    armor+=itemArmor*ITEM_DEFENSE_RULES_V453_DEV69_B4.jaksho_the_protean.resistRatio;
+    mr+=itemMr*ITEM_DEFENSE_RULES_V453_DEV69_B4.jaksho_the_protean.resistRatio;
   }
   return {ad,ap,mr,armor};
  }
@@ -3194,6 +3374,10 @@ export class Arena {
   }
   u.items.push(itemId);
   if(itemId==='yun_tal_wildarrows'){u.yunTalStacksV453Dev69B3=0;u.yunTalCritAppliedV453Dev69B3=0;}
+  if(itemId==='rod_of_ages'){u.rodBoughtAtV453Dev69B4=this.gameTime;u.rodStacksV453Dev69B4=0;u.rodBonusLevelGrantedV453Dev69B4=false;}
+  if(itemId==='heartsteel'){u.heartsteelBonusHpV453Dev69B4=0;u.heartsteelPerTargetV453Dev69B4={};}
+  if(itemId==='guardian_angel')u.gaReadyAtV453Dev69B4=this.gameTime+1;
+  if(['winters_approach','archangels_staff','manamune'].includes(itemId))this.refreshTearEvolutionV453Dev69B4(u);
   // Buying a new proc item creates its own cooldown/charge state. A consumed
   // Scout's Slingshot cannot keep its proc active after upgrading into RFC.
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
@@ -3373,12 +3557,34 @@ export class Arena {
   const {itemId,refund}=eligibility,item=catalog.find(v=>v.id===itemId);
   const undoBeforeV453Dev61=this.shopUnitStateV453Dev61(u);
   this.removeRabadonV43(u);
+  // Remove permanent item-derived stacks (but not other inventory grants).
+  if(itemId==='rod_of_ages'&&(u.rodStacksV453Dev69B4||0)>0){const n=u.rodStacksV453Dev69B4;
+   this.applyItemStatsV43(u,{stats:{hp:n*10,mana:n*30,ap:n*3}},-1);u.rodStacksV453Dev69B4=0;}
+  if(itemId==='heartsteel'&&(u.heartsteelBonusHpV453Dev69B4||0)>0){
+   const hp=u.heartsteelBonusHpV453Dev69B4;u.maxHp=Math.max(1,u.maxHp-hp);u.hp=Math.min(u.hp,u.maxHp);u.heartsteelBonusHpV453Dev69B4=0;}
+  if(['winters_approach','archangels_staff','manamune'].includes(itemId)){
+   const mana=u.tearManaBonusV453Dev56||0;u.maxMana=Math.max(0,u.maxMana-mana);u.mana=Math.min(u.mana,u.maxMana);
+   u.tearManaBonusV453Dev56=0;u.tearEvolvedV453Dev69B4=false;
+  }
   u.items.splice(index,1);this.applyItemStatsV43(u,item,-1);
   if(itemId==='ward')u.controlWardStock=Math.max(0,(u.controlWardStock||0)-1);
   if(itemId==='refillable_potion'){u.refillableChargesV453Dev32=0;u.potionHealingV453Dev32=null;}
   if(itemId==='seekers_armguard')u.armguardSpentV453Dev37=false;
   if(itemId==='scouts_slingshot')u.scoutBullseyeReadyAtV453Dev38=0;
   if(itemId==='cull')u.cullMinionsV453Dev69=0;
+  if(itemId==='guardian_angel'){u.gaReadyAtV453Dev69B4=0;u.gaReviveAtV453Dev69B4=0;}
+  if(itemId==='deaths_dance')u.deathDanceQueueV453Dev69B4=[];
+  if(itemId==='heartsteel'){u.heartsteelNearbyV453Dev69B4={};u.heartsteelPerTargetV453Dev69B4={};}
+  if(itemId==='rod_of_ages'){u.rodBoughtAtV453Dev69B4=null;u.rodBonusLevelGrantedV453Dev69B4=false;}
+  if(['warmogs_armor','winters_approach'].includes(itemId)&&(u.itemDerivedHealthV453Dev69B4||0)){
+   // Recompute from REMAINING inventory immediately: no temporary extra HP after sale.
+   const warmog=u.items.includes('warmogs_armor')&&itemId!=='warmogs_armor';
+   const winter=u.items.includes('winters_approach')&&itemId!=='winters_approach';
+   const others=(u.items||[]).reduce((sum,id)=>sum+((id===itemId||id==='warmogs_armor')?0:(catalog.find(v=>v.id===id)?.stats?.hp||0)),0);
+   const next=(warmog?others*.12:0)+(winter?this.bonusItemManaV453Dev69B4(u)*.08:0);
+   const delta=next-u.itemDerivedHealthV453Dev69B4;u.itemDerivedHealthV453Dev69B4=next;u.maxHp=Math.max(1,u.maxHp+delta);u.hp=Math.min(u.hp,u.maxHp);
+  }
+  if(itemId==='dead_mans_plate')u.deadmanChargesV453Dev69B4=0;
   if(itemId==='yun_tal_wildarrows'){u.critChance=Math.max(0,(u.critChance||0)-(u.yunTalCritAppliedV453Dev69B3||0));u.yunTalStacksV453Dev69B3=0;u.yunTalCritAppliedV453Dev69B3=0;u.yunTalFrenzyUntilV453Dev69B3=0;}
   if(itemId==='terminus')u.terminusV453Dev69B3=null;
   if(itemId==='eclipse')u.eclipseHitsV453Dev69B3=null;
@@ -3932,7 +4138,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.advanceDefensiveItemsV453Dev69B4();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceChampionProjectilesV453Dev42();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -4198,7 +4404,7 @@ export class Arena {
   const resist=Math.min(1,Math.max(0,(u?.champ?this.elementalStatsV452d3(u).slowResist:u?.slowResist||0)/100));
   return Math.max(Math.max(0,u?.slowPercent||0)*(1-resist),this.effectResolverV41().slowFraction(u));
  }
- effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
+ effectiveMS(u){const sprint=this.itemMoveBonusesV453Dev29(u);return movementSpeed(u.moveSpeed,(u.flatMoveSpeed||0)+sprint.flat+(u.items?.includes('cosmic_drive')&&u.cosmicSprintUntilV453Dev69>this.gameTime?ITEM_FAMILY_RULES_V453_DEV69.cosmic_drive.flatSpeed:0),(u.percentMoveSpeed||0)+sprint.percent+this.cloudSpeedBonusV452d4(u)+(this.gameTime>=(u.combatUntil||0)?this.elementalStatsV452d3(u).outOfCombatMoveFraction:0)+this.soulMovementBonusV452d2(u)+(u.jungleBuff==='gustwalker'&&u.jungleSpeedUntil>this.gameTime?.075:0)+(u.ghostUntil>this.gameTime?.24:0)+(u.items?.includes('force_of_nature')&&(u.forceNatureStacksV453Dev69||0)>=8&&(u.forceNatureUntilV453Dev69||0)>this.gameTime?.06:0)+(u.mercurialSprintUntilV453Dev59>this.gameTime&&u.items?.includes('mercurial_scimitar')?ITEM_EFFECTS_V43.mercurial_scimitar.sprintFraction:0)+(u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.movePercent/100:0)+this.firelightSpeedBonusV452d4(u),this.effectiveSlowV453Dev50(u))}
  // Gameplay hitboxes for minion block on explicit player movement orders.
  // Combat damage, farm and targeting still use their original authoritative spine.
  minionBodyCollisionV453Dev48(pos,excludedId=null){
@@ -4786,7 +4992,7 @@ export class Arena {
  // DEV56: 4 stored tear charges restore every 8 s; time uses same
  // authoritative clock as skills and replay, not browser-only timers.
  procTearManaV453Dev56(attacker,target){
-  if(!attacker?.items?.includes('tear_of_the_goddess')||target?.team===attacker.team)return 0;
+  if(!attacker?.items?.some(id=>['tear_of_the_goddess','winters_approach','archangels_staff','manamune'].includes(id))||target?.team===attacker.team)return 0;
   if(!target?.champ&&!target?.kind&&!target?.monster&&!target?.campId)return 0;
   const spec=ITEM_EFFECTS_V43.tear_of_the_goddess,now=this.gameTime;
   let charges=Math.max(0,Math.min(spec.maxCharges,attacker.tearChargesV453Dev56??4));
@@ -4800,7 +5006,7 @@ export class Arena {
   if(gain>0){
    if(charges===spec.maxCharges||next<=0)next=now+spec.rechargeSeconds;
    charges--;attacker.tearManaBonusV453Dev56=(attacker.tearManaBonusV453Dev56||0)+gain;
-   attacker.maxMana+=gain;attacker.mana=Math.min(attacker.maxMana,attacker.mana+gain);
+   attacker.maxMana+=gain;attacker.mana=Math.min(attacker.maxMana,attacker.mana+gain);this.refreshTearEvolutionV453Dev69B4(attacker);
   }
   attacker.tearChargesV453Dev56=charges;attacker.tearNextChargeAtV453Dev56=next;
   return gain;
@@ -4856,7 +5062,8 @@ export class Arena {
   const interval=this.elementalStatsV452d3(u).attackInterval;
   const rage=u.items?.includes('guinsoos_rageblade')&&(u.guinsooUntilV453Dev54||0)>this.gameTime?(u.guinsooStacksV453Dev54||0)*8:0;
   const frenzy=u.items?.includes('yun_tal_wildarrows')&&u.yunTalFrenzyUntilV453Dev69B3>this.gameTime?ITEM_ATTACK_RULES_V453_DEV69_B3.yun_tal_wildarrows.frenzyAttackSpeed:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+frenzy)/100;
+  const hexplate=u.items?.includes('experimental_hexplate')&&u.hexplateBuffUntilV453Dev69B4>this.gameTime?ITEM_DEFENSE_RULES_V453_DEV69_B4.experimental_hexplate.attackSpeedPct:0;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+frenzy+hexplate)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -5066,6 +5273,11 @@ export class Arena {
   if(attacker.items?.includes('riftmaker'))amount*=this.itemBattleRampV453Dev69(attacker,'riftmaker',sourceType);
   if(attacker.items?.includes('liandrys_torment'))amount*=this.itemBattleRampV453Dev69(attacker,'liandrys_torment',sourceType);
  }
+ // Shojin affects authored skill damage, not child item/rune/DoT procs.
+ if(sourceType==='spell'&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&attacker.items?.includes('spear_of_shojin')){
+  const stacks=target.shojinDebuffV453Dev69B4?.[attacker.id];
+  if(stacks?.until>this.gameTime)amount*=1+stacks.stacks*ITEM_DEFENSE_RULES_V453_DEV69_B4.spear_of_shojin.damagePerStack;
+ }
  // Abyssal's aura is owned by an ally near the victim; no fog or enemy inventory broadcast.
  if(damageType==='magic'&&attacker?.team&&target.team!==attacker.team&&
     this.units.some(u=>u.hp>0&&u.team===attacker.team&&u.items?.includes('abyssal_mask')&&
@@ -5134,12 +5346,29 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    final-=absorbed;target.hexdrinkerMagicBarrierV453Dev57-=absorbed;
   }
  }
+ // Death's Dance delays physical and magic incoming damage from enemies, never deferred ticks.
+ if(final>0&&target?.champ&&target.items?.includes('deaths_dance')&&attacker?.team!==target.team&&
+    damageType!=='true'&&sourceType!=='item_deaths_dance_deferred_b4'){
+  const delayed=final*ITEM_DEFENSE_RULES_V453_DEV69_B4.deaths_dance.deferRatio;
+  final-=delayed;
+  target.deathDanceQueueV453Dev69B4??=[];
+  target.deathDanceQueueV453Dev69B4.push({power:delayed/3,next:this.gameTime+1,remaining:3,attackerId:attacker?.id||null});
+ }
  // Shared Lifeline checks are one-shot and absorb the triggering hit.
  this.procLifelineV453Dev69(target,final,damageType);
  const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);
  if(target.champ&&damageType==='magic'&&final>0&&attacker?.team&&attacker.team!==target.team&&target.items?.includes('kaenic_rookern'))
   target.kaenicReadyAtV453Dev69=this.gameTime+ITEM_FAMILY_RULES_V453_DEV69.kaenic_rookern.rechargeSeconds;
- final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+ final=absorbedV41.remaining;
+ // Guardian Angel intercepts only actual lethal post-shield champion HP damage.
+ if(target?.champ&&target.items?.includes('guardian_angel')&&final>=target.hp&&target.hp>0&&
+    (target.gaReadyAtV453Dev69B4||0)<=this.gameTime){
+  target.gaReadyAtV453Dev69B4=this.gameTime+ITEM_DEFENSE_RULES_V453_DEV69_B4.guardian_angel.cooldown;
+  target.gaReviveAtV453Dev69B4=this.gameTime+ITEM_DEFENSE_RULES_V453_DEV69_B4.guardian_angel.stasisSeconds;
+  target.stasisUntil=Math.max(target.stasisUntil||0,target.gaReviveAtV453Dev69B4);
+  final=Math.max(0,target.hp-1);
+ }
+ const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
   // Champion damage while Annul is DOWN resets its recovery cooldown.
   if(dealt>0&&target?.champ&&attacker?.champ&&attacker.team!==target.team){
@@ -5150,7 +5379,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   // DEV53 Eternidade: somente dano EFETIVAMENTE sofrido de campeão inimigo.
   // Escudos absorvidos, ataques inválidos e fontes neutras não recuperam mana.
   if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team&&
-     target.items?.includes('catalyst_of_aeons')&&target.maxMana>0){
+     target.items?.some(id=>id==='catalyst_of_aeons'||id==='rod_of_ages')&&target.maxMana>0){
    const manaReturn=dealt*.10;target.mana=Math.min(target.maxMana,target.mana+manaReturn);
   }
   // DEV56: stacking needs a landed damaging spell, never DoT, item or basic.
@@ -5160,6 +5389,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.procTearManaV453Dev56(attacker,target);
   this.onBulkItemChampionHitV453Dev69(attacker,target,dealt,damageType,sourceType);
   this.afterChampionHitItemsV453Dev69B3(attacker,target,dealt,sourceType);
+  this.afterTankHitV453Dev69B4(attacker,target,dealt,damageType,sourceType);
   if(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team&&
     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
    if(attacker.items?.includes('maw_of_malmortius')&&(attacker.mawVampUntilV453Dev69||0)>this.gameTime){
@@ -5280,6 +5510,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
     target.deaths=(target.deaths||0)+1;
+    // Deferred damage must not spill into a champion's next life after respawn.
+    target.deathDanceQueueV453Dev69B4=[];
     // Dying places Annul on cooldown; never grant a fresh shield on respawn.
      const annul=this.itemAnnulSpecV453Dev69Batch2(target);
      if(annul){target.itemAnnulReadyAtV453Dev69Batch2=this.gameTime+annul.cooldown;
@@ -5294,11 +5526,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);}
     }}
     target.damageContributors={};
-    if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
+    if(credited){this.onDefensiveTakedownV453Dev69B4(credited);this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');if(credited.items?.includes('the_collector')){
      const bonus=ITEM_FAMILY_RULES_V453_DEV69.the_collector.killGold;
      this.creditGoldV452d4Dev7(credited,bonus,'collector');this.recordEconomyV43(credited,'collector',bonus,'the_collector');
     }}
-    for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
+    for(const helper of assistingChampions){this.onDefensiveTakedownV453Dev69B4(helper);this.awardGloryV453Dev58(helper,'assist');}
      for(const holder of [credited,...assistingChampions])if(holder?.items?.includes('hexoptik_c44'))holder.hexoptikRangeUntilV453Dev69B3=this.gameTime+ITEM_ATTACK_RULES_V453_DEV69_B3.hexoptik_c44.killDuration;
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
     if(gloryItem)this.setGloryStacksV453Dev58(target,(target.gloryStacksV453Dev58||0)-ITEM_EFFECTS_V43[gloryItem].stacksLostOnDeath);
@@ -5424,6 +5656,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
    this.itemAttackChargeV453Dev38(attacker,target);
    this.afterBasicAttackItemsV453Dev69B3(attacker,target,{landed,preHp});
+   this.afterTankBasicV453Dev69B4(attacker,target,landed);
   }
   if(attacker.champ&&target.champ&&attacker.team!==target.team){for(const turret of this.structures){if(turret.type==='tower'&&turret.team===target.team&&turret.alive&&dist(turret,attacker)<.08&&dist(turret,target)<.10){turret.aggro=attacker.id;this.event(`${turret.name}: aggro de dive em ${attacker.champ}.`);}}}}
  // Dev42: immutable launch ray + delayed impact, advanced in the *same* one-

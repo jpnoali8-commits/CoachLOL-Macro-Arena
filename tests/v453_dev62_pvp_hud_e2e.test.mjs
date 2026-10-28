@@ -15,7 +15,7 @@ try{
  await check('Cada humano controla cinco campeões e apenas sua própria equipe',()=>{for(const [v,team] of [[blue,'blue'],[red,'red']]){assert.equal(v.data.projection.controlledUnitIds.length,5);assert.equal(v.data.projection.units.filter(u=>u.team===team).length,5);}});
  await check('Cada sessão recebe somente informações de Undo e fonte de sua equipe',()=>{for(const [v,team] of [[blue,'blue'],[red,'red']]){for(const field of ['shopUndoAvailableV453Dev61','shopUndoStateV453Dev62','shopInRangeV453Dev60']){assert.equal(Object.keys(v.data.projection[field]).length,5);assert.ok(Object.keys(v.data.projection[field]).every(id=>id.startsWith(team+'_')));}}});
  const shop=await get('/api/shop',c1);
- await check('Catálogo Riot offline mantém 65 referências sem liberar compras',()=>{assert.equal(shop.data.referenceItems.length,65);assert.ok(shop.data.items.find(x=>x.id==='boots'));assert.ok(shop.data.referenceItems.every(x=>x.playable===false));});
+ await check('Catálogo Riot offline mantém 50 referências sem liberar compras',()=>{assert.equal(shop.data.referenceItems.length,50);assert.ok(shop.data.items.find(x=>x.id==='boots'));assert.ok(shop.data.referenceItems.every(x=>x.playable===false));});
  await check('Catálogo e preços não são acessíveis sem autenticação',async()=>{assert.equal((await get('/api/shop')).status,401);assert.equal((await get('/api/shop/quote?unitId=blue_MID&itemId=boots')).status,401);});
  const q=await get('/api/shop/quote?unitId=blue_MID&itemId=boots',c1);
  await check('Cotação usa preço e disponibilidade do motor',()=>{assert.equal(q.status,200);assert.equal(q.data.total,300);assert.equal(q.data.remaining,300);assert.equal(q.data.canBuy,true);assert.equal(q.data.gold,500);});

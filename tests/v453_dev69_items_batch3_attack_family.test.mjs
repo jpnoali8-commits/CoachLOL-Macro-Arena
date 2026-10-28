@@ -12,7 +12,7 @@ const items=[['3153','blade_of_ruined_king',['vampiric_scepter','recurve_bow','p
 let n=0;function test(title,fn){try{fn();console.log('✓ B3 '+title);n++}catch(e){console.error('✗ B3 '+title);throw e}}
 function contact(a,u,v,n=1,amount=25){for(let i=0;i<n;i++)a.attack(u,v,amount)}
 test('15 exact official IDs, gold.sell, recipes, status; 65 references still locked',()=>{
- assert.equal(sr.counts.normalPlayable,137);assert.equal(sr.counts.referenceOnly,65);
+ assert.equal(sr.counts.normalPlayable,152);assert.equal(sr.counts.referenceOnly,50);
  for(const [id,key,from] of items){const source=riot[id],local=catalog.find(x=>x.id===key);assert.ok(local,key);assert.equal(local.riotId,+id);assert.equal(local.cost,source.gold.total);assert.equal(officialSaleValueV453Dev60(key),source.gold.sell);assert.deepEqual(ITEM_RECIPES[key],from);assert.equal(sr.rows[id].localId,key);assert.equal(sr.rows[id].status,'engine_playable');}
  assert.equal(Object.values(sr.rows).filter(x=>x.status==='reference_only'&&x.localId!==null).length,0);
 });
