@@ -2199,7 +2199,10 @@ export class Arena {
  // once, not separately for every champion, minion, ward and jungle camp.
  // No persistent cache: same-tick mutations (wards, fog, bushes) remain visible.
  perspective(team){const sources=this.visionSources(team);const canSee=point=>this.canSeePoint(team,point,sources);return {round:this.round,time:this.gameTime,
-  units:this.units.filter(u=>u.team===team||(u.hp>0&&this.visible(team,u,sources))).map(u=>u.team===team?u:({id:u.id,team:u.team,role:u.role,champ:u.champ,klass:u.klass,x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,level:u.level})),
+  units:this.units.filter(u=>!this.realmOfV453Dev69(u)&&
+    (u.team===team||(u.hp>0&&this.visible(team,u,sources)))).map(u=>u.team===team?u:
+    ({id:u.id,team:u.team,role:u.role,champ:u.champ,klass:u.klass,x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,level:u.level})),
+   realm:this.realmViewV453Dev69(team),
   minions:this.minions.filter(m=>m.team===team||this.visible(team,m,sources)),
   boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
    s.until>this.gameTime&&(s.team===team||canSee(s)))
@@ -2858,7 +2861,7 @@ export class Arena {
   const target=targetId?this.units.find(v=>v.id===targetId&&v.hp>0):null;
   if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
   if(s.shape==='target_ally'&&(!target||target.team!==team))return {ok:false,reason:'alvo_aliado'};
-  if(target&&target.team!==team&&!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
+  if(target&&target.team!==team&&(!this.visible(team,target)||!this.sameCombatRealmV453Dev69(u,target)))return {ok:false,reason:'alvo_oculto_ou_reino'};
   if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
   const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
@@ -5334,7 +5337,7 @@ export class Arena {
   this.event(u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.',team,'item',u.id);
   return {ok:true,charges:refilling?u.refillableChargesV453Dev32:0,endsAt:this.gameTime+effect.seconds};
  }
- tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advanceBoardPassivesV453Dev69();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
+ tick(){if(this.pendingDecision||this.phase==='preparation')return;this.advanceRealmV453Dev69();this.advanceBoardPassivesV453Dev69();this.advancePotionHealingV453Dev32();this.advanceItemRegenV453Dev38();this.refreshOracleWardsV452d4Dev28();this.advanceRiftHexgatesV452d4();this.riftVisionPulsesV452d4=this.riftVisionPulsesV452d4.filter(p=>p.until>this.gameTime);for(const u of this.units){if(u.barrierUntil&&this.gameTime>=u.barrierUntil){u.shield=Math.max(0,u.shield-(u.barrierAmount||0));u.barrierUntil=0;u.barrierAmount=0;}if(u.reactionCombo?.expiresAt<this.gameTime)u.reactionCombo=null;}this.effectResolverV41().advanceTick();this.advanceSoulEffectsV452d2();this.resolveDelayedEffects();this.advanceElderSubticksV452d4Dev18(this.gameTime);this.processAmbushResponses();if(this.pendingDecision)return;this.advanceStructuresV451();this.spawnWaves();this.reviveAndMove();this.advanceRealmV453Dev69();this.buildMinionIndex();this.moveMinions();this.updateMinionBodiesV453Dev51();this.buildMinionIndex();this.detectEncounters();if(this.pendingDecision)return;this.advanceIreliaDanceV453Dev69M7();this.advanceEzrealBarrageV453Dev69M7();this.advanceChampionProjectilesV453Dev42();this.advanceIreliaVanguardWallsV453Dev69M7();this.advanceJinxChompersV453Dev69M5();this.advanceAhriFoxFireV453Dev69M4();this.advanceLuxFinalSparkV453Dev69M3();this.advanceVexEZonesV453Dev69M1();this.advanceVexShadowDashV453Dev69();this.advanceIreliaBladesV453Dev43();this.resolveSpecialUltimates();if(this.pendingDecision)return;this.resolveCombat();if(this.pendingDecision)return;this.advanceBamiAuraV453Dev57();this.advanceElderSubticksV452d4Dev18(this.gameTime+.999999);this.updateObjectives();if(this.pendingDecision)return;this.advanceObjectivesV45();this.resolveSummonerCasts();if(this.pendingDecision)return;this.supportPassiveTick();this.restoreVisionCharges();this.refreshOracleWardsV452d4Dev28();this.wards=this.wards.filter(w=>this.wardActive(w));
   if(this.structures.some(s=>s.type==='nexus'&&!s.alive)){this.ended=true;this.winner=this.structures.find(s=>s.type==='nexus'&&!s.alive)?.team==='blue'?'red':'blue';this.event(`Nexus destruído. Vitória do ${this.winner}.`)}
   this.samplePostgameV452d4Dev7(this.ended);
  }
@@ -6416,7 +6419,7 @@ export class Arena {
    .sort((a,b)=>b.at-a.at||a.champ.id.localeCompare(b.champ.id));
   return eligible[0]?.champ||null;
  }
- damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
+ damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
   // Explicit opt-in ability hits can apply item on-hit, without masquerading as
   // basic attacks. Spell shields still block the primary ability and its procs.
   if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
@@ -7674,7 +7677,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     !this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
    let stage=this.activeStage(u);const activeAction=stage?.startedAt!==null?stage?.action:null;
    const effectiveAARange=this.itemAttackRangeV453Dev38(u);
-   const enemies=this.units.filter(x=>x.team!==u.team&&x.hp>0&&dist(u,x)<=effectiveAARange&&this.visible(u.team,x));
+   const enemies=this.units.filter(x=>x.team!==u.team&&x.hp>0&&dist(u,x)<=effectiveAARange&&this.visible(u.team,x)&&this.sameCombatRealmV453Dev69(u,x));
    if(o.kind==='chase')continue; // follow-only never forces an attack
    let candidate=null;const requested=o.targetId||u.reactionCombo?.targetId||stage?.targetId;
    if(requested)candidate=enemies.find(x=>x.id===requested)||null;
