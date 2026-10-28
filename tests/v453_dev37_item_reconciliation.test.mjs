@@ -94,16 +94,18 @@ test('Armguard + Rod => Zhonya 450 gold craft, 105 AP and renewably timed stasis
  a.gameTime=4;assert.equal(a.activateStasis('blue',u.id).ok,true);
  assert.equal(a.activateStasis('blue',u.id).ok,false);
 });
-test('Armguard charge persists through snapshots, selling and rebuy resets it',()=>{
+test('Armguard one-use restriction survives snapshots and sale; never rebuy',()=>{
  const a=make(),u=hero(a);prep(a,u);assert.equal(a.buy('blue',u.id,'seekers_armguard'),true);
  assert.equal(a.activateStasis('blue',u.id).ok,true);
  const snap=a.snapshotV40();const b=Arena.fromSnapshotV40(map,masks,snap),restored=hero(b);
  assert.equal(checksumV40(snap),checksumV40(b.snapshotV40()));assert.equal(restored.armguardSpentV453Dev37,true);
  assert.equal(b.activateStasis('blue',restored.id).ok,false);
  assert.equal(b.sellItemV43('blue',restored.id,0).ok,true);
- assert.equal(b.buy('blue',restored.id,'seekers_armguard'),true);assert.equal(restored.armguardSpentV453Dev37,false);
- // After prior stasis expires, second item can be activated again.
- b.gameTime=3;assert.equal(b.activateStasis('blue',restored.id).ok,true);
+ assert.equal(restored.b7ArmguardEverUsed,true);
+ // 26.21: the used quest item is lifetime-limited, including across reconnections.
+ assert.equal(b.canBuy('blue',restored.id,'seekers_armguard').ok,false);
+ assert.equal(b.buy('blue',restored.id,'seekers_armguard'),false);
+ b.gameTime=3;assert.equal(b.activateStasis('blue',restored.id).ok,false);
 });
 test('quest upgrades, trinket, internal Riot IDs still cannot be purchased normally',()=>{
  const a=make(),u=hero(a,'blue','SUP');prep(a,u);
