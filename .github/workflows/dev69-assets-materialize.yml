@@ -1,0 +1,42 @@
+name: CoachLOL dev69 - materializar assets originais verificados
+on:
+  push:
+    branches: [dev69/assets-import]
+permissions:
+  contents: write
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Reconstituir mapa SR original e verificar SHA-256
+        run: |
+          python - <<'PY'
+          import base64,hashlib,pathlib,shutil
+          source=pathlib.Path('.asset-transfer/001')
+          pieces=sorted(source.glob('*.b64'))
+          assert len(pieces)==14, f'Expected 14 parts; got {len(pieces)}'
+          encoded=''.join(p.read_text('ascii') for p in pieces)
+          original=base64.b64decode(encoded,validate=True)
+          sha=hashlib.sha256(original).hexdigest()
+          assert sha=='95732b7f9271fe28f2d9cf91bdedb4c8e9d4e05d2341a50882f9cc9e45bb0b49',sha
+          paths=['assets/mapa_atualizado.jpg','assets/masks/Mapa-Summoners-Rifts.jpg','assets/user_rift_masks_20261026/mapa_atualizado.jpg','assets/user_rift_masks_20261026/masks/Mapa-Summoners-Rifts.jpg']
+          for name in paths:
+            p=pathlib.Path(name)
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_bytes(original)
+            print('verified',name,len(original),sha)
+          shutil.rmtree(source)
+          PY
+      - name: Atualizar somente staging (nunca main)
+        run: |
+          git config user.name "coachlol-assets-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- assets/mapa_atualizado.jpg assets/masks/Mapa-Summoners-Rifts.jpg assets/user_rift_masks_20261026/mapa_atualizado.jpg assets/user_rift_masks_20261026/masks/Mapa-Summoners-Rifts.jpg .asset-transfer/001
+          git diff --cached --quiet && exit 1
+          git commit -m "assets(dev69): materializar 4 mapas SR originais, hash SHA-256 validado"
+          git push origin HEAD:dev69/assets-import
