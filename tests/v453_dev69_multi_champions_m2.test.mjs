@@ -128,6 +128,8 @@ for(const team of ['blue','red']){
  area.a.resolveKitSkillsV42();
  assert.ok(area.u.luxZoneV42);
  area.u.luxZoneV42.detonate=true;area.a.resolveKitSkillsV42();
+ assert.equal(area.enemy.luxIlluminationV453Dev69M2??null,null);
+ area.a.gameTime=1.2;area.a.resolveKitSkillsV42();
  test(team+' Lux E detonation applies passive only after actual damage',()=>{
   assert.equal(area.enemy.luxIlluminationV453Dev69M2?.ownerId,area.u.id);
  });
