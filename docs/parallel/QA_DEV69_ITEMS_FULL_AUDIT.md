@@ -70,3 +70,10 @@ Análise remota da matriz contra Data Dragon 16.21.1: **202 itens normais, 0 div
 - `3869/3870/3871/3876/3877` (cinco evoluções da missão SUP).
 
 Não converter esses casos em `certified` nem disponibilizar compra direta até existir resolução real de ação, evolução e ownership. Devem ser tratados em integração com os kits das duas campeãs e catálogo de missões.
+
+## CI real e dependência de assets do executor remoto (não mascarada)
+
+- **FAST audit-and-families:** passou nos commits de paridade e classificação de range com **233/233 testes focados**: 11 novos contratos MID, 7 novos contratos dos patches 26.20–26.21 e 215 históricos de itens, PvP, Undo e Skills; auditoria dos 202 itens normais sem divergência de integridade.
+- **Full `npm test`: FALHOU por pré-requisito externo não versionado.** O teste histórico `tests/v452d4_dev5_ui_results.test.mjs:6` aborta porque `assets/ui/endgame/victory_overlay.png` não existe no checkout de Actions. As fases anteriores do `npm test` passaram até esse ponto; o resto da suíte integral não foi executado nessa rodada.
+- Não foram adicionados assets falsos, `skip`, `continue-on-error`, `if(false)` ou mocks para esconder a falha. Para rodar a suíte integral, o integrador responsável pelos arquivos binários deve fornecer/registrar os assets reais no workspace de Actions com origem verificada; depois repetir `npm test`. Isso é dependência de integração, não autorização para modificar `engine.browser.js`.
+- Evidência do bloqueio: [Actions run #40780759654](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40780759654) (job `full-regression`). Não declarar QA geral certificado enquanto não passar.
