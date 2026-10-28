@@ -117,10 +117,15 @@ t('Vex R primeiro acerto aplica marca e R2 não consome mana novamente',()=>{
  const a=fresh(),v=u(a,'blue_MID'),target=u(a,'red_MID');v.champ='Vex';v.skillRanks.R=1;v.level=6;v.mana=300;
  v.x=.5;v.y=.5;target.x=.56;target.y=.5;target.mr=0;a.visible=()=>true;
  const before=v.mana;assert.ok(a.queueDirectionalSkill('blue',v.id,'R',{x:.65,y:.5}).ok);
- a.resolveDirectionalSkills();assert.equal(v.vexMark?.targetId,target.id);
+ a.resolveDirectionalSkills();assert.equal(v.vexMark??null,null,'Dev69 R1 voa antes do impacto');
  assert.equal(v.mana,before-100);const after=v.mana;
+ a.gameTime=.65;a.advanceChampionProjectilesV453Dev42();
+ assert.equal(v.vexMark?.targetId,target.id,'Marca somente após impacto temporal');
  assert.ok(a.queueVexRecast('blue',v.id).ok);a.resolveDirectionalSkills();
  assert.equal(v.mana,after);assert.equal(v.vexMark,null);
+ assert.ok(v.vexDashV453Dev69,'R2 deve viajar em vez de teleportar');
+ const hp=target.hp;a.gameTime=1.1;a.advanceVexShadowDashV453Dev69();
+ assert.ok(target.hp<hp,'R2 aplica dano apenas ao chegar');
 });
 t('Skill não aprendida, sem mana e em CD não entra na fila nem muda recursos',()=>{
  const a=fresh(),lux=u(a,'blue_SUP');lux.champ='Lux';lux.skillRanks.Q=0;
