@@ -1,0 +1,114 @@
+{
+  "schema": "coachlol.qa.v453.dev40",
+  "version": "4.5.3-dev40",
+  "referencePatch": "26.21",
+  "playableItems": 70,
+  "referenceItems": 863,
+  "championProfiles": 173,
+  "newContracts": {
+    "passed": 16,
+    "total": 16
+  },
+  "npmTest": {
+    "status": "PASS",
+    "log": "npm_test_full.log"
+  },
+  "chromium": {
+    "status": "PASS",
+    "scenario": "Full original index UI with live engine item-proc HUD and inventory; on-hit refresh after actual browser attack",
+    "catalog": 70,
+    "hud": [
+      {
+        "id": "rapid_firecannon",
+        "text": "Energizado\n85/100 cargas",
+        "value": "85",
+        "max": "100"
+      },
+      {
+        "id": "scouts_slingshot",
+        "text": "Bullseye\n18s restantes",
+        "value": "0",
+        "max": "1"
+      },
+      {
+        "id": "kraken_slayer",
+        "text": "Mata-Cráquens\n2/2 ataques",
+        "value": "2",
+        "max": "2"
+      },
+      {
+        "id": "dorans_ring",
+        "text": "Anel de Doran\nReforço de mana: 3s",
+        "value": "3",
+        "max": "5"
+      }
+    ],
+    "inventory": "ITENS EQUIPADOS · vender na fonte\n➶ Canhão Fumegante\n85/100 cargas\nVender\n⚔ Mata-Cráquens\n2/2 ataques\nVender\n➶ Estilingue do Patrulheiro\n18s restantes\nVender\n◈ Anel de Doran\nReforço de mana: 3s\nVender",
+    "afterAttack": {
+      "stacks": 6,
+      "hp": 20000,
+      "shield": 110,
+      "charge": "6"
+    },
+    "blockedAttack": {
+      "stacks": 100,
+      "hp": 20000,
+      "shield": 110,
+      "uiCharge": "100"
+    },
+    "javascriptErrors": [],
+    "screenshots": [
+      "docs/QA_EVIDENCE_V453_DEV40/item_proc_hud_dev40_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV40/item_inventory_proc_dev40_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV40/shielded_energized_dev40_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV40/stasis_energized_dev40_chromium.png"
+    ]
+  },
+  "pacing": {
+    "matches": [
+      {
+        "seed": 26,
+        "seconds": 1626,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3637
+      },
+      {
+        "seed": 36,
+        "seconds": 1525,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3426
+      },
+      {
+        "seed": 42,
+        "seconds": 1458,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3324
+      }
+    ],
+    "averageSeconds": 1536.3333333333333,
+    "naturalNexusMatches": 3
+  },
+  "scope": [
+    "shielded basic on-hit triggers independently of post-shield HP damage",
+    "RFC charge spent on full-shield and lethal primary hit",
+    "attack blocked by blind/stasis/invulnerable does not charge/consume RFC",
+    "skill_on_hit physical and skill_on_hit_magic explicit opt-in use same on-hit items",
+    "basic-only Navori does not apply to ability-onhit",
+    "nested item lethal awards single kill",
+    "snapshot checksum and Node/browser logic retained"
+  ],
+  "knownLimitations": [
+    "New ability opt-in contract is not yet wired to every individual champion Q/W/E/R; no claim of all champion kits completed",
+    "70 playable items do not imply 70 fully certified passives",
+    "Shield and charged shot interactions are deliberate CoachLOL rules, not certified patch parity",
+    "Only 3 deterministic matches, not a statistical balance study",
+    "Champion-specific dash categorization and projectile collision deferred",
+    "No online PvP implementation in this milestone"
+  ]
+}

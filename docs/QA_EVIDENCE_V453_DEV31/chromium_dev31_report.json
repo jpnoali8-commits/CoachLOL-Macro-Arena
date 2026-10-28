@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "scope": "real Randuin recipe purchase + HUD active + overlay priority",
+  "cost": {
+    "gold": 8100,
+    "items": [
+      "wardens_mail",
+      "giants_belt"
+    ],
+    "remaining": 800,
+    "catalog": 56
+  },
+  "final": {
+    "items": [
+      "randuins_omen"
+    ],
+    "randuinsCd": 90,
+    "slow": 0.7,
+    "realmHidden": true,
+    "smiteLayer": "2147483000",
+    "realmLayer": "2147482000",
+    "mapLoaded": true,
+    "spriteCount": 15
+  },
+  "javascriptErrors": []
+}

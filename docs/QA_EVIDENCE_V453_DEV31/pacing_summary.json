@@ -1,0 +1,46 @@
+[
+  {
+    "seed": 26,
+    "profile": "baseline",
+    "time": 1998,
+    "ended": true,
+    "nexus": true,
+    "winner": "blue",
+    "computeMs": 6519,
+    "issues": [],
+    "previousHashMatch": true
+  },
+  {
+    "seed": 26,
+    "profile": "poke",
+    "time": 1899,
+    "ended": true,
+    "nexus": true,
+    "winner": "red",
+    "computeMs": 5505,
+    "issues": [],
+    "previousHashMatch": true
+  },
+  {
+    "seed": 42,
+    "profile": "baseline",
+    "time": 2004,
+    "ended": true,
+    "nexus": true,
+    "winner": "blue",
+    "computeMs": 5320,
+    "issues": [],
+    "previousHashMatch": true
+  },
+  {
+    "seed": 42,
+    "profile": "engage",
+    "time": 1407,
+    "ended": true,
+    "nexus": true,
+    "winner": "blue",
+    "computeMs": 3586,
+    "issues": [],
+    "previousHashMatch": true
+  }
+]

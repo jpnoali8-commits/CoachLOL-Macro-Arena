@@ -1,0 +1,91 @@
+ M .agents/skills/coachlol-producao/SKILL.md
+ M AGENTS.md
+ M INICIAR_WINDOWS.bat
+ D "PREVIEW_V37_VIS\303\203O_REAL.png"
+ M README_CONTINUAR_CODEX.md
+ M app.js
+ M docs/MATRIZ_CAMPEOES_V37.csv
+ M docs/MEMORIA_CONTINUIDADE_V452B.md
+ M engine.browser.js
+ M engine.mjs
+ M index.html
+ M package.json
+ M styles.css
+ M version.json
+?? CHANGELOG_V452D3A.md
+?? CHANGELOG_V452D4_DEV1.md
+?? CHANGELOG_V452D4_DEV2.md
+?? CHANGELOG_V452D4_DEV3.md
+?? CHANGELOG_V452D4_DEV5.md
+?? CHANGELOG_V452D4_DEV6.md
+?? CHANGELOG_V452D_DEV1.md
+?? CHANGELOG_V452D_DEV2.md
+?? MANIFEST_V452D3A.json
+?? MANIFEST_V452D4_DEV1.json
+?? MANIFEST_V452D4_DEV2.json
+?? MANIFEST_V452D4_DEV3.json
+?? MANIFEST_V452D4_DEV5.json
+?? NOVO_CHAT_COMECE_AQUI.md
+?? PREVIEW_V37_VIS#U00c3O_REAL.png
+?? README_PRODUCAO_V452D.md
+?? README_PRODUCAO_V452D2.md
+?? README_PRODUCAO_V452D3A.md
+?? README_PRODUCAO_V452D4_DEV2.md
+?? README_PRODUCAO_V452D4_DEV3.md
+?? README_PRODUCAO_V452D4_DEV5.md
+?? README_PRODUCAO_V452D4_DEV6.md
+?? README_RIFT_V452D4_DEV1.md
+?? assets/ui/endgame/
+?? assets/user_rift_masks_20261026/
+?? data/faelight_masks_v452d4_dev4/
+?? data/faelight_masks_v452d4_dev5/
+?? data/rift_bundles/
+?? data/rift_elemental_contract_v452d4.json
+?? data/rift_faelights_v452d4_dev3_audit.json
+?? data/rift_faelights_v452d4_dev4_audit.json
+?? data/rift_faelights_v452d4_dev5_audit.json
+?? data/rift_user_assets_v452d4.js
+?? data/rift_user_manifest_v452d4.json
+?? docs/COACHLOL_RIFT_ELEMENTAL_26_21_REFERENCIAS.md
+?? docs/HANDOFF_NOVO_CHAT/
+?? docs/MEMORIA_RIFT_V452D4_DEV2.md
+?? docs/MEMORIA_RIFT_V452D4_DEV3.md
+?? docs/MEMORIA_RIFT_V452D4_DEV6.md
+?? docs/MEMORIA_V452D3A_CONTINUIDADE.md
+?? docs/PROMPT_BLENDER_MCP_RIFT_V452D4.md
+?? docs/QA_EVIDENCE_V452D3A/
+?? docs/QA_EVIDENCE_V452D4_DEV2/
+?? docs/QA_EVIDENCE_V452D4_DEV3/
+?? docs/QA_EVIDENCE_V452D4_DEV6/
+?? docs/QA_RIFT_ELEMENTAL_V452D4.md
+?? docs/QA_RIFT_ELEMENTAL_V452D4_DEV2.md
+?? docs/QA_RIFT_ELEMENTAL_V452D4_DEV3.md
+?? docs/QA_V452D2_SOULS.md
+?? docs/QA_V452D3A_ELEMENTAL_PASSIVES.md
+?? docs/QA_V452D4_DEV6_POSTGAME.md
+?? docs/QA_V452D_OBJECTIVE_INCREMENT.md
+?? docs/ROADMAP_RIFT_ELEMENTAL_V452D4.md
+?? docs/ROADMAP_RIFT_V452D4_DEV2.md
+?? docs/ROADMAP_RIFT_V452D4_DEV3.md
+?? docs/ROADMAP_V452D2_CONTINUIDADE.md
+?? docs/ROADMAP_V452D3A_CONTINUIDADE.md
+?? docs/ROADMAP_V452D4_DEV6.md
+?? docs/ROADMAP_V452D_CONTINUIDADE.md
+?? postgame.css
+?? postgame.js
+?? tests/v452d2_dragon_souls.test.mjs
+?? tests/v452d3_elemental_passives.test.mjs
+?? tests/v452d4_dev3_faelight_hextech.test.mjs
+?? tests/v452d4_dev4_faelight_tiers.test.mjs
+?? tests/v452d4_dev5_faelight_tiers.test.mjs
+?? tests/v452d4_dev5_ui_results.test.mjs
+?? tests/v452d4_dev6_postgame.test.mjs
+?? tests/v452d4_elemental_rift.test.mjs
+?? tests/v452d4_user_masks_gameplay.test.mjs
+?? tests/v452d_objective_effects.test.mjs
+?? tools/audit_top_route_v452d4_dev3.py
+?? tools/build_rift_bundle_v452d4.py
+?? tools/import_faelight_tiered_masks_v452d4_dev4.py
+?? tools/import_faelight_tiered_masks_v452d4_dev5.py
+?? tools/import_user_rift_maps_v452d4.py
+?? tools/refine_faelights_v452d4_dev3.py

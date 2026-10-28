@@ -1,0 +1,14 @@
+{
+  "status": "controlled_local_microbenchmark_only",
+  "notes": "Same scenario and host, 80 additional minions and 12 wards. Time noisy, primary evidence is vision source calls/perspective.",
+  "dev26": {
+    "ms": 16.51,
+    "visionSourceCalls": 828,
+    "perPerspective": 69
+  },
+  "dev27": {
+    "ms": 8.98,
+    "visionSourceCalls": 12,
+    "perPerspective": 1
+  }
+}

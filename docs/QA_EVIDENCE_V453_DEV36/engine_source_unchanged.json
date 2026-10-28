@@ -1,0 +1,11 @@
+{
+  "checkedAgainst": "4.5.3-dev35",
+  "unchanged": {
+    "engine.mjs": true,
+    "engine.browser.js": true,
+    "app.js": true,
+    "data/patch_center/unit_balance_26_21_local_baseline_dev35.json": true
+  },
+  "allIdentical": true,
+  "note": "No new pacing trial required for source-code identity, but separate long-match browser QA remains open"
+}

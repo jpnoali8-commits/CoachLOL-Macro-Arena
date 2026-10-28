@@ -1,0 +1,126 @@
+{
+  "schema": "coachlol.qa.v453.dev42",
+  "version": "4.5.3-dev42",
+  "base": "4.5.3-dev41",
+  "referencePatch": "League of Legends PC 26.21 / Data Dragon 16.21.1",
+  "playableItems": 70,
+  "referenceItemRecords": 863,
+  "referenceChampionProfiles": 173,
+  "newTests": {
+    "passed": 19,
+    "total": 19,
+    "path": "tests/v453_dev42_projectile_mark_interrupt.test.mjs"
+  },
+  "legacyDev41Tests": "18/18 PASS; dedicated compatibility flag only in historical QA fixture",
+  "npmTest": "PASS",
+  "chromium": {
+    "status": "PASS",
+    "scenario": "Original CoachLOL index + engine.browser.js + dynamic projectile and marked Irelia Q",
+    "fired": {
+      "q": {
+        "ok": true,
+        "spentMana": 28,
+        "cooldownEndsAt": 5.5,
+        "seq": 1,
+        "projectileId": "ezreal_q_1",
+        "pending": true,
+        "dueAt": 1
+      },
+      "missiles": 1,
+      "hp": 1200,
+      "shield": 400,
+      "legacy": false
+    },
+    "impacted": {
+      "hp": 1200,
+      "shield": 235,
+      "qcd": 4,
+      "active": 0,
+      "history": {
+        "id": "ezreal_q_1",
+        "time": 1,
+        "ownerId": "blue_ADC",
+        "hitId": "red_MID",
+        "reason": "impacto",
+        "origin": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "end": {
+          "x": 0.5800533689126084,
+          "y": 0.5
+        },
+        "riftRevision": 0
+      }
+    },
+    "irelia": {
+      "q": {
+        "ok": true,
+        "spentMana": 20,
+        "cooldownEndsAt": 12,
+        "seq": 2,
+        "hitId": "red_TOP",
+        "blocked": null,
+        "dash": true
+      },
+      "reset": 1.2,
+      "mark": null,
+      "mana": 380,
+      "x": 0.526996664442962
+    },
+    "javascriptErrors": [],
+    "screenshots": [
+      "docs/QA_EVIDENCE_V453_DEV42/ezreal_q_em_voo_dev42_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV42/ezreal_q_impacto_escudo_dev42_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV42/irelia_q_marca_dev42_chromium.png"
+    ]
+  },
+  "pacing": {
+    "schema": "coachlol.pacing.dev42",
+    "seedResults": [
+      {
+        "seed": 26,
+        "simulatedSeconds": 1626,
+        "ended": true,
+        "winner": "red",
+        "stateHash": "7e178522b7bf06d5aebf04c7",
+        "issues": []
+      },
+      {
+        "seed": 36,
+        "simulatedSeconds": 1525,
+        "ended": true,
+        "winner": "red",
+        "stateHash": "b8af5835532687e6595d2e8b",
+        "issues": []
+      },
+      {
+        "seed": 42,
+        "simulatedSeconds": 1458,
+        "ended": true,
+        "winner": "red",
+        "stateHash": "b5f379507621afb85534336f",
+        "issues": []
+      }
+    ],
+    "meanSeconds": 1536.33,
+    "meanMinSec": "25:36",
+    "naturalNexusMatches": 3,
+    "notes": "Historical default draft without Ezreal/Irelia; item/board regressions, not population-level balance proof."
+  },
+  "sourcePreservation": {
+    "originalEntries": 2170,
+    "gitByteIdentical": 566
+  },
+  "limitations": [
+    "Projectile flight is tick-quantized (one second), not continuous or sub-frame ballistic simulation",
+    "Projectile collision includes champions and lane minions; neutral camp collisions and positional wind wall are not certified",
+    "Irelia E/R mark authoring is an opt-in contract only; real E/R champion kits remain pending",
+    "Irelia Q dash resolves immediately within the tick after collision and CC pre-validation, not with travel-time knockdown",
+    "Old dev41 test scenarios intentionally run compatibility mode; gameplay default is delayed",
+    "Game UI shows friendly projectile only; enemy fog-of-war must remain private",
+    "Only 3 historical default-draft matches for pacing; not representative of Ezreal/Irelia match balance",
+    "Remaining 103 reference champion profiles and remaining catalog do not indicate playability",
+    "No unverified future patch imported automatically"
+  ]
+}

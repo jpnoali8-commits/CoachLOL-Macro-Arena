@@ -1,0 +1,82 @@
+{
+  "schema": "coachlol.longMatchProbe.v1",
+  "seed": 26,
+  "targetSeconds": 1200,
+  "simulatedSeconds": 1200,
+  "ended": false,
+  "winner": null,
+  "rounds": 120,
+  "decisions": 35,
+  "decisionKinds": {
+    "combat_reaction": 35
+  },
+  "ticks": 1200,
+  "waves": 42,
+  "structuresDestroyed": 0,
+  "championLevels": [
+    {
+      "id": "blue_TOP",
+      "level": 10,
+      "cs": 66,
+      "gold": 258
+    },
+    {
+      "id": "blue_JG",
+      "level": 11,
+      "cs": 107,
+      "gold": 4145
+    },
+    {
+      "id": "blue_MID",
+      "level": 10,
+      "cs": 34,
+      "gold": 934
+    },
+    {
+      "id": "blue_ADC",
+      "level": 8,
+      "cs": 55,
+      "gold": 956
+    },
+    {
+      "id": "blue_SUP",
+      "level": 8,
+      "cs": 0,
+      "gold": 479
+    },
+    {
+      "id": "red_TOP",
+      "level": 11,
+      "cs": 93,
+      "gold": 2408
+    },
+    {
+      "id": "red_JG",
+      "level": 11,
+      "cs": 89,
+      "gold": 4090
+    },
+    {
+      "id": "red_MID",
+      "level": 10,
+      "cs": 51,
+      "gold": 1946
+    },
+    {
+      "id": "red_ADC",
+      "level": 9,
+      "cs": 68,
+      "gold": 3476
+    },
+    {
+      "id": "red_SUP",
+      "level": 10,
+      "cs": 0,
+      "gold": 359
+    }
+  ],
+  "dragonCaptures": 0,
+  "performanceMs": 2792,
+  "issues": [],
+  "stateHash": "cc751fcd438011692d794412"
+}

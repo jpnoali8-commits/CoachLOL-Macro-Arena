@@ -1,0 +1,90 @@
+{
+  "sameWinners": true,
+  "identicalHashes": 4,
+  "identicalTimes": 7,
+  "oldMeanSeconds": 1649,
+  "newMeanSeconds": 1641.6,
+  "cause": "New catalog entries with tags are eligible for existing bot purchases. Dagger appears in poke seed26 bot inventory, altering pacing even without a completed new item. Unchanged hashes cannot be claimed.",
+  "rows": [
+    {
+      "profile": "baseline",
+      "seed": 26,
+      "oldSeconds": 1998,
+      "dev29Seconds": 1998,
+      "sameWinner": true,
+      "sameFinalHash": false
+    },
+    {
+      "profile": "baseline",
+      "seed": 42,
+      "oldSeconds": 2004,
+      "dev29Seconds": 2004,
+      "sameWinner": true,
+      "sameFinalHash": true
+    },
+    {
+      "profile": "poke",
+      "seed": 26,
+      "oldSeconds": 2031,
+      "dev29Seconds": 1899,
+      "sameWinner": true,
+      "sameFinalHash": false
+    },
+    {
+      "profile": "poke",
+      "seed": 42,
+      "oldSeconds": 1484,
+      "dev29Seconds": 1484,
+      "sameWinner": true,
+      "sameFinalHash": true
+    },
+    {
+      "profile": "engage",
+      "seed": 26,
+      "oldSeconds": 1357,
+      "dev29Seconds": 1373,
+      "sameWinner": true,
+      "sameFinalHash": false
+    },
+    {
+      "profile": "engage",
+      "seed": 42,
+      "oldSeconds": 1407,
+      "dev29Seconds": 1407,
+      "sameWinner": true,
+      "sameFinalHash": true
+    },
+    {
+      "profile": "scaling",
+      "seed": 26,
+      "oldSeconds": 1304,
+      "dev29Seconds": 1304,
+      "sameWinner": true,
+      "sameFinalHash": false
+    },
+    {
+      "profile": "scaling",
+      "seed": 42,
+      "oldSeconds": 1565,
+      "dev29Seconds": 1565,
+      "sameWinner": true,
+      "sameFinalHash": true
+    },
+    {
+      "profile": "assassins",
+      "seed": 26,
+      "oldSeconds": 1768,
+      "dev29Seconds": 1768,
+      "sameWinner": true,
+      "sameFinalHash": false
+    },
+    {
+      "profile": "assassins",
+      "seed": 42,
+      "oldSeconds": 1572,
+      "dev29Seconds": 1614,
+      "sameWinner": true,
+      "sameFinalHash": false
+    }
+  ]
+}

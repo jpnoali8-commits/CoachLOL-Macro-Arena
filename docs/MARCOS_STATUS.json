@@ -1,0 +1,134 @@
+{
+  "version": "0.9",
+  "updated": "2026-10-25",
+  "milestones": [
+    {
+      "id": "M00",
+      "title": "M00 — Escopo e direitos",
+      "deliverable": "Documento de produto, autorização de IP/arte, patch base",
+      "acceptanceCriteria": "Escopo da reprodução e uso de assets permitido, registro de fontes/versionamento",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M01",
+      "title": "M01 — Atlas fiel",
+      "deliverable": "Máscaras 4096, objetos v6, proj. coordenadas mundo",
+      "acceptanceCriteria": "Torre/nexus/moitas/colisores coincidindo em todos os zooms, sem inventar pontos",
+      "status": "prototype-partial",
+      "evidence": []
+    },
+    {
+      "id": "M02",
+      "title": "M02 — Núcleo determinístico",
+      "deliverable": "Core Rust compartilhadíssimo nativo/WASM, seeds, state serialization",
+      "acceptanceCriteria": "Replay reproduz bit a bit em plataformas alvo; testes de equivalência JS→Rust",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M03",
+      "title": "M03 — Simultaneidade",
+      "deliverable": "Dois locks, timeout, 10/30/60, action log",
+      "acceptanceCriteria": "10+10=10; 10+30=30; nenhum tick antes de dois locks",
+      "status": "prototype-partial",
+      "evidence": []
+    },
+    {
+      "id": "M04",
+      "title": "M04 — Movimento & navegação",
+      "deliverable": "MS oficial patch, path persistente, waypoint, botas, dash",
+      "acceptanceCriteria": "100 percursos contra tempos medidos, colisão/LOS e sem teleporte transversal",
+      "status": "prototype-partial",
+      "evidence": []
+    },
+    {
+      "id": "M05",
+      "title": "M05 — Waves & economia",
+      "deliverable": "Melee/caster/cannon/super, last hit, XP, CS, freeze/push",
+      "acceptanceCriteria": "Waves dos 2 times lutam sem acumular, freeze é possível e quebrável, canhão correto",
+      "status": "prototype-partial",
+      "evidence": []
+    },
+    {
+      "id": "M06",
+      "title": "M06 — Estruturas & dive",
+      "deliverable": "22 torres e regras de aggro, placas, inibidores, Nexus",
+      "acceptanceCriteria": "Scenarios de siege com minions, dive, backdoor, respawn e fim de partida",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M07",
+      "title": "M07 — Jungle & épicos",
+      "deliverable": "Camps compostos, pathing, drag random, alma/anciã/baron",
+      "acceptanceCriteria": "2 sides simétricos, spawn/respawn auditados em cada patch, 50 steals/replay tests",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M08",
+      "title": "M08 — Stats & combate",
+      "deliverable": "Damage pipeline, CC, projéteis, passive/triggers",
+      "acceptanceCriteria": "Golden tests contra dataset conhecido por tipo, cooldown/recursos/target flags",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M09",
+      "title": "M09 — Campeões",
+      "deliverable": "Catálogo completo passivas/QWER por patch, spells",
+      "acceptanceCriteria": "Cada campeão com suíte dedicada e regressão de interações cruzadas",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M10",
+      "title": "M10 — Itens e runas",
+      "deliverable": "Catálogo DDragon, build graph, runas e recomendações",
+      "acceptanceCriteria": "TODOS os ativos legais em SR carregados, receitas/loja/CD/passivas testadas",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M11",
+      "title": "M11 — Autonomia e bots",
+      "deliverable": "Políticas defensivas, macro por elo, probabilidades calibradas",
+      "acceptanceCriteria": "Zero visão privilegiada, ≥1000 matches seedados + intervalos de confiança",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M12",
+      "title": "M12 — Visual 3D e VFX",
+      "deliverable": "Low-poly modular, câmera, animação, LOD, áudio",
+      "acceptanceCriteria": "60 FPS alvo em hardware definido, sim determinística, zoom sem clipping",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M13",
+      "title": "M13 — Multiplayer",
+      "deliverable": "Autoridade servidor, fog segura, lobby, reconexão, anti-cheat",
+      "acceptanceCriteria": "1000 partidas de teste, sem vazamento de ordens, igualdade de tempo",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M14",
+      "title": "M14 — Coach & analytics",
+      "deliverable": "Skills, replay explicativo, tutoriais e relatórios",
+      "acceptanceCriteria": "Evidências rastreáveis, feedback útil e validado por coaches",
+      "status": "planned",
+      "evidence": []
+    },
+    {
+      "id": "M15",
+      "title": "M15 — Release & patch operations",
+      "deliverable": "CI/CD, métricas, atualizador oficial de dados",
+      "acceptanceCriteria": "Zero regressão bloqueadora, direitos confirmados, suporte e rollback",
+      "status": "planned",
+      "evidence": []
+    }
+  ]
+}

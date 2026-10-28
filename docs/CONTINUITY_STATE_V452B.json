@@ -1,0 +1,27 @@
+{
+  "schema": "coachlol.continuity.v452b",
+  "asOf": "2026-10-26",
+  "base": "v4.5.2",
+  "current": "v4.5.2b",
+  "implemented": [
+    "reaction alternative visible nearby target",
+    "2026 minion wave composition verified",
+    "7 regression contracts",
+    "handoff Codex Opus"
+  ],
+  "knownBlockers": [
+    "farm 23 CS TOP / 5 min vs 35–62",
+    "no champion kit certified 1:1",
+    "no complete item/rune certification",
+    "no real online account backend or PvP",
+    "browser UI manual QA pending",
+    "Riot IP approval not assumed"
+  ],
+  "qa": {
+    "newContracts": 7,
+    "v38_1": "pass",
+    "v451": "pass",
+    "v452": "pass",
+    "v38Farm": "fail known"
+  }
+}

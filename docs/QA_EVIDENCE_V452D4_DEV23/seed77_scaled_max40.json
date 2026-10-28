@@ -1,0 +1,397 @@
+{
+  "schema": "coachlol.longMatchProbe.v1",
+  "seed": 77,
+  "targetSeconds": 2400,
+  "simulatedSeconds": 1314,
+  "ended": true,
+  "winner": "red",
+  "rounds": 132,
+  "decisions": 38,
+  "decisionKinds": {
+    "combat_reaction": 38
+  },
+  "ticks": 1314,
+  "waves": 46,
+  "structuresDestroyed": 8,
+  "championLevels": [
+    {
+      "id": "blue_TOP",
+      "level": 12,
+      "cs": 86,
+      "gold": 24
+    },
+    {
+      "id": "blue_JG",
+      "level": 11,
+      "cs": 93,
+      "gold": 2080
+    },
+    {
+      "id": "blue_MID",
+      "level": 12,
+      "cs": 47,
+      "gold": 258
+    },
+    {
+      "id": "blue_ADC",
+      "level": 8,
+      "cs": 76,
+      "gold": 180
+    },
+    {
+      "id": "blue_SUP",
+      "level": 7,
+      "cs": 1,
+      "gold": 132
+    },
+    {
+      "id": "red_TOP",
+      "level": 12,
+      "cs": 96,
+      "gold": 750
+    },
+    {
+      "id": "red_JG",
+      "level": 11,
+      "cs": 90,
+      "gold": 2270
+    },
+    {
+      "id": "red_MID",
+      "level": 12,
+      "cs": 60,
+      "gold": 156
+    },
+    {
+      "id": "red_ADC",
+      "level": 9,
+      "cs": 34,
+      "gold": 208
+    },
+    {
+      "id": "red_SUP",
+      "level": 11,
+      "cs": 1,
+      "gold": 344
+    }
+  ],
+  "dragonCaptures": 2,
+  "performanceMs": 10443,
+  "structures": [
+    {
+      "id": "red_top_t1",
+      "hp": 3881,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": true
+    },
+    {
+      "id": "red_top_t2",
+      "hp": 5000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_top_t3",
+      "hp": 4750,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_nexus_guard_1",
+      "hp": 3500,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_mid_t3",
+      "hp": 4750,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_bot_t3",
+      "hp": 4750,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_top_t1",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_mid_t2",
+      "hp": 5000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_mid_t1",
+      "hp": 8897,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": true
+    },
+    {
+      "id": "red_bot_t2",
+      "hp": 5000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_top_t2",
+      "hp": 5000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": true
+    },
+    {
+      "id": "blue_mid_t1",
+      "hp": 8910,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": true
+    },
+    {
+      "id": "blue_mid_t2",
+      "hp": 5000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_bot_t1",
+      "hp": 8960,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": true
+    },
+    {
+      "id": "blue_top_t3",
+      "hp": 4750,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_mid_t3",
+      "hp": 4750,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_nexus_guard_1",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 1471,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_nexus_guard_2",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 1454,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_bot_t2",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_bot_t3",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_bot_t1",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_nexus",
+      "hp": 5500,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_nexus",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_top_inhibitor",
+      "hp": 4000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_mid_inhibitor",
+      "hp": 4000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "red_bot_inhibitor",
+      "hp": 4000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_top_inhibitor",
+      "hp": 4000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_mid_inhibitor",
+      "hp": 4000,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    },
+    {
+      "id": "blue_bot_inhibitor",
+      "hp": 0,
+      "alive": false,
+      "respawnAt": 1525,
+      "vulnerable": false
+    },
+    {
+      "id": "red_nexus_guard_2",
+      "hp": 3500,
+      "alive": true,
+      "respawnAt": 0,
+      "vulnerable": false
+    }
+  ],
+  "activeMinions": 118,
+  "champions": [
+    {
+      "id": "blue_TOP",
+      "hp": 1952,
+      "x": 0.098,
+      "y": 0.428,
+      "lane": null,
+      "order": "push",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "blue_JG",
+      "hp": 1342,
+      "x": 0.313,
+      "y": 0.426,
+      "lane": null,
+      "order": "route",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "blue_MID",
+      "hp": 1254,
+      "x": 0.442,
+      "y": 0.566,
+      "lane": null,
+      "order": "push",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "blue_ADC",
+      "hp": 0,
+      "x": 0.251,
+      "y": 0.934,
+      "lane": null,
+      "order": "recall",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "blue_SUP",
+      "hp": 448,
+      "x": 0.329,
+      "y": 0.916,
+      "lane": null,
+      "order": "farm",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "red_TOP",
+      "hp": 0,
+      "x": 0.309,
+      "y": 0.09,
+      "lane": null,
+      "order": "recall",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "red_JG",
+      "hp": 1792,
+      "x": 0.786,
+      "y": 0.497,
+      "lane": null,
+      "order": "route",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "red_MID",
+      "hp": 1684,
+      "x": 0.954,
+      "y": 0.046,
+      "lane": "bot",
+      "order": "auto",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "red_ADC",
+      "hp": 1481,
+      "x": 0.895,
+      "y": 0.5,
+      "lane": "bot",
+      "order": "farm",
+      "autoFollow": true,
+      "manual": false
+    },
+    {
+      "id": "red_SUP",
+      "hp": 237,
+      "x": 0.195,
+      "y": 0.851,
+      "lane": "bot",
+      "order": "recall",
+      "autoFollow": true,
+      "manual": false
+    }
+  ],
+  "issues": [],
+  "stateHash": "cda3f65dd798d8825a01fc22"
+}

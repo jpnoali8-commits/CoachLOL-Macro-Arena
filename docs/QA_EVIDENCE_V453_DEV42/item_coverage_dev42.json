@@ -1,0 +1,777 @@
+{
+  "schema": "coachlol.item_coverage.v453.dev42",
+  "patch": "26.21",
+  "localPlayable": 70,
+  "referenceRecords": 863,
+  "championProfiles": 173,
+  "items": [
+    {
+      "id": "dorans_blade",
+      "name": "Lâmina de Doran",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "dorans_ring",
+      "name": "Anel de Doran",
+      "riotId": null,
+      "recipe": [],
+      "kind": "drain_helping_hand",
+      "maturity": "dev38_whole_second_adapter",
+      "dev40Changed": false
+    },
+    {
+      "id": "dorans_shield",
+      "name": "Escudo de Doran",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "support_atlas",
+      "name": "Atlas Mundial",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "support_compass",
+      "name": "Bússola Rúnica",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "support_bounty",
+      "name": "Recompensa dos Mundos",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "jungle_gustwalker",
+      "name": "Filhote de Gustwalker · azul",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "jungle_mosstomper",
+      "name": "Broto de Mosstomper · verde",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "jungle_scorchclaw",
+      "name": "Filhote de Scorchclaw · vermelho",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "boots",
+      "name": "Botas",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "long_sword",
+      "name": "Espada Longa",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "amp_tome",
+      "name": "Tomo Amplificador",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "ruby_crystal",
+      "name": "Cristal de Rubi",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "cloth_armor",
+      "name": "Armadura de Pano",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "null_magic_mantle",
+      "name": "Manto Anula-Magia",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "sapphire_crystal",
+      "name": "Cristal de Safira",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "bf_sword",
+      "name": "Espada G.P.C.",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "pickaxe",
+      "name": "Picareta",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "agility_cloak",
+      "name": "Manto da Agilidade",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "infinity_edge",
+      "name": "Gume do Infinito",
+      "riotId": null,
+      "recipe": [
+        "bf_sword",
+        "pickaxe",
+        "agility_cloak"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "rabadon",
+      "name": "Capuz da Morte de Rabadon",
+      "riotId": null,
+      "recipe": [
+        "needless_rod",
+        "needless_rod"
+      ],
+      "kind": "ap_multiplier",
+      "maturity": "audited_stat",
+      "dev40Changed": false
+    },
+    {
+      "id": "needless_rod",
+      "name": "Bastão Desnecessário",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "giants_belt",
+      "name": "Cinto do Gigante",
+      "riotId": null,
+      "recipe": [
+        "ruby_crystal"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "serrated_dirk",
+      "name": "Punhal Serrilhado",
+      "riotId": null,
+      "recipe": [
+        "long_sword",
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "scouts_slingshot",
+      "name": "Estilingue do Patrulheiro",
+      "riotId": 3144,
+      "recipe": [
+        "dagger",
+        "dagger"
+      ],
+      "kind": "bullseye",
+      "maturity": "dev38_partial_damage_and_on_attack",
+      "dev40Changed": false
+    },
+    {
+      "id": "blighting_jewel",
+      "name": "Joia da Ruína",
+      "riotId": 4630,
+      "recipe": [
+        "amp_tome"
+      ],
+      "kind": "magic_penetration",
+      "maturity": "dev37_verified_stat",
+      "dev40Changed": false
+    },
+    {
+      "id": "seekers_armguard",
+      "name": "Armaguarda da Caçadora",
+      "riotId": 2420,
+      "recipe": [
+        "amp_tome",
+        "cloth_armor",
+        "amp_tome"
+      ],
+      "kind": "single_use_stasis",
+      "maturity": "dev37_partial_active",
+      "dev40Changed": false
+    },
+    {
+      "id": "recurve_bow",
+      "name": "Arco Recurvo",
+      "riotId": null,
+      "recipe": [
+        "dagger"
+      ],
+      "kind": "on_hit_physical",
+      "maturity": "dev40_shield_and_opt_in_ability_partial",
+      "dev40Changed": true
+    },
+    {
+      "id": "zhonyas_hourglass",
+      "name": "Ampulheta de Zhonya",
+      "riotId": null,
+      "recipe": [
+        "needless_rod",
+        "seekers_armguard"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "glowing_mote",
+      "name": "Partícula Brilhante",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "kindlegem",
+      "name": "Gema Ardente",
+      "riotId": null,
+      "recipe": [
+        "ruby_crystal",
+        "glowing_mote"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "caulfields_warhammer",
+      "name": "Martelo de Guerra de Caulfield",
+      "riotId": null,
+      "recipe": [
+        "long_sword",
+        "glowing_mote",
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "ionian_boots",
+      "name": "Botas Ionianas da Lucidez",
+      "riotId": null,
+      "recipe": [
+        "boots",
+        "glowing_mote"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "vampiric_scepter",
+      "name": "Cetro Vampírico",
+      "riotId": null,
+      "recipe": [
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "blasting_wand",
+      "name": "Varinha Explosiva",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "oblivion_orb",
+      "name": "Orbe do Oblívio",
+      "riotId": null,
+      "recipe": [
+        "amp_tome"
+      ],
+      "kind": "grievous_magic",
+      "maturity": "prototype",
+      "dev40Changed": false
+    },
+    {
+      "id": "executioners_calling",
+      "name": "Chamado do Carrasco",
+      "riotId": null,
+      "recipe": [
+        "long_sword"
+      ],
+      "kind": "grievous_physical",
+      "maturity": "prototype",
+      "dev40Changed": false
+    },
+    {
+      "id": "sorcerers_shoes",
+      "name": "Sapatos do Feiticeiro",
+      "riotId": null,
+      "recipe": [
+        "boots"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "mercurys_treads",
+      "name": "Passos de Mercúrio",
+      "riotId": null,
+      "recipe": [
+        "boots",
+        "null_magic_mantle"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "void_staff",
+      "name": "Cajado do Vazio",
+      "riotId": null,
+      "recipe": [
+        "blighting_jewel",
+        "blasting_wand"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "last_whisper",
+      "name": "Último Sussurro",
+      "riotId": null,
+      "recipe": [
+        "long_sword",
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "dagger",
+      "name": "Adaga",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "sheen",
+      "name": "Brilho",
+      "riotId": null,
+      "recipe": [
+        "glowing_mote"
+      ],
+      "kind": "spellblade",
+      "maturity": "dev29_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "phage",
+      "name": "Fago",
+      "riotId": null,
+      "recipe": [
+        "ruby_crystal",
+        "long_sword"
+      ],
+      "kind": "on_hit_speed",
+      "maturity": "dev29_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "hearthbound_axe",
+      "name": "Machado de Aquecimento",
+      "riotId": null,
+      "recipe": [
+        "long_sword",
+        "dagger",
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "rectrix",
+      "name": "Rectrix",
+      "riotId": null,
+      "recipe": [
+        "long_sword"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "trinity_force",
+      "name": "Força da Trindade",
+      "riotId": null,
+      "recipe": [
+        "sheen",
+        "phage",
+        "hearthbound_axe"
+      ],
+      "kind": "spellblade_quicken",
+      "maturity": "dev29_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "black_cleaver",
+      "name": "Cutelo Negro",
+      "riotId": null,
+      "recipe": [
+        "phage",
+        "kindlegem",
+        "pickaxe"
+      ],
+      "kind": "armor_shred",
+      "maturity": "dev29_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "youmuus_ghostblade",
+      "name": "Lâmina Fantasma de Youmuu",
+      "riotId": null,
+      "recipe": [
+        "serrated_dirk",
+        "rectrix",
+        "long_sword"
+      ],
+      "kind": "sprint_active",
+      "maturity": "dev29_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "chain_vest",
+      "name": "Cota de Malha",
+      "riotId": 1031,
+      "recipe": [
+        "cloth_armor"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "negatron_cloak",
+      "name": "Capa Negatron",
+      "riotId": 1057,
+      "recipe": [
+        "null_magic_mantle"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "bramble_vest",
+      "name": "Colete Espinhoso",
+      "riotId": 3076,
+      "recipe": [
+        "cloth_armor",
+        "cloth_armor"
+      ],
+      "kind": "thorns",
+      "maturity": "dev31_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "thornmail",
+      "name": "Armadura de Espinhos",
+      "riotId": 3075,
+      "recipe": [
+        "bramble_vest",
+        "chain_vest",
+        "ruby_crystal"
+      ],
+      "kind": "thorns",
+      "maturity": "dev31_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "wardens_mail",
+      "name": "Proteção de Armadura",
+      "riotId": 3082,
+      "recipe": [
+        "cloth_armor",
+        "cloth_armor"
+      ],
+      "kind": "rock_solid",
+      "maturity": "dev31_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "randuins_omen",
+      "name": "Presságio de Randuin",
+      "riotId": 3143,
+      "recipe": [
+        "wardens_mail",
+        "giants_belt"
+      ],
+      "kind": "humility_active",
+      "maturity": "dev31_partial_crit_not_resolved",
+      "dev40Changed": false
+    },
+    {
+      "id": "berserkers_greaves",
+      "name": "Grevas do Berserker",
+      "riotId": 3006,
+      "recipe": [
+        "boots",
+        "dagger",
+        "dagger"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "zeal",
+      "name": "Zelo",
+      "riotId": 3086,
+      "recipe": [
+        "agility_cloak",
+        "dagger"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "kraken_slayer",
+      "name": "Mata-Cráquens",
+      "riotId": 6672,
+      "recipe": [
+        "rectrix",
+        "hearthbound_axe",
+        "recurve_bow"
+      ],
+      "kind": "third_basic_hit",
+      "maturity": "dev39_to_dev40_shield_onhit_partial",
+      "dev40Changed": true
+    },
+    {
+      "id": "rapid_firecannon",
+      "name": "Canhão Fumegante",
+      "riotId": 3094,
+      "recipe": [
+        "zeal",
+        "scouts_slingshot"
+      ],
+      "kind": "energized_attack",
+      "maturity": "dev38_to_dev39_to_dev40_landed_shield_lethal_partial",
+      "dev40Changed": true
+    },
+    {
+      "id": "navori_flickerblade",
+      "name": "Adagas Rápidas Navori",
+      "riotId": 6675,
+      "recipe": [
+        "zeal",
+        "dagger",
+        "dagger"
+      ],
+      "kind": "basic_cooldown_refund",
+      "maturity": "dev32_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "health_potion",
+      "name": "Poção de Vida",
+      "riotId": 2003,
+      "recipe": [],
+      "kind": "potion_heal",
+      "maturity": "dev32_whole_second_adapter",
+      "dev40Changed": false
+    },
+    {
+      "id": "refillable_potion",
+      "name": "Poção com Refil",
+      "riotId": 2031,
+      "recipe": [],
+      "kind": "potion_heal",
+      "maturity": "dev32_whole_second_adapter",
+      "dev40Changed": false
+    },
+    {
+      "id": "fiendish_codex",
+      "name": "Códice Demoníaco",
+      "riotId": 3108,
+      "recipe": [
+        "amp_tome",
+        "glowing_mote"
+      ],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "nashors_tooth",
+      "name": "Dente de Na'Shor",
+      "riotId": 3115,
+      "recipe": [
+        "recurve_bow",
+        "blasting_wand",
+        "fiendish_codex"
+      ],
+      "kind": "on_hit_magic",
+      "maturity": "dev40_shield_and_opt_in_ability_partial",
+      "dev40Changed": true
+    },
+    {
+      "id": "mortal_reminder",
+      "name": "Lembrete Mortal",
+      "riotId": 3033,
+      "recipe": [
+        "executioners_calling",
+        "last_whisper",
+        "agility_cloak"
+      ],
+      "kind": "grievous_physical",
+      "maturity": "dev33_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "morellonomicon",
+      "name": "Morellonomicon",
+      "riotId": 3165,
+      "recipe": [
+        "oblivion_orb",
+        "blasting_wand",
+        "kindlegem"
+      ],
+      "kind": "grievous_magic",
+      "maturity": "dev33_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "rylais_crystal_scepter",
+      "name": "Cetro de Cristal de Rylai",
+      "riotId": 3116,
+      "recipe": [
+        "blasting_wand",
+        "giants_belt",
+        "amp_tome"
+      ],
+      "kind": "ability_slow",
+      "maturity": "dev33_partial",
+      "dev40Changed": false
+    },
+    {
+      "id": "ward",
+      "name": "Sentinela de Controle",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "trinket_stealth",
+      "name": "Totem de Vigilância · Ward Amarela",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    },
+    {
+      "id": "trinket_oracle",
+      "name": "Lente Reveladora · Varredura",
+      "riotId": null,
+      "recipe": [],
+      "kind": null,
+      "maturity": "not_certified",
+      "dev40Changed": false
+    }
+  ],
+  "updatedInDev41": {
+    "Ezreal.Q": "line projectile + first collision + on-hit",
+    "Irelia.Q": "target dash + on-hit + kill reset"
+  },
+  "updatedInDev42": {
+    "Ezreal Q": "delayed projectile up to one-second simulation tick; dynamic target interception, shields evaluated at impact",
+    "Irelia Q": "grounded/root interruption; mark consumption if E/R mark exists; E/R producers not yet implemented"
+  }
+}

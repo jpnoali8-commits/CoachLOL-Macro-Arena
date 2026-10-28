@@ -1,0 +1,11 @@
+{
+  "release": "v3.7",
+  "warwick_clear_controlled": {
+    "combatSeconds": 108,
+    "travelStraightEstimatedSeconds": 32,
+    "estimateGameSecond": 195
+  },
+  "rosterEntries": 48,
+  "timingSource": "2026 Patch 26.1",
+  "testing": "see tests/v37_time_vision_cc.test.mjs"
+}

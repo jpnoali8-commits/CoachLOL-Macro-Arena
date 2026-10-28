@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "project": "CoachLOL Macro Arena",
+  "date": "2026-10-26",
+  "handoffType": "documentation_only_plus_full_game",
+  "gameVersion": "4.5.2d-dev2",
+  "nextMilestone": "V4.5.2d-3",
+  "sourceArchive": "CoachLOL_MacroArena_V452d2_Almas_Dragoes_Barao_Codex_Opus.zip",
+  "sourceArchiveSHA256": "173acf9aa99ad20f78bf68574cf3af41d387cbae20e63fad5613c4779ca9ca38",
+  "sourceOriginalFileCount": 1060,
+  "sourceCodeSHA256": {
+    "CoachLOL_MacroArena/engine.mjs": "188d0f973775e4c8a4d82c25ff7a2bd043cfdb1573805ba7c4013e5b93e115f2",
+    "CoachLOL_MacroArena/engine.browser.js": "0f80f2a71145883dbcc7c4ccaf18d9b5e7d685d728e72f7a3ca1dd01b18a7a60",
+    "CoachLOL_MacroArena/version.json": "50229b453680d36242c679619cffc8210acdc0968be6e3d81fd54bc5e80f5d39"
+  },
+  "QAInherited": {
+    "v452d2": "10/10 passed",
+    "v452d": "7/7 passed",
+    "v452c": "PASS_BOUNDED_LOCAL",
+    "fullNpmTest": "TIMEOUT/inconclusive",
+    "chromium": "NOT_RUN",
+    "multiplayerLoad": "NOT_RUN"
+  },
+  "noExecutableChanges": true,
+  "planned": [
+    "dragon_passive_stacks",
+    "baron_stats_minions",
+    "elder_smite_5v5"
+  ],
+  "criticalInvariant": "CS only real last hit; fog private; no double rewards; sim time independent of speed 2x",
+  "commitBaselineFromCodex": "9392c0f",
+  "useInNewChat": "Upload full ZIP and paste docs/HANDOFF_NOVO_CHAT/PROMPT_NOVO_CHAT_V452D3.md"
+}

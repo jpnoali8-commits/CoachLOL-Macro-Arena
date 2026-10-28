@@ -1,0 +1,90 @@
+{
+  "base": "v452d4-dev26",
+  "candidate": "v452d4-dev27",
+  "count": 10,
+  "matching": 10,
+  "completedNexus": 10,
+  "meanSeconds": 1649,
+  "checks": [
+    {
+      "profile": "baseline",
+      "seed": 26,
+      "matching": true,
+      "time": 1998,
+      "winner": "blue",
+      "hash": "18a59984e4085d03a312ff20"
+    },
+    {
+      "profile": "baseline",
+      "seed": 42,
+      "matching": true,
+      "time": 2004,
+      "winner": "blue",
+      "hash": "9c2e6cd74bc5668faf5937ba"
+    },
+    {
+      "profile": "poke",
+      "seed": 26,
+      "matching": true,
+      "time": 2031,
+      "winner": "red",
+      "hash": "b030c8021d2561e3841e7b02"
+    },
+    {
+      "profile": "poke",
+      "seed": 42,
+      "matching": true,
+      "time": 1484,
+      "winner": "blue",
+      "hash": "58161aa996dd21f3a573119c"
+    },
+    {
+      "profile": "engage",
+      "seed": 26,
+      "matching": true,
+      "time": 1357,
+      "winner": "blue",
+      "hash": "95f3617c447cc538e9031576"
+    },
+    {
+      "profile": "engage",
+      "seed": 42,
+      "matching": true,
+      "time": 1407,
+      "winner": "blue",
+      "hash": "c59677ce7dd36f0d65d96bcb"
+    },
+    {
+      "profile": "scaling",
+      "seed": 26,
+      "matching": true,
+      "time": 1304,
+      "winner": "red",
+      "hash": "e0719106299505748d94dc15"
+    },
+    {
+      "profile": "scaling",
+      "seed": 42,
+      "matching": true,
+      "time": 1565,
+      "winner": "blue",
+      "hash": "3c7f5522f0747688d764d8d7"
+    },
+    {
+      "profile": "assassins",
+      "seed": 26,
+      "matching": true,
+      "time": 1768,
+      "winner": "blue",
+      "hash": "4f63473b2248eed14febc186"
+    },
+    {
+      "profile": "assassins",
+      "seed": 42,
+      "matching": true,
+      "time": 1572,
+      "winner": "blue",
+      "hash": "dd20e65e6046a5727ba348b2"
+    }
+  ]
+}

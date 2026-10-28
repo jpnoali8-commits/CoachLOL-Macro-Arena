@@ -1,0 +1,74 @@
+{
+  "schema": "coachlol.qa.v453.dev38",
+  "version": "4.5.3-dev38",
+  "patch": "26.21",
+  "playableItems": 70,
+  "referenceItems": 863,
+  "individualChampionProfiles": 173,
+  "contractTests": {
+    "passed": 13,
+    "total": 13
+  },
+  "fullRegression": {
+    "status": "PASS",
+    "command": "npm test",
+    "log": "npm_test_full.log"
+  },
+  "chromium": {
+    "status": "PASS",
+    "scenario": "3 item passives in original browser UI + engine proc during live client session",
+    "catalog": 70,
+    "scoutDescription": "+20 attackSpeedPct · Efeito: bullseye · Bullseye: 40 de dano mágico em campeão, 40s recarga (-1s por ataque), adaptação funcional · Referência 26.21 / implementação parcial · Receita: Adaga + Adaga · Custo restante: 600 ouro",
+    "rfcDescription": "+35 attackSpeedPct · +25 critChance · +4 movePercent · Efeito: energized_attack · Energizado: movimento e ataques carregam até 100; disparo com 40 dano mágico e alcance +35% (máx. 150); movimentos especiais parciais · Referência 26.21 / implementação parcial · Receita: Zelo + Estilingue do Patrulheiro · Custo restante: 2050 ouro",
+    "doranDescription": "+18 ap · +90 hp · Efeito: drain_helping_hand · +1 mana/s (+2 por 5s ao ferir campeão), +5 dano físico em minions; cura 45% sem mana · Regras de treinamento · Item sem componentes nesta versão · Custo restante: 400 ouro",
+    "energizedProc": {
+      "hp": 5860,
+      "stacks": 6,
+      "inventory": [
+        "rapid_firecannon"
+      ],
+      "range": 0.03666666666666667
+    },
+    "javascriptErrors": [],
+    "screenshots": [
+      "docs/QA_EVIDENCE_V453_DEV38/scout_bullseye_dev38_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV38/canhao_energizado_dev38_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV38/anel_doran_dev38_chromium.png"
+    ]
+  },
+  "pacing": {
+    "matches": [
+      {
+        "seed": 26,
+        "seconds": 1626,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3993
+      },
+      {
+        "seed": 36,
+        "seconds": 1525,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3687
+      },
+      {
+        "seed": 42,
+        "seconds": 1458,
+        "ended": true,
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3137
+      }
+    ],
+    "averageSeconds": 1536.3333333333333
+  },
+  "limitations": [
+    "Movement energize from moveAlong only; special movement unimplemented",
+    "Additional mana regeneration is layered on existing base regen",
+    "70 local items do not imply complete passives",
+    "3 games too small to certify global balance or all champion kits"
+  ]
+}

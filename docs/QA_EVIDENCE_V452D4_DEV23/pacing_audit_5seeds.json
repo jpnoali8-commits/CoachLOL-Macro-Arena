@@ -1,0 +1,75 @@
+{
+  "schema": "coachlol.pacing-audit.v452d4-dev23",
+  "targetAverageSeconds": 1800,
+  "targetRangeForMeanSeconds": [
+    1680,
+    1980
+  ],
+  "sampleSize": 5,
+  "organicNexusWins": 5,
+  "meanSeconds": 1686.8,
+  "medianSeconds": 1568,
+  "rangeSeconds": [
+    1314,
+    2004
+  ],
+  "results": [
+    {
+      "seed": 26,
+      "seconds": 1998,
+      "winner": "blue",
+      "ended": true,
+      "nexusDestroyed": true,
+      "structuresDestroyed": 16,
+      "dragons": 2,
+      "issues": [],
+      "evidence": "docs/QA_EVIDENCE_V452D4_DEV23/seed26_scaled_max40.json"
+    },
+    {
+      "seed": 42,
+      "seconds": 2004,
+      "winner": "blue",
+      "ended": true,
+      "nexusDestroyed": true,
+      "structuresDestroyed": 13,
+      "dragons": 1,
+      "issues": [],
+      "evidence": "docs/QA_EVIDENCE_V452D4_DEV23/seed42_scaled_max40.json"
+    },
+    {
+      "seed": 36,
+      "seconds": 1568,
+      "winner": "red",
+      "ended": true,
+      "nexusDestroyed": true,
+      "structuresDestroyed": 13,
+      "dragons": 2,
+      "issues": [],
+      "evidence": "docs/QA_EVIDENCE_V452D4_DEV23/seed36_scaled_max40.json"
+    },
+    {
+      "seed": 55,
+      "seconds": 1550,
+      "winner": "red",
+      "ended": true,
+      "nexusDestroyed": true,
+      "structuresDestroyed": 11,
+      "dragons": 2,
+      "issues": [],
+      "evidence": "docs/QA_EVIDENCE_V452D4_DEV23/seed55_scaled_max40.json"
+    },
+    {
+      "seed": 77,
+      "seconds": 1314,
+      "winner": "red",
+      "ended": true,
+      "nexusDestroyed": true,
+      "structuresDestroyed": 8,
+      "dragons": 2,
+      "issues": [],
+      "evidence": "docs/QA_EVIDENCE_V452D4_DEV23/seed77_scaled_max40.json"
+    }
+  ],
+  "certification": "BOUNDED_DETERMINISTIC_5_SEEDS_NOT_GLOBAL_BALANCE",
+  "caveat": "Only five deterministic offline drafts/seeds, no 1:1 champions/items balance. No time-based forced winner or structure HP edit."
+}

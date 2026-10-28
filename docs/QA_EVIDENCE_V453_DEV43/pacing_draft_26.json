@@ -1,0 +1,48 @@
+{
+  "seed": 26,
+  "draft": {
+    "blue_TOP": "Irelia",
+    "blue_ADC": "Ezreal",
+    "red_TOP": "Irelia",
+    "red_ADC": "Ezreal"
+  },
+  "elapsedSeconds": 1613,
+  "ended": true,
+  "winner": "blue",
+  "turns": 162,
+  "decisions": 46,
+  "issues": [],
+  "eCasts": 0,
+  "qCasts": 80,
+  "ms": 3635,
+  "championLevels": [
+    {
+      "id": "blue_TOP",
+      "champ": "Irelia",
+      "level": 10,
+      "kills": 1,
+      "deaths": 10
+    },
+    {
+      "id": "blue_ADC",
+      "champ": "Ezreal",
+      "level": 12,
+      "kills": 13,
+      "deaths": 7
+    },
+    {
+      "id": "red_TOP",
+      "champ": "Irelia",
+      "level": 11,
+      "kills": 0,
+      "deaths": 7
+    },
+    {
+      "id": "red_ADC",
+      "champ": "Ezreal",
+      "level": 10,
+      "kills": 18,
+      "deaths": 8
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scope": "controlled real UI Chromium item purchase and click; not 5v5 long match",
+  "results": {
+    "buy": true,
+    "visible": true,
+    "buttonTitle": "➤ Youmuu",
+    "before": 363.2,
+    "after": 426.36,
+    "journalCount": 1,
+    "cooldown": 45,
+    "activeUntil": 6,
+    "mapLoaded": true,
+    "spriteCount": 15
+  },
+  "javascriptErrors": []
+}

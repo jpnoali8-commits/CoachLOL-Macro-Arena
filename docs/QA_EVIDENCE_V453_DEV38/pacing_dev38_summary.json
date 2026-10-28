@@ -1,0 +1,29 @@
+{
+  "matches": [
+    {
+      "seed": 26,
+      "seconds": 1626,
+      "ended": true,
+      "nexus": true,
+      "issues": [],
+      "computeMs": 3993
+    },
+    {
+      "seed": 36,
+      "seconds": 1525,
+      "ended": true,
+      "nexus": true,
+      "issues": [],
+      "computeMs": 3687
+    },
+    {
+      "seed": 42,
+      "seconds": 1458,
+      "ended": true,
+      "nexus": true,
+      "issues": [],
+      "computeMs": 3137
+    }
+  ],
+  "averageSeconds": 1536.3333333333333
+}

@@ -1,0 +1,31 @@
+ M .agents/skills/coachlol-producao/SKILL.md
+ M AGENTS.md
+ M INICIAR_WINDOWS.bat
+ D "PREVIEW_V37_VIS\303\203O_REAL.png"
+ M README_CONTINUAR_CODEX.md
+ M docs/MATRIZ_CAMPEOES_V37.csv
+ M docs/MEMORIA_CONTINUIDADE_V452B.md
+ M engine.browser.js
+ M engine.mjs
+ M package.json
+ M version.json
+?? CHANGELOG_V452D3A.md
+?? CHANGELOG_V452D_DEV1.md
+?? CHANGELOG_V452D_DEV2.md
+?? NOVO_CHAT_COMECE_AQUI.md
+?? PREVIEW_V37_VIS#U00c3O_REAL.png
+?? README_PRODUCAO_V452D.md
+?? README_PRODUCAO_V452D2.md
+?? README_PRODUCAO_V452D3A.md
+?? docs/HANDOFF_NOVO_CHAT/
+?? docs/MEMORIA_V452D3A_CONTINUIDADE.md
+?? docs/QA_EVIDENCE_V452D3A/
+?? docs/QA_V452D2_SOULS.md
+?? docs/QA_V452D3A_ELEMENTAL_PASSIVES.md
+?? docs/QA_V452D_OBJECTIVE_INCREMENT.md
+?? docs/ROADMAP_V452D2_CONTINUIDADE.md
+?? docs/ROADMAP_V452D3A_CONTINUIDADE.md
+?? docs/ROADMAP_V452D_CONTINUIDADE.md
+?? tests/v452d2_dragon_souls.test.mjs
+?? tests/v452d3_elemental_passives.test.mjs
+?? tests/v452d_objective_effects.test.mjs

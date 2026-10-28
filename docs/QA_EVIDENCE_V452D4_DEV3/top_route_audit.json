@@ -1,0 +1,26 @@
+{
+  "schema": "coachlol.route-mask-audit.v1",
+  "status": "ANALYSIS_ONLY_NO_RUNTIME_CHANGE",
+  "source": "Rotas-Mapa-Top-MId-bottom.jpg",
+  "method": "distance to any dark route pixel; not semantic top-lane certification",
+  "lanes": {
+    "top": {
+      "vertices": 143,
+      "meanPixelsNearestPaintedRoute": 0.0,
+      "maxPixelsNearestPaintedRoute": 0.0,
+      "outliersBeyond16Px": 0
+    },
+    "mid": {
+      "vertices": 76,
+      "meanPixelsNearestPaintedRoute": 0.0,
+      "maxPixelsNearestPaintedRoute": 0.0,
+      "outliersBeyond16Px": 0
+    },
+    "bot": {
+      "vertices": 145,
+      "meanPixelsNearestPaintedRoute": 0.0,
+      "maxPixelsNearestPaintedRoute": 0.0,
+      "outliersBeyond16Px": 0
+    }
+  }
+}

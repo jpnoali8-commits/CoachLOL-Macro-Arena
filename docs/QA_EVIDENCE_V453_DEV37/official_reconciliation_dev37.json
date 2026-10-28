@@ -1,0 +1,36 @@
+{
+  "schema": "coachlol.dev37.reconciliation",
+  "patch": "26.21",
+  "version": "16.21.1",
+  "playable": 70,
+  "staticRecords": 863,
+  "priceMismatches": [
+    {
+      "id": "3866",
+      "name": "Runic Compass",
+      "localId": "support_compass",
+      "localCost": 0,
+      "officialCost": 400
+    },
+    {
+      "id": "3867",
+      "name": "Bounty of Worlds",
+      "localId": "support_bounty",
+      "localCost": 0,
+      "officialCost": 400
+    }
+  ],
+  "recipeMismatches": [],
+  "newItems": [
+    "3144",
+    "4630",
+    "2420"
+  ],
+  "limitations": [
+    "Quest upgrades retain internal 0 gold transition despite DDragon 400 cost field",
+    "Scout Slingshot Bullseye not simulated; Rapid Firecannon energized effect remains registered_not_implemented",
+    "Doran Ring bonus mana regen/damage to minions not simulated; local item currently applies only AP and HP",
+    "Seeker Armguard one-time stasis and Zhonya stasis are adapted 2.5s effects; 1:1 game parity not claimed",
+    "Full 246 candidates and 173 champion kits remain NOT certified"
+  ]
+}

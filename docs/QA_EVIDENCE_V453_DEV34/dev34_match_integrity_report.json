@@ -1,0 +1,49 @@
+{
+  "version": "4.5.3-dev34",
+  "reference": "4.5.3-dev33",
+  "enginesByteIdentical": true,
+  "dataDragonActive": "16.21.1",
+  "patchActive": "26.21",
+  "nextPatch": "26.22",
+  "nextPatchScheduled": "2026-11-04",
+  "newContracts": "20/20 PASS",
+  "fullNpmTest": "PASS",
+  "matches": [
+    {
+      "seed": 26,
+      "profile": "baseline",
+      "gameTime": 1550,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "finalStateHash": "c6909b2f4a28e4408f58f4c6",
+      "issues": [],
+      "computeMs": 3983
+    },
+    {
+      "seed": 36,
+      "profile": "baseline",
+      "gameTime": 1641,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "finalStateHash": "2dee82d278108fa0e1727197",
+      "issues": [],
+      "computeMs": 3868
+    },
+    {
+      "seed": 42,
+      "profile": "baseline",
+      "gameTime": 1253,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "finalStateHash": "2424b06d3ce5ecf8ed90b301",
+      "issues": [],
+      "computeMs": 2517
+    }
+  ],
+  "allThreeMatchDev33": true,
+  "meanSeconds": 1481.3333333333333,
+  "note": "Measured 3 fixed seeds; no universal estimate; modestly less than 30 minutes is acceptable"
+}

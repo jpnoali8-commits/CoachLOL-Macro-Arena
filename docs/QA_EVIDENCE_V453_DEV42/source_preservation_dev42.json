@@ -1,0 +1,9 @@
+{
+  "source": "CoachLOL_MacroArena_V453_Dev41_Ezreal_Irelia_Q_OnHit_JogoCompleto.zip",
+  "originalEntries": 2170,
+  "originalGitEntries": 566,
+  "missingSourceFiles": 0,
+  "gitFilesDifferentBytes": 0,
+  "status": "PASS",
+  "note": "Legacy test fixtures updated for asynchronous runtime semantics but retained by path; all git files byte-identical."
+}

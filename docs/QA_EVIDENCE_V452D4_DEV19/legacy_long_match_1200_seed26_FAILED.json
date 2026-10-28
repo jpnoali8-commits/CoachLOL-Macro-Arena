@@ -1,0 +1,87 @@
+{
+  "mode": "simultaneous-bot",
+  "seed": 26,
+  "targetSeconds": 1200,
+  "simulatedSeconds": 1093,
+  "rounds": 110,
+  "decisions": 1001,
+  "ticks": 1093,
+  "ended": false,
+  "winner": null,
+  "jungle": [
+    {
+      "champ": "Warwick",
+      "team": "blue",
+      "cs": 3,
+      "level": 1,
+      "gold": 155,
+      "smiteTier": 1
+    },
+    {
+      "champ": "LeeSin",
+      "team": "red",
+      "cs": 3,
+      "level": 1,
+      "gold": 155,
+      "smiteTier": 1
+    }
+  ],
+  "spawns": {
+    "red": [
+      {
+        "id": "camp_jungle_spot_02",
+        "cycle": 1,
+        "level": 1
+      },
+      {
+        "id": "camp_jungle_spot_13",
+        "cycle": 1,
+        "level": 1
+      }
+    ],
+    "blue": [
+      {
+        "id": "camp_jungle_spot_07",
+        "cycle": 1,
+        "level": 1
+      },
+      {
+        "id": "camp_jungle_spot_08",
+        "cycle": 1,
+        "level": 1
+      }
+    ],
+    "krugs": [
+      {
+        "id": "camp_jungle_spot_01",
+        "cycle": 1,
+        "level": 1
+      },
+      {
+        "id": "camp_jungle_spot_14",
+        "cycle": 1,
+        "level": 1
+      }
+    ],
+    "dragon": [
+      {
+        "id": "camp_dragon_pit",
+        "cycle": 0
+      }
+    ],
+    "baron": [
+      {
+        "id": "camp_baron_pit",
+        "cycle": 0
+      }
+    ]
+  },
+  "waves": 3,
+  "structuresDestroyed": 0,
+  "events": 110,
+  "durationMs": 277,
+  "errors": [
+    "loop guard exceeded"
+  ],
+  "stateHash": "6341bd7c9183b1559f23330a"
+}

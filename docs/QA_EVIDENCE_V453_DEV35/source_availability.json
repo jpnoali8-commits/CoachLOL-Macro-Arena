@@ -1,0 +1,18 @@
+{
+  "patch": "26.21",
+  "datadragon": "16.21.1",
+  "itemUrl": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+  "wikiTaxonomy": "https://wiki.leagueoflegends.com/en-us/Item_(League_of_Legends)",
+  "dataDragonOfficialDocumentation": "https://developer.riotgames.com/docs/lol",
+  "communityDragonDocs": "https://www.communitydragon.org/docs/assets",
+  "officialItemJsonReceived": false,
+  "attempts": [
+    "container Python requests: DNS resolution failure",
+    "container.download: download failed",
+    "web open raw JSON: inaccessible",
+    "Node fetch: fetch failed"
+  ],
+  "authenticOfficialRecordCount": null,
+  "playableLocalItemCount": 67,
+  "decision": "DO_NOT_INVENT_OR_AUTO_ACTIVATE_CATALOG"
+}

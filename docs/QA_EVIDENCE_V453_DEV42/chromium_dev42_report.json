@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "scenario": "Original CoachLOL index + engine.browser.js + dynamic projectile and marked Irelia Q",
+  "fired": {
+    "q": {
+      "ok": true,
+      "spentMana": 28,
+      "cooldownEndsAt": 5.5,
+      "seq": 1,
+      "projectileId": "ezreal_q_1",
+      "pending": true,
+      "dueAt": 1
+    },
+    "missiles": 1,
+    "hp": 1200,
+    "shield": 400,
+    "legacy": false
+  },
+  "impacted": {
+    "hp": 1200,
+    "shield": 235,
+    "qcd": 4,
+    "active": 0,
+    "history": {
+      "id": "ezreal_q_1",
+      "time": 1,
+      "ownerId": "blue_ADC",
+      "hitId": "red_MID",
+      "reason": "impacto",
+      "origin": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "end": {
+        "x": 0.5800533689126084,
+        "y": 0.5
+      },
+      "riftRevision": 0
+    }
+  },
+  "irelia": {
+    "q": {
+      "ok": true,
+      "spentMana": 20,
+      "cooldownEndsAt": 12,
+      "seq": 2,
+      "hitId": "red_TOP",
+      "blocked": null,
+      "dash": true
+    },
+    "reset": 1.2,
+    "mark": null,
+    "mana": 380,
+    "x": 0.526996664442962
+  },
+  "javascriptErrors": [],
+  "screenshots": [
+    "docs/QA_EVIDENCE_V453_DEV42/ezreal_q_em_voo_dev42_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV42/ezreal_q_impacto_escudo_dev42_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV42/irelia_q_marca_dev42_chromium.png"
+  ]
+}

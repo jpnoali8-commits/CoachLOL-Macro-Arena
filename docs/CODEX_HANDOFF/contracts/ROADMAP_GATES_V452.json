@@ -1,0 +1,206 @@
+{
+  "schema": "coachlol.roadmap.gates.v1",
+  "sourceVersion": "4.5.2",
+  "asOf": "2026-10-26",
+  "status": "planned",
+  "milestones": [
+    {
+      "id": "M0",
+      "version": "4.5.2-freeze",
+      "title": "Congelar base, CI e risco",
+      "dependsOn": [],
+      "acceptance": [
+        "zip_hash_verified",
+        "old_tests_and_failures_recorded",
+        "no_regression_deleted"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M1",
+      "version": "4.5.2b",
+      "title": "Corrigir farm real",
+      "dependsOn": [
+        "M0"
+      ],
+      "acceptance": [
+        "last_hit_only",
+        "farm_free_5m_35_to_62_3lanes",
+        "rotation_loses_cs",
+        "no_test_weakening"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M2",
+      "version": "4.5.2a",
+      "title": "Buffs objetivos",
+      "dependsOn": [
+        "M0"
+      ],
+      "acceptance": [
+        "baron_aura_class_specific",
+        "elder_dragon_soul_contracts",
+        "loss_on_death",
+        "fog_safe"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M3",
+      "version": "4.5.3",
+      "title": "Itens, runas, feitiços",
+      "dependsOn": [
+        "M0"
+      ],
+      "acceptance": [
+        "patch_catalog_audited",
+        "transactional_purchase_sale",
+        "item_unique_effects",
+        "draft_spells_locked"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M4",
+      "version": "4.5.4+",
+      "title": "Kits por lotes",
+      "dependsOn": [
+        "M3"
+      ],
+      "acceptance": [
+        "stats_base_growth_all_registered",
+        "passive_qwer_tests",
+        "recast_collision_range",
+        "maturity_only_on_evidence"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M5",
+      "version": "4.5.5",
+      "title": "Rust engine e WASM público",
+      "dependsOn": [
+        "M0"
+      ],
+      "acceptance": [
+        "js_rust_golden_state",
+        "native_server_authority",
+        "no_secret_wasm",
+        "deterministic_rng"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M6",
+      "version": "4.5.6",
+      "title": "Conta e perfil",
+      "dependsOn": [
+        "M5"
+      ],
+      "acceptance": [
+        "secure_login",
+        "account_xp_separate",
+        "profile_match_history",
+        "role_authorization"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M7",
+      "version": "4.6.0-4.6.3",
+      "title": "PvP eventos, lobby, filas",
+      "dependsOn": [
+        "M5",
+        "M6"
+      ],
+      "acceptance": [
+        "websocket_push",
+        "private_fog_payloads",
+        "reconnect",
+        "server_time_phase"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M8",
+      "version": "4.6.4-4.6.6",
+      "title": "Escala e segurança",
+      "dependsOn": [
+        "M7"
+      ],
+      "acceptance": [
+        "2k_connections_measured",
+        "p95_telemetry",
+        "rate_limit",
+        "backup_restore",
+        "load_test_30min"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M9",
+      "version": "4.7",
+      "title": "VFX e projéteis visuais",
+      "dependsOn": [
+        "M5"
+      ],
+      "acceptance": [
+        "fog_authorized_timeline",
+        "renderer_no_gameplay_mutation",
+        "fallback_2d"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M10",
+      "version": "4.8",
+      "title": "Assets autorais GLB áudio",
+      "dependsOn": [
+        "M7",
+        "M9"
+      ],
+      "acceptance": [
+        "legal_assets",
+        "compressed_assets",
+        "load_performance",
+        "skip_no_effect"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M11",
+      "version": "4.9",
+      "title": "AST de ações/prompts",
+      "dependsOn": [
+        "M5",
+        "M7"
+      ],
+      "acceptance": [
+        "typed_ast",
+        "bounded_loops",
+        "server_validation",
+        "private_info_block"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "M12",
+      "version": "5.x",
+      "title": "Certificação e lançamento",
+      "dependsOn": [
+        "M4",
+        "M8",
+        "M10",
+        "M11"
+      ],
+      "acceptance": [
+        "registered_scope_certified",
+        "ip_clearance",
+        "security_review",
+        "beta_qa_green"
+      ],
+      "status": "pending"
+    }
+  ]
+}

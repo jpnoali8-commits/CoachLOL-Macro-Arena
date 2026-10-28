@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "Full 5v5 bot-vs-bot engine simulated inside the actual Chromium game page with normal Nexus destruction; NOT manually played, not UI draft workflow",
+  "results": {
+    "ended": true,
+    "winner": "blue",
+    "time": 1990,
+    "rounds": 199,
+    "decisionCount": 38,
+    "structuresDestroyed": 13,
+    "dragons": 2,
+    "issues": [],
+    "postgameTitle": "Vitória do time azul",
+    "postgameDuration": 1,
+    "spriteCount": 15,
+    "mapLoaded": true
+  },
+  "javascriptErrors": []
+}

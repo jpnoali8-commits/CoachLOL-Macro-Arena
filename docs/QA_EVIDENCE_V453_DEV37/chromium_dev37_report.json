@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "scenario": "real shop interactive recipe and one-use active via UI, in original app and browser engine",
+  "catalog": 70,
+  "firecannon": {
+    "root": "Canhão Fumegante · 2650g",
+    "components": [
+      "Canhão Fumegante · 2650g",
+      "Zelo · 1200g",
+      "Manto da Agilidade · 600g",
+      "Adaga · 250g",
+      "Estilingue do Patrulheiro · 600g",
+      "Adaga · 250g",
+      "Adaga · 250g"
+    ]
+  },
+  "armguard": {
+    "components": [
+      "Armaguarda da Caçadora · 1600g",
+      "Tomo Amplificador · 400g",
+      "Armadura de Pano · 300g",
+      "Tomo Amplificador · 400g"
+    ],
+    "description": "+40 ap · +25 armor · Efeito: single_use_stasis · Ativável de estase 2,5s (1 uso) implementado; paridade total pendente · Referência 26.21 / implementação parcial · Receita: Tomo Amplificador + Armadura de Pano + Tomo Amplificador · Custo restante: 1600 ouro"
+  },
+  "purchase": {
+    "items": [
+      "seekers_armguard"
+    ],
+    "gold": 18400
+  },
+  "activated": {
+    "stasis": 2.5,
+    "spent": true,
+    "items": [
+      "seekers_armguard"
+    ]
+  },
+  "javascriptErrors": [],
+  "screenshots": [
+    "docs/QA_EVIDENCE_V453_DEV37/canhao_fumegante_receita_dev37_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV37/armaguarda_ativa_dev37_chromium.png"
+  ]
+}

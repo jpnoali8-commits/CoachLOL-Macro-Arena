@@ -1,0 +1,146 @@
+{
+  "schema": "coachlol.catalog.audit.dev36",
+  "patch": "26.21",
+  "version": "16.21.1",
+  "counts": {
+    "all": 863,
+    "rift": 315,
+    "riotPurchasableRift": 254,
+    "localPlayableItems": 67,
+    "localMatchedToOfficial": 67,
+    "championProfiles": 173,
+    "shop_reference": 246,
+    "non_summoners_rift": 548,
+    "non_purchasable": 56,
+    "minion_turret_internal": 1,
+    "champion_exclusive": 7,
+    "conditional_evolution": 5
+  },
+  "recipeMissingIds": [],
+  "recipeCycles": [],
+  "conditionalSupportUpgrades": [
+    {
+      "id": "3869",
+      "name": "Celestial Opposition",
+      "from": [
+        "3867"
+      ]
+    },
+    {
+      "id": "3870",
+      "name": "Dream Maker",
+      "from": [
+        "3867"
+      ]
+    },
+    {
+      "id": "3871",
+      "name": "Zaz'Zak's Realmspike",
+      "from": [
+        "3867"
+      ]
+    },
+    {
+      "id": "3876",
+      "name": "Solstice Sleigh",
+      "from": [
+        "3867"
+      ]
+    },
+    {
+      "id": "3877",
+      "name": "Bloodsong",
+      "from": [
+        "3867"
+      ]
+    }
+  ],
+  "localMissingFromOfficial": [],
+  "priceDeltas": [
+    {
+      "id": "1056",
+      "name": "Doran's Ring",
+      "localId": "dorans_ring",
+      "localCost": 450,
+      "officialCost": 400
+    },
+    {
+      "id": "3866",
+      "name": "Runic Compass",
+      "localId": "support_compass",
+      "localCost": 0,
+      "officialCost": 400
+    },
+    {
+      "id": "3867",
+      "name": "Bounty of Worlds",
+      "localId": "support_bounty",
+      "localCost": 0,
+      "officialCost": 400
+    }
+  ],
+  "recipeDeltas": [
+    {
+      "id": "1011",
+      "name": "Giant's Belt",
+      "localId": "giants_belt",
+      "officialFrom": [
+        "1028"
+      ],
+      "localFrom": []
+    },
+    {
+      "id": "3094",
+      "name": "Rapid Firecannon",
+      "localId": "rapid_firecannon",
+      "officialFrom": [
+        "3086",
+        "3144"
+      ],
+      "localFrom": [
+        "3086",
+        "1018"
+      ]
+    },
+    {
+      "id": "3134",
+      "name": "Serrated Dirk",
+      "localId": "serrated_dirk",
+      "officialFrom": [
+        "1036",
+        "1036"
+      ],
+      "localFrom": []
+    },
+    {
+      "id": "3135",
+      "name": "Void Staff",
+      "localId": "void_staff",
+      "officialFrom": [
+        "4630",
+        "1026"
+      ],
+      "localFrom": [
+        "1026",
+        "1052"
+      ]
+    },
+    {
+      "id": "3157",
+      "name": "Zhonya's Hourglass",
+      "localId": "zhonyas_hourglass",
+      "officialFrom": [
+        "1058",
+        "2420"
+      ],
+      "localFrom": []
+    }
+  ],
+  "sourceLimitations": [
+    "CommunityDragon/latest not guaranteed to match Data Dragon patch",
+    "Data Dragon purchase flag does not alone certify shop availability",
+    "No playable mechanics granted for reference-only items",
+    "Minion/turret internal items must not be exposed in the normal store"
+  ],
+  "approvedForAutomaticGameplay": false
+}

@@ -1,0 +1,221 @@
+{
+  "schema": "coachlol.pacing.match.v452d4-dev24",
+  "seed": 26,
+  "profile": "baseline",
+  "maxSeconds": 2700,
+  "gameTime": 1626,
+  "ended": true,
+  "winner": "red",
+  "stoppedForComputeBudget": false,
+  "nexusDestroyed": true,
+  "rounds": 163,
+  "executedTicks": 1626,
+  "decisionCount": 33,
+  "decisions": {
+    "combat_reaction": 33
+  },
+  "waves": 59,
+  "structuresDestroyed": 11,
+  "dragonCaptures": 1,
+  "structureByTeam": {
+    "blue": 11,
+    "red": 0
+  },
+  "teamKills": {
+    "blue": 9,
+    "red": 22
+  },
+  "structures": [
+    {
+      "id": "red_top_t1",
+      "hp": 7337,
+      "alive": true
+    },
+    {
+      "id": "red_top_t2",
+      "hp": 5000,
+      "alive": true
+    },
+    {
+      "id": "red_top_t3",
+      "hp": 4750,
+      "alive": true
+    },
+    {
+      "id": "red_nexus_guard_1",
+      "hp": 3500,
+      "alive": true
+    },
+    {
+      "id": "red_mid_t3",
+      "hp": 4750,
+      "alive": true
+    },
+    {
+      "id": "red_bot_t3",
+      "hp": 4750,
+      "alive": true
+    },
+    {
+      "id": "blue_top_t1",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "red_mid_t2",
+      "hp": 5000,
+      "alive": true
+    },
+    {
+      "id": "red_mid_t1",
+      "hp": 5896,
+      "alive": true
+    },
+    {
+      "id": "red_bot_t2",
+      "hp": 5000,
+      "alive": true
+    },
+    {
+      "id": "blue_top_t2",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_mid_t1",
+      "hp": 4792,
+      "alive": true
+    },
+    {
+      "id": "blue_mid_t2",
+      "hp": 5000,
+      "alive": true
+    },
+    {
+      "id": "red_bot_t1",
+      "hp": 9000,
+      "alive": true
+    },
+    {
+      "id": "blue_top_t3",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_mid_t3",
+      "hp": 4750,
+      "alive": true
+    },
+    {
+      "id": "blue_nexus_guard_1",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_nexus_guard_2",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_bot_t2",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_bot_t3",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_bot_t1",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "red_nexus",
+      "hp": 5500,
+      "alive": true
+    },
+    {
+      "id": "blue_nexus",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "red_top_inhibitor",
+      "hp": 4000,
+      "alive": true
+    },
+    {
+      "id": "red_mid_inhibitor",
+      "hp": 4000,
+      "alive": true
+    },
+    {
+      "id": "red_bot_inhibitor",
+      "hp": 4000,
+      "alive": true
+    },
+    {
+      "id": "blue_top_inhibitor",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "blue_mid_inhibitor",
+      "hp": 4000,
+      "alive": true
+    },
+    {
+      "id": "blue_bot_inhibitor",
+      "hp": 0,
+      "alive": false
+    },
+    {
+      "id": "red_nexus_guard_2",
+      "hp": 3500,
+      "alive": true
+    }
+  ],
+  "milestone": [
+    {
+      "time": 0,
+      "structures": 0,
+      "dragons": 0,
+      "waves": 0
+    },
+    {
+      "time": 300,
+      "structures": 0,
+      "dragons": 0,
+      "waves": 10
+    },
+    {
+      "time": 600,
+      "structures": 0,
+      "dragons": 0,
+      "waves": 20
+    },
+    {
+      "time": 900,
+      "structures": 0,
+      "dragons": 1,
+      "waves": 30
+    },
+    {
+      "time": 1200,
+      "structures": 4,
+      "dragons": 1,
+      "waves": 42
+    },
+    {
+      "time": 1500,
+      "structures": 6,
+      "dragons": 1,
+      "waves": 54
+    }
+  ],
+  "issues": [],
+  "computeMs": 4830,
+  "finalStateHash": "606718afec6fe8302641a9f3"
+}

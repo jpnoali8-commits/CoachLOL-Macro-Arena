@@ -1,0 +1,37 @@
+{
+  "schema": "coachlol.runes.v43",
+  "patch": "26.21",
+  "status": "PROTOTYPE not full Riot parity",
+  "pages": {
+    "none": {
+      "name": "Sem página personalizada",
+      "shards": {},
+      "keystone": null,
+      "maturity": "none"
+    },
+    "sorcery": {
+      "name": "Feitiçaria · Cometa Arcano",
+      "shards": {
+        "ap": 9
+      },
+      "keystone": "arcane_comet",
+      "maturity": "prototype"
+    },
+    "precision": {
+      "name": "Precisão · Ritmo Experimental",
+      "shards": {
+        "ad": 5.4
+      },
+      "keystone": "fleet_footwork",
+      "maturity": "prototype"
+    },
+    "resolve": {
+      "name": "Determinação · Aperto dos Mortos-Vivos",
+      "shards": {
+        "hp": 65
+      },
+      "keystone": "grasp",
+      "maturity": "prototype"
+    }
+  }
+}

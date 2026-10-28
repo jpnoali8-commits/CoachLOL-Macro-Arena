@@ -1,0 +1,183 @@
+{
+  "schema": "coachlol.shop.dev32.audit",
+  "base": "dev31",
+  "version": "4.5.3-dev32",
+  "referencePatch": "26.21 / DDragon 16.21.1",
+  "referenceDataDragonDownload": "BLOCKED_NOT_INCLUDED",
+  "claim": "62 local entries; not complete LoL item catalog; special effects partial",
+  "totalEntries": 62,
+  "effectRegistryEntries": 18,
+  "newEntries": [
+    "zeal",
+    "kraken_slayer",
+    "rapid_firecannon",
+    "navori_flickerblade",
+    "health_potion",
+    "refillable_potion"
+  ],
+  "newItems": [
+    {
+      "id": "zeal",
+      "name": "Zelo",
+      "cost": 1200,
+      "stats": {
+        "attackSpeedPct": 15,
+        "critChance": 15,
+        "movePercent": 4
+      },
+      "tags": [
+        "marksman",
+        "epic"
+      ],
+      "riotId": 3086,
+      "recipe": [
+        "agility_cloak",
+        "dagger"
+      ],
+      "effect": null,
+      "sourceUrl": "https://agatasmurf.com/lol-items/zeal/"
+    },
+    {
+      "id": "kraken_slayer",
+      "name": "Mata-Cráquens",
+      "cost": 3000,
+      "stats": {
+        "ad": 45,
+        "attackSpeedPct": 40,
+        "movePercent": 4
+      },
+      "tags": [
+        "marksman",
+        "legendary",
+        "unique"
+      ],
+      "riotId": 6672,
+      "recipe": [
+        "rectrix",
+        "hearthbound_axe",
+        "recurve_bow"
+      ],
+      "effect": {
+        "kind": "third_basic_hit",
+        "maxStacks": 2,
+        "expireSeconds": 4,
+        "maturity": "dev32_partial"
+      },
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Kraken_Slayer"
+    },
+    {
+      "id": "rapid_firecannon",
+      "name": "Canhão Fumegante",
+      "cost": 2650,
+      "stats": {
+        "attackSpeedPct": 35,
+        "critChance": 25,
+        "movePercent": 4
+      },
+      "tags": [
+        "marksman",
+        "legendary",
+        "unique"
+      ],
+      "riotId": 3094,
+      "recipe": [
+        "zeal",
+        "agility_cloak"
+      ],
+      "effect": {
+        "kind": "energized_attack",
+        "maturity": "registered_not_implemented"
+      },
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Rapid_Firecannon"
+    },
+    {
+      "id": "navori_flickerblade",
+      "name": "Adagas Rápidas Navori",
+      "cost": 2650,
+      "stats": {
+        "attackSpeedPct": 40,
+        "critChance": 25,
+        "movePercent": 4
+      },
+      "tags": [
+        "marksman",
+        "legendary",
+        "unique"
+      ],
+      "riotId": 6675,
+      "recipe": [
+        "zeal",
+        "dagger",
+        "dagger"
+      ],
+      "effect": {
+        "kind": "basic_cooldown_refund",
+        "ratio": 0.15,
+        "maturity": "dev32_partial"
+      },
+      "sourceUrl": "https://wiki.leagueoflegends.com/en-us/Navori_Flickerblade"
+    },
+    {
+      "id": "health_potion",
+      "name": "Poção de Vida",
+      "cost": 50,
+      "stats": {},
+      "tags": [
+        "consumable",
+        "health"
+      ],
+      "riotId": 2003,
+      "recipe": [],
+      "effect": {
+        "kind": "potion_heal",
+        "total": 120,
+        "seconds": 15,
+        "maturity": "dev32_whole_second_adapter"
+      },
+      "sourceUrl": "https://agatasmurf.com/lol-items/health-potion/"
+    },
+    {
+      "id": "refillable_potion",
+      "name": "Poção com Refil",
+      "cost": 150,
+      "stats": {},
+      "tags": [
+        "consumable",
+        "health",
+        "unique"
+      ],
+      "riotId": 2031,
+      "recipe": [],
+      "effect": {
+        "kind": "potion_heal",
+        "total": 100,
+        "seconds": 12,
+        "charges": 2,
+        "maturity": "dev32_whole_second_adapter"
+      },
+      "sourceUrl": "https://agatasmurf.com/lol-items/refillable-potion/"
+    }
+  ],
+  "correctedStats": {
+    "agility_cloak": {
+      "critChance": 15
+    },
+    "bf_sword": {
+      "ad": 40
+    },
+    "sapphire_crystal": {
+      "mana": 300
+    },
+    "recurve_bow": {
+      "attackSpeedPct": 15,
+      "onHitPhysical": 15
+    }
+  },
+  "notFullySimulated": [
+    "rapid_firecannon:Energized/range",
+    "Kraken:on-attack vs on-hit nuances",
+    "Navori:spell-specific cooldown exclusions",
+    "potions:subsecond regen/queuing and stack slot parity"
+  ],
+  "officialProvider": "https://developer.riotgames.com/docs/lol"
+}

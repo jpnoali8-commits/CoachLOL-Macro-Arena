@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "architectural-proposal-not-live-runtime",
+  "game": "CoachLOL Macro Arena",
+  "patch": "unlocked-until-verified",
+  "templates": [
+    {"id":"directional_line", "inputs":["actorId","slot","point","range","width","rank","collisionMask"],"preconditions":["learned","available","alive","cost","validPosition"],"results":["damage","cc","vfx"]},
+    {"id":"targeted_chain", "inputs":["actorId","slot","targetId","bounceCount","bounceRadius"],"preconditions":["learned","available","alive","vision","range","cost"],"results":["healOrDamage","vfx"]},
+    {"id":"mark_recast", "inputs":["actorId","stage","markedTargetId","markExpiresAt"],"preconditions":["markActive","targetAlive"],"results":["dash","impact","clearMark"]},
+    {"id":"multi_actor_combo", "inputs":["actors","perActorSteps","targets","conditions","fallback"],"preconditions":["ownership","visibilityPolicy","abilityReadiness"],"results":["orderedIntents","privateLog"]},
+    {"id":"move_and_cast", "inputs":["actorId","targetId","skillId","range","pathPreference"],"preconditions":["navigable","vision","cost","cooldown"],"results":["path","castAtRange"]}
+  ],
+  "example": {
+    "actorIds":["blue_MID","blue_SUP"],
+    "kind":"multi_actor_combo",
+    "stepsByActor":{
+      "blue_MID":[{"op":"move_and_cast","slot":"R","direction":{"x":0.6,"y":0.6}}],
+      "blue_SUP":[{"op":"cast","slot":"W","targetId":"blue_MID"},{"op":"defend","spell":"barrier"}]
+    },
+    "visibility":"team_private_until_observed",
+    "failPolicy":"wait_until_valid_without_spending_resources",
+    "generatedByPrompt":false
+  }
+}

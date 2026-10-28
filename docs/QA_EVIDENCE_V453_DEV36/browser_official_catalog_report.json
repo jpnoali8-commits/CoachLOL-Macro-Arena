@@ -1,0 +1,11 @@
+{
+  "browser": "chromium",
+  "scenario": "dev36 real local HTML; user-supplied official static reference",
+  "jsErrors": [],
+  "listInitial": 863,
+  "searchMatches": 3,
+  "recipeComponents": 2,
+  "exclusiveCount": 7,
+  "internalCount": 1,
+  "internalDescription": "ID 1515 · INTERNO DE UNIDADE\nBarricada da Torre\n\nTurret Plating · 0 ouro\n\nSomente referência — não pode ser comprado na loja jogável\n\nRegistro interno: atributos e modificadores de estruturas dependem de regras próprias do motor.\n"
+}

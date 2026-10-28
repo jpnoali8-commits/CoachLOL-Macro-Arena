@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "Actual offline game engine / map assets inlined in isolated Chromium controlled fixture; NOT a full organic match",
+  "results": {
+    "knownBefore": false,
+    "knownBehindWall": true,
+    "oracleSuppressedBehindWall": true,
+    "normalVisionBehindWall": false,
+    "knownByPinkBehindWall": false,
+    "knownNearTarget": true,
+    "enemyFields": [
+      "hp",
+      "id",
+      "maxHp",
+      "team",
+      "type",
+      "x",
+      "y"
+    ],
+    "spriteCount": 15,
+    "mapLoaded": true
+  },
+  "javascriptErrors": []
+}

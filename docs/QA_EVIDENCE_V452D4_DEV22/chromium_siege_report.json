@@ -1,0 +1,30 @@
+{
+  "fixture": "controlled champion+wave rally, no organic full match",
+  "result": {
+    "focus": "mid",
+    "chosen": [
+      {
+        "id": "blue_MID",
+        "order": "push",
+        "lane": "mid"
+      },
+      {
+        "id": "blue_ADC",
+        "order": "push",
+        "lane": "mid"
+      },
+      {
+        "id": "blue_SUP",
+        "order": "push",
+        "lane": "mid"
+      }
+    ],
+    "aliveWave": 5,
+    "objective": "red_mid_t3"
+  },
+  "assets": {
+    "atlas": true,
+    "svgLoaded": 15
+  },
+  "jsErrors": []
+}

@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "Nashor component purchase / actual shop HUD / atlas and 15 CC0 SVGs",
+  "preFinal": {
+    "items": [
+      "fiendish_codex"
+    ],
+    "gold": 9150,
+    "remaining": 2050,
+    "root": "Dente de Na'Shor · 2900g",
+    "loaded": true,
+    "svgCount": 15
+  },
+  "final": {
+    "items": [
+      "nashors_tooth"
+    ],
+    "gold": 7100,
+    "abilityPower": 80
+  },
+  "javascriptErrors": []
+}

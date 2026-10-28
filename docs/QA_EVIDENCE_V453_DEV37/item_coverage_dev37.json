@@ -1,0 +1,1072 @@
+{
+  "schema": "coachlol.item_coverage.v453.dev37",
+  "patch": "26.21",
+  "total": 70,
+  "items": [
+    {
+      "id": "dorans_blade",
+      "riotId": "1055",
+      "name": "Lâmina de Doran",
+      "cost": 450,
+      "recipe": [],
+      "statsPlayable": [
+        "ad",
+        "hp"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "dorans_ring",
+      "riotId": "1056",
+      "name": "Anel de Doran",
+      "cost": 400,
+      "recipe": [],
+      "statsPlayable": [
+        "ap",
+        "hp"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_only_regen_not_implemented"
+    },
+    {
+      "id": "dorans_shield",
+      "riotId": "1054",
+      "name": "Escudo de Doran",
+      "cost": 450,
+      "recipe": [],
+      "statsPlayable": [
+        "hp",
+        "armor"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "support_atlas",
+      "riotId": "3865",
+      "name": "Atlas Mundial",
+      "cost": 400,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "support_compass",
+      "riotId": "3866",
+      "name": "Bússola Rúnica",
+      "cost": 0,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "support_bounty",
+      "riotId": "3867",
+      "name": "Recompensa dos Mundos",
+      "cost": 0,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "jungle_gustwalker",
+      "riotId": "1102",
+      "name": "Filhote de Gustwalker · azul",
+      "cost": 450,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "jungle_mosstomper",
+      "riotId": "1103",
+      "name": "Broto de Mosstomper · verde",
+      "cost": 450,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "jungle_scorchclaw",
+      "riotId": "1101",
+      "name": "Filhote de Scorchclaw · vermelho",
+      "cost": 450,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "boots",
+      "riotId": "1001",
+      "name": "Botas",
+      "cost": 300,
+      "recipe": [],
+      "statsPlayable": [
+        "speed"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "long_sword",
+      "riotId": "1036",
+      "name": "Espada Longa",
+      "cost": 350,
+      "recipe": [],
+      "statsPlayable": [
+        "ad"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "amp_tome",
+      "riotId": "1052",
+      "name": "Tomo Amplificador",
+      "cost": 400,
+      "recipe": [],
+      "statsPlayable": [
+        "ap"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "ruby_crystal",
+      "riotId": "1028",
+      "name": "Cristal de Rubi",
+      "cost": 400,
+      "recipe": [],
+      "statsPlayable": [
+        "hp"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "cloth_armor",
+      "riotId": "1029",
+      "name": "Armadura de Pano",
+      "cost": 300,
+      "recipe": [],
+      "statsPlayable": [
+        "armor"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "null_magic_mantle",
+      "riotId": "1033",
+      "name": "Manto Anula-Magia",
+      "cost": 400,
+      "recipe": [],
+      "statsPlayable": [
+        "mr"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "sapphire_crystal",
+      "riotId": "1027",
+      "name": "Cristal de Safira",
+      "cost": 300,
+      "recipe": [],
+      "statsPlayable": [
+        "mana"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "bf_sword",
+      "riotId": "1038",
+      "name": "Espada G.P.C.",
+      "cost": 1300,
+      "recipe": [],
+      "statsPlayable": [
+        "ad"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "pickaxe",
+      "riotId": "1037",
+      "name": "Picareta",
+      "cost": 875,
+      "recipe": [],
+      "statsPlayable": [
+        "ad"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "agility_cloak",
+      "riotId": "1018",
+      "name": "Manto da Agilidade",
+      "cost": 600,
+      "recipe": [],
+      "statsPlayable": [
+        "critChance"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "infinity_edge",
+      "riotId": "3031",
+      "name": "Gume do Infinito",
+      "cost": 3500,
+      "recipe": [
+        "bf_sword",
+        "pickaxe",
+        "agility_cloak"
+      ],
+      "statsPlayable": [
+        "ad",
+        "critChance"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "rabadon",
+      "riotId": "3089",
+      "name": "Capuz da Morte de Rabadon",
+      "cost": 3500,
+      "recipe": [
+        "needless_rod",
+        "needless_rod"
+      ],
+      "statsPlayable": [
+        "ap"
+      ],
+      "effectKind": "ap_multiplier",
+      "effectsMaturity": "audited_stat",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "needless_rod",
+      "riotId": "1058",
+      "name": "Bastão Desnecessário",
+      "cost": 1200,
+      "recipe": [],
+      "statsPlayable": [
+        "ap"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "giants_belt",
+      "riotId": "1011",
+      "name": "Cinto do Gigante",
+      "cost": 900,
+      "recipe": [
+        "ruby_crystal"
+      ],
+      "statsPlayable": [
+        "hp"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "serrated_dirk",
+      "riotId": "3134",
+      "name": "Punhal Serrilhado",
+      "cost": 1000,
+      "recipe": [
+        "long_sword",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "lethality"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "scouts_slingshot",
+      "riotId": "3144",
+      "name": "Estilingue do Patrulheiro",
+      "cost": 600,
+      "recipe": [
+        "dagger",
+        "dagger"
+      ],
+      "statsPlayable": [
+        "attackSpeedPct"
+      ],
+      "effectKind": "attack_speed",
+      "effectsMaturity": "dev37_stat_only_bullseye_pending",
+      "functionalLevel": "stats_only_partial_passive"
+    },
+    {
+      "id": "blighting_jewel",
+      "riotId": "4630",
+      "name": "Joia da Ruína",
+      "cost": 1100,
+      "recipe": [
+        "amp_tome"
+      ],
+      "statsPlayable": [
+        "ap",
+        "magicPenPercent"
+      ],
+      "effectKind": "magic_penetration",
+      "effectsMaturity": "dev37_verified_stat",
+      "functionalLevel": "stats_magic_penetration"
+    },
+    {
+      "id": "seekers_armguard",
+      "riotId": "2420",
+      "name": "Armaguarda da Caçadora",
+      "cost": 1600,
+      "recipe": [
+        "amp_tome",
+        "cloth_armor",
+        "amp_tome"
+      ],
+      "statsPlayable": [
+        "ap",
+        "armor"
+      ],
+      "effectKind": "single_use_stasis",
+      "effectsMaturity": "dev37_partial_active",
+      "functionalLevel": "stats_plus_single_use_stasis"
+    },
+    {
+      "id": "recurve_bow",
+      "riotId": "1043",
+      "name": "Arco Recurvo",
+      "cost": 700,
+      "recipe": [
+        "dagger"
+      ],
+      "statsPlayable": [
+        "attackSpeedPct"
+      ],
+      "effectKind": "on_hit_physical",
+      "effectsMaturity": "dev32_explicit",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "zhonyas_hourglass",
+      "riotId": "3157",
+      "name": "Ampulheta de Zhonya",
+      "cost": 3250,
+      "recipe": [
+        "needless_rod",
+        "seekers_armguard"
+      ],
+      "statsPlayable": [
+        "ap",
+        "armor"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "glowing_mote",
+      "riotId": "2022",
+      "name": "Partícula Brilhante",
+      "cost": 250,
+      "recipe": [],
+      "statsPlayable": [
+        "abilityHaste"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "kindlegem",
+      "riotId": "3067",
+      "name": "Gema Ardente",
+      "cost": 800,
+      "recipe": [
+        "ruby_crystal",
+        "glowing_mote"
+      ],
+      "statsPlayable": [
+        "hp",
+        "abilityHaste"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "caulfields_warhammer",
+      "riotId": "3133",
+      "name": "Martelo de Guerra de Caulfield",
+      "cost": 1050,
+      "recipe": [
+        "long_sword",
+        "glowing_mote",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "abilityHaste"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "ionian_boots",
+      "riotId": "3158",
+      "name": "Botas Ionianas da Lucidez",
+      "cost": 900,
+      "recipe": [
+        "boots",
+        "glowing_mote"
+      ],
+      "statsPlayable": [
+        "speed",
+        "abilityHaste",
+        "summonerHaste"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "vampiric_scepter",
+      "riotId": "1053",
+      "name": "Cetro Vampírico",
+      "cost": 900,
+      "recipe": [
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "lifeSteal"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "blasting_wand",
+      "riotId": "1026",
+      "name": "Varinha Explosiva",
+      "cost": 850,
+      "recipe": [],
+      "statsPlayable": [
+        "ap"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "oblivion_orb",
+      "riotId": "3916",
+      "name": "Orbe do Oblívio",
+      "cost": 800,
+      "recipe": [
+        "amp_tome"
+      ],
+      "statsPlayable": [
+        "ap"
+      ],
+      "effectKind": "grievous_magic",
+      "effectsMaturity": "prototype",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "executioners_calling",
+      "riotId": "3123",
+      "name": "Chamado do Carrasco",
+      "cost": 800,
+      "recipe": [
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad"
+      ],
+      "effectKind": "grievous_physical",
+      "effectsMaturity": "prototype",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "sorcerers_shoes",
+      "riotId": "3020",
+      "name": "Sapatos do Feiticeiro",
+      "cost": 1100,
+      "recipe": [
+        "boots"
+      ],
+      "statsPlayable": [
+        "speed",
+        "magicPenFlat"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "mercurys_treads",
+      "riotId": "3111",
+      "name": "Passos de Mercúrio",
+      "cost": 1250,
+      "recipe": [
+        "boots",
+        "null_magic_mantle"
+      ],
+      "statsPlayable": [
+        "speed",
+        "mr",
+        "tenacity"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "void_staff",
+      "riotId": "3135",
+      "name": "Cajado do Vazio",
+      "cost": 3000,
+      "recipe": [
+        "blighting_jewel",
+        "blasting_wand"
+      ],
+      "statsPlayable": [
+        "ap",
+        "magicPenPercent"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "last_whisper",
+      "riotId": "3035",
+      "name": "Último Sussurro",
+      "cost": 1450,
+      "recipe": [
+        "long_sword",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "armorPenPercent"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "dagger",
+      "riotId": "1042",
+      "name": "Adaga",
+      "cost": 250,
+      "recipe": [],
+      "statsPlayable": [
+        "attackSpeedPct"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "sheen",
+      "riotId": "3057",
+      "name": "Brilho",
+      "cost": 900,
+      "recipe": [
+        "glowing_mote"
+      ],
+      "statsPlayable": [
+        "abilityHaste"
+      ],
+      "effectKind": "spellblade",
+      "effectsMaturity": "dev29_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "phage",
+      "riotId": "3044",
+      "name": "Fago",
+      "cost": 1100,
+      "recipe": [
+        "ruby_crystal",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "hp"
+      ],
+      "effectKind": "on_hit_speed",
+      "effectsMaturity": "dev29_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "hearthbound_axe",
+      "riotId": "3051",
+      "name": "Machado de Aquecimento",
+      "cost": 1200,
+      "recipe": [
+        "long_sword",
+        "dagger",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "attackSpeedPct"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "rectrix",
+      "riotId": "6690",
+      "name": "Rectrix",
+      "cost": 775,
+      "recipe": [
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "movePercent"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "trinity_force",
+      "riotId": "3078",
+      "name": "Força da Trindade",
+      "cost": 3333,
+      "recipe": [
+        "sheen",
+        "phage",
+        "hearthbound_axe"
+      ],
+      "statsPlayable": [
+        "ad",
+        "hp",
+        "abilityHaste",
+        "attackSpeedPct"
+      ],
+      "effectKind": "spellblade_quicken",
+      "effectsMaturity": "dev29_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "black_cleaver",
+      "riotId": "3071",
+      "name": "Cutelo Negro",
+      "cost": 3000,
+      "recipe": [
+        "phage",
+        "kindlegem",
+        "pickaxe"
+      ],
+      "statsPlayable": [
+        "ad",
+        "hp",
+        "abilityHaste"
+      ],
+      "effectKind": "armor_shred",
+      "effectsMaturity": "dev29_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "youmuus_ghostblade",
+      "riotId": "3142",
+      "name": "Lâmina Fantasma de Youmuu",
+      "cost": 2800,
+      "recipe": [
+        "serrated_dirk",
+        "rectrix",
+        "long_sword"
+      ],
+      "statsPlayable": [
+        "ad",
+        "lethality",
+        "movePercent"
+      ],
+      "effectKind": "sprint_active",
+      "effectsMaturity": "dev29_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "chain_vest",
+      "riotId": "1031",
+      "name": "Cota de Malha",
+      "cost": 800,
+      "recipe": [
+        "cloth_armor"
+      ],
+      "statsPlayable": [
+        "armor"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "negatron_cloak",
+      "riotId": "1057",
+      "name": "Capa Negatron",
+      "cost": 850,
+      "recipe": [
+        "null_magic_mantle"
+      ],
+      "statsPlayable": [
+        "mr"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "bramble_vest",
+      "riotId": "3076",
+      "name": "Colete Espinhoso",
+      "cost": 800,
+      "recipe": [
+        "cloth_armor",
+        "cloth_armor"
+      ],
+      "statsPlayable": [
+        "armor"
+      ],
+      "effectKind": "thorns",
+      "effectsMaturity": "dev31_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "thornmail",
+      "riotId": "3075",
+      "name": "Armadura de Espinhos",
+      "cost": 2450,
+      "recipe": [
+        "bramble_vest",
+        "chain_vest",
+        "ruby_crystal"
+      ],
+      "statsPlayable": [
+        "armor",
+        "hp"
+      ],
+      "effectKind": "thorns",
+      "effectsMaturity": "dev31_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "wardens_mail",
+      "riotId": "3082",
+      "name": "Proteção de Armadura",
+      "cost": 1000,
+      "recipe": [
+        "cloth_armor",
+        "cloth_armor"
+      ],
+      "statsPlayable": [
+        "armor"
+      ],
+      "effectKind": "rock_solid",
+      "effectsMaturity": "dev31_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "randuins_omen",
+      "riotId": "3143",
+      "name": "Presságio de Randuin",
+      "cost": 2700,
+      "recipe": [
+        "wardens_mail",
+        "giants_belt"
+      ],
+      "statsPlayable": [
+        "armor",
+        "hp"
+      ],
+      "effectKind": "humility_active",
+      "effectsMaturity": "dev31_partial_crit_not_resolved",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "berserkers_greaves",
+      "riotId": "3006",
+      "name": "Grevas do Berserker",
+      "cost": 1100,
+      "recipe": [
+        "boots",
+        "dagger",
+        "dagger"
+      ],
+      "statsPlayable": [
+        "speed",
+        "attackSpeedPct"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "zeal",
+      "riotId": "3086",
+      "name": "Zelo",
+      "cost": 1200,
+      "recipe": [
+        "agility_cloak",
+        "dagger"
+      ],
+      "statsPlayable": [
+        "attackSpeedPct",
+        "critChance",
+        "movePercent"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "kraken_slayer",
+      "riotId": "6672",
+      "name": "Mata-Cráquens",
+      "cost": 3000,
+      "recipe": [
+        "rectrix",
+        "hearthbound_axe",
+        "recurve_bow"
+      ],
+      "statsPlayable": [
+        "ad",
+        "attackSpeedPct",
+        "movePercent"
+      ],
+      "effectKind": "third_basic_hit",
+      "effectsMaturity": "dev32_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "rapid_firecannon",
+      "riotId": "3094",
+      "name": "Canhão Fumegante",
+      "cost": 2650,
+      "recipe": [
+        "zeal",
+        "scouts_slingshot"
+      ],
+      "statsPlayable": [
+        "attackSpeedPct",
+        "critChance",
+        "movePercent"
+      ],
+      "effectKind": "energized_attack",
+      "effectsMaturity": "registered_not_implemented",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "navori_flickerblade",
+      "riotId": "6675",
+      "name": "Adagas Rápidas Navori",
+      "cost": 2650,
+      "recipe": [
+        "zeal",
+        "dagger",
+        "dagger"
+      ],
+      "statsPlayable": [
+        "attackSpeedPct",
+        "critChance",
+        "movePercent"
+      ],
+      "effectKind": "basic_cooldown_refund",
+      "effectsMaturity": "dev32_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "health_potion",
+      "riotId": "2003",
+      "name": "Poção de Vida",
+      "cost": 50,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": "potion_heal",
+      "effectsMaturity": "dev32_whole_second_adapter",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "refillable_potion",
+      "riotId": "2031",
+      "name": "Poção com Refil",
+      "cost": 150,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": "potion_heal",
+      "effectsMaturity": "dev32_whole_second_adapter",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "fiendish_codex",
+      "riotId": "3108",
+      "name": "Códice Demoníaco",
+      "cost": 850,
+      "recipe": [
+        "amp_tome",
+        "glowing_mote"
+      ],
+      "statsPlayable": [
+        "ap",
+        "abilityHaste"
+      ],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "nashors_tooth",
+      "riotId": "3115",
+      "name": "Dente de Na'Shor",
+      "cost": 2900,
+      "recipe": [
+        "recurve_bow",
+        "blasting_wand",
+        "fiendish_codex"
+      ],
+      "statsPlayable": [
+        "ap",
+        "abilityHaste",
+        "attackSpeedPct"
+      ],
+      "effectKind": "on_hit_magic",
+      "effectsMaturity": "dev33_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "mortal_reminder",
+      "riotId": "3033",
+      "name": "Lembrete Mortal",
+      "cost": 3000,
+      "recipe": [
+        "executioners_calling",
+        "last_whisper",
+        "agility_cloak"
+      ],
+      "statsPlayable": [
+        "ad",
+        "armorPenPercent",
+        "critChance"
+      ],
+      "effectKind": "grievous_physical",
+      "effectsMaturity": "dev33_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "morellonomicon",
+      "riotId": "3165",
+      "name": "Morellonomicon",
+      "cost": 2850,
+      "recipe": [
+        "oblivion_orb",
+        "blasting_wand",
+        "kindlegem"
+      ],
+      "statsPlayable": [
+        "ap",
+        "hp",
+        "abilityHaste"
+      ],
+      "effectKind": "grievous_magic",
+      "effectsMaturity": "dev33_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "rylais_crystal_scepter",
+      "riotId": "3116",
+      "name": "Cetro de Cristal de Rylai",
+      "cost": 2600,
+      "recipe": [
+        "blasting_wand",
+        "giants_belt",
+        "amp_tome"
+      ],
+      "statsPlayable": [
+        "ap",
+        "hp"
+      ],
+      "effectKind": "ability_slow",
+      "effectsMaturity": "dev33_partial",
+      "functionalLevel": "partial_verified_or_training_effect"
+    },
+    {
+      "id": "ward",
+      "riotId": "2055",
+      "name": "Sentinela de Controle",
+      "cost": 75,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "trinket_stealth",
+      "riotId": "3340",
+      "name": "Totem de Vigilância · Ward Amarela",
+      "cost": 0,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    },
+    {
+      "id": "trinket_oracle",
+      "riotId": "3364",
+      "name": "Lente Reveladora · Varredura",
+      "cost": 0,
+      "recipe": [],
+      "statsPlayable": [],
+      "effectKind": null,
+      "effectsMaturity": "not_certified",
+      "functionalLevel": "stats_or_utility_only"
+    }
+  ]
+}

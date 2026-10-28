@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "scope": "real interactive recipe UI / Rabadon / two rod purchases / final combine",
+  "first": {
+    "inventory": [
+      "needless_rod"
+    ],
+    "gold": 8800,
+    "root": "Capuz da Morte de Rabadon · 3500g",
+    "components": 3,
+    "owned": 1
+  },
+  "preFinal": {
+    "items": [
+      "needless_rod",
+      "needless_rod"
+    ],
+    "gold": 7600,
+    "remaining": 1100
+  },
+  "final": {
+    "inventory": [
+      "rabadon"
+    ],
+    "gold": 6500,
+    "root": "Capuz da Morte de Rabadon · 3500g",
+    "mapLoaded": true,
+    "spriteCount": 15
+  },
+  "javascriptErrors": []
+}

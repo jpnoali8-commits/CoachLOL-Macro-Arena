@@ -1,0 +1,33 @@
+{
+  "schema": "coachlol.pacing.dev42",
+  "seedResults": [
+    {
+      "seed": 26,
+      "simulatedSeconds": 1626,
+      "ended": true,
+      "winner": "red",
+      "stateHash": "7e178522b7bf06d5aebf04c7",
+      "issues": []
+    },
+    {
+      "seed": 36,
+      "simulatedSeconds": 1525,
+      "ended": true,
+      "winner": "red",
+      "stateHash": "b8af5835532687e6595d2e8b",
+      "issues": []
+    },
+    {
+      "seed": 42,
+      "simulatedSeconds": 1458,
+      "ended": true,
+      "winner": "red",
+      "stateHash": "b5f379507621afb85534336f",
+      "issues": []
+    }
+  ],
+  "meanSeconds": 1536.33,
+  "meanMinSec": "25:36",
+  "naturalNexusMatches": 3,
+  "notes": "Historical default draft without Ezreal/Irelia; item/board regressions, not population-level balance proof."
+}

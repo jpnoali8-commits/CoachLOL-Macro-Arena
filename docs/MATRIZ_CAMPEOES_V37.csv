@@ -1,0 +1,49 @@
+﻿champion;classe;estado_kit;implementacoes_ou_lacunas;proximo_modulo
+Ahri;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/ahri
+Akali;assassin;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/akali
+Ashe;marksman;parcial;"R: primeiro campeão; duração de stun escalável pendente";engine.champions/ashe
+Braum;tank;planejado (sem kit funcional);"R: skillshot com knockup em trajetória; pendente";engine.champions/braum
+Caitlyn;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/caitlyn
+Chogath;tank;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/chogath
+Darius;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/darius
+Ekko;assassin;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/ekko
+Ezreal;marksman;parcial;"E: blink / R: perfuração simplificados; Q/W pendentes";engine.champions/ezreal
+Graves;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/graves
+Gwen;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/gwen
+Irelia;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/irelia
+Janna;enchanter;planejado (sem kit funcional);"R: empurrão radial e cura; pendente";engine.champions/janna
+JarvanIV;fighter;planejado (sem kit funcional);"R: arena de colisão temporária com travessia/escapes; pendente";engine.champions/jarvaniv
+Jhin;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/jhin
+Jinx;marksman;parcial;"R: projétil global simplificado; crescimento de alcance e splash pendentes";engine.champions/jinx
+KSante;tank;parcial;"R: knockback com colisão/parede; kit restante pendente";engine.champions/ksante
+Kaisa;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/kaisa
+Kennen;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/kennen
+Khazix;assassin;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/khazix
+LeeSin;fighter;planejado (sem kit funcional);"R: insec, ângulo/colisão/segundo alvo; pendente";engine.champions/leesin
+Leona;tank;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/leona
+Lucian;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/lucian
+Lux;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/lux
+Mordekaiser;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/mordekaiser
+Nami;enchanter;parcial;"W: cura/dano e salto; R onda e CC ainda pendentes";engine.champions/nami
+Nasus;tank;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/nasus
+Olaf;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/olaf
+Orianna;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/orianna
+Pantheon;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/pantheon
+Qiyana;assassin;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/qiyana
+Riven;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/riven
+Senna;enchanter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/senna
+Sona;enchanter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/sona
+Talon;assassin;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/talon
+Thresh;support;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/thresh
+Vayne;marksman;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/vayne
+Veigar;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/veigar
+Vex;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/vex
+Vi;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/vi
+Viktor;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/viktor
+Volibear;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/volibear
+Warwick;fighter;parcial;"Camp DPS/clear por função implementado; kits oficiais pendentes";engine.champions/warwick
+Yasuo;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/yasuo
+Yone;fighter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/yone
+Yuumi;enchanter;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/yuumi
+Zed;assassin;parcial;"R: marca/dano atrasado simplificados; cálculo cumulativo pendente";engine.champions/zed
+Zyra;mage;pendente;"Kit individual não auditado/implementado; uses stats class + generic QWER";engine.champions/zyra

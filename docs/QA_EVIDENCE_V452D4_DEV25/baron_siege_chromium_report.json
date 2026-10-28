@@ -1,0 +1,77 @@
+{
+  "type": "Chromium actual UI, controlled eight-tick motor sequence (not organic complete match)",
+  "first": {
+    "towerHp": 9000,
+    "towerId": "red_mid_t1",
+    "baron": true
+  },
+  "result": {
+    "rows": [
+      {
+        "time": 1200,
+        "towerHp": 9000,
+        "hp": 600,
+        "distance": 1915,
+        "range": 1692
+      },
+      {
+        "time": 1201,
+        "towerHp": 9000,
+        "hp": 600,
+        "distance": 1737,
+        "range": 1692
+      },
+      {
+        "time": 1202,
+        "towerHp": 8902,
+        "hp": 600,
+        "distance": 1559,
+        "range": 1692
+      },
+      {
+        "time": 1203,
+        "towerHp": 8902,
+        "hp": 365,
+        "distance": 1383,
+        "range": 1692
+      },
+      {
+        "time": 1204,
+        "towerHp": 8902,
+        "hp": 365,
+        "distance": 1207,
+        "range": 1692
+      },
+      {
+        "time": 1205,
+        "towerHp": 8902,
+        "hp": 365,
+        "distance": 1033,
+        "range": 1692
+      },
+      {
+        "time": 1206,
+        "towerHp": 8804,
+        "hp": 130,
+        "distance": 861,
+        "range": 1692
+      },
+      {
+        "time": 1207,
+        "towerHp": 8804,
+        "hp": 130,
+        "distance": 694,
+        "range": 1692
+      }
+    ],
+    "damage": 196,
+    "alive": 1,
+    "validRangeOnHits": true
+  },
+  "assets": {
+    "loaded": 15,
+    "mapLoaded": true,
+    "allReady": true
+  },
+  "jsErrors": []
+}

@@ -1,0 +1,9 @@
+﻿riot_id,nome,tipo,local,oficial,observacao
+1056,Doran's Ring,preco,450,400,"Possivel custo desatualizado, nao aplicado"
+3866,Runic Compass,preco,0,400,Evolucao de missao requer revisao
+3867,Bounty of Worlds,preco,0,400,Evolucao de missao requer revisao
+1011,Giant's Belt,receita,,1028,"Diferença de componentes, nao aplicada"
+3094,Rapid Firecannon,receita,3086+1018,3086+3144,"Diferença de componentes, nao aplicada"
+3134,Serrated Dirk,receita,,1036+1036,"Diferença de componentes, nao aplicada"
+3135,Void Staff,receita,1026+1052,4630+1026,"Diferença de componentes, nao aplicada"
+3157,Zhonya's Hourglass,receita,,1058+2420,"Diferença de componentes, nao aplicada"

@@ -1,0 +1,15 @@
+{
+  "sourceZip": "CoachLOL_MacroArena_V453_Dev42_Projetil_Tempo_Marcas_JogoCompleto.zip",
+  "sourceEntries": 2189,
+  "missingSourceFiles": 0,
+  "modifiedSourceFiles": [
+    "app.js",
+    "engine.browser.js",
+    "engine.mjs",
+    "package.json",
+    "version.json"
+  ],
+  "gitFilesChecked": 566,
+  "gitFilesChanged": [],
+  "status": "PASS"
+}

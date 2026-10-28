@@ -1,0 +1,76 @@
+{
+  "report": {
+    "ward1": true,
+    "ward2": true,
+    "baron": true,
+    "rendered": 2
+  },
+  "assets": {
+    "images": [
+      {
+        "key": "ward_eye_gold",
+        "loaded": true
+      },
+      {
+        "key": "ward_eye_pink",
+        "loaded": true
+      },
+      {
+        "key": "ward_support_mint",
+        "loaded": true
+      },
+      {
+        "key": "hexgate_portal",
+        "loaded": true
+      },
+      {
+        "key": "scryer_glow_plant",
+        "loaded": true
+      },
+      {
+        "key": "blast_seed",
+        "loaded": true
+      },
+      {
+        "key": "heal_fruit_plant",
+        "loaded": true
+      },
+      {
+        "key": "minion_melee_blue",
+        "loaded": true
+      },
+      {
+        "key": "minion_caster_blue",
+        "loaded": true
+      },
+      {
+        "key": "minion_siege_blue",
+        "loaded": true
+      },
+      {
+        "key": "minion_super_blue",
+        "loaded": true
+      },
+      {
+        "key": "minion_melee_red",
+        "loaded": true
+      },
+      {
+        "key": "minion_caster_red",
+        "loaded": true
+      },
+      {
+        "key": "minion_siege_red",
+        "loaded": true
+      },
+      {
+        "key": "minion_super_red",
+        "loaded": true
+      }
+    ],
+    "loadedAll": true,
+    "mapLoaded": true
+  },
+  "javascript_errors": [],
+  "fixture": "controlled, inlined original SVG files and downsampled source atlas, not full match"
+}

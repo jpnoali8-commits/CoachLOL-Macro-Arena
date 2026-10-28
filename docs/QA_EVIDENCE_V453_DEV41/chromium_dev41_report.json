@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "scenario": "Original game UI + authoritative combo Q for Ezreal and Irelia in Chromium",
+  "ezreal": {
+    "champ": "Ezreal",
+    "step": 1,
+    "hp": 1200,
+    "shield": 335,
+    "mana": 372,
+    "qCd": 4,
+    "source": "champion_onhit_v453_dev41"
+  },
+  "irelia": {
+    "champ": "Irelia",
+    "step": 1,
+    "hp": 1110,
+    "mana": 380,
+    "x": 0.526996664442962,
+    "healed": 509,
+    "source": "champion_onhit_v453_dev41"
+  },
+  "javascriptErrors": [],
+  "screenshots": [
+    "docs/QA_EVIDENCE_V453_DEV41/ezreal_q_escudo_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV41/irelia_q_dash_chromium.png"
+  ]
+}

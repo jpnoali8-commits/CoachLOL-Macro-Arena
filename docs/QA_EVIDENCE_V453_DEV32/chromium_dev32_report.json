@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "scope": "Navori nested component purchase / real HUD / atlas and 15 SVGs",
+  "preFinal": {
+    "items": [
+      "zeal",
+      "dagger",
+      "dagger"
+    ],
+    "gold": 8300,
+    "remaining": 950,
+    "root": "Adagas Rápidas Navori · 2650g",
+    "loaded": true,
+    "svgCount": 15
+  },
+  "final": {
+    "items": [
+      "navori_flickerblade"
+    ],
+    "gold": 7350
+  },
+  "javascriptErrors": []
+}

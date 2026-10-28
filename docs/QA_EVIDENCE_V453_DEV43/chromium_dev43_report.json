@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "scenario": "Original CoachLOL index + engine.browser.js + dynamic projectile and marked Irelia Q",
+  "fired": {
+    "q": {
+      "ok": true,
+      "spentMana": 28,
+      "cooldownEndsAt": 5.5,
+      "seq": 1,
+      "projectileId": "ezreal_q_1",
+      "pending": true,
+      "dueAt": 1
+    },
+    "missiles": 1,
+    "hp": 1200,
+    "shield": 400,
+    "legacy": false
+  },
+  "impacted": {
+    "hp": 1200,
+    "shield": 235,
+    "qcd": 4,
+    "active": 0,
+    "history": {
+      "id": "ezreal_q_1",
+      "time": 1,
+      "ownerId": "blue_ADC",
+      "hitId": "red_MID",
+      "reason": "impacto",
+      "origin": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "end": {
+        "x": 0.532,
+        "y": 0.5
+      },
+      "traveled": 479.6800000000004,
+      "riftRevision": 0
+    }
+  },
+  "irelia": {
+    "q": {
+      "ok": true,
+      "spentMana": 20,
+      "cooldownEndsAt": 12,
+      "seq": 2,
+      "hitId": "red_TOP",
+      "blocked": null,
+      "dash": true
+    },
+    "reset": 1.2,
+    "mark": null,
+    "mana": 380,
+    "x": 0.526996664442962
+  },
+  "javascriptErrors": [],
+  "screenshots": [
+    "docs/QA_EVIDENCE_V453_DEV43/ezreal_q_em_voo_dev43_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV43/ezreal_q_impacto_escudo_dev43_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV43/irelia_q_marca_dev43_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV43/irelia_e_laminas_dev43_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV43/irelia_e_convergencia_dev43_chromium.png"
+  ],
+  "duet": {
+    "first": {
+      "ok": true,
+      "spentMana": 50,
+      "cooldownEndsAt": 16,
+      "seq": 3,
+      "pending": true,
+      "firstBlade": true
+    },
+    "second": {
+      "ok": true,
+      "recast": true,
+      "pending": true,
+      "dueAt": 0.45
+    },
+    "pending": {
+      "ownerId": "blue_TOP",
+      "team": "blue",
+      "first": {
+        "x": 0.496,
+        "y": 0.5
+      },
+      "second": {
+        "x": 0.525,
+        "y": 0.5
+      },
+      "createdAt": 0,
+      "expiresAt": 3.5,
+      "dueAt": 0.45,
+      "raw": 70
+    },
+    "hp": 1200
+  },
+  "converged": {
+    "hp": 1130,
+    "marked": true,
+    "stun": 1.25,
+    "history": {
+      "ownerId": "blue_TOP",
+      "time": 0.5,
+      "first": {
+        "x": 0.496,
+        "y": 0.5
+      },
+      "second": {
+        "x": 0.525,
+        "y": 0.5
+      },
+      "hitIds": [
+        "red_TOP"
+      ],
+      "distance": 434.7100000000004
+    }
+  },
+  "precision": {
+    "cast": {
+      "ok": true,
+      "spentMana": 28,
+      "cooldownEndsAt": 5.5,
+      "seq": 1,
+      "projectileId": "ezreal_q_1",
+      "pending": true,
+      "dueAt": 1
+    },
+    "middle": {
+      "distance": 400,
+      "hp": 1200
+    },
+    "endHp": 1035,
+    "reason": "impacto"
+  }
+}

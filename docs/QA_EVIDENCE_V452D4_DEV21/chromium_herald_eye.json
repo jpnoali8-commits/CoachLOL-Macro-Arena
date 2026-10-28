@@ -1,0 +1,15 @@
+{
+  "fixture": "real app/engine in Chromium with authored source atlas and 15 actual SVG assets inlined; controlled local fight, NOT a full match",
+  "result": {
+    "ordered": true,
+    "before": 5000,
+    "after": 2969,
+    "eyeHits": 1,
+    "eyeReadyAt": 1203
+  },
+  "assets": {
+    "icons": 15,
+    "mapLoaded": true
+  },
+  "javascript_errors": []
+}

@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scenario": "Full original index UI with live engine item-proc HUD and inventory; on-hit refresh after actual browser attack",
+  "catalog": 70,
+  "hud": [
+    {
+      "id": "rapid_firecannon",
+      "text": "Energizado\n85/100 cargas",
+      "value": "85",
+      "max": "100"
+    },
+    {
+      "id": "scouts_slingshot",
+      "text": "Bullseye\n18s restantes",
+      "value": "0",
+      "max": "1"
+    },
+    {
+      "id": "kraken_slayer",
+      "text": "Mata-Cráquens\n2/2 ataques",
+      "value": "2",
+      "max": "2"
+    },
+    {
+      "id": "dorans_ring",
+      "text": "Anel de Doran\nReforço de mana: 3s",
+      "value": "3",
+      "max": "5"
+    }
+  ],
+  "inventory": "ITENS EQUIPADOS · vender na fonte\n➶ Canhão Fumegante\n85/100 cargas\nVender\n⚔ Mata-Cráquens\n2/2 ataques\nVender\n➶ Estilingue do Patrulheiro\n18s restantes\nVender\n◈ Anel de Doran\nReforço de mana: 3s\nVender",
+  "afterAttack": {
+    "stacks": 6,
+    "hp": 19709,
+    "charge": "6"
+  },
+  "javascriptErrors": [],
+  "screenshots": [
+    "docs/QA_EVIDENCE_V453_DEV39/item_proc_hud_dev39_chromium.png",
+    "docs/QA_EVIDENCE_V453_DEV39/item_inventory_proc_dev39_chromium.png"
+  ]
+}

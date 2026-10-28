@@ -1,0 +1,20 @@
+{
+  "early": 0,
+  "first": 1,
+  "damage": [
+    38,
+    38,
+    38
+  ],
+  "times": [
+    1800.25,
+    1801.25,
+    1802.25
+  ],
+  "restoredHp": 518.1999999999999,
+  "originalHp": 518.1999999999999,
+  "equalLedger": true,
+  "errors": [],
+  "browserJsErrors": [],
+  "fixture": true
+}

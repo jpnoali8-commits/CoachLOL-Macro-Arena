@@ -1,0 +1,48 @@
+{
+  "schema": "coachlol.dev35.pacing.parity.v1",
+  "note": "No authoritative combat or minion stats changed in dev35; patch reference staging only",
+  "matches": [
+    {
+      "seed": 26,
+      "gameTime": 1550,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "issues": [],
+      "finalStateHash": "c6909b2f4a28e4408f58f4c6",
+      "computeMs": 5076,
+      "dev34Hash": "c6909b2f4a28e4408f58f4c6",
+      "hashIdentical": true,
+      "timeIdentical": true
+    },
+    {
+      "seed": 36,
+      "gameTime": 1641,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "issues": [],
+      "finalStateHash": "2dee82d278108fa0e1727197",
+      "computeMs": 4842,
+      "dev34Hash": "2dee82d278108fa0e1727197",
+      "hashIdentical": true,
+      "timeIdentical": true
+    },
+    {
+      "seed": 42,
+      "gameTime": 1253,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "issues": [],
+      "finalStateHash": "2424b06d3ce5ecf8ed90b301",
+      "computeMs": 2578,
+      "dev34Hash": "2424b06d3ce5ecf8ed90b301",
+      "hashIdentical": true,
+      "timeIdentical": true
+    }
+  ],
+  "allEnded": true,
+  "allHashesIdentical": true,
+  "meanSeconds": 1481.3333333333333
+}

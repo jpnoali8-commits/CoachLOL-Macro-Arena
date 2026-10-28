@@ -1,0 +1,42 @@
+[
+  {
+    "seed": 26,
+    "profile": "baseline",
+    "time": 1998,
+    "ended": true,
+    "win": "blue",
+    "hash": "f4a736d4be6884c773bd47ab",
+    "computeMs": 6186,
+    "issues": []
+  },
+  {
+    "seed": 26,
+    "profile": "poke",
+    "time": 1899,
+    "ended": true,
+    "win": "red",
+    "hash": "d8f0027b4a0b512c41993abb",
+    "computeMs": 4669,
+    "issues": []
+  },
+  {
+    "seed": 42,
+    "profile": "baseline",
+    "time": 2004,
+    "ended": true,
+    "win": "blue",
+    "hash": "9c2e6cd74bc5668faf5937ba",
+    "computeMs": 5775,
+    "issues": []
+  },
+  {
+    "seed": 42,
+    "profile": "engage",
+    "time": 1407,
+    "ended": true,
+    "win": "blue",
+    "hash": "c59677ce7dd36f0d65d96bcb",
+    "computeMs": 3073,
+    "issues": []
+  }
+]

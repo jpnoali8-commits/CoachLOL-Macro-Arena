@@ -1,0 +1,75 @@
+{
+  "schema": "coachlol.dev33.pacing.audit",
+  "sampleSize": 5,
+  "naturalNexusCompleted": 5,
+  "averageSecondsOfCompleted": 1517,
+  "targetSeconds": 1800,
+  "caveat": "Small sample; new items may not be purchased by automatic bots; full parity not certified",
+  "results": [
+    {
+      "gameTime": 1550,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "ended": true,
+      "finalStateHash": "c6909b2f4a28e4408f58f4c6",
+      "issues": [],
+      "structuresDestroyed": 7,
+      "dragonCaptures": 2,
+      "seed": 26,
+      "profile": "baseline",
+      "computeWallSec": 3.93
+    },
+    {
+      "gameTime": 1253,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "ended": true,
+      "finalStateHash": "2424b06d3ce5ecf8ed90b301",
+      "issues": [],
+      "structuresDestroyed": 7,
+      "dragonCaptures": 1,
+      "seed": 42,
+      "profile": "baseline",
+      "computeWallSec": 3.05
+    },
+    {
+      "gameTime": 1899,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "ended": true,
+      "finalStateHash": "d8f0027b4a0b512c41993abb",
+      "issues": [],
+      "structuresDestroyed": 11,
+      "dragonCaptures": 1,
+      "seed": 26,
+      "profile": "poke",
+      "computeWallSec": 5.6
+    },
+    {
+      "gameTime": 1597,
+      "winner": "blue",
+      "nexusDestroyed": true,
+      "ended": true,
+      "finalStateHash": "f6ec4d33dd00f1a2c974a119",
+      "issues": [],
+      "structuresDestroyed": 11,
+      "dragonCaptures": 3,
+      "seed": 42,
+      "profile": "engage",
+      "computeWallSec": 4.15
+    },
+    {
+      "gameTime": 1286,
+      "winner": "blue",
+      "nexusDestroyed": true,
+      "ended": true,
+      "finalStateHash": "a2559cb414418cc7bcc25dbc",
+      "issues": [],
+      "structuresDestroyed": 7,
+      "dragonCaptures": 2,
+      "seed": 36,
+      "profile": "assassins",
+      "computeWallSec": 3.35
+    }
+  ]
+}

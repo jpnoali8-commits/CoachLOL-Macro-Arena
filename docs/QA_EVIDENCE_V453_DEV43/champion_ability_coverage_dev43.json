@@ -1,0 +1,22 @@
+{
+  "schema": "coachlol.champion-ability-coverage.dev43.v1",
+  "patchReference": "PC 26.21 / Data Dragon 16.21.1",
+  "champions": {
+    "Ezreal": {
+      "Q": "partial: swept projectile, dynamic first hit, onhit, shields, positional blocker contract",
+      "W": "not_certified",
+      "E": "existing escape blink, not full kit",
+      "R": "existing adapter, not full kit"
+    },
+    "Irelia": {
+      "Q": "partial: instant spatial dash, mark reset, 70% AD inherited deviation",
+      "W": "not_certified",
+      "E": "partial: 2 placements, timed convergence, stun, damage, champion mark",
+      "R": "not_certified"
+    }
+  },
+  "itemPlayableCount": 70,
+  "officialItemReferenceCount": 863,
+  "championReferenceCount": 173,
+  "notes": "Irelia Q patch 26.17 changed ratio 70% to 80%, not yet corrected in local motor; No full parity claim."
+}

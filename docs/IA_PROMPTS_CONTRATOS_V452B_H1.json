@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coachlol.example.invalid/schema/plan-v1-handoff.json",
+  "title": "CoachLOL PlanV1 - PROPOSTA de contrato / não executado",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "patch_id",
+    "client_command_id",
+    "actors",
+    "steps"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "plan.v1"
+    },
+    "patch_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "client_command_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,80}$"
+    },
+    "actors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 24,
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_id",
+        "action",
+        "target"
+      ],
+      "properties": {
+        "actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "action": {
+          "enum": [
+            "move",
+            "attack",
+            "cast",
+            "summoner_spell",
+            "use_item",
+            "farm",
+            "hold",
+            "ward",
+            "objective",
+            "wait"
+          ]
+        },
+        "ability_slot": {
+          "enum": [
+            "Q",
+            "W",
+            "E",
+            "R",
+            "R2",
+            "FLASH",
+            "HEAL",
+            "IGNITE",
+            "BARRIER",
+            "GHOST",
+            "EXHAUST",
+            "SMITE"
+          ]
+        },
+        "target": {
+          "$ref": "#/$defs/target"
+        },
+        "when": {
+          "$ref": "#/$defs/condition"
+        },
+        "on_fail": {
+          "enum": [
+            "skip",
+            "cancel_plan",
+            "fallback_move",
+            "wait_next_turn"
+          ]
+        },
+        "after_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 23
+        }
+      }
+    },
+    "target": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "none"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "entity_id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "visible_entity"
+            },
+            "entity_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "x",
+            "y"
+          ],
+          "properties": {
+            "kind": {
+              "const": "point"
+            },
+            "x": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "radians"
+          ],
+          "properties": {
+            "kind": {
+              "const": "direction"
+            },
+            "radians": {
+              "type": "number",
+              "minimum": -6.284,
+              "maximum": 6.284
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "lane"
+          ],
+          "properties": {
+            "kind": {
+              "const": "lane"
+            },
+            "lane": {
+              "enum": [
+                "top",
+                "mid",
+                "bot",
+                "jungle",
+                "river"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "always",
+            "target_visible",
+            "target_in_range",
+            "skill_ready",
+            "ally_hp_below",
+            "enemy_enters_zone",
+            "after_step_success"
+          ]
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    }
+  }
+}

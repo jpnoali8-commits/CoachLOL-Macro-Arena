@@ -1,0 +1,52 @@
+{
+  "schema": "coachlol.items.v453.dev29",
+  "patch": "26.21",
+  "dataDragon": "16.21.1",
+  "catalogPrevious": 41,
+  "catalogAdded": 8,
+  "catalogTotal": 49,
+  "newIds": [
+    "dagger",
+    "sheen",
+    "phage",
+    "hearthbound_axe",
+    "rectrix",
+    "trinity_force",
+    "black_cleaver",
+    "youmuus_ghostblade"
+  ],
+  "contracts": 9,
+  "npmTest": "PASS",
+  "chromium": {
+    "status": "PASS",
+    "scope": "controlled real UI Chromium item purchase and click; not 5v5 long match",
+    "results": {
+      "buy": true,
+      "visible": true,
+      "buttonTitle": "➤ Youmuu",
+      "before": 363.2,
+      "after": 426.36,
+      "journalCount": 1,
+      "cooldown": 45,
+      "activeUntil": 6,
+      "mapLoaded": true,
+      "spriteCount": 15
+    },
+    "javascriptErrors": []
+  },
+  "pacing": {
+    "sampleSize": 10,
+    "nexusCompleted": 10,
+    "meanSeconds": 1641.6,
+    "identicalDev28Hashes": 4,
+    "identicalDev28Winners": 10
+  },
+  "parity": "partial_effects_NOT_full_official",
+  "knownLimits": [
+    "game attack speed interval proxy",
+    "approximate base AD for Spellblade",
+    "Youmuu ghosting not simulated",
+    "partial catalog",
+    "global frame effects not simulated"
+  ]
+}

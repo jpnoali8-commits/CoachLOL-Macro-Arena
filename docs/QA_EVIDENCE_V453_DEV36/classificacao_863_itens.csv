@@ -1,0 +1,864 @@
+﻿riot_id,nome_pt,nome_en,categoria,mapa11,compravel_dd,inStore_client,campeao_obrigatorio,custo_oficial,id_local,custo_local,receita_oficial,receita_local,efeito_local,mecanica_certificada
+1001,Botas,Boots,shop_reference,True,True,True,,300,boots,300,,,,False
+1004,Amuleto da Fada,Faerie Charm,shop_reference,True,True,True,,200,,,,,,False
+1006,Pérola do Rejuvenescimento,Rejuvenation Bead,shop_reference,True,True,True,,300,,,,,,False
+1011,Cinto do Gigante,Giant's Belt,shop_reference,True,True,True,,900,giants_belt,900,1028,,,False
+1018,Capa da Agilidade,Cloak of Agility,shop_reference,True,True,True,,600,agility_cloak,600,,,,False
+1026,Varinha Explosiva,Blasting Wand,shop_reference,True,True,True,,850,blasting_wand,850,,,,False
+1027,Cristal de Safira,Sapphire Crystal,shop_reference,True,True,True,,300,sapphire_crystal,300,,,,False
+1028,Cristal de Rubi,Ruby Crystal,shop_reference,True,True,True,,400,ruby_crystal,400,,,,False
+1029,Couraça de Pano,Cloth Armor,shop_reference,True,True,True,,300,cloth_armor,300,,,,False
+1031,Cota de Malha,Chain Vest,shop_reference,True,True,True,,800,chain_vest,800,1029,1029,,False
+1033,Manto Anula-Magia,Null-Magic Mantle,shop_reference,True,True,True,,400,null_magic_mantle,400,,,,False
+1035,Lâmina Cálida,Emberknife,non_summoners_rift,False,False,False,,350,,,,,,False
+1036,Espada Longa,Long Sword,shop_reference,True,True,True,,350,long_sword,350,,,,False
+1037,Picareta,Pickaxe,shop_reference,True,True,True,,875,pickaxe,875,,,,False
+1038,Espada G. p. C.,B. F. Sword,shop_reference,True,True,True,,1300,bf_sword,1300,,,,False
+1039,Lâmina Álgida,Hailblade,non_summoners_rift,False,False,False,,350,,,,,,False
+1040,Lâmina de Obsidiana,Obsidian Edge,non_summoners_rift,False,True,True,,350,,,,,,False
+1042,Adaga,Dagger,shop_reference,True,True,True,,250,dagger,250,,,,False
+1043,Arco Recurvo,Recurve Bow,shop_reference,True,True,True,,700,recurve_bow,700,1042,1042,on_hit_physical,False
+1052,Tomo Amplificador,Amplifying Tome,shop_reference,True,True,True,,400,amp_tome,400,,,,False
+1053,Cetro Vampírico,Vampiric Scepter,shop_reference,True,True,True,,900,vampiric_scepter,900,1036,1036,,False
+1054,Escudo de Doran,Doran's Shield,shop_reference,True,True,True,,450,dorans_shield,450,,,,False
+1055,Lâmina de Doran,Doran's Blade,shop_reference,True,True,True,,450,dorans_blade,450,,,,False
+1056,Anel de Doran,Doran's Ring,shop_reference,True,True,True,,400,dorans_ring,450,,,,False
+1057,Capa Negatron,Negatron Cloak,shop_reference,True,True,True,,850,negatron_cloak,850,1033,1033,,False
+1058,Bastão Desnecessariamente Grande,Needlessly Large Rod,shop_reference,True,True,True,,1200,needless_rod,1200,,,,False
+1082,Lacre Sombrio,Dark Seal,shop_reference,True,True,True,,350,,,,,,False
+1083,Abatedora,Cull,shop_reference,True,True,True,,450,,,,,,False
+1086,Arco de Doran,Doran's Bow,shop_reference,True,True,True,,400,,,,,,False
+1090,Missão: rota superior,Quest: Top,non_summoners_rift,False,True,True,,0,,,,,,False
+1091,Missão: rota do meio,Quest: Mid,non_summoners_rift,False,True,True,,0,,,,,,False
+1092,Missão: rota inferior,Quest: Bot,non_summoners_rift,False,True,True,,0,,,,,,False
+1093,Missão: suporte,Quest: Support,non_summoners_rift,False,True,True,,0,,,,,,False
+1094,Missão: selva,Quest: Jungle,non_summoners_rift,False,True,True,,0,,,,,,False
+1101,Filhote de Garrabrasa,Scorchclaw Pup,shop_reference,True,True,True,,450,jungle_scorchclaw,450,,,,False
+1102,Cria de Andabrisas,Gustwalker Hatchling,shop_reference,True,True,True,,450,jungle_gustwalker,450,,,,False
+1103,Broto de Esmagamusgo,Mosstomper Seedling,shop_reference,True,True,True,,450,jungle_mosstomper,450,,,,False
+1104,Olho do Arauto,Eye of the Herald,non_summoners_rift,False,False,False,,0,,,,,,False
+1105,Broto de Esmagamusgo,Mosstomper Seedling,shop_reference,True,True,True,,450,,,,,,False
+1106,Cria de Andabrisas,Gustwalker Hatchling,shop_reference,True,True,True,,450,,,,,,False
+1107,Filhote de Garrabrasa,Scorchclaw Pup,shop_reference,True,True,True,,450,,,,,,False
+1111,Jarvan I,Jarvan I's,non_summoners_rift,False,False,False,,300,,,,,,False
+1120,Elmo de Doran,Doran's Helm,shop_reference,True,True,True,,450,,,,,,False
+1200,Missão da rota superior,Top Lane Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1201,Missão da rota do meio,Mid Lane Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1202,Missão da rota inferior,Bot Lane Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1203,Missão de suporte,Support Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1204,Missão da selva,Jungle Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1205,Recompensa da missão da selva,Jungle Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1206,Recompensa da missão da rota do meio,Mid Lane Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1207,Recompensa da missão da rota inferior,Bot Lane Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1208,Recompensa da missão de suporte,Support Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1209,Recompensa da missão da selva,Jungle Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1210,Recompensa da missão da selva,Jungle Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1211,Recompensa da missão da selva,Jungle Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1220,Teleporte Irrestrito (Recompensa da missão da rota superior),Unleashed Teleport (Top Lane Quest Reward),non_summoners_rift,False,False,False,,0,,,,,,False
+1221,Recompensa da missão da rota superior,Top Lane Quest Reward,non_summoners_rift,False,False,False,,0,,,,,,False
+1222,Missão da rota superior,Top Lane Quest,non_summoners_rift,False,False,False,,0,,,,,,False
+1500,Projétil Perfurante,Penetrating Bullets,non_summoners_rift,False,False,False,,0,,,,,,False
+1501,Fortificação,Fortification,non_purchasable,True,False,False,,0,,,,,,False
+1502,Armadura Reforçada,Reinforced Armor,non_purchasable,True,False,False,,0,,,,,,False
+1503,Olho do Vigia,Warden's Eye,non_purchasable,True,False,False,,0,,,,,,False
+1504,Vanguarda,Vanguard,non_summoners_rift,False,False,False,,0,,,,,,False
+1505,Armadura Reforçada,Reinforced Armor,non_purchasable,True,False,False,,0,,,,,,False
+1506,Armadura Reforçada,Reinforced Armor,non_purchasable,True,False,False,,0,,,,,,False
+1507,Sobrecarga,Overcharged,non_purchasable,True,False,False,,0,,,,,,False
+1508,Meias Antitorre,Anti-tower Socks,non_purchasable,True,False,False,,0,,,,,,False
+1509,Entusiasmo,Gusto,non_purchasable,True,False,False,,0,,,,,,False
+1510,Entusiasmo Sem Noção,Phreakish Gusto,non_purchasable,True,False,False,,0,,,,,,False
+1511,Armadura Super Mech,Super Mech Armor,non_purchasable,True,False,False,,0,,,,,,False
+1512,Campo de Força Super Mech,Super Mech Power Field,non_purchasable,True,False,False,,0,,,,,,False
+1515,Barricada da Torre,Turret Plating,minion_turret_internal,True,False,False,,0,,,,,,False
+1516,Recompensa de estrutura,Structure Bounty,non_purchasable,True,False,False,,0,,,,,,False
+1517,Recompensa de estrutura,Structure Bounty,non_purchasable,True,False,False,,0,,,,,,False
+1518,Recompensa de estrutura,Structure Bounty,non_purchasable,True,False,False,,0,,,,,,False
+1519,Recompensa de estrutura,Structure Bounty,non_purchasable,True,False,False,,0,,,,,,False
+1520,SobrecarregadoHA,OvererchargedHA,non_purchasable,True,False,False,,0,,,,,,False
+1521,Fortificação,Fortification,non_purchasable,True,False,False,,0,,,,,,False
+1522,Fortalecimento de Torre,Tower Power-Up,non_purchasable,True,False,False,,0,,,,,,False
+1523,Sobrecarga,Overcharged,non_purchasable,True,False,False,,0,,,,,,False
+1524,Crescimento,Overgrowth,non_purchasable,True,False,False,,0,,,,,,False
+2001,Retorno,Recall,non_purchasable,True,False,False,,60,,,,,,False
+2002,Retorno aprimorado,Enhanced Recall,non_summoners_rift,False,False,False,,60,,,,,,False
+2003,Poção de Vida,Health Potion,shop_reference,True,True,True,,50,health_potion,50,,,potion_heal,False
+2007,Retorno Desabilitado,Disabled Recall,non_purchasable,True,False,False,,60,,,,,,False
+2008,,,non_summoners_rift,False,False,False,,60,,,,,,False
+2010,Biscoito Total da Determinação Eterna,Total Biscuit of Everlasting Will,non_purchasable,True,False,False,,50,,,,,,False
+2015,Estilhaço de Kircheis,Kircheis Shard,non_summoners_rift,False,False,False,,700,,,1036,,,False
+2019,Sigilo de Aço,Steel Sigil,shop_reference,True,True,True,,1100,,,1029+1036+1029,,,False
+2020,Brutalizador,The Brutalizer,shop_reference,True,True,True,,1337,,,2022+1037,,,False
+2021,Tunelizador,Tunneler,shop_reference,True,True,True,,1150,,,1036+1028,,,False
+2022,Partícula Brilhante,Glowing Mote,shop_reference,True,True,True,,250,glowing_mote,250,,,,False
+2031,Poção com Refil,Refillable Potion,shop_reference,True,True,True,,150,refillable_potion,150,,,potion_heal,False
+2033,Poção Corrupta,Corrupting Potion,non_purchasable,True,False,False,,500,,,2031,,,False
+2049,Amuleto do Guardião,Guardian's Amulet,non_summoners_rift,False,True,True,,500,,,,,,False
+2050,Proteção do Guardião,Guardian's Shroud,non_summoners_rift,False,True,True,,500,,,,,,False
+2051,Berrante do Guardião,Guardian's Horn,shop_reference,True,True,True,,950,,,,,,False
+2052,Poritos,Poro-Snax,non_purchasable,True,False,False,,0,,,,,,False
+2055,Sentinela de Controle,Control Ward,shop_reference,True,True,True,,75,ward,75,,,,False
+2056,Sentinela Invisível,Stealth Ward,non_summoners_rift,False,False,False,,40,,,,,,False
+2065,Hino Bélico de Shurelya,Shurelya's Battlesong,shop_reference,True,True,True,,2200,,,3113+4642,,,False
+2138,Elixir de Ferro,Elixir of Iron,shop_reference,True,True,True,,500,,,,,,False
+2139,Elixir da Feitiçaria,Elixir of Sorcery,shop_reference,True,True,True,,500,,,,,,False
+2140,Elixir da Ira,Elixir of Wrath,shop_reference,True,True,True,,500,,,,,,False
+2141,Suco de Chapéu,Cappa Juice,shop_reference,True,True,True,,300,,,,,,False
+2142,Suco de Poder,Juice of Power,non_summoners_rift,False,True,True,,500,,,,,,False
+2143,Suco de Vigor,Juice of Vitality,non_summoners_rift,False,True,True,,500,,,,,,False
+2144,Suco de Aceleração,Juice of Haste,non_summoners_rift,False,True,True,,500,,,,,,False
+2145,Dado da Sorte,Lucky Dice,non_summoners_rift,False,False,False,,0,,,,,,False
+2146,Dado da Sorte Aprimorado,Enhanced Lucky Dice,non_summoners_rift,False,False,False,,0,,,,,,False
+2147,Nível de Aprimoramento,Augment Level,non_summoners_rift,False,True,True,,1250,,,,,,False
+2150,Elixir da Habilidade,Elixir of Skill,non_purchasable,True,False,False,,0,,,,,,False
+2151,Elixir da Avareza,Elixir of Avarice,non_purchasable,True,False,False,,50,,,,,,False
+2152,Elixir da Força,Elixir of Force,non_purchasable,True,False,False,,50,,,,,,False
+2161,Suco de Poder de Bandópolis,Bandle Juice of Power,non_summoners_rift,False,True,True,,1000,,,,,,False
+2162,Suco de Vigor de Bandópolis,Bandle Juice of Vitality,non_summoners_rift,False,True,True,,1000,,,,,,False
+2163,Suco de Aceleração de Bandópolis,Bandle Juice of Haste,non_summoners_rift,False,True,True,,1000,,,,,,False
+2403,Pulverizador de Tropas,Minion Dematerializer,non_purchasable,True,False,False,,0,,,,,,False
+2420,Armaguarda da Caçadora,Seeker's Armguard,shop_reference,True,True,True,,1600,,,1052+1029+1052,,,False
+2421,Armaguarda Despedaçada,Shattered Armguard,shop_reference,True,True,True,,1600,,,1052+1029+1052,,,False
+2422,Botas Levemente Mágicas,Slightly Magical Footwear,non_purchasable,True,False,False,,300,,,,,,False
+2501,Armadura Sangrenta do Suserano,Overlord's Bloodmail,shop_reference,True,True,True,,3300,,,2021+2021,,,False
+2502,Desespero Eterno,Unending Despair,shop_reference,True,True,True,,2800,,,1031+3067+1028,,,False
+2503,Tocha de Chamas Negras,Blackfire Torch,shop_reference,True,True,True,,2800,,,3802+2508,,,False
+2504,Rookern Lamúrico,Kaenic Rookern,shop_reference,True,True,True,,2900,,,3211+1057,,,False
+2508,Cinzas do Destino,Fated Ashes,shop_reference,True,True,True,,900,,,1052,,,False
+2510,Aurora e Crepúsculo,Dusk and Dawn,shop_reference,True,True,True,,3100,,,3057+1026+3067+1042,,,False
+2512,Dardos de Caça-Demônios,Fiendhunter Bolts,shop_reference,True,True,True,,2650,,,3086+3144,,,False
+2517,Fome Eterna,Endless Hunger,shop_reference,True,True,True,,3100,,,3133+1037+1036,,,False
+2520,Quebra-Bastião,Bastionbreaker,shop_reference,True,True,True,,3000,,,2020+3134,,,False
+2522,Concretizador,Actualizer,shop_reference,True,True,True,,2800,,,3802+1026,,,False
+2523,Hexótica C44,Hexoptics C44,shop_reference,True,True,True,,2800,,,1037+6670+1036,,,False
+2524,Bandocanos,Bandlepipes,shop_reference,True,True,True,,2300,,,3067+1029+1033,,,False
+2525,Couraça Protoplasmática,Protoplasm Harness,shop_reference,True,True,True,,2600,,,3067+1011,,,False
+2526,Tiara Sussurrante,Whispering Circlet,shop_reference,True,True,True,,2250,,,3114+1028+3070,,,False
+2530,Diadema de Canções,Diadem of Songs,non_purchasable,True,False,False,,2250,,,,,,False
+3001,Proteção Imutável,Evenshroud,non_summoners_rift,False,False,False,,2300,,,3023+1033,,,False
+3002,Desbravador,Trailblazer,non_purchasable,True,False,False,,2400,,,3066+1031,,,False
+3003,Cajado do Arcanjo,Archangel's Staff,shop_reference,True,True,True,,2900,,,3070+3802+3108,,,False
+3004,Manamune,Manamune,shop_reference,True,True,True,,2900,,,3070+3133+1036,,,False
+3005,Ghostcrawlers,Ghostcrawlers,non_summoners_rift,False,True,True,,1000,,,1001,,,False
+3006,Grevas do Berserker,Berserker's Greaves,shop_reference,True,True,True,,1100,berserkers_greaves,1100,1001+1042+1042,1001+1042+1042,,False
+3008,Grevas Vorazes,Gluttonous Greaves,shop_reference,True,True,True,,1100,,,1001,,,False
+3009,Botas da Rapidez,Boots of Swiftness,shop_reference,True,True,True,,1000,,,1001,,,False
+3010,Solas Simbióticas,Symbiotic Soles,non_purchasable,True,False,False,,900,,,1001,,,False
+3011,Putrificador Quimtec,Chemtech Putrifier,non_purchasable,True,False,False,,1900,,,3916+3114,,,False
+3012,Cálice da Bênção,Chalice of Blessing,non_summoners_rift,False,False,False,,900,,,1028+1004,,,False
+3013,Almas Sincronizadas,Synchronized Souls,non_purchasable,True,False,False,,900,,,3010,,,False
+3020,Sapatos do Feiticeiro,Sorcerer's Shoes,shop_reference,True,True,True,,1100,sorcerers_shoes,1100,1001,1001,,False
+3023,Pingente da Vida Abundante,Lifewell Pendant,non_summoners_rift,False,False,False,,1050,,,1028+1029,,,False
+3024,Broquel Glacial,Glacial Buckler,shop_reference,True,True,True,,900,,,1029+1027+2022,,,False
+3026,Anjo Guardião,Guardian Angel,shop_reference,True,True,True,,3200,,,2019+1038,,,False
+3031,Gume do Infinito,Infinity Edge,shop_reference,True,True,True,,3500,infinity_edge,3500,1038+1037+1018,1038+1037+1018,,False
+3032,Flechatroz de Yun Tal,Yun Tal Wildarrows,shop_reference,True,True,True,,3000,,,1038+3144+1036,,,False
+3033,Lembrete Mortal,Mortal Reminder,shop_reference,True,True,True,,3000,mortal_reminder,3000,3123+3035+1018,3123+3035+1018,grievous_physical,False
+3035,Último Sussurro,Last Whisper,shop_reference,True,True,True,,1450,last_whisper,1450,1036+1036,1036+1036,,False
+3036,Lembranças do Lorde Dominik,Lord Dominik's Regards,shop_reference,True,True,True,,3300,,,3035+6670,,,False
+3039,Acerto de Contas de Atma,Atma's Reckoning,non_summoners_rift,False,True,True,,2900,,,1011+1018+1011,,,False
+3040,Abraço de Seraph,Seraph's Embrace,non_purchasable,True,False,False,,2900,,,,,,False
+3041,Ladrão de Almas de Mejai,Mejai's Soulstealer,shop_reference,True,True,True,,1500,,,1082,,,False
+3042,Muramana,Muramana,non_purchasable,True,False,False,,2900,,,,,,False
+3044,Fago,Phage,shop_reference,True,True,True,,1100,phage,1100,1028+1036,1028+1036,on_hit_speed,False
+3046,Dançarina Fantasma,Phantom Dancer,shop_reference,True,True,True,,2650,,,1042+3086+1042,,,False
+3047,Botas Galvanizadas de Aço,Plated Steelcaps,shop_reference,True,True,True,,1200,,,1001+1029,,,False
+3050,Convergência de Zeke,Zeke's Convergence,shop_reference,True,True,True,,2200,,,3067+1029+1033,,,False
+3051,Machado Termestre,Hearthbound Axe,shop_reference,True,True,True,,1200,hearthbound_axe,1200,1036+1042+1036,1036+1042+1036,,False
+3053,Sinal de Sterak,Sterak's Gage,shop_reference,True,True,True,,3200,,,1037+2021+1028,,,False
+3057,Fulgor,Sheen,shop_reference,True,True,True,,900,sheen,900,2022,2022,spellblade,False
+3065,Semblante Espiritual,Spirit Visage,shop_reference,True,True,True,,2700,,,3211+3067,,,False
+3066,Couraça Lunar Alada,Winged Moonplate,shop_reference,True,True,True,,800,,,1028,,,False
+3067,Gema Ardente,Kindlegem,shop_reference,True,True,True,,800,kindlegem,800,1028+2022,1028+2022,,False
+3068,Égide de Fogo Solar,Sunfire Aegis,shop_reference,True,True,True,,2800,,,6660+1031+1028,,,False
+3070,Lágrima da Deusa,Tear of the Goddess,shop_reference,True,True,True,,400,,,,,,False
+3071,Cutelo Negro,Black Cleaver,shop_reference,True,True,True,,3000,black_cleaver,3000,3044+3067+1037,3044+3067+1037,armor_shred,False
+3072,Sedenta por Sangue,Bloodthirster,shop_reference,True,True,True,,3400,,,1038+1037+1053,,,False
+3073,Hexoplaca Experimental,Experimental Hexplate,shop_reference,True,True,True,,3000,,,2021+1042+3044,,,False
+3074,Hidra Raivosa,Ravenous Hydra,shop_reference,True,True,True,,3300,,,3077+1053+3133,,,False
+3075,Armadura de Espinhos,Thornmail,shop_reference,True,True,True,,2450,thornmail,2450,3076+1031+1028,3076+1031+1028,thorns,False
+3076,Colete Espinhoso,Bramble Vest,shop_reference,True,True,True,,800,bramble_vest,800,1029+1029,1029+1029,thorns,False
+3077,Tiamat,Tiamat,shop_reference,True,True,True,,1200,,,1036+1036,,,False
+3078,Força da Trindade,Trinity Force,shop_reference,True,True,True,,3333,trinity_force,3333,3057+3044+3051,3057+3044+3051,spellblade_quicken,False
+3082,Carapaça do Vigia,Warden's Mail,shop_reference,True,True,True,,1000,wardens_mail,1000,1029+1029,1029+1029,rock_solid,False
+3083,Armadura de Warmog,Warmog's Armor,shop_reference,True,True,True,,3100,,,1011+1011+3801,,,False
+3084,Coração de Aço,Heartsteel,shop_reference,True,True,True,,3000,,,1011+3801+1011,,,False
+3085,Furacão de Runaan,Runaan's Hurricane,shop_reference,True,True,True,,2650,,,3086+3144,,,False
+3086,Zelo,Zeal,shop_reference,True,True,True,,1200,zeal,1200,1018+1042,1018+1042,,False
+3087,Faca de Statikk,Statikk Shiv,shop_reference,True,True,True,,3000,,,3144+3113+1037,,,False
+3089,Capuz da Morte de Rabadon,Rabadon's Deathcap,shop_reference,True,True,True,,3500,rabadon,3500,1058+1058,1058+1058,ap_multiplier,False
+3091,Limite da Razão,Wit's End,shop_reference,True,True,True,,2800,,,1043+1057+1043,,,False
+3094,Canhão Fumegante,Rapid Firecannon,shop_reference,True,True,True,,2650,rapid_firecannon,2650,3086+3144,3086+1018,energized_attack,False
+3095,Chuva de Canivete,Stormrazor,shop_reference,True,True,True,,3200,,,1038+1018+3144,,,False
+3100,Perdição de Lich,Lich Bane,shop_reference,True,True,True,,2900,,,3057+3113+1026,,,False
+3102,Véu da Banshee,Banshee's Veil,shop_reference,True,True,True,,3000,,,1058+4632,,,False
+3105,Égide da Legião,Aegis of the Legion,non_summoners_rift,False,True,True,,1100,,,1033+1029,,,False
+3107,Redenção,Redemption,shop_reference,True,True,True,,2300,,,3108+3114,,,False
+3108,Códex Demoníaco,Fiendish Codex,shop_reference,True,True,True,,850,fiendish_codex,850,1052+2022,1052+2022,,False
+3109,Juramento do Cavaleiro,Knight's Vow,shop_reference,True,True,True,,2300,,,3067+1031+1006,,,False
+3110,Coração Congelado,Frozen Heart,shop_reference,True,True,True,,2500,,,3082+3024,,,False
+3111,Passos de Mercúrio,Mercury's Treads,shop_reference,True,True,True,,1250,mercurys_treads,1250,1001+1033,1001+1033,,False
+3112,Orbe do Guardião,Guardian's Orb,shop_reference,True,True,True,,950,,,,,,False
+3113,Cintilação Etérea,Aether Wisp,shop_reference,True,True,True,,900,,,1052,,,False
+3114,Ídolo Proibido,Forbidden Idol,shop_reference,True,True,True,,600,,,1004,,,False
+3115,Dente de Na'Shor,Nashor's Tooth,shop_reference,True,True,True,,2900,nashors_tooth,2900,1043+1026+3108,1043+1026+3108,on_hit_magic,False
+3116,Cetro de Cristal de Rylai,Rylai's Crystal Scepter,shop_reference,True,True,True,,2600,rylais_crystal_scepter,2600,1026+1011+1052,1026+1011+1052,ability_slow,False
+3117,Botas da Mobilidade,Mobility Boots,non_purchasable,True,False,False,,1000,,,1001,,,False
+3118,Malevolência,Malignance,shop_reference,True,True,True,,2700,,,3802+1026,,,False
+3119,Aproximação Invernal,Winter's Approach,shop_reference,True,True,True,,2400,,,3070+1011+3067,,,False
+3121,Fimbulwinter,Fimbulwinter,non_purchasable,True,False,False,,2400,,,,,,False
+3123,Chamado do Carrasco,Executioner's Calling,shop_reference,True,True,True,,800,executioners_calling,800,1036,1036,grievous_physical,False
+3124,Lâmina da Fúria de Guinsoo,Guinsoo's Rageblade,shop_reference,True,True,True,,3000,,,1052+1043+1037,,,False
+3128,Sufocamento Ígneo,Deathfire Grasp,non_summoners_rift,False,True,True,,2900,,,1058+3108,,,False
+3131,Espada do Divino,Sword of the Divine,non_summoners_rift,False,True,True,,2300,,,3134+1042+1042,,,False
+3133,Martelo de Guerra de Caulfield,Caulfield's Warhammer,shop_reference,True,True,True,,1050,caulfields_warhammer,1050,1036+2022+1036,1036+2022+1036,,False
+3134,Punhal Serrilhado,Serrated Dirk,shop_reference,True,True,True,,1000,serrated_dirk,1000,1036+1036,,,False
+3135,Cajado do Vazio,Void Staff,shop_reference,True,True,True,,3000,void_staff,3000,4630+1026,1026+1052,,False
+3137,Criptoflora,Cryptbloom,shop_reference,True,True,True,,3000,,,4630+3108+3108,,,False
+3139,Cimitarra Mercurial,Mercurial Scimitar,shop_reference,True,True,True,,3200,,,3140+1037+1053,,,False
+3140,Bandana de Mercúrio,Quicksilver Sash,shop_reference,True,True,True,,1300,,,1033,,,False
+3142,Lâmina Fantasma de Youmuu,Youmuu's Ghostblade,shop_reference,True,True,True,,2800,youmuus_ghostblade,2800,3134+6690+1036,3134+6690+1036,sprint_active,False
+3143,Presságio de Randuin,Randuin's Omen,shop_reference,True,True,True,,2700,randuins_omen,2700,3082+1011,3082+1011,humility_active,False
+3144,Estilingue do Patrulheiro,Scout's Slingshot,shop_reference,True,True,True,,600,,,1042+1042,,,False
+3145,Alternador Hextec,Hextech Alternator,shop_reference,True,True,True,,1100,,,1052+1052,,,False
+3146,Pistola Laminar Hextec,Hextech Gunblade,shop_reference,True,True,True,,3000,,,1053+3145+1052,,,False
+3147,Máscara Assustadora,Haunting Guise,shop_reference,True,True,True,,1300,,,1052+1028,,,False
+3152,Explocinturão Hextec,Hextech Rocketbelt,shop_reference,True,True,True,,2650,,,3145+3067+1028,,,False
+3153,Espada do Rei Destruído,Blade of The Ruined King,shop_reference,True,True,True,,3200,,,1053+1043+1037,,,False
+3155,Hexdrinker,Hexdrinker,shop_reference,True,True,True,,1300,,,1036+1033+1036,,,False
+3156,Mandíbula de Malmortius,Maw of Malmortius,shop_reference,True,True,True,,3100,,,3155+3133,,,False
+3157,Ampulheta de Zhonya,Zhonya's Hourglass,shop_reference,True,True,True,,3250,zhonyas_hourglass,3250,1058+2420,,,False
+3158,Botas Ionianas da Lucidez,Ionian Boots of Lucidity,shop_reference,True,True,True,,900,ionian_boots,900,1001+2022,1001+2022,,False
+3161,Lança de Shojin,Spear of Shojin,shop_reference,True,True,True,,3100,,,1037+2021+1028,,,False
+3165,Morellonomicon,Morellonomicon,shop_reference,True,True,True,,2850,morellonomicon,2850,3916+1026+3067,3916+1026+3067,grievous_magic,False
+3168,Caminho Imortal,Immortal Path,shop_reference,True,True,True,,1100,,,3008,,,False
+3170,Marcha Célere,Swiftmarch,shop_reference,True,True,True,,1000,,,3009,,,False
+3171,Lucidez Escarlate,Crimson Lucidity,shop_reference,True,True,True,,900,,,3158,,,False
+3172,Grevas Bélicas,Gunmetal Greaves,shop_reference,True,True,True,,1100,,,3006,,,False
+3173,Esmagadores Acorrentados,Chainlaced Crushers,shop_reference,True,True,True,,1250,,,3111,,,False
+3174,Mobilização Blindada,Armored Advance,shop_reference,True,True,True,,1200,,,3047,,,False
+3175,Sapatos Enfeitiçados,Spellslinger's Shoes,shop_reference,True,True,True,,1100,,,3020,,,False
+3176,Sempre Avante,Forever Forward,non_purchasable,True,False,False,,900,,,3013,,,False
+3177,Lâmina do Guardião,Guardian's Blade,shop_reference,True,True,True,,950,,,,,,False
+3179,Glaive Sombria,Umbral Glaive,shop_reference,True,True,True,,2800,,,3134+3133,,,False
+3181,Quebracascos,Hullbreaker,shop_reference,True,True,True,,3000,,,2021+3066+1037,,,False
+3184,Martelo do Guardião,Guardian's Hammer,shop_reference,True,True,True,,950,,,,,,False
+3190,Medalhão dos Solari de Ferro,Locket of the Iron Solari,shop_reference,True,True,True,,2200,,,3067+1029+1033,,,False
+3193,Placa Gargolítica,Gargoyle Stoneplate,non_summoners_rift,False,False,False,,3150,,,1029+3105+1033,,,False
+3211,Capuz do Espectro,Spectre's Cowl,shop_reference,True,True,True,,1250,,,1028+1033+1006,,,False
+3222,Bênção de Mikael,Mikael's Blessing,shop_reference,True,True,True,,2300,,,3067+3114,,,False
+3302,Terminus,Terminus,shop_reference,True,True,True,,3000,,,3051+1043,,,False
+3330,Efígie do Espantalho,Scarecrow Effigy,champion_exclusive,True,True,True,FiddleSticks,0,,,,,,False
+3340,Sentinela Invisível,Stealth Ward,shop_reference,True,True,True,,0,trinket_stealth,0,,,,False
+3348,Analisador Arcano,Arcane Sweeper,non_summoners_rift,False,False,False,,0,,,,,,False
+3349,Singularidade Lucente,Lucent Singularity,non_summoners_rift,False,False,False,,0,,,,,,False
+3363,Alteração Vidente,Farsight Alteration,shop_reference,True,True,True,,0,,,,,,False
+3364,Lente do Oráculo,Oracle Lens,shop_reference,True,True,True,,0,trinket_oracle,0,,,,False
+3398,Lembrancinha Pequena,Small Party Favor,non_summoners_rift,False,False,False,,0,,,,,,False
+3399,Lembrancinha,Party Favor,non_summoners_rift,False,False,False,,0,,,,,,False
+3400,Sua Parte,Your Cut,non_purchasable,True,False,False,,0,,,,,,False
+3430,Ritual da Ruína,Rite Of Ruin,non_summoners_rift,False,True,True,,2500,,,,,,False
+3504,Turíbulo Ardente,Ardent Censer,shop_reference,True,True,True,,2200,,,3113+3114,,,False
+3508,Colhedor de Essência,Essence Reaver,shop_reference,True,True,True,,3050,,,3057+3133+1018,,,False
+3513,Olho do Arauto,Eye of the Herald,non_summoners_rift,False,False,False,,0,,,,,,False
+3599,Lança Negra da Kalista,Kalista's Black Spear,champion_exclusive,True,True,True,Kalista,0,,,,,,False
+3600,Lança Negra da Kalista,Kalista's Black Spear,champion_exclusive,True,True,True,Sylas,0,,,,,,False
+3742,Couraça do Defunto,Dead Man's Plate,shop_reference,True,True,True,,2900,,,3066+1028+1031,,,False
+3748,Hidra Titânica,Titanic Hydra,shop_reference,True,True,True,,3300,,,3077+2021+1011,,,False
+3801,Braçadeira Cristalina,Crystalline Bracer,shop_reference,True,True,True,,800,,,1028+1006,,,False
+3802,Capítulo Perdido,Lost Chapter,shop_reference,True,True,True,,1200,,,1052+1027+2022,,,False
+3803,Catalisador das Eras,Catalyst of Aeons,shop_reference,True,True,True,,1300,,,1028+1028+1027,,,False
+3814,Limiar da Noite,Edge of Night,shop_reference,True,True,True,,3000,,,3134+2021,,,False
+3850,Gume do Ladrão Arcano,Spellthief's Edge,non_summoners_rift,False,False,False,,400,,,,,,False
+3851,Presas Gélidas,Frostfang,non_summoners_rift,False,False,False,,400,,,,,,False
+3853,Estilhaço de Gelo Verdadeiro,Shard of True Ice,non_summoners_rift,False,False,False,,400,,,,,,False
+3854,Guarda-ombros de Aço,Steel Shoulderguards,non_summoners_rift,False,False,False,,400,,,,,,False
+3855,Espaldeiras de Aço Rúnico,Runesteel Spaulders,non_summoners_rift,False,False,False,,400,,,,,,False
+3857,Ombreiras de Pedralva,Pauldrons of Whiterock,non_summoners_rift,False,False,False,,400,,,,,,False
+3858,Escudo Relicário,Relic Shield,non_summoners_rift,False,False,False,,400,,,,,,False
+3859,Broquel de Targon,Targon's Buckler,non_summoners_rift,False,False,False,,400,,,,,,False
+3860,Bastião da Montanha,Bulwark of the Mountain,non_summoners_rift,False,False,False,,400,,,,,,False
+3862,Foice Espectral,Spectral Sickle,non_summoners_rift,False,False,False,,400,,,,,,False
+3863,Tormento Crescente,Harrowing Crescent,non_summoners_rift,False,False,False,,400,,,,,,False
+3864,Foice da Névoa Negra,Black Mist Scythe,non_summoners_rift,False,False,False,,400,,,,,,False
+3865,Atlas Mundial,World Atlas,shop_reference,True,True,True,,400,support_atlas,400,,,,False
+3866,Bússola Rúnica,Runic Compass,non_purchasable,True,False,False,,400,support_compass,0,,,,False
+3867,Dádiva dos Mundos,Bounty of Worlds,non_purchasable,True,False,False,,400,support_bounty,0,,,,False
+3869,Oposição Celestial,Celestial Opposition,conditional_evolution,True,True,True,,400,,,3867,,,False
+3870,Criassonhos,Dream Maker,conditional_evolution,True,True,True,,400,,,3867,,,False
+3871,Invadomínio de Zaz'Zak,Zaz'Zak's Realmspike,conditional_evolution,True,True,True,,400,,,3867,,,False
+3876,Trenó do Solstício,Solstice Sleigh,conditional_evolution,True,True,True,,400,,,3867,,,False
+3877,Canção de Sangue,Bloodsong,conditional_evolution,True,True,True,,400,,,3867,,,False
+3901,Disparar à Vontade 500 Serpentes de Prata,Fire at Will 500 Silver Serpents,champion_exclusive,True,False,False,Gangplank,0,,,,,,False
+3902,Filha da Morte 500 Serpentes de Prata,Death's Daughter 500 Silver Serpents,champion_exclusive,True,False,False,Gangplank,0,,,,,,False
+3903,Levantar o Moral 500 Serpentes de Prata,Raise Morale 500 Silver Serpents,champion_exclusive,True,False,False,Gangplank,0,,,,,,False
+3916,Orbe do Oblívio,Oblivion Orb,shop_reference,True,True,True,,800,oblivion_orb,800,1052,1052,grievous_magic,False
+4003,Salva-Vidas,Lifeline,non_summoners_rift,False,True,True,,1600,,,6690+1036,,,False
+4004,Alfanje Espectral,Spectral Cutlass,non_summoners_rift,False,True,True,,2800,,,4003+3134,,,False
+4005,Mandato Imperial,Imperial Mandate,shop_reference,True,True,True,,2400,,,1052+4642+1052,,,False
+4010,Maldição Sanguessuga,Bloodletter's Curse,non_summoners_rift,False,True,True,,2500,,,,,,False
+4011,Espada da Alvorada Florescente,Sword of Blossoming Dawn,non_summoners_rift,False,True,True,,2500,,,,,,False
+4012,Devorador de Pecados,Sin Eater,non_summoners_rift,False,True,True,,3000,,,,,,False
+4013,Corrente Eletrizante,Lightning Braid,non_summoners_rift,False,True,True,,3000,,,,,,False
+4014,Malho Congelado,Frozen Mallet,non_summoners_rift,False,False,False,,3000,,,,,,False
+4015,Perplexidade,Perplexity,non_summoners_rift,False,True,True,,2500,,,,,,False
+4016,Promessa Silenciosa,Wordless Promise,non_summoners_rift,False,True,True,,2500,,,,,,False
+4017,Machadinha Infernal,Hellfire Hatchet,non_summoners_rift,False,True,True,,2500,,,,,,False
+4401,Força da Natureza,Force of Nature,shop_reference,True,True,True,,2800,,,1057+1028+3066,,,False
+4402,Medalhão Enervante,Innervating Locket,non_summoners_rift,False,True,True,,2950,,,3803+3133,,,False
+4403,A Espátula Dourada,The Golden Spatula,non_summoners_rift,False,True,True,,7187,,,3086+1038+1053+3067+1058+3105,,,False
+4628,Foco do Horizonte,Horizon Focus,shop_reference,True,True,True,,2700,,,3108+3108+1052,,,False
+4629,Ímpeto Cósmico,Cosmic Drive,shop_reference,True,True,True,,3000,,,3067+3113+3108,,,False
+4630,Joia da Ruína,Blighting Jewel,shop_reference,True,True,True,,1100,,,1052,,,False
+4632,Barreira Verdejante,Verdant Barrier,shop_reference,True,True,True,,1600,,,1052+1033+1052,,,False
+4633,Criafendas,Riftmaker,shop_reference,True,True,True,,3100,,,3147+3108,,,False
+4635,Olhar Sanguessuga,Leeching Leer,non_purchasable,True,False,False,,1265,,,1028+1052,,,False
+4636,Colhedor Noturno,Night Harvester,non_purchasable,True,False,False,,2765,,,3145+3108,,,False
+4637,Abraço Demoníaco,Demonic Embrace,non_purchasable,True,False,False,,3000,,,1026+1011+1052,,,False
+4638,Pedra-vigia Observadora,Watchful Wardstone,non_summoners_rift,False,True,True,,1100,,,,,,False
+4641,Pedra-vigia Inspiradora,Stirring Wardstone,non_summoners_rift,False,False,False,,350,,,,,,False
+4642,Espelho de Bandópolis,Bandleglass Mirror,shop_reference,True,True,True,,900,,,1004+1052+2022,,,False
+4643,Pedra-vigia Vigilante,Vigilant Wardstone,non_summoners_rift,False,True,True,,2300,,,4638,,,False
+4644,Coroa da Rainha Despedaçada,Crown of the Shattered Queen,non_summoners_rift,False,False,False,,2865,,,3067+3802+1052,,,False
+4645,Chama Sombria,Shadowflame,shop_reference,True,True,True,,3200,,,3145+1058,,,False
+4646,Ápice da Tempestade,Stormsurge,shop_reference,True,True,True,,2800,,,3145+3113,,,False
+6029,Chicote Ferrifarpo,Ironspike Whip,non_summoners_rift,False,False,False,,1100,,,1037,,,False
+6032,Atributo adicional,Stat Bonus,non_summoners_rift,False,True,True,,750,,,,,,False
+6035,Alvorada de Pratânia,Silvermere Dawn,non_summoners_rift,False,False,False,,3000,,,3140+1037+1028,,,False
+6333,Dança da Morte,Death's Dance,shop_reference,True,True,True,,3300,,,2019+1037+3133,,,False
+6609,Serrespada Quimiopunk,Chempunk Chainsword,shop_reference,True,True,True,,3000,,,3123+1011+3133,,,False
+6610,Céu Dividido,Sundered Sky,shop_reference,True,True,True,,3100,,,2021+3133,,,False
+6616,Cajado Aquafluxo,Staff of Flowing Water,shop_reference,True,True,True,,2250,,,3108+3114,,,False
+6617,Regenerador de Pedra Lunar,Moonstone Renewer,shop_reference,True,True,True,,2200,,,3067+4642,,,False
+6620,Ecos de Helia,Echoes of Helia,shop_reference,True,True,True,,2200,,,3067+4642,,,False
+6621,Auronúcleo,Dawncore,shop_reference,True,True,True,,2500,,,1026+3114+3114,,,False
+6630,Hemodrenário,Goredrinker,non_summoners_rift,False,False,False,,3200,,,6029+3044+3067,,,False
+6631,Quebrapassos,Stridebreaker,shop_reference,True,True,True,,3300,,,3077+3044+1042,,,False
+6632,Ruptor Divino,Divine Sunderer,non_summoners_rift,False,False,False,,3450,,,3133+3057+3067,,,False
+6653,Tormento de Liandry,Liandry's Torment,shop_reference,True,True,True,,3000,,,3147+2508,,,False
+6655,Eco de Luden,Luden's Echo,shop_reference,True,True,True,,2750,,,3802+3145,,,False
+6656,Glacieterno,Everfrost,non_summoners_rift,False,False,False,,2865,,,3067+3802+1052,,,False
+6657,Bastão das Eras,Rod of Ages,shop_reference,True,True,True,,2600,,,1026+3803,,,False
+6660,Brasa de Bami,Bami's Cinder,shop_reference,True,True,True,,900,,,1028+2022,,,False
+6662,Manopla dos Glacinatas,Iceborn Gauntlet,shop_reference,True,True,True,,2900,,,3057+1028+1031,,,False
+6664,Resplendor Vazio,Hollow Radiance,shop_reference,True,True,True,,2800,,,6660+3211,,,False
+6665,"Jak'Sho, o Inconstante","Jak'Sho, The Protean",shop_reference,True,True,True,,3200,,,1011+1031+1057,,,False
+6667,Virtude Radiante,Radiant Virtue,non_summoners_rift,False,False,False,,2600,,,3105+1011,,,False
+6670,Aljava Vespertina,Noonquiver,shop_reference,True,True,True,,1300,,,1036+1018,,,False
+6671,Força do Vendaval,Galeforce,non_summoners_rift,False,False,False,,3500,,,1038+3086+1036,,,False
+6672,Mata-Cráquens,Kraken Slayer,shop_reference,True,True,True,,3000,kraken_slayer,3000,6690+3051+1043,6690+3051+1043,third_basic_hit,False
+6673,Arco-escudo Imortal,Immortal Shieldbow,shop_reference,True,True,True,,3000,,,1037+6670,,,False
+6675,Adaga Oscilante Navori,Navori Flickerblade,shop_reference,True,True,True,,2650,navori_flickerblade,2650,1042+3086+1042,3086+1042+1042,basic_cooldown_refund,False
+6676,A Coletora,The Collector,shop_reference,True,True,True,,3000,,,1037+3134+1018,,,False
+6677,Faca da Fúria,Rageknife,non_summoners_rift,False,False,False,,1100,,,1042+1042,,,False
+6690,Retriz,Rectrix,shop_reference,True,True,True,,775,rectrix,775,1036,1036,,False
+6691,Crepúsculo de Draktharr,Duskblade of Draktharr,non_summoners_rift,False,False,False,,2950,,,3134+3133,,,False
+6692,Eclipse,Eclipse,shop_reference,True,True,True,,2900,,,3133+1037+1036,,,False
+6693,Garra do Espreitador,Prowler's Claw,non_purchasable,True,False,False,,2850,,,3134+3133,,,False
+6694,Rancor de Serylda,Serylda's Grudge,shop_reference,True,True,True,,3000,,,3133+3035,,,False
+6695,Presa da Serpente,Serpent's Fang,shop_reference,True,True,True,,2500,,,3134+1037,,,False
+6696,Arco do Axioma,Axiom Arc,shop_reference,True,True,True,,2750,,,2020+3133,,,False
+6697,Húbris,Hubris,shop_reference,True,True,True,,2800,,,3134+3133,,,False
+6698,Hidra Profana,Profane Hydra,shop_reference,True,True,True,,2850,,,3077+2020,,,False
+6699,Cicloespada Voltaica,Voltaic Cyclosword,shop_reference,True,True,True,,3000,,,2020+1036+1036,,,False
+6700,Escudo dos Rakkor,Shield of the Rakkor,non_summoners_rift,False,False,False,,2675,,,6690+2019,,,False
+6701,Oportunidade,Opportunity,non_purchasable,True,False,False,,2700,,,1037+3134+1036,,,False
+6702,Abrindo Caminho,Scouting Ahead,non_summoners_rift,False,False,False,,0,,,,,,False
+7050,Gangplank Placeholder,Gangplank Placeholder,champion_exclusive,True,False,False,Gangplank,0,,,,,,False
+8001,Correntes de Anátema,Anathema's Chains,non_purchasable,True,False,False,,2500,,,3067+1011,,,False
+8010,Maldição Sanguinária,Bloodletter's Curse,shop_reference,True,True,True,,2900,,,3147+3108,,,False
+8020,Máscara Abissal,Abyssal Mask,shop_reference,True,True,True,,2650,,,3067+1057,,,False
+9168,Espaço de arma trancado,Locked Weapon Slot,non_summoners_rift,False,True,True,,0,,,,,,False
+9171,Retalhadores Ciclônicos,Cyclonic Slicers,non_summoners_rift,False,True,True,,0,,,,,,False
+9172,YuumiBot,YuumiBot,non_summoners_rift,False,True,True,,0,,,,,,False
+9173,Campo Radiante,Radiant Field,non_summoners_rift,False,True,True,,0,,,,,,False
+9174,Espada de Statikk,Statikk Sword,non_summoners_rift,False,True,True,,0,,,,,,False
+9175,Lamento da Leoa,Lioness's Lament,non_summoners_rift,False,True,True,,0,,,,,,False
+9176,Metralhadora Leporina,Gatling Bunny-Guns,non_summoners_rift,False,True,True,,0,,,,,,False
+9177,Arco Calcinante,Searing Shortbow,non_summoners_rift,False,True,True,,0,,,,,,False
+9178,A Aniquiladora,The Annihilator,non_summoners_rift,False,True,True,,0,,,,,,False
+9179,Besta da Coelha de Batalha,Battle Bunny Crossbow,non_summoners_rift,False,True,True,,0,,,,,,False
+9180,Lança-UwU,UwU Blaster,non_summoners_rift,False,True,True,,0,,,,,,False
+9181,Luva-vórtice,Vortex Glove,non_summoners_rift,False,True,True,,0,,,,,,False
+9183,Laminarangue,Blade-o-rang,non_summoners_rift,False,True,True,,0,,,,,,False
+9184,Megaexplosão Coelhal,Bunny Mega-Blast,non_summoners_rift,False,True,True,,0,,,,,,False
+9185,Mina Antitubarão,Anti-Shark Sea Mine,non_summoners_rift,False,True,True,,0,,,,,,False
+9187,T.I.B.B.E.R.S,T.I.B.B.E.R.S,non_summoners_rift,False,True,True,,0,,,,,,False
+9188,Animinas,Ani-Mines,non_summoners_rift,False,True,True,,0,,,,,,False
+9189,Trânsito da Cidade Final,Final City Transit,non_summoners_rift,False,True,True,,0,,,,,,False
+9190,Lâminas-morcego Ecoantes,Echoing Batblades,non_summoners_rift,False,True,True,,0,,,,,,False
+9192,Envenenador Patinha,Paw Print Poisoner,non_summoners_rift,False,True,True,,0,,,,,,False
+9193,Armadura Crioexplosiva,Iceblast Armor,non_summoners_rift,False,True,True,,0,,,,,,False
+9271,Ciclone Incessante,Unceasing Cyclone,non_summoners_rift,False,True,True,,0,,,,,,False
+9272,YuumiBot_Final_FINAL,YuumiBot_Final_FINAL,non_summoners_rift,False,True,True,,0,,,,,,False
+9273,Abraço Explosivo,Explosive Embrace,non_summoners_rift,False,True,True,,0,,,,,,False
+9274,Entalhador Elétrico de Prumbis,Prumbis's Electrocarver,non_summoners_rift,False,True,True,,0,,,,,,False
+9275,Luz Envolvente,Enveloping Light,non_summoners_rift,False,True,True,,0,,,,,,False
+9276,Artilharia Felpuda,Double Bun-Bun Barrage,non_summoners_rift,False,True,True,,0,,,,,,False
+9277,Incendisparo Evoluído,Evolved Embershot,non_summoners_rift,False,True,True,,0,,,,,,False
+9278,Animapocalipse,Animapocalypse,non_summoners_rift,False,True,True,,0,,,,,,False
+9279,Balista da Coelha Prime,Bunny Prime Ballista,non_summoners_rift,False,True,True,,0,,,,,,False
+9280,Lança-OwO,OwO Blaster,non_summoners_rift,False,True,True,,0,,,,,,False
+9281,Manopla da Tempestade,Tempest's Gauntlet,non_summoners_rift,False,True,True,,0,,,,,,False
+9283,Quadrarangue,Quad-o-rang,non_summoners_rift,False,True,True,,0,,,,,,False
+9284,Carga Célere Coelhal,Rapid Rabbit Raindown,non_summoners_rift,False,True,True,,0,,,,,,False
+9285,Esmagador Eterno,Neverending Mobstomper,non_summoners_rift,False,True,True,,0,,,,,,False
+9287,T.I.B.B.E.R.S (Edição G.R.A.N.D.Ã.O.),T.I.B.B.E.R.S (B.E.E.G Edition),non_summoners_rift,False,True,True,,0,,,,,,False
+9288,Trinamite da Jinx,Jinx's Tri-Namite,non_summoners_rift,False,True,True,,0,,,,,,False
+9289,Expresso Limitado da Cidade Final,FC Limited Express,non_summoners_rift,False,True,True,,0,,,,,,False
+9290,Lâminas Cromáticas da Vayne,Vayne's Chromablades,non_summoners_rift,False,True,True,,0,,,,,,False
+9292,Quimiodistribuidor Pata de Urso,Bearfoot Chem-Dispenser,non_summoners_rift,False,True,True,,0,,,,,,False
+9293,Congelamento Profundo,Deep Freeze,non_summoners_rift,False,True,True,,0,,,,,,False
+9300,Miau Miau,Meow Meow,non_summoners_rift,False,True,True,,0,,,,,,False
+9301,Escudada,Shield Slam,non_summoners_rift,False,True,True,,0,,,,,,False
+9302,Onda Sonora,Sound Wave,non_summoners_rift,False,True,True,,0,,,,,,False
+9303,Golpe de Berlinda,Pillory Swipe,non_summoners_rift,False,True,True,,0,,,,,,False
+9304,Tempestade de Aço,Steel Tempest,non_summoners_rift,False,True,True,,0,,,,,,False
+9305,Golpe de Tentáculo,Tentacle Slam,non_summoners_rift,False,True,True,,0,,,,,,False
+9306,Adaga Alada,Winged Dagger,non_summoners_rift,False,True,True,,0,,,,,,False
+9307,Feitiço-guia,Guiding Hex,non_summoners_rift,False,True,True,,0,,,,,,False
+9308,Pula-pula,Bunny Hop,non_summoners_rift,False,True,True,,0,,,,,,False
+9400,Barragem da Felina de Batalha,Battle Cat Barrage,non_summoners_rift,False,True,True,,0,,,,,,False
+9401,Luz do Leão,Light of the Lion,non_summoners_rift,False,True,True,,0,,,,,,False
+9402,Eco Anima,Anima Echo,non_summoners_rift,False,True,True,,0,,,,,,False
+9403,Corte Selvagem,Savage Slice,non_summoners_rift,False,True,True,,0,,,,,,False
+9404,Tempestades Errantes,Wandering Storms,non_summoners_rift,False,True,True,,0,,,,,,False
+9405,Esmagamento da Ursa,Grizzly Smash,non_summoners_rift,False,True,True,,0,,,,,,False
+9406,Ricochete dos Amantes,Lover's Ricochet,non_summoners_rift,False,True,True,,0,,,,,,False
+9407,Feitiço Pula-pula,Hopped-Up Hex,non_summoners_rift,False,True,True,,0,,,,,,False
+9408,Destruição Cenourística,Carrot Crash,non_summoners_rift,False,True,True,,0,,,,,,False
+123430,Ritual da Ruína,Rite of Ruin,non_summoners_rift,False,True,True,,3000,,,1018+3113+3108,,,False
+124011,Espada da Alvorada Florescente,Sword of Blossoming Dawn,non_summoners_rift,False,True,True,,2350,,,3114+1052+3067,,,False
+126697,Húbris,Hubris,non_summoners_rift,False,True,True,,2950,,,3134+3133,,,False
+220000,Atributo adicional,Stat Bonus,non_summoners_rift,False,True,True,,750,,,,,,False
+220001,Item Lendário de Lutador,Legendary Fighter Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220002,Item Lendário de Atirador,Legendary Marksman Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220003,Item Lendário de Assassino,Legendary Assassin Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220004,Item Lendário de Mago,Legendary Mage Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220005,Item Lendário de Tanque,Legendary Tank Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220006,Item Lendário de Suporte,Legendary Support Item,non_summoners_rift,False,True,True,,2250,,,,,,False
+220007,Item Prismático,Prismatic Item,non_summoners_rift,False,True,True,,4000,,,,,,False
+220008,Cupom de Bigorna,Anvil Voucher,non_summoners_rift,False,False,False,,750,,,,,,False
+220009,Cupom de Bigorna de Atributo Ouro,Gold Stat Anvil Voucher,non_summoners_rift,False,False,False,,750,,,,,,False
+220010,Cupom de Atributo Prismático,Prismatic Stat Voucher,non_summoners_rift,False,False,False,,750,,,,,,False
+220011,Cupom de Bravura,Bravery Voucher,non_summoners_rift,False,False,False,,750,,,,,,False
+220012,Lâmina de Fragmento,Shardblade,non_summoners_rift,False,False,False,,2500,,,,,,False
+220013,Poritos,Poro-Snax,non_summoners_rift,False,False,False,,0,,,,,,False
+221011,Cinto do Gigante,Giant's Belt,non_summoners_rift,False,False,False,,500,,,,,,False
+221026,Varinha Explosiva,Blasting Wand,non_summoners_rift,False,False,False,,500,,,,,,False
+221031,Cota de Malha,Chain Vest,non_summoners_rift,False,False,False,,500,,,,,,False
+221038,Espada G. p. C.,B. F. Sword,non_summoners_rift,False,True,True,,1300,,,,,,False
+221043,Arco Recurvo,Recurve Bow,non_summoners_rift,False,False,False,,500,,,,,,False
+221053,Cetro Vampírico,Vampiric Scepter,non_summoners_rift,False,False,False,,500,,,,,,False
+221057,Capa Negatron,Negatron Cloak,non_summoners_rift,False,False,False,,450,,,,,,False
+221058,Bastão Desnecessariamente Grande,Needlessly Large Rod,non_summoners_rift,False,False,False,,500,,,,,,False
+222022,Partícula Brilhante,Glowing Mote,non_summoners_rift,False,False,False,,250,,,,,,False
+222051,Berrante do Guardião,Guardian's Horn,non_summoners_rift,False,True,True,,500,,,,,,False
+222065,Hino Bélico de Shurelya,Shurelya's Battlesong,non_summoners_rift,False,True,True,,2500,,,,,,False
+222141,Suco de Chapéu,Cappa Juice,non_summoners_rift,False,True,True,,500,,,,,,False
+222502,Desespero Eterno,Unending Despair,non_summoners_rift,False,True,True,,2500,,,,,,False
+222503,Tocha de Chamas Negras,Blackfire Torch,non_summoners_rift,False,True,True,,2500,,,,,,False
+222504,Rookern Lamúrico,Kaenic Rookern,non_summoners_rift,False,True,True,,2500,,,,,,False
+222510,Aurora e Crepúsculo,Dusk and Dawn,non_summoners_rift,False,True,True,,2500,,,,,,False
+222512,Dardos de Caça-Demônios,Fiendhunter Bolts,non_summoners_rift,False,True,True,,2500,,,,,,False
+222517,Fome Eterna,Endless Hunger,non_summoners_rift,False,True,True,,2500,,,,,,False
+222522,Concretizador,Actualizer,non_summoners_rift,False,True,True,,2500,,,,,,False
+222523,Hexótica C44,Hexoptics C44,non_summoners_rift,False,True,True,,2500,,,,,,False
+222524,Bandocanos,Bandlepipes,non_summoners_rift,False,True,True,,2500,,,,,,False
+222525,Couraça Protoplasmática,Protoplasm Harness,non_summoners_rift,False,True,True,,2500,,,,,,False
+222526,Tiara Sussurrante,Whispering Circlet,non_summoners_rift,False,True,True,,2500,,,,,,False
+222530,Diadema de Canções,Diadem of Songs,non_summoners_rift,False,False,False,,2500,,,,,,False
+223001,Proteção Imutável,Evenshroud,non_summoners_rift,False,False,False,,2500,,,,,,False
+223002,Desbravador,Trailblazer,non_summoners_rift,False,True,True,,2500,,,,,,False
+223003,Cajado do Arcanjo,Archangel's Staff,non_summoners_rift,False,True,True,,2500,,,,,,False
+223004,Manamune,Manamune,non_summoners_rift,False,True,True,,2500,,,,,,False
+223005,Ghostcrawlers,Ghostcrawlers,non_summoners_rift,False,True,True,,500,,,,,,False
+223006,Grevas do Berserker,Berserker's Greaves,non_summoners_rift,False,True,True,,500,,,,,,False
+223008,Grevas Vorazes,Gluttonous Greaves,non_summoners_rift,False,True,True,,500,,,,,,False
+223009,Botas da Rapidez,Boots of Swiftness,non_summoners_rift,False,True,True,,500,,,,,,False
+223011,Putrificador Quimtec,Chemtech Putrifier,non_summoners_rift,False,False,False,,1900,,,3916+3114,,,False
+223020,Sapatos do Feiticeiro,Sorcerer's Shoes,non_summoners_rift,False,True,True,,500,,,,,,False
+223026,Anjo Guardião,Guardian Angel,non_summoners_rift,False,True,True,,2500,,,,,,False
+223031,Gume do Infinito,Infinity Edge,non_summoners_rift,False,True,True,,2500,,,,,,False
+223032,Flechatroz de Yun Tal,Yun Tal Wildarrows,non_summoners_rift,False,True,True,,2500,,,,,,False
+223033,Lembrete Mortal,Mortal Reminder,non_summoners_rift,False,True,True,,2500,,,,,,False
+223036,Lembranças do Lorde Dominik,Lord Dominik's Regards,non_summoners_rift,False,True,True,,2500,,,,,,False
+223039,Acerto de Contas de Atma,Atma's Reckoning,non_summoners_rift,False,True,True,,2500,,,,,,False
+223040,Abraço de Seraph,Seraph's Embrace,non_summoners_rift,False,False,False,,2500,,,,,,False
+223042,Muramana,Muramana,non_summoners_rift,False,False,False,,2500,,,,,,False
+223046,Dançarina Fantasma,Phantom Dancer,non_summoners_rift,False,True,True,,2500,,,,,,False
+223047,Botas Galvanizadas de Aço,Plated Steelcaps,non_summoners_rift,False,True,True,,500,,,,,,False
+223050,Convergência de Zeke,Zeke's Convergence,non_summoners_rift,False,True,True,,2500,,,,,,False
+223053,Sinal de Sterak,Sterak's Gage,non_summoners_rift,False,True,True,,2500,,,,,,False
+223057,Fulgor,Sheen,non_summoners_rift,False,False,False,,2500,,,,,,False
+223065,Semblante Espiritual,Spirit Visage,non_summoners_rift,False,True,True,,2500,,,,,,False
+223067,Gema Ardente,Kindlegem,non_summoners_rift,False,False,False,,500,,,,,,False
+223068,Égide de Fogo Solar,Sunfire Aegis,non_summoners_rift,False,True,True,,2500,,,,,,False
+223069,Imolação do Vazio,Void Immolation,non_summoners_rift,False,True,True,,6000,,,,,,False
+223071,Cutelo Negro,Black Cleaver,non_summoners_rift,False,True,True,,2500,,,,,,False
+223072,Sedenta por Sangue,Bloodthirster,non_summoners_rift,False,True,True,,2500,,,,,,False
+223073,Hexoplaca Experimental,Experimental Hexplate,non_summoners_rift,False,True,True,,2500,,,,,,False
+223074,Hidra Raivosa,Ravenous Hydra,non_summoners_rift,False,True,True,,2500,,,,,,False
+223075,Armadura de Espinhos,Thornmail,non_summoners_rift,False,True,True,,2500,,,,,,False
+223078,Força da Trindade,Trinity Force,non_summoners_rift,False,True,True,,2500,,,,,,False
+223084,Coração de Aço,Heartsteel,non_summoners_rift,False,True,True,,2500,,,,,,False
+223085,Furacão de Runaan,Runaan's Hurricane,non_summoners_rift,False,True,True,,2500,,,,,,False
+223087,Faca de Statikk,Statikk Shiv,non_summoners_rift,False,True,True,,2500,,,,,,False
+223089,Capuz da Morte de Rabadon,Rabadon's Deathcap,non_summoners_rift,False,True,True,,2500,,,,,,False
+223091,Limite da Razão,Wit's End,non_summoners_rift,False,True,True,,2500,,,,,,False
+223094,Canhão Fumegante,Rapid Firecannon,non_summoners_rift,False,True,True,,2500,,,,,,False
+223095,Chuva de Canivete,Stormrazor,non_summoners_rift,False,True,True,,2500,,,,,,False
+223100,Perdição de Lich,Lich Bane,non_summoners_rift,False,True,True,,2500,,,,,,False
+223102,Véu da Banshee,Banshee's Veil,non_summoners_rift,False,True,True,,2500,,,,,,False
+223105,Égide da Legião,Aegis of the Legion,non_summoners_rift,False,False,False,,500,,,,,,False
+223107,Redenção,Redemption,non_summoners_rift,False,True,True,,2500,,,,,,False
+223109,Juramento do Cavaleiro,Knight's Vow,non_summoners_rift,False,True,True,,2500,,,,,,False
+223110,Coração Congelado,Frozen Heart,non_summoners_rift,False,True,True,,2500,,,,,,False
+223111,Passos de Mercúrio,Mercury's Treads,non_summoners_rift,False,True,True,,500,,,,,,False
+223112,Orbe do Guardião,Guardian's Orb,non_summoners_rift,False,True,True,,500,,,,,,False
+223115,Dente de Na'Shor,Nashor's Tooth,non_summoners_rift,False,True,True,,2500,,,,,,False
+223116,Cetro de Cristal de Rylai,Rylai's Crystal Scepter,non_summoners_rift,False,True,True,,2500,,,,,,False
+223118,Malevolência,Malignance,non_summoners_rift,False,True,True,,2500,,,,,,False
+223119,Aproximação Invernal,Winter's Approach,non_summoners_rift,False,True,True,,2500,,,,,,False
+223121,Fimbulwinter,Fimbulwinter,non_summoners_rift,False,False,False,,2500,,,,,,False
+223124,Lâmina da Fúria de Guinsoo,Guinsoo's Rageblade,non_summoners_rift,False,True,True,,2500,,,,,,False
+223135,Cajado do Vazio,Void Staff,non_summoners_rift,False,True,True,,2500,,,,,,False
+223137,Criptoflora,Cryptbloom,non_summoners_rift,False,True,True,,2500,,,,,,False
+223139,Cimitarra Mercurial,Mercurial Scimitar,non_summoners_rift,False,True,True,,2500,,,,,,False
+223142,Lâmina Fantasma de Youmuu,Youmuu's Ghostblade,non_summoners_rift,False,True,True,,2500,,,,,,False
+223143,Presságio de Randuin,Randuin's Omen,non_summoners_rift,False,True,True,,2500,,,,,,False
+223146,Pistola Laminar Hextec,Hextech Gunblade,non_summoners_rift,False,True,True,,2500,,,,,,False
+223152,Explocinturão Hextec,Hextech Rocketbelt,non_summoners_rift,False,True,True,,2500,,,,,,False
+223153,Espada do Rei Destruído,Blade of The Ruined King,non_summoners_rift,False,True,True,,2500,,,,,,False
+223156,Mandíbula de Malmortius,Maw of Malmortius,non_summoners_rift,False,True,True,,2500,,,,,,False
+223157,Ampulheta de Zhonya,Zhonya's Hourglass,non_summoners_rift,False,True,True,,2500,,,,,,False
+223158,Botas Ionianas da Lucidez,Ionian Boots of Lucidity,non_summoners_rift,False,True,True,,500,,,,,,False
+223161,Lança de Shojin,Spear of Shojin,non_summoners_rift,False,True,True,,2500,,,,,,False
+223165,Morellonomicon,Morellonomicon,non_summoners_rift,False,True,True,,2500,,,,,,False
+223172,Zéfiro,Zephyr,non_summoners_rift,False,True,True,,2500,,,,,,False
+223177,Lâmina do Guardião,Guardian's Blade,non_summoners_rift,False,True,True,,500,,,,,,False
+223181,Quebracascos,Hullbreaker,non_summoners_rift,False,True,True,,2500,,,,,,False
+223184,Martelo do Guardião,Guardian's Hammer,non_summoners_rift,False,True,True,,500,,,,,,False
+223185,Punhal do Guardião,Guardian's Dirk,non_summoners_rift,False,True,True,,500,,,,,,False
+223190,Medalhão dos Solari de Ferro,Locket of the Iron Solari,non_summoners_rift,False,True,True,,2500,,,,,,False
+223193,Placa Gargolítica,Gargoyle Stoneplate,non_summoners_rift,False,False,False,,2500,,,,,,False
+223222,Bênção de Mikael,Mikael's Blessing,non_summoners_rift,False,True,True,,2500,,,,,,False
+223302,Terminus,Terminus,non_summoners_rift,False,True,True,,2500,,,,,,False
+223504,Turíbulo Ardente,Ardent Censer,non_summoners_rift,False,True,True,,2500,,,,,,False
+223508,Colhedor de Essência,Essence Reaver,non_summoners_rift,False,True,True,,2500,,,,,,False
+223742,Couraça do Defunto,Dead Man's Plate,non_summoners_rift,False,True,True,,2500,,,,,,False
+223748,Hidra Titânica,Titanic Hydra,non_summoners_rift,False,True,True,,2500,,,,,,False
+223814,Limiar da Noite,Edge of Night,non_summoners_rift,False,True,True,,2500,,,,,,False
+224004,Alfanje Espectral,Spectral Cutlass,non_summoners_rift,False,True,True,,2500,,,,,,False
+224005,Mandato Imperial,Imperial Mandate,non_summoners_rift,False,True,True,,2500,,,,,,False
+224401,Força da Natureza,Force of Nature,non_summoners_rift,False,True,True,,2500,,,,,,False
+224403,Espátula Dourada,The Golden Spatula,non_summoners_rift,False,True,True,,2500,,,,,,False
+224628,Foco do Horizonte,Horizon Focus,non_summoners_rift,False,True,True,,2500,,,,,,False
+224629,Ímpeto Cósmico,Cosmic Drive,non_summoners_rift,False,True,True,,2500,,,,,,False
+224633,Criafendas,Riftmaker,non_summoners_rift,False,True,True,,2500,,,,,,False
+224636,Colhedor Noturno,Night Harvester,non_summoners_rift,False,False,False,,2500,,,,,,False
+224637,Abraço Demoníaco,Demonic Embrace,non_summoners_rift,False,False,False,,2500,,,,,,False
+224644,Coroa da Rainha Despedaçada,Crown of the Shattered Queen,non_summoners_rift,False,False,False,,2500,,,,,,False
+224645,Chama Sombria,Shadowflame,non_summoners_rift,False,True,True,,2500,,,,,,False
+224646,Ápice da Tempestade,Stormsurge,non_summoners_rift,False,True,True,,2500,,,,,,False
+226035,Alvorada de Pratânia,Silvermere Dawn,non_summoners_rift,False,False,False,,2500,,,,,,False
+226333,Dança da Morte,Death's Dance,non_summoners_rift,False,True,True,,2500,,,,,,False
+226609,Serrespada Quimiopunk,Chempunk Chainsword,non_summoners_rift,False,True,True,,2500,,,,,,False
+226610,Céu Dividido,Sundered Sky,non_summoners_rift,False,True,True,,2500,,,,,,False
+226616,Cajado Aquafluxo,Staff of Flowing Water,non_summoners_rift,False,True,True,,2500,,,,,,False
+226617,Regenerador de Pedra Lunar,Moonstone Renewer,non_summoners_rift,False,True,True,,2500,,,,,,False
+226620,Ecos de Helia,Echoes of Helia,non_summoners_rift,False,True,True,,2500,,,,,,False
+226621,Auronúcleo,Dawncore,non_summoners_rift,False,True,True,,2500,,,,,,False
+226630,Hemodrenário,Goredrinker,non_summoners_rift,False,True,True,,2750,,,,,,False
+226631,Quebrapassos,Stridebreaker,non_summoners_rift,False,True,True,,2500,,,,,,False
+226632,Ruptor Divino,Divine Sunderer,non_summoners_rift,False,False,False,,2500,,,,,,False
+226653,Angústia de Liandry,Liandry's Anguish,non_summoners_rift,False,True,True,,2500,,,,,,False
+226655,Eco de Luden,Luden's Echo,non_summoners_rift,False,True,True,,2500,,,,,,False
+226656,Glacieterno,Everfrost,non_summoners_rift,False,False,False,,2500,,,,,,False
+226657,Bastão das Eras,Rod of Ages,non_summoners_rift,False,True,True,,2500,,,,,,False
+226660,,,non_summoners_rift,False,False,False,,0,,,,,,False
+226662,Manopla dos Glacinatas,Iceborn Gauntlet,non_summoners_rift,False,True,True,,2500,,,,,,False
+226664,Resplendor Vazio,Hollow Radiance,non_summoners_rift,False,True,True,,2500,,,,,,False
+226665,"Jak'Sho, o Inconstante","Jak'Sho, The Protean",non_summoners_rift,False,True,True,,2500,,,,,,False
+226667,Virtude Radiante,Radiant Virtue,non_summoners_rift,False,False,False,,2500,,,,,,False
+226668,Ultra-Hidra,Ultra Hydra,non_summoners_rift,False,True,True,,6000,,,,,,False
+226671,Força do Vendaval,Galeforce,non_summoners_rift,False,False,False,,2500,,,,,,False
+226672,Mata-Cráquens,Kraken Slayer,non_summoners_rift,False,True,True,,2500,,,,,,False
+226673,Arco-escudo Imortal,Immortal Shieldbow,non_summoners_rift,False,True,True,,2500,,,,,,False
+226675,Adagas Oscilantes Navori,Navori Flickerblades,non_summoners_rift,False,True,True,,2500,,,,,,False
+226676,A Coletora,The Collector,non_summoners_rift,False,True,True,,2500,,,,,,False
+226691,Crepúsculo de Draktharr,Duskblade of Draktharr,non_summoners_rift,False,False,False,,2500,,,,,,False
+226692,Eclipse,Eclipse,non_summoners_rift,False,True,True,,2500,,,,,,False
+226693,Garra do Espreitador,Prowler's Claw,non_summoners_rift,False,True,True,,2750,,,,,,False
+226694,Rancor de Serylda,Serylda's Grudge,non_summoners_rift,False,True,True,,2500,,,,,,False
+226695,Presa da Serpente,Serpent's Fang,non_summoners_rift,False,True,True,,2500,,,,,,False
+226696,Arco do Axioma,Axiom Arc,non_summoners_rift,False,True,True,,2500,,,,,,False
+226697,Húbris,Hubris,non_summoners_rift,False,True,True,,2500,,,,,,False
+226698,Hidra Profana,Profane Hydra,non_summoners_rift,False,True,True,,2500,,,,,,False
+226699,Cicloespada Voltaica,Voltaic Cyclosword,non_summoners_rift,False,True,True,,2500,,,,,,False
+226701,Oportunidade,Opportunity,non_summoners_rift,False,True,True,,2500,,,,,,False
+228001,Correntes de Anathema,Anathema's Chains,non_summoners_rift,False,True,True,,2500,,,,,,False
+228002,Chapéu Mágico de Wooglet,Wooglet's Witchcap,non_summoners_rift,False,True,True,,6000,,,,,,False
+228003,Lâmina Mortal,Deathblade,non_summoners_rift,False,False,False,,9000,,,,,,False
+228004,Elmo Adaptativo,Adaptive Helm,non_summoners_rift,False,False,False,,6000,,,,,,False
+228005,Cutelo Obsidiano,Obsidian Cleaver,non_summoners_rift,False,False,False,,3000,,,,,,False
+228006,Lâmina Sanguinária,Sanguine Blade,non_summoners_rift,False,False,False,,3000,,,,,,False
+228008,Glaive Rúnica,Runeglaive,non_summoners_rift,False,False,False,,9000,,,,,,False
+228009,Multiferramenta,Multitool,non_summoners_rift,False,True,True,,2500,,,,,,False
+228020,Máscara Abissal,Abyssal Mask,non_summoners_rift,False,True,True,,2500,,,,,,False
+322065,Hino Bélico de Shurelya,Shurelya's Battlesong,shop_reference,True,True,True,,2600,,,3113+4642,,,False
+322526,Tiara Sussurrante,Whispering Circlet,shop_reference,True,True,True,,2250,,,3114+1028+323070,,,False
+322530,Diadema de Canções,Diadem of Songs,non_purchasable,True,False,False,,2250,,,,,,False
+323002,Desbravador,Trailblazer,non_purchasable,True,False,False,,2600,,,3066+1031,,,False
+323003,Cajado do Arcanjo,Archangel's Staff,shop_reference,True,True,True,,2900,,,323070+3802+3108,,,False
+323004,Manamune,Manamune,shop_reference,True,True,True,,2900,,,323070+3133+1036,,,False
+323040,Abraço de Seraph,Seraph's Embrace,non_purchasable,True,False,False,,2900,,,,,,False
+323042,Muramana,Muramana,non_purchasable,True,False,False,,2900,,,,,,False
+323050,Convergência de Zeke,Zeke's Convergence,shop_reference,True,True,True,,2300,,,1029+3067+1033,,,False
+323070,Lágrima da Deusa,Tear of the Goddess,shop_reference,True,True,True,,400,,,,,,False
+323075,Armadura de Espinhos,Thornmail,shop_reference,True,True,True,,2650,,,3076+1031+1028,,,False
+323107,Redenção,Redemption,shop_reference,True,True,True,,2800,,,3067+1028+3114,,,False
+323109,Juramento do Cavaleiro,Knight's Vow,shop_reference,True,True,True,,2900,,,3067+1031+1006,,,False
+323110,Coração Congelado,Frozen Heart,shop_reference,True,True,True,,2700,,,3082+3024,,,False
+323119,Aproximação Invernal,Winter's Approach,shop_reference,True,True,True,,2400,,,323070+1011+3067,,,False
+323121,Fimbulwinter,Fimbulwinter,non_purchasable,True,False,False,,2400,,,,,,False
+323190,Medalhão dos Solari de Ferro,Locket of the Iron Solari,shop_reference,True,True,True,,2600,,,3067+1029+1033,,,False
+323222,Bênção de Mikael,Mikael's Blessing,shop_reference,True,True,True,,2800,,,3067+1028+3114,,,False
+323504,Turíbulo Ardente,Ardent Censer,shop_reference,True,True,True,,2600,,,3113+1052+3114,,,False
+324005,Mandato Imperial,Imperial Mandate,shop_reference,True,True,True,,2400,,,1026+4642,,,False
+326616,Cajado Aquafluxo,Staff of Flowing Water,shop_reference,True,True,True,,2600,,,3108+1052+3114,,,False
+326617,Regenerador de Pedra Lunar,Moonstone Renewer,shop_reference,True,True,True,,2900,,,3067+1028+4642,,,False
+326620,Ecos de Helia,Echoes of Helia,shop_reference,True,True,True,,2600,,,3067+4642,,,False
+326621,Auronúcleo,Dawncore,shop_reference,True,True,True,,2900,,,1026+3114+3114,,,False
+326657,Bastão das Eras,Rod of Ages,shop_reference,True,True,True,,2600,,,1026+3803,,,False
+328020,Máscara Abissal,Abyssal Mask,shop_reference,True,True,True,,2850,,,3067+1057,,,False
+443054,Garras de Aço Sombrio,Darksteel Talons,non_summoners_rift,False,True,True,,2750,,,,,,False
+443055,Fulminação,Fulmination,non_summoners_rift,False,True,True,,2750,,,,,,False
+443056,Coroa do Rei Demoníaco,Demon King's Crown,non_summoners_rift,False,True,True,,2750,,,,,,False
+443058,Escudo de Rocha Fundida,Shield of Molten Stone,non_summoners_rift,False,True,True,,2750,,,,,,False
+443059,Manto da Noite Estrelada,Cloak of Starry Night,non_summoners_rift,False,True,True,,2750,,,,,,False
+443060,Espada do Divino,Sword of the Divine,non_summoners_rift,False,True,True,,2750,,,,,,False
+443061,Força da Entropia,Force Of Entropy,non_summoners_rift,False,True,True,,2750,,,,,,False
+443062,Presente Sanguinário,Sanguine Gift,non_summoners_rift,False,True,True,,2750,,,,,,False
+443063,Milagre de Eleisa,Eleisa's Miracle,non_summoners_rift,False,True,True,,2750,,,,,,False
+443064,Talismã da Ascensão,Talisman Of Ascension,non_summoners_rift,False,True,True,,2750,,,,,,False
+443069,Debilitador,Hamstringer,non_summoners_rift,False,True,True,,2750,,,,,,False
+443079,Quimiotanque Turbo,Turbo Chemtank,non_summoners_rift,False,True,True,,2750,,,,,,False
+443080,Máscara Gêmea,Twin Mask,non_summoners_rift,False,False,False,,2750,,,,,,False
+443081,Companheiro Hexraio,Hexbolt Companion,non_summoners_rift,False,True,True,,2750,,,,,,False
+443083,Armadura de Warmog,Warmog's Armor,non_summoners_rift,False,True,True,,2750,,,,,,False
+443090,Colheita do Ceifador,Reaper's Toll,non_summoners_rift,False,True,True,,2750,,,,,,False
+443193,Placa Gargolítica,Gargoyle Stoneplate,non_summoners_rift,False,True,True,,2750,,,,,,False
+444636,Colhedor Noturno,Night Harvester,non_summoners_rift,False,True,True,,2750,,,,,,False
+444637,Abraço Demoníaco,Demonic Embrace,non_summoners_rift,False,True,True,,2750,,,,,,False
+444644,Coroa da Rainha Despedaçada,Crown of the Shattered Queen,non_summoners_rift,False,True,True,,2750,,,,,,False
+446632,Ruptor Divino,Divine Sunderer,non_summoners_rift,False,True,True,,2750,,,,,,False
+446656,Glacieterno,Everfrost,non_summoners_rift,False,True,True,,2750,,,,,,False
+446667,Virtude Radiante,Radiant Virtue,non_summoners_rift,False,True,True,,2750,,,,,,False
+446671,Força do Vendaval,Galeforce,non_summoners_rift,False,True,True,,2750,,,,,,False
+446691,Crepúsculo de Draktharr,Duskblade of Draktharr,non_summoners_rift,False,True,True,,2750,,,,,,False
+446693,Garra do Espreitador,Prowler's Claw,non_summoners_rift,False,True,True,,1000,,,,,,False
+447100,Espada da Miragem,Mirage Blade,non_summoners_rift,False,True,True,,2750,,,,,,False
+447101,Lâmina do Apostador,Gambler's Blade,non_summoners_rift,False,True,True,,2750,,,,,,False
+447102,Fenda Dimensional,Reality Fracture,non_summoners_rift,False,True,True,,2750,,,,,,False
+447103,Elmo do Hemomante,Hemomancer's Helm,non_summoners_rift,False,True,True,,2750,,,,,,False
+447104,Medalhão Enervante,Innervating Locket,non_summoners_rift,False,True,True,,2750,,,,,,False
+447105,Promessa Empírea,Empyrean Promise,non_summoners_rift,False,True,True,,2750,,,,,,False
+447106,Coração Dracônico,Dragonheart,non_summoners_rift,False,True,True,,2750,,,,,,False
+447107,Decapitador,Decapitator,non_summoners_rift,False,True,True,,2750,,,,,,False
+447108,Criarrunas,Runecarver,non_summoners_rift,False,True,True,,2750,,,,,,False
+447109,Crueldade,Cruelty,non_summoners_rift,False,True,True,,2750,,,,,,False
+447110,Lâmina Enfeitiçada Moonflair,Moonflair Spellblade,non_summoners_rift,False,True,True,,2750,,,,,,False
+447111,Armadura Sangrenta do Suserano,Overlord's Bloodmail,non_summoners_rift,False,True,True,,2500,,,,,,False
+447112,Comecarne,Flesheater,non_summoners_rift,False,True,True,,2750,,,,,,False
+447113,Orbe de Detonação,Detonation Orb,non_summoners_rift,False,True,True,,2750,,,,,,False
+447114,Reverberação,Reverberation,non_summoners_rift,False,True,True,,2750,,,,,,False
+447115,Regicídio,Regicide,non_summoners_rift,False,True,True,,2750,,,,,,False
+447116,Jitte Kinkou,Kinkou Jitte,non_summoners_rift,False,True,True,,2750,,,,,,False
+447118,Capa do Piromante,Pyromancer's Cloak,non_summoners_rift,False,True,True,,2750,,,,,,False
+447119,Bastão Eletrizante,Lightning Rod,non_summoners_rift,False,True,True,,2750,,,,,,False
+447120,Lança de Diamante,Diamond-Tipped Spear,non_summoners_rift,False,True,True,,2750,,,,,,False
+447121,Limite do Crepúsculo,Twilight's Edge,non_summoners_rift,False,True,True,,2750,,,,,,False
+447122,Manopla do Buraco Negro,Black Hole Gauntlet,non_summoners_rift,False,True,True,,2750,,,,,,False
+447123,Titereiro,Puppeteer,non_summoners_rift,False,True,True,,2750,,,,,,False
+663039,Acerto de Contas de Atma,Atma's Reckoning,shop_reference,True,True,True,,2500,,,,,,False
+663056,Coroa do Rei Demoníaco,Demon King's Crown,shop_reference,True,True,True,,2500,,,,,,False
+663058,Escudo de Rocha Fundida,Shield of Molten Stone,shop_reference,True,True,True,,2500,,,,,,False
+663059,Manto da Noite Estrelada,Cloak of Starry Night,shop_reference,True,True,True,,2500,,,,,,False
+663060,Espada do Divino,Sword of the Divine,shop_reference,True,True,True,,2500,,,,,,False
+663064,Talismã da Ascensão de Veigar,Veigar's Talisman of Ascension,shop_reference,True,True,True,,900,,,,,,False
+663146,Pistola Laminar Hextec,Hextech Gunblade,shop_reference,True,True,True,,2500,,,,,,False
+663172,Zéfiro,Zephyr,shop_reference,True,True,True,,2500,,,,,,False
+663193,Placa Gargolítica,Gargoyle Stoneplate,shop_reference,True,True,True,,2500,,,,,,False
+664011,Espada da Alvorada Florescente,Sword of Blossoming Dawn,shop_reference,True,True,True,,2500,,,,,,False
+664403,Espátula Dourada,The Golden Spatula,non_purchasable,True,False,False,,2500,,,,,,False
+664644,Coroa da Rainha Despedaçada,Crown of the Shattered Queen,shop_reference,True,True,True,,2500,,,,,,False
+667101,Lâmina do Apostador,Gambler's Blade,shop_reference,True,True,True,,2500,,,,,,False
+667109,Crueldade,Cruelty,shop_reference,True,True,True,,2500,,,,,,False
+667112,Comecarne,Flesheater,shop_reference,True,True,True,,2500,,,,,,False
+667666,A Coletora,The Collector,shop_reference,True,True,True,,3000,,,1037+3134+1018,,,False
+771001,Botas da Velocidade,Boots of Speed,non_summoners_rift,False,True,True,,325,,,,,,False
+771004,Amuleto da Fada,Faerie Charm,non_summoners_rift,False,True,True,,180,,,,,,False
+771006,Pérola do Rejuvenescimento,Rejuvenation Bead,non_summoners_rift,False,True,True,,180,,,,,,False
+771011,Cinto do Gigante,Giant's Belt,non_summoners_rift,False,True,True,,1000,,,,,,False
+771018,Capa da Agilidade,Cloak of Agility,non_summoners_rift,False,True,True,,730,,,,,,False
+771026,Varinha Explosiva,Blasting Wand,non_summoners_rift,False,True,True,,860,,,,,,False
+771027,Cristal de Safira,Sapphire Crystal,non_summoners_rift,False,True,True,,400,,,,,,False
+771028,Cristal de Rubi,Ruby Crystal,non_summoners_rift,False,True,True,,475,,,,,,False
+771029,Couraça de Pano,Cloth Armor,non_summoners_rift,False,True,True,,300,,,,,,False
+771031,Cota de Malha,Chain Vest,non_summoners_rift,False,True,True,,720,,,,,,False
+771033,Manto Anula-Magia,Null-Magic Mantle,non_summoners_rift,False,True,True,,400,,,,,,False
+771036,Espada Longa,Long Sword,non_summoners_rift,False,True,True,,400,,,,,,False
+771037,Picareta,Pickaxe,non_summoners_rift,False,True,True,,875,,,,,,False
+771038,Espada G. p. C.,B. F. Sword,non_summoners_rift,False,True,True,,1550,,,,,,False
+771039,Machete do Caçador,Hunter's Machete,non_summoners_rift,False,True,True,,300,,,,,,False
+771042,Adaga,Dagger,non_summoners_rift,False,True,True,,400,,,,,,False
+771043,Arco Recurvo,Recurve Bow,non_summoners_rift,False,True,True,,900,,,,,,False
+771051,Luvas da Pancadaria,Brawler's Gloves,non_summoners_rift,False,True,True,,400,,,,,,False
+771052,Tomo Amplificador,Amplifying Tome,non_summoners_rift,False,True,True,,435,,,,,,False
+771053,Cetro Vampírico,Vampiric Scepter,non_summoners_rift,False,True,True,,800,,,771036,,,False
+771054,Escudo de Doran,Doran's Shield,non_summoners_rift,False,True,True,,440,,,,,,False
+771055,Lâmina de Doran,Doran's Blade,non_summoners_rift,False,True,True,,475,,,,,,False
+771056,Anel de Doran,Doran's Ring,non_summoners_rift,False,True,True,,400,,,,,,False
+771057,Capa Negatron,Negatron Cloak,non_summoners_rift,False,True,True,,720,,,,,,False
+771058,Bastão Desnecessariamente Grande,Needlessly Large Rod,non_summoners_rift,False,True,True,,1600,,,,,,False
+771080,Pedra Espiritual,Spirit Stone,non_summoners_rift,False,True,True,,700,,,771039+771006+771004,,,False
+771500,Projétil Perfurante,Penetrating Bullets,non_purchasable,True,False,False,,0,,,,,,False
+772001,Retorno,Recall,non_summoners_rift,False,False,False,,60,,,,,,False
+772003,Poção de Vida,Health Potion,non_summoners_rift,False,True,True,,35,,,,,,False
+772004,Poção de Mana,Mana Potion,non_summoners_rift,False,True,True,,35,,,,,,False
+772009,Biscoito do Rejuvenescimento Total,Total Biscuit of Rejuvenation,non_summoners_rift,False,False,False,,35,,,,,,False
+772037,Elixir da Fortitude,Elixir of Fortitude,non_summoners_rift,False,True,True,,350,,,,,,False
+772038,Elixir da Agilidade,Elixir of Agility,non_summoners_rift,False,True,True,,250,,,,,,False
+772039,Elixir do Brilhantismo,Elixir of Brilliance,non_summoners_rift,False,True,True,,250,,,,,,False
+772041,Frasco Cristalino,Crystalline Flask,non_summoners_rift,False,True,True,,345,,,,,,False
+772042,Elixir do Oráculo,Oracle's Elixir,non_summoners_rift,False,True,True,,400,,,,,,False
+772043,Sentinela Detectora,Vision Ward,non_summoners_rift,False,True,True,,125,,,,,,False
+772044,Sentinela,Sight Ward,non_summoners_rift,False,True,True,,75,,,,,,False
+772045,Rubi da Visão,Ruby Sightstone,non_summoners_rift,False,True,True,,1700,,,772049+773132,,,False
+772049,Pedra da Visão,Sightstone,non_summoners_rift,False,True,True,,800,,,771028,,,False
+772050,Sentinela do Explorador,Explorer's Ward,non_summoners_rift,False,False,False,,75,,,,,,False
+772139,,,non_summoners_rift,False,True,True,,0,,,,,,False
+772140,,,non_summoners_rift,False,True,True,,0,,,,,,False
+773001,Cetro Abissal,Abyssal Scepter,non_summoners_rift,False,True,True,,2560,,,771026+771057,,,False
+773003,Cajado do Arcanjo,Archangel's Staff,non_summoners_rift,False,True,True,,2700,,,773070+771026,,,False
+773004,Manamune,Manamune,non_summoners_rift,False,True,True,,2100,,,773070+771036,,,False
+773005,Empalador de Atma,Atma's Impaler,non_summoners_rift,False,True,True,,2300,,,771031+773093,,,False
+773006,Grevas do Berserker,Berserker's Greaves,non_summoners_rift,False,True,True,,900,,,771001+771042,,,False
+773009,Botas da Rapidez,Boots of Swiftness,non_summoners_rift,False,True,True,,1000,,,771001,,,False
+773010,Catalisador da Proteção,Catalyst the Protector,non_summoners_rift,False,True,True,,1200,,,771028+771027,,,False
+773020,Sapatos do Feiticeiro,Sorcerer's Shoes,non_summoners_rift,False,True,True,,1100,,,771001,,,False
+773022,Malho Congelado,Frozen Mallet,non_summoners_rift,False,True,True,,3300,,,771028+771011+771037,,,False
+773023,Sombras Gêmeas,Twin Shadows,non_summoners_rift,False,True,True,,1900,,,773098+771033,,,False
+773024,Proteção Glacial,Glacial Shroud,non_summoners_rift,False,True,True,,1350,,,771031+771027,,,False
+773025,Manopla dos Glacinatas,Iceborn Gauntlet,non_summoners_rift,False,True,True,,3250,,,773057+773024,,,False
+773026,Anjo Guardião,Guardian Angel,non_summoners_rift,False,True,True,,2750,,,771057+771031,,,False
+773027,Bastão das Eras,Rod of Ages,non_summoners_rift,False,True,True,,2800,,,773010+771026,,,False
+773028,Cálice da Harmonia,Chalice of Harmony,non_summoners_rift,False,True,True,,880,,,771004+771033+771004,,,False
+773031,Gume do Infinito,Infinity Edge,non_summoners_rift,False,True,True,,3800,,,771038+771037+771018,,,False
+773035,Último Sussurro,Last Whisper,non_summoners_rift,False,True,True,,2300,,,771036+771037,,,False
+773037,Manipulador de Mana,Mana Manipulator,non_summoners_rift,False,True,True,,300,,,771004,,,False
+773040,Abraço de Seraph,Seraph's Embrace,non_summoners_rift,False,False,False,,2700,,,,,,False
+773041,Ladrão de Almas de Mejai,Mejai's Soulstealer,non_summoners_rift,False,True,True,,1235,,,771052,,,False
+773042,Muramana,Muramana,non_summoners_rift,False,False,False,,2100,,,,,,False
+773044,Fago,Phage,non_summoners_rift,False,True,True,,1250,,,771028+771036,,,False
+773046,Dançarina Fantasma,Phantom Dancer,non_summoners_rift,False,True,True,,2800,,,771018+773086+771042,,,False
+773047,Tabi Ninja,Ninja Tabi,non_summoners_rift,False,True,True,,1000,,,771001+771029,,,False
+773050,Fervor de Stark,Stark's Fervor,non_summoners_rift,False,True,True,,2550,,,773067+771053,,,False
+773052,Emblema de Bravura,Emblem of Valor,non_summoners_rift,False,True,True,,650,,,771029+771006,,,False
+773056,Mergulhadora,Ohmwrecker,non_summoners_rift,False,True,True,,2835,,,771028+773096+771026,,,False
+773057,Fulgor,Sheen,non_summoners_rift,False,True,True,,1200,,,771052+771027,,,False
+773060,Flâmula de Comando,Banner of Command,non_summoners_rift,False,True,True,,2360,,,773108+773052,,,False
+773063,Proteção da Alma,Soul Shroud,non_summoners_rift,False,True,True,,2285,,,773037+773067+771028,,,False
+773064,Força da Natureza,Force of Nature,non_summoners_rift,False,True,True,,2610,,,771006+771006+771033+771057,,,False
+773065,Semblante Espiritual,Spirit Visage,non_summoners_rift,False,True,True,,2750,,,773211+773067,,,False
+773067,Gema Ardente,Kindlegem,non_summoners_rift,False,True,True,,850,,,771028,,,False
+773068,Capa de Fogo Solar,Sunfire Cape,non_summoners_rift,False,True,True,,2650,,,771031+771011,,,False
+773069,Devaneio de Shurelya,Shurelya's Reverie,non_summoners_rift,False,True,True,,2100,,,773067+773096,,,False
+773070,Lágrima da Deusa,Tear of the Goddess,non_summoners_rift,False,True,True,,700,,,771027+771004,,,False
+773071,O Cutelo Negro,The Black Cleaver,non_summoners_rift,False,True,True,,3000,,,773134+771028,,,False
+773072,A Sedenta por Sangue,The Bloodthirster,non_summoners_rift,False,True,True,,3200,,,771038+771053,,,False
+773073,Acúmulo de Capa de Fogo Solar,Stack of Sunfire Capes,non_summoners_rift,False,True,True,,3000,,,771031+771011,,,False
+773074,Hidra Raivosa,Ravenous Hydra,non_summoners_rift,False,True,True,,3300,,,773077+771053,,,False
+773075,Armadura de Espinhos,Thornmail,non_summoners_rift,False,True,True,,2200,,,771029+771031,,,False
+773077,Tiamat,Tiamat,non_summoners_rift,False,True,True,,1900,,,771037+771036+771006+771006,,,False
+773078,Força da Trindade,Trinity Force,non_summoners_rift,False,True,True,,3628,,,773086+773057+773044,,,False
+773082,Carapaça do Vigia,Warden's Mail,non_summoners_rift,False,True,True,,1000,,,771029+771029,,,False
+773083,Armadura de Warmog,Warmog's Armor,non_summoners_rift,False,True,True,,3000,,,771011+773132+771006,,,False
+773084,Medalhão Enervante,Innervating Locket,non_summoners_rift,False,True,True,,2250,,,773096+773010,,,False
+773085,Furacão de Runaan,Runaan's Hurricane,non_summoners_rift,False,True,True,,2400,,,771042+771043+771042,,,False
+773086,Zelo,Zeal,non_summoners_rift,False,True,True,,1175,,,771051+771042,,,False
+773087,Faca de Statikk,Statikk Shiv,non_summoners_rift,False,True,True,,2500,,,773086+773093,,,False
+773089,Capuz da Morte de Rabadon,Rabadon's Deathcap,non_summoners_rift,False,True,True,,3300,,,771058+771026,,,False
+773091,Limite da Razão,Wit's End,non_summoners_rift,False,True,True,,2150,,,771043+771033,,,False
+773092,Estilhaço de Gelo Verdadeiro,Shard of True Ice,non_summoners_rift,False,True,True,,1600,,,773098+773037,,,False
+773093,Espada Avarenta,Avarice Blade,non_summoners_rift,False,True,True,,800,,,771051,,,False
+773096,Pedra Filosofal,Philosopher's Stone,non_summoners_rift,False,True,True,,700,,,771004+771006,,,False
+773098,Adaga da Sorte,Lucky Pick,non_summoners_rift,False,True,True,,765,,,771052,,,False
+773100,Perdição de Lich,Lich Bane,non_summoners_rift,False,True,True,,3000,,,773057+771026,,,False
+773101,Ferrão,Stinger,non_summoners_rift,False,True,True,,1250,,,771042+771042,,,False
+773102,Véu da Banshee,Banshee's Veil,non_summoners_rift,False,True,True,,2750,,,773211+771028,,,False
+773105,Égide da Legião,Aegis of the Legion,non_summoners_rift,False,True,True,,2150,,,773132+771029+771033,,,False
+773106,Navalhas de Madred,Madred's Razors,non_summoners_rift,False,True,True,,700,,,771039+771029,,,False
+773107,Baluarte Rúnico,Runic Bulwark,non_summoners_rift,False,True,True,,2950,,,771033+773105,,,False
+773108,Códex Demoníaco,Fiendish Codex,non_summoners_rift,False,True,True,,820,,,771052,,,False
+773109,Navalha Sangrenta de Madred,Madred's Bloodrazor,non_summoners_rift,False,True,True,,3800,,,773106+771037+771043,,,False
+773110,Coração Congelado,Frozen Heart,non_summoners_rift,False,True,True,,2900,,,773024+773082,,,False
+773111,Passos de Mercúrio,Mercury's Treads,non_summoners_rift,False,True,True,,1200,,,771001+771033,,,False
+773114,Doença,Malady,non_summoners_rift,False,True,True,,2035,,,771042+771042+771052,,,False
+773115,Dente de Na'Shor,Nashor's Tooth,non_summoners_rift,False,True,True,,2500,,,773101+773108,,,False
+773116,Cetro de Cristal de Rylai,Rylai's Crystal Scepter,non_summoners_rift,False,True,True,,2900,,,771026+771052+771011,,,False
+773117,Botas da Mobilidade,Boots of Mobility,non_summoners_rift,False,True,True,,1000,,,771001,,,False
+773123,Chamado do Carrasco,Executioner's Calling,non_summoners_rift,False,True,True,,1900,,,773093+771036,,,False
+773124,Lâmina da Fúria de Guinsoo,Guinsoo's Rageblade,non_summoners_rift,False,True,True,,2600,,,771026+771037,,,False
+773128,Sufocamento Ígneo,Deathfire Grasp,non_summoners_rift,False,True,True,,3100,,,771058+773108,,,False
+773131,Espada do Divino,Sword of the Divine,non_summoners_rift,False,True,True,,2150,,,771043+771042,,,False
+773132,Coração de Ouro,Heart of Gold,non_summoners_rift,False,True,True,,825,,,771028,,,False
+773134,Brutalizador,The Brutalizer,non_summoners_rift,False,True,True,,1337,,,771036+771036,,,False
+773135,Cajado do Vazio,Void Staff,non_summoners_rift,False,True,True,,2295,,,771026+771052,,,False
+773136,Máscara Assustadora,Haunting Guise,non_summoners_rift,False,True,True,,1485,,,771028+771052,,,False
+773138,Leviatã,Leviathan,non_summoners_rift,False,True,True,,1275,,,771028,,,False
+773139,Cimitarra Mercurial,Mercurial Scimitar,non_summoners_rift,False,True,True,,3700,,,773140+771038,,,False
+773140,Bandana de Mercúrio,Quicksilver Sash,non_summoners_rift,False,True,True,,1550,,,771057,,,False
+773141,Espada do Oculto,Sword of the Occult,non_summoners_rift,False,True,True,,1200,,,771036,,,False
+773142,Lâmina Fantasma de Youmuu,Youmuu's Ghostblade,non_summoners_rift,False,True,True,,2700,,,773093+773134,,,False
+773143,Presságio de Randuin,Randuin's Omen,non_summoners_rift,False,True,True,,3125,,,773132+773082+771029,,,False
+773144,Alfanje das Águas de Sentina,Bilgewater Cutlass,non_summoners_rift,False,True,True,,1400,,,771053+771036,,,False
+773145,Revólver Hextec,Hextech Revolver,non_summoners_rift,False,True,True,,1200,,,771052+771052,,,False
+773146,Pistola Laminar Hextec,Hextech Gunblade,non_summoners_rift,False,True,True,,3400,,,773145+773144,,,False
+773151,Tormento de Liandry,Liandry's Torment,non_summoners_rift,False,True,True,,2900,,,773136+771052,,,False
+773152,Vontade dos Anciões,Will of the Ancients,non_summoners_rift,False,True,True,,2550,,,773098+773145,,,False
+773153,Espada do Rei Destruído,Blade of The Ruined King,non_summoners_rift,False,True,True,,3200,,,771042+773144+771042,,,False
+773154,Lanterna de Wriggle,Wriggle's Lantern,non_summoners_rift,False,True,True,,2000,,,773106+771043,,,False
+773155,Hexdrinker,Hexdrinker,non_summoners_rift,False,True,True,,1350,,,771036+771033,,,False
+773156,Mandíbula de Malmortius,Maw of Malmortius,non_summoners_rift,False,True,True,,3200,,,773155+771037,,,False
+773157,Ampulheta de Zhonya,Zhonya's Hourglass,non_summoners_rift,False,True,True,,3260,,,773191+771058,,,False
+773158,Botas Ionianas da Lucidez,Ionian Boots of Lucidity,non_summoners_rift,False,True,True,,1000,,,771001,,,False
+773160,Labareda Selvagem,Feral Flare,non_summoners_rift,False,False,False,,2000,,,,,,False
+773161,Lâmina Enfeitiçada Moonflair,Moonflair Spellblade,non_summoners_rift,False,True,True,,2600,,,773191+771057,,,False
+773162,Manto e Adaga,Cloak and Dagger,non_summoners_rift,False,True,True,,1330,,,771018+771042,,,False
+773165,Morellonomicon,Morellonomicon,non_summoners_rift,False,True,True,,2200,,,773098+771004+773108,,,False
+773172,Zéfiro,Zephyr,non_summoners_rift,False,True,True,,2850,,,773101+771037,,,False
+773173,Milagre de Eleisa,Eleisa's Miracle,non_summoners_rift,False,True,True,,1100,,,773096,,,False
+773174,Jarro de Mana de Shushei,Shushei's Mana Jug,non_summoners_rift,False,True,True,,2600,,,773108+773028,,,False
+773178,Centelha Iônica,Ionic Spark,non_summoners_rift,False,True,True,,1950,,,771043+771028,,,False
+773190,Medalhão dos Solari de Ferro,Locket of the Iron Solari,non_summoners_rift,False,True,True,,2225,,,773052+773132,,,False
+773191,Armaguarda da Caçadora,Seeker's Armguard,non_summoners_rift,False,True,True,,1160,,,771029+771052+771029,,,False
+773206,Espírito da Aparição Espectral,Spirit of the Spectral Wraith,non_summoners_rift,False,True,True,,2000,,,771080+773145,,,False
+773207,Espírito do Golem Ancião,Spirit of the Ancient Golem,non_summoners_rift,False,True,True,,2000,,,771080+773067,,,False
+773209,Espírito do Lagarto Ancião,Spirit of the Elder Lizard,non_summoners_rift,False,True,True,,2000,,,771080+771036+771036,,,False
+773211,Capuz do Espectro,Spectre's Cowl,non_summoners_rift,False,True,True,,1400,,,771028+771057,,,False
+773222,Cadinho de Mikael,Mikael's Crucible,non_summoners_rift,False,True,True,,2500,,,773096+773028,,,False
+773340,Amuleto Amarelo,Yellow Trinket,non_summoners_rift,False,True,True,,0,,,,,,False
+773348,Amuleto Vermelho,Red Trinket,non_summoners_rift,False,True,True,,0,,,,,,False
+773504,Turíbulo Ardente,Ardent Censer,non_summoners_rift,False,True,True,,2200,,,771004+771004+771004+773098,,,False
+773512,Portal de Zz'Rot,Zz'Rot Portal,non_summoners_rift,False,True,True,,2700,,,771057+771031+771006,,,False
+773513,Núcleo Hex Protótipo,Prototype Hex Core,non_summoners_rift,False,True,True,,750,,,,,,False
+773514,Núcleo Hex MK-1,Hex Core mk-1,non_summoners_rift,False,True,True,,1500,,,773513,,,False
+773515,Núcleo Hex MK-2,Hex Core mk-2,non_summoners_rift,False,True,True,,2250,,,773514,,,False
+773516,Núcleo Hex Perfeito,Perfect Hex Core,non_summoners_rift,False,True,True,,3000,,,773515,,,False
+773517,Gemada,Eggnog,non_summoners_rift,False,False,False,,35,,,,,,False
+773518,Saquinho de chá,Bag of Tea,non_summoners_rift,False,False,False,,35,,,,,,False
+773519,Docinho,Candy Corn,non_summoners_rift,False,False,False,,35,,,,,,False
+773521,Poção de Vida,Health Potion,non_summoners_rift,False,True,True,,35,,,,,,False
+994403,Espátula Dourada,Golden Spatula,non_summoners_rift,False,True,True,,2500,,,,,,False

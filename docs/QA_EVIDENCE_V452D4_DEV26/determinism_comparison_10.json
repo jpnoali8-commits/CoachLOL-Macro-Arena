@@ -1,0 +1,145 @@
+{
+  "checks": [
+    {
+      "profile": "baseline",
+      "seed": 26,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1998,
+      "current_time": 1998
+    },
+    {
+      "profile": "baseline",
+      "seed": 42,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 2004,
+      "current_time": 2004
+    },
+    {
+      "profile": "poke",
+      "seed": 26,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 2031,
+      "current_time": 2031
+    },
+    {
+      "profile": "poke",
+      "seed": 42,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1484,
+      "current_time": 1484
+    },
+    {
+      "profile": "engage",
+      "seed": 26,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1357,
+      "current_time": 1357
+    },
+    {
+      "profile": "engage",
+      "seed": 42,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1407,
+      "current_time": 1407
+    },
+    {
+      "profile": "scaling",
+      "seed": 26,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1304,
+      "current_time": 1304
+    },
+    {
+      "profile": "scaling",
+      "seed": 42,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1565,
+      "current_time": 1565
+    },
+    {
+      "profile": "assassins",
+      "seed": 26,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1768,
+      "current_time": 1768
+    },
+    {
+      "profile": "assassins",
+      "seed": 42,
+      "same": {
+        "time": true,
+        "winner": true,
+        "ended": true,
+        "nexusDestroyed": true,
+        "structuresDestroyed": true,
+        "finalStateHash": true
+      },
+      "base_time": 1572,
+      "current_time": 1572
+    }
+  ],
+  "identical": true
+}

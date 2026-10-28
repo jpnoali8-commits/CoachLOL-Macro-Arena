@@ -1,0 +1,41 @@
+[
+  {
+    "seed": 26,
+    "targetSeconds": 1200,
+    "simulatedSeconds": 1200,
+    "ended": false,
+    "winner": null,
+    "rounds": 120,
+    "decisions": 33,
+    "dragonCaptures": 1,
+    "structuresDestroyed": 1,
+    "issues": [],
+    "stateHash": "3a102b16b10283521e0c822c"
+  },
+  {
+    "seed": 42,
+    "targetSeconds": 1200,
+    "simulatedSeconds": 1200,
+    "ended": false,
+    "winner": null,
+    "rounds": 120,
+    "decisions": 28,
+    "dragonCaptures": 2,
+    "structuresDestroyed": 0,
+    "issues": [],
+    "stateHash": "f0b555664667545fe386d652"
+  },
+  {
+    "seed": 26,
+    "targetSeconds": 2400,
+    "simulatedSeconds": 2400,
+    "ended": false,
+    "winner": null,
+    "rounds": 240,
+    "decisions": 66,
+    "dragonCaptures": 1,
+    "structuresDestroyed": 4,
+    "issues": [],
+    "stateHash": "310daf123188144b28f5d3e1"
+  }
+]

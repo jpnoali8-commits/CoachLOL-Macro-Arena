@@ -1,0 +1,29 @@
+{
+  "schema": "coachlol.qa.v453.dev43",
+  "version": "4.5.3-dev43",
+  "tests": 19,
+  "npmTest": "PASS",
+  "chromium": "PASS",
+  "draftMatches": [
+    {
+      "seed": 26,
+      "durationSeconds": 1613,
+      "winner": "blue",
+      "endedByNexus": true
+    },
+    {
+      "seed": 42,
+      "durationSeconds": 1853,
+      "winner": "blue",
+      "endedByNexus": true
+    }
+  ],
+  "sourcePreservation": "PASS",
+  "limitations": [
+    "No continuous interpolation for moving targets per fractional step",
+    "Champion barrier abilities not yet connected to positional blocker API",
+    "Irelia Q dash still instantaneous and 70% AD instead of current reference 80%",
+    "Irelia E unused by match bots; tested directly and in browser",
+    "No full kit parity"
+  ]
+}

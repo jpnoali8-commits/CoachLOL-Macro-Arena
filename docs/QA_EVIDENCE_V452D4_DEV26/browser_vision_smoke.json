@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "result": {
+    "initial": 1,
+    "suppressed": 0,
+    "restored": 1,
+    "canvasWidth": 945
+  },
+  "jsErrors": [],
+  "scope": "Controlled inlined Chromium fixture; complete match NOT tested."
+}

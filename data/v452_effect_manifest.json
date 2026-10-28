@@ -1,0 +1,38 @@
+{
+  "schema": "coachlol.objective_contracts.v452",
+  "patchReference": "LoL PC Summoners Rift 26.21",
+  "maturity": "partial",
+  "baron": {
+    "durationSeconds": 180,
+    "lossOnDeath": true,
+    "perChampion": true,
+    "minionAuraRadiusUnits": 1500,
+    "empowerment": "training_damage_multiplier; official subtype traits pending"
+  },
+  "elder": {
+    "durationSeconds": 150,
+    "lossOnDeath": true,
+    "executeBelowFraction": 0.2,
+    "delayedTicks": 1,
+    "cancelOnHealAboveThreshold": true,
+    "blockedByStasis": true,
+    "burn": "pending"
+  },
+  "dragon": {
+    "stacksPermanent": true,
+    "soulAfter": 4,
+    "soulByElement": "partially prototyped"
+  },
+  "ghost": {
+    "durationSeconds": 15,
+    "moveSpeedPercentPrototype": 24,
+    "selectedAt": "champ-select",
+    "loadoutMutableInMatch": false
+  },
+  "farm": {
+    "creditedOnlyOnChampionLastHit": true,
+    "telemetry": true,
+    "targetCs5m": 50,
+    "validation": "failed 23 TOP"
+  }
+}

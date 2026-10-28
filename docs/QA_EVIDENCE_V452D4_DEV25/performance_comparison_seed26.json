@@ -1,0 +1,15 @@
+{
+  "schema": "coachlol.performance.reference.v452d4-dev25",
+  "baselineVersion": "4.5.2d-4-dev24",
+  "optimizedVersion": "4.5.2d-4-dev25",
+  "seed": 26,
+  "profile": "baseline",
+  "oldMs": 8429,
+  "newMs": 5806,
+  "relativeReductionPercent": 31.12,
+  "oldAndNewSameResult": true,
+  "oldHash": "18a59984e4085d03a312ff20",
+  "newHash": "18a59984e4085d03a312ff20",
+  "elapsedSimulatedSeconds": 1998,
+  "warning": "Wall-clock results vary with processor load; not a guaranteed speed-up or gameplay balance result."
+}

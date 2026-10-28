@@ -1,0 +1,74 @@
+{
+  "schema": "coachlol.action_ast.v1",
+  "status": "SPECIFICATION_ONLY_NOT_IMPLEMENTED",
+  "matchId": "test-match",
+  "phaseId": "phase-42",
+  "patch": "26.21",
+  "teamId": "blue",
+  "actorIds": [
+    "blue-lux",
+    "blue-nami"
+  ],
+  "intent": {
+    "type": "Parallel",
+    "steps": [
+      {
+        "actorId": "blue-lux",
+        "type": "Sequence",
+        "steps": [
+          {
+            "type": "IfVisible",
+            "enemySelector": {
+              "type": "nearest_hostile_visible"
+            },
+            "then": [
+              {
+                "type": "UseAbility",
+                "slot": "Q",
+                "targeting": "line",
+                "onFail": "do_not_cast"
+              },
+              {
+                "type": "UseAbility",
+                "slot": "E",
+                "targeting": "ground",
+                "onFail": "fallback_move"
+              }
+            ],
+            "else": [
+              {
+                "type": "Move",
+                "targeting": "known_safe_position"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "blue-nami",
+        "type": "Sequence",
+        "steps": [
+          {
+            "type": "MoveToCastRange",
+            "slot": "W",
+            "allyId": "blue-lux"
+          },
+          {
+            "type": "UseAbility",
+            "slot": "W",
+            "targeting": "ally",
+            "allyId": "blue-lux",
+            "onFail": "wait_until_legal"
+          }
+        ]
+      }
+    ]
+  },
+  "policy": {
+    "hiddenEnemyStateAccessible": false,
+    "serverValidationRequired": true,
+    "maxSteps": 12,
+    "maxSimulatedSeconds": 30,
+    "clientCannotCommit": true
+  }
+}

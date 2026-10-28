@@ -1,0 +1,95 @@
+{
+  "schema": "coachlol.qa.v453.dev41",
+  "version": "4.5.3-dev41",
+  "base": "4.5.3-dev40",
+  "patchReference": "LoL PC 26.21 / Data Dragon 16.21.1",
+  "localPlayableItems": 70,
+  "referenceItemRecords": 863,
+  "referenceChampionProfiles": 173,
+  "newContracts": {
+    "passed": 18,
+    "total": 18,
+    "path": "tests/v453_dev41_champion_onhit_q.test.mjs"
+  },
+  "npmTest": {
+    "status": "PASS",
+    "log": "npm_test_full.log"
+  },
+  "chromium": {
+    "status": "PASS",
+    "scenario": "Original game UI + authoritative combo Q for Ezreal and Irelia in Chromium",
+    "ezreal": {
+      "champ": "Ezreal",
+      "step": 1,
+      "hp": 1200,
+      "shield": 335,
+      "mana": 372,
+      "qCd": 4,
+      "source": "champion_onhit_v453_dev41"
+    },
+    "irelia": {
+      "champ": "Irelia",
+      "step": 1,
+      "hp": 1110,
+      "mana": 380,
+      "x": 0.526996664442962,
+      "healed": 509,
+      "source": "champion_onhit_v453_dev41"
+    },
+    "javascriptErrors": [],
+    "screenshots": [
+      "docs/QA_EVIDENCE_V453_DEV41/ezreal_q_escudo_chromium.png",
+      "docs/QA_EVIDENCE_V453_DEV41/irelia_q_dash_chromium.png"
+    ]
+  },
+  "pacing": {
+    "matches": [
+      {
+        "seed": 26,
+        "seconds": 1626,
+        "ended": true,
+        "winner": "red",
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3494
+      },
+      {
+        "seed": 36,
+        "seconds": 1525,
+        "ended": true,
+        "winner": "red",
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3256
+      },
+      {
+        "seed": 42,
+        "seconds": 1458,
+        "ended": true,
+        "winner": "red",
+        "nexus": true,
+        "issues": [],
+        "computeMs": 3091
+      }
+    ],
+    "averageSeconds": 1536.3333333333333,
+    "naturalNexusMatches": 3,
+    "runAgainst": "4.5.3-dev41"
+  },
+  "changes": [
+    "Ezreal Q first enemy projectile collision + wall + unit projectile guard + onhit shield and cooldown refund",
+    "Irelia Q validation of authored wall mask + physical dash energy + onhit + heal + kill reset",
+    "real combos and Q auto attack directive map to distinct champion Q, not generic spell damage",
+    "Node/browser regenerated from canonical ESM, snapshot deterministic"
+  ],
+  "limitations": [
+    "Q only for 2 champions; 173 reference profiles do not equal 173 playable kits",
+    "instantaneous projectile resolution without flight time and no intermediate projectile-side obstacle actors",
+    "Irelia dash is resolved instantaneously after path check; interruption/counterplay still incomplete",
+    "projectile guard on hit unit, not complete traced Yasuo Wind Wall collider",
+    "Ezreal Q collision currently covers champion and lane minion actors, not every jungle objective and destructible",
+    "targeting needs visible target in existing combo UI; free-aim and full spatial input not implemented",
+    "spell and on-hit formulas are partial adapted contracts; Wiki reference does not imply patch-perfect LoL parity",
+    "3 sample matches do not establish population mean; no PvP online implementation"
+  ]
+}

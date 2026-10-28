@@ -1,0 +1,69 @@
+{
+  "schema": "coachlol.dev32.pacing.v1",
+  "matches": [
+    {
+      "seed": 26,
+      "profile": "baseline",
+      "gameTime": 1550,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "computeMs": 5606,
+      "finalStateHash": "c6909b2f4a28e4408f58f4c6",
+      "issues": [],
+      "stoppedForComputeBudget": false
+    },
+    {
+      "seed": 42,
+      "profile": "baseline",
+      "gameTime": 1253,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "computeMs": 4533,
+      "finalStateHash": "2424b06d3ce5ecf8ed90b301",
+      "issues": [],
+      "stoppedForComputeBudget": false
+    },
+    {
+      "seed": 26,
+      "profile": "poke",
+      "gameTime": 1899,
+      "ended": true,
+      "winner": "red",
+      "nexusDestroyed": true,
+      "computeMs": 6927,
+      "finalStateHash": "d8f0027b4a0b512c41993abb",
+      "issues": [],
+      "stoppedForComputeBudget": false
+    },
+    {
+      "seed": 42,
+      "profile": "engage",
+      "gameTime": 1597,
+      "ended": true,
+      "winner": "blue",
+      "nexusDestroyed": true,
+      "computeMs": 4933,
+      "finalStateHash": "f6ec4d33dd00f1a2c974a119",
+      "issues": [],
+      "stoppedForComputeBudget": false
+    },
+    {
+      "seed": 36,
+      "profile": "assassins",
+      "gameTime": 1286,
+      "ended": true,
+      "winner": "blue",
+      "nexusDestroyed": true,
+      "computeMs": 3297,
+      "finalStateHash": "a2559cb414418cc7bcc25dbc",
+      "issues": [],
+      "stoppedForComputeBudget": false
+    }
+  ],
+  "finished": 5,
+  "attempted": 5,
+  "meanSecondsCompletedOnly": 1517,
+  "status": "PASS"
+}
