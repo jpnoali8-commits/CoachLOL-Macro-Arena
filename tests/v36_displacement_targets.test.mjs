@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {Arena,CHAMPION_BASE_AA_RANGE} from '../engine.mjs';
+import {interpretCommands} from '../commands.mjs';
+const read=n=>JSON.parse(fs.readFileSync(new URL('../data/'+n,import.meta.url),'utf8'));
+const draft={blue:{TOP:'KSante',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'}};
+const make=()=>new Arena(read('coachlol_map_v6.json'),read('masks_128.json'),{draft,seed:18});
+let total=0;const test=(label,fn)=>{fn();total++;console.log('✓ '+label)};
+test('K’Sante existe no roster do motor e possui range AA cadastrado',()=>{const a=make(),u=a.units.find(x=>x.id==='blue_TOP');assert.equal(u.champ,'KSante');assert.equal(CHAMPION_BASE_AA_RANGE.KSante,175)});
+test('Deslocamento normal afasta o alvo sem atravessar parede invisível',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.48;u.y=.5;v.x=.50;v.y=.5;a.maskAt=()=>false;const r=a.pushChampionThroughTerrain(u,v,300);assert.ok(v.x>.50);assert.equal(r.crossedWall,false);assert.ok(a.walkable(v.x,v.y));});
+test('K’Sante: parede transitável permite atravessar e reaparecer na saída legal',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.49;u.y=.5;v.x=.51;v.y=.5;a.maskAt=(_,x)=>x>=.525&&x<.535;const r=a.pushChampionThroughTerrain(u,v,700);assert.ok(r.crossedWall);assert.ok(v.x>.535);assert.ok(a.walkable(v.x,v.y));});
+test('Parede sem saída dentro do orçamento bloqueia deslocamento',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.49;u.y=.5;v.x=.51;v.y=.5;a.maskAt=(_,x)=>x>=.525&&x<.900;const r=a.pushChampionThroughTerrain(u,v,800);assert.equal(r.crossedWall,false);assert.ok(v.x<.525);assert.equal(r.blocked,true);});
+test('Borda do atlas bloqueia knockback sem sair do campo',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.958;u.y=.5;v.x=.972;v.y=.5;a.maskAt=()=>false;const r=a.pushChampionThroughTerrain(u,v,750);assert.equal(r.blocked,true);assert.ok(v.x<=.978);assert.ok(a.walkable(v.x,v.y));});
+test('R K’Sante precisa de nível/rank, alcance, visão e cooldown',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.49;u.y=.5;v.x=.505;v.y=.5;a.visible=()=>true;assert.equal(a.queueSpecialUltimate('blue',u.id,v.id).ok,false);u.level=6;u.skillRanks.R=1;u.mana=200;const r=a.queueSpecialUltimate('blue',u.id,v.id);assert.ok(r.ok,r.reason);a.duelPermission=()=>true;a.maskAt=()=>false;const x=v.x,hp=v.hp;a.resolveSpecialUltimates();assert.ok(v.x>x);assert.ok(v.hp<hp);assert.ok(u.allOutUntil>a.gameTime);assert.equal(a.queueSpecialUltimate('blue',u.id,v.id).ok,false);});
+test('R K’Sante rejeita alvo inimigo distante sem efeito lateral',()=>{const a=make(),u=a.units[0],v=a.units[5];u.x=.25;u.y=.25;v.x=.75;v.y=.75;u.level=6;u.skillRanks.R=1;a.visible=()=>true;assert.equal(a.queueSpecialUltimate('blue',u.id,v.id).ok,false);assert.equal(u.queuedUltimate,undefined);});
+test('Seleção de múltiplos alvos é contextual, visível e acessível',()=>{const a=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8'),css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');assert.match(a,/screenCandidates\(/);assert.match(a,/match\.perspective\('blue'\)\.units\.filter/);assert.match(a,/candidates\.length>1/);assert.match(a,/openTargetPicker\(candidates/);assert.match(a,/consumeChampionTarget\(/);assert.match(css,/\.clusterTargetPicker/);assert.match(a,/setAttribute\('role','dialog'\)/);});
+test('Aliases de K’Sante estão habilitados no compilador PT-BR',()=>{const a=make();const r=interpretCommands('ksante farmar safe',a,{team:'blue'});assert.ok(r.commands?.some(c=>c.role==='TOP'&&c.actions.length>0),JSON.stringify(r));});
+console.log(`${total} novos testes de deslocamento/seleção aprovados`);

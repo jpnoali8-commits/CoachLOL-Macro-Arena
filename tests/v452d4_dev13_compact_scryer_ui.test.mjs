@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+assert.match(app,/className='scryerCompactPicker'/);
+assert.match(app,/scryerCompactDial/);
+assert.match(app,/scryerCompactArrow/);
+assert.match(app,/scryerCompactConfirm/);
+assert.match(app,/Rotação/);
+assert.match(app,/Confirmar/);
+assert.doesNotMatch(app,/CONE DIRECIONAL/);
+assert.doesNotMatch(app,/Máscara:/);
+assert.doesNotMatch(app,/Revelar na direção/);
+for(const token of ['.scryerCompactPicker','.scryerCompactDial','.scryerCompactArrow','.scryerCompactConfirm'])assert.match(css,new RegExp(token.replace(/\./g,'\\.')));
+console.log('✓ V4.5.2d-4-dev13 UI compacta da Florividente presente e textos antigos removidos');

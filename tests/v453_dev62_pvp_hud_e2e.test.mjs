@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createPvPServerV453Dev47} from '../multiplayer/server_v453_dev47.mjs';
+import {PvPRoomRegistryV453Dev47} from '../multiplayer/room_v453_dev47.mjs';
+const read=n=>JSON.parse(readFileSync(new URL('../data/'+n,import.meta.url),'utf8'));
+const registry=()=>new PvPRoomRegistryV453Dev47({map:read('coachlol_map_v6.json'),mask:read('masks_128.json'),manifest:read('rift_user_manifest_v452d4.json')});
+let passed=0;async function check(label,fn){await fn();console.log('✓ DEV62',label);passed++;}
+const srv=createPvPServerV453Dev47({tickMs:0}),address=await srv.listen(0),base=`http://127.0.0.1:${address.port}`;
+const post=async(path,data,ck='')=>{const res=await fetch(base+'/api/'+path,{method:'POST',headers:{origin:base,'content-type':'application/json',...(ck?{cookie:ck}:{})},body:JSON.stringify(data)});return {status:res.status,data:await res.json(),cookie:res.headers.get('set-cookie')};};
+const get=async(path,ck='')=>{const res=await fetch(base+path,{headers:ck?{cookie:ck}:{}});return {status:res.status,data:await res.json()};};
+try{
+ const a=await post('create',{maxSeats:2}),c1=a.cookie.split(';')[0],b=await post('join',{roomId:a.data.roomId}),c2=b.cookie.split(';')[0];
+ await check('Dois humanos independentes têm cookies, equipes e sessões distintas',()=>{assert.equal(a.data.team,'blue');assert.equal(b.data.team,'red');assert.notEqual(c1,c2);assert.equal(a.data.roomId,b.data.roomId);});
+ const blue=await get('/api/session',c1),red=await get('/api/session',c2);
+ await check('Cada humano controla cinco campeões e apenas sua própria equipe',()=>{for(const [v,team] of [[blue,'blue'],[red,'red']]){assert.equal(v.data.projection.controlledUnitIds.length,5);assert.equal(v.data.projection.units.filter(u=>u.team===team).length,5);}});
+ await check('Cada sessão recebe somente informações de Undo e fonte de sua equipe',()=>{for(const [v,team] of [[blue,'blue'],[red,'red']]){for(const field of ['shopUndoAvailableV453Dev61','shopUndoStateV453Dev62','shopInRangeV453Dev60']){assert.equal(Object.keys(v.data.projection[field]).length,5);assert.ok(Object.keys(v.data.projection[field]).every(id=>id.startsWith(team+'_')));}}});
+ const shop=await get('/api/shop',c1);
+ await check('Catálogo Riot offline apresenta 100 referências sem liberar compras',()=>{assert.equal(shop.data.referenceItems.length,100);assert.ok(shop.data.items.find(x=>x.id==='boots'));assert.ok(shop.data.referenceItems.every(x=>x.playable===false));});
+ await check('Catálogo e preços não são acessíveis sem autenticação',async()=>{assert.equal((await get('/api/shop')).status,401);assert.equal((await get('/api/shop/quote?unitId=blue_MID&itemId=boots')).status,401);});
+ const q=await get('/api/shop/quote?unitId=blue_MID&itemId=boots',c1);
+ await check('Cotação usa preço e disponibilidade do motor',()=>{assert.equal(q.status,200);assert.equal(q.data.total,300);assert.equal(q.data.remaining,300);assert.equal(q.data.canBuy,true);assert.equal(q.data.gold,500);});
+ await check('Cotação rejeita inimigo mesmo com item existente',async()=>{assert.equal((await get('/api/shop/quote?unitId=red_MID&itemId=boots',c1)).status,403);assert.equal((await get('/api/shop/quote?unitId=blue_MID&itemId=boots',c2)).status,403);});
+ await check('Cotação não transforma item de referência em item jogável',async()=>{assert.equal((await get('/api/shop/quote?unitId=blue_MID&itemId=3072',c1)).status,404);});
+ const buy=await post('action',{sequence:1,unitId:'blue_MID',kind:'item.buy',payload:{itemId:'boots'}},c1);
+ await check('Compra efetiva feita pelo servidor e baixa do saldo',async()=>{assert.equal(buy.status,200);const v=await get('/api/session',c1);const u=v.data.projection.units.find(x=>x.id==='blue_MID');assert.ok(u.items.includes('boots'));assert.equal(u.gold,200);assert.equal(v.data.projection.shopUndoStateV453Dev62.blue_MID.ok,true);});
+ const qb=await get('/api/shop/quote?unitId=blue_MID&itemId=ionian_boots',c1);
+ await check('Cotação de melhoria calcula desconto por componente equipado',()=>{assert.equal(qb.status,200);assert.equal(qb.data.remaining,qb.data.total-300);});
+ const enemy=await post('action',{sequence:1,unitId:'blue_MID',kind:'item.undo',payload:{}},c2);
+ await check('Jogador vermelho não consegue alterar a loja azul',()=>{assert.equal(enemy.status,409);assert.equal(enemy.data.reason,'unidade_nao_autorizada');});
+ const undo=await post('action',{sequence:2,unitId:'blue_MID',kind:'item.undo',payload:{}},c1);
+ await check('Undo restitui integralmente na mesma visita',async()=>{assert.equal(undo.status,200);const v=await get('/api/session',c1);const u=v.data.projection.units.find(x=>x.id==='blue_MID');assert.equal(u.gold,500);assert.ok(!u.items.includes('boots'));});
+ const redbuy=await post('action',{sequence:1,unitId:'red_MID',kind:'item.buy',payload:{itemId:'boots'}},c2);
+ await check('Segundo humano também consegue comprar independentemente',()=>{assert.equal(redbuy.status,200);});
+ const r=await post('ready',{},c1);const mid=await get('/api/session',c1);
+ await check('Somente uma confirmação mantém a fase de preparação',()=>{assert.equal(r.data.ok,true);assert.equal(mid.data.phase,'preparation');assert.ok(mid.data.ready.includes(mid.data.seatId));});
+ const locked=await post('action',{sequence:3,unitId:'blue_MID',kind:'item.buy',payload:{itemId:'boots'}},c1);
+ await check('Confirmação bloqueia operações comerciais subsequentes',()=>{assert.equal(locked.status,409);});
+ const rr=await post('ready',{},c2);
+ await check('Ambas as confirmações avançam simultaneamente',()=>{assert.equal(rr.data.ok,true);assert.equal(rr.data.phase,'executing');});
+ await check('HTML e JS expõem loja em overlay do tabuleiro com seleção própria e cotações',async()=>{const html=await (await fetch(base+'/multiplayer.html')).text(),client=await(await fetch(base+'/multiplayer/pvp_client_v453_dev47.js')).text(),style=await fetch(base+'/multiplayer/shop_v453_dev62.css');assert.ok(html.includes('shopOverlayPvp')&&html.includes('shopChampionPvp')&&html.includes('shopUndoStatusPvp'));assert.ok(client.includes("send('item.buy',{itemId:selectedShopItemId},shopUnitId)"));assert.equal(style.status,200);});
+ const e=registry().create();e.room.join();
+ await check('A fonte mantém regra irreversível da dev61 após saída e retorno',()=>{const u=e.room.arena.units.find(x=>x.id==='blue_MID');u.gold=1000;u.items=[];assert.equal(e.room.arena.buy('blue',u.id,'boots'),true);const shop=e.room.arena.map.objects.find(x=>x.id==='blue_spawn_shop');e.room.arena.moveAlong(u,{path:[{x:shop.x+.1,y:shop.y}],action:'move',point:{x:shop.x+.1,y:shop.y}},1500);u.x=shop.x;u.y=shop.y;const v=e.room.view(e.player);assert.equal(v.projection.shopUndoStateV453Dev62.blue_MID.ok,false);assert.equal(e.room.arena.undoShopV453Dev61('blue',u.id).ok,false);});
+}finally{await srv.close();}
+console.log(`DEV62 ${passed}/${passed} PASS (HTTP dois cookies + motor)`);

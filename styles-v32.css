@@ -1,0 +1,47 @@
+/* CoachLOL v3.2 shop inspector: a click previews, never purchases. */
+.shopBox{width:min(1420px,96vw)!important;max-height:94vh;overflow:hidden;padding:16px!important;border-color:rgba(200,170,110,.5)!important;background:rgba(3,7,10,.97)!important}
+.shopBox .shopLayout{grid-template-columns:clamp(115px,11vw,160px) minmax(0,1fr) clamp(245px,24vw,330px)!important;min-height:0;max-height:calc(94vh - 120px);gap:10px}
+.shopBox .shopCatalog{overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.shopBox .itemGrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important;max-height:none!important;overflow:auto;flex:1;align-content:start;scrollbar-width:thin;scrollbar-color:#775f32 #090a0b}
+.shopBox .shopSidebar{overflow-y:auto;padding:0 6px 10px 14px;scrollbar-color:#665229 #07090b;scrollbar-width:thin}
+.shopBox .shopSidebar .shopItemInspect{background:#080b0f;border:1px solid #574727;padding:10px;border-radius:7px;margin-top:12px;display:grid;gap:9px}
+.shopBox .shopItemTitle{color:#efddb1;font-size:13px;font-weight:700}
+.shopRecipeTree{display:grid;justify-items:center;gap:12px;min-height:65px}
+.recipeComponents{display:flex;justify-content:center;align-items:start;gap:8px;max-width:100%;flex-wrap:wrap;padding-top:13px;border-top:1px solid #3a716f}
+.shopRecipePart{width:70px;display:grid;justify-items:center;gap:3px;text-align:center;font-size:9px;color:#c7b896}
+.shopRecipePart img{width:43px;height:43px;border:1px solid #896d38;background:#111;border-radius:4px;object-fit:cover}
+.shopRecipePart.owned img{border:2px solid #15ad9b}
+.shopRecipePart small{font-size:9px;color:#bdb0a0}
+.shopRecipePart.recipeRoot img{width:60px;height:60px}
+.shopItemDescription{font-size:10px;line-height:1.5;color:#a9b2b6}
+#shopPurchase{width:100%;padding:10px;background:#8f7542;color:#050709;font-weight:800}
+#shopPurchase:disabled{opacity:.40}
+.shopBox .itemBtn{min-height:122px!important;border:1px solid #40341e;border-radius:5px!important;transition:border-color .16s,background .16s}
+.shopBox .itemBtn.is-selected{border:1px solid #edce7e!important;box-shadow:inset 0 0 0 1px #b6914b;background:#232015!important}
+.shopBox .itemBtn .shopItemAction{color:#d7be83}
+/* The turn confirmation is separate from the order editor, positioned at the right edge. */
+.boardColumn>.finishTurnAction{position:absolute;right:13px;bottom:14px;z-index:12;min-width:128px;height:39px;white-space:nowrap;background:linear-gradient(#d1b475,#a9894b);border:1px solid #e1c68b;border-radius:5px;color:#141008;font-weight:800;font-size:11px}
+.boardColumn>.commandDock{left:12px!important;transform:none!important;width:calc(100% - 165px)!important;max-width:none!important}
+.boardColumn>.finishTurnAction:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:900px){.shopBox{overflow:auto;max-height:96vh}.shopBox .shopLayout{grid-template-columns:1fr!important;max-height:none}.shopBox .shopSidebar{overflow:visible}.shopBox .itemGrid{max-height:45vh!important}.boardColumn>.finishTurnAction{right:6px;min-width:94px;font-size:9px}.boardColumn>.commandDock{width:calc(100% - 115px)!important;left:5px!important}}
+/* Keep input, scrollbars, settings and modal surfaces in the same dark visual language */
+:where(.modalBox,.shopBox,.settingsSheet,.policyPanel,.tacticPanel,.inspector,.commandDock) :is(input,select,textarea){background-color:#080b0e;color:#e3d2a8;border-color:#54452b;accent-color:#b99d64}
+:where(.modalBox,.settingsSheet,.right,.left,.shopBox)::-webkit-scrollbar{width:7px;background:#080a0c}
+:where(.modalBox,.settingsSheet,.right,.left,.shopBox)::-webkit-scrollbar-thumb{background:#66512d;border:2px solid #090a0b;border-radius:7px}
+#settingsOpen{font-size:0;min-width:32px}
+#settingsOpen::after{content:'⚙';font-size:19px;color:#d8bb7a}
+/* Override legacy .goldButton {width:100%}: the confirmation must remain compact. */
+.boardColumn > button.finishTurnAction#confirm{box-sizing:border-box!important;width:138px!important;min-width:138px!important;max-width:138px!important;display:inline-flex!important;flex:0 0 138px!important;align-items:center!important;justify-content:center!important;padding:8px 10px!important;line-height:1.2!important;inset:auto 12px 13px auto!important;transform:none!important;border-radius:6px!important}
+@media(max-width:900px){.boardColumn > button.finishTurnAction#confirm{width:100px!important;min-width:100px!important;max-width:100px!important;right:6px!important;bottom:8px!important}}
+
+/* V4.5.3-dev30 · receituário navegável, compacto e acessível */
+.shopRecipeTree{overflow:auto;max-height:320px;align-content:start;justify-items:stretch}
+.shopRecipeBranch{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.shopRecipeSelect{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;border:1px solid transparent;background:transparent;color:inherit;padding:3px;border-radius:5px;cursor:pointer}
+.shopRecipeSelect:hover,.shopRecipeSelect:focus-visible{background:#25231e;border-color:#af8f43;outline-offset:2px}
+.shopRecipeQuickBuy{width:100%;font-size:9px;min-height:22px;background:#342d20;border:1px solid #b39850;color:#edd28a;border-radius:4px;cursor:pointer}
+.shopRecipeQuickBuy:disabled{opacity:.45;cursor:default}
+.shopRecipeBack{justify-self:start;background:#24221e;color:#e8c87b;border:1px solid #776741;border-radius:4px;padding:5px 9px;cursor:pointer}
+.recipeComponents{border-color:#74613c;gap:12px;align-items:flex-start}
+.shopRecipePart{width:91px;max-width:100%}
+.shopRecipePart small{overflow-wrap:anywhere}

@@ -1,0 +1,13 @@
+/* V38.1: accessible Shift area select and consolidated defensive combo modal */
+#groupSelectRect{position:absolute;z-index:7;pointer-events:none;border:1.6px solid #f4cc73;background:rgba(214,173,74,.16);box-shadow:inset 0 0 0 1px #050e15,0 0 22px #e6c07140;border-radius:3px;overflow:visible}
+#groupSelectRect span{position:absolute;left:0;top:-24px;white-space:nowrap;background:#0b1315ee;border:1px solid #c4a25e;color:#f8e1a6;padding:3px 7px;border-radius:4px;font-size:10px;font-weight:800}
+.boardHolder:has(#groupSelectRect:not([hidden])) #board{cursor:crosshair!important}
+.comboEngageChoice{display:flex;gap:7px;align-items:center;flex-wrap:wrap;border:1px solid #51452e;border-radius:7px;background:#181710;padding:8px;color:#ddbc6e;font-size:10px;font-weight:800}
+.comboEngageChoice select{flex:1;min-width:155px;border:1px solid #826a3b;border-radius:5px;background:#0d1315;color:#f7ddb2;padding:8px;font-size:11px;font-weight:750}
+.comboEngageChoice small{width:100%;color:#a8a79d;font-size:9px;font-weight:500}
+.summonerConfigurator{display:flex;align-items:center;justify-content:space-between;gap:7px;color:#aa9b7a;font-size:9px;font-weight:900;margin:3px 0 8px;letter-spacing:.03em}
+.summonerConfigurator select{min-width:104px;background:#101c20;color:#f1d397;border:1px solid #665433;border-radius:6px;padding:5px 8px;font-size:10px}
+.comboUnitSteps{border-color:#60523a}.comboStepKeys{grid-template-columns:repeat(auto-fit,minmax(70px,1fr))}
+.comboStepKey{min-height:53px}.comboStepKey img{width:23px;height:23px}
+.floatingTarget:has(.comboModalSteps:not([hidden])){max-height:90vh;overflow-y:auto;width:min(600px,95vw)!important}
+@media(max-width:650px){.comboEngageChoice{flex-direction:column;align-items:stretch}.comboStepKeys{grid-template-columns:repeat(3,1fr)}}

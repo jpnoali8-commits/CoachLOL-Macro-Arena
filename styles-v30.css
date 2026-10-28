@@ -1,0 +1,79 @@
+/* V3.0 — gameplay production polish; no duplicate upgrade widgets. */
+:root{--bg:#010408;--panel:#070b10;--panel2:#0a1117;--text:#f0e6d2;--line:rgba(200,170,110,.18);--gold:#c8aa6e;--gold2:#f0e6d2}
+body,.app,.layout{background:#010408!important;color:#e8e1d2}
+.header,.left,.right,.panel{background:#060a0e!important;border-color:rgba(200,170,110,.15)!important}
+.panel{box-shadow:none!important}.inspector{border-radius:8px!important}
+.devControl{display:none!important}.showDevTools .devControl{display:inline-flex!important}
+/* Single skill row and overlay arrows; Q/W/E/R remain movable with their parent widget. */
+#quickSkillUp,.quickSkillUp{display:none!important}
+#skillWidget{position:relative;overflow:visible}
+#skillWidget .spells{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;overflow:visible;padding-top:26px}
+.spellSlot{min-width:0;position:relative;display:flex;align-items:stretch;justify-content:center}
+.spellSlot>.spellKey{width:100%;min-width:0;position:relative;border-radius:5px!important;border:1px solid rgba(200,170,110,.22)!important;background:#090e13!important;padding:5px 1px!important}
+.spellSlot .abilityIcon{min-width:0}.spellSlot .abilityIcon img{object-fit:cover}
+.skillFloatUpgrade{position:absolute;bottom:calc(100% + 2px);left:8%;width:84%;height:25px;z-index:4;padding:1px!important;border:1px solid #d1a853!important;background:linear-gradient(180deg,#d3b35f,#6e531f)!important;border-radius:5px 5px 2px 2px!important;color:#fff3c6!important;font-weight:900!important;font-size:26px!important;line-height:18px!important;box-shadow:0 0 9px #cfa84666!important;cursor:pointer!important}
+.skillFloatUpgrade.ready:hover{background:linear-gradient(180deg,#ffe79a,#b68b38)!important;box-shadow:0 0 15px #f0d48688!important}
+.skillFloatUpgrade.locked{border-color:#333a40!important;background:#161a1d!important;color:#606368!important;box-shadow:none!important;opacity:.42;cursor:not-allowed!important}
+.autoSkillInline{margin:0 0 7px!important;border:0!important;border-bottom:1px solid rgba(200,170,110,.12)!important;border-radius:0!important;padding:4px!important;background:transparent!important}
+/* Buttons have one color per gameplay action; icons are local SVG artwork. */
+.actions button{--accent:#c8aa6e;min-height:59px!important;padding:7px 2px 5px!important;border:1px solid color-mix(in srgb,var(--accent) 32%,#20262b)!important;background:#070c10!important;color:#e9e5dd!important;border-radius:7px!important;box-shadow:none!important}
+.actions button:hover:not(:disabled),.actions button.active{background:color-mix(in srgb,var(--accent) 15%,#070b0d)!important;border-color:var(--accent)!important}
+.actions button b{display:block!important;line-height:0!important;width:24px;height:24px;position:relative}
+.actions button .actionVector{width:24px;height:24px;display:block;filter:drop-shadow(0 0 0 transparent)}
+.actions button span{font-size:9px!important;font-weight:680;line-height:1.2;color:#d0c8b6!important}
+.actions button kbd{background:color-mix(in srgb,var(--accent) 18%,#090b0d)!important;color:var(--accent)!important;border:1px solid color-mix(in srgb,var(--accent) 26%,#16191b)!important}
+.actions .action-stop{--accent:#9aa1a8}.actions .action-move{--accent:#4cc8ff}.actions .action-route{--accent:#dba966}.actions .action-farm{--accent:#93c466}
+.actions .action-fight{--accent:#ff755c}.actions .action-push{--accent:#83a8ff}.actions .action-defend{--accent:#58d28b}.actions .action-ward{--accent:#c886fa}
+.actions .action-jungle{--accent:#ed9d47}.actions .action-objective{--accent:#54dacb}.actions .action-recall{--accent:#68aaff}.actions .action-flash{--accent:#f8da53}
+.actions .action-stop img{filter:invert(70%) sepia(6%) saturate(145%) hue-rotate(172deg)}
+.actions .action-move img{filter:invert(72%) sepia(69%) saturate(801%) hue-rotate(166deg)}
+.actions .action-route img{filter:invert(78%) sepia(42%) saturate(593%) hue-rotate(337deg)}
+.actions .action-farm img{filter:invert(78%) sepia(28%) saturate(688%) hue-rotate(38deg)}
+.actions .action-fight img{filter:invert(65%) sepia(50%) saturate(933%) hue-rotate(313deg)}
+.actions .action-push img{filter:invert(66%) sepia(27%) saturate(986%) hue-rotate(189deg)}
+.actions .action-defend img{filter:invert(73%) sepia(49%) saturate(628%) hue-rotate(93deg)}
+.actions .action-ward img{filter:invert(68%) sepia(41%) saturate(847%) hue-rotate(218deg)}
+.actions .action-jungle img{filter:invert(74%) sepia(70%) saturate(954%) hue-rotate(339deg)}
+.actions .action-objective img{filter:invert(77%) sepia(68%) saturate(471%) hue-rotate(114deg)}
+.actions .action-recall img{filter:invert(67%) sepia(48%) saturate(1168%) hue-rotate(181deg)}
+.actions .action-flash img{filter:invert(83%) sepia(72%) saturate(595%) hue-rotate(348deg)}
+/* Color-coded stats, no washed-out nested boxes. */
+.statGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important}
+.statGrid .miniStat{background:#06090d!important;border:1px solid rgba(200,170,110,.12)!important;padding:5px 2px!important;border-radius:5px!important}
+.statGrid .statIcon{font-size:15px!important}.statGrid small{color:#9b9ba1!important;letter-spacing:.03em}.statGrid b{color:#f0e6d2!important;font-variant-numeric:tabular-nums}
+.miniStat.stat-ad .statIcon,.miniStat.stat-ad b{color:#e5a05b!important}.miniStat.stat-ap .statIcon,.miniStat.stat-ap b{color:#bc81e9!important}
+.miniStat.stat-armor .statIcon,.miniStat.stat-armor b{color:#83b7e5!important}.miniStat.stat-gold .statIcon,.miniStat.stat-gold b{color:#f3c755!important}
+.miniStat.stat-farm .statIcon,.miniStat.stat-farm b{color:#91cc83!important}.miniStat.stat-level .statIcon,.miniStat.stat-level b{color:#e2c277!important}
+.miniStat.stat-wards .statIcon,.miniStat.stat-wards b{color:#d8a2f4!important}.miniStat.stat-kda .statIcon,.miniStat.stat-kda b{color:#f0e6d2!important}
+/* Fully dark controls and scrollbars in every modal, including scoreboard. */
+*,*::before,*::after{scrollbar-color:#5e5034 #06090d;scrollbar-width:thin}
+::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-track{background:#06090d}::-webkit-scrollbar-thumb{background:#5e5034;border:2px solid #06090d;border-radius:6px}
+.scoreboardDialog{background:#060a0d!important;border:1px solid #8e7341!important;box-shadow:none!important}
+.scoreboardHeader,.sbTeamHead{background:#0a0d10!important;border-color:#3a3123!important}
+.sbPlayer{background:#0a1014!important;border-color:rgba(200,170,110,.18)!important}.sbPlayer.self{background:#19180f!important}
+.sbItem{position:relative;overflow:hidden;display:grid;place-items:center}
+.sbItem img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sbItem i{font-style:normal;font-size:15px}.sbItem img+i{opacity:0}
+.sbSummoners{display:flex;flex-direction:column;gap:2px;margin-left:auto;flex:none}.sbSummoners img{width:17px;height:17px;object-fit:cover;border-radius:2px;border:1px solid #64563b}
+.sbIdentity{min-width:0}.sbIdentityText{flex:1}
+/* Shop hierarchy and consistently dark catalog with readable contrast. */
+.shopBox{width:min(1410px,96vw)!important;max-height:93vh!important;background:#060b10!important;border-radius:9px!important;border-color:#8f713f!important;box-shadow:none!important}
+.shopLayout{grid-template-columns:156px minmax(0,1fr) 230px!important;gap:12px!important}
+.shopBox .itemGrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important;max-height:58vh!important;gap:8px!important}
+.shopRoleBanner{grid-column:1/-1;background:#0c151a;color:#e5c788;border-bottom:1px solid #7e683a;padding:9px 12px;font-size:10px;letter-spacing:.12em;font-weight:800}
+.shopBox .itemBtn{min-height:135px!important;background:#0a1115!important;border-color:rgba(200,170,110,.20)!important;border-radius:6px!important}
+.shopBox .itemBtn:hover{border-color:#c8aa6e!important;background:#172027!important}
+.shopBox .tabRow button.active{border-color:#b99a55!important;color:#f0e6d2!important;background:#201a11!important}
+.shopBox input,.shopBox select{background:#070d12!important;color:#f0e6d2!important;border-color:#77623a!important}
+.shopChampChoice{border-radius:5px!important;background:#0c1014!important}.shopChampChoice.active{background:#211a10!important}
+.shopQueueItem{background:#0c1115!important;border-color:#5e4c2d!important}
+.shopSidebar{color:#e2d9c6;border-color:#4a3b26!important}
+@media(max-width:1020px){.shopLayout{grid-template-columns:120px minmax(0,1fr)!important}.shopSidebar{grid-column:1/-1}.shopBox .itemGrid{max-height:38vh!important}}
+@media(max-width:710px){.shopLayout{display:block!important}.shopChampionPicker{flex-direction:row!important;overflow:auto!important}.shopBox .itemGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+
+/* Local ability icons: official spell illustration overlays the abstract offline fallback. */
+.spellSlot .abilityIcon{position:relative;display:block;overflow:hidden}
+.spellSlot .abilityIcon img.localAbilityIcon{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.spellSlot .abilityIcon img.officialAbilityIcon{position:absolute;inset:0;width:100%;height:100%;z-index:1;object-fit:cover}
+.spellSlot .abilityIcon>b{position:relative;z-index:2;text-shadow:0 1px 3px #000}

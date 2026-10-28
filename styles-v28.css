@@ -1,0 +1,5 @@
+/* v2.8 Orbital camera controls — unobtrusive and draggable widgets retained. */
+.tiltControls .yawHint{display:flex;align-items:center;justify-content:space-between;margin:5px 0 0!important;color:#9a927f;font-size:10px;gap:10px}
+.tiltControls .yawHint output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#dfc58e;font-weight:700;min-width:33px;text-align:right}
+#board{touch-action:none;cursor:crosshair}
+#board:active{cursor:grabbing}

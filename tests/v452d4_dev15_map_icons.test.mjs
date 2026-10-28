@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const source=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+const keys=['ward_eye_gold','ward_eye_pink','hexgate_portal','scryer_glow_plant','blast_seed','heal_fruit_plant'];
+for(const key of keys)assert.ok(source.includes("'"+key+"'"),`DEV15→DEV16 ${key} precisa existir`);
+assert.match(source,/function minionHasBaronAuraV452d4Dev15\(minion\)/);
+assert.match(source,/baronMinionModifiersV452d\(minion\)/);
+console.log('✓ DEV15 migration: map element identity still present via CC0 SVGs');
+console.log('✓ DEV15 migration: Baron aura still derived from authoritative motor');
+console.log('V4.5.2d-4-dev15 (migrated): 2/2 PASS');

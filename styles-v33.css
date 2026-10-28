@@ -1,0 +1,36 @@
+/* v3.3: action chronology / chat / brush readability and no theme leakage */
+:root{color-scheme:dark;--gold:#c8aa6e;--panel:#05080c;--blue:#0ac8b9;--red:#e84057}
+.ordersHistory{display:flex;flex-direction:column;gap:5px;max-height:200px;overflow:auto;scrollbar-color:#66502d #0b0a09;scrollbar-width:thin}
+.orderHistoryWidget{padding:11px 10px!important;background:#080a0d!important;border:1px solid #58472a!important;border-radius:10px}
+.orderHistoryRow{display:grid;grid-template-columns: minmax(65px,1fr) auto auto;gap:4px 6px;align-items:center;padding:6px;border:1px solid #332a1d;border-radius:7px;background:#0b0d10}
+.orderHistoryRow b{font-size:10px;color:#f0ddac;grid-column:1}
+.orderHistoryRow small{font-size:10px;color:#b6b7b5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;grid-column:1/-1;grid-row:2}
+.orderHistoryRow button{padding:3px 6px!important;font-size:10px;background:#151411;border-color:#504127;color:#e0ce9c;border-radius:5px}
+.orderHistoryRow button:first-of-type{grid-column:2;grid-row:1}.orderHistoryRow button:last-of-type{grid-column:3;grid-row:1;color:#ed8590}
+.rosterItem.isDead img{filter:grayscale(1) brightness(.55)}.rosterItem.isDead .hp{color:#f2a39c;font-weight:750}
+.objectiveTimes{position:absolute;left:calc(50% + 250px);display:flex;gap:6px;align-items:center;z-index:5}.objectiveTime{font:700 10px/1.2 Inter,sans-serif;color:#dec687;border:1px solid #594628;background:#0b0d10;border-radius:6px;padding:5px 7px;white-space:nowrap}.objectiveTime.dragon{color:#dfa465}
+.eventOverlay{position:absolute;top:80px;left:50%;transform:translateX(-50%);z-index:21;max-width:min(680px,80%);padding:10px 20px;border:1px solid #b38a4a;border-radius:8px;background:rgba(5,6,7,.92);color:#f4d991;backdrop-filter:blur(12px);font-weight:800;pointer-events:none;animation:coachEventIn 200ms ease-out}
+@keyframes coachEventIn{from{opacity:0;translate:0 -10px}to{opacity:1;translate:0 0}}
+/* Chat and command bar share the same floor line, never cover one another */
+.boardColumn .arenaChat{bottom:10px!important;left:9px!important;width:min(32%,290px)!important;max-height:240px!important;box-shadow:none!important;border-color:#785b35!important}
+.boardColumn.chatDockOpen .commandDock{left:calc(32% + 10px)!important;transform:none!important;width:calc(68% - 120px)!important;max-width:none!important;bottom:10px!important}
+.boardColumn.chatDockOpen .finishTurnAction{right:10px!important;bottom:10px!important;z-index:18!important}
+.boardColumn.chatDockOpen .chatShortcut{display:none}
+.boardColumn:not(.chatDockOpen) .commandDock{width:min(890px,calc(100% - 125px))!important;left:calc(50% - 49px)!important}
+.boardColumn .finishTurnAction{right:8px!important;bottom:10px!important;z-index:12!important}
+.boardColumn .commandDock{gap:4px!important;flex-wrap:nowrap!important;min-width:0!important}
+.commandDock textarea{min-width:100px!important;max-width:none!important;flex:1 1 100px!important}
+.commandDock .commandActions{flex-wrap:nowrap!important}.commandDock .commandActions button{font-size:9px!important;padding:7px 6px!important}
+.commandDock .commandPreview:not([hidden]){position:absolute!important;bottom:calc(100% + 8px)!important;left:0!important;right:0!important;z-index:13!important;max-height:160px!important}
+@media(max-width:1160px){.objectiveTimes{display:none}.boardColumn.chatDockOpen .arenaChat{bottom:67px!important;width:calc(100% - 20px)!important;max-height:180px!important}.boardColumn.chatDockOpen .commandDock{left:9px!important;width:calc(100% - 125px)!important}}
+/* Offline dark scrollbars for all modals and movable panels */
+*{scrollbar-width:thin;scrollbar-color:#5e5030 #08090c}::-webkit-scrollbar{height:7px;width:7px}::-webkit-scrollbar-track{background:#08090c}::-webkit-scrollbar-thumb{border:1px solid #17140e;border-radius:8px;background:#66502d}
+/* Fixed geometry: one bottom row reserved for chat trigger, order editor, turn confirm. */
+.boardColumn:not(.chatDockOpen) .commandDock{left:68px!important;right:140px!important;width:auto!important;max-width:none!important;transform:none!important;bottom:8px!important}
+.boardColumn .finishTurnAction{position:absolute!important;right:8px!important;bottom:8px!important;width:124px!important;min-width:124px!important;margin:0!important;z-index:20!important;padding:10px 8px!important;white-space:nowrap!important}
+.boardColumn.chatDockOpen .commandDock{left:calc(min(32%,290px) + 18px)!important;right:140px!important;width:auto!important;transform:none!important;max-width:none!important}
+.boardColumn .chatShortcut{bottom:16px!important;left:9px!important;z-index:19!important}
+.boardColumn .arenaChat[hidden]{display:none!important}
+@media(max-width:900px){.boardColumn:not(.chatDockOpen) .commandDock{left:8px!important;right:138px!important}.boardColumn.chatDockOpen .commandDock{left:8px!important;right:138px!important}.boardColumn.chatDockOpen .arenaChat{bottom:70px!important;left:8px!important;width:calc(100% - 16px)!important}}
+/* Reserve extra pixels for the platform's real 138px turn-button footprint. */
+.boardColumn:not(.chatDockOpen) .commandDock,.boardColumn.chatDockOpen .commandDock{right:160px!important}

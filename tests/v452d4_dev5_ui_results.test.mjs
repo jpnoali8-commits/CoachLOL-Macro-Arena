@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFileSync, existsSync} from 'node:fs';
+const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+assert.ok(existsSync(new URL('../assets/ui/endgame/victory_overlay.png',import.meta.url)));
+assert.ok(existsSync(new URL('../assets/ui/endgame/defeat_overlay.png',import.meta.url)));
+for(const id of ['endgameOverlay','endgameIntroImage','endgameIntroContinue','resultOverlay','resultHero','resultTeamCards','resultCharts','resultTables','resultContinue'])assert.match(html,new RegExp(`id="${id}"`));
+for(const token of ['syncEndgameFlow','renderResultSummary','teamResultData','resultMetricRow','setEndgameIntroOpen','setResultOverlayOpen'])assert.match(app,new RegExp(token));
+for(const cls of ['endgameOverlay','resultOverlay','endgameImageHotspot','resultDialog','resultChartRow','resultTableWrap'])assert.match(css,new RegExp(`\\.${cls}`));
+console.log('✓ UI pós-jogo: intro de vitória/derrota + tela de resultados presentes');

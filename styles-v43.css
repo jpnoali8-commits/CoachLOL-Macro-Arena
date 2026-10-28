@@ -1,0 +1,25 @@
+/* V4.3 — inventory and rune loadout, integrated with the existing dark/gold shop */
+.shopInventoryV43{display:flex;flex-direction:column;gap:5px;margin:10px 0;color:#e6d1a0;font-size:11px}
+.shopInventoryV43>strong,.runesV43>label{font-size:10px;letter-spacing:.10em;color:#d2ac60;font-weight:750}
+.inventorySlotV43{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#10191c;border:1px solid #283638;border-radius:5px;padding:5px 7px}
+.inventorySlotV43>span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inventorySlotV43>button,.runesV43>button{border:1px solid #856832;border-radius:5px;color:#eac982;background:#172023;padding:5px 9px;cursor:pointer}
+.inventorySlotV43>button:disabled,.runesV43>button:disabled{opacity:.35;cursor:not-allowed}
+.runesV43{border-top:1px solid #584820;margin:8px 0;padding:10px 0;display:flex;flex-direction:column;gap:7px}
+.runesV43 select{background:#111a1c;color:#e9d5a8;border:1px solid #675327;border-radius:5px;padding:7px;font-size:11px;max-width:100%}
+.runesV43 small{color:#8e989a;font-size:10px;line-height:1.35}
+
+/* V4.5.2b — seletor de alvo durante reação tática */
+.reactionTargetPicker{display:flex;flex-direction:column;gap:5px;margin:8px 0;color:#d5b973;font:600 11px Inter,Arial,sans-serif;letter-spacing:.04em}
+.reactionTargetPicker select{background:#080d10;color:#f4e9d5;border:1px solid #90733c;border-radius:4px;min-height:34px;padding:7px 9px;max-width:100%;font-size:13px}
+
+/* Dev39 · restrained flat black/gold proc readability */
+.itemProcsV453Dev39{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:7px 0 10px}
+.itemProcV453Dev39{position:relative;min-width:0;background:#10181c;border:1px solid #354047;border-radius:5px;padding:5px 7px;font-size:10px;display:flex;flex-direction:column;gap:2px;color:#a8b9bd}
+.itemProcV453Dev39 span{color:#d5c19a;font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.itemProcV453Dev39 b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#ced5d6}
+.itemProcV453Dev39.isReady{border-color:#9d7b41}
+.itemProcV453Dev39.isReady b{color:#efd49b}
+.itemProcTrackV453Dev39{display:block;width:100%;height:3px;overflow:hidden;border-radius:4px;background:#303a3c}
+.itemProcTrackV453Dev39 em{display:block;height:100%;background:#b38b4b}
+.inventorySlotV43 .itemInventoryProcV453Dev39{max-width:93px;font-size:9px;line-height:1.1;color:#c7a96e;text-align:right;white-space:normal}

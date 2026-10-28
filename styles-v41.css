@@ -1,0 +1,9 @@
+/* CoachLOL V4.1 — effects tokens (flat and compact, no canvas occlusion). */
+.effectStripV41{display:flex;gap:4px;flex-wrap:wrap;margin:5px 0 8px;max-height:64px;overflow:auto}
+.effectStripV41[hidden]{display:none!important}
+.effectBadgeV41{font-size:10px;padding:3px 6px;color:#e5d7bd;background:#202026;border:1px solid #695b39;border-radius:5px;white-space:nowrap}
+.effectBadgeV41 b{color:#efc26d;font-variant-numeric:tabular-nums;margin-left:4px}
+#effectDetailsV41{margin-top:11px;border-top:1px solid #514329;padding-top:8px}
+#effectDetailsV41 h4{color:#e6bc68;letter-spacing:.08em;font-size:11px;margin:3px 0 6px}
+.effectDetailV41{font-size:11px;display:flex;justify-content:space-between;gap:14px;color:#bac4cc;padding:5px 1px;border-bottom:1px solid #26333d}
+.effectDetailV41 b{color:#e7c88d;font-variant-numeric:tabular-nums}

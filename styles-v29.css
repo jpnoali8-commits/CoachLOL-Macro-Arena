@@ -1,0 +1,114 @@
+/* COACHLOL v2.9 — the dark Hextech production pass. Additive stylesheet; preserves gameplay IDs. */
+:root{--hx-black:#010408;--hx-card:#060a0e;--hx-surface:#0a1014;--hx-line:rgba(200,170,110,.20);--hx-gold:#c8aa6e;--hx-light:#f0e6d2;--hx-muted:#8e99a0;--hx-cyan:#0ac8b9;--hx-red:#e84057;}
+html,body,.app{background:#010408!important;color:#f0e6d2!important}
+button,select,input{transition:background-color .13s ease,border-color .13s ease,color .13s ease}
+.header{background:rgba(2,5,8,.98)!important;border-bottom:1px solid var(--hx-line)!important;box-shadow:none!important}
+.brand small{color:#9a8b70!important}.header .scorePanel{background:rgba(7,11,15,.95)!important;border:1px solid rgba(200,170,110,.23)!important;border-radius:5px!important;box-shadow:none!important}
+.header .scorePanel .scoreKills{color:#a7a6a0!important}.header .scorePanel .scoreCenter small{color:#c8aa6e!important}
+.header .headRight button{border:1px solid rgba(200,170,110,.16)!important;border-radius:5px!important;background:#0a0e12!important;color:#c1b6a0!important;box-shadow:none!important}
+.header .headRight button:hover{background:#151914!important;border-color:rgba(200,170,110,.65)!important;color:#f0e6d2!important}
+.layout{background:#010408!important;gap:5px!important;padding:5px!important}
+.left,.right{gap:5px!important;scrollbar-color:#66563a #070a0c!important}
+.panel{background:rgba(5,9,13,.97)!important;border:1px solid rgba(200,170,110,.18)!important;border-radius:5px!important;box-shadow:none!important}
+.panel:hover{border-color:rgba(200,170,110,.3)!important}
+.sectHead{min-height:19px}.sectHead h3{color:#c8aa6e!important;font-size:10px!important;letter-spacing:.09em!important}.sectHead span{color:#77838a!important}
+.left .rosterItem{border-radius:4px!important;background:#080d11!important;border:1px solid #252a29!important;box-shadow:none!important}
+.left .rosterItem.active{background:#141713!important;border-color:#c8aa6e!important;box-shadow:inset 2px 0 0 #c8aa6e!important}
+.boardColumn,.boardHolder{border-radius:0!important;background:radial-gradient(ellipse at center,#0c141a 0%,#020507 72%)!important}
+.boardHolder:before{opacity:.48}
+.boardBottom{background:rgba(2,6,9,.72)!important;border:1px solid rgba(200,170,110,.15)!important;backdrop-filter:blur(10px);box-shadow:none!important}
+.right .inspector{padding:10px!important}
+.right .champHead h2{font-size:20px!important;font-family:Cinzel,Georgia,serif!important;font-weight:700!important;color:#f0e6d2!important}
+.right .champHead img{width:43px!important;height:43px!important;border-color:#9c855c!important}
+.right .meters{gap:7px!important}.right .meter{height:5px!important;background:#1a2225!important}.right .meter:not(.mana)>i{background:#2aca98!important}.right .meter.mana>i{background:#328fda!important}
+.right .summonerQuick{margin:7px 0!important}.right .summonerQuick .summonerButton{min-height:35px!important;padding:3px 5px!important;border-color:rgba(200,170,110,.2)!important}
+/* High-contrast semantic readings, not 8 nested yellow cards */
+.right .statGrid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;padding:4px!important;background:#090e11!important;border:1px solid rgba(200,170,110,.15);border-radius:5px!important}
+.right .statGrid .miniStat{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px 2px!important;min-height:50px!important;border:0!important;border-radius:2px!important;background:transparent!important;box-shadow:none!important}
+.right .statGrid .miniStat:hover{background:#131b1e!important}
+.right .statGrid .statIcon{font-size:12px;line-height:1;color:#c8aa6e}
+.right .statGrid small{color:#7f898c!important;font-size:8px!important;letter-spacing:.05em!important;line-height:1.05!important}
+.right .statGrid b{color:#eee4d2!important;font-size:12px!important;font-weight:800!important;font-variant-numeric:tabular-nums!important}
+.stat-ad .statIcon,.stat-ad b{color:#efad8b!important}.stat-ap .statIcon,.stat-ap b{color:#b0a3eb!important}
+.stat-armor .statIcon,.stat-armor b{color:#93c2c8!important}.stat-gold .statIcon,.stat-gold b{color:#f4d079!important}
+.stat-farm .statIcon,.stat-farm b{color:#e7dfca!important}.stat-level .statIcon,.stat-level b{color:#c9d7fb!important}
+.stat-wards .statIcon,.stat-wards b{color:#9acaa4!important}.stat-kda .statIcon,.stat-kda b{color:#eed28c!important}
+.right .statGrid .stat-kda b{font-size:10px!important;white-space:nowrap!important}
+/* Actions: unmistakable icons by category, without buttons nested in boxes */
+.right .reorderWidget{border:0!important;border-top:1px solid rgba(200,170,110,.19)!important;background:transparent!important;padding:8px 0 2px!important;border-radius:0!important;margin:6px 0!important}
+.right .reorderWidget .sectHead{border:0!important;padding:2px 0!important;cursor:grab}
+.right .actions{gap:5px!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.right .actions button{min-height:47px!important;padding:6px 3px!important;border:1px solid #263036!important;background:#0a1014!important;border-radius:5px!important;box-shadow:none!important}
+.right .actions button span{font-size:9px!important;color:#c2c7c5!important}
+.right .actions button b{font-size:18px!important;color:#c8aa6e!important}
+.actions .action-move b,.actions .action-route b{color:#65c0ea!important}
+.actions .action-farm b,.actions .action-jungle b{color:#a4d595!important}
+.actions .action-fight b{color:#f2828f!important}.actions .action-defend b{color:#95c7e9!important}
+.actions .action-ward b{color:#b5d986!important}.actions .action-objective b{color:#ffe093!important}
+.actions .action-recall b,.actions .action-flash b{color:#baadff!important}.actions .action-push b{color:#eeb08b!important}
+.actions .action-stop b{color:#abb2b7!important}
+.right .actions button.active{border-color:#c8aa6e!important;background:#1d1c17!important}
+.right .quickToggles button{background:#0a1014!important;border:1px solid #293330!important;border-radius:4px!important;padding:4px 7px!important}
+.right .quickToggles button.active{color:#95d7ae!important;border-color:#41775f!important}
+.autoSkillInline{display:flex!important;align-items:center;justify-content:space-between;padding:6px 0!important;margin:6px 0 0!important;background:transparent!important;border:0!important;border-top:1px solid rgba(200,170,110,.17)!important;border-radius:0!important}
+.autoSkillInline label{color:#d8c69b!important;white-space:nowrap!important}.autoSkillInline small{color:#a3a399!important;font-size:9px!important}
+.right .quickSkillUp{display:flex;align-items:center;flex-wrap:wrap;gap:6px;background:transparent!important;border:0!important;border-radius:0!important;padding:5px 0!important;margin:6px 0 0!important}
+.right .quickSkillUp>b{color:#eed599!important;font-size:9px!important}
+.right .quickSkillUp .skillUpgradeButtons{display:flex;gap:5px!important;margin:0!important}
+.right .quickSkillUp .skillUpButton{background:#13201d!important;color:#b7f0bd!important;border:1px solid #4b8b5b!important;padding:4px!important;border-radius:4px!important;font-weight:900!important;font-size:9px!important;animation:skillGlow 1.8s ease-in-out infinite alternate}
+.right .quickSkillUp #skillGateHelp{display:none!important}
+@keyframes skillGlow{from{border-color:#3c6e50}to{border-color:#94cd8e}}
+#skillWidget .spells{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+#skillWidget .spellKey{min-width:0!important;min-height:69px!important;padding:5px 2px!important;border-color:#343630!important}
+#skillWidget .spellKey em{font-size:8px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap!important;max-width:100%}
+.right .policyPanel,.right .tacticPanel,.right .smitePanel,.right .comboPanel,.right .tiltControls{border:0!important;border-top:1px solid rgba(200,170,110,.2)!important;background:transparent!important;padding:7px 0!important;border-radius:0!important}
+.right .tacticPanel[open]{background:#070c10!important}.right .tacticPanel summary{padding:5px!important}
+.right .orderSummary{background:#0a1215!important;border:1px solid #292c24!important;border-left:2px solid #c8aa6e!important;border-radius:3px!important;padding:6px!important}
+/* Scalable shop. One modal, no floating dialogs nested within it. */
+#shopModal{background:rgba(0,1,3,.87)!important;backdrop-filter:blur(6px)}
+.shopBox{width:min(1500px,98vw)!important;max-height:95vh!important;padding:0!important;overflow:hidden!important;border:1px solid rgba(200,170,110,.6)!important;border-radius:7px!important;background:#05090c!important;box-shadow:0 0 0 1px rgba(0,0,0,.9)!important}
+.shopBox .modalHead{margin:0!important;padding:17px 21px!important;background:#080d11!important;border-bottom:1px solid rgba(200,170,110,.20)!important}
+.shopBox .modalHead h2{font-family:Cinzel,Georgia,serif!important;font-size:25px!important;color:#f0e6d2!important;letter-spacing:.02em}
+.shopBox .modalHead small{color:#c8aa6e!important}.shopBox .modalHead p{margin:2px 0!important;font-size:11px!important;color:#858d8e!important}
+.shopLayout{display:grid!important;grid-template-columns:178px minmax(0,1fr) 260px!important;gap:0!important;height:min(710px,calc(95vh - 112px))!important;min-height:0!important}
+.shopChampionPicker{background:#070c10!important;border-right:1px solid rgba(200,170,110,.18)!important;padding:12px 8px!important;overflow:auto!important;gap:5px!important}
+.shopChampionPicker .shopChampChoice{border:1px solid transparent!important;background:#090f13!important;border-radius:4px!important;padding:8px 6px!important;min-width:0!important;text-align:left!important}
+.shopChampionPicker .shopChampChoice.active{border-color:#c8aa6e!important;background:#1a1b16!important}
+.shopChampionPicker .shopChampIcon img{width:34px!important;height:34px!important;border-radius:4px!important}
+.shopCatalog{display:flex;flex-direction:column;min-height:0;padding:14px 16px!important;background:#05090d!important}
+.shopBox .tabRow{gap:3px!important;margin:0 0 11px!important;overflow-x:auto!important;scrollbar-width:thin}
+.shopBox .tabRow button{white-space:nowrap;min-width:0!important;padding:8px 10px!important;background:#0c1418!important;border:1px solid transparent!important;border-radius:4px!important;color:#99a19e!important;font-size:10px!important}
+.shopBox .tabRow button.active{background:#26251a!important;color:#f0e6d2!important;border-color:rgba(200,170,110,.55)!important}
+.shopSearchRow{display:flex;align-items:center;gap:7px;background:#090f14;border:1px solid rgba(200,170,110,.28);border-radius:5px;padding:3px 8px;margin:0 0 12px;flex-shrink:0;height:40px}
+.shopSearchIcon{font-size:24px;color:#c8aa6e;line-height:1}
+#shopSearch{flex:1;width:100%;border:0;outline:0;background:transparent;color:#f0e6d2;font-size:12px;padding:7px 2px}
+#shopSearch::placeholder{color:#6f7f85}
+#shopClearSearch{border:0;background:transparent;color:#a9a394;font-size:18px;padding:2px 7px}
+#shopClearSearch:hover{color:#f0e6d2}
+.shopBox .itemGrid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;align-content:start;max-height:none!important;flex:1;overflow:auto!important;padding:2px 4px 12px 0!important}
+.shopBox .itemBtn{min-width:0!important;min-height:140px!important;display:grid!important;align-content:start;grid-template-columns:46px 1fr;grid-template-rows:auto auto 1fr auto;gap:4px 9px!important;padding:10px!important;text-align:left!important;border:1px solid #263036!important;border-radius:5px!important;background:#0a1014!important;transition:border-color .15s,background-color .15s!important}
+.shopBox .itemBtn:hover:not(:disabled){background:#121913!important;border-color:#b79a63!important}
+.shopBox .itemBtn:disabled{opacity:.5!important}
+.shopBox .itemBtn .itemIcon{grid-column:1;grid-row:1 / span 3;display:flex;align-items:center;justify-content:center;width:45px;height:45px;background:#151b1d;border:1px solid #5f543e;border-radius:5px;font-size:24px;overflow:hidden}
+.shopBox .itemBtn .itemIcon img{width:100%;height:100%;object-fit:cover;display:block}
+.shopBox .itemBtn b{font-size:11px!important;color:#f0e6d2!important;line-height:1.25!important;grid-row:1;grid-column:2}
+.shopBox .itemBtn small{color:#8f9d9f!important;font-size:9px!important;grid-row:2;grid-column:2;line-height:1.35!important}
+.shopBox .itemBtn em{font-style:normal;font-size:11px;color:#e8c47b!important;grid-column:1 / -1;align-self:end;margin-top:10px}
+.shopBox .itemBtn .shopItemAction{font-size:9px!important;color:#d4bc87!important;grid-column:1/-1;letter-spacing:.08em!important}
+.shopSidebar{padding:16px!important;border-left:1px solid rgba(200,170,110,.18)!important;background:#070c0f!important;overflow:auto!important;min-width:0!important}
+.shopGold{background:#151910!important;border:1px solid #75613a!important;border-radius:4px;padding:10px 12px;margin:12px 0!important;align-items:center;color:#b7a886!important}
+.shopGold strong{font-size:24px!important;color:#f1c56f!important;font-variant-numeric:tabular-nums}
+.shopQueueLabel{color:#c8aa6e!important}.shopSidebar p{color:#839298!important}
+.shopQueueItem{background:#0e1316!important;border-color:#34382f!important;border-radius:4px!important}
+.shopPresets button,.shopExit button{border-radius:4px!important;font-size:10px!important}
+/* UI-specific motion only; never animate the game simulation with CSS. */
+@media(max-width:1190px){.shopLayout{grid-template-columns:150px minmax(0,1fr) 215px!important}.shopBox .itemGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:740px){.shopBox{max-height:97vh!important}.shopLayout{display:flex!important;flex-direction:column!important;height:calc(97vh - 92px)!important}.shopChampionPicker{display:flex!important;flex-direction:row!important;flex:0 0 75px;overflow-x:auto!important;border-right:0!important;border-bottom:1px solid rgba(200,170,110,.2)!important}.shopChampionPicker .shopChampChoice{min-width:126px!important}.shopCatalog{flex:1;min-height:0;padding:9px!important}.shopSidebar{max-height:145px;flex:0 0 145px;overflow:auto;border-top:1px solid rgba(200,170,110,.2)!important}.shopBox .itemGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.shopBox .modalHead p{display:none}}
+
+.right .extraWidget{position:relative!important;border-top:1px solid rgba(200,170,110,.14)!important;min-width:0!important;margin:5px 0!important;padding:9px 0 5px!important}
+.right .extraWidget .compactGrip{position:absolute;right:0;top:0;z-index:3;font-size:13px!important;color:#78684f;cursor:grab;line-height:18px;padding:1px 4px;user-select:none}
+.right .extraWidget .compactGrip:hover{color:#e8cb96}
+.shopBox .itemBtn .itemIcon{position:relative}
+.shopBox .itemBtn .itemIcon img{position:absolute;inset:0;z-index:1;background:#101417}
+
+.shopBox .itemBtn .itemEmoji{position:relative;z-index:0;color:#dabb79;font-size:23px}

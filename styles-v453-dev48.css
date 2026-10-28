@@ -1,0 +1,20 @@
+/* CoachLOL V4.5.3-dev48 — scoreboard anchored to the actual canvas, not to the modal. */
+.header{position:relative!important}
+.header .scorePanel{position:absolute!important;left:var(--board-center,50%)!important;top:5px!important;transform:translateX(-50%)!important;margin:0!important;width:fit-content!important;min-width:270px!important;max-width:350px!important;height:44px!important;z-index:3!important;pointer-events:none!important}
+.header .headRight{margin-left:auto!important}
+.header .objectiveTimes{display:flex!important;position:relative!important;max-width:325px!important;flex:0 1 325px!important;gap:3px!important;overflow:hidden!important;margin-right:355px!important}
+.header .objectiveTime{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;white-space:nowrap!important;font:700 9px/1 Arial,sans-serif!important;padding:3px 5px!important;min-width:0!important}
+.header .objectiveTimerIconV453Dev48{width:21px;height:21px;object-fit:contain;flex:0 0 auto}
+@media(max-width:1470px){.header .objectiveTimes{margin-right:0!important;position:absolute!important;top:55px!important;left:var(--board-center,50%)!important;transform:translateX(-50%)!important;z-index:2!important;background:#080e13!important;border:1px solid #443725!important;padding:3px!important;max-width:min(100%,340px)!important}}
+@media(max-width:900px){.header .scorePanel{top:45px!important;min-width:215px!important}.header .objectiveTimes{top:90px!important}}
+/* Recipe must always be sized inside the sidebar, no horizontal scroll; JS sets branch zoom. */
+.shopBox .shopRecipeTree{max-width:100%!important;min-width:0!important;overflow-x:hidden!important;overflow-y:auto!important;max-height:310px!important;box-sizing:border-box!important;contain:layout!important}
+.shopBox .shopRecipeTree>.shopRecipeBranch{flex:0 0 auto!important;min-width:0!important;margin-inline:auto!important;max-width:none!important;transform-origin:top center!important}
+.shopBox .shopRecipePart{box-sizing:border-box!important}
+.shopBox .shopRecipeTree .recipeComponents{box-sizing:border-box!important}
+
+.shopBox .officialPreviewRecipeV453Dev48{display:flex;gap:9px;flex-wrap:wrap;max-width:100%;justify-content:center} .shopBox .officialRecipeChipV453Dev48{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:#d9bc7d}.shopBox .officialRecipeChipV453Dev48 img{width:36px;height:36px;object-fit:cover;border:1px solid #51452b}.shopBox .itemBtn.unavailable{opacity:.78!important}
+
+.shopBox .shopTierFiltersV453Dev48{display:flex;gap:3px;align-items:center;margin-bottom:6px;flex-wrap:wrap} .shopTierFiltersV453Dev48 button{padding:3px 7px;font-size:9px;min-height:23px;color:#a5b1b3;border:1px solid #28363c;background:#0d161b;border-radius:3px} .shopTierFiltersV453Dev48 button.active{color:#f0d7a2;border-color:#a98d4b;background:#30291b}
+.shopBox .inventoryIconRowV453Dev48{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px;margin:5px 0} .shopBox .inventoryIconV453Dev48{width:100%;min-width:0;aspect-ratio:1;max-height:43px;display:flex;align-items:center;justify-content:center;padding:1px;border-radius:3px;background:#0b1319;border:1px solid #3d3c30} .shopBox .inventoryIconV453Dev48 img{width:100%;height:100%;object-fit:contain} .shopBox .inventoryIconV453Dev48.active{border-color:#d4b665;background:#242016} .shopBox .inventoryIconV453Dev48:disabled{opacity:.37;cursor:default}.shopBox .inventoryActionRowV453Dev48{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:4px}.shopBox .inventoryActionRowV453Dev48 small{flex:1 1 100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#eddfbf}.shopBox .inventoryActionRowV453Dev48 button{padding:4px 9px;min-height:25px;font-size:10px}
+.shopBox .shopUpgradesV453Dev45{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(44px,1fr))!important;gap:4px!important;overflow-x:hidden!important;max-width:100%!important}.shopBox .shopUpgradesV453Dev45 button{min-width:0!important}.shopBox .shopUpgradesV453Dev45 img{width:32px!important;height:32px!important}

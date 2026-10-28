@@ -1,0 +1,12 @@
+/* v2.7 — additional refinement; functional hooks retained. */
+:root{--hx-seam:rgba(200,170,110,.17)}
+.right .reorderWidget{margin:6px 0 9px;border:1px solid rgba(200,170,110,.18);padding:8px 8px 5px;background:rgba(2,5,8,.70);border-radius:5px;min-width:0}
+.right .reorderWidget .sectHead{margin:0 0 7px!important;cursor:grab;user-select:none}.right .reorderWidget .sectHead:active{cursor:grabbing}
+.right .reorderWidget .spells{margin:0!important}.right .reorderWidget .actions{margin:0!important}
+.right .reorderWidget.draggingPanel{opacity:.5}
+.commandDock .commandPreview:not([hidden]){font-size:10px;border-top:1px solid rgba(200,170,110,.2);padding-top:5px}
+.commandDock #previewOrders:focus-visible,.commandDock #applyTextOrders:focus-visible{outline:2px solid #f0e6d2}
+.commandDock textarea:focus{border-color:#c8aa6e!important}
+.commandDock #voiceHelp:not([hidden]){font-size:10px;color:#dcc18b;text-decoration:underline;white-space:nowrap}
+.right .spells .spellKey:hover:not(:disabled){border-color:#e1c38b!important}
+.right .spells .spellKey:disabled{opacity:.6}

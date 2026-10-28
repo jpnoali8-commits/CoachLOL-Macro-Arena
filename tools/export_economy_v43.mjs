@@ -1,0 +1,8 @@
+// Regen: node tools/export_economy_v43.mjs (runtime is the source of truth).
+import {writeFileSync} from 'node:fs';
+import {catalog,ITEM_RECIPES,ITEM_EFFECTS_V43,RUNE_PAGES_V43,ECONOMY_PATCH_V43} from '../engine.mjs';
+const refs={long_sword:'https://wiki.leagueoflegends.com/en-us/Long_Sword',rabadon:'https://wiki.leagueoflegends.com/en-us/Rabadon%27s_Deathcap',ionian_boots:'https://wiki.leagueoflegends.com/en-us/Ionian_Boots_of_Lucidity',sorcerers_shoes:'https://wiki.leagueoflegends.com/en-us/Sorcerer%27s_Shoes',mercurys_treads:'https://wiki.leagueoflegends.com/en-us/Mercury%27s_Treads',oblivion_orb:'https://wiki.leagueoflegends.com/en-us/Oblivion_Orb',executioners_calling:'https://wiki.leagueoflegends.com/en-us/Executioner%27s_Calling',blasting_wand:'https://wiki.leagueoflegends.com/en-us/Blasting_Wand',void_staff:'https://wiki.leagueoflegends.com/en-us/Void_Staff'};
+const registry={schema:'coachlol.items.v43',patch:ECONOMY_PATCH_V43,mode:'Summoners Rift PC',warning:'Catalogo parcial; stats legadas podem ser abstracoes de treinamento; nao certifica passivas por item',items:catalog.map(item=>({id:item.id,name:item.name,cost:item.cost,stats:item.stats,recipe:ITEM_RECIPES[item.id]||[],effect:ITEM_EFFECTS_V43[item.id]||null,maturity:refs[item.id]?'audited_basic_stats':'training_or_unverified',source:refs[item.id]||null}))};
+writeFileSync(new URL('../data/item_registry_v43.json',import.meta.url),JSON.stringify(registry,null,2)+'\n');
+writeFileSync(new URL('../data/rune_pages_v43.json',import.meta.url),JSON.stringify({schema:'coachlol.runes.v43',patch:ECONOMY_PATCH_V43,status:'PROTOTYPE not full Riot parity',pages:RUNE_PAGES_V43},null,2)+'\n');
+console.log(registry.items.length,'items',Object.keys(RUNE_PAGES_V43).length,'rune page contracts');

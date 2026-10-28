@@ -1,0 +1,39 @@
+/* CoachLOL V38 — compacto, flat, carvão e ouro. Não altera o mapa. */
+.header .scorePanel{min-width:255px!important;gap:10px!important;align-items:center}
+.header .scorePanel>div:not(.scoreCenter){display:flex;flex-direction:column;align-items:center;gap:0;min-width:66px}
+.header .scorePanel .scoreNexus{color:#d7cfa8!important;font-variant-numeric:tabular-nums}
+.header .scorePanel .scoreNexus::first-letter{color:#e0c787}
+.header .scorePanel .scoreKills{font-size:9px;color:#e4ad82!important}
+.header .scorePanel .scoreTowers{font-size:9px;font-weight:800;white-space:nowrap;letter-spacing:.02em}
+.header .scorePanel .blueTower{color:#74b8d8}.header .scorePanel .redTower{color:#db9290}
+.champHead .champAvatarWrap{position:relative;flex-shrink:0;display:flex}
+.champHead .champAvatarWrap img{display:block;object-fit:cover}
+.champLevelTag{position:absolute;right:-4px;bottom:-4px;min-width:18px;height:19px;padding:2px 4px;display:grid;place-items:center;font-size:11px;font-weight:900;line-height:1;color:#171008;background:#d4b879;border:1px solid #8c713c;border-radius:4px;box-shadow:0 2px 5px #0008}
+.stat-mr .statIcon{color:#ae91e7}.statGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px}
+.autoSkillInline{display:flex!important;align-items:center;flex-wrap:wrap;gap:6px;padding:6px 0}
+.autoSkillInline>label{flex:0 0 auto}.autoSkillInline #skillPlanSummary{flex:1 0 100%;font-size:8px;text-align:left;opacity:.85}
+.priorityEditor{display:flex;flex:1;align-items:center;gap:3px;min-width:0}
+.priorityEditor input{width:100%;min-width:0;max-width:95px;border:1px solid #5c4e2d;border-radius:5px;padding:4px 6px;color:#f2dfad;background:#141410;text-transform:uppercase;font-weight:900;letter-spacing:.16em;font-size:11px}
+.priorityEditor button{padding:4px 7px;border-radius:5px;border:1px solid #7b6a39;background:#292318;color:#dfc47d;font-size:10px}
+.rosterItem.groupSelected{border-color:#bda265!important;background:#342b17!important}
+.rosterItem.groupSelected .name:after{content:' ✓';color:#e6c981}
+.comboModalSteps{display:flex;flex-direction:column;gap:8px;max-height:min(47vh,410px);overflow-y:auto;padding-right:3px;scrollbar-width:thin}
+.floatingTarget:has(.comboModalSteps:not([hidden])){top:48%;width:min(575px,94%)!important;max-height:89vh;overflow:auto;background:#100f0deF!important;border-color:#9a824a!important;border-radius:11px!important;padding:14px!important}
+.floatingTarget:has(.comboModalSteps:not([hidden])) .targetButtons{display:none}
+.floatingTarget .duelOverlay{margin-top:10px}
+.comboUnitSteps{border:1px solid #48402c;border-radius:8px;padding:9px;background:#181711}
+.comboUnitHeading{display:flex;align-items:center;gap:8px}
+.comboUnitHeading img{width:33px;height:33px;border-radius:5px;object-fit:cover;border:1px solid #887143}
+.comboUnitHeading b{font-size:11px;color:#f1e2bc}.comboUnitHeading b span{color:#dbc179;font-size:9px}
+.comboUnitHeading small{display:block;color:#aaaba5;font-size:9px}
+.comboStepPreview{padding:7px 9px;background:#0d1010;border:1px dashed #635337;margin:8px 0;min-height:30px;color:#edcd7e;font-size:10px;font-weight:800;border-radius:5px}
+.comboStepKeys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.comboStepKey{display:flex;align-items:center;flex-direction:column;gap:3px;min-width:0;padding:5px 3px!important;background:#211f19!important;border:1px solid #554932!important;border-radius:5px!important;font-size:9px!important;color:#e4d2ac!important}
+.comboStepKey img{width:22px;height:22px;object-fit:cover;border-radius:3px}
+.comboStepKey b{font-size:9px;white-space:nowrap}
+.comboUnitControls{display:flex;justify-content:flex-end;gap:5px;margin-top:6px}.comboUnitControls button{font-size:9px;padding:3px 6px!important}
+.comboModalFooter{display:flex;gap:8px;justify-content:end;margin:3px 0}
+.comboModalFooter button{font-size:10px;padding:9px 12px}.comboModalFooter .goldButton{flex:1;background:#bd9750!important;color:#11100e!important;font-weight:900}
+@media(max-width:1450px){.header .scorePanel{min-width:225px!important}.statGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:1100px){.header .scorePanel{display:flex!important;min-width:195px!important;gap:3px!important}.header .scoreCenter small{display:none}.header .scorePanel .scoreTowers{font-size:8px}}
+@media(max-width:600px){.floatingTarget:has(.comboModalSteps:not([hidden])){width:96%!important}.comboStepKeys{grid-template-columns:repeat(3,minmax(0,1fr))}.header .scorePanel{order:10;width:100%;min-width:0!important;justify-content:center}}

@@ -1,0 +1,103 @@
+/* V4.5.2d-4-dev6 · PÓS JOGO, inspirado nas categorias do cliente LoL 2026,
+   apresentação própria CoachLOL (preto, dourado, azul/vermelho) */
+.resultOverlay .resultDialog{width:min(1320px,97vw);background:#0b1018;border:1px solid #6f6044;border-radius:14px;max-height:94vh}
+.resultOverlay .resultHeader{padding:16px 24px 12px}
+.resultOverlay .resultContent{padding:10px 24px 18px;gap:12px}
+.resultOverlay .resultHeader h2{font-family:Georgia,serif;font-size:28px;letter-spacing:.02em}
+.resultOverlay .resultHero{padding:10px 20px;min-height:65px;background:linear-gradient(90deg,#0d2030 0%,#0d1722 50%,#211415 100%);border-radius:8px}
+.resultOverlay .resultHero .resultScoreline{font-size:23px}
+.resultOverlay .resultHero p{font-size:11px;color:#a8b5c0;margin:3px 0}
+.resultOverlay .resultBadge{padding:5px 12px;font-size:11px;min-width:auto}
+.resultOverlay .pgHeadlineNote{font-size:11px;color:#a2a8ad}
+.resultOverlay .resultTeamCards:empty,.resultOverlay .resultCharts:empty{display:none}
+.resultOverlay .resultTables{display:block;min-width:0}
+.pgRoot{color:#dfdfdb;font:13px/1.4 system-ui,Segoe UI,sans-serif;min-height:360px}
+.pgTabs{display:flex;gap:1px;align-items:center;overflow-x:auto;border-bottom:1px solid #4b4438;margin-bottom:12px}
+.pgTabs button{background:transparent;color:#94a6b3;border:0;border-bottom:2px solid transparent;padding:12px 17px;white-space:nowrap;font-size:11px;letter-spacing:.11em;font-weight:700;cursor:pointer}
+.pgTabs button:hover{background:#122333;color:#fff}
+.pgTabs button.active,.pgTabs button[aria-selected="true"]{color:#f5df9f;border-bottom-color:#d6ae5b;background:#121d26}
+.pgPanel{min-height:280px}
+.pgPill{display:inline-flex;border-radius:3px;padding:3px 6px;font-size:10px;font-weight:800;letter-spacing:.05em;white-space:nowrap}
+.pgPill.blue{color:#8bc9ff;background:#112c42;border:1px solid #315673}
+.pgPill.red{color:#ffa2a9;background:#3a161f;border:1px solid #6b2c38}
+.pgDataNote{font-size:11px;color:#899ca7;margin:12px 0 0;line-height:1.5}
+.pgTeamBoard{margin-bottom:12px;border:1px solid #33404a;background:#0d1720;border-radius:5px;overflow:hidden}
+.pgTeamBoardHeader{display:flex;gap:16px;align-items:center;padding:8px 12px;background:#101d27}
+.pgTeamBoardHeader span:not(.pgPill){font-weight:700;color:#e9e3d4}
+.pgTeamBoardHeader small{margin-left:auto;color:#97a7b5}
+.pgTableScroll{overflow-x:auto}
+.pgTable{width:100%;border-collapse:collapse;text-align:left;table-layout:auto;min-width:735px}
+.pgTable th{font-size:10px;color:#b7a984;letter-spacing:.04em;background:#131f29;white-space:nowrap}
+.pgTable td,.pgTable th{padding:7px 10px;border-bottom:1px solid #24333b}
+.pgTable td{color:#d0d9dc;font-size:12px}
+.pgTable tr:last-child td{border:0}
+.pgTable tbody tr:hover{background:#152633}
+.pgIdentity{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.pgIdentity small{display:block;color:#94a3ae;font-size:10px}
+.pgAvatar{display:grid;place-items:center;border:1px solid #947b4c;background:#12263a;border-radius:50%;width:29px;height:29px;font-family:Georgia,serif;color:#f2dfaf}
+.pgKda{font-weight:700;white-space:nowrap}
+.pgKda span{color:#e89b9a}
+.pgBuild{white-space:nowrap}
+.pgBuild span{display:inline-flex;width:28px;height:27px;align-items:center;justify-content:center;font-size:9px;background:#183044;border:1px solid #4d6070;border-radius:3px;margin:1px;color:#ead5aa}
+.pgOverviewTop,.pgSummaryGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pgTeamCard{border:1px solid #33434e;border-radius:6px;background:#101d28;padding:13px}
+.pgTeamCard.blue{border-top:2px solid #4f9dd4}.pgTeamCard.red{border-top:2px solid #dc6671}
+.pgTeamCard header{display:flex;align-items:center;justify-content:space-between}
+.pgTeamCard header strong{font-size:20px;color:#f5e8c2}
+.pgTeamCard header strong small{font-size:11px;color:#9ba5ad}
+.pgTeamNumbers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.pgChip{background:#0b1721;border-radius:4px;padding:11px 8px;text-align:center}
+.pgChip small{display:block;color:#99aab3;white-space:nowrap;font-size:10px}
+.pgChip strong{display:block;font-size:19px;color:#e7d8a9;margin-top:3px}
+.pgSectionTitle{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:1px solid #2f3d44;padding:12px 0 6px}
+.pgSectionTitle h3{font-size:14px;color:#ead5a2;margin:0}.pgSectionTitle p{margin:0;color:#8b9ba4;font-size:11px}
+.pgMiniSummary{padding:11px 14px;background:#13212c;border:1px solid #30434e;display:flex;align-items:center;gap:12px;border-radius:5px}
+.pgMiniSummary b{color:#f7d78f;font-size:21px}.pgMiniSummary small{color:#9eb2c0}
+.pgTimeline{max-height:220px;overflow:auto;margin-top:12px}
+.pgEvent{display:flex;gap:12px;align-items:center;padding:8px;border-bottom:1px solid #24343c;font-size:12px}
+.pgEvent time{color:#cbb580;font-weight:700;min-width:50px}
+.pgEvent>span:last-child{overflow-wrap:anywhere}
+.pgEmpty{padding:35px 10px;color:#8d9aa4;text-align:center}
+.pgFilters{display:flex;gap:10px;flex-wrap:wrap;padding:7px 0 13px}
+.pgFilters label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#aeafaa;display:flex;flex-direction:column;gap:5px}
+.pgFilters select{background:#101f2d;border:1px solid #47566a;color:#f0e1c5;border-radius:4px;padding:7px 10px;min-width:140px;font-size:12px}
+.pgGraphBody{display:flex;flex-direction:column;gap:7px;padding:12px;background:#0e1720;border:1px solid #2c3a46;border-radius:5px}
+.pgGraphRow{display:grid;grid-template-columns:205px minmax(60px,1fr) 85px;align-items:center;gap:14px;min-height:25px}
+.pgGraphIdentity{display:flex;align-items:center;gap:6px;min-width:0}
+.pgGraphIdentity b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.pgGraphIdentity small{font-size:10px;color:#8a9dab}
+.pgGraphTrack{height:19px;border-left:1px solid #40505f;background:repeating-linear-gradient(90deg,#1b2732,#1b2732 1px,#0e1720 1px,#0e1720 25%);overflow:hidden}
+.pgGraphTrack i{display:block;height:100%;transition:width .18s ease;min-width:0}
+.pgGraphTrack i.blue{background:linear-gradient(90deg,#126c95,#28b0d2)}
+.pgGraphTrack i.red{background:linear-gradient(90deg,#93263a,#e35466)}
+.pgGraphRow>strong{text-align:right;color:#e8d8b0;font-variant-numeric:tabular-nums}
+.pgCategoryTabs,.pgTeamFilter{display:flex;gap:7px;margin:7px 0 12px}
+.pgCategoryTabs button,.pgTeamFilter button{padding:7px 13px;border:1px solid #3d4c5c;border-radius:4px;background:#142230;color:#b6c6cc;font-size:11px;cursor:pointer}
+.pgCategoryTabs button.active,.pgTeamFilter button.active{background:#353021;border-color:#c1a360;color:#f2dca6}
+.pgStatTable th:not(:first-child),.pgStatTable td:not(:first-child){text-align:right}
+.pgStatTable small{color:#869dad}
+.pgRuneGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.pgRuneCard{display:flex;gap:12px;align-items:center;background:#0f1c27;border:1px solid #35434c;padding:11px;border-radius:5px}
+.pgRuneCard strong,.pgRuneCard small{display:block}.pgRuneCard small{font-size:10px;color:#899dad}
+.pgRuneCard>span:last-child{margin-left:auto;color:#dbc58a;text-align:right}
+@media(max-width:750px){.pgOverviewTop,.pgSummaryGrid,.pgRuneGrid{grid-template-columns:1fr}.pgTeamNumbers{grid-template-columns:repeat(2,1fr)}.pgGraphRow{grid-template-columns:150px minmax(60px,1fr) 55px;gap:8px}.pgFilters select{min-width:100px}.pgTabs button{padding:9px 11px}}
+
+/* Preserve a compact Continue button instead of inherited global full width. */
+.resultOverlay .resultFooter .goldButton{width:auto!important;flex:0 0 auto;min-width:180px;padding:11px 24px}
+
+.pgAvatar{position:relative;overflow:hidden;flex:0 0 29px}
+.pgAvatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#112131}
+.pgBuild .pgItemIcon{position:relative;overflow:hidden}
+.pgBuild .pgItemIcon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0b1b2a}
+
+/* V4.5.2d-4-dev7: gráficos temporais autoritativos e categorias expandidas. */
+.pgChartMode{display:flex;gap:6px;margin:8px 0 3px}
+.pgChartMode button{font:700 11px system-ui,sans-serif;color:#abc0c9;background:#112230;border:1px solid #415262;padding:8px 15px;border-radius:4px;cursor:pointer}
+.pgChartMode button.active{background:#3a3121;color:#f6dd9c;border-color:#bda368}
+.pgChartMode button:disabled{opacity:.38;cursor:not-allowed}
+.pgTimeGraph{background:#0d1721;border:1px solid #344450;padding:16px;border-radius:5px;margin:10px 0}
+.pgTimeGraph svg{width:100%;height:auto;max-height:300px;display:block}
+.pgTimeLegend{display:flex;gap:20px;justify-content:center;font:12px system-ui,sans-serif;padding:7px 0 0}
+.pgTimeLegend .blue{color:#40baf0}.pgTimeLegend .red{color:#f16c78}
+.pgTimeLegend b{color:#efdeb6;margin-left:8px;font-variant-numeric:tabular-nums}
+.pgStatTable th{white-space:normal;min-width:84px}
