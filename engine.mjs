@@ -314,7 +314,7 @@ export function championLevelStatsV453Dev69M1(champ,level){
  const adGrowth=CHAMPION_GROWTH_V38[champ]?.ad;
  const attackSpeed=src.attackSpeedBase*(1+growthFactor*g.attackSpeedPct/100);
  return {level,hp:src.hp+g.hp*growthFactor,mana:src.mana+g.mana*growthFactor,
-  ad:src.ad+(Number.isFinite(adGrowth)?adGrowth*growthFactor:0),
+  ad:src.ad+(Number.isFinite(adGrowth)?adGrowth:3)*growthFactor,
   adGrowthVerified:Number.isFinite(adGrowth),armor:src.armor+g.armor*growthFactor,
   mr:src.mr+g.mr*growthFactor,hpRegen:src.hpRegen+g.hpRegen*growthFactor,
   manaRegen:src.manaRegen+g.manaRegen*growthFactor,attackSpeed,
