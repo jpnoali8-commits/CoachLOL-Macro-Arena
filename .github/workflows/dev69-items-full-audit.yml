@@ -62,3 +62,29 @@ jobs:
           node-version: '22'
       - name: Full historical, item, skill and PvP regression
         run: npm test
+
+  independent-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit independent modern regression cases, collect all failures
+        shell: bash
+        run: |
+          fail=0
+          count=0
+          for file in tests/v453*.test.mjs; do
+            count=$((count+1))
+            if node "$file" > /tmp/coachlol-independent-test.log 2>&1; then
+              echo "PASS $file"
+            else
+              echo "FAIL $file"
+              tail -n 25 /tmp/coachlol-independent-test.log
+              fail=$((fail+1))
+            fi
+          done
+          echo "MODERN SUITE: $count independent files, $fail failed"
+          test "$fail" -eq 0
