@@ -23,8 +23,13 @@ test('Hexplate buff changes both movement and attack interval and ends on sale',
  assert.ok(a.basicAttackIntervalV452c(u)<i);
  assert.ok(a.effectiveMS(u)>ms);
  assert.equal(a.sellItemV43('blue',u.id,0).ok,true);
- assert.equal(a.basicAttackIntervalV452c(u),i);
- assert.equal(a.effectiveMS(u),ms);
+ assert.deepEqual(a.hexplateOverdriveV453Dev69Audit(u),{attackSpeedPct:0,movePercent:0});
+ const afterSaleI=a.basicAttackIntervalV452c(u),afterSaleMS=a.effectiveMS(u);
+ assert.ok(afterSaleI>i,'selling Hexplate removes its permanent 20% AS');
+ assert.equal(afterSaleMS,ms);
+ u.hexplateBuffUntilV453Dev69B4=100;
+ assert.equal(a.basicAttackIntervalV452c(u),afterSaleI,'stale buff cannot survive item sale');
+ assert.equal(a.effectiveMS(u),afterSaleMS);
 });
 test('Hexplate R activation has 30 simulated second cooldown (even after buff expires)',()=>{
  const a=mk(),u=equip(a,'experimental_hexplate','TOP');u.skillRanks.R=1;u.level=12;u.mana=1000;
