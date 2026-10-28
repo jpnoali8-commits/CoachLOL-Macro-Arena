@@ -1,0 +1,37 @@
+name: CoachLOL dev69 — Items Batch 7 FAST QA
+on:
+  push:
+    branches: [dev69/items-batch7]
+  pull_request:
+    branches: [dev69/items-batch6]
+permissions:
+  contents: read
+jobs:
+  final-shop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        run: |
+          node --check engine.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tests/v453_dev69_items_batch7_mid_quest_remainder.test.mjs
+      - name: Batch7 and 2026 MID boots quest
+        run: npm run test:v453:dev69:items-batch7
+      - name: Previous item family regressions
+        run: |
+          npm run test:v453:dev69:items-batch6
+          node tests/v453_dev69_items_batch5_support_family.test.mjs
+          node tests/v453_dev69_items_batch4_tank_family.test.mjs
+          node tests/v453_dev69_items_batch3_attack_family.test.mjs
+          node tests/v453_dev69_items_bulk_18.test.mjs
+          node tests/v453_dev69_items_batch2.test.mjs
+          node tests/v453_dev69_items_batch1.test.mjs
+      - name: Shop Undo and prior PvP
+        run: |
+          node tests/v453_dev61_shop_undo_pvp.test.mjs
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs

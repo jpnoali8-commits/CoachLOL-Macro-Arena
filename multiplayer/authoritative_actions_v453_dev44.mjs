@@ -36,7 +36,8 @@ function validated(kind,p){
   case 'skill.recast_vex':return shape(p,[]);
   case 'skill.upgrade':return shape(p,['slot'])&&slot(p.slot);
   case 'summoner.queue':return shape(p,['type'],['targetId'])&&['heal','ignite','exhaust','tp','barrier','ghost','cleanse'].includes(p.type)&&(!own(p,'targetId')||stringId(p.targetId));
-  case 'item.queue':case 'item.buy':case 'item.activate':return shape(p,['itemId'])&&stringId(p.itemId);
+  case 'item.queue':case 'item.buy':return shape(p,['itemId'])&&stringId(p.itemId);
+  case 'item.activate':return shape(p,['itemId'],['targetId','point'])&&stringId(p.itemId)&&(!own(p,'targetId')||stringId(p.targetId))&&(!own(p,'point')||point(p.point));
   case 'item.undo':return shape(p,[]);
   case 'item.sell':case 'item.cancelQueue':return shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11;
   default:return false;
@@ -84,7 +85,7 @@ function dispatch(arena,unit,kind,p){
   case 'item.sell':return arena.sellItemV43(team,id,p.index);
   case 'item.undo':return arena.undoShopV453Dev61(team,id);
   case 'item.cancelQueue':return arena.cancelQueuedPurchase(team,id,p.index)?{ok:true}:fail('cancelamento_indisponivel');
-  case 'item.activate':return arena.activateItemV453Dev59(team,id,p.itemId,p.targetId??null);
+  case 'item.activate':return arena.activateItemV453Dev59(team,id,p.itemId,p.targetId??null,p.point??null);
   default:return fail('acao_nao_certificada');
  }
 }

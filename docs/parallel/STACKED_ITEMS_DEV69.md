@@ -10,8 +10,9 @@
 4. **Batch 4:** `dev69/items-batch4`, PR **#12** → `dev69/items-batch3` (PR #11), **15 itens tanque/sustentação**. A cadeia de desenvolvimento soma **152 engine_playable e 50 reference_only** no HEAD, **não** na integração. Sem merge.
 5. **Batch 5:** `dev69/items-batch5`, PR **#13** → `dev69/items-batch4` (PR #12), 15 itens de cura, proteção, suporte e ativáveis. O catálogo encadeado soma **167 jogáveis / 35 reference_only**; **sem integração**.
 6. **Batch 6:** `dev69/items-batch6` (da HEAD `18b3c7dc9022788dfb2ecf47b4f5b80e47e20095` do Batch 5), **15 itens ofensivos**, [PR #15](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/pull/15) → `dev69/items-batch5`; total acumulado 182 engine_playable / 20 reference_only. **NÃO mesclado.**
-7. Futuros `dev69/items-batch7`, `dev69/items-batch7` etc. partem do head verificado do lote anterior e apontam o PR para a branch imediatamente anterior. Nunca rebase/force push/reset hard, nem alterar as branches anteriores.
-8. Após todos os lotes, o auditor analisa a cadeia **na ordem**: primeiro PR #10, depois retarget dos PRs seguintes para a integração depois de cada merge. Reconcilia Skills, checa ownership, receita, cooldown, prejuízos de compra/venda, Undo, e só então consolida com browser e QA.
+7. **Batch 7:** [PR #16](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/pull/16) `dev69/items-batch7` → `dev69/items-batch6`, criado do HEAD `71a0e55edd6aafb790607e5b7e176f6027f96065` do Batch 6. 19 itens normais e o trinket Alteração Vidente já existente = 20 entradas resolvidas. **202/202 engine_playable, 0 reference_only**. Botas nível 3 somente missão MID de 1350 pontos, evolução gratuita. QA FAST verde em [40778342895](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40778342895), sem merge.
+8. Futuras etapas de paridade e QA partem do head verificado do lote anterior e apontam o PR para a branch imediatamente anterior. Nunca rebase/force push/reset hard, nem alterar as branches anteriores.
+9. Após todos os lotes, o auditor analisa a cadeia **na ordem**: primeiro PR #10, depois retarget dos PRs seguintes para a integração depois de cada merge. Reconcilia Skills, checa ownership, receita, cooldown, prejuízos de compra/venda, Undo, e só então consolida com browser e QA.
 
 ## Por que empilhar
 
