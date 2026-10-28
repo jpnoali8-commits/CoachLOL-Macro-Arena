@@ -3395,6 +3395,132 @@ export class Arena {
   }
  }
 
+
+ // Batch7 / training adapters. All temporary state is champion-owned and snapshot safe.
+ b7HasElixir(u,id){return u?.b7Elixir?.id===id&&u.b7Elixir.until>this.gameTime;}
+ b7DerivedStats(u){
+  const r=ITEM_REMAINDER_RULES_V453_DEV69_B7,ids=u.items||[],now=this.gameTime;
+  let ad=0,ap=0,abilityHaste=0,tenacity=0,healShieldPower=0,omnivamp=0,physicalVamp=0;
+  if(this.b7HasElixir(u,'elixir_of_iron'))tenacity+=r.elixir_of_iron.tenacity;
+  if(this.b7HasElixir(u,'elixir_of_sorcery'))ap+=r.elixir_of_sorcery.ap;
+  if(this.b7HasElixir(u,'elixir_of_wrath')){ad+=r.elixir_of_wrath.ad;physicalVamp+=r.elixir_of_wrath.physicalVamp;}
+  if(ids.includes('endless_hunger')){
+   const itemAd=ids.reduce((n,id)=>n+(catalog.find(v=>v.id===id)?.stats?.ad||0),0);
+   abilityHaste+=Math.max(0,(u.ad||0)-itemAd)*r.endless_hunger.hastePerBonusAd;
+   if(u.b7FeastUntil>now)omnivamp+=r.endless_hunger.feastOmnivamp;
+  }
+  if(ids.includes('whispering_circlet'))healShieldPower+=Math.floor((u.b7CircletMana||0)/120);
+  if(ids.includes('diadem_of_songs'))healShieldPower+=Math.floor((u.b7CircletMana||0)/120);
+  if(ids.some(id=>id==='voracious_greaves'||id==='immortal_journey'))omnivamp+=Math.min(10,u.b7VoraciousKills||0)*r.voracious_greaves.omnivampPerKill;
+  if(ids.includes('protoplasm_harness')&&u.b7ProtoplasmUntil>now)tenacity+=r.protoplasm_harness.tenacity;
+  if(ids.includes('scarlet_lucidity')&&u.b7ScarletUntil>now){} // speed resolved in effectiveMS
+  return {ad,ap,abilityHaste,tenacity,healShieldPower,omnivamp,physicalVamp};
+ }
+ b7NoxianUnlocked(team){return this.gameTime>=ITEM_REMAINDER_RULES_V453_DEV69_B7.noxian.minTimeSeconds&&(this.teams[team]?.kills||0)>=ITEM_REMAINDER_RULES_V453_DEV69_B7.noxian.unlockTeamKills;}
+ activateRemainderItemV453Dev69B7(team,unitId,itemId,targetId=null,point=null){
+  const u=this.units.find(v=>v.id===unitId&&v.team===team&&v.hp>0),now=this.gameTime,r=ITEM_REMAINDER_RULES_V453_DEV69_B7;
+  if(!u||this.ended||!['preparation','planning','decision'].includes(this.phase)||(this.phase!=='decision'&&this.teams[team].ready))return {ok:false,reason:'fase_ou_unidade_invalida'};
+  if(this.phase==='decision'&&this.pendingDecision?.unitId!==u.id)return {ok:false,reason:'decisao_nao_autorizada'};
+  if(!this.effectResolverV41().canAct(u,'item').ok)return {ok:false,reason:'cc_impede_item'};
+  if(['elixir_of_iron','elixir_of_sorcery','elixir_of_wrath'].includes(itemId)){
+   const index=u.items.indexOf(itemId);if(index<0||u.level<9)return {ok:false,reason:'elixir_nao_equipado_ou_nivel_insuficiente'};
+   u.items.splice(index,1);u.b7Elixir={id:itemId,until:now+180};
+   if(itemId==='elixir_of_iron'){u.maxHp+=r.elixir_of_iron.hp;u.hp+=r.elixir_of_iron.hp;u.b7ElixirBonusHp=r.elixir_of_iron.hp;}
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   u.shopUndoV453Dev61=[];u.shopUndoRevokedV453Dev61=true;
+   this.event(u.champ+' consumiu '+itemId+'.',team,'item_active',u.id);
+   return {ok:true,itemId,until:u.b7Elixir.until};
+  }
+  if(!u.items?.includes(itemId))return {ok:false,reason:'item_ativo_nao_equipado'};
+  if(!['actualizer','hextech_rocketbelt'].includes(itemId))return {ok:false,reason:'item_sem_ativo'};
+  u.b7ActiveCooldowns??={};if((u.b7ActiveCooldowns[itemId]||0)>now)return {ok:false,reason:'recarga'};
+  if(itemId==='actualizer'){
+   u.b7ActualizerUntil=now+r.actualizer.activeSeconds;
+   u.b7ActiveCooldowns[itemId]=now+r.actualizer.cooldown;
+   this.event(u.champ+' ativou Concretizador.',team,'item_active',u.id);
+   return {ok:true,itemId,until:u.b7ActualizerUntil};
+  }
+  // Rocketbelt requires a concrete authorized destination and never crosses terrain.
+  const destination=point||(targetId?this.units.find(v=>v.id===targetId&&v.team!==team&&v.hp>0&&this.visible(team,v)):null);
+  if(!destination||!Number.isFinite(destination.x)||!Number.isFinite(destination.y)||!this.walkable(destination.x,destination.y)||
+     this.mapDistance(u,destination)>r.hextech_rocketbelt.distance||!this.lineOfSight(u,destination))
+   return {ok:false,reason:'destino_ou_alcance_invalido'};
+  const from={x:u.x,y:u.y};
+  u.x=destination.x;u.y=destination.y;this.invalidateShopUndoOnDepartureV453Dev61(u);
+  const victims=this.units.filter(v=>v.hp>0&&v.team!==team&&this.visible(team,v)&&this.mapDistance(u,v)<=r.hextech_rocketbelt.radius)
+   .sort((a,b)=>a.id.localeCompare(b.id));
+  u.b7ActiveCooldowns[itemId]=now+r.hextech_rocketbelt.cooldown;
+  for(const v of victims)this.damage(v,r.hextech_rocketbelt.magicDamage+u.ap*r.hextech_rocketbelt.apRatio,u,'magic','item_rocketbelt_b7');
+  this.event(u.champ+' ativou Explocinturão.',team,'item_active',u.id);
+  return {ok:true,itemId,from,to:{x:u.x,y:u.y},hitIds:victims.map(v=>v.id)};
+ }
+ onRemainderCastV453Dev69B7(u,slot,kind){
+  const now=this.gameTime,r=ITEM_REMAINDER_RULES_V453_DEV69_B7;
+  if(kind==='skill'&&u.items?.includes('whispering_circlet')||kind==='skill'&&u.items?.includes('diadem_of_songs')){
+   let next=u.b7CircletNext||0,charges=u.b7CircletCharges??5;
+   if(next>0&&now>=next){const restored=Math.min(5-charges,1+Math.floor((now-next)/8));charges+=restored;next=charges>=5?0:next+restored*8;}
+   if(charges>0&&(u.b7CircletMana||0)<360){
+    u.b7CircletMana=Math.min(360,(u.b7CircletMana||0)+r.whispering_circlet.manaPerSpell);
+    u.maxMana+=4;u.mana=Math.min(u.maxMana,u.mana+4);charges--;if(charges<5&&!next)next=now+8;
+   }
+   u.b7CircletCharges=charges;u.b7CircletNext=next;
+   if(u.items.includes('whispering_circlet')&&u.b7CircletMana>=360)this.b7EvolveCirclet(u);
+  }
+  if(u.items?.includes('scarlet_lucidity')&&['skill','summoner'].includes(kind))u.b7ScarletUntil=now+r.scarlet_lucidity.sprintSeconds;
+ }
+ b7EvolveCirclet(u){
+  const index=u.items?.indexOf('whispering_circlet');if(index<0)return false;
+  const old=catalog.find(v=>v.id==='whispering_circlet'),next=catalog.find(v=>v.id==='diadem_of_songs');if(!next)return false;
+  this.removeRabadonV43(u);this.applyItemStatsV43(u,old,-1);u.items[index]='diadem_of_songs';this.applyItemStatsV43(u,next,1);
+  this.reapplyRabadonV43(u);this.event(u.champ+' evoluiu Tiara Sussurrante.',u.team,'item_upgrade',u.id);return true;
+ }
+ onRemainderHitV453Dev69B7(attacker,target,dealt,damageType,sourceType){
+  if(!(dealt>0&&attacker?.champ&&target?.champ&&attacker.team!==target.team)||sourceType.startsWith('item_')||
+     !['spell','basic','ability_onhit_v453_dev40'].includes(sourceType))return;
+  const u=attacker,now=this.gameTime,r=ITEM_REMAINDER_RULES_V453_DEV69_B7,ids=u.items||[];
+  if(this.b7HasElixir(u,'elixir_of_sorcery')&&(u.b7SorceryReady?.[target.id]||0)<=now){
+   u.b7SorceryReady??={};u.b7SorceryReady[target.id]=now+r.elixir_of_sorcery.championCooldown;
+   if(target.hp>0)this.damage(target,r.elixir_of_sorcery.bonusTrue,u,'true','item_elixir_sorcery_b7');
+  }
+  if(ids.includes('bastionbreaker')&&sourceType!=='basic'&&(u.b7BastionReady||0)<=now){
+   u.b7BastionReady=now+r.bastionbreaker.skillCooldown;
+   if(target.hp>0)this.damage(target,r.bastionbreaker.skillTrueDamage,u,'true','item_bastion_skill_b7');
+  }
+  if(ids.includes('umbral_glaive')&&sourceType==='basic'&&u.b7UmbralHiddenSince>0&&now-u.b7UmbralHiddenSince>=r.umbral_glaive.concealSeconds&&target.hp>0){
+   this.damage(target,r.umbral_glaive.trueDamage,u,'true','item_umbral_b7');u.b7UmbralHiddenSince=0;
+  }
+ }
+ onRemainderKillV453Dev69B7(dead,credited,assists=[]){
+  const r=ITEM_REMAINDER_RULES_V453_DEV69_B7;
+  for(const u of [credited,...assists]){
+   if(!u?.champ||u.hp<=0||u.team===dead.team)continue;
+   const ids=u.items||[];
+   if(ids.includes('endless_hunger'))u.b7FeastUntil=this.gameTime+r.endless_hunger.feastSeconds;
+   if(ids.includes('voracious_greaves')||ids.includes('immortal_journey'))u.b7VoraciousKills=Math.min(10,(u.b7VoraciousKills||0)+1);
+   if(ids.includes('bastionbreaker'))u.b7SabotageUntil=this.gameTime+r.bastionbreaker.sabotageSeconds;
+  }
+ }
+ advanceRemainderItemsV453Dev69B7(){
+  const now=this.gameTime,r=ITEM_REMAINDER_RULES_V453_DEV69_B7;
+  for(const u of this.units){
+   if(u.b7Elixir?.until<=now){
+    if(u.b7ElixirBonusHp){u.maxHp=Math.max(1,u.maxHp-u.b7ElixirBonusHp);u.hp=Math.min(u.maxHp,u.hp);u.b7ElixirBonusHp=0;}
+    u.b7Elixir=null;
+   }
+   if(u.b7ProtoplasmUntil>0&&u.b7ProtoplasmUntil<=now){u.maxHp=Math.max(1,u.maxHp-(u.b7ProtoplasmBonusHp||0));u.hp=Math.min(u.hp,u.maxHp);u.b7ProtoplasmBonusHp=0;u.b7ProtoplasmUntil=0;}
+   if(!u.hp||u.hp<=0)continue;
+   if(u.items?.includes('diadem_of_songs')&&u.b7ConsonanceUntil>now){
+    const ally=this.units.filter(v=>v.hp>0&&v.team===u.team&&this.mapDistance(u,v)<=850&&v.hp<v.maxHp)
+      .sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.id.localeCompare(b.id))[0];
+    if(ally)this.effectResolverV41().heal(ally,25,u);
+   }
+   if(u.items?.includes('umbral_glaive')){
+    const wards=this.wards.filter(w=>w.team!==u.team&&w.type!=='control'&&this.wardActive(w)&&this.mapDistance(u,w)<=r.umbral_glaive.revealRadius);
+    if(wards.length)for(const w of wards)w.riftRevealedByV452d4={...(w.riftRevealedByV452d4||{}),[u.team]:now+r.umbral_glaive.revealSeconds};
+   }
+  }
+ }
+
  // B4 family helpers are world-authoritative and use simulation seconds only.
  bonusItemManaV453Dev69B4(u){return Math.max(0,(u?.items||[]).reduce((sum,id)=>sum+(catalog.find(v=>v.id===id)?.stats?.mana||0),0)+(u.tearManaBonusV453Dev56||0));}
  refreshTearEvolutionV453Dev69B4(u){
