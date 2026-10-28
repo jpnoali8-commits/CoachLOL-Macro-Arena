@@ -2824,35 +2824,39 @@ export class Arena {
    team:u.team,centers,landAt:this.gameTime+.4,armedAt:this.gameTime+rule.armSeconds,
    expireAt:this.gameTime+rule.expireSeconds,rootSeconds:rule.rootSeconds,
    damage:rule.damage[rank-1]+this.elementalStatsV452d3(u).ap*rule.apRatio,
-   hitIds:[]});
+   hitIds:[],detonatedCenters:[]});
   return {...res,pending:true,armedAt:this.gameTime+rule.armSeconds};
  }
  advanceJinxChompersV453Dev69M5(){
   const next=[];
   for(const p of this.jinxChompersV453Dev69M5||[]){
    const owner=this.units.find(u=>u.id===p.ownerId);
+   if(!owner)continue;
    if(this.gameTime<p.armedAt){next.push(p);continue;}
-   const enemies=this.units.filter(v=>v.team!==p.team&&v.hp>0&&v.champ&&
-    p.centers.some(c=>this.mapDistance(c,v)<=115));
-   if(enemies.length){
-    const center=p.centers.find(c=>enemies.some(v=>this.mapDistance(c,v)<=115))||p.centers[1];
-    for(const v of [...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
-     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&this.mapDistance(center,v)<=225)){
+   p.detonatedCenters??=[];
+   for(let index=0;index<p.centers.length;index++){
+    if(p.detonatedCenters.includes(index))continue;
+    const center=p.centers[index];
+    const triggered=this.units.some(v=>v.team!==p.team&&v.hp>0&&v.champ&&
+     this.mapDistance(center,v)<=115);
+    const expired=this.gameTime>=p.expireAt;
+    if(!triggered&&!expired)continue;
+    p.detonatedCenters.push(index);
+    const targets=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&this.mapDistance(center,v)<=225)
+     .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+    for(const v of targets){
+     // Three independent traps; each champion can be damaged once per cast,
+     // and a spellshield does not suppress the physical trap explosion.
      if(p.hitIds.includes(v.id))continue;
      p.hitIds.push(v.id);
-     const dealt=this.damage(v,p.damage,owner,'magic','spell');
-     if(v.champ&&dealt>0)this.applyEffectV41(v,'root',{source:owner,
-      duration:p.rootSeconds,key:p.id+'_'+v.id});
+     const dealt=this.damage(v,p.damage,owner,'magic','jinx_chomper_detonate_v453_dev69_m6');
+     if(triggered&&v.champ&&dealt>0)
+      this.applyEffectV41(v,'root',{source:owner,duration:p.rootSeconds,
+       key:p.id+'_'+v.id});
     }
-    // Other traps may continue blocking but never damage a victim twice.
    }
-   if(this.gameTime>=p.expireAt){
-    if(!enemies.length)for(const v of [...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
-     (v.spawnAt==null||v.spawnAt<=this.gameTime)&&p.centers.some(c=>this.mapDistance(c,v)<=225))){
-     if(p.hitIds.includes(v.id))continue;
-     p.hitIds.push(v.id);this.damage(v,p.damage,owner,'magic','spell');
-    }
-   }else next.push(p);
+   if(p.detonatedCenters.length<p.centers.length&&this.gameTime<p.expireAt)next.push(p);
   }
   this.jinxChompersV453Dev69M5=next;
  }
