@@ -40,13 +40,16 @@ Os resultados são **locais** em Node 22.16.0 sobre workspace textual dev68 com 
 | --- | --- |
 | `node --check engine.mjs` | PASS |
 | `node --check tests/v453_dev69_items_batch4_tank_family.test.mjs` | PASS |
-| `node tests/v453_dev69_items_batch4_tank_family.test.mjs` | **24/24 PASS** |
+| `node tests/v453_dev69_items_batch4_tank_family.test.mjs` | **26/26 PASS** |
 | `node tests/v453_dev69_items_batch3_attack_family.test.mjs` | **19/19 PASS** |
 | `node tests/v453_dev69_items_bulk_18.test.mjs` | **23/23 PASS** |
 | `node tests/v453_dev69_items_batch2.test.mjs` | **11/11 PASS** |
 | `node tests/v453_dev69_items_batch1.test.mjs` | **8/8 PASS** |
 | dev61 loja/Undo, dev62 PvP, dev64 PvP reações, dev68 Lux Q | **22/22; 18/18; 26/26; 40/40 PASS** |
 | `npm test` integral e Chromium PvP duas sessões | NOT_RUN, reservados ao auditor |
+
+
+**Adendo de segurança do lote:** Jak'Sho conta combate iniciado pelo portador (não só dano recebido); Dança da Morte descarta a fila de dano diferido quando uma morte real é confirmada, impedindo aplicação após o respawn. Dois novos contratos específicos foram adicionados, elevando a suíte local a **26/26 PASS**.
 
 ### Gates pendentes
 
