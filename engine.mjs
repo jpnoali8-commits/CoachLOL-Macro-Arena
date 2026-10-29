@@ -4094,6 +4094,12 @@ export class Arena {
      power:(25+rank*12+this.elementalStatsV452d3(u).ap*.2)*(empower?2:1)
    });
   }
+  if(s.m26BraumFissure&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m26_braum_fissure',
+    ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},point:{...q.point},
+    range:s.range,width:275,nextAt:this.gameTime+1,until:this.gameTime+3.1,hitIds:[]});
+  }
   if(s.m20OrbSpawn&&q.point){
    (u.m20SyndraOrbsV453??=[]).push({x:q.point.x,y:q.point.y,until:this.gameTime+6});
    u.m20SyndraOrbsV453=u.m20SyndraOrbsV453.filter(o=>o.until>this.gameTime).slice(-7);
@@ -4492,6 +4498,13 @@ export class Arena {
    }
    if(enemy&&s.m20Mark&&!blocked&&v.hp>0)
     (v.m20MarksV453??={})[s.m20Mark+'_'+u.id]=this.gameTime+6;
+   if(enemy&&s.m26LockeNails&&v.champ&&v.hp>0&&!blocked){
+    const ledger=v.m26LockeNails??={},prior=ledger[u.id];
+    ledger[u.id]={stacks:Math.min(3,(prior?.until>this.gameTime?prior.stacks:0)+1),
+     until:this.gameTime+6};
+   }
+   if(enemy&&s.m26RellShieldBreak&&v.champ&&!blocked&&v.hp>0)
+    this.effectResolverV41().remove(v,{types:['shield','magic_shield','physical_shield']});
    if(enemy&&u.champ==='TahmKench'&&q.slot==='Q'&&v.champ&&
       !blocked&&v.hp>0&&!this.effectResolverV41().has(v,'invulnerable')){
     const ledger=v.m24TasteV453??={},old=ledger[u.id];
@@ -4643,7 +4656,15 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m25_karthus_q'){
+    if(z.kind==='m26_braum_fissure'){
+     for(const v of skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+      {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight})
+      .filter(v=>v.champ&&v.hp>0)){
+      this.applyEffectV41(v,'slow',{source:u,duration:1.25,power:.45,
+       key:'m26_braum_fissure_'+z.id+'_'+v.id});
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m25_karthus_q'){
      const victims=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
