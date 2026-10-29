@@ -3727,6 +3727,166 @@ export class Arena {
    e.stealthUntil<=this.gameTime&&this.canSeePoint(team,e));
   return e?.id||null;
  }
+ // M16: deterministic, private stealth state. A normal ward is not True Sight.
+ m16StealthVisible(team,u,sources=null){
+  const v=u.m16StealthV453;
+  if(!v||v.until<=this.gameTime||v.startsAt>this.gameTime)return null;
+  if(u.m16TrueSightUntil?.[team]>this.gameTime)return true;
+  if(v.type==='invisibility')return false;
+  const near=this.units.some(e=>e.team===team&&e.hp>0&&
+   this.mapDistance(e,u)<=(v.radius||700));
+  const pink=this.wards.some(w=>w.team===team&&w.type==='control'&&this.wardActive(w)&&
+   this.mapDistance(w,u)<=900&&this.lineOfSight(w,u));
+  if(!near&&!pink)return false;
+  return this.canSeePoint(team,u,sources)||near||pink;
+ }
+ m16BreakStealth(u,reason='action'){
+  const v=u?.m16StealthV453;if(!v||v.until<=this.gameTime)return false;
+  u.m16StealthV453=null;u.m16LastRevealAt=this.gameTime;
+  if(u.champ==='Twitch'&&reason!=='expire')
+   u.m16TwitchAttackSpeedUntil=this.gameTime+6;
+  if(u.champ==='Teemo'&&reason!=='expire')
+   u.m16TeemoAttackSpeedUntil=this.gameTime+5;
+  return true;
+ }
+ m16NearTerrain(u){
+  if(this.brushRegionAt(u.x,u.y))return true;
+  const step=120;
+  return [[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>{
+   const p={x:u.x+dx*step/this.worldWidth,y:u.y+dy*step/this.worldHeight};
+   return p.x<=0||p.x>=1||p.y<=0||p.y>=1||!this.walkable(p.x,p.y);
+  });
+ }
+ // Stock counters use game time, not browser FPS, and never allow free casts.
+ m16Stock(u,slot,rule){
+  const max=u.champ==='Caitlyn'?[3,3,4,4,5][Math.min(4,Math.max(0,(u.skillRanks.W||1)-1))]:rule.m16Max||3;
+  u.m16StockV453??={};
+  const x=u.m16StockV453[slot]??={charges:Math.min(max,rule.m16Charges||2),nextAt:0};
+  const refill=rule.cooldown[Math.min(rule.cooldown.length-1,Math.max(0,(u.skillRanks[slot]||1)-1))]||15;
+  if(x.charges<max&&x.nextAt<=this.gameTime){
+   const gained=Math.min(max-x.charges,1+Math.floor((this.gameTime-x.nextAt)/Math.max(1,refill)));
+   x.charges+=gained;x.nextAt+=gained*refill;
+  }
+  x.charges=Math.min(x.charges,max);return {state:x,max,refill};
+ }
+ m16TrapCreate(u,kind,point,{free=false}={}){
+  const spec={caitlyn_snap:{arm:1,duration:40,radius:85,visible:true},
+   nidalee_bushwhack:{arm:1,duration:120,radius:90},
+   teemo_mushroom:{arm:1,duration:300,radius:145},
+   shaco_box:{arm:2,duration:40,radius:150},
+   jhin_lotus:{arm:1,duration:180,radius:135}}[kind];
+  if(!spec)return null;
+  const rank=u.skillRanks?.[kind==='teemo_mushroom'?'R':kind==='jhin_lotus'?'E':'W']||1;
+  const trap={id:'m16_trap_'+(++this.m16TrapSeq),kind,ownerId:u.id,
+   team:u.team,x:point.x,y:point.y,createdAt:this.gameTime,
+   armedAt:this.gameTime+spec.arm,until:this.gameTime+
+    (kind==='caitlyn_snap'?[30,35,40,45,50][Math.min(4,rank-1)]:spec.duration),
+   triggerRadius:spec.radius,visible:!!spec.visible,triggeredAt:null,
+   explodeAt:null,hitIds:[],rank,free};
+  const cap=kind==='caitlyn_snap'?[3,3,4,4,5][Math.min(4,rank-1)]:
+   kind==='jhin_lotus'?2:kind==='teemo_mushroom'?15:kind==='nidalee_bushwhack'?4:5;
+  const existing=this.m16Traps.filter(t=>t.ownerId===u.id&&t.kind===kind)
+    .sort((a,b)=>a.createdAt-b.createdAt||a.id.localeCompare(b.id));
+  if(existing.length>=cap){
+   const removed=new Set(existing.slice(0,existing.length-cap+1).map(x=>x.id));
+   this.m16Traps=this.m16Traps.filter(t=>!removed.has(t.id));
+  }
+  this.m16Traps.push(trap);return trap;
+ }
+ executeMechanicV453M16(u,q,s){
+  const now=this.gameTime,rank=Math.max(1,u.skillRanks[q.slot]||1),
+   value=a=>Array.isArray(a)?a[Math.min(rank-1,a.length-1)]:a;
+  if(q.m16Recast){
+   if(s.m16FourShots){
+    const channel=u.m16JhinChannel;
+    if(!channel||channel.until<=now||channel.remaining<=0||channel.nextAt>now)
+     return {ok:false,reason:'jhin_r_sem_recarga'};
+    const hits=skillshotHitsV42(u,q.point,this.units.filter(t=>t.team!==u.team&&t.hp>0&&
+     this.sameCombatRealmV453Dev69(u,t)),{range:3500,width:160,maxHits:Infinity,
+     worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    const victim=hits.find(t=>t.champ),shot=5-channel.remaining;
+    if(victim){
+     const dmg=(64*(u.skillRanks.R||1)+this.elementalStatsV452d3(u).ad*.25)*
+      (1+Math.min(3,3*(1-victim.hp/Math.max(1,victim.maxHp))))*
+      (shot===4?2.3:1);
+     this.damage(victim,dmg,u,'physical','spell');
+     if(victim.hp>0){
+      this.applyEffectV41(victim,'slow',{source:u,duration:.5,power:.8,key:'jhin_r_'+shot});
+      (victim.m16TrueSightUntil??={})[u.team]=now+2;
+     }
+    }
+    channel.remaining--;channel.nextAt=now+1;
+    if(channel.remaining<=0)u.m16JhinChannel=null;
+    return {ok:true,recast:true,shot,hit:!!victim,spentMana:0};
+   }
+   if(u.champ==='Akshan'&&q.slot==='W'){
+    this.m16BreakStealth(u,'manual');return {ok:true,recast:true,spentMana:0};
+   }
+   if(u.champ==='Khazix'&&q.slot==='R'){
+    const recast=u.m16KhazixR;
+    if(!recast||recast.until<now||recast.remaining<=0||recast.nextAt>now)
+     return {ok:false,reason:'kha_r_sem_recast'};
+    recast.remaining--;recast.nextAt=now+2;
+    u.m16StealthV453={type:'invisibility',startsAt:now,until:now+(u.m16KhazixEvolvedR?2:1.25),source:'Khazix:R',radius:0};
+    return {ok:true,recast:true,remaining:recast.remaining,spentMana:0};
+   }
+  }
+  if(s.m16Trap&&(!q.point||!this.walkable(q.point.x,q.point.y)))return {ok:false,reason:'armadilha_destino_invalido'};
+  if(s.m16Stealth&&s.m16Blink&&(!q.point||this.mapDistance(u,q.point)>s.range||
+   !this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))
+   return {ok:false,reason:'blink_bloqueado'};
+  let stock=null;
+  if(s.m16Charges){
+   stock=this.m16Stock(u,q.slot,s);
+   if(stock.state.charges<1)return {ok:false,reason:'armadilha_sem_cargas'};
+  }
+  const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+   targetId:q.targetId||null,point:q.point||null,source:'m16_mechanics',
+   cooldownOverride:s.m16Charges?0:null});
+  if(!cast.ok)return cast;
+  if(stock){
+   stock.state.charges--;
+   if(stock.state.nextAt<=now)stock.state.nextAt=now+stock.refill;
+  }
+  if(s.m16Trap){
+   const trap=this.m16TrapCreate(u,s.m16Trap,q.point);
+   return {...cast,trapId:trap.id};
+  }
+  if(s.m16FourShots){
+   u.m16JhinChannel={remaining:4,nextAt:now+1,until:now+10,
+    facing:{x:1,y:0}};
+   return {...cast,channel:true,shots:4};
+  }
+  if(s.m16Blind||s.m16Charm){
+   const target=this.units.find(v=>v.id===q.targetId&&v.hp>0&&v.team!==u.team&&
+    this.visible(u.team,v)&&this.mapDistance(u,v)<=s.range);
+   if(!target)return {...cast,hit:false};
+   if(s.m16Blind){
+    this.damage(target,value(s.damage)+this.elementalStatsV452d3(u).ap*(s.apRatio||0),u,'magic','spell');
+    this.applyEffectV41(target,'blind',{source:u,duration:[2,2.25,2.5,2.75,3][Math.min(4,rank-1)],key:'teemo_q_'+u.id});
+   }
+   if(s.m16Charm)target.m16EvelynnMark={ownerId:u.id,maturesAt:now+2.5,until:now+5};
+   return {...cast,hit:true};
+  }
+  if(s.m16Stealth){
+   this.m16BreakStealth(u,'refresh');
+   if(s.m16Blink){
+    const old={x:u.x,y:u.y};u.x=q.point.x;u.y=q.point.y;
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,old,q.point,{kind:'blink'});
+    u.boardNextBasicV453Dev69={until:now+5,charges:1,total:1,
+     base:35+rank*15,adRatio:.4,apRatio:0,sourceSlot:'Q'};
+   }
+   const duration=value(s.m16Duration),delay=s.m16Delay||0;
+   u.m16StealthV453={type:s.m16Stealth,source:u.champ+':'+q.slot,
+    startsAt:now+delay,until:now+delay+duration,radius:s.m16Radius||0,
+    wallExtend:!!s.m16WallExtend};
+   if(u.champ==='Khazix')u.m16KhazixR={remaining:u.m16KhazixEvolvedR?2:1,
+    nextAt:now+2,until:now+12};
+   return {...cast,stealthType:s.m16Stealth,until:now+delay+duration};
+  }
+  return cast;
+ }
  queueBoardSummonOrderV453Dev69(team,ownerId,summonId,{point=null,targetId=null}={}){
   const owner=this.units.find(u=>u.id===ownerId&&u.team===team&&u.hp>0);
   const s=this.boardSummonsV453Dev69?.find(v=>v.id===summonId&&v.ownerId===ownerId&&
