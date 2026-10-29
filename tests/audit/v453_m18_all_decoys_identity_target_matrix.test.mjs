@@ -225,4 +225,41 @@ for(const team of teams){
   assert.equal(checksumV40(snap),checksumV40(Arena.fromSnapshotV40(map,mask,snap).snapshotV40()));
  });
 }
+
+for(const team of teams)for(const champ of Object.keys(kinds)){
+ for(const spec of [
+  {caster:'Maokai',slot:'E',kind:'maokai_sapling',effect:'instant'},
+  {caster:'Teemo',slot:'R',kind:'teemo_mushroom',effect:'dot'},
+  {caster:'Jhin',slot:'E',kind:'jhin_lotus',effect:'delayed'}
+ ]){
+  ok(team+' '+champ+' '+spec.kind+' real cast respects decoy lifetime and effect type',()=>{
+   const t=make(team,champ,spec.caster);
+   const before=t.clone.hp;
+   const queued=t.a.queueKitSkillV42(team,t.caster.id,spec.slot,
+    {x:t.clone.x,y:t.clone.y});
+   assert.ok(queued.ok,queued.reason);
+   t.a.resolveBoardSkillsV453Dev69();
+   const trap=t.a.m16Traps.find(v=>v.ownerId===t.caster.id&&v.kind===spec.kind);
+   assert.ok(trap,'real authored ability did not create a server-owned trap');
+   assert.equal(t.caster.mana<10000,true,'server must commit cast resource');
+   t.a.gameTime=2.35;
+   t.a.advanceMechanicsV453M16();
+   assert.ok(trap.triggeredAt!==null,'visible clone did not trigger authored trap');
+   if(spec.effect==='instant'){
+    assert.ok(t.clone.hp<before,'Maokai explosion missed visible clone');
+   }else if(spec.effect==='dot'){
+    assert.ok(t.clone.statusEffectsV41?.some(e=>e.type==='dot'),
+     'Teemo mushroom did not schedule clone DoT');
+   }else{
+    assert.ok(trap.explodeAt>t.a.gameTime);
+    assert.equal(t.clone.hp,before,'Lotus E cannot damage immediately on trigger');
+    t.a.gameTime=trap.explodeAt+.02;t.a.advanceMechanicsV453M16();
+    if(t.clone.until>t.a.gameTime)
+     assert.ok(t.clone.hp<before,'detonation missed living clone');
+    else assert.equal(t.clone.hp,before,'expired decoy incorrectly hit by delayed explosion');
+   }
+   assert.equal(t.a.units.length,10);
+  });
+ }
+}
 console.log('M18_CLONES_SUMMARY '+checks+'/'+checks+' PASS');
