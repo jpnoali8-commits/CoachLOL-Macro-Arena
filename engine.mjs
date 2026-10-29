@@ -2362,7 +2362,7 @@ export class Arena {
     this.visible(team,u,sources)&&(!u.neekoDisguiseV453M15||u.neekoDisguiseV453M15.kind==='champion')))
    .map(u=>{
     if(u.team===team)return u;
-    const disguise=u.neekoDisguiseV453M15,cloneActive=u.champ==='Shaco'&&
+    const disguise=u.neekoDisguiseV453M15,cloneActive=!!u.shacoCloneIdV453M15&&
      this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime);
     return {id:disguise?.publicId||(cloneActive?u.shacoPublicAliasV453M15:u.id),
      team:u.team,role:disguise?'unknown':u.role,champ:disguise?.champ||u.champ,
@@ -3053,7 +3053,8 @@ export class Arena {
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   if(u.champ==='Shyvana'&&slot==='R'&&(u.boardFuryV453M14||0)<100)return {ok:false,reason:'fury_insuficiente'};
   // M15 recast never charges twice. A living clone is a server-owned entity.
-  if((u.champ==='Neeko'&&slot==='W')||(u.champ==='Shaco'&&slot==='R')){
+  if((u.champ==='Neeko'&&slot==='W')||
+     ((u.champ==='Shaco'||u.champ==='Sylas')&&slot==='R')){
    const kind=u.champ==='Neeko'?'neeko_clone':'shaco_clone';
    const clone=this.boardSummonsV453Dev69.find(e=>e.ownerId===u.id&&e.kind===kind&&e.hp>0&&e.until>this.gameTime);
    if(clone){
@@ -3108,7 +3109,11 @@ export class Arena {
  }
  boardKitForV453Dev69(champ,slot,u=null){
   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
-   return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||null;
+   return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||
+    M15_ENTITY_KITS_V453[u.sylasStolenV453M14.sourceChamp]?.R||null;
+  if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
+   e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
+   return M15_ENTITY_KITS_V453.Shaco.R;
   return BOARD_KITS_V453_DEV69[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
@@ -3506,10 +3511,14 @@ export class Arena {
     this.obstacleLine(u,q.point))return {ok:false,reason:'clone_destino_invalido'};
   const rank=Math.max(1,u.skillRanks[q.slot]||1),
    cd=kind==='neeko_clone'?[16,15,14,13,12][Math.min(4,rank-1)]:[100,90,80][Math.min(2,rank-1)];
-  const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
-   point:q.point,costOverride:kind==='neeko_clone'?0:100,
-   cooldownOverride:kind==='neeko_clone'?0:cd,source:'m15_clone'});
+  const stolen=q.stolenCast&&u.champ==='Sylas'&&
+   u.sylasStolenV453M14?.sourceChamp==='Shaco'&&u.sylasStolenV453M14.expiresAt>this.gameTime;
+  const committed=stolen?{ok:true,spentMana:0,hijacked:true}:
+   this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+    point:q.point,costOverride:kind==='neeko_clone'?0:100,
+    cooldownOverride:kind==='neeko_clone'?0:cd,source:'m15_clone'});
   if(!committed.ok)return committed;
+  if(stolen)u.sylasStolenV453M14=null;
   const now=this.gameTime;
   if(kind==='neeko_clone'){
    const e=this.m15Summon(kind,u,{x:u.x,y:u.y},{
@@ -3537,7 +3546,7 @@ export class Arena {
    explosionPower:[150,225,300][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.7,
    boxPower:[10,20,30][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.1,
    boxSinglePower:[25,50,75][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.15,
-   appearance:{kind:'champion',champ:'Shaco'}});
+   appearance:{kind:'champion',champ:u.champ}});
   u.shacoCloneIdV453M15=e.id;
   u.shacoInvisibleUntilV453M15=now+.5;
   u.shacoPublicAliasV453M15='appearance_'+(++this.m15PublicSeq).toString(36);
@@ -3670,7 +3679,7 @@ export class Arena {
  m15ResolvePublicId(team,id){
   for(const u of this.units)if(u.team!==team&&u.hp>0&&this.visible(team,u)){
    if(u.neekoDisguiseV453M15?.publicId===id)return u.id;
-   if(u.champ==='Shaco'&&u.shacoPublicAliasV453M15===id&&
+   if(u.shacoCloneIdV453M15&&u.shacoPublicAliasV453M15===id&&
      this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))return u.id;
   }
   const e=this.boardSummonsV453Dev69.find(e=>e.publicId===id&&e.team!==team&&e.hp>0&&e.until>this.gameTime&&
@@ -3861,7 +3870,7 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const bu=this.units.find(v=>v.team===team&&v.id===unitId);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -3993,7 +4002,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const bu=this.units.find(v=>v.id===unitId&&v.team===team);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
