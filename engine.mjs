@@ -5223,7 +5223,20 @@ export class Arena {
    (u.champ==='Varus'&&q.slot==='R'&&s.m25VarusChain)||
    (u.champ==='Sejuani'&&q.slot==='R'&&s.m25SejStorm)||
    (u.champ==='Milio'&&q.slot==='Q'&&s.m32MilioBounce)||
-   (u.champ==='Lucian'&&q.slot==='W'&&s.m32LucianStar));
+   (u.champ==='Lucian'&&q.slot==='W'&&s.m32LucianStar)||
+   // M44 B03: explicitly authored champion+slot cases, no generic fallback.
+   (u.champ==='Ashe'&&q.slot==='R')||
+   (u.champ==='Morgana'&&q.slot==='Q')||
+   (u.champ==='Blitzcrank'&&q.slot==='Q')||
+   (u.champ==='Brand'&&q.slot==='Q')||
+   (u.champ==='DrMundo'&&q.slot==='Q')||
+   (u.champ==='Olaf'&&q.slot==='Q')||
+   (u.champ==='Sivir'&&q.slot==='Q')||
+   (u.champ==='KogMaw'&&q.slot==='Q')||
+   (u.champ==='TahmKench'&&q.slot==='Q')||
+   (u.champ==='Nidalee'&&q.slot==='Q'&&(u.boardFormV453M14||'human')==='human')||
+   (u.champ==='Varus'&&q.slot==='Q')||
+   (u.champ==='Elise'&&q.slot==='E'&&(u.boardFormV453M14||'human')==='human'));
   if(m44Flight&&!q.stolenCast&&q.point){
    const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
    if(distance>=1){
@@ -5231,15 +5244,25 @@ export class Arena {
     const end={x:start.x+(q.point.x-start.x)*ratio,
      y:start.y+(q.point.y-start.y)*ratio};
     const flightTicks=Math.max(1,Math.ceil(reach/550));
+     const m44FirstBody=['Ashe','Morgana','Blitzcrank','Brand','DrMundo',
+      'KogMaw','TahmKench','Nidalee','Elise'];
+     const m44Charge=u.champ==='Varus'&&q.slot==='Q'?
+      Math.max(0,Math.min(2,q.m28ChargeSeconds||0)):0;
     (this.boardTemporalV453Dev69??=[]).push({
      id:++this.boardTemporalIdV453Dev69,kind:'m44_authored_projectile',
      ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
      origin:start,current:{...start},point:end,
-     range:reach,width:s.width||160,power:power(s.damage),
+     range:reach,width:s.width||160,
+     power:power(s.damage)*(u.champ==='Varus'&&q.slot==='Q'?
+      (1+.25*m44Charge)*(q.m30VarusEmpowered?1.15:1):1),
      damageType:s.type||'magic',
-     maxHits:['Sejuani','Milio','Lucian'].includes(u.champ)?1:(s.maxHits??9999),
+     maxHits:['Sejuani','Milio','Lucian'].includes(u.champ)||
+      m44FirstBody.includes(u.champ)?1:(s.maxHits??9999),
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
-     nextAt:this.gameTime+1,until:this.gameTime+flightTicks+1,
+     nextAt:this.gameTime+1,
+     until:this.gameTime+flightTicks*(u.champ==='Sivir'?2:1)+1,
+     m44ReturnOrigin:u.champ==='Sivir'?{...start}:null,
+     m44ReturnLeg:false,m44ChargeSeconds:m44Charge,
      m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0
     });
     if(u.champ==='LeeSin')u.m21SonicRecastV453=null;
@@ -5704,6 +5727,18 @@ export class Arena {
    keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m44_milio_bounce',
     ownerId:u.id,team:u.team,point:{...landed},radius:280,
     power:z.power*.55,primaryId:victim?.id||null,nextAt:now+1,until:now+1.1});
+  }else if(z.champ==='Ashe'&&z.slot==='R'&&victim){
+   // Enchanted Crystal Arrow: impact explosion separately slows nearby bodies.
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.id!==victim.id&&v.hp>0&&this.mapDistance(point,v)<=250&&
+    this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(point,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    const shielded=!!this.effectResolverV41().has(v,'spell_shield');
+    this.damage(v,z.power*.35,u,'magic','spell');
+    if(!shielded&&v.hp>0&&v.champ)
+     this.applyEffectV41(v,'slow',{source:u,duration:2,power:.35,
+      key:'m44_ashe_splash_'+z.id+'_'+v.id});
+   }
   }else if(z.champ==='Lucian'&&z.slot==='W'){
    z.m44StarHitIds=[];
    for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>{
@@ -5755,7 +5790,7 @@ export class Arena {
      const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
       this.sameCombatRealmV453Dev69(u,v)&&
-      (!['Varus','Sejuani'].includes(z.champ)||
+      (!['Varus','Sejuani','Ashe'].includes(z.champ)||
        v.champ||this.boardCloneDamageableV453Dev69(v)));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
@@ -5769,8 +5804,13 @@ export class Arena {
        this.effectResolverV41().remove(victim,{
         types:['shield','magic_shield','physical_shield']});
       // Lucian W deals damage only in its authored star at impact.
-      const dealt=z.champ==='Lucian'&&z.slot==='W'?0:
-       this.damage(victim,z.power,u,z.damageType,'spell');
+      const distance=this.mapDistance(z.origin,victim);
+      const raw=z.champ==='Lucian'&&z.slot==='W'?0:
+       z.champ==='Nidalee'&&z.slot==='Q'?
+        z.power*(1+Math.min(1.5,Math.max(0,distance-450)/850)):
+       z.champ==='DrMundo'&&z.slot==='Q'?
+        Math.max(z.power,Math.min(victim.hp*.2,400)):z.power;
+      const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
       // Valor stops at first contact; only primary gets Harrier / blindness.
@@ -5786,7 +5826,68 @@ export class Arena {
       // shield-break are contact effects unless the spell shield blocks them.
       if(victim.hp>0&&!spellShield){
        if(z.m44Mark)(victim.m20MarksV453??={})[z.m44Mark+'_'+u.id]=now+6;
-       if(z.champ==='LeeSin'){
+       if(z.champ==='Ashe'&&z.slot==='R'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,
+         duration:Math.min(3.5,1+Math.max(0,distance-300)/2800*2.5),
+         key:'m44_ashe_stun_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Morgana'&&z.slot==='Q'){
+        this.applyEffectV41(victim,'root',{source:u,duration:2,
+         key:'m44_morgana_root_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Blitzcrank'&&z.slot==='Q'){
+        const old={x:victim.x,y:victim.y},gap=this.mapDistance(u,victim),
+         pull=Math.max(0,Math.min(850,gap-140));
+        let dest=old;
+        for(let d=20;d<=pull+20;d+=20){
+         const part=Math.min(d,pull)/Math.max(1,gap),
+          next={x:old.x+(u.x-old.x)*part,y:old.y+(u.y-old.y)*part};
+         if(!this.walkable(next.x,next.y)||this.obstacleLine(dest,next))break;
+         dest=next;
+        }
+        if(dest!==old){
+         Object.assign(victim,dest);
+         if(victim.champ){
+          this.invalidateShopUndoOnDepartureV453Dev61(victim);
+          victim.path=[];victim.laneFollowPath=[];victim.retreatPath=[];
+         }
+        }
+       }else if(z.champ==='Brand'&&z.slot==='Q'){
+        const ablaze=victim.boardBrandAblazeV453Dev69?.[u.id]>now;
+        if(victim.champ)(victim.boardBrandAblazeV453Dev69??={})[u.id]=now+4;
+        this.applyEffectV41(victim,'dot',{source:u,duration:4,
+         power:8+u.level,interval:1,key:'m44_brand_blaze_'+z.id+'_'+victim.id});
+        if(ablaze&&victim.champ)this.applyEffectV41(victim,'stun',{
+         source:u,duration:1.5,key:'m44_brand_stun_'+z.id+'_'+victim.id});
+       }else if(['DrMundo','Olaf'].includes(z.champ)&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.35,
+         key:'m44_'+z.champ+'_slow_'+z.id+'_'+victim.id});
+       }else if(z.champ==='KogMaw'&&z.slot==='Q'&&victim.champ){
+        (victim.m26KogShred??={})[u.id]={until:now+4,ratio:.18};
+       }else if(z.champ==='TahmKench'&&z.slot==='Q'&&victim.champ){
+        const ledger=victim.m24TasteV453??={},prior=ledger[u.id];
+        if(prior?.until>now&&prior.stacks>=3){
+         delete ledger[u.id];
+         this.applyEffectV41(victim,'stun',{source:u,duration:1.25,
+          key:'m44_tahm_stun_'+z.id+'_'+victim.id});
+        }else{
+         ledger[u.id]={stacks:Math.min(3,(prior?.until>now?prior.stacks:0)+1),
+          until:now+6};
+         this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.4,
+          key:'m44_tahm_slow_'+z.id+'_'+victim.id});
+        }
+       }else if(z.champ==='Nidalee'&&z.slot==='Q'&&victim.champ){
+        victim.m16HuntedUntil=now+4;
+        (victim.m16TrueSightUntil??={})[u.team]=now+4;
+       }else if(z.champ==='Varus'&&z.slot==='Q'&&victim.champ){
+        const blight=victim.m21VarusBlightV453;
+        if(blight?.sourceId===u.id&&blight.until>now&&blight.stacks>0){
+         victim.m21VarusBlightV453=null;
+         this.damage(victim,Math.max(1,victim.maxHp*.03*blight.stacks),
+          u,'magic','m44_varus_blight');
+        }
+       }else if(z.champ==='Elise'&&z.slot==='E'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,duration:1.5,
+         key:'m44_elise_cocoon_'+z.id+'_'+victim.id});
+       }else if(z.champ==='LeeSin'){
         if(dealt>0&&(victim.champ||this.minions.includes(victim)||
           this.boardCloneDamageableV453Dev69(victim)))
          u.m21SonicRecastV453={targetId:victim.id,until:now+3};
@@ -5827,7 +5928,7 @@ export class Arena {
        }
       }
      }
-     if(z.hitCount===1&&['Sejuani','Milio','Lucian'].includes(z.champ)){
+     if(z.hitCount===1&&['Sejuani','Milio','Lucian','Ashe'].includes(z.champ)){
       const first=[...this.units,...this.minions,...this.boardSummonsV453Dev69]
        .find(v=>v.id===z.hitIds[0]);
       if(first)this.m44AuthoredImpactV453Dev69(z,u,
@@ -5841,7 +5942,24 @@ export class Arena {
        ['Sejuani','Milio','Lucian'].includes(z.champ))
       this.m44AuthoredImpactV453Dev69(z,u,
        this.obstacleLine(from,next)?from:next,null,false,keep);
-     if(z.hitCount>=z.maxHits||endOfTravel)ended=true;
+     if(z.champ==='Sivir'&&z.slot==='Q'&&endOfTravel&&!z.m44ReturnLeg){
+      // Boomerang Blade traverses both legs. The same body can be hit once
+      // per leg, never repeatedly by overlapping travel segments.
+      z.m44ReturnLeg=true;z.m44OutboundHitIds=[...z.hitIds];
+      z.origin={...next};z.current={...next};
+      z.point={...z.m44ReturnOrigin};z.distanceDone=0;
+      z.range=this.mapDistance(z.origin,z.point);z.hitIds=[];z.hitCount=0;
+     }else if(z.hitCount>=z.maxHits||endOfTravel)ended=true;
+     if(z.champ==='Olaf'&&z.slot==='Q'&&endOfTravel)
+      keep.push({id:++this.boardTemporalIdV453Dev69,
+       kind:'m44_olaf_axe_pickup',ownerId:u.id,team:u.team,
+       point:{...next},nextAt:now+1,until:now+5});
+    }else if(z.kind==='m44_olaf_axe_pickup'){
+     if(u.hp<=0)ended=true;
+     else if(this.mapDistance(u,z.point)<=160&&!this.obstacleLine(u,z.point)){
+      u.skillCds.Q=Math.max(now,(u.skillCds.Q||now)-2);
+      ended=true;
+     }else z.nextAt=now+1;
     }else if(['m44_sejuani_storm','m44_milio_bounce'].includes(z.kind)){
      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
