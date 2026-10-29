@@ -3489,6 +3489,32 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(s.m20Rewind)for(const k of ['Q','E'])
+   u.skillCds[k]=Math.max(this.gameTime,(u.skillCds[k]||0)-s.m20Rewind);
+  if(s.m20JumpToAlly&&target?.team===u.team&&this.walkable(target.x,target.y)){
+   const from={x:u.x,y:u.y},to={x:target.x,y:target.y};
+   Object.assign(u,to);this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'teleport'});
+   u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+  }
+  if(s.m20DeployTurret&&q.point){
+   const active=this.boardSummonsV453Dev69.filter(v=>v.ownerId===u.id&&
+    v.kind==='heimer_turret'&&v.hp>0&&v.until>this.gameTime)
+    .sort((a,b)=>a.createdAt-b.createdAt||a.id.localeCompare(b.id));
+   if(active.length>=3)active[0].hp=0;
+   const rank=Math.max(1,u.skillRanks[q.slot]||1),hp=180+rank*45;
+   this.boardSummonsV453Dev69.push({
+    id:'heimer_turret_'+(++this.boardSummonIdV453Dev69),kind:'heimer_turret',
+    team:u.team,ownerId:u.id,x:q.point.x,y:q.point.y,hp,maxHp:hp,
+    armor:30,mr:30,createdAt:this.gameTime,
+    until:this.gameTime+45,lastTick:this.gameTime,nextAttackAt:this.gameTime+1,
+    attackRange:525,power:25+rank*12+this.elementalStatsV452d3(u).ap*.2
+   });
+  }
+  if(s.m20OrbSpawn&&q.point){
+   (u.m20SyndraOrbsV453??=[]).push({x:q.point.x,y:q.point.y,until:this.gameTime+6});
+   u.m20SyndraOrbsV453=u.m20SyndraOrbsV453.filter(o=>o.until>this.gameTime).slice(-7);
+  }
   if(s.transformTo){
    if(u.champ==='Shyvana'&&q.slot==='R'){
     u.boardFuryV453M14=Math.max(0,(u.boardFuryV453M14||0)-100);
