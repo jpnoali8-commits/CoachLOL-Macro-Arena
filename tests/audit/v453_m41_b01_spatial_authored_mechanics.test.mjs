@@ -181,11 +181,11 @@ for(const team of ['blue','red']){
   assert.equal(u.mana,mana);assert.equal(u.skillCds.R,cd);
   negative++;snap();
  });
- check('Viktor',team,'storm cannot track unseen target or move through collision',({a,u,e,cast,tick,snap,zones})=>{
-  e.x=.58;e.y=.5;
+ check('Viktor',team,'storm cannot track unseen target or move through collision',({a,u,e,far,cast,tick,snap,zones})=>{
+  e.x=.58;e.y=.5;far.x=.08;far.y=.08;
   cast('R',{point:{x:.54,y:.5}});
   const z=zones('m28_viktor_storm')[0],x=z.point.x;
-  a.visible=(team,v)=>v.id!==e.id;
+  a.visible=(team,v)=>v.team===u.team;
   tick(1);
   assert.equal(z.point.x,x,'storm must not automatically know hidden position');
   a.visible=()=>true;a.obstacleLine=(from,to)=>to?.id===e.id||to?.x>x;
