@@ -4002,15 +4002,19 @@ export class Arena {
    const u=this.units.find(v=>v.id===z.ownerId);
    if(!u){continue;}
    let ended=false;
-   if(['cone_channel','m20_requiem_channel'].includes(z.kind)&&
+   if(['cone_channel','m20_requiem_channel','m22_artillery_channel'].includes(z.kind)&&
     (!u.hp||!this.effectResolverV41().canAct(u,'skill').ok||
      this.mapDistance(u,z.origin)>60)){
-    u.boardChannelUntilV453Dev69=0;ended=true;
+    u.boardChannelUntilV453Dev69=0;
+    if(z.kind==='m22_artillery_channel')u.m22ArtilleryV453=null;
+    ended=true;
    }
-   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel'].includes(z.kind))){
+   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m21_gragas_barrel'){
+    if(z.kind==='m22_zilean_bomb'){
+     this.detonateM22BombV453(z,false);ended=true;
+    }else if(z.kind==='m21_gragas_barrel'){
      this.detonateM21BarrelV453(z);ended=true;
     }else if(z.kind==='satchel_charge'){
      this.detonateBoardSatchelV453Dev69(z);ended=true;
@@ -4070,7 +4074,10 @@ export class Arena {
     }
    }
    if(!ended&&now<z.until)keep.push(z);
-   else if(['cone_channel','m20_requiem_channel'].includes(z.kind))u.boardChannelUntilV453Dev69=0;
+   else if(['cone_channel','m20_requiem_channel','m22_artillery_channel'].includes(z.kind)){
+    u.boardChannelUntilV453Dev69=0;
+    if(z.kind==='m22_artillery_channel')u.m22ArtilleryV453=null;
+   }
   }
   this.boardTemporalV453Dev69=keep;
  }
