@@ -5645,24 +5645,63 @@ export class Arena {
       this.event('Sett W: Haymaker após 0.75s.',u.team,'skill_vfx',u.id);
       ended=true;
      }
-    }else if(z.kind==='m28_karthus_wall'||z.kind==='m28_kog_ooze'){
-     const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
-      {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-     for(const v of victims.filter(v=>v.champ&&v.hp>0)){
-      this.applyEffectV41(v,'slow',{source:u,duration:1.5,
-       power:z.kind==='m28_karthus_wall'?.5:.35,key:z.kind+'_'+z.id+'_'+v.id});
-      if(z.kind==='m28_kog_ooze'&&!z.hitIds.includes(v.id)){
-       this.damage(v,z.power,u,'magic','spell');z.hitIds.push(v.id);
+    }else if(z.kind==='m28_karthus_wall'){
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0)
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+       this.m41KarthusWallApplyV453Dev69(z,u,v);
+      z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
+     }else if(z.kind==='m28_kog_ooze'){
+      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+       {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      for(const v of victims.filter(v=>v.champ&&v.hp>0)){
+       this.applyEffectV41(v,'slow',{source:u,duration:1.5,
+        power:.35,key:z.kind+'_'+z.id+'_'+v.id});
+       if(!z.hitIds.includes(v.id)){
+        this.damage(v,z.power,u,'magic','spell');z.hitIds.push(v.id);
+       }
       }
-     }
-     z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
-    }else if(z.kind==='m28_galio_converge'){
-     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
-      v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius))
-      this.applyEffectV41(v,'dot',{source:u,duration:2,
-       power:z.power,interval:1,key:'m28_galio_winds_'+z.id+'_'+v.id});
-     ended=true;
-    }else if(z.kind==='m28_mel_volley'){
+      z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
+     }else if(z.kind==='m28_galio_converge'){
+      // Two separate windblasts follow angled paths toward the cast point.
+      // A vortex only arises after at least one reaches the join.
+      if(z.m41Phase==='flight'){
+       const dx=(z.point.x-z.origin.x)*this.worldWidth,
+        dy=(z.point.y-z.origin.y)*this.worldHeight,
+        len=Math.max(1,Math.hypot(dx,dy)),perp={x:-dy/len,y:dx/len};
+       z.m41Wings=[];
+       for(const side of [-1,1]){
+        const from={x:z.origin.x+perp.x*side*135/this.worldWidth,
+         y:z.origin.y+perp.y*side*135/this.worldHeight};
+        const pathLength=this.mapDistance(from,z.point),
+         clear=!this.obstacleLine(from,z.point),hitIds=[];
+        if(clear){
+         const candidates=skillshotHitsV42(from,z.point,
+          this.boardCombatEnemyPoolV453Dev69(u),{
+           range:Math.min(1000,pathLength+5),width:145,
+           worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+         for(const v of candidates.filter(v=>v.hp>0&&
+           this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(from,v))
+          .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+          this.damage(v,z.power,u,'magic','spell');hitIds.push(v.id);
+         }
+        }
+        z.m41Wings.push({side,from,point:{...z.point},blocked:!clear,hitIds});
+       }
+       z.m41Phase=z.m41Wings.every(w=>w.blocked)?'ended':'vortex';
+       z.nextAt=now+1;
+       if(z.m41Phase==='ended')ended=true;
+      }else if(z.m41Phase==='vortex'){
+       for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+        v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+        this.mapDistance(v,z.point)<=z.radius&&
+        !this.obstacleLine(z.point,v))
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+        this.damage(v,z.power,u,'magic','spell');
+       z.m41VortexTicks=(z.m41VortexTicks||0)+1;
+       z.nextAt=now+1;
+       if(z.m41VortexTicks>=2)ended=true;
+      }else ended=true;
+     }else if(z.kind==='m28_mel_volley'){
      // Three separately tracked board projectiles per wave, one collision
      // receipt per shot: no anonymous full-circle damage on future ticks.
      const vx=(z.point.x-z.origin.x)*this.worldWidth,
@@ -5701,20 +5740,35 @@ export class Arena {
      }
      ended=true;
     }else if(z.kind==='m28_viktor_storm'){
-     const pool=this.boardCombatEnemyPoolV453Dev69(u);
-     const targets=pool.filter(v=>v.champ&&v.hp>0&&this.visible(u.team,v)&&
-      !this.obstacleLine(z.point,v)).sort((a,b)=>
-       this.mapDistance(a,z.point)-this.mapDistance(b,z.point)||
-       String(a.id).localeCompare(String(b.id)));
-     if(targets.length){
-      const v=targets[0],d=this.mapDistance(z.point,v),f=Math.min(180,d)/Math.max(1,d);
-      const dest={x:z.point.x+(v.x-z.point.x)*f,y:z.point.y+(v.y-z.point.y)*f};
-      if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(z.point,dest))z.point=dest;
-     }
-     for(const v of pool.filter(v=>this.mapDistance(v,z.point)<=z.radius))
-      this.damage(v,z.power*(z.m30Evolved?.48:1/3),u,'magic','spell');
-     z.nextAt=now+1;
-    }else if(z.kind==='m26_shen_arrival'){
+      const pool=this.boardCombatEnemyPoolV453Dev69(u);
+      let destination=z.m41CommandPoint||null;
+      if(!destination){
+       const targets=pool.filter(v=>v.champ&&v.hp>0&&
+        this.sameCombatRealmV453Dev69(u,v)&&
+        this.mapDistance(z.point,v)<=900&&this.visible(u.team,v)&&
+        !this.obstacleLine(z.point,v))
+        .sort((a,b)=>this.mapDistance(a,z.point)-this.mapDistance(b,z.point)||
+         String(a.id).localeCompare(String(b.id)));
+       destination=targets[0]||null;
+      }
+      if(destination){
+       const d=this.mapDistance(z.point,destination),step=Math.min(180,d),
+        f=step/Math.max(1,d);
+       const next={x:z.point.x+(destination.x-z.point.x)*f,
+        y:z.point.y+(destination.y-z.point.y)*f};
+       if(this.walkable(next.x,next.y)&&!this.obstacleLine(z.point,next))
+        z.point=next;
+       else z.m41CommandPoint=null;
+       if(z.m41CommandPoint&&this.mapDistance(z.point,z.m41CommandPoint)<=8)
+        z.m41CommandPoint=null;
+      }
+      for(const v of pool.filter(v=>v.hp>0&&
+       this.sameCombatRealmV453Dev69(u,v)&&
+       this.mapDistance(v,z.point)<=z.radius&&
+       !this.obstacleLine(z.point,v)))
+       this.damage(v,z.power*(z.m30Evolved?.48:1/3),u,'magic','spell');
+      z.nextAt=now+1;
+     }else if(z.kind==='m26_shen_arrival'){
      const ally=this.units.find(v=>v.id===z.anchorId&&v.team===z.team&&v.hp>0);
      if(u.hp>0&&ally&&this.sameCombatRealmV453Dev69(u,ally)&&
         this.effectResolverV41().canAct(u,'skill').ok&&this.walkable(ally.x,ally.y)){
