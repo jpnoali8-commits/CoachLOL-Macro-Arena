@@ -73,3 +73,15 @@ for both human seats, fog, obstacle and replay.
 
 Do not edit `engine.browser.js`, `version.json`, Items or integration.
 Do not merge PR #9.
+
+## Final remote CI evidence (code HEAD `192fceaefd8c492880e4167499b48cfbf0ff1aa9`)
+
+- [M39 specialist Skills PASS — run 40925538152](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40925538152): **14/14 M39** (dual-seat, 14 checksums, 8 negative cases), M20 **280/280**, M32 **280/280**, M38 **12/12**, M34 fail-closed **0 kits certified**, and 140/140 authored B01 slot hooks.
+- [Logic PASS — run 40925548919](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40925548919).
+- [Projectiles PASS — run 40925548689](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40925548689).
+- [Integrated QA FAIL — run 40925548818](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40925548818): failed **Verify official Node to browser regeneration**. The `npm test full - milestone only` job was **skipped**. This is outside the Skills branch contract and must be repaired by the integrator after explicitly authorized merge.
+- The historic M20 and M32 **test fixtures** were adjusted to supply a real owned Syndra orb on legal W casts. Old tests formerly demanded an ability without a pickup; gameplay preflight remained strict. Those are fixture changes, not fallback behavior.
+
+Runtime classification snapshot: `M34_ATOMIC_RELEASE` observed 173 champions, 692 QWER, 369 training-fallback slots outside B01, 183 routed-unverified outside B01, 20 legacy B01 tags and zero certified kits. This is progress accounting, not proof that those outer roster slots were completed.
+
+The complete set of 35 B01 kits remains an indivisible pending macropackage; continuing to M40 does **not** promote the PR out of Draft or authorize merge.
