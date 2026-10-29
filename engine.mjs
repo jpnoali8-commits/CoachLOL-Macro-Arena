@@ -2426,7 +2426,18 @@ export class Arena {
    heraldMercenaries:this.heraldMercenariesV45.filter(h=>h.team===team||canSee(h)).map(h=>({id:h.id,team:h.team,x:h.x,y:h.y,lane:h.lane,hp:h.hp,maxHp:h.maxHp,charges:h.charges}))},
   objectiveLedger:(this.objectiveLedgerV44||[]).filter(o=>o.owner===team).map(o=>({...o,damageByActor:Object.fromEntries(Object.entries(o.damageByActor||{}).filter(([id])=>id.startsWith(team+'_')))})).slice(-20),
   teamfights:(this.teamfightLedgerV44||[]).filter(f=>f.observedBy.includes(team)).map(f=>({at:f.at,lastAt:f.lastAt,pit:f.pit,hits:f.hits})).slice(-12),
-  events:this.events.filter(e=>e.team===team||e.public||e.observedBy?.includes(team)||(!e.team&&!e.unitId)).slice(0,24)};}
+  events:this.events.filter(e=>e.team===team||e.public||e.observedBy?.includes(team)||(!e.team&&!e.unitId))
+   .slice(0,24).map(e=>{
+    const actor=this.units.find(u=>u.id===e.unitId);
+    if(!actor||actor.team===team||actor.hp<=0)return e;
+    const cloneActive=actor.shacoCloneIdV453M15&&this.boardSummonsV453Dev69.some(s=>
+     s.id===actor.shacoCloneIdV453M15&&s.hp>0&&s.until>this.gameTime);
+    const alias=actor.neekoDisguiseV453M15?.publicId||
+     (cloneActive?actor.shacoPublicAliasV453M15:null);
+    return alias?{id:e.id,time:e.time,tick:e.tick,round:e.round,
+     team:e.team,kind:e.kind,unitId:alias,observedBy:[team],public:false,
+     text:'Ação de uma unidade visível.'}:e;
+   })};}
  // Skill ranks are physical game state, not a cosmetic QWER selection.
  upgradeSkill(team,unitId,slot){
   const u=this.units.find(v=>v.team===team&&v.id===unitId);
