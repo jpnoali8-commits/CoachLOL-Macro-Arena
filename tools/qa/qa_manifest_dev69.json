@@ -1,0 +1,91 @@
+{
+  "schema": "coachlol.qa.manifest.v1",
+  "description": "Required contracts for branch-isolated QA; never imply combined-release certification.",
+  "lanes": [
+    {
+      "name": "integration",
+      "branch": "dev69/integration",
+      "quickScripts": [
+        "test:v453:dev69:integration"
+      ],
+      "fullScripts": [
+        "test"
+      ],
+      "requiredFiles": [
+        "engine.mjs",
+        "engine.browser.js",
+        "app.js",
+        "multiplayer/room_v453_dev47.mjs",
+        "multiplayer/server_v453_dev47.mjs",
+        "tools/sync_browser_v43.py"
+      ]
+    },
+    {
+      "name": "skills",
+      "branch": "dev69/skills-batch2",
+      "quickScripts": [
+        "test:v453:dev69:skills"
+      ],
+      "fullScripts": [
+        "test:v453:dev69:skills"
+      ],
+      "requiredFiles": [
+        "engine.mjs",
+        "tests/audit"
+      ],
+      "auditDir": "tests/audit",
+      "quickRecentMilestones": 3,
+      "quickMinAuditFiles": 5,
+      "fullMinAuditFiles": 49
+    },
+    {
+      "name": "items",
+      "branch": "dev69/items-batch7",
+      "quickScripts": [
+        "test:v453:dev69:items-batch7"
+      ],
+      "fullScripts": [
+        "test:v453:dev69:items",
+        "test:v453:dev69:items-bulk",
+        "test:v453:dev69:items-batch2",
+        "test:v453:dev69:items-batch3",
+        "test:v453:dev69:items-batch4",
+        "test:v453:dev69:items-batch5",
+        "test:v453:dev69:items-batch6",
+        "test:v453:dev69:items-batch7"
+      ],
+      "requiredFiles": [
+        "engine.mjs",
+        "data/riot_reference"
+      ]
+    }
+  ],
+  "syntax": [
+    "engine.mjs",
+    "engine.browser.js",
+    "app.js",
+    "multiplayer/room_v453_dev47.mjs",
+    "multiplayer/server_v453_dev47.mjs"
+  ],
+  "release": {
+    "base": "dev69/integration",
+    "requiredIntegratedBranches": [
+      "dev69/skills-batch2",
+      "dev69/items-batch7",
+      "dev69/assets-import"
+    ],
+    "assetsGate": "tools/verify_binary_assets_dev69.py",
+    "browser": [
+      "tests/browser_v453_dev42_projectile_mark.py",
+      "tools/chromium_pvp_dev62_two_sessions.py"
+    ]
+  },
+  "qaStatusVocabulary": [
+    "PASS",
+    "FAIL",
+    "NOT_RUN",
+    "BLOCKED",
+    "TIMEOUT"
+  ],
+  "notes": "Release requires all source branch tip commits to be ancestors of the exact integrated HEAD and all mandatory tests to pass. No merges, browser code updates, or workflows triggered by the executor."
+}
