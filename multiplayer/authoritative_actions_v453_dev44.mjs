@@ -9,7 +9,7 @@ import {canonicalStateV40} from '../engine.mjs';
 const VALID_KINDS=Object.freeze([
  'order.move','order.attack','order.stop','order.recall','order.ward',
  'skill.directional','skill.ground','skill.targeted','skill.self','skill.onhit_target','skill.ultimate',
- 'skill.recast_vex','skill.upgrade','skill.hijack','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
+ 'skill.recast_vex','skill.upgrade','skill.hijack','skill.neeko_disguise','skill.neeko_shoma','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
@@ -34,6 +34,8 @@ function validated(kind,p){
   case 'skill.self':return shape(p,['slot'])&&slot(p.slot);
   case 'skill.kalista_launch':return shape(p,['point'])&&point(p.point);
   case 'skill.hijack':return shape(p,['targetId'])&&validId(p.targetId);
+  case 'skill.neeko_disguise':return shape(p,['appearanceId'])&&validId(p.appearanceId);
+  case 'skill.neeko_shoma':return shape(p,['sourceId'])&&validId(p.sourceId);
   case 'skill.onhit_target':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.ultimate':return shape(p,[],['point','targetId'])&&(!own(p,'point')||point(p.point))&&(!own(p,'targetId')||stringId(p.targetId));
   case 'skill.recast_vex':return shape(p,[]);
@@ -77,6 +79,8 @@ function dispatch(arena,unit,kind,p){
   case 'skill.self':return arena.queueKitSkillV42(team,id,p.slot,null);
   case 'skill.kalista_launch':return arena.queueKalistaLaunchV453M14(team,id,p.point);
   case 'skill.hijack':return arena.queueSylasHijackV453M14(team,id,p.targetId);
+  case 'skill.neeko_disguise':return arena.queueNeekoDisguiseV453M15(team,id,p.appearanceId);
+  case 'skill.neeko_shoma':return arena.queueNeekoShomaV453M15(team,id,p.sourceId);
   case 'skill.onhit_target': {
    // Only audited Q variants. Never auto-convert all skills to a generic on-hit.
    if(p.slot!=='Q'||!['Ezreal','Irelia'].includes(unit.champ)||!(unit.skillRanks?.Q>0))return fail('habilidade_individual_nao_certificada');
@@ -142,12 +146,30 @@ export class AuthoritativeActionsV453Dev44 {
   const reacting=this.dev47Enabled&&(['decision.reaction','decision.duel'].includes(message.kind)||(message.kind==='item.activate'&&this.arena.phase==='decision'));
   if(this.arena.ended||(!reacting&&(this.arena.teams[seat.team]?.ready||!['planning','preparation'].includes(this.arena.phase))))return fail('fase_bloqueada');
   if(reacting&&(this.arena.phase!=='decision'||this.arena.pendingDecision?.unitId!==unit.id||!(message.kind==='item.activate'||(message.kind==='decision.duel'?this.arena.pendingDecision?.kind==='duel_request':['combat_reaction','pickoff_reaction'].includes(this.arena.pendingDecision?.kind)))))return fail('decisao_nao_autorizada');
-  const targetId=message.payload.targetId;
+  const payload=structuredClone(message.payload);
+  const targetId=payload.targetId;
   if(targetId){
-   const target=this.arena.units.find(u=>u.id===targetId&&u.hp>0);
-   if(!target||target.team!==seat.team&&!this.arena.visible(seat.team,target)&&!(reacting&&this.arena.pendingDecision?.enemyId===targetId))return fail('alvo_indisponivel');
+   const alias=this.arena.m15ResolvePublicId?.(seat.team,targetId);
+   const resolved=alias||targetId;
+   const target=this.arena.units.find(u=>u.id===resolved&&u.hp>0)||
+    this.arena.boardSummonsV453Dev69?.find(u=>u.id===resolved&&u.hp>0&&u.until>this.arena.gameTime);
+   if(!target)return fail('alvo_indisponivel');
+   if(target.team!==seat.team){
+    // Never accept the real stable ID behind a currently masked champion.
+    const concealed=target.champ==='Neeko'&&target.neekoDisguiseV453M15||
+     target.champ==='Shaco'&&this.arena.boardSummonsV453Dev69.some(e=>
+      e.id===target.shacoCloneIdV453M15&&e.hp>0&&e.until>this.arena.gameTime);
+    if((concealed||['neeko_clone','shaco_clone'].includes(target.kind))&&!alias)
+     return fail('alvo_identidade_oculta');
+    const seen=target.kind&&!target.champ?
+     this.arena.canSeePoint(seat.team,target)&&target.stealthUntil<=this.arena.gameTime:
+     this.arena.visible(seat.team,target);
+    if(!seen&&!(reacting&&this.arena.pendingDecision?.enemyId===resolved))
+     return fail('alvo_indisponivel');
+   }
+   payload.targetId=resolved;
   }
-  const result=dispatch(this.arena,unit,message.kind,structuredClone(message.payload));
+  const result=dispatch(this.arena,unit,message.kind,payload);
   if(!result?.ok)return fail(typeof result?.reason==='string'?result.reason:'acao_rejeitada_pelo_motor');
   this.revision++;seat.lastSequence=message.sequence;
   // No full-world snapshots, server secrets, enemy positions or RNG in replies.
