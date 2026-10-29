@@ -3504,6 +3504,22 @@ export class Arena {
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
+ // M30 player-selected Hex research; combat awards never come from the client.
+ queueBoardViktorEvolutionV453Dev69(team,id,slot){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Viktor');
+  if(!u||u.hp<=0||this.ended||this.teams[team]?.ready||
+     !['planning','preparation'].includes(this.phase)||
+     u.pendingBoardV453Dev69)return {ok:false,reason:'evolucao_indisponivel'};
+  if(!['Q','W','E'].includes(slot))return {ok:false,reason:'evolucao_slot'};
+  if(u.m30ViktorAugments?.[slot])return {ok:false,reason:'evolucao_repetida'};
+  if((u.m30ViktorFragments||0)<100)return {ok:false,reason:'fragmentos_insuficientes'};
+  u.m30ViktorFragments-=100;
+  const upgrades=u.m30ViktorAugments??={};
+  upgrades[slot]=true;
+  if(['Q','W','E'].every(k=>upgrades[k]))upgrades.R=true;
+  this.recordIntentV40(team,id,'viktor_evolution',{slot,remaining:u.m30ViktorFragments});
+  return {ok:true,slot,upgrades:{...upgrades},spentFragments:100};
+ }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
@@ -5113,7 +5129,7 @@ export class Arena {
       if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(z.point,dest))z.point=dest;
      }
      for(const v of pool.filter(v=>this.mapDistance(v,z.point)<=z.radius))
-      this.damage(v,z.power/3,u,'magic','spell');
+      this.damage(v,z.power*(z.m30Evolved?.48:1/3),u,'magic','spell');
      z.nextAt=now+1;
     }else if(z.kind==='m26_shen_arrival'){
      const ally=this.units.find(v=>v.id===z.anchorId&&v.team===z.team&&v.hp>0);
@@ -5265,6 +5281,16 @@ export class Arena {
       this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
       z.stacks[v.id]=(z.stacks[v.id]||0)+1;
+      if(u.m30ViktorAugments?.W&&z.stacks[v.id]===1){
+       const distance=this.mapDistance(v,z.point),
+        ratio=Math.min(1,125/Math.max(1,distance)),
+        dest={x:v.x+(z.point.x-v.x)*ratio,y:v.y+(z.point.y-v.y)*ratio};
+       if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(v,dest)){
+        const from={x:v.x,y:v.y};Object.assign(v,dest);
+        this.invalidateShopUndoOnDepartureV453Dev61(v);
+        this.itemEnergizeRelocateV453Dev39(v,from,dest,{kind:'viktor_gravity_pull'});
+       }
+      }
       if(z.stacks[v.id]===2)this.applyEffectV41(v,'stun',{
        source:u,duration:1.5,key:'m25_viktor_'+z.id+'_'+v.id});
       else if(z.stacks[v.id]===1)this.applyEffectV41(v,'slow',{
@@ -9913,6 +9939,18 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.m25ViShredUntil=this.gameTime+4;
     this.damage(target,Math.max(1,target.maxHp*.04),attacker,'physical','m25_vi_denting');
    }
+  }
+  if(dealt>0&&attacker?.champ==='Viktor'&&target.team!==attacker.team){
+   if(target.champ){
+    const book=attacker.m30ViktorResearchLedger??={},next=book[target.id]||0;
+    if(next<=this.gameTime){
+     book[target.id]=this.gameTime+8;
+     attacker.m30ViktorFragments=Math.min(300,(attacker.m30ViktorFragments||0)+25);
+    }
+    if(target.hp<=0)attacker.m30ViktorFragments=Math.min(300,
+     (attacker.m30ViktorFragments||0)+50);
+   }else if(target.hp<=0&&target.id?.startsWith('m'))
+    attacker.m30ViktorFragments=Math.min(300,(attacker.m30ViktorFragments||0)+4);
   }
   if(dealt>0&&target.hp<=0&&attacker?.champ==='Varus'&&
     attacker.team!==target.team){
