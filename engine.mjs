@@ -3730,8 +3730,10 @@ export class Arena {
     const stunnedAblaze=s.stunIfAblaze&&v.champ&&
      (v.boardBrandAblazeV453Dev69?.[u.id]||0)>this.gameTime;
     if(s.dotSeconds){
-     this.applyEffectV41(v,'dot',{source:u,duration:s.dotSeconds,
+     const dot=this.applyEffectV41(v,'dot',{source:u,duration:s.dotSeconds,
       power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
+     if(dot.ok&&u.champ==='Cassiopeia'&&s.m20Mark==='poison'&&v.champ)
+      u.boardSpeedV453Dev69={until:this.gameTime+3,fraction:.15};
     }else{
      const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
      // M21 passives reuse real skill hit registration; failed hits never
@@ -8197,7 +8199,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      attacker,'physical','m21_harrier');
     attacker.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.18};
    }
-   if(attacker.champ==='Varus'&&target.champ&&target.hp>0){
+   if(attacker.champ==='Varus'&&(attacker.skillRanks?.W||0)>0&&target.champ&&target.hp>0){
     const blight=target.m21VarusBlightV453;
     const stacks=blight?.sourceId===attacker.id&&blight.until>this.gameTime?
      blight.stacks:0;
