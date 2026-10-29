@@ -23,12 +23,15 @@ jobs:
           node --check tests/audit/v453_clone_targetability_audit.test.mjs
           node --check tests/audit/v453_global_contract_execution_audit.test.mjs
           node --check tests/audit/v453_entity_shape_matrix.test.mjs
+          node --check tests/audit/v453_entity_projectile_trap_m17.test.mjs
       - name: New strict clone targetability contracts (previously 10 failures)
         run: node tests/audit/v453_clone_targetability_audit.test.mjs --strict
       - name: All 173 champion rule routes and M9-M16 authored slots
         run: node tests/audit/v453_global_contract_execution_audit.test.mjs
       - name: Data-driven damage geometry matrix and PvP receipt idempotency
         run: node tests/audit/v453_entity_shape_matrix.test.mjs
+      - name: M17 delayed projectiles, Jhin R and trap contact with decoys
+        run: node tests/audit/v453_entity_projectile_trap_m17.test.mjs
       - name: Existing M15 clone/sylas checkpoints
         run: node tests/v453_dev69_clones_m15.test.mjs
       - name: Existing M16 stealth/traps/abilities
