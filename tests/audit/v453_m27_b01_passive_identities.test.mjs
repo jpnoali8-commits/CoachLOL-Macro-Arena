@@ -41,6 +41,14 @@ function setup(champ,team){
 function check(team,name,fn){try{fn();cases.push(team+' '+name)}
  catch(e){failures.push({team,name,error:String(e?.stack||e)})}}
 for(const team of ['blue','red']){
+ check(team,'Cassiopeia Serpentine Grace scales board mobility with level',()=>{
+  const {a,u,snap}=setup('Cassiopeia',team);
+  u.level=16;a.gameTime=1;a.advanceBoardPassivesV453Dev69();
+  const speed=u.boardSpeedV453Dev69?.fraction||0;
+  assert.ok(speed>=.13,'Serpentine Grace should have real level scaling');
+  assert.ok(u.boardSpeedV453Dev69.until>a.gameTime);
+  snap();
+ });
  check(team,'Shen Ki Barrier occurs on cast and is cooldown-gated',()=>{
   const {a,u,cast,snap}=setup('Shen',team);
   cast('Q');assert.ok(u.m27ShenKiReadyAt>0);
@@ -307,8 +315,8 @@ for(const team of ['blue','red']){
 }
 for(const e of failures)console.error('M27_B01_PASSIVE_FAIL',JSON.stringify(e));
 console.log('M27_B01_PASSIVE_QA '+JSON.stringify({
- cases:cases.length,failures:failures.length,champions:24,teams:2,
+ cases:cases.length,failures:failures.length,champions:25,teams:2,
  certifiedChampions:0,names:cases
 }));
 assert.equal(failures.length,0,'M27 champion authored passive assertions');
-assert.equal(cases.length,50);
+assert.equal(cases.length,52);
