@@ -57,9 +57,11 @@ for(const team of ['blue','red']){
   const before=e.hp,mana=u.mana;
   const result=cast('Q',{point});
   assert.equal(result.postMortem,true);assert.equal(result.spentMana,0);
-  assert.equal(u.mana,mana);assert.ok(e.hp<before);
+  assert.equal(u.mana,mana);assert.equal(e.hp,before,'Lay Waste now has a delayed board impact');
   const duplicate=a.queueBoardSkillV453Dev69(seat,u.id,'W',{point});
   assert.equal(duplicate.ok,false,'two death casts in one tick');
+  a.gameTime+=1;a.advanceBoardTemporalV453Dev69();
+  assert.ok(e.hp<before,'postmortem Q delayed impact must still land');
   snap(a);
  });
  check(team+' Karthus R can finish channel after death',()=>{
