@@ -1175,7 +1175,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Sejuani:BK20('fury_of_the_north',
   B20('move_point',650,18,85,{radius:220,cc:'knockup',ccSeconds:.7}),
   B20('cone_enemy',600,9,70,{arc:55,cc:'slow',ccSeconds:2,ccPower:.3,m20Mark:'frost',m20Missing:'two_swings'}),
-  B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m20Missing:'frost_stack_threshold'}),
+  B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true,m20Missing:'frost_from_other_melee_allies'}),
   B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m20Missing:'long_range_ice_storm'})),
  Sett:BK20('pit_grit',
   B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m20Missing:'max_hp_bonus'}),
@@ -1224,7 +1224,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',2500,100,210,{width:145,maxHits:1,m20Missing:'impale_execute_and_fear'})),
  Varus:BK20('living_vengeance',
   B20('line_enemy',1500,16,100,{width:155,type:'physical',m20Missing:'charge_damage_and_range'}),
-  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m20Missing:'blight_detonation'}),
+  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m20Missing:'blight_charge_empowered_q'}),
   B20('circle_enemy',925,18,100,{radius:310,cc:'slow',ccSeconds:2.5,ccPower:.4,m20Missing:'grievous_zone'}),
   B20('line_enemy',1300,100,200,{width:185,maxHits:1,cc:'root',ccSeconds:2,m20Missing:'corruption_spread'})),
  Viktor:BK20('glorious_evolution',
@@ -3400,6 +3400,11 @@ export class Arena {
    return {ok:true,queued:true,recast:true};
   }
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
+  if(s.m21FrostRequired&&
+   !(target?.m21FrostV453?.sourceId===u.id&&
+     target.m21FrostV453.until>this.gameTime&&
+     target.m21FrostV453.stacks>=4))
+   return {ok:false,reason:'requer_quatro_frost'};
   if(s.m20MarkRequired&&s.shape==='target_enemy'&&
    !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
    return {ok:false,reason:'requer_marca'};
@@ -3525,6 +3530,9 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(u.champ==='Lucian')u.m21LightslingerV453={charges:1,until:this.gameTime+5};
+  if(s.m21FrostRequired&&target?.m21FrostV453?.sourceId===u.id)
+   target.m21FrostV453=null;
   if(s.m21Chronoshift&&target?.champ&&target.team===u.team){
    const rank=Math.max(1,Math.min(3,u.skillRanks.R||1));
    target.m21ChronoshiftV453={
@@ -3726,6 +3734,18 @@ export class Arena {
       power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
     }else{
      const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
+     // M21 passives reuse real skill hit registration; failed hits never
+     // detonate Blight or award Cassiopeia the poison-triggered speed bonus.
+     if(done>0&&u.champ==='Varus'&&v.champ&&v.hp>0){
+      const blight=v.m21VarusBlightV453;
+      if(blight?.sourceId===u.id&&blight.until>this.gameTime&&blight.stacks>0){
+       v.m21VarusBlightV453=null;
+       this.damage(v,Math.max(1,v.maxHp*.03*blight.stacks),
+        u,'magic','m21_varus_blight');
+      }
+     }
+     if(done>0&&u.champ==='Cassiopeia'&&s.m20Mark==='poison')
+      u.boardSpeedV453Dev69={until:this.gameTime+3,fraction:.15};
      if(done>0&&s.m21SonicRecast&&v.hp>0&&
         (v.champ||this.boardCloneDamageableV453Dev69(v)))
       u.m21SonicRecastV453={targetId:v.id,until:this.gameTime+3};
@@ -3769,6 +3789,13 @@ export class Arena {
       Math.min(1,this.mapDistance(u,v)/s.distanceStun.at)):s.ccSeconds||1;
     this.applyEffectV41(v,s.cc,{
      source:u,duration:scaled,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
+   }
+   if(enemy&&u.champ==='Sejuani'&&q.slot==='W'&&v.champ&&
+      !blocked&&v.hp>0){
+    const frost=v.m21FrostV453;
+    const previous=frost?.sourceId===u.id&&frost.until>this.gameTime?frost.stacks:0;
+    v.m21FrostV453={sourceId:u.id,stacks:Math.min(4,previous+2),
+     until:this.gameTime+6};
    }
    if(enemy&&s.m21BraumConcussive&&v.champ&&!blocked&&v.hp>0&&
       !this.effectResolverV41().has(v,'invulnerable')){
