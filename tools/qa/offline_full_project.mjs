@@ -61,8 +61,8 @@ function suite(lane,dir){
   test(lane,dir,'Legacy Skills regression','npm',['run','test:v453:dev69:skills']);
   const audit=join(dir,'tests','audit');
   const files=existsSync(audit)?readdirSync(audit).filter(name=>
-   full?/^v453_m(2[0-9]|3[0-9]|4[0-3])_.*\.test\.mjs$/.test(name):
-    /^v453_m(42|43)_.*\.test\.mjs$/.test(name)).sort():[];
+   full?/^v453_m(2[0-9]|3[0-9]|4[0-4])_.*\.test\.mjs$/.test(name):
+    /^v453_m(42|43|44)_.*\.test\.mjs$/.test(name)).sort():[];
   if(!files.length){lane.jobs.push({title:'B01 specialist audit discovery',ok:false,
    reason:'No matching authored-skill tests found on this branch'});return;}
   console.log(`[skills] ${files.length} distinct authored audit tests`);
