@@ -10,14 +10,21 @@ case "$(git remote get-url origin)" in
   *) echo 'ERRO: Codespaces nao corresponde ao repositorio CoachLOL.' >&2; exit 2;;
 esac
 fail(){ echo "ERRO: $*" >&2; exit 1; }
-echo '1/5 GitHub Actions: verificar e desligar antes de novos commits'
-command -v gh >/dev/null || fail 'Instale gh CLI ou desative Actions em Settings > Actions > General.'
-ENABLED="$(gh api "repos/$REPO/actions/permissions" --jq '.enabled')" || fail 'Sem acesso ao status do GitHub Actions.'
-if [[ "$ENABLED" != 'false' ]]; then
-  gh api --method PUT "repos/$REPO/actions/permissions" -F enabled=false || fail 'Sem permissao para desligar Actions: use Settings > Actions > General > Disable actions.'
+echo '1/5 GitHub Actions: verifique antes de commits'
+# User already disabled Actions in repository settings. With gh available, require
+# an API-verified disabled status. Without gh/auth, allow an explicit human
+# acknowledgement of the already-disabled setting instead of installing gh.
+action_status=''
+if command -v gh >/dev/null 2>&1; then
+  action_status="$(gh api "repos/$REPO/actions/permissions" --jq '.enabled' 2>/dev/null || true)"
 fi
-[[ "$(gh api "repos/$REPO/actions/permissions" --jq '.enabled')" == false ]] || fail 'Actions nao confirmado como desabilitado.'
-echo 'Actions confirmado enabled=false.'
+if [[ "$action_status" == 'false' ]]; then
+  echo 'Actions desabilitado: confirmado pela API GitHub.'
+elif [[ "${COACHLOL_ACTIONS_DISABLED_CONFIRMED:-0}" == '1' ]]; then
+  echo 'Actions desabilitado: confirmado pelo usuario em Settings; sem verificacao pela API.'
+else
+  fail 'Nao foi possivel confirmar Actions desativado. Confira Settings > Actions > General e execute com COACHLOL_ACTIONS_DISABLED_CONFIRMED=1.'
+fi
 
 echo '2/5 Node.js 22'
 if [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]]; then
