@@ -1,0 +1,25 @@
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev69:items-batch7
+> node tests/v453_dev69_items_batch7_mid_quest_remainder.test.mjs
+
+✓ B7 20 Riot entries resolved 202/202 normal SR and no source records lost
+✓ B7 quest requires 1350 points and progress belongs only to actual MID role
+✓ B7 all seven Tier 3 boots are unpurchasable even after quest completion
+✓ B7 MID equipped Tier 2 boots evolve free at quest completion, cost/slot immutable
+✓ B7 MID buys tier 2 after quest: immediate free tier 3, no duplicate stats
+✓ B7 TOP JG ADC SUP never inherit MID boot reward from teammate
+✓ B7 MID champion damage contributes to quest, item child hits do not
+✓ B7 MID passive ticks only once per simulated second and works in lane
+✓ B7 elixirs cannot be purchased under lvl 9 and are single-use 180 s
+✓ B7 sorcery consumable empowered true hit is per-target cooldown
+✓ B7 Actualizer active has cooldown and buffs are temporary
+✓ B7 Bastion skill proc executes once per cooldown, no recursion
+✓ B7 Voracious boots increase temporary vamp only after credited takedown
+✓ B7 Protoplasm grants temporary max health only at threshold
+✓ B7 Umbra reveals enemy stealth ward locally, not allied control ward
+✓ B7 snapshot retains MID quest state and upgrade, independent per team
+✓ B7 PvP ownership preserves enemy shop, elixir, upgrade and passive mission state
+✓ B7 all seven Tier 2 pairs evolve to their corresponding Tier 3 on MID quest only
+✓ B7 used Seeker Armguard transforms into Shattered and keeps Zhonya recipe credit
+✓ B7 MID quest ownership remains per-team and per-role after snapshots and restarts
+DEV69 B7 20/20 PASS

@@ -1,0 +1,348 @@
+DEV69 SKILLS red Nami R spawns 850u/s wave without immediate hit
+✓ DEV69 SKILLS red one R commit, no double mana or cooldown
+✓ DEV69 SKILLS red wave does not retroactively strike a distant target
+✓ DEV69 SKILLS red wave damages and airborne+slows first champion
+✓ DEV69 SKILLS red broad wave hits second champion once in later segment
+✓ DEV69 SKILLS red spell shield negates wave damage and CC
+✓ DEV69 SKILLS red Nami stunned before launch spends nothing
+✓ DEV69 SKILLS red Nami CC after launch does not erase wave
+✓ DEV69 SKILLS red Vex R missile 1600u/s and pending, no instant mark
+✓ DEV69 SKILLS red Vex R not homing or instant
+✓ DEV69 SKILLS red Vex first champion hit creates exactly one 4s mark and reveals to owner team
+✓ DEV69 SKILLS red Vex recast is owned, available and contains no second mana cost
+✓ DEV69 SKILLS red Vex recast begins a dash, not instant damage
+✓ DEV69 SKILLS red dash persists while moving towards target
+✓ DEV69 SKILLS red dash checkpoint is byte-equivalent on restore
+✓ DEV69 SKILLS red dash deals second R damage once, replay deterministic
+✓ DEV69 SKILLS red enemy cannot invoke Vex second activation
+✓ DEV69 SKILLS red Vex spell shield consumes missile without marking
+✓ DEV69 SKILLS red Nami wave stops on enemy projectile wall, no CC or HP loss
+✓ DEV69 SKILLS red moving perpendicular to Nami wave avoids lateral collision
+✓ DEV69 SKILLS red Vex missile damages minion but only stops on first champion
+✓ DEV69 SKILLS red root interrupts Vex R2 before start, without second cost
+✓ DEV69 SKILLS red Vex cannot recast after mark expires
+✓ DEV69 SKILLS red mark reveals only struck target to casting team, no global fog reveal
+✓ DEV69 SKILLS red mark reveal expires and target returns to fog
+✓ DEV69 SKILLS red offensive R combo uses temporal cast, not generic instant damage
+✓ DEV69 SKILLS red zero direction rejected with no cost
+✓ DEV69 SKILLS blue PvP 2 seats: rejected cross-team R and idempotent receipt
+✓ DEV69 SKILLS blue PvP reconnect persists pending R and exactly one cost
+✓ DEV69 SKILLS blue PvP Vex R2 rejects enemy seat and deduplicates authenticated sequence
+✓ DEV69 SKILLS blue PvP Vex R2 dash survives checkpoint without extra mana
+✓ DEV69 SKILLS blue both human seats scope their 5 champions and exclude hidden projectile state
+✓ DEV69 SKILLS red PvP 2 seats: rejected cross-team R and idempotent receipt
+✓ DEV69 SKILLS red PvP reconnect persists pending R and exactly one cost
+✓ DEV69 SKILLS red PvP Vex R2 rejects enemy seat and deduplicates authenticated sequence
+✓ DEV69 SKILLS red PvP Vex R2 dash survives checkpoint without extra mana
+✓ DEV69 SKILLS red both human seats scope their 5 champions and exclude hidden projectile state
+DEV69 SKILLS 64/64 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev69:items
+> node tests/v453_dev69_items_batch1.test.mjs
+
+✓ DEV69 ITENS: Auditoria estática 16.21.1: preço, gold.sell, atributos, receita e IDs promovidos
+✓ DEV69 ITENS: Abatedora: ataque válido cura 3; spell e aliado não disparam
+✓ DEV69 ITENS: Abatedora: 100 last-hits concedem 100×1 + 350 uma vez; sem replay de alvo morto
+✓ DEV69 ITENS: Abatedora: revenda oficial, restauração do progresso e bloqueio de loja inimiga
+✓ DEV69 ITENS: Lorde Dominik: receita, desconto, penetração e Mata-Gigantes crescente/cap
+✓ DEV69 ITENS: Lorde Dominik: exclusividade Fatalidade, snapshot, Undo
+✓ DEV69 ITENS: Desfazer: saída física da fonte revoga operações anteriores permanentemente
+✓ DEV69 ITENS: PvP: dois humanos cinco campeões cada, proteção inimiga, checkpoint, replay idempotente
+DEV69 ITENS 8/8 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev68
+> node tests/v453_dev68_lux_projectile_pvp.test.mjs
+
+✓ DEV68 blue Q spawns an actual in-flight projectile
+✓ DEV68 blue Q second cast rejected without additional mana
+✓ DEV68 blue Q does not hit before crossing target
+✓ DEV68 blue Q deals damage and roots only on arrival
+✓ DEV68 blue first victim cannot be struck twice in later ticks
+✓ DEV68 blue stun interrupts unlaunched Q without spending mana
+✓ DEV68 blue stunned caster does not erase missile already launched
+✓ DEV68 blue shield absorbs damage AND root but consumes one slot
+✓ DEV68 blue windwall/proj guard blocks projectile without rooting
+✓ DEV68 blue projectile does not homing-follow moved target
+✓ DEV68 blue projectile can hit two separate enemy champions
+✓ DEV68 blue progress and resource cooldown persist in snapshot
+✓ DEV68 blue replay matches live collision and root
+✓ DEV68 red Q spawns an actual in-flight projectile
+✓ DEV68 red Q second cast rejected without additional mana
+✓ DEV68 red Q does not hit before crossing target
+✓ DEV68 red Q deals damage and roots only on arrival
+✓ DEV68 red first victim cannot be struck twice in later ticks
+✓ DEV68 red stun interrupts unlaunched Q without spending mana
+✓ DEV68 red stunned caster does not erase missile already launched
+✓ DEV68 red shield absorbs damage AND root but consumes one slot
+✓ DEV68 red windwall/proj guard blocks projectile without rooting
+✓ DEV68 red projectile does not homing-follow moved target
+✓ DEV68 red projectile can hit two separate enemy champions
+✓ DEV68 red progress and resource cooldown persist in snapshot
+✓ DEV68 red replay matches live collision and root
+✓ DEV68 blue two seats control their five champions
+✓ DEV68 blue foreign seat cannot launch Lux Q
+✓ DEV68 blue authenticated combo and sequence replay idempotent
+✓ DEV68 blue both sessions privately scoped
+✓ DEV68 blue planned Lux Q creates delayed missile and commits only once
+✓ DEV68 blue reconnection keeps in-flight Q
+✓ DEV68 blue restored PvP missile deals damage and roots
+✓ DEV68 red two seats control their five champions
+✓ DEV68 red foreign seat cannot launch Lux Q
+✓ DEV68 red authenticated combo and sequence replay idempotent
+✓ DEV68 red both sessions privately scoped
+✓ DEV68 red planned Lux Q creates delayed missile and commits only once
+✓ DEV68 red reconnection keeps in-flight Q
+✓ DEV68 red restored PvP missile deals damage and roots
+DEV68 40/40 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev67
+> node tests/v453_dev67_targeted_heal_pvp.test.mjs
+
+✓ DEV67 blue dois jogadores, cinco unidades e cookies independentes
+✓ DEV67 blue visibilidade inicial do alvo explícito
+✓ DEV67 blue adversário não controla Curar do outro jogador
+✓ DEV67 blue Curar recebido e replay idempotente
+✓ DEV67 blue Curar sem outro aliado só cura o conjurador uma vez
+✓ DEV67 blue outras unidades não recebem cura a distância
+✓ DEV67 blue Curar aceita segundo aliado explicitamente escolhido
+✓ DEV67 blue duas curas distintas e cooldown do conjurador
+✓ DEV67 blue Curar com aliado explícito distante não muda para outro aliado
+✓ DEV67 blue feitiço não equipado não permite atacar ou curar inimigo
+✓ DEV67 blue Incendiar enfileirado para alvo visível
+✓ DEV67 blue Incendiar não troca de alvo nem gasta CD
+✓ DEV67 blue Incendiar só atinge alvo original quando ele retorna
+✓ DEV67 blue Exaustão aceita o alvo explícito
+✓ DEV67 blue Exaustão não salta para alvo alternativo
+✓ DEV67 blue Exaustão correta com CD e efeito limitado
+✓ DEV67 blue Fantasma enfileirado sob enraizamento
+✓ DEV67 blue Fantasma aumenta velocidade e preserva root
+✓ DEV67 blue Barreira pode ser conjurada durante stun
+✓ DEV67 blue Barreira concede escudo com cooldown próprio
+✓ DEV67 blue Barreira absorve dano antes do HP
+✓ DEV67 blue segundo Exaustão autoritativo aceito
+✓ DEV67 blue checkpoint mantém alvo, cooldowns e autorização
+✓ DEV67 blue sessões de ambos veem só suas cinco unidades controláveis
+✓ DEV67 red dois jogadores, cinco unidades e cookies independentes
+✓ DEV67 red visibilidade inicial do alvo explícito
+✓ DEV67 red adversário não controla Curar do outro jogador
+✓ DEV67 red Curar recebido e replay idempotente
+✓ DEV67 red Curar sem outro aliado só cura o conjurador uma vez
+✓ DEV67 red outras unidades não recebem cura a distância
+✓ DEV67 red Curar aceita segundo aliado explicitamente escolhido
+✓ DEV67 red duas curas distintas e cooldown do conjurador
+✓ DEV67 red Curar com aliado explícito distante não muda para outro aliado
+✓ DEV67 red feitiço não equipado não permite atacar ou curar inimigo
+✓ DEV67 red Incendiar enfileirado para alvo visível
+✓ DEV67 red Incendiar não troca de alvo nem gasta CD
+✓ DEV67 red Incendiar só atinge alvo original quando ele retorna
+✓ DEV67 red Exaustão aceita o alvo explícito
+✓ DEV67 red Exaustão não salta para alvo alternativo
+✓ DEV67 red Exaustão correta com CD e efeito limitado
+✓ DEV67 red Fantasma enfileirado sob enraizamento
+✓ DEV67 red Fantasma aumenta velocidade e preserva root
+✓ DEV67 red Barreira pode ser conjurada durante stun
+✓ DEV67 red Barreira concede escudo com cooldown próprio
+✓ DEV67 red Barreira absorve dano antes do HP
+✓ DEV67 red segundo Exaustão autoritativo aceito
+✓ DEV67 red checkpoint mantém alvo, cooldowns e autorização
+✓ DEV67 red sessões de ambos veem só suas cinco unidades controláveis
+DEV67 48/48 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev66
+> node tests/v453_dev66_summoners_cc_pvp.test.mjs && node tests/v453_dev66_combo_defenses.test.mjs
+
+✓ DEV66 champ select admite Cleanse, mas mantém Smite obrigatório na jungle
+✓ DEV66 blue duas sessões e cinco campeões por jogador
+✓ DEV66 blue inimigo não agenda Cleanse de outro campeão
+✓ DEV66 blue Cleanse enfileirado pelo dono, resposta idempotente
+✓ DEV66 blue supressão impede Cleanse sem gastar recarga
+✓ DEV66 blue confirmação simultânea de turno
+✓ DEV66 blue Cleanse executado sob stun e root
+✓ DEV66 blue remove Ignite DoT e Exhaust; preserva GW
+✓ DEV66 blue tenacidade temporária tem janela de três segundos
+✓ DEV66 blue novo CC é abreviado pela janela de tenacidade
+✓ DEV66 blue root impede Flash sem consumir cooldown
+✓ DEV66 blue Flash autorizado sem CC e recarga única
+✓ DEV66 blue Flash não pode repetir na mesma janela
+✓ DEV66 blue snapshot conserva CD, escudos e sessão
+✓ DEV66 blue reconexão autenticada privada
+✓ DEV66 red duas sessões e cinco campeões por jogador
+✓ DEV66 red inimigo não agenda Cleanse de outro campeão
+✓ DEV66 red Cleanse enfileirado pelo dono, resposta idempotente
+✓ DEV66 red supressão impede Cleanse sem gastar recarga
+✓ DEV66 red confirmação simultânea de turno
+✓ DEV66 red Cleanse executado sob stun e root
+✓ DEV66 red remove Ignite DoT e Exhaust; preserva GW
+✓ DEV66 red tenacidade temporária tem janela de três segundos
+✓ DEV66 red novo CC é abreviado pela janela de tenacidade
+✓ DEV66 red root impede Flash sem consumir cooldown
+✓ DEV66 red Flash autorizado sem CC e recarga única
+✓ DEV66 red Flash não pode repetir na mesma janela
+✓ DEV66 red snapshot conserva CD, escudos e sessão
+✓ DEV66 red reconexão autenticada privada
+DEV66 29/29 PASS
+✓ DEV66 COMBO blue posse de combo é exclusiva
+✓ DEV66 COMBO blue combo BARRIER→CLEANSE aceito e privado
+✓ DEV66 COMBO blue Barreira funciona mesmo enraizado
+✓ DEV66 COMBO blue Barreira absorve dano real antes do HP
+✓ DEV66 COMBO blue etapa Cleanse remove root e inicia cooldown
+✓ DEV66 COMBO blue dois casts distintos, sem duplicidade
+✓ DEV66 COMBO blue Exaustão reduz dano do atacante
+✓ DEV66 COMBO red posse de combo é exclusiva
+✓ DEV66 COMBO red combo BARRIER→CLEANSE aceito e privado
+✓ DEV66 COMBO red Barreira funciona mesmo enraizado
+✓ DEV66 COMBO red Barreira absorve dano real antes do HP
+✓ DEV66 COMBO red etapa Cleanse remove root e inicia cooldown
+✓ DEV66 COMBO red dois casts distintos, sem duplicidade
+✓ DEV66 COMBO red Exaustão reduz dano do atacante
+DEV66 COMBO 14/14 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev65
+> node tests/v453_dev65_pvp_planned_combos.test.mjs
+
+✓ DEV65 blue autenticação 2 sessões
+✓ DEV65 blue jogador adversário não pode comandar atacante
+✓ DEV65 blue Q não aprendida rejeitada
+✓ DEV65 blue upgrade pelo dono
+✓ DEV65 blue feitiço não equipado rejeitado
+✓ DEV65 blue steps inválidas rejeitadas
+✓ DEV65 blue inimigo oculto não pode ser selecionado
+✓ DEV65 blue ordem autoritativa e recibo idempotente
+✓ DEV65 blue reconnect antes do commit
+✓ DEV65 blue dois jogadores confirmam simultaneamente
+✓ DEV65 blue Q gasta mana e causa dano
+✓ DEV65 blue IGNITE efetivo após janela de reação
+✓ DEV65 blue commit único de feitiço
+✓ DEV65 blue snapshots privados por equipe
+✓ DEV65 red autenticação 2 sessões
+✓ DEV65 red jogador adversário não pode comandar atacante
+✓ DEV65 red Q não aprendida rejeitada
+✓ DEV65 red upgrade pelo dono
+✓ DEV65 red feitiço não equipado rejeitado
+✓ DEV65 red steps inválidas rejeitadas
+✓ DEV65 red inimigo oculto não pode ser selecionado
+✓ DEV65 red ordem autoritativa e recibo idempotente
+✓ DEV65 red reconnect antes do commit
+✓ DEV65 red dois jogadores confirmam simultaneamente
+✓ DEV65 red Q gasta mana e causa dano
+✓ DEV65 red IGNITE efetivo após janela de reação
+✓ DEV65 red commit único de feitiço
+✓ DEV65 red snapshots privados por equipe
+DEV65 28/28 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev64
+> node tests/v453_dev64_pvp_reaction_e2e.test.mjs
+
+✓ DEV64 blue autenticação independente
+✓ DEV64 blue Q aprendida pelo dono
+✓ DEV64 blue impacto real no motor
+✓ DEV64 blue pausa no impacto posterior sem resolução automática
+✓ DEV64 blue janela de reação privada
+✓ DEV64 blue atacante não pode responder pela vítima
+✓ DEV64 blue checkpoint conserva decisão pendente
+✓ DEV64 blue reconexão no meio do combate conserva a pausa
+✓ DEV64 blue jogador pode reconectar sem consumir resposta
+✓ DEV64 blue R não aprendida recusada sem consumir sequência
+✓ DEV64 blue resposta Q manual retoma execução
+✓ DEV64 blue retry não duplica efeito nem permite alterar comando
+✓ DEV64 blue jogo avança novamente no servidor e consome Q
+✓ DEV64 red autenticação independente
+✓ DEV64 red Q aprendida pelo dono
+✓ DEV64 red impacto real no motor
+✓ DEV64 red pausa no impacto posterior sem resolução automática
+✓ DEV64 red janela de reação privada
+✓ DEV64 red atacante não pode responder pela vítima
+✓ DEV64 red checkpoint conserva decisão pendente
+✓ DEV64 red reconexão no meio do combate conserva a pausa
+✓ DEV64 red jogador pode reconectar sem consumir resposta
+✓ DEV64 red R não aprendida recusada sem consumir sequência
+✓ DEV64 red resposta Q manual retoma execução
+✓ DEV64 red retry não duplica efeito nem permite alterar comando
+✓ DEV64 red jogo avança novamente no servidor e consome Q
+DEV64 26/26 PASS
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev63
+> node tests/v453_dev63_nexus_pvp_e2e.test.mjs
+
+✓ DEV63 blue seed 26: duas sessões HTTP e cinco campeões cada
+✓ DEV63 blue seed 26: visão privada, sem inventário inimigo
+✓ DEV63 blue seed 26: SSE nativo entrega perspectiva autenticada
+✓ DEV63 blue seed 26: um jogador comanda as cinco unidades (HOLD)
+✓ DEV63 blue seed 26: sem controle da equipe inimiga
+✓ DEV63 blue seed 26: ação QWER enviada pelo cliente à unidade própria
+✓ DEV63 blue seed 26: compra e Desfazer privados sem ouro extra
+✓ DEV63 blue seed 26: uma confirmação não avança tempo
+✓ DEV63 blue seed 26: ações bloqueadas após confirmar
+✓ DEV63 blue seed 26: segunda confirmação começa um único turno
+✓ DEV63 blue seed 26: vitória NATURAL por dano no Nexus e terminalidade de turno
+✓ DEV63 blue seed 26: sem comandos/turnos extras após Nexus
+✓ DEV63 blue seed 26: reconexão do checkpoint preserva ambas sessões e vitória
+✓ DEV63 red seed 42: duas sessões HTTP e cinco campeões cada
+✓ DEV63 red seed 42: visão privada, sem inventário inimigo
+✓ DEV63 red seed 42: SSE nativo entrega perspectiva autenticada
+✓ DEV63 red seed 42: um jogador comanda as cinco unidades (HOLD)
+✓ DEV63 red seed 42: sem controle da equipe inimiga
+✓ DEV63 red seed 42: ação QWER enviada pelo cliente à unidade própria
+✓ DEV63 red seed 42: compra e Desfazer privados sem ouro extra
+✓ DEV63 red seed 42: uma confirmação não avança tempo
+✓ DEV63 red seed 42: segunda confirmação começa um único turno
+✓ DEV63 red seed 42: vitória NATURAL por dano no Nexus e terminalidade de turno
+✓ DEV63 red seed 42: sem comandos/turnos extras após Nexus
+✓ DEV63 red seed 42: reconexão do checkpoint preserva ambas sessões e vitória
+DEV63 25/25 PASS scripted HTTP 2 sessions + real SSE + 2 natural Nexus matches
+DEV63_REPORT [{"seed":26,"winner":"blue","gameSeconds":1423,"rounds":48,"decisions":{},"deadNexus":"red_nexus","towerDeaths":["red_nexus_guard_1","red_bot_t3","red_bot_t2","red_bot_t1","red_nexus_guard_2"],"minionWaves":51,"realMs":21338},{"seed":42,"winner":"red","gameSeconds":1553,"rounds":52,"decisions":{},"deadNexus":"blue_nexus","towerDeaths":["blue_top_t1","blue_top_t2","blue_top_t3","blue_nexus_guard_1","blue_nexus_guard_2","blue_bot_t2","blue_bot_t3","blue_bot_t1"],"minionWaves":56,"realMs":21766}]
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev62
+> node tests/v453_dev62_pvp_hud_e2e.test.mjs
+
+✓ DEV62 Dois humanos independentes têm cookies, equipes e sessões distintas
+✓ DEV62 Cada humano controla cinco campeões e apenas sua própria equipe
+✓ DEV62 Cada sessão recebe somente informações de Undo e fonte de sua equipe
+✓ DEV62 Catálogo Riot offline mantém 98 referências sem liberar compras
+✓ DEV62 Catálogo e preços não são acessíveis sem autenticação
+✓ DEV62 Cotação usa preço e disponibilidade do motor
+✓ DEV62 Cotação rejeita inimigo mesmo com item existente
+✓ DEV62 Cotação não transforma item de referência em item jogável
+✓ DEV62 Compra efetiva feita pelo servidor e baixa do saldo
+✓ DEV62 Cotação de melhoria calcula desconto por componente equipado
+✓ DEV62 Jogador vermelho não consegue alterar a loja azul
+✓ DEV62 Undo restitui integralmente na mesma visita
+✓ DEV62 Segundo humano também consegue comprar independentemente
+✓ DEV62 Somente uma confirmação mantém a fase de preparação
+✓ DEV62 Confirmação bloqueia operações comerciais subsequentes
+✓ DEV62 Ambas as confirmações avançam simultaneamente
+✓ DEV62 HTML e JS expõem loja em overlay do tabuleiro com seleção própria e cotações
+✓ DEV62 A fonte mantém regra irreversível da dev61 após saída e retorno
+DEV62 18/18 PASS (HTTP dois cookies + motor)
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev61
+> node tests/v453_dev61_shop_undo_pvp.test.mjs
+
+✓ DEV61 Compra pode ser desfeita com reembolso integral e sem revenda depreciada
+✓ DEV61 Venda desfeita restaura o item e o ouro anterior, não desconta 40/70% novamente
+✓ DEV61 Melhoria de item retorna componentes de receita e restaura atributos
+✓ DEV61 Múltiplas compras e vendas são desfeitas em ordem LIFO sem lucro duplicado
+✓ DEV61 Undo bloqueado após avanço de tempo, mesmo retornando à fonte
+✓ DEV61 Undo bloqueado após ouro ganho, dano, gasto ou mutação da unidade
+✓ DEV61 Undo bloqueado fora da fonte e nas fases de combate/confirmado
+✓ DEV61 Sair da fonte invalida a pilha de desfazer permanentemente, mesmo voltando no mesmo segundo
+✓ DEV61 Após sair e voltar, somente compras NOVAS na fonte podem ser desfeitas
+✓ DEV61 Snapshot preserva irrevogabilidade de sair da fonte até depois de reconectar
+✓ DEV61 Servidor PvP 1v1 rejeita undo após sair e voltar, mesmo sem avanço de turno
+✓ DEV61 Venda seguida de compra de build: desfazer retorna ao estado antes de ambas
+✓ DEV61 Snapshots/restauração preservam direito a desfazer sem aceitar mutação fraudulenta
+✓ DEV61 PvP duas sessões: Azul e Vermelho desfazem transações de qualquer um de seus cinco campeões
+✓ DEV61 Gateway bloqueia undo de inimigo, payload forjado e replay diferente
+✓ DEV61 Reconexão do servidor preserva sequência e undo (sem ouro duplicado)
+✓ DEV61 Visão privada do botão Undo: cada jogador vê somente sua equipe
+✓ DEV61 HTTP: sem preço enviado pelo cliente e sem permitir undo do adversário
+✓ DEV61 Arco de Doran: 8 AD, 15% AS e 1,5% vampirismo universal, compra e undo
+✓ DEV61 Elmo de Doran: HP150, armadura8, MR8 e 5 dano físico na previsão e no AA a tropas
+✓ DEV61 Doran iniciadores: revenda oficial 40%, exclusividade e restauração por Undo
+✓ DEV61 Catálogo e valor de revenda para os dois novos iniciadores são fiéis ao Data Dragon arquivado
+DEV61 22/22 PASS
+npm notice
+npm notice New major version of npm available! 10.9.2 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

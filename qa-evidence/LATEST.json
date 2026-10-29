@@ -1,0 +1,28 @@
+{
+  "path": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/report.json",
+  "profile": "quick",
+  "certification": "PASS_LANES",
+  "completedAt": "2026-10-29T20:36:44.366Z",
+  "lanes": [
+    {
+      "branch": "ops/qa-orchestrator-dev69",
+      "sha": "c52d58077d7a3f931d6a56b42ec3d982c271f129",
+      "ok": true
+    },
+    {
+      "branch": "dev69/integration",
+      "sha": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "ok": true
+    },
+    {
+      "branch": "dev69/skills-batch2",
+      "sha": "3771e271b5109bc2fddb142a56223fca56da13ba",
+      "ok": true
+    },
+    {
+      "branch": "dev69/items-batch7",
+      "sha": "74dda4bc6a5b05ca9a490c416767b5fa8fe2cd2d",
+      "ok": true
+    }
+  ]
+}

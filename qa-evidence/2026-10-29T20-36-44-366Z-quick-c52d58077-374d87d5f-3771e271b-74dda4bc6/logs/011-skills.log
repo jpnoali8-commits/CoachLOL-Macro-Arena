@@ -1,0 +1,69 @@
+
+> coachlol-macro-arena-v452@4.5.3-dev68 test:v453:dev69:skills
+> node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+
+✓ DEV69 SKILLS blue Nami R spawns 850u/s wave without immediate hit
+✓ DEV69 SKILLS blue one R commit, no double mana or cooldown
+✓ DEV69 SKILLS blue wave does not retroactively strike a distant target
+✓ DEV69 SKILLS blue wave damages and airborne+slows first champion
+✓ DEV69 SKILLS blue broad wave hits second champion once in later segment
+✓ DEV69 SKILLS blue spell shield negates wave damage and CC
+✓ DEV69 SKILLS blue Nami stunned before launch spends nothing
+✓ DEV69 SKILLS blue Nami CC after launch does not erase wave
+✓ DEV69 SKILLS blue Vex R missile 1600u/s and pending, no instant mark
+✓ DEV69 SKILLS blue Vex R not homing or instant
+✓ DEV69 SKILLS blue Vex first champion hit creates exactly one 4s mark and reveals to owner team
+✓ DEV69 SKILLS blue Vex recast is owned, available and contains no second mana cost
+✓ DEV69 SKILLS blue Vex recast begins a dash, not instant damage
+✓ DEV69 SKILLS blue dash persists while moving towards target
+✓ DEV69 SKILLS blue dash checkpoint is byte-equivalent on restore
+✓ DEV69 SKILLS blue dash deals second R damage once, replay deterministic
+✓ DEV69 SKILLS blue enemy cannot invoke Vex second activation
+✓ DEV69 SKILLS blue Vex spell shield consumes missile without marking
+✓ DEV69 SKILLS blue Nami wave stops on enemy projectile wall, no CC or HP loss
+✓ DEV69 SKILLS blue moving perpendicular to Nami wave avoids lateral collision
+✓ DEV69 SKILLS blue Vex missile damages minion but only stops on first champion
+✓ DEV69 SKILLS blue root interrupts Vex R2 before start, without second cost
+✓ DEV69 SKILLS blue Vex cannot recast after mark expires
+✓ DEV69 SKILLS blue mark reveals only struck target to casting team, no global fog reveal
+✓ DEV69 SKILLS blue mark reveal expires and target returns to fog
+✓ DEV69 SKILLS blue offensive R combo uses temporal cast, not generic instant damage
+✓ DEV69 SKILLS blue zero direction rejected with no cost
+✓ DEV69 SKILLS red Nami R spawns 850u/s wave without immediate hit
+✓ DEV69 SKILLS red one R commit, no double mana or cooldown
+✓ DEV69 SKILLS red wave does not retroactively strike a distant target
+✓ DEV69 SKILLS red wave damages and airborne+slows first champion
+✓ DEV69 SKILLS red broad wave hits second champion once in later segment
+✓ DEV69 SKILLS red spell shield negates wave damage and CC
+✓ DEV69 SKILLS red Nami stunned before launch spends nothing
+✓ DEV69 SKILLS red Nami CC after launch does not erase wave
+✓ DEV69 SKILLS red Vex R missile 1600u/s and pending, no instant mark
+✓ DEV69 SKILLS red Vex R not homing or instant
+✓ DEV69 SKILLS red Vex first champion hit creates exactly one 4s mark and reveals to owner team
+✓ DEV69 SKILLS red Vex recast is owned, available and contains no second mana cost
+✓ DEV69 SKILLS red Vex recast begins a dash, not instant damage
+✓ DEV69 SKILLS red dash persists while moving towards target
+✓ DEV69 SKILLS red dash checkpoint is byte-equivalent on restore
+✓ DEV69 SKILLS red dash deals second R damage once, replay deterministic
+✓ DEV69 SKILLS red enemy cannot invoke Vex second activation
+✓ DEV69 SKILLS red Vex spell shield consumes missile without marking
+✓ DEV69 SKILLS red Nami wave stops on enemy projectile wall, no CC or HP loss
+✓ DEV69 SKILLS red moving perpendicular to Nami wave avoids lateral collision
+✓ DEV69 SKILLS red Vex missile damages minion but only stops on first champion
+✓ DEV69 SKILLS red root interrupts Vex R2 before start, without second cost
+✓ DEV69 SKILLS red Vex cannot recast after mark expires
+✓ DEV69 SKILLS red mark reveals only struck target to casting team, no global fog reveal
+✓ DEV69 SKILLS red mark reveal expires and target returns to fog
+✓ DEV69 SKILLS red offensive R combo uses temporal cast, not generic instant damage
+✓ DEV69 SKILLS red zero direction rejected with no cost
+✓ DEV69 SKILLS blue PvP 2 seats: rejected cross-team R and idempotent receipt
+✓ DEV69 SKILLS blue PvP reconnect persists pending R and exactly one cost
+✓ DEV69 SKILLS blue PvP Vex R2 rejects enemy seat and deduplicates authenticated sequence
+✓ DEV69 SKILLS blue PvP Vex R2 dash survives checkpoint without extra mana
+✓ DEV69 SKILLS blue both human seats scope their 5 champions and exclude hidden projectile state
+✓ DEV69 SKILLS red PvP 2 seats: rejected cross-team R and idempotent receipt
+✓ DEV69 SKILLS red PvP reconnect persists pending R and exactly one cost
+✓ DEV69 SKILLS red PvP Vex R2 rejects enemy seat and deduplicates authenticated sequence
+✓ DEV69 SKILLS red PvP Vex R2 dash survives checkpoint without extra mana
+✓ DEV69 SKILLS red both human seats scope their 5 champions and exclude hidden projectile state
+DEV69 SKILLS 64/64 PASS

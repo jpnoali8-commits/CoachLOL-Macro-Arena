@@ -1,0 +1,252 @@
+{
+  "schema": "coachlol.qa.report.v2",
+  "profile": "quick",
+  "startedAt": "2026-10-29T20:35:34.605Z",
+  "completedAt": "2026-10-29T20:36:44.366Z",
+  "ok": true,
+  "certification": "PASS_LANES",
+  "manifest": "tools/qa/qa_manifest_dev69.json",
+  "branchIsolation": true,
+  "mergesPerformed": 0,
+  "actionsUsed": false,
+  "lanes": [
+    {
+      "name": "qa-infra",
+      "branch": "ops/qa-orchestrator-dev69",
+      "commit": "c52d58077d7a3f931d6a56b42ec3d982c271f129",
+      "jobs": [
+        {
+          "title": "QA orchestrator contract",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/qa/orchestrator_contract.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/001-qa-infra.log"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "integration",
+      "branch": "dev69/integration",
+      "commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "jobs": [
+        {
+          "title": "Syntax engine.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/002-integration.log"
+        },
+        {
+          "title": "Syntax engine.browser.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.browser.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/003-integration.log"
+        },
+        {
+          "title": "Syntax app.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check app.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/004-integration.log"
+        },
+        {
+          "title": "npm test:v453:dev69:integration",
+          "status": "PASS",
+          "ok": true,
+          "command": "npm run test:v453:dev69:integration",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 59,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/005-integration.log"
+        },
+        {
+          "title": "Regenerate browser in disposable worktree",
+          "status": "PASS",
+          "ok": true,
+          "command": "python3 tools/sync_browser_v43.py",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/006-integration.log"
+        },
+        {
+          "title": "Exact engine.browser.js parity",
+          "status": "PASS",
+          "ok": true,
+          "command": "git diff --exit-code -- engine.browser.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/007-integration.log"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "skills",
+      "branch": "dev69/skills-batch2",
+      "commit": "3771e271b5109bc2fddb142a56223fca56da13ba",
+      "jobs": [
+        {
+          "title": "Syntax engine.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/008-skills.log"
+        },
+        {
+          "title": "Syntax engine.browser.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.browser.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/009-skills.log"
+        },
+        {
+          "title": "Syntax app.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check app.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/010-skills.log"
+        },
+        {
+          "title": "npm test:v453:dev69:skills",
+          "status": "PASS",
+          "ok": true,
+          "command": "npm run test:v453:dev69:skills",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 1,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/011-skills.log"
+        },
+        {
+          "title": "Authored audit coverage",
+          "status": "PASS",
+          "ok": true,
+          "reason": "5 discovered of 49 total; latest milestones 44,43,42"
+        },
+        {
+          "title": "v453_m42_b01_owner_atomic_cohort.test.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/audit/v453_m42_b01_owner_atomic_cohort.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 2,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/012-skills.log"
+        },
+        {
+          "title": "v453_m43_b01_mobile_geometry_family.test.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/audit/v453_m43_b01_mobile_geometry_family.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/013-skills.log"
+        },
+        {
+          "title": "v453_m43_b01_persistent_identity_family.test.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/audit/v453_m43_b01_persistent_identity_family.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 1,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/014-skills.log"
+        },
+        {
+          "title": "v453_m43_b01_secondary_hazards.test.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/audit/v453_m43_b01_secondary_hazards.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/015-skills.log"
+        },
+        {
+          "title": "v453_m44_b01_authored_projectile_travel.test.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node tests/audit/v453_m44_b01_authored_projectile_travel.test.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 1,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/016-skills.log"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "name": "items",
+      "branch": "dev69/items-batch7",
+      "commit": "74dda4bc6a5b05ca9a490c416767b5fa8fe2cd2d",
+      "jobs": [
+        {
+          "title": "Syntax engine.mjs",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.mjs",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/017-items.log"
+        },
+        {
+          "title": "Syntax engine.browser.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check engine.browser.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/018-items.log"
+        },
+        {
+          "title": "Syntax app.js",
+          "status": "PASS",
+          "ok": true,
+          "command": "node --check app.js",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/019-items.log"
+        },
+        {
+          "title": "npm test:v453:dev69:items-batch7",
+          "status": "PASS",
+          "ok": true,
+          "command": "npm run test:v453:dev69:items-batch7",
+          "exitCode": 0,
+          "signal": null,
+          "elapsedSeconds": 0,
+          "log": "qa-evidence/2026-10-29T20-36-44-366Z-quick-c52d58077-374d87d5f-3771e271b-74dda4bc6/logs/020-items.log"
+        }
+      ],
+      "ok": true
+    }
+  ]
+}
