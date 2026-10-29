@@ -3671,6 +3671,24 @@ export class Arena {
   }
   return interrupted;
  }
+ // M42 ledger reads during planning must not mutate live game state.
+ m42CorkiAmmoV453Dev69(u,s){
+  const stock=u.m22MagazineV453||{charges:s.m22Magazine.max,nextAt:0,shots:0};
+  const max=s.m22Magazine.max,reload=s.m22Magazine.reload;
+  const due=stock.charges<max&&stock.nextAt>0&&this.gameTime>=stock.nextAt?
+   1+Math.floor((this.gameTime-stock.nextAt)/reload):0;
+  const charges=Math.min(max,stock.charges+due);
+  return {charges,shots:stock.shots||0,
+   nextAt:charges>=max?0:stock.nextAt+due*reload};
+ }
+ // Mel R detonates only visible, enemy, owner-stamped marks; this never
+ // grants Karthus-like true-global vision.
+ m42MelMarkedEnemiesV453Dev69(u){
+  return this.units.filter(v=>v.champ&&v.hp>0&&v.team!==u.team&&
+   this.sameCombatRealmV453Dev69(u,v)&&this.visible(u.team,v)&&
+   v.m20MarksV453?.['overwhelm_'+u.id]>this.gameTime)
+   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+ }
  m39SyndraPickupV453Dev69(u,point){
   // Sphere has priority; only living, exposed enemy minions are fallback
   // grab targets. The exact same rule runs before queue and before debit.
@@ -3782,16 +3800,8 @@ export class Arena {
     return {ok:true,queued:true,recast:true};
    }
   }
-  if(s.m22Magazine&&slot==='R'){
-   const state=u.m22MagazineV453||{charges:s.m22Magazine.max,nextAt:0,shots:0};
-   if(state.charges<s.m22Magazine.max&&state.nextAt>0&&this.gameTime>=state.nextAt){
-    const count=Math.floor((this.gameTime-state.nextAt)/s.m22Magazine.reload)+1;
-    state.charges=Math.min(s.m22Magazine.max,state.charges+count);
-    state.nextAt=state.charges===s.m22Magazine.max?0:
-     state.nextAt+count*s.m22Magazine.reload;
-   }
-   if(state.charges<1)return {ok:false,reason:'municao_insuficiente'};
-  }
+  if(s.m22Magazine&&slot==='R'&&this.m42CorkiAmmoV453Dev69(u,s).charges<1)
+   return {ok:false,reason:'municao_insuficiente'};
   if(s.m16Trap&&s.m16Charges&&this.m16Stock(u,slot,s).state.charges<1)
    return {ok:false,reason:'armadilha_sem_cargas'};
   // A second cast reactivates an existing charge without mana or cooldown.
@@ -3930,289 +3940,13 @@ export class Arena {
    !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
    return {ok:false,reason:'requer_marca'};
   if(s.m20MarkRequired&&s.shape==='global_enemy'&&
-   !this.units.some(v=>v.hp>0&&v.team!==team&&
-    v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
-   return {ok:false,reason:'requer_marca'};
-  if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
-  if(s.shape==='target_ally'&&(!target||target.team!==team||!target.champ))return {ok:false,reason:'alvo_aliado'};
-  if(s.shape==='target_any'&&(!target||!target.champ))return {ok:false,reason:'alvo_campeao_exigido'};
-  // Charm is a champion-only mark. Damage/blind spells can target decoys.
-  if(s.m16Charm&&target&&!target.champ)return {ok:false,reason:'alvo_campeao_exigido'};
-  if(target&&target.team!==team&&(
-    !(target.champ?this.visible(team,target):
-      (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(team,target))||
-    !this.sameCombatRealmV453Dev69(u,target)))
-   return {ok:false,reason:'alvo_oculto_ou_reino'};
-  if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
-  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&!s.originSelf;
-  if(this.realmOfV453Dev69(u)&&aimed&&point&&!this.realmValidV453Dev69(u,point))
-   return {ok:false,reason:'reino_alvo_fora_do_circulo'};
-  const m16Range=s.m16Trap==='teemo_mushroom'?
-   [400,650,900][Math.min(2,Math.max(0,(u.skillRanks.R||1)-1))]:s.range;
-  if(s.m29ZacSlingshot&&chargeSeconds!==null&&point&&
-     this.mapDistance(u,point)>550+550*chargeSeconds/2)
-   return {ok:false,reason:'m29_zac_charge_range'};
-  if(s.m29ViCharge&&chargeSeconds!==null&&point&&
-     this.mapDistance(u,point)>400+325*chargeSeconds/2)
-   return {ok:false,reason:'m29_vi_charge_range'};
-  if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
-     point.x<0||point.x>1||point.y<0||point.y>1||
-     this.mapDistance(u,point)<1||
-     (['circle_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
-     (['move_point','deploy_point'].includes(s.shape)&&!this.walkable(point.x,point.y))))
-   return {ok:false,reason:'ponto_invalido'};
-  if(s.m24OrbThrow&&!this.m39SyndraPickupV453Dev69(u,point))
-   return {ok:false,reason:'m39_syndra_no_valid_pickup'};
-  const hijacked=u.champ==='Sylas'&&slot==='R'&&
-   u.sylasStolenV453M14?.expiresAt>this.gameTime;
-  if(!hijacked){
-   if(u.champ==='LeeSin'&&['Q','W','E'].includes(slot)&&
-      this.m33LeeEnergyAvailableV453Dev69(u)<50)
-    return {ok:false,reason:'m33_lee_energy'};
-   const gate=this.m23KarthusCanActV453(u,slot)?
-    this.m23KarthusCastGateV453(u,slot):castGateV39(u,slot,this.gameTime);
-   if(!gate.ok)return gate;
-  }
-  u.pendingBoardV453Dev69={slot,stolenCast:!!hijacked,targetId:target?.id||null,
-   point:aimed?{x:laserEnd?.x??point.x,y:laserEnd?.y??point.y}:null,
-   ...(laserEnd?{m28LaserOrigin:{x:point.x,y:point.y}}:{}),
-   ...(chargeSeconds!==null?{m28ChargeSeconds:chargeSeconds}:{})};
-  this.recordIntentV40(team,id,'board_skill',{slot,
-    ...(target?{targetId:target.id}:{}),
-    ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
-  return {ok:true,queued:true};
- }
- boardKitForV453Dev69(champ,slot,u=null){
-  if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
-   return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||
-    M15_ENTITY_KITS_V453[u.sylasStolenV453M14.sourceChamp]?.R||null;
-  if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
-   e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
-   return M15_ENTITY_KITS_V453.Shaco.R;
-  const m16=M16_MECHANIC_KITS[champ]?.[slot];
-  return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
-   FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
- }
- executeBoardSkillV453Dev69(u,q){
-  const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
-  if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
-      s.passiveOnly||u.m23ZacDivisionV453?.active)
-   return {ok:false,reason:'board_indisponivel'};
-  if(q?.m34ChargeStart){
-   const canCharge=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||
-    s.m29ViCharge||s.m29ZacSlingshot;
-   if(!canCharge||!this.effectResolverV41().canAct(u,'skill').ok||
-      !castGateV39(u,q.slot,this.gameTime).ok)
-    return {ok:false,reason:'m34_charge_interrupted_before_commit'};
-   u.m34ChargeStateV453={slot:q.slot,startedAt:this.gameTime,
-    expiresAt:this.gameTime+3,origin:{x:u.x,y:u.y}};
-   if(s.m28GalioCharge&&u.champ==='Galio'){
-    u.m40AuthoredChannelV453={kind:'galio_durand',slot:'W',
-     startedAt:this.gameTime,until:this.gameTime+3,origin:{x:u.x,y:u.y}};
-    u.boardChannelUntilV453Dev69=this.gameTime+2;
-   }
-   return {ok:true,chargeStarted:true,spentMana:0};
-  }
-  if(q?.m34ChargeReleaseToken!==undefined){
-   if(u.champ==='Galio'&&q.slot==='W'&&
-      (this.m40InterruptChannelV453Dev69(u)||
-       u.m40AuthoredChannelV453?.kind!=='galio_durand'))
-    return {ok:false,reason:'m40_galio_interrupted_before_release'};
-   const state=u.m34ChargeStateV453;
-   if(!state||state.slot!==q.slot||state.startedAt!==q.m34ChargeReleaseToken||
-      state.expiresAt<this.gameTime||this.gameTime<state.startedAt||
-      !this.effectResolverV41().canAct(u,'skill').ok)
-    return {ok:false,reason:'m34_charge_expired_or_interrupted_before_commit'};
-   const elapsed=Math.min(2,this.gameTime-state.startedAt);
-   if(q.m28ChargeSeconds===undefined||Math.abs(q.m28ChargeSeconds-elapsed)>1e-8)
-    return {ok:false,reason:'m34_charge_duration_mismatch'};
-  }
-  if(q?.m41ViktorStormCommand!==undefined&&s.m28ViktorStorm&&u.champ==='Viktor'){
-   const storm=(this.boardTemporalV453Dev69||[]).find(z=>
-    z.kind==='m28_viktor_storm'&&z.ownerId===u.id&&
-    z.id===q.m41ViktorStormCommand&&z.until>this.gameTime);
-   if(!storm||!q.point||![q.point.x,q.point.y].every(Number.isFinite)||
-     q.point.x<0||q.point.x>1||q.point.y<0||q.point.y>1||
-     this.mapDistance(storm.point,q.point)>950||
-     !this.walkable(q.point.x,q.point.y)||
-     this.obstacleLine(storm.point,q.point)||
-     !this.effectResolverV41().canAct(u,'skill').ok)
-    return {ok:false,reason:'m41_viktor_command_lost_before_commit'};
-   storm.m41CommandPoint={...q.point};
-   return {ok:true,recast:true,spentMana:0,commandedStormId:storm.id};
-  }
-  if(q?.m39HeimerCancel&&s.m23EmpowerNext&&u.champ==='Heimerdinger'){
-   if(!(u.m23HeimerEmpowerV453?.until>this.gameTime))
-    return {ok:false,reason:'m39_heimer_upgrade_expired'};
-   u.m23HeimerEmpowerV453=null;
-   return {ok:true,recast:true,cancelled:true,spentMana:0};
-  }
-  if(q?.m26Recast==='karthus_e_off'&&s.m26KarthusToggle){
-   if(!u.m26KarthusE||u.m26KarthusE.until<=this.gameTime)
-    return {ok:false,reason:'m26_toggle_expirado'};
-   u.m26KarthusE=null;
-   return {ok:true,recast:true,spentMana:0};
-  }
-  if(q?.m24Recast==='arena_remove'&&s.m24Arena){
-   const before=this.boardTemporalV453Dev69.length;
-   this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
-    !(z.id===q.temporalId&&z.kind==='m24_jarvan_arena'&&z.ownerId===u.id));
-   return this.boardTemporalV453Dev69.length<before?
-    {ok:true,recast:true,spentMana:0}:{ok:false,reason:'arena_expirada'};
-  }
-  if(q?.m24Recast==='fizz_land'&&s.m24FizzLeap){
-   if(!(u.m24FizzLeapV453?.until>this.gameTime))
-    return {ok:false,reason:'fizz_recast_expirado'};
-   this.m24FizzLandV453(u,q.point);
-   return {ok:true,recast:true,spentMana:0};
-  }
-  if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
-   return this.executeMechanicV453M16(u,q,s);
-  if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
-  if(q?.m21Recast==='sonic_dash'&&s.m21SonicRecast){
-   const state=u.m21SonicRecastV453, victim=this.boardCombatEntityByIdV453Dev69(q.targetId);
-   if(!state||state.targetId!==q.targetId||state.until<=this.gameTime||
-     !victim||victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
-     !(victim.champ?this.visible(u.team,victim):this.canSeePoint(u.team,victim))||
-     this.mapDistance(u,victim)>1300)return {ok:false,reason:'recast_expirado_ou_oculto'};
-   const old={x:u.x,y:u.y},end={
-    x:victim.x-(victim.x-u.x)*.10,y:victim.y-(victim.y-u.y)*.10};
-   if(!this.walkable(end.x,end.y)||this.obstacleLine(old,end))
-    return {ok:false,reason:'recast_rota_bloqueada'};
-   if(u.champ==='LeeSin'&&!this.m33LeeEnergySpendV453Dev69(u,30))
-    return {ok:false,reason:'m33_lee_recast_energy'};
-   u.m21SonicRecastV453=null;
-   Object.assign(u,end);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
-   this.invalidateShopUndoOnDepartureV453Dev61(u);
-   this.itemEnergizeRelocateV453Dev39(u,old,end,{kind:'dash'});
-   const rank=Math.max(1,u.skillRanks.Q||1),raw=40+rank*22+
-    Math.max(0,(victim.maxHp||0)-victim.hp)*.12;
-   const dealt=this.damage(victim,raw,u,'physical','spell');
-   this.event('Lee Sin Q2: Resonating Strike.',u.team,'skill_vfx',u.id);
-   return {ok:true,recast:true,spentMana:0,hitCount:dealt>0?1:0};
-  }
-  if(q?.m23Recast==='execute'&&s.m23ExecuteThreshold){
-   const result=this.m23UrgotExecuteV453(u,q.targetId,s.m23ExecuteThreshold);
-   return result.ok?{...result,recast:true,spentMana:0}:result;
-  }
-  if(q?.m22Recast==='secondary'&&s.m22SecondStage){
-   const state=u.m22SecondaryV453?.[q.slot];
-   if(!state||state.until<=this.gameTime||state.kind!==s.m22SecondStage)
-    return {ok:false,reason:'recast_expirado'};
-   if(state.kind==='grab'){
-    const first=this.boardCombatEntityByIdV453Dev69(state.firstId);
-    const second=this.boardCombatEntityByIdV453Dev69(q.targetId);
-    if(!first||!second||first.team===u.team||second.team===u.team||
-       first.id===second.id||!this.sameCombatRealmV453Dev69(u,first)||
-       !this.sameCombatRealmV453Dev69(u,second)||
-       !(second.champ?this.visible(u.team,second):this.canSeePoint(u.team,second))||
-       this.mapDistance(u,second)>s.range||this.mapDistance(first,second)>1000)
-     return {ok:false,reason:'segundo_alvo_expirado'};
-    const middle={x:(first.x+second.x)/2,y:(first.y+second.y)/2};
-    if(!this.walkable(middle.x,middle.y)||
-       this.obstacleLine(first,middle)||this.obstacleLine(second,middle))
-     return {ok:false,reason:'colisor_grab'};
-    for(const v of [first,second]){
-     const from={x:v.x,y:v.y};Object.assign(v,middle);
-     v.path=[];v.laneFollowPath=[];v.retreatPath=[];
-     this.invalidateShopUndoOnDepartureV453Dev61(v);
-     this.itemEnergizeRelocateV453Dev39(v,from,middle,{kind:'pull'});
-     if(v.champ)this.applyEffectV41(v,'stun',{source:u,duration:.5,
-      key:'m22_zac_grab_'+u.id+'_'+v.id});
-    }
-   }else if(state.kind==='vamp'){
-    u.m22IronWillV453={until:this.gameTime+4,lifesteal:.22};
-   }else if(state.kind==='cripple'){
-    for(const targetId of state.targetIds||[]){
-     const v=this.boardCombatEntityByIdV453Dev69(targetId);
-     if(v?.champ&&v.hp>0&&v.team!==u.team&&this.sameCombatRealmV453Dev69(u,v)&&
-       this.mapDistance(u,v)<=600&&this.visible(u.team,v))
-      this.applyEffectV41(v,'slow',{source:u,duration:3,power:.45,
-       key:'m22_cripple_'+u.id+'_'+v.id});
-    }
-   }
-   if(u.champ==='LeeSin'&&!this.m33LeeEnergySpendV453Dev69(u,30))
-    return {ok:false,reason:'m33_lee_recast_energy'};
-   u.m22SecondaryV453[q.slot]=null;
-   this.event(u.champ+' '+q.slot+' segunda etapa '+state.kind+'.',u.team,'skill_vfx',u.id);
-   return {ok:true,recast:true,spentMana:0};
-  }
-  if(q?.m22Recast==='artillery_shot'&&s.m22ArtilleryShots){
-   const state=u.m22ArtilleryV453,point=q.point;
-   if(!state||state.until<=this.gameTime||state.remaining<1||
-      state.nextAt>this.gameTime||!point||![point.x,point.y].every(Number.isFinite)||
-      this.mapDistance(u,point)>s.range||point.x<0||point.x>1||point.y<0||point.y>1||
-      this.mapDistance(u,state.origin)>60||!this.effectResolverV41().canAct(u,'skill').ok||
-      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,point)))
-    return {ok:false,reason:'artilharia_recast_expirado'};
-   let damaged=0;
-   const power=Number(s.damage[Math.max(0,Math.min(s.damage.length-1,(u.skillRanks.R||1)-1))]||0)+
-    this.elementalStatsV452d3(u).ap*(s.apRatio||0);
-   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
-     this.mapDistance(v,point)<=s.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id))))
-    if(this.damage(v,power*(s.m26XerathArtilleryCenter&&this.mapDistance(v,point)<=100?1.35:1),u,'magic','spell')>0)damaged++;
-   state.remaining--;state.nextAt=this.gameTime+1;
-   if(state.remaining<=0){u.m22ArtilleryV453=null;
-    u.boardChannelUntilV453Dev69=0;
-    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
-      !(z.kind==='m22_artillery_channel'&&z.ownerId===u.id));}
-   this.event('Xerath R: disparo de artilharia.',u.team,'skill_vfx',u.id);
-   return {ok:true,recast:true,spentMana:0,hitCount:damaged};
-  }
-  if(q?.cardPick&&s.boardCardCycle){
-   const cycle=u.boardCardCycleV453Dev69;
-   if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
-   const names=['blue','red','gold'],choice=names[Math.floor(
-    Math.max(0,this.gameTime-cycle.startedAt))%names.length];
-   const rank=Math.max(1,u.skillRanks.W||1);
-   u.boardNextBasicV453Dev69={until:this.gameTime+5,charges:1,total:1,
-    base:[40,60,80,100,120][Math.min(rank-1,4)],adRatio:0,apRatio:.5,
-    cc:choice==='gold'?'stun':null,ccSeconds:1,
-    card:choice,sourceSlot:'W'};
-   u.boardCardCycleV453Dev69=null;
-   this.event('Twisted Fate W: carta '+choice+' selecionada.',u.team,'skill_vfx',u.id,
-    {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
-   return {ok:true,recast:true,card:choice,spentMana:0};
-  }
-  if(q?.recast&&['satchel_charge','m21_gragas_barrel'].includes(s.boardTemporal)){
-   const index=(this.boardTemporalV453Dev69||[]).findIndex(z=>z.id===q.temporalId&&
-    z.kind===s.boardTemporal&&z.ownerId===u.id&&z.until>=this.gameTime);
-   if(index<0)return {ok:false,reason:'recast_expirado'};
-   const [charge]=this.boardTemporalV453Dev69.splice(index,1);
-   if(charge.kind==='m21_gragas_barrel')this.detonateM21BarrelV453(charge);
-   else this.detonateBoardSatchelV453Dev69(charge);
-   return {ok:true,recast:true,spentMana:0};
-  }
-  const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
-  if(['target_enemy','target_ally','target_any'].includes(s.shape)&&(!target||target.hp<=0||!this.sameCombatRealmV453Dev69(u,target)||
-    (s.shape==='target_enemy'?target.team===u.team:
-     s.shape==='target_ally'?target.team!==u.team||!target.champ:!target.champ)||
-    this.mapDistance(u,target)>s.range||
-    (target.team!==u.team&&!(target.champ?this.visible(u.team,target):
-      (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target)))))
-   return {ok:false,reason:'alvo_invalido'};
-  if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&
-    !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)||
-      q.point.x<0||q.point.x>1||q.point.y<0||q.point.y>1||
-      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,q.point))))
-   return {ok:false,reason:'ponto'};
-  if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
-   return {ok:false,reason:'fora_alcance'};
-  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
-  // M32: the second PvP player's order may consume a mark or remove an entity
-  // before this spell resolves. Validate owner ledger before debit/cooldown.
-  if(s.m21FrostRequired&&!(target?.m21FrostV453?.sourceId===u.id&&
-      target.m21FrostV453.until>this.gameTime&&target.m21FrostV453.stacks>=4))
-   return {ok:false,reason:'m32_frost_expired_before_commit'};
-  if(s.m20MarkRequired&&s.shape==='target_enemy'&&
-     !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
-   return {ok:false,reason:'m32_mark_expired_before_commit'};
-  if(s.m20MarkRequired&&s.shape==='global_enemy'&&
-     !this.units.some(v=>v.hp>0&&v.team!==u.team&&
-      this.sameCombatRealmV453Dev69(u,v)&&
-      v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
-   return {ok:false,reason:'m32_global_mark_expired_before_commit'};
+   !(u.champ==='Mel'&&q.slot==='R'?
+    this.m42MelMarkedEnemiesV453Dev69(u).length:
+    this.units.some(v=>v.hp>0&&v.team!==u.team&&
+     this.sameCombatRealmV453Dev69(u,v)&&
+     v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime)))
+   return {ok:false,reason:u.champ==='Mel'?
+    'm42_mel_mark_hidden_before_commit':'m32_global_mark_expired_before_commit'};
   if(s.m24Devour&&(!target?.champ||target.hp<=0||
      u.m24DevourV453?.until>this.gameTime||
      target.m24DevouredByV453?.until>this.gameTime||
@@ -4245,7 +3979,10 @@ export class Arena {
   if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot)&&
      this.m33LeeEnergyAvailableV453Dev69(u)<50)
    return {ok:false,reason:'m33_lee_energy_before_commit'};
-  const m39SyndraPickup=s.m24OrbThrow?
+  if(s.m22Magazine&&q.slot==='R'&&
+     this.m42CorkiAmmoV453Dev69(u,s).charges<1)
+    return {ok:false,reason:'m42_corki_ammo_spent_before_commit'};
+   const m39SyndraPickup=s.m24OrbThrow?
    this.m39SyndraPickupV453Dev69(u,q.point):null;
   if(s.m24OrbThrow&&!m39SyndraPickup)
    return {ok:false,reason:'m39_syndra_pickup_lost_before_commit'};
@@ -4732,10 +4469,11 @@ export class Arena {
   if(s.m22SecondStage)(u.m22SecondaryV453??={})[q.slot]={
    kind:s.m22SecondStage,until:this.gameTime+3,targetIds:[],firstId:null};
   if(s.m22Magazine&&q.slot==='R'){
-   const state=u.m22MagazineV453??={charges:s.m22Magazine.max,nextAt:0,shots:0};
-   if(state.charges<=0)return {ok:false,reason:'municao_insuficiente'};
-   if(state.charges===s.m22Magazine.max)state.nextAt=this.gameTime+s.m22Magazine.reload;
-   state.charges--;state.shots++;
+   // Only a successful action receipt updates this champion's ammo.
+   const available=this.m42CorkiAmmoV453Dev69(u,s),max=s.m22Magazine.max;
+   u.m22MagazineV453={charges:available.charges-1,
+    shots:available.shots+1,nextAt:available.charges===max?
+     this.gameTime+s.m22Magazine.reload:available.nextAt};
   }
   if(u.champ==='Lucian')u.m21LightslingerV453={charges:1,until:this.gameTime+5};
   if(s.m21FrostRequired&&target?.m21FrostV453?.sourceId===u.id)
@@ -4933,7 +4671,10 @@ export class Arena {
    }
   }
   if(['target_enemy','target_ally','target_any'].includes(s.shape))hits=[target];
-   else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
+   else if(s.shape==='global_enemy')hits=s.m20MarkRequired&&u.champ==='Mel'?
+   this.m42MelMarkedEnemiesV453Dev69(u):
+   enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||
+    v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
   else if(s.shape==='global_ally')hits=allyPool;
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,
