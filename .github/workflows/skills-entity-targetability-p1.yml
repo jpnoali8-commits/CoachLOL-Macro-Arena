@@ -7,6 +7,11 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+# A burst of macro-batch commits should validate the newest HEAD once.
+# Preserve the dedicated specialist gate but cancel stale superseded runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   skills-entity-targetability:
     name: P1 clone selection, QWER regressions, PvP and snapshots
