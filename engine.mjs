@@ -4753,7 +4753,37 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m26_rell_magnet'){
+    if(z.kind==='m26_corki_gatling'){
+     const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+      {range:z.range,width:300,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const v of victims.filter(v=>v.champ&&v.hp>0)){
+      const hit=this.damage(v,z.power,u,'physical','spell');
+      if(hit>0){
+       const prior=v.m26CorkiShred?.[u.id];
+       (v.m26CorkiShred??={})[u.id]={stacks:Math.min(4,(prior?.until>now?prior.stacks:0)+1),
+        until:now+4};
+      }
+     }
+     z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m26_zac_bounce'){
+     const victims=this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>this.mapDistance(v,u)<=z.radius)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+     for(const v of victims){
+      const hit=this.damage(v,z.power+v.maxHp*.015,u,'magic','spell');
+      if(hit>0&&v.champ&&v.hp>0&&!z.hitIds.includes(v.id)){
+       this.applyEffectV41(v,'knockup',{source:u,duration:.5,
+        key:'m26_zac_bounce_'+z.id+'_'+v.id});
+       z.hitIds.push(v.id);
+      }
+     }
+     z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m26_viktor_aftershock'){
+     const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+      {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const v of victims)this.damage(v,z.power,u,'magic','spell');
+     ended=true;
+    }else if(z.kind==='m26_rell_magnet'){
      if(u.hp>0){
       z.point={x:u.x,y:u.y};
       const victims=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
