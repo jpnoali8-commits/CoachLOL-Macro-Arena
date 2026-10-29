@@ -3658,13 +3658,35 @@ export class Arena {
    const temporal={id:++this.boardTemporalIdV453Dev69,kind:s.boardTemporal,
     ownerId:u.id,team:u.team,slot:q.slot,point:q.point?{...q.point}:{x:u.x,y:u.y},
     origin:{x:u.x,y:u.y},radius:s.radius||300,arc:s.arc||60,range:s.range,
-    power,hitIds:[],nextAt:this.gameTime+1,until:this.gameTime+(s.zoneSeconds||4),
+    power,hitIds:[],createdAt:this.gameTime,nextAt:this.gameTime+1,
+    until:this.gameTime+(s.zoneSeconds||4),
     stunSeconds:s.ccSeconds||1.5,slowPower:s.ccPower||0,
     invulnerableSeconds:s.invulnerableSeconds||0};
    if(s.boardTemporal==='satchel_charge'){
     temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt;
    }else if(s.boardTemporal==='delayed_radiance'){
     temporal.nextAt=this.gameTime+2.5;temporal.until=temporal.nextAt+.01;
+   }else if(s.boardTemporal==='m22_artillery_channel'){
+    const shots=s.m22ArtilleryShots[Math.max(0,Math.min(2,rank-1))];
+    temporal.nextAt=this.gameTime+1;temporal.until=this.gameTime+10;
+    u.m22ArtilleryV453={origin:{x:u.x,y:u.y},remaining:shots,total:shots,
+     nextAt:this.gameTime+1,until:temporal.until};
+    u.boardChannelUntilV453Dev69=temporal.until;
+   }else if(s.boardTemporal==='m22_zilean_bomb'){
+    const victim=this.boardCombatEnemyPoolV453Dev69(u)
+     .filter(v=>v.champ&&this.mapDistance(v,temporal.point)<=120)
+     .sort((a,b)=>this.mapDistance(a,temporal.point)-this.mapDistance(b,temporal.point)||
+       String(a.id).localeCompare(String(b.id)))[0];
+    temporal.anchorId=victim?.id||null;
+    temporal.nextAt=this.gameTime+3;temporal.until=temporal.nextAt+.1;
+    const previous=(this.boardTemporalV453Dev69||[]).find(z=>
+     z.kind==='m22_zilean_bomb'&&z.ownerId===u.id&&
+     z.until>this.gameTime&&((z.anchorId&&z.anchorId===temporal.anchorId)||
+     this.mapDistance(z.point,temporal.point)<=120));
+    if(previous){
+     this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>z!==previous);
+     this.detonateM22BombV453(previous,true);
+    }
    }else if(s.boardTemporal==='m21_gragas_barrel'){
     temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m20_requiem_channel'){
@@ -3917,12 +3939,32 @@ export class Arena {
    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
   for(const v of victims){
    const blocked=this.effectResolverV41().has(v,'spell_shield');
-   const dealt=this.damage(v,z.power,u,'magic','spell');
+   const elapsed=Math.max(0,this.gameTime-(z.createdAt??this.gameTime));
+   const dealt=this.damage(v,z.power*(1+Math.min(.5,elapsed*.25)),
+    u,'magic','spell');
    if(dealt>0&&v.champ&&!blocked&&v.hp>0)
     this.applyEffectV41(v,'slow',{source:u,duration:2,
      power:z.slowPower||.4,key:'m21_barrel_'+z.id+'_'+v.id});
   }
   this.event('Gragas Q: Barril detonado.',u.team,'skill_vfx',u.id);
+ }
+ // Server-owned delayed bomb: attached target follows movements.
+ // Double impact stuns; resolved exactly once regardless of tick rate.
+ detonateM22BombV453(z,double=false){
+  const u=this.units.find(v=>v.id===z.ownerId);if(!u)return;
+  const anchor=this.units.find(v=>v.id===z.anchorId&&v.hp>0&&
+   this.sameCombatRealmV453Dev69(u,v));
+  const center=anchor||z.point;
+  for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+     this.mapDistance(center,v)<=z.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+   const blocked=this.effectResolverV41().has(v,'spell_shield');
+   const dealt=this.damage(v,z.power,u,'magic','spell');
+   if(double&&dealt>0&&!blocked&&v.champ&&v.hp>0)
+    this.applyEffectV41(v,'stun',{source:u,duration:1.4,
+     key:'m22_double_bomb_'+z.id+'_'+v.id});
+  }
+  this.event('Zilean Q: bomba '+(double?'dupla':'detonada')+'.',
+   u.team,'skill_vfx',u.id);
  }
  detonateBoardSatchelV453Dev69(z){
   const u=this.units.find(v=>v.id===z.ownerId);
