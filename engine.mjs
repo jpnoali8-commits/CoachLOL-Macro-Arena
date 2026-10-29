@@ -3328,8 +3328,44 @@ export class Arena {
   u.skillCds[slot]=this.gameTime+this.abilityCooldownV452d3(u,slot);
   return {ok:true,spentMana:0,postMortem:true,cooldownEndsAt:u.skillCds[slot]};
  }
+ // Zac division lives in boardSummons, not units: blobs can be hit by enemies
+ // without creating champion/XP/scoreboard identities.
+ m23StartZacDivisionV453(u){
+  if(u.m23ZacDivisionV453?.active)return false;
+  u.m23ZacDivisionV453={active:true,until:this.gameTime+8,createdAt:this.gameTime};
+  u.m23ZacReadyAtV453=this.gameTime+300;
+  u.hp=1;
+  this.applyEffectV41(u,'stasis',{source:u,duration:8,
+   key:'m23_zac_division_'+u.id});
+  for(const [dx,dy] of [[115,0],[-115,0],[0,115],[0,-115]]){
+   const desired={x:u.x+dx/this.worldWidth,y:u.y+dy/this.worldHeight};
+   const at=this.walkable(desired.x,desired.y)?desired:{x:u.x,y:u.y};
+   const hp=Math.max(1,Math.round(u.maxHp*.12));
+   this.boardSummonsV453Dev69.push({id:'zac_blob_'+(++this.boardSummonIdV453Dev69),
+    kind:'zac_blob',ownerId:u.id,team:u.team,x:at.x,y:at.y,hp,maxHp:hp,
+    createdAt:this.gameTime,lastTick:this.gameTime,until:u.m23ZacDivisionV453.until});
+  }
+  this.event('Zac P: Divisão Celular.',u.team,'skill_vfx',u.id);
+  return true;
+ }
+ m23FinishZacDivisionV453(u,killer=null){
+  if(!u?.m23ZacDivisionV453?.active)return false;
+  const living=this.boardSummonsV453Dev69.filter(v=>
+   v.kind==='zac_blob'&&v.ownerId===u.id&&v.hp>0);
+  u.m23ZacDivisionV453=null;
+  this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(v=>
+   !(v.kind==='zac_blob'&&v.ownerId===u.id));
+  u.statusEffectsV41=(u.statusEffectsV41||[]).filter(e=>e.type!=='stasis');
+  u.stasisUntil=0;
+  if(living.length){
+   u.hp=Math.min(u.maxHp,Math.max(1,u.maxHp*.10*living.length));
+   u.deadUntil=0;
+   this.event('Zac P: recomposição.',u.team,'skill_vfx',u.id);
+  }else this.damage(u,u.maxHp+10000,killer,'true','m23_zac_execution');
+  return true;
+ }
  boardCloneDamageableV453Dev69(v){
-  return !!v&&['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(v.kind)&&
+  return !!v&&['neeko_clone','shaco_clone','wukong_clone','leblanc_clone','zac_blob'].includes(v.kind)&&
    v.hp>0&&v.until>this.gameTime;
  }
  boardCombatEntityByIdV453Dev69(id){
@@ -4749,6 +4785,20 @@ export class Arena {
    if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone','leblanc_clone'].includes(s.kind)){
     this.m15AdvanceEntity(s);continue;
    }
+   if(s.kind==='zac_blob'){
+    if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
+    const zac=this.units.find(v=>v.id===s.ownerId);
+    if(zac?.m23ZacDivisionV453?.active){
+     s.lastTick=now;
+     const d=this.mapDistance(s,zac);
+     if(d>25){
+      const t=Math.min(1,90/d),next={
+       x:s.x+(zac.x-s.x)*t,y:s.y+(zac.y-s.y)*t};
+      if(this.walkable(next.x,next.y)&&!this.obstacleLine(s,next))Object.assign(s,next);
+     }
+    }
+    continue;
+   }
    if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
    const owner=this.units.find(v=>v.id===s.ownerId);
    if(!owner){s.hp=0;continue;}
@@ -4831,6 +4881,11 @@ export class Arena {
  }
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
+  for(const u of this.units){
+   if(u.m23DeathDefiedV453?.until<=this.gameTime)u.m23DeathDefiedV453=null;
+   if(u.m23ZacDivisionV453?.active&&this.gameTime>=u.m23ZacDivisionV453.until)
+    this.m23FinishZacDivisionV453(u);
+  }
   for(const u of this.units){
    const chrono=u.m21ChronoshiftV453;
    if(chrono?.pendingAt&&chrono.pendingAt<=this.gameTime){
@@ -7552,7 +7607,8 @@ export class Arena {
   }
  }
  reviveAndMove(){if(this.phase==='preparation')return;for(const u of this.units){
-  if(u.hp<=0){if(this.gameTime>=u.deadUntil){const p=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.skillCd=0;u.recallProgress=0;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.manualMoveHold=false;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.laneFollowPath=[];this.event(`${u.champ} renasceu na fonte. Loja disponível.`,u.team,'respawn',u.id)}else continue;}
+  if(u.m23ZacDivisionV453?.active)continue;
+   if(u.hp<=0){if(this.gameTime>=u.deadUntil){const p=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.skillCd=0;u.recallProgress=0;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQuest>=800?4:3);u.manualMoveHold=false;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.laneFollowPath=[];this.event(`${u.champ} renasceu na fonte. Loja disponível.`,u.team,'respawn',u.id)}else continue;}
   const ocean=this.elementalStatsV452d3(u).oceanMissingHealthFraction;
   // Permanent Ocean drakes heal a percentage of MISSING HP every 5 simulated seconds.
   if(ocean&&this.gameTime%5===0)this.effectResolverV41().heal(u,(u.maxHp-u.hp)*ocean,u);u.mana=clamp(u.mana+1.1,0,u.maxMana);if(u.shield>0)u.shield=Math.max(0,u.shield-.3);
@@ -8186,13 +8242,20 @@ export class Arena {
    else if(Number.isFinite(amount)&&amount>=target.neekoDisguiseV453M15.visualHp)
     this.m15BreakDisguise(target,'apparent_lethal',2);
   }
-  if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone','leblanc_clone'].includes(target?.kind)){
+  if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone','leblanc_clone','zac_blob'].includes(target?.kind)){
    if(target.hp<=0||target.until<=this.gameTime||target.stealthUntil>this.gameTime||
       target.invulnerableUntil>this.gameTime)return 0;
    const hit=Math.min(target.hp,Math.max(0,Math.round(amount*(target.damageTakenMultiplier||1))));
    target.hp-=hit;
    if(target.kind==='neeko_clone'&&hit>0)target.damageFadeAt=this.gameTime+.5;
    if(target.kind==='shaco_clone'&&target.hp<=0)this.m15ExplodeShacoClone(target);
+   if(target.kind==='zac_blob'&&target.hp<=0){
+    const zac=this.units.find(v=>v.id===target.ownerId);
+    if(zac?.m23ZacDivisionV453?.active&&
+      !this.boardSummonsV453Dev69.some(v=>v.kind==='zac_blob'&&
+       v.ownerId===zac.id&&v.hp>0&&v.until>this.gameTime))
+     this.m23FinishZacDivisionV453(zac,attacker);
+   }
    return hit;
   }if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
   // Explicit opt-in ability hits can apply item on-hit, without masquerading as
@@ -8338,6 +8401,15 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     source:this.units.find(v=>v.id===chrono.sourceId)||null,
     key:'m21_chronoshift_'+target.id});
    this.event('Zilean R: Chronoshift acionado.',target.team,'skill_vfx',target.id);
+  }
+  // Zac's initial fatal hit transitions to attackable blobs instead of
+  // awarding an immediate death; failure invokes this same damage pipeline.
+  if(target.champ==='Zac'&&target.hp>0&&final>=target.hp&&
+     !target.m23ZacDivisionV453?.active&&
+     (target.m23ZacReadyAtV453||0)<=this.gameTime&&
+     sourceType!=='m23_zac_execution'){
+   this.m23StartZacDivisionV453(target);
+   final=0;
   }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   if(target.champ==='Karthus'&&target.hp<=0&&!target.m23DeathDefiedV453){
