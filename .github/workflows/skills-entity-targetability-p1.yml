@@ -124,6 +124,8 @@ jobs:
           node tests/audit/v453_m39_b01_atomic_pickup_and_recasts.test.mjs
           node --check tests/audit/v453_m40_b01_three_authored_channels.test.mjs
           node tests/audit/v453_m40_b01_three_authored_channels.test.mjs
+          node --check tests/audit/v453_m41_b01_spatial_authored_mechanics.test.mjs
+          node tests/audit/v453_m41_b01_spatial_authored_mechanics.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
