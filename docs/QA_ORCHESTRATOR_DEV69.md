@@ -6,9 +6,9 @@ Infraestrutura isolada: `ops/qa-orchestrator-dev69` (sem alterações em Skills,
 O `tools/qa/offline_full_project.mjs` já existia; este ramo o evolui, com seleção de suítes pelo manifesto `tools/qa/qa_manifest_dev69.json`. Cada lane realiza um fetch de seu próprio HEAD e roda testes em *detached worktree* descartável. Não faz merge, rebase, reset, force-push ou checkout das branches em desenvolvimento.
 
 - `--quick`: Integration (regressão + paridade Node/browser); Skills (regressão e os três marcos autorais mais recentes, inclusive M44); Items (Batch7).
-- `--full`: `npm test` histórico completo na Integration; auditoria de **todos** os arquivos `tests/audit/v453_*.test.mjs` (mínimo atual 49, nunca apenas M20–44); Items base, **items-bulk** e Batch2–Batch7.
+- `--full`: `npm test` histórico completo na Integration; auditoria de **todos** os arquivos `tests/audit/v453_*.test.mjs` (mínimo atual 49, nunca apenas M20–44); Items base, **items-bulk** e Batch2–Batch7; mais seis testes condicionais da branch separada `dev69/items-full-audit` (somente full).
 - `--browser`: paridade Node/browser e scripts Chromium na Integration. Bloqueado se não houver mapa original, Chromium, Playwright ou Pillow.
-- `--release`: somente no SHA exato da Integration; exige que os HEADs de Skills, Items e Assets estejam em sua ancestralidade, além do `npm test`, paridade, 78 assets e browser. Sem união artificial de código, sem merge. Por segurança, um cherry-pick sem ancestralidade comprovada fica BLOCKED até revisão explícita.
+- `--release`: somente no SHA exato da Integration; exige que os HEADs de Skills, Items, auditoria integral de Items e Assets estejam em sua ancestralidade, além do `npm test`, paridade, 78 assets, browser e ledger autoral de 35 campeões B01 sem dívida genérica pendente. Mesmo após esse gate, a certificação de identidade de todo o elenco requer evidência própria; não chamar os 173 baselines de kits completos. Sem união artificial de código, sem merge. Por segurança, um cherry-pick sem ancestralidade comprovada fica BLOCKED até revisão explícita.
 
 ```bash
 node tools/qa/offline_full_project.mjs --quick
