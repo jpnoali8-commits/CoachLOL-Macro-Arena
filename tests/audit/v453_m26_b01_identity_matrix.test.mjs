@@ -39,8 +39,9 @@ function setup(champ,team){
 const check=(seat,name,fn)=>{fn();cases.push(seat+' '+name)};
 for(const seat of ['blue','red']){
  check(seat,'Zilean ally-attached Q follows ally to detonation',()=>{
-  const {a,u,e,ally,cast,snap}=setup('Zilean',seat);
-  ally.x=.54; e.x=.58;
+  const {a,u,e,e2,ally,cast,snap}=setup('Zilean',seat);
+  // Isolate the allied bomb anchor from the enemy TOP at the same coordinates.
+  e2.x=.08;ally.x=.54; e.x=.58;
   cast('Q',{point:{x:.54,y:.5}});
   const z=a.boardTemporalV453Dev69.find(v=>v.kind==='m22_zilean_bomb');
   assert.equal(z?.anchorId,ally.id);
