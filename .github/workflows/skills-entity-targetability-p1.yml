@@ -99,6 +99,8 @@ jobs:
           node --check tools/skills_m34_atomic_release_train.mjs
           node --check tests/audit/v453_m34_atomic_release_train.test.mjs
           node tests/audit/v453_m34_atomic_release_train.test.mjs
+          node --check tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
+          node tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
