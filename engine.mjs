@@ -3915,7 +3915,7 @@ export class Arena {
    return {ok:true,recast:true,spentMana:0};
   }
   const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
-  if(['target_enemy','target_ally','target_any'].includes(s.shape)&&(!target||!this.sameCombatRealmV453Dev69(u,target)||
+  if(['target_enemy','target_ally','target_any'].includes(s.shape)&&(!target||target.hp<=0||!this.sameCombatRealmV453Dev69(u,target)||
     (s.shape==='target_enemy'?target.team===u.team:
      s.shape==='target_ally'?target.team!==u.team||!target.champ:!target.champ)||
     this.mapDistance(u,target)>s.range||
@@ -3923,11 +3923,32 @@ export class Arena {
       (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target)))))
    return {ok:false,reason:'alvo_invalido'};
   if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&
-    !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)))
+    !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)||
+      q.point.x<0||q.point.x>1||q.point.y<0||q.point.y>1||
+      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,q.point))))
    return {ok:false,reason:'ponto'};
   if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
   if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
+  // M32: the second PvP player's order may consume a mark or remove an entity
+  // before this spell resolves. Validate owner ledger before debit/cooldown.
+  if(s.m21FrostRequired&&!(target?.m21FrostV453?.sourceId===u.id&&
+      target.m21FrostV453.until>this.gameTime&&target.m21FrostV453.stacks>=4))
+   return {ok:false,reason:'m32_frost_expired_before_commit'};
+  if(s.m20MarkRequired&&s.shape==='target_enemy'&&
+     !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
+   return {ok:false,reason:'m32_mark_expired_before_commit'};
+  if(s.m20MarkRequired&&s.shape==='global_enemy'&&
+     !this.units.some(v=>v.hp>0&&v.team!==u.team&&
+      this.sameCombatRealmV453Dev69(u,v)&&
+      v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
+   return {ok:false,reason:'m32_global_mark_expired_before_commit'};
+  if(s.m24Devour&&(!target?.champ||target.hp<=0||
+     u.m24DevourV453?.until>this.gameTime||
+     target.m24DevouredByV453?.until>this.gameTime||
+     (target.team!==u.team&&!(target.m24TasteV453?.[u.id]?.until>this.gameTime&&
+      target.m24TasteV453[u.id].stacks>=3))))
+   return {ok:false,reason:'m32_devour_mark_expired_before_commit'};
   if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
@@ -3943,6 +3964,12 @@ export class Arena {
   if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined&&
      this.mapDistance(u,q.point)>550+550*q.m28ChargeSeconds/2)
    return {ok:false,reason:'m29_zac_charge_range'};
+  if(s.m29ViCharge&&q.m28ChargeSeconds!==undefined&&
+     this.mapDistance(u,q.point)>400+325*q.m28ChargeSeconds/2)
+   return {ok:false,reason:'m32_vi_charge_range'};
+  if((s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined&&
+     this.mapDistance(u,q.point)>900+(s.range-900)*q.m28ChargeSeconds/2)
+   return {ok:false,reason:'m32_charge_release_range'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
@@ -4514,7 +4541,10 @@ export class Arena {
     s.radius*(s.m28GalioCharge&&q.m28ChargeSeconds!==undefined?
      1+.15*q.m28ChargeSeconds:1),this.worldWidth,this.worldHeight);
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
-  else if(s.shape==='move_point')hits=areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
+  else if(s.shape==='move_point')hits=s.m31RellDualForm&&
+   u.m31RellLastWMode==='mount_up'?
+    areaHitsV42(point,enemyPool,180,this.worldWidth,this.worldHeight).slice(0,1):
+    areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
   else if(s.shape==='line_enemy')hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
     range:s.m30LucianAnchoredQ?1100:(s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined?
      900+(s.range-900)*q.m28ChargeSeconds/2:s.range,
@@ -4984,6 +5014,7 @@ export class Arena {
    }
   }
   if(s.shield&&s.m20Status&&
+   !(s.m31RellDualForm&&u.m31RellLastWMode==='mount_up')&&
    ['target_enemy','line_enemy','circle_enemy','cone_enemy','move_point'].includes(s.shape))
    this.applyEffectV41(u,'shield',{source:u,duration:3,
     power:power(s.shield),key:'m20_selfshield_'+instance});
