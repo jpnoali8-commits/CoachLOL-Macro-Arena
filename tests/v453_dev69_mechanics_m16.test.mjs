@@ -18,11 +18,11 @@ function fixture(champ,team){
  a.canSeePoint=()=>true;
  return {a,u,foe,team,other};
 }
-ok('12 distinct champion families have authored slot contracts; baseline stays 30',()=>{
- assert.equal(Object.keys(M16_MECHANIC_KITS).length,12);
+ok('19 active ability families plus LeBlanc passive; legacy remains 30',()=>{
+ assert.equal(Object.keys(M16_MECHANIC_KITS).length,19);
  assert.equal(Object.keys(BOARD_KITS_V453_DEV69).length,30);
  const slots=Object.values(M16_MECHANIC_KITS).reduce((n,x)=>n+Object.keys(x).length,0);
- assert.equal(slots,15,'15 authored M16 skills, distributed over 12 distinct champions');
+ assert.equal(slots,22,'22 authored M16 slots across 19 active families');
  for(const kits of Object.values(M16_MECHANIC_KITS))for(const s of Object.values(kits))
   assert.equal(s.kind,'board_effect');
 });
@@ -30,7 +30,9 @@ for(const team of ['blue','red']){
  for(const [champ,slot,type] of [
   ['Twitch','Q','camouflage'],['Rengar','R','camouflage'],
   ['Akshan','W','camouflage'],['Pyke','W','camouflage'],['Viego','E','camouflage'],
-  ['Shaco','Q','invisibility'],['Khazix','R','invisibility']]){
+  ['Shaco','Q','invisibility'],['Khazix','R','invisibility'],
+  ['Akali','W','invisibility'],['Senna','E','camouflage'],
+  ['Talon','R','invisibility'],['MonkeyKing','W','invisibility']]){
   const t=fixture(champ,team);
   ok(team+' '+champ+' '+slot+' '+type+' obeys authoritative casting and private snapshot',()=>{
    const rule=M16_MECHANIC_KITS[champ][slot];
@@ -127,7 +129,8 @@ for(const team of ['blue','red']){
  for(const [champ,slot,kind] of [
   ['Caitlyn','W','caitlyn_snap'],['Nidalee','W','nidalee_bushwhack'],
   ['Teemo','R','teemo_mushroom'],['Shaco','W','shaco_box'],
-  ['Jhin','E','jhin_lotus']]){
+  ['Jhin','E','jhin_lotus'],['Maokai','E','maokai_sapling'],
+  ['Zoe','E','zoe_bubble']]){
   const t=fixture(champ,team);
   ok(team+' '+champ+' '+slot+' arms typed '+kind+' without free fog vision',()=>{
    const point={x:t.foe.x,y:t.foe.y};
@@ -152,8 +155,12 @@ for(const team of ['blue','red']){
     assert.equal(t.a.boardSummonsV453Dev69.filter(x=>x.kind==='shaco_minibox').length,0);
     t.a.gameTime=2;t.a.advanceMechanicsV453M16();
     assert.ok(t.a.effectResolverV41().has(t.foe,'fear'));
-   }else {
+   }else if(kind==='jhin_lotus'){
     assert.ok(t.a.m16Traps.some(x=>x.kind==='jhin_lotus'&&x.explodeAt>1));
+   }else if(kind==='zoe_bubble'){
+    assert.ok(t.a.effectResolverV41().has(t.foe,'sleep'));
+   }else if(kind==='maokai_sapling'){
+    assert.ok(t.a.effectResolverV41().has(t.foe,'slow'));
    }
   });
  }
