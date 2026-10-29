@@ -1163,9 +1163,9 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_any',650,10,65,{shield:[85,115,145,175,205],apRatio:.4,m25LuluPixAttach:true}),
   B20('target_ally',900,120,0,{shield:[240,360,480],m26LuluWildGrowth:true})),
  Mel:BK20('searing_brilliance',
-  B20('circle_enemy',950,10,85,{radius:310,m20Mark:'overwhelm',m20Missing:'multi_projectiles'}),
+  B20('circle_enemy',950,10,85,{radius:310,m20Mark:'overwhelm',m28MelVolley:true,m20Missing:'multi_projectiles'}),
   B20('self',0,38,0,{shield:[100,145,190,235,280],spellShieldSeconds:2,m25MelReflect:true}),
-  B20('line_enemy',1000,11,75,{width:220,cc:'root',ccSeconds:1.4,m20Mark:'overwhelm',m20Missing:'outer_slow'}),
+  B20('line_enemy',1000,11,75,{width:220,cc:'root',ccSeconds:1.4,m20Mark:'overwhelm',m28MelOuterSlow:true,m20Missing:'outer_slow'}),
   B20('global_enemy',25000,120,210,{mana:100,m20MarkRequired:'overwhelm'})),
  Rell:BK20('break_the_mold',
   B20('line_enemy',600,11,80,{width:200,cc:'stun',ccSeconds:.75,m26RellShieldBreak:true}),
@@ -1188,8 +1188,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,3,0,{shield:[85,125,165,205,245],m27TahmGreyHealth:true}),
   B20('target_any',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
  Galio:BK20('colossal_smash',
-  B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m20Missing:'converging_windblasts'}),
-  B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m20Missing:'charge'}),
+  B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m28GalioConverge:true,m20Missing:'converging_windblasts'}),
+  B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m28GalioCharge:true,m20Missing:'charge'}),
   B20('move_point',650,11,95,{radius:210,cc:'knockup',ccSeconds:.8}),
   B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m25GalioEntrance:true})),
  Locke:BK20('silver_stake',
@@ -1199,7 +1199,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1000,120,260,{width:200,maxHits:1,m20Missing:'execute_transformation'})),
  Lucian:BK20('lightslinger',
   B20('line_enemy',850,9,95,{width:155,type:'physical',m20Missing:'requires_initial_target'}),
-  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m20Missing:'star_pattern'}),
+  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m20Missing:'star_pattern'}),
   B20('move_point',445,16,0,{radius:0,m27LucianPursuit:true}),
   B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',boardTemporal:'m25_lucian_culling',zoneSeconds:4.1})),
  Milio:BK20('fired_up',
@@ -1265,7 +1265,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Heimerdinger:BK20('hextech_affinity',
   B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m28HeimerStock:true,m20Missing:'turret_ai_and_charge_stock'}),
   B20('line_enemy',1325,11,95,{width:270,m24UpgradePattern:'rocket_fan'}),
-  B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m24UpgradePattern:'grenade_cluster',m20Missing:'outer_slow'}),
+  B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m24UpgradePattern:'grenade_cluster',m28HeimerGrenadeOuter:true,m20Missing:'outer_slow'}),
   B20('self',0,100,0,{m23EmpowerNext:true,m20Missing:'upgraded_ability_visuals_and_R_cancel'})),
  Kassadin:BK20('void_stone',
   B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
@@ -3656,7 +3656,7 @@ export class Arena {
   }
   if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
-  const chargeable=s.m28XerathCharge||s.m28VarusCharge;
+  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge;
   if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
      chargeSeconds<0||chargeSeconds>2))
    return {ok:false,reason:'m28_charge_invalid'};
@@ -3931,6 +3931,15 @@ export class Arena {
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
   if(s.m26GragasDrink)u.m26GragasDrinkUntil=this.gameTime+2.5;
+  if(s.m28GalioConverge||s.m28MelVolley){
+   const kind=s.m28GalioConverge?'m28_galio_converge':'m28_mel_volley',
+    ticks=s.m28GalioConverge?1:2;
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind,ownerId:u.id,team:u.team,
+    origin:{x:u.x,y:u.y},point:{...q.point},radius:s.radius,
+    power:24+Math.max(1,u.skillRanks[q.slot]||1)*10,
+    nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,ticksLeft:ticks,hitIds:[]});
+  }
   if(s.m28ViktorShield){
    const rank=Math.max(1,u.skillRanks.Q||1);
    this.applyEffectV41(u,'shield',{source:u,duration:3,
@@ -4391,7 +4400,9 @@ export class Arena {
    else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
   else if(s.shape==='global_ally')hits=allyPool;
-  else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,s.radius,this.worldWidth,this.worldHeight);
+  else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,
+    s.radius*(s.m28GalioCharge&&q.m28ChargeSeconds!==undefined?
+     1+.15*q.m28ChargeSeconds:1),this.worldWidth,this.worldHeight);
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='move_point')hits=areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
   else if(s.shape==='line_enemy')hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
@@ -4731,8 +4742,15 @@ export class Arena {
     const f=v.m28FacingV453,dx=(u.x-v.x)*this.worldWidth,dy=(u.y-v.y)*this.worldHeight;
     const gaze=!!(s.m28CassPetrify&&f&&(f.x*dx+f.y*dy)/
       Math.max(1,Math.hypot(dx,dy))>=.25);
-    this.applyEffectV41(v,gaze?'stun':s.cc,{
-     source:u,duration:gaze?1.5:scaled,power:s.ccPower||0,
+    const lateral=s.m28MelOuterSlow&&q.point?(()=>{
+     const bx=(point.x-u.x)*this.worldWidth,by=(point.y-u.y)*this.worldHeight,
+      tx=(v.x-u.x)*this.worldWidth,ty=(v.y-u.y)*this.worldHeight;
+     return Math.abs(tx*by-ty*bx)/Math.max(1,Math.hypot(bx,by));
+    })():0;
+    const outer=(s.m28MelOuterSlow&&lateral>65)||
+     (s.m28HeimerGrenadeOuter&&this.mapDistance(v,point)>110);
+    this.applyEffectV41(v,gaze?'stun':outer?'slow':s.cc,{
+     source:u,duration:gaze?1.5:scaled,power:outer?.45:s.ccPower||0,
      key:'board_'+instance+'_'+v.id});
    }
    if(enemy&&u.champ==='Sejuani'&&q.slot==='W'&&v.champ&&
@@ -4926,6 +4944,17 @@ export class Arena {
        this.damage(v,z.power,u,'magic','spell');z.hitIds.push(v.id);
       }
      }
+     z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m28_galio_converge'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius))
+      this.applyEffectV41(v,'dot',{source:u,duration:2,
+       power:z.power,interval:1,key:'m28_galio_winds_'+z.id+'_'+v.id});
+     ended=true;
+    }else if(z.kind==='m28_mel_volley'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius))
+      this.damage(v,z.power,u,'magic','spell');
      z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
     }else if(z.kind==='m28_sej_second'){
      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
@@ -9618,6 +9647,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const fx=(target.x-attacker.x)*this.worldWidth,fy=(target.y-attacker.y)*this.worldHeight,
     len=Math.hypot(fx,fy)||1;
    attacker.m28FacingV453={x:fx/len,y:fy/len};
+   if(name==='Lucian'&&target.champ&&
+      target.m20MarksV453?.['ardent_'+attacker.id]>this.gameTime){
+    delete target.m20MarksV453['ardent_'+attacker.id];
+    attacker.boardSpeedV453Dev69={until:this.gameTime+2.5,fraction:.25};
+   }
    if(name==='Yunara'){
     attacker.m27YunaraVowStacks=Math.min(4,(attacker.m27YunaraVowStacks||0)+1);
     if(attacker.m27YunaraVowEmpoweredUntil>this.gameTime)
