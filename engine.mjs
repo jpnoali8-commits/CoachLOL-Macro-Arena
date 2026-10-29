@@ -5533,7 +5533,34 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m28_karthus_wall'||z.kind==='m28_kog_ooze'){
+    if(z.kind==='m40_sett_haymaker'){
+     const state=u.m40AuthoredChannelV453;
+     if(!state||state.kind!=='sett_haymaker'||
+        state.startedAt!==z.token||this.m40InterruptChannelV453Dev69(u))
+      ended=true;
+     else{
+      const dx=(z.point.x-z.origin.x)*this.worldWidth,
+       dy=(z.point.y-z.origin.y)*this.worldHeight;
+      const length=Math.max(1,Math.hypot(dx,dy));
+      const spread=Math.tan(z.arc*Math.PI/360);
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+       !this.obstacleLine(z.origin,v))
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const x=(v.x-z.origin.x)*this.worldWidth,
+        y=(v.y-z.origin.y)*this.worldHeight;
+       const depth=(x*dx+y*dy)/length,
+        lateral=Math.abs(x*dy-y*dx)/length;
+       if(depth<0||depth>z.range||lateral>depth*spread+25)continue;
+       const hit=this.damage(v,z.power,u,lateral<=70?'true':'physical','spell');
+       if(hit>0)z.hitIds.push(v.id);
+      }
+      u.m40AuthoredChannelV453=null;
+      u.boardChannelUntilV453Dev69=0;
+      this.event('Sett W: Haymaker após 0.75s.',u.team,'skill_vfx',u.id);
+      ended=true;
+     }
+    }else if(z.kind==='m28_karthus_wall'||z.kind==='m28_kog_ooze'){
      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
       {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
      for(const v of victims.filter(v=>v.champ&&v.hp>0)){
@@ -6607,6 +6634,34 @@ export class Arena {
        this.damage(v,aura.power,u,'magic','spell');
      }
      aura.nextAt+=steps;
+    }
+   }
+   const channel=u.m40AuthoredChannelV453;
+   if(channel){
+    if(this.m40InterruptChannelV453Dev69(u))
+     this.event(u.champ+' W: canalização interrompida.',u.team,'skill_vfx',u.id);
+    else if(channel.kind==='master_yi_meditate'){
+     const rank=Math.max(1,Math.min(5,u.skillRanks?.W||1)),
+      stats=this.elementalStatsV452d3(u);
+     while(channel.ticks<8&&channel.nextAt<=Math.min(this.gameTime,channel.until)+1e-8){
+      const cost=Math.max(0,u.maxMana||0)*.03;
+      if(u.mana<cost){
+       u.m29YiMeditateUntil=0;u.m40AuthoredChannelV453=null;
+       u.boardChannelUntilV453Dev69=0;break;
+      }
+      u.mana-=cost;
+      const baseline=[15,25,35,45,55][rank-1]+(stats.ap||0)*.125,
+       missing=Math.min(1,Math.max(0,1-u.hp/Math.max(1,u.maxHp)));
+      this.effectResolverV41().heal(u,baseline*(1+missing),u);
+      channel.nextAt+=.5;channel.ticks++;
+     }
+     if(this.gameTime>=channel.until&&u.m40AuthoredChannelV453===channel){
+      u.m29YiMeditateUntil=0;u.m40AuthoredChannelV453=null;
+      u.boardChannelUntilV453Dev69=0;
+     }
+    }else if(channel.kind==='galio_durand'&&this.gameTime>channel.until){
+     u.m40AuthoredChannelV453=null;u.m34ChargeStateV453=null;
+     u.boardChannelUntilV453Dev69=0;
     }
    }
    if(u.champ==='Cassiopeia'&&u.hp>0){
@@ -10179,9 +10234,27 @@ export class Arena {
   // Irelia W is a defensive channel even during crowd control; apply only
   // to incoming champion damage before resistance, never to true damage.
   if(target?.champ==='MasterYi'&&damageType!=='true'&&
-     target.m29YiMeditateUntil>this.gameTime)
-   amount*=.35;
-  if(target?.champ==='Irelia'&&damageType!=='true'&&
+     target.m40AuthoredChannelV453?.kind==='master_yi_meditate'&&
+     target.m29YiMeditateUntil>this.gameTime&&
+     !this.m40InterruptChannelV453Dev69(target)){
+    const rank=Math.max(1,Math.min(5,target.skillRanks?.W||1));
+    const reduction=this.gameTime-target.m40AuthoredChannelV453.startedAt<.5?
+     .70:[.45,.475,.50,.525,.55][rank-1];
+    amount*=1-reduction;
+   }
+   if(target?.champ==='Galio'&&damageType!=='true'){
+    const state=target.m40AuthoredChannelV453;
+    const charging=state?.kind==='galio_durand'&&state.until>this.gameTime&&
+      !this.m40InterruptChannelV453Dev69(target);
+    const released=(target.m40GalioWDefenseUntil||0)>this.gameTime;
+    if(charging||released){
+     const rank=Math.max(1,Math.min(5,target.skillRanks?.W||1));
+     amount*=1-(damageType==='magic'?
+      [.25,.30,.35,.40,.45][rank-1]:
+      [.125,.15,.175,.20,.225][rank-1]);
+    }
+   }
+   if(target?.champ==='Irelia'&&damageType!=='true'&&
     target.ireliaDanceV453Dev69M7?.endAt>this.gameTime){
    const stance=target.ireliaDanceV453Dev69M7;
    amount*=1-Math.min(.85,Math.max(0,damageType==='magic'?stance.magicReduction:stance.physicalReduction));
