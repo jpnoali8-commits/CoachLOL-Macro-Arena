@@ -1016,6 +1016,37 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B09: 11 named new spell slots, plus Gnar's Mega-Q variant.
+export const M44_B09_KITS_V453=Object.freeze({
+ Gnar:{W:BS('self',0,0,[0],[],{passiveOnly:true,m44B09Hyper:true}),
+  E:BS('move_point',475,0,[22,19.5,17,14.5,12],[50,85,120,155,190],
+   {type:'physical',adRatio:.45,m44B09Hop:true}),
+  R:BS('self',0,0,[0],[],{passiveOnly:true,m44B09MegaOnly:true})},
+ Draven:{Q:BS('self',0,45,[12,11,10,9,8],[],{m44B09SpinningAxe:true}),
+  W:BS('self',0,[40,35,30,25,20],12,[],{m44B09BloodRush:true}),
+  E:BS('line_enemy',1050,70,[18,17,16,15,14],[75,110,145,180,215],
+   {type:'physical',adRatio:.5,width:220,m44B07Flight:true,m44B09StandAside:true})},
+ Karma:{W:BS('target_enemy',675,50,[12,12,12,12,12],[40,65,90,115,140],
+   {apRatio:.45,m44B09FocusedResolve:true}),
+  E:BS('target_ally',800,[50,55,60,65,70],[10,9.5,9,8.5,8],
+   [80,120,160,200,240],{apRatio:.45,m44B09Inspire:true})},
+ Zyra:{R:BS('circle_enemy',700,100,[110,100,90],[180,265,350],
+   {apRatio:.7,radius:480,m44B09Stranglethorns:true})},
+ Renata:{W:BS('target_ally',800,80,[28,27,26,25,24],[],
+   {m44B09Bailout:true}),
+  R:BS('line_enemy',2000,100,[150,130,110],[130,180,230],
+   {apRatio:.4,width:450,m44B09HostileTakeover:true})}
+});
+export const M44_B09_GNAR_MEGA_V453=Object.freeze({
+ Q:BS('line_enemy',950,0,[20,17.5,15,12.5,10],[80,130,180,230,280],
+  {type:'physical',adRatio:1.35,width:190,m44B07Flight:true,m44B07First:true,m44B09Boulder:true}),
+ W:BS('cone_enemy',525,0,[15,13,11,9,7],[25,55,85,115,145],
+  {type:'physical',adRatio:1,arc:95,m44B09Wallop:true}),
+ E:BS('move_point',475,0,[22,19.5,17,14.5,12],[80,120,160,200,240],
+  {type:'physical',adRatio:.5,m44B09Crunch:true}),
+ R:BS('cone_enemy',590,0,[120,100,80],[200,300,400],
+  {type:'physical',adRatio:1,arc:100,m44B09GnarUltimate:true})
+});
 // B05: champion-specific contracts, never a fallback for unfinished slots.
 export const M44_B05_KITS_V453=Object.freeze({
  Jhin:{W:BS('line_enemy',2520,[50,55,60,65,70],12,[70,105,140,175,210],
@@ -1374,7 +1405,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4116,6 +4147,12 @@ export class Arena {
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
   return {ok:true,queued:true};
  }
+ m44B09GnarMegaEligibleV453Dev69(u){
+  const z=u?.m44B09Gnar;
+  return u?.champ==='Gnar'&&
+   (z?.form==='mega'&&z.until>this.gameTime||
+    z?.form!=='mega'&&(z?.rage||0)>=100&&(z?.lockUntil||0)<=this.gameTime);
+ }
  boardKitForV453Dev69(champ,slot,u=null){
   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
    return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||
@@ -4125,7 +4162,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -5413,6 +5450,102 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  // M44 B09: named, owner-scoped mechanics (no generic kit substitute).
+  if(u.champ==='Gnar'&&(s.m44B09Boulder||s.m44B09Wallop||
+     s.m44B09Crunch||s.m44B09GnarUltimate)&&
+     u.m44B09Gnar?.form!=='mega')
+   u.m44B09Gnar={form:'mega',rage:0,until:this.gameTime+15,
+    lockUntil:this.gameTime+30,readyAt:0};
+  if(s.m44B09SpinningAxe&&u.champ==='Draven'){
+   const charges=u.m44B09AxeReady?.until>this.gameTime?u.m44B09AxeReady.charges:0;
+   u.m44B09AxeReady={charges:Math.min(2,charges+1),until:this.gameTime+6};
+   return {...committed,readied:u.m44B09AxeReady.charges};
+  }
+  if(s.m44B09BloodRush&&u.champ==='Draven'){
+   u.m44B09BloodRushUntil=this.gameTime+3;
+   u.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:.5};
+   return {...committed,bloodRush:true};
+  }
+  if(s.m44B09FocusedResolve&&u.champ==='Karma'&&target?.champ){
+   const empowered=u.m44B08Mantra?.until>this.gameTime;
+   if(empowered){u.m44B08Mantra=null;
+    this.effectResolverV41().heal(u,u.maxHp*.12,u);}
+   const shielded=this.effectResolverV41().has(target,'spell_shield');
+   const dealt=this.damage(target,power(s.damage),u,'magic','spell');
+   if(dealt>0&&!shielded)(this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b09_karma_tether',
+    ownerId:u.id,team:u.team,targetId:target.id,empowered:!!empowered,
+    nextAt:this.gameTime+2,until:this.gameTime+2.1});
+   return {...committed,tether:dealt>0&&!shielded,empowered:!!empowered};
+  }
+  if(s.m44B09Inspire&&u.champ==='Karma'&&target?.champ){
+   const empowered=u.m44B08Mantra?.until>this.gameTime;
+   if(empowered)u.m44B08Mantra=null;
+   for(const a of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+    (v.id===target.id||empowered&&this.mapDistance(v,target)<=550))){
+    this.applyEffectV41(a,'shield',{source:u,duration:3,
+     power:power(s.damage)*(a.id===target.id?1:.6),
+     key:'m44_b09_karma_e_'+instance+'_'+a.id});
+    a.boardSpeedV453Dev69={until:this.gameTime+2,fraction:empowered?.45:.3};
+   }
+   return {...committed,empowered:!!empowered,shielded:true};
+  }
+  if(s.m44B09Stranglethorns&&u.champ==='Zyra'&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b09_zyra_thorns',
+    ownerId:u.id,team:u.team,point:{...q.point},power:power(s.damage),
+    radius:s.radius,nextAt:this.gameTime+1,until:this.gameTime+1.1});
+   return {...committed,scheduled:true};
+  }
+  if(s.m44B09Bailout&&u.champ==='Renata'&&target?.champ){
+   target.m44B09Bailout={ownerId:u.id,until:this.gameTime+5,triggered:false};
+   target.boardSpeedV453Dev69={until:this.gameTime+5,fraction:.3};
+   return {...committed,bailout:true};
+  }
+  if(s.m44B09HostileTakeover&&u.champ==='Renata'&&q.point){
+   const origin={x:u.x,y:u.y},length=this.mapDistance(origin,q.point),
+    f=Math.min(length,s.range)/Math.max(1,length);
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b09_renata_hostile',
+    ownerId:u.id,team:u.team,origin,
+    point:{x:origin.x+(q.point.x-origin.x)*f,
+     y:origin.y+(q.point.y-origin.y)*f},
+    width:s.width,power:power(s.damage),
+    nextAt:this.gameTime+1,until:this.gameTime+1.1});
+   return {...committed,scheduled:true};
+  }
+  if((s.m44B09Hop||s.m44B09Crunch)&&u.champ==='Gnar'&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b09_gnar_jump',
+    ownerId:u.id,team:u.team,point:{...q.point},radius:s.m44B09Crunch?300:210,
+    power:power(s.damage),mega:!!s.m44B09Crunch,
+    nextAt:this.gameTime+1,until:this.gameTime+1.1});
+   return {...committed,scheduled:true};
+  }
+  if((s.m44B09Wallop||s.m44B09GnarUltimate)&&u.champ==='Gnar'&&q.point){
+   const victims=skillshotHitsV42(u,q.point,
+    this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0),{
+     range:s.range,width:s.m44B09GnarUltimate?550:420,
+     maxHits:Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+   let count=0;
+   for(const v of victims.filter(v=>!this.obstacleLine(u,v))){
+    const blocked=this.effectResolverV41().has(v,'spell_shield');
+    if(this.damage(v,power(s.damage),u,'physical','spell')>0)count++;
+    if(!blocked&&v.champ&&v.hp>0){
+     if(s.m44B09GnarUltimate){
+      const old={x:v.x,y:v.y},d=Math.max(1,this.mapDistance(u,v)),
+       dest={x:v.x+(v.x-u.x)*220/d,y:v.y+(v.y-u.y)*220/d};
+      if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(old,dest)){
+       Object.assign(v,dest);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+      }
+     }
+     this.applyEffectV41(v,'stun',{source:u,
+      duration:s.m44B09GnarUltimate?1.5:1,
+      key:'m44_b09_gnar_'+instance+'_'+v.id});
+    }
+   }
+   return {...committed,mega:true,hitCount:count};
+  }
   // M44 B08: all named receipts fire after the common single debit.
   // Every projectile and area stage is resolved by the authoritative board clock.
   if(s.m44B08Mantra&&u.champ==='Karma'){
@@ -5622,7 +5755,7 @@ export class Arena {
      ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
      origin:start,current:{...start},point:end,
      range:reach,width:s.width||160,
-     m44B08Mantra:!!mantra,
+     m44B08Mantra:!!mantra,m44B09Boulder:!!s.m44B09Boulder,
      power:power(s.damage)*(mantra?1.35:1)*(u.champ==='Varus'&&q.slot==='Q'?
       (1+.25*m44Charge)*(q.m30VarusEmpowered?1.15:1):1),
      damageType:s.type||'magic',
@@ -6225,7 +6358,67 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m44_b08_karma_burst'){
+    if(z.kind==='m44_b09_karma_tether'){
+      const v=this.boardCombatEntityByIdV453Dev69(z.targetId);
+      if(v?.champ&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+         this.mapDistance(u,v)<=700&&!this.obstacleLine(u,v)&&
+         !this.effectResolverV41().has(v,'spell_shield')){
+       this.applyEffectV41(v,'root',{source:u,duration:1.75,
+        key:'m44_b09_karma_w_'+z.id});
+       if(z.empowered&&u.hp>0)this.effectResolverV41().heal(u,u.maxHp*.12,u);
+      }
+      ended=true;
+     }else if(z.kind==='m44_b09_zyra_thorns'){
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(t=>
+       t.hp>0&&this.mapDistance(t,z.point)<=z.radius&&!this.obstacleLine(z.point,t))
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const blocked=this.effectResolverV41().has(v,'spell_shield');
+       this.damage(v,z.power,u,'magic','spell');
+       if(!blocked&&v.champ&&v.hp>0)
+        this.applyEffectV41(v,'knockup',{source:u,duration:1,
+         key:'m44_b09_zyra_r_'+z.id+'_'+v.id});
+      }
+      for(const plant of (this.boardTemporalV453Dev69||[]).filter(t=>
+       t.kind==='m44_b08_zyra_plant'&&t.ownerId===u.id&&
+       this.mapDistance(t.point,z.point)<=z.radius)){
+       plant.shots=Math.min(6,plant.shots+2);plant.until+=2;
+      }
+      ended=true;
+     }else if(z.kind==='m44_b09_gnar_jump'){
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(t=>
+       t.hp>0&&this.mapDistance(t,z.point)<=z.radius&&!this.obstacleLine(z.point,t))
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const blocked=this.effectResolverV41().has(v,'spell_shield');
+       this.damage(v,z.power,u,'physical','spell');
+       if(z.mega&&!blocked&&v.champ&&v.hp>0)
+        this.applyEffectV41(v,'slow',{source:u,duration:1.5,power:.35,
+         key:'m44_b09_gnar_e_'+z.id+'_'+v.id});
+      }
+      ended=true;
+     }else if(z.kind==='m44_b09_renata_hostile'){
+      for(const v of skillshotHitsV42(z.origin,z.point,
+       this.boardCombatEnemyPoolV453Dev69(u).filter(t=>t.champ&&t.hp>0),{
+       range:this.mapDistance(z.origin,z.point)+5,width:z.width,
+       maxHits:Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight})){
+       if(this.obstacleLine(z.origin,v))continue;
+       const blocked=this.effectResolverV41().has(v,'spell_shield');
+       // Hostile Takeover applies Berserk without fabricated direct R damage.
+       // A spell shield absorbs the cast; no hostile state is armed.
+       if(blocked)this.damage(v,0,u,'magic','spell');
+       else if(v.hp>0)v.m44B09Hostile={ownerId:u.id,
+        nextAt:now+1,until:now+3};
+      }
+      ended=true;
+     }else if(z.kind==='m44_b09_draven_axe_catch'){
+      if(u.hp>0&&this.mapDistance(u,z.point)<=180&&!this.obstacleLine(u,z.point)){
+       const old=u.m44B09AxeReady?.until>now?u.m44B09AxeReady.charges:0;
+       u.m44B09AxeReady={charges:Math.min(2,old+1),until:now+6};
+       u.m44B09Adoration=(u.m44B09Adoration||0)+2;
+       u.skillCds.W=Math.max(now,(u.skillCds.W||now)-12);
+       ended=true;
+      }else if(now>=z.until)ended=true;
+      else z.nextAt=now+1;
+     }else if(z.kind==='m44_b08_karma_burst'){
       for(const victim of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
        v.hp>0&&this.mapDistance(z.point,v)<=z.radius&&
        !this.obstacleLine(z.point,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
@@ -6461,6 +6654,19 @@ export class Arena {
         point:{x:victim.x,y:victim.y},power:z.power*.75,
         radius:270,nextAt:now+1,until:now+1.1});
       }
+      if(z.champ==='Draven'&&z.slot==='E'&&victim.champ&&!spellShield){
+       this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.35,
+        key:'m44_b09_draven_e_'+z.id+'_'+victim.id});
+       const from={x:victim.x,y:victim.y},
+        side=Math.sign(victim.y-z.origin.y)||1,
+        to={x:victim.x,y:victim.y+side*140/this.worldHeight};
+       if(this.walkable(to.x,to.y)&&!this.obstacleLine(from,to)){
+        Object.assign(victim,to);victim.path=[];victim.laneFollowPath=[];
+       }
+      }
+      if(z.champ==='Gnar'&&z.m44B09Boulder&&victim.champ&&!spellShield)
+       this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.4,
+        key:'m44_b09_gnar_boulder_'+z.id+'_'+victim.id});
       if(z.champ==='Senna'&&z.slot==='W'&&!spellShield)
        keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m44_b07_senna_root',
         ownerId:u.id,team:u.team,targetId:victim.id,
@@ -6751,6 +6957,20 @@ export class Arena {
        }
       }
      }
+     if(z.champ==='Zyra'&&z.slot==='E'&&endOfTravel){
+      const pending=[];
+      for(const seed of (u.m44B08ZyraSeeds||[]).filter(v=>v.until>now)){
+       const hit=skillshotHitsV42(z.origin,next,[seed],{
+        range:this.mapDistance(z.origin,next)+5,width:180,maxHits:1,
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+       if(!hit.length||this.obstacleLine(z.origin,seed)){pending.push(seed);continue;}
+       keep.push({id:++this.boardTemporalIdV453Dev69,
+        kind:'m44_b08_zyra_plant',ownerId:u.id,team:u.team,
+        point:{x:seed.x,y:seed.y},power:z.power*.3,
+        shots:3,nextAt:now+1,until:now+3.1});
+      }
+      u.m44B08ZyraSeeds=pending;
+     }
      if(z.champ==='Karma'&&z.slot==='Q'&&z.m44B08Mantra&&
         endOfTravel&&!z.m44B08BurstScheduled&&!this.obstacleLine(from,next)){
       z.m44B08BurstScheduled=true;
@@ -6763,7 +6983,7 @@ export class Arena {
        !this.obstacleLine(from,next))
       u.m44B07Ball={x:next.x,y:next.y,until:now+30};
      if(((z.champ==='Sivir'&&z.slot==='Q')||
-         ['Draven','Gnar'].includes(z.champ))&&
+         (['Draven','Gnar'].includes(z.champ)&&!z.m44B09Boulder))&&
         (endOfTravel||z.m44B07ReverseNow)&&!z.m44ReturnLeg){
       // Boomerang Blade traverses both legs. The same body can be hit once
       // per leg, never repeatedly by overlapping travel segments.
@@ -8039,6 +8259,38 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.champ==='Gnar'){
+    const g=u.m44B09Gnar??={form:'mini',rage:0,until:0,lockUntil:0,readyAt:0};
+    if(g.form==='mega'&&g.until<=this.gameTime){
+     g.form='mini';g.rage=0;g.lockUntil=this.gameTime+15;
+    }
+    if(g.form!=='mega'&&g.rage>=100&&g.lockUntil<=this.gameTime&&
+       g.readyAt>0&&this.gameTime>=g.readyAt+4){
+     g.form='mega';g.rage=0;g.until=this.gameTime+15;
+     g.lockUntil=this.gameTime+30;
+    }
+   }
+   if(u.champ==='Renata'&&u.hp>0)
+    for(const foe of this.units.filter(v=>v.hp>0&&v.team!==u.team&&
+      v.m44B09Hostile?.ownerId===u.id&&
+      v.m44B09Hostile.until>this.gameTime&&
+      v.m44B09Hostile.nextAt<=this.gameTime)){
+     const mark=foe.m44B09Hostile;
+     const friend=this.units.filter(v=>v.hp>0&&v.team===foe.team&&
+      v.id!==foe.id&&this.mapDistance(v,foe)<=650&&
+      this.sameCombatRealmV453Dev69(v,foe))
+      .sort((a,b)=>this.mapDistance(foe,a)-this.mapDistance(foe,b)||
+       String(a.id).localeCompare(String(b.id)))[0];
+     if(friend)this.damage(friend,Math.max(35,(foe.ad||60)*.8),
+      foe,'physical','m44_b09_hostile_basic');
+     mark.nextAt=this.gameTime+1;
+    }
+   if(u.m44B09Bailout?.triggered&&u.m44B09Bailout.until<=this.gameTime){
+    // Expiry is a real terminal damage receipt, not a bare HP assignment.
+    // This keeps deaths, bounty, respawn timers and contributor attribution.
+    u.m44B09Bailout=null;
+    if(u.hp>0)this.damage(u,u.hp+1,null,'true','m44_b09_bailout_expire');
+   }
    if(u.m26LuluBonusHp&&u.m26LuluBonusHp.until<=this.gameTime){
     const bonus=u.m26LuluBonusHp.amount;u.m26LuluBonusHp=null;
     u.maxHp=Math.max(1,u.maxHp-bonus);u.hp=Math.min(u.hp,u.maxHp);
@@ -11799,6 +12051,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.m23StartZacDivisionV453(target);
    final=0;
   }
+  // Renata W prevents real lethal HP damage for a finite death-debt window.
+  if(target.champ&&target.m44B09Bailout?.until>this.gameTime&&
+     final>=target.hp&&target.hp>0){
+   final=Math.max(0,target.hp-1);
+   target.m44B09Bailout.triggered=true;
+   target.m44B09Bailout.until=Math.min(target.m44B09Bailout.until,
+    this.gameTime+3);
+  }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   // Locke W: only real damage that penetrates shields during the active
   // ignition window feeds its later self-healing. The self HP cost is excluded.
@@ -11824,6 +12084,57 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
         this.mapDistance(v,alistar)<=800))
      this.effectResolverV41().heal(ally,65+alistar.level*3,alistar);
    }
+  }
+  // Gnar P + W: Rage Gene and Hyper advance only on genuine damage.
+  for(const g of [attacker,target]){
+   if(dealt<=0||g?.champ!=='Gnar'||g.hp<=0)continue;
+   const state=g.m44B09Gnar??={form:'mini',rage:0,until:0,lockUntil:0,readyAt:0};
+   if(state.form!=='mega'&&state.lockUntil<=this.gameTime){
+    const charge=g===attacker?(sourceType==='basic'?22:sourceType==='spell'?17:0):13;
+    state.rage=Math.min(100,state.rage+charge);
+    if(state.rage>=100&&!state.readyAt)state.readyAt=this.gameTime||.00001;
+   }
+  }
+  if(dealt>0&&attacker?.champ==='Draven'&&attacker.team!==target.team){
+   if(target.hp<=0&&!target.champ)
+    attacker.m44B09Adoration=(attacker.m44B09Adoration||0)+1;
+   if(target.champ&&target.hp<=0){
+    const stacks=attacker.m44B09Adoration||0;
+    const payout=Math.round(25+stacks*2);
+    this.creditGoldV452d4Dev7(attacker,payout,'draven_adoration');
+    this.recordEconomyV43(attacker,'draven_adoration',payout,target.id);
+    attacker.m44B09Adoration=0;
+   }
+  }
+  if(dealt>0&&target.champ&&target.hp<=0&&attacker?.champ&&
+     attacker.team!==target.team)
+   for(const ally of this.units.filter(v=>v.hp>0&&v.team===attacker.team&&
+       v.m44B09Bailout?.triggered&&v.m44B09Bailout.until>this.gameTime)){
+    ally.m44B09Bailout=null;
+    ally.hp=Math.max(1,Math.round(ally.maxHp*.2));
+   }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Draven'&&
+     attacker.team!==target.team&&attacker.m44B09AxeReady?.charges>0&&
+     attacker.m44B09AxeReady.until>this.gameTime){
+   attacker.m44B09AxeReady.charges--;
+   if(target.hp>0)this.damage(target,Math.max(1,(attacker.ad||65)*.7),
+    attacker,'physical','m44_b09_draven_spinning');
+   const point={x:attacker.x,y:attacker.y},
+    landing={x:Math.max(0,Math.min(1,point.x+(target.x-point.x)*.2)),
+     y:Math.max(0,Math.min(1,point.y+(target.y-point.y)*.2))};
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b09_draven_axe_catch',
+    ownerId:attacker.id,team:attacker.team,point:landing,
+    nextAt:this.gameTime+1,until:this.gameTime+3.1});
+  }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Gnar'&&
+     attacker.team!==target.team&&target.champ&&target.hp>0&&
+     (attacker.skillRanks?.W||0)>0&&attacker.m44B09Gnar?.form!=='mega'){
+   const marks=target.m44B09GnarHyper??={},old=marks[attacker.id],
+    next=(old?.until>this.gameTime?old.stacks:0)+1;
+   marks[attacker.id]={stacks:next>=3?0:next,until:this.gameTime+5};
+   if(next>=3)this.damage(target,Math.max(1,target.maxHp*.06),
+    attacker,'magic','m44_b09_gnar_hyper');
   }
   // B05: four-second W mark for each allied Jhin, only after real damage.
   if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team)
