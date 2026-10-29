@@ -2008,6 +2008,8 @@ export class Arena {
     u.cloudSoulNextBoostAtV452d2=now+SOUL_RULES_V452D2.cloudUltimateCooldown;
     u.cloudSoulSpeedUntilV452d2=now+SOUL_RULES_V452D2.cloudUltimateSeconds;
    }
+   if(kind==='basic_attack'&&u.m16StealthV453?.startsAt<=now)
+    this.m16BreakStealth(u,'basic');
    return {ok:true,spentMana:cost,cooldownEndsAt:now+cd,seq:entry.seq};
   }catch(err){
    u.mana=previousMana;if(kind==='skill')u.skillCds[slot]=previousCD;else u[cdField]=previousCD;
@@ -2368,6 +2370,8 @@ export class Arena {
  }
  visible(team,target,sources=null){
   if(target.team===team)return true;
+  const m16=this.m16StealthVisible(team,target,sources);
+  if(m16!==null)return m16;
   if((target.neekoInvisibleUntilV453M15||0)>this.gameTime||
     (target.shacoInvisibleUntilV453M15||0)>this.gameTime)return false;
   // Attacks from concealed brush temporarily disclose the aggressor to the
@@ -2411,6 +2415,14 @@ export class Arena {
      s.hp>0&&s.until>this.gameTime&&s.stealthUntil<=this.gameTime&&canSee(s))
     .map(s=>({id:s.publicId,team:s.team,kind:s.appearance.appearance,
       x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}))),
+  m16Traps:(this.m16Traps||[]).filter(t=>t.until>this.gameTime&&
+   (t.team===team||(t.visible&&canSee(t))||
+    ((this.wards.some(w=>w.team===team&&w.type==='control'&&this.wardActive(w)&&
+      this.mapDistance(w,t)<=900&&this.lineOfSight(w,t))||
+     this.units.some(u=>u.team===team&&u.oracleUntil>this.gameTime&&
+      this.mapDistance(u,t)<=600))&&canSee(t))))
+   .map(t=>t.team===team?{...t}:{id:t.id,kind:t.kind,team:t.team,x:t.x,y:t.y,
+    armed:t.armedAt<=this.gameTime}),
   boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
    s.until>this.gameTime&&(s.team===team||canSee(s))&&
    (s.team===team||!['neeko_clone','shaco_clone'].includes(s.kind)))
@@ -3098,6 +3110,30 @@ export class Arena {
     return {ok:true,queued:true,recast:true};
    }
   }
+  // M16 reactivation: no second mana/CD charge.
+  if(s.m16FourShots&&u.m16JhinChannel?.remaining>0&&u.m16JhinChannel.until>this.gameTime){
+   if(!point||![point.x,point.y].every(Number.isFinite)||
+     this.mapDistance(u,point)>3500||this.mapDistance(u,point)<1)
+    return {ok:false,reason:'jhin_mira_invalida'};
+   if(u.m16JhinChannel.nextAt>this.gameTime)return {ok:false,reason:'jhin_aguarde'};
+   u.pendingBoardV453Dev69={slot,m16Recast:true,point:{x:point.x,y:point.y}};
+   this.recordIntentV40(team,id,'jhin_r_shot',{shot:5-u.m16JhinChannel.remaining});
+   return {ok:true,queued:true,recast:true};
+  }
+  if(s.m16Stealth&&u.champ==='Khazix'&&slot==='R'&&u.m16KhazixR?.remaining>0&&
+   u.m16KhazixR.until>this.gameTime){
+   if(u.m16KhazixR.nextAt>this.gameTime)return {ok:false,reason:'kha_aguarde'};
+   u.pendingBoardV453Dev69={slot,m16Recast:true};
+   this.recordIntentV40(team,id,'kha_r_recast',{remaining:u.m16KhazixR.remaining});
+   return {ok:true,queued:true,recast:true};
+  }
+  if(s.m16Stealth&&u.champ==='Akshan'&&slot==='W'&&u.m16StealthV453?.until>this.gameTime){
+   u.pendingBoardV453Dev69={slot,m16Recast:true};
+   this.recordIntentV40(team,id,'akshan_w_cancel',{});
+   return {ok:true,queued:true,recast:true};
+  }
+  if(s.m16Trap&&s.m16Charges&&this.m16Stock(u,slot,s).state.charges<1)
+   return {ok:false,reason:'armadilha_sem_cargas'};
   // A second cast reactivates an existing charge without mana or cooldown.
   const cycle=s.boardCardCycle&&u.boardCardCycleV453Dev69?.until>this.gameTime;
   if(cycle){
@@ -3987,6 +4023,7 @@ export class Arena {
    !m15Before.includes(e)||m15Survivors.includes(e));
  }
  advanceBoardPassivesV453Dev69(){
+  this.advanceMechanicsV453M16();
   for(const u of this.units){
    const c=u.neekoCollectV453M15;
    if(c&&this.gameTime>=c.readyAt){
@@ -8544,7 +8581,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   }
  }
  resolveCombat(){this.autoWaveSkillV451();this.resolveSylasHijacksV453M14();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
-  for(const u of this.units){if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||
+  for(const u of this.units){if(u.champ==='Jhin'&&(u.m16JhinReloadUntil||0)>this.gameTime)continue;
+    if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||
     u.boardChannelUntilV453Dev69>this.gameTime||(u.stunUntil||0)>this.gameTime||
     (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
      this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)||
