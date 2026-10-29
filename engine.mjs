@@ -4110,6 +4110,10 @@ export class Arena {
    const state=u.m22SecondaryV453?.[q.slot];
    if(!state||state.until<=this.gameTime||state.kind!==s.m22SecondStage)
     return {ok:false,reason:'recast_expirado'};
+   // PvP simultaneous orders can drain Lee's energy between queue and commit.
+   // Validate resource BEFORE applying grip/vamp/slow, never after effects.
+   if(u.champ==='LeeSin'&&this.m33LeeEnergyAvailableV453Dev69(u)<30)
+    return {ok:false,reason:'m42_lee_recast_energy_lost_before_commit'};
    if(state.kind==='grab'){
     const first=this.boardCombatEntityByIdV453Dev69(state.firstId);
     const second=this.boardCombatEntityByIdV453Dev69(q.targetId);
