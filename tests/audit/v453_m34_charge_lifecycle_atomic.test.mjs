@@ -66,7 +66,8 @@ for(const team of ['blue','red']){
    a.resolveBoardSkillsV453Dev69();
    assert.equal(u.m34ChargeStateV453,null,'One charged shot consumes only its own charge');
    assert.ok(u.skillCds[slot]>a.gameTime,'Native champion spell committed');
-   assert.ok(u.mana<mana,'Native champion skill pays resource on release');
+   if(champ==='Zac')assert.equal(u.mana,mana,'Zac Slingshot uses health, not mana');
+   else assert.ok(u.mana<mana,'Native mana champion skill pays at release');
    if(champ==='Galio')assert.equal(a.effectResolverV41().has(e,'taunt'),true);
    else if(champ==='Zac'||champ==='Vi'){
     assert.ok(u.x>.52,identity+' displaces its champion');
