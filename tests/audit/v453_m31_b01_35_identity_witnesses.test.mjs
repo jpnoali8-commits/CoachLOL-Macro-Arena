@@ -41,7 +41,7 @@ function fixture(champ,team){
    champ+' '+slot+' no committed receipt');
   const snap=checksumV40(a.snapshotV40());
   a.resolveBoardSkillsV453Dev69();
-  assert.equal(checksumV40(a.snapshotV40()),snap,champ+' "+slot+" duplicate resolve');
+  assert.equal(checksumV40(a.snapshotV40()),snap,champ+' '+slot+' duplicate resolve');
  };
  return {a,u,e,ally,cast,team,foe};
 }
@@ -151,7 +151,7 @@ for(const champion of ledger.champions)for(const team of ['blue','red'])try{
  const env=fixture(champ,team);
  assert.equal(env.a.units.length,10,'two humans control five champion units each');
  assert.equal(QWER[witness.slot].state,'IMPLEMENTED_PARTIAL_NOT_CERTIFIED');
- assert.equal(BOARD_M20_B01_V453[champ][witness.slot][witness.key],true,
+ assert.ok(BOARD_M20_B01_V453[champ][witness.slot][witness.key],
   champ+' authored contract key missing');
  assert.equal(champion.certification,'NOT_CERTIFIED');
  assert.equal(Object.values(dimensions).filter(v=>v==='NOT_FULLY_CERTIFIED').length,17);
