@@ -1130,7 +1130,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Zac:BK20('cell_division',
   B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m22SecondStage:'grab',m20Missing:'Q2_basic_grab_animation'}),
   B20('circle_enemy',0,5,60,{mana:0,originSelf:true,radius:350,maxHpRatio:.03,m25ZacGoo:true}),
-  B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m20Missing:'charge_range'}),
+  B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m29ZacSlingshot:true,m20Missing:'charge_range'}),
   B20('circle_enemy',0,120,180,{mana:0,originSelf:true,radius:390,cc:'knockup',ccSeconds:1,m26ZacBounces:true})),
  Zilean:BK20('time_in_a_bottle',
   B20('circle_enemy',900,10,95,{radius:250,boardTemporal:'m22_zilean_bomb',zoneSeconds:3,m22Bomb:true,m26ZileanAllyAnchor:true}),
@@ -1159,7 +1159,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m25LeeWallCollision:true})),
  Lulu:BK20('pix_faerie_companion',
   B20('line_enemy',925,7,80,{width:160,cc:'slow',ccSeconds:2,ccPower:.6,m25LuluPixBolt:true}),
-  B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m20Missing:'ally_attack_speed'}),
+  B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m29LuluWhimsy:true,m20Missing:'ally_attack_speed'}),
   B20('target_any',650,10,65,{shield:[85,115,145,175,205],apRatio:.4,m25LuluPixAttach:true}),
   B20('target_ally',900,120,0,{shield:[240,360,480],m26LuluWildGrowth:true})),
  Mel:BK20('searing_brilliance',
@@ -1240,7 +1240,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  JarvanIV:BK20('martial_cadence',
   B20('line_enemy',770,10,90,{width:160,type:'physical',m24FlagDash:true,m26JarvanArmorShred:true}),
   B20('circle_enemy',0,9,0,{originSelf:true,radius:625,shield:[80,110,140,170,200],cc:'slow',ccSeconds:2,ccPower:.3}),
-  B20('circle_enemy',860,12,75,{radius:185,m24FlagDeploy:true}),
+  B20('circle_enemy',860,12,75,{radius:185,m24FlagDeploy:true,m29JarvanBanner:true}),
   B20('target_enemy',650,120,270,{dashToHit:true,m24Arena:true})),
  MasterYi:BK20('double_strike',
   B20('target_enemy',600,20,100,{dashToHit:true,m25YiAlpha:true}),
@@ -1248,9 +1248,9 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,14,0,{nextBasic:[35,45,55,65,75],charges:3,m27YiWuju:true}),
   B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m20Missing:'attack_speed_and_reset'})),
  Shen:BK20('ki_barrier',
-  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m20Missing:'blade_pull'}),
+  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m29ShenBladePull:true,m20Missing:'blade_pull'}),
   B20('circle_ally',0,16,0,{radius:400,shield:[70,100,130,160,190],m25ShenRefuge:true}),
-  B20('move_point',600,18,80,{radius:200,cc:'taunt',ccSeconds:1.5}),
+  B20('move_point',600,18,80,{radius:200,cc:'taunt',ccSeconds:1.5,m29ShenBladeDash:true}),
   B20('target_ally',25000,200,0,{mana:0,shield:[175,325,475],m26ShenChannel:true})),
  Vi:BK20('blast_shield',
   B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m29ViCharge:true,m20Missing:'charge'}),
@@ -1270,7 +1270,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Kassadin:BK20('void_stone',
   B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
   B20('self',0,7,0,{nextBasic:[55,75,95,115,135],charges:1,m27KassWRefund:true}),
-  B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m20Missing:'spell_stacks'}),
+  B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m29KassForcePulse:true,m20Missing:'spell_stacks'}),
   B20('move_point',500,5,75,{radius:240,m25KassRift:true})),
  KogMaw:BK20('icathian_surprise',
   B20('line_enemy',1175,7,100,{width:165,maxHits:1,m26KogShred:true}),
@@ -3658,7 +3658,7 @@ export class Arena {
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
-  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge;
+  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot;
   if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
      chargeSeconds<0||chargeSeconds>2))
    return {ok:false,reason:'m28_charge_invalid'};
@@ -3712,6 +3712,9 @@ export class Arena {
    return {ok:false,reason:'reino_alvo_fora_do_circulo'};
   const m16Range=s.m16Trap==='teemo_mushroom'?
    [400,650,900][Math.min(2,Math.max(0,(u.skillRanks.R||1)-1))]:s.range;
+  if(s.m29ZacSlingshot&&chargeSeconds!==null&&point&&
+     this.mapDistance(u,point)>550+550*chargeSeconds/2)
+   return {ok:false,reason:'m29_zac_charge_range'};
   if(s.m29ViCharge&&chargeSeconds!==null&&point&&
      this.mapDistance(u,point)>400+325*chargeSeconds/2)
    return {ok:false,reason:'m29_vi_charge_range'};
@@ -3904,6 +3907,9 @@ export class Arena {
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
+  if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined&&
+     this.mapDistance(u,q.point)>550+550*q.m28ChargeSeconds/2)
+   return {ok:false,reason:'m29_zac_charge_range'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
@@ -4569,6 +4575,7 @@ export class Arena {
    const destination=first?{x:first.x-(first.x-u.x)*.1,
     y:first.y-(first.y-u.y)*.1}:point;
    if(this.walkable(destination.x,destination.y)){
+    if(s.m29ShenBladeDash)u.m29ShenBladePoint={...start};
     u.x=destination.x;u.y=destination.y;
     this.invalidateShopUndoOnDepartureV453Dev61(u);
     this.itemEnergizeRelocateV453Dev39(u,start,destination,{kind:'dash'});
@@ -4627,7 +4634,8 @@ export class Arena {
    this.effectResolverV41().list(u).some(e=>['shield','physical_shield','magic_shield'].includes(e.type)&&e.power>0);
   if(s.nextBasic?.length)u.boardNextBasicV453Dev69={
    until:this.gameTime+5,charges:s.charges||1,total:s.charges||1,
-   base:amount(s.nextBasic),adRatio:s.basicAdRatio||0,apRatio:s.basicApRatio||0,
+   base:amount(s.nextBasic)+(s.m29ShenBladePull&&u.m29ShenEmpoweredUntil>this.gameTime?35:0),
+   adRatio:s.basicAdRatio||0,apRatio:s.basicApRatio||0,
    cc:s.basicCC||null,thirdCC:s.basicThirdCC||null,ccSeconds:s.basicCCSeconds||1,
    stackOnKill:s.stackOnKill||0,sourceSlot:q.slot};
   if(s.speedBuff)u.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.speedBuff};
@@ -4660,6 +4668,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+    if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined)
+     raw*=1+.25*q.m28ChargeSeconds;
     if(s.m29ViCharge&&q.m28ChargeSeconds!==undefined)
      raw*=1+.30*q.m28ChargeSeconds;
     if(s.m28XerathCharge&&q.m28ChargeSeconds!==undefined)raw*=1+.22*q.m28ChargeSeconds;
@@ -4861,6 +4871,7 @@ export class Arena {
     if(enemy&&annieReady&&v.champ&&!blocked&&v.hp>0)
     this.applyEffectV41(v,'stun',{source:u,duration:1.25,key:'annie_board_'+instance+'_'+v.id});
    if(!enemy){
+    if(s.m29LuluWhimsy&&v.champ)v.m29LuluWhimsyUntil=this.gameTime+4;
     if(s.m21CleanseAllies&&v.champ)this.effectResolverV41().remove(v,{ccOnly:true});
     if(s.m27MilioFiredUp&&v.champ){
      const until=this.gameTime+6;
@@ -9276,7 +9287,13 @@ export class Arena {
    u.jinxPowPowUntilV453Dev69M5>this.gameTime?
    (u.jinxPowPowStacksV453Dev69M5||0)*(30+Math.max(0,u.level-1)*.7)/3:0;
   const rocketPenalty=u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?10:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+ireliaBuff+revved-rocketPenalty)/100;
+  const whimsy=u.m29LuluWhimsyUntil>this.gameTime?30:0;
+  const banner=(this.boardSummonsV453Dev69||[]).some(f=>f.kind==='jarvan_flag'&&
+    f.team===u.team&&f.hp>0&&f.until>this.gameTime&&
+    this.mapDistance(f,u)<=700&&
+    this.units.some(j=>j.id===f.ownerId&&j.hp>0&&
+      this.sameCombatRealmV453Dev69(j,u)))?25:0;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+ireliaBuff+revved+whimsy+banner-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
