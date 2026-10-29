@@ -5843,13 +5843,19 @@ export class Arena {
      }
      ended=true;
     }else if(z.kind==='m26_varus_hail'){
-     for(const v of this.boardCombatEnemyPoolV453Dev69(u)
-      .filter(v=>v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius)){
-      this.applyEffectV41(v,'grievous_wounds',{source:u,duration:2.5,
-       key:'m26_varus_hail_'+z.id+'_'+v.id});
-     }
-     z.nextAt=now+1;
-    }else if(z.kind==='m26_corki_gatling'){
+      // Varus E: arrows leave a tactical ground hazard. New entrants are
+      // slowed and have reduced healing during the active rain, not only
+      // the champions present at original cast.
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+       .filter(v=>v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius)
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       this.applyEffectV41(v,'grievous_wounds',{source:u,duration:2.5,
+        key:'m26_varus_hail_'+z.id+'_'+v.id});
+       this.applyEffectV41(v,'slow',{source:u,duration:1.5,power:.4,
+        key:'m43_varus_hail_slow_'+z.id+'_'+v.id});
+      }
+      z.nextAt=now+1;
+     }else if(z.kind==='m26_corki_gatling'){
      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
       {range:z.range,width:300,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
      for(const v of victims.filter(v=>v.champ&&v.hp>0)){
@@ -5910,14 +5916,17 @@ export class Arena {
      }
      z.nextAt=now+1;
     }else if(z.kind==='m26_braum_fissure'){
-     for(const v of skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
-      {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight})
-      .filter(v=>v.champ&&v.hp>0)){
-      this.applyEffectV41(v,'slow',{source:u,duration:1.25,power:.45,
-       key:'m26_braum_fissure_'+z.id+'_'+v.id});
-     }
-     z.nextAt=now+1;
-    }else if(z.kind==='m25_karthus_q'){
+      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+       {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      // The persistent R fissure can slow only enemies on its authored
+      // line and physically reachable side of actual terrain.
+      for(const v of victims.filter(v=>v.champ&&v.hp>0&&
+       !this.obstacleLine(z.origin,v))){
+       this.applyEffectV41(v,'slow',{source:u,duration:1.25,power:.45,
+        key:'m26_braum_fissure_'+z.id+'_'+v.id});
+      }
+      z.nextAt=now+1;
+     }else if(z.kind==='m25_karthus_q'){
      const victims=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
@@ -5986,17 +5995,23 @@ export class Arena {
      }
      ended=true;
     }else if(z.kind==='m25_alistar_trample'){
-     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
-      this.mapDistance(v,z.point)<=z.radius)
-      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
-      const hit=this.damage(v,z.power,u,'magic','spell');
-      if(hit<=0||v.hp<=0)continue;
-      z.stacks[v.id]=(z.stacks[v.id]||0)+1;
-      if(z.stacks[v.id]===5)this.applyEffectV41(v,'stun',{source:u,
-       duration:1,key:'m25_alistar_trample_'+z.id+'_'+v.id});
-     }
-     z.nextAt=now+1;
-    }else if(z.kind==='m25_milio_campfire'){
+      // Alistar E is carried with the champion every simulated turn.
+      // It must not leave a ghost damage aura at the initial click cell.
+      if(u.hp<=0)ended=true;
+      else{
+       z.point={x:u.x,y:u.y};
+       for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+        this.mapDistance(v,u)<=z.radius)
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+        const hit=this.damage(v,z.power,u,'magic','spell');
+        if(hit<=0||v.hp<=0)continue;
+        z.stacks[v.id]=(z.stacks[v.id]||0)+1;
+        if(z.stacks[v.id]===5)this.applyEffectV41(v,'stun',{source:u,
+         duration:1,key:'m25_alistar_trample_'+z.id+'_'+v.id});
+       }
+       z.nextAt=now+1;
+      }
+     }else if(z.kind==='m25_milio_campfire'){
      for(const v of this.units.filter(v=>v.team===u.team&&v.hp>0&&
       this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
