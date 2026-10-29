@@ -107,7 +107,7 @@ for(const team of ['blue','red']){
   assert.equal(mark.stacks,0);assert.ok(mark.lockUntil>a.gameTime);
   assert.equal(a.effectResolverV41().has(e,'stun'),true,'four hits did not stun');
   // Lock prevents an immediate new stack even after another Braum Q.
-  u.skillCds.Q=0;cast('Q',{point:{x:.53,y:.5}});
+  a.gameTime=1;u.skillCds.Q=0;cast('Q',{point:{x:.53,y:.5}});
   assert.equal(mark.stacks,0);
   snapshot(a);
  });
