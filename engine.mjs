@@ -1119,7 +1119,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('global_enemy',25000,200,280,{mana:100,boardTemporal:'m20_requiem_channel',zoneSeconds:3.1,m20Missing:'death_defied_passive_and_postdeath_channel'})),
  Seraphine:BK20('stage_presence',
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m20Missing:'echo'}),
-  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m20Missing:'shielded_healing'}),
+  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m20Missing:'echo_cast'}),
   B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'cc_upgrade'}),
   B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m20Missing:'range_extension'})),
  Xerath:BK20('mana_surge',
@@ -1135,7 +1135,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Zilean:BK20('time_in_a_bottle',
   B20('circle_enemy',900,10,95,{radius:250,m20Missing:'bomb_attachment_fuse_double_stun'}),
   B20('self',0,14,0,{mana:35,m20Rewind:10}),
-  B20('target_enemy',550,15,0,{cc:'slow',ccSeconds:3,ccPower:.6,m20Missing:'ally_haste_alternate_target'}),
+  B20('target_any',550,15,0,{cc:'slow',ccSeconds:3,ccPower:.6,m21AllySpeed:.45,buffSeconds:3}),
   B20('target_ally',900,120,0,{mana:125,m21Chronoshift:true,m20Missing:'death_phase_revival_animation'})),
  Yunara:BK20('vow_of_the_first_lands',
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m20Missing:'attack_resource_and_spread'}),
@@ -1159,8 +1159,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m20Missing:'knockback_collision'})),
  Lulu:BK20('pix_faerie_companion',
   B20('line_enemy',925,7,80,{width:160,cc:'slow',ccSeconds:2,ccPower:.6,m20Missing:'pix_second_bolt'}),
-  B20('target_enemy',650,18,0,{cc:'polymorph',ccSeconds:1.5,m20Missing:'ally_haste_target'}),
-  B20('target_ally',650,10,0,{shield:[85,115,145,175,205],m20Missing:'pix_reposition_enemy_target'}),
+  B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m20Missing:'ally_attack_speed'}),
+  B20('target_any',650,10,65,{shield:[85,115,145,175,205],apRatio:.4,m20Missing:'pix_follow_and_reveal'}),
   B20('target_ally',900,120,0,{shield:[240,360,480],m20Missing:'bonus_health_and_knockup'})),
  Mel:BK20('searing_brilliance',
   B20('circle_enemy',950,10,85,{radius:310,m20Mark:'overwhelm',m20Missing:'multi_projectiles'}),
@@ -1206,7 +1206,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1200,10,85,{width:175,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m20Missing:'ball_bounce'}),
   B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m20Missing:'persistent_campfire_attack_range'}),
   B20('target_ally',650,.5,0,{shield:[75,105,135,165,195],m20Missing:'two_charges_and_speed'}),
-  B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m20Missing:'cc_cleanse'})),
+  B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m20Missing:'empowered_passive_followup'})),
  Quinn:BK20('harrier',
   B20('line_enemy',1025,11,95,{width:180,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m20Missing:'blind'}),
   B20('vision_point',2100,50,0,{mana:0,radius:1200,visionSeconds:3,m20Missing:'passive_heightened_senses'}),
@@ -3414,6 +3414,7 @@ export class Arena {
    return {ok:false,reason:'requer_marca'};
   if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
   if(s.shape==='target_ally'&&(!target||target.team!==team||!target.champ))return {ok:false,reason:'alvo_aliado'};
+  if(s.shape==='target_any'&&(!target||!target.champ))return {ok:false,reason:'alvo_campeao_exigido'};
   // Charm is a champion-only mark. Damage/blind spells can target decoys.
   if(s.m16Charm&&target&&!target.champ)return {ok:false,reason:'alvo_campeao_exigido'};
   if(target&&target.team!==team&&(
@@ -3508,8 +3509,9 @@ export class Arena {
    return {ok:true,recast:true,spentMana:0};
   }
   const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
-  if(['target_enemy','target_ally'].includes(s.shape)&&(!target||!this.sameCombatRealmV453Dev69(u,target)||
-    (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team||!target.champ)||
+  if(['target_enemy','target_ally','target_any'].includes(s.shape)&&(!target||!this.sameCombatRealmV453Dev69(u,target)||
+    (s.shape==='target_enemy'?target.team===u.team:
+     s.shape==='target_ally'?target.team!==u.team||!target.champ:!target.champ)||
     this.mapDistance(u,target)>s.range||
     (target.team!==u.team&&!(target.champ?this.visible(u.team,target):
       (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target)))))
@@ -3632,7 +3634,7 @@ export class Arena {
   const enemyPool=this.boardCombatEnemyPoolV453Dev69(u);
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
   let hits=[];const point=q.point||u;
-  if(s.shape==='target_enemy'||s.shape==='target_ally')hits=[target];
+  if(['target_enemy','target_ally','target_any'].includes(s.shape))hits=[target];
    else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
   else if(s.shape==='global_ally')hits=allyPool;
@@ -3696,6 +3698,8 @@ export class Arena {
   const instance=++this.championProjectileSeqV453Dev42;
   let damaged=0;
   const annieReady=u.champ==='Annie'&&(u.boardSpellCountV453Dev69||0)>=3;
+  const m21ShieldedOnCast=!!s.m21HealIfShielded&&
+   this.effectResolverV41().list(u).some(e=>['shield','physical_shield','magic_shield'].includes(e.type)&&e.power>0);
   if(s.nextBasic?.length)u.boardNextBasicV453Dev69={
    until:this.gameTime+5,charges:s.charges||1,total:s.charges||1,
    base:amount(s.nextBasic),adRatio:s.basicAdRatio||0,apRatio:s.basicApRatio||0,
@@ -3821,6 +3825,10 @@ export class Arena {
    if(enemy&&annieReady&&v.champ&&!blocked&&v.hp>0)
     this.applyEffectV41(v,'stun',{source:u,duration:1.25,key:'annie_board_'+instance+'_'+v.id});
    if(!enemy){
+    if(s.m21CleanseAllies&&v.champ)this.effectResolverV41().remove(v,{ccOnly:true});
+    if(s.m21AllySpeed)
+     v.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.m21AllySpeed};
+    if(m21ShieldedOnCast)this.effectResolverV41().heal(v,power(s.m21HealIfShielded),u);
     if(s.heal)this.effectResolverV41().heal(v,power(s.heal),u);
     if(s.shield)this.applyEffectV41(v,s.shieldType||'shield',{source:u,duration:3,
      power:power(s.shield),key:'board_shield_'+instance+'_'+v.id});
