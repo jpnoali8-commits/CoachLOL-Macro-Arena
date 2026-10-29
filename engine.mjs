@@ -5856,18 +5856,29 @@ export class Arena {
       }
       z.nextAt=now+1;
      }else if(z.kind==='m26_corki_gatling'){
-     const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
-      {range:z.range,width:300,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-     for(const v of victims.filter(v=>v.champ&&v.hp>0)){
-      const hit=this.damage(v,z.power,u,'physical','spell');
-      if(hit>0){
-       const prior=v.m26CorkiShred?.[u.id];
-       (v.m26CorkiShred??={})[u.id]={stacks:Math.min(4,(prior?.until>now?prior.stacks:0)+1),
-        until:now+4};
+      // Gatling Gun stays attached to Corki; the player rotates before
+      // each board turn, not through an auto-tracking target ID.
+      if(u.hp<=0||!this.effectResolverV41().canAct(u,'skill').ok)ended=true;
+      else{
+       const dx=z.point.x-z.origin.x,dy=z.point.y-z.origin.y;
+       z.origin={x:u.x,y:u.y};
+       z.point={x:u.x+dx,y:u.y+dy};
+       const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+        {range:z.range,width:300,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+       for(const v of victims.filter(v=>v.champ&&v.hp>0&&
+        !this.obstacleLine(z.origin,v))){
+        const hit=this.damage(v,z.power,u,'physical','spell');
+        if(hit>0){
+         const prior=v.m26CorkiShred?.[u.id];
+         (v.m26CorkiShred??={})[u.id]={
+          stacks:Math.min(4,(prior?.until>now?prior.stacks:0)+1),
+          until:now+4};
+        }
+       }
+       z.ticksLeft--;z.nextAt=now+1;
+       if(z.ticksLeft<=0)ended=true;
       }
-     }
-     z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
-    }else if(z.kind==='m26_zac_bounce'){
+     }else if(z.kind==='m26_zac_bounce'){
      const victims=this.boardCombatEnemyPoolV453Dev69(u)
       .filter(v=>this.mapDistance(v,u)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
@@ -5933,15 +5944,18 @@ export class Arena {
      for(const v of victims)this.damage(v,z.power*(victims.length===1?2:1),u,'magic','spell');
      ended=true;
     }else if(z.kind==='m25_lucian_culling'){
-     if(u.hp>0&&this.effectResolverV41().canAct(u,'skill').ok){
-      const targets=skillshotHitsV42(z.origin,z.point,
-       this.boardCombatEnemyPoolV453Dev69(u),
-       {range:z.range,width:200,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-      for(const v of targets)this.damage(v,z.power/4,u,'physical','spell');
-     }else ended=true;
-     z.ticksLeft--;z.nextAt=now+1;
-     if(z.ticksLeft<=0)ended=true;
-    }else if(z.kind==='m25_corki_trail'){
+      if(u.hp>0&&this.effectResolverV41().canAct(u,'skill').ok){
+       const targets=skillshotHitsV42(z.origin,z.point,
+        this.boardCombatEnemyPoolV453Dev69(u),
+        {range:z.range,width:200,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+       // The Culling fires repeated shots on its original authored firing
+       // lane. Every pulse honors physical obstruction and combat realm.
+       for(const v of targets.filter(v=>!this.obstacleLine(z.origin,v)))
+        this.damage(v,z.power/4,u,'physical','spell');
+      }else ended=true;
+      z.ticksLeft--;z.nextAt=now+1;
+      if(z.ticksLeft<=0)ended=true;
+     }else if(z.kind==='m25_corki_trail'){
      const along=skillshotHitsV42(z.origin,z.point,
       this.boardCombatEnemyPoolV453Dev69(u),{range:z.range,width:240,
        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
@@ -6012,14 +6026,20 @@ export class Arena {
        z.nextAt=now+1;
       }
      }else if(z.kind==='m25_milio_campfire'){
-     for(const v of this.units.filter(v=>v.team===u.team&&v.hp>0&&
-      this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,z.point)<=z.radius)
-      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
-      this.effectResolverV41().heal(v,z.power,u);
-      v.m25MilioRangeUntil=Math.max(v.m25MilioRangeUntil||0,now+1.5);
-     }
-     z.nextAt=now+1;
-    }else if(z.kind==='m25_viktor_gravity'){
+      // In this board adaptation W is a supportive warm zone centered on
+      // its owning champion, not a permanently abandoned cast cell.
+      if(u.hp<=0)ended=true;
+      else{
+       z.point={x:u.x,y:u.y};
+       for(const v of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+        this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,u)<=z.radius)
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+        this.effectResolverV41().heal(v,z.power,u);
+        v.m25MilioRangeUntil=Math.max(v.m25MilioRangeUntil||0,now+1.5);
+       }
+       z.nextAt=now+1;
+      }
+     }else if(z.kind==='m25_viktor_gravity'){
      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
       this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
