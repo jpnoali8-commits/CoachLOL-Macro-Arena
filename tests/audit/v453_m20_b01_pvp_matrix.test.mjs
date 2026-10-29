@@ -40,6 +40,8 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
   // Setup legitimate prior marks for skills whose rules require them.
   if(s.m20MarkRequired)e.m20MarksV453={[s.m20MarkRequired+'_'+u.id]:a.gameTime+10};
   if(s.m21FrostRequired)e.m21FrostV453={sourceId:u.id,stacks:4,until:a.gameTime+10};
+  // M24: Devour an enemy only after three valid Taste stacks; ally R needs none.
+  if(s.m24Devour)e.m24TasteV453={[u.id]:{stacks:3,until:a.gameTime+10}};
   if(s.m20OrbConsume||s.m20OrbConsumeAll)
    u.m20SyndraOrbsV453=[{x:.51,y:.5,until:a.gameTime+10}];
   if(s.m20Rewind){u.skillCds.Q=a.gameTime+30;u.skillCds.E=a.gameTime+30;}
@@ -82,7 +84,9 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
    (u.m20SyndraOrbsV453?.length||0)!==before.orbs||
    (s.m20Rewind&&(u.skillCds.Q<before.cds.Q||u.skillCds.E<before.cds.E))||
    a.boardTemporalV453Dev69.some(v=>v.ownerId===u.id)||
-   !!ally.m21ChronoshiftV453||!!u.m23HeimerEmpowerV453;
+   !!ally.m21ChronoshiftV453||!!u.m23HeimerEmpowerV453||
+   // Fizz E has an authoritative untargetable phase, damage only on landing.
+   !!u.m24FizzLeapV453||!!u.m24DevourV453;
   assert.ok(changed,'no gameplay effect after actual cast '+champ+' '+slot+' '+team);
   proofCount++;
   // Re-entry must not double-charge/double-apply the already drained queue.
