@@ -124,6 +124,36 @@ for(const team of ['blue','red']){
   assert.equal(checksumV40(checkpoint.snapshotV40()),checksumV40(s.a.snapshotV40()));
  });
 }
+for(const team of ['blue','red']){
+ const t=fixture('Sylas',team);
+ t.enemy.champ='Shaco';
+ check(team+' Sylas Hijack Shaco R executes cloned Sylas without second mana cost',()=>{
+  const q=t.a.queueSylasHijackV453M14(team,t.u.id,t.enemy.id);
+  assert.equal(q.ok,true,q.reason);
+  t.a.resolveSylasHijacksV453M14();
+  assert.equal(t.u.mana,725);
+  const cd=t.u.skillCds.R;
+  assert.equal(t.a.queueKitSkillV42(team,t.u.id,'R',{x:.525,y:.5}).ok,true);
+  t.a.resolveBoardSkillsV453Dev69();
+  assert.equal(t.u.mana,725);
+  assert.equal(t.u.skillCds.R,cd);
+  assert.equal(t.u.sylasStolenV453M14,null);
+  const entity=t.a.boardSummonsV453Dev69.find(v=>v.kind==='shaco_clone');
+  assert.ok(entity);
+  assert.equal(entity.appearance.champ,'Sylas');
+  assert.equal(t.a.units.length,10);
+  const snap=Arena.fromSnapshotV40(map,mask,t.a.snapshotV40());
+  assert.equal(checksumV40(snap.snapshotV40()),checksumV40(t.a.snapshotV40()));
+ });
+ const c=t.a.boardSummonsV453Dev69.find(v=>v.kind==='shaco_clone');
+ check(team+' Sylas stolen Shaco R recast redirects clone without duplicate spawn',()=>{
+  const q=t.a.queueKitSkillV42(team,t.u.id,'R',{x:.545,y:.5});
+  assert.equal(q.ok,true,q.reason);assert.equal(q.recast,true);
+  t.a.resolveBoardSkillsV453Dev69();
+  assert.equal(t.a.boardSummonsV453Dev69.filter(v=>v.kind==='shaco_clone').length,1);
+  assert.equal(c.commandPoint.x,.545);
+ });
+}
 async function uiHttpM15(){
  const server=createPvPServerV453Dev47({tickMs:0}),socket=await server.listen(0,'127.0.0.1');
  const root='http://127.0.0.1:'+socket.port;
