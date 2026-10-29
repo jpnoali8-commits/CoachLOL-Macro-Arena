@@ -93,11 +93,13 @@ for(const team of ['blue','red']){
   const roster=a.units.length,kills=e.kills,deaths=u.deaths;
   a.damage(u,9999,e,'true','spell');
   const blobs=a.boardSummonsV453Dev69.filter(v=>v.kind==='zac_blob'&&v.ownerId===u.id);
-  assert.equal(u.hp,1);assert.equal(blobs.length,4);
+  assert.equal(u.hp,u.maxHp*.5);assert.equal(blobs.length,4);
   assert.equal(a.units.length,roster);assert.equal(e.kills,kills);assert.equal(u.deaths,deaths);
   assert.ok(u.m23ZacDivisionV453?.active);
   const b=blobs[0],target=a.boardCombatEntityByIdV453Dev69(b.id);
   assert.equal(target?.id,b.id);
+  const protectedHit=a.damage(b,130,e,'physical','spell');assert.equal(protectedHit,0);
+  a.gameTime=1.6;
   const n=a.damage(b,130,e,'physical','spell');assert.ok(n>0);
   snap(a);
  });
@@ -105,6 +107,7 @@ for(const team of ['blue','red']){
   const {a,u,e}=fixture('Zac',team);
   a.damage(u,9999,e,'true','spell');
   const blobs=a.boardSummonsV453Dev69.filter(v=>v.kind==='zac_blob');
+  a.gameTime=1.6;
   for(const b of blobs.slice(0,3))a.damage(b,9999,e,'true','spell');
   a.gameTime=8;a.advanceBoardPassivesV453Dev69();
   assert.ok(u.hp>1,'Zac did not revive');
@@ -117,6 +120,7 @@ for(const team of ['blue','red']){
   const {a,u,e}=fixture('Zac',team);
   a.damage(u,9999,e,'true','spell');
   const blobs=a.boardSummonsV453Dev69.filter(v=>v.kind==='zac_blob');
+  a.gameTime=1.6;
   for(const b of blobs)a.damage(b,9999,e,'true','spell');
   assert.equal(u.hp,0);assert.equal(u.deaths,1);
   assert.equal(e.kills,1);
