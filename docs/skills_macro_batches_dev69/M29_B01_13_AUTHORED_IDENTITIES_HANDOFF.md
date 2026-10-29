@@ -63,7 +63,7 @@ Commits:
 ## Next priority M30
 
 1. **Stop counting partial kits as delivery completion.** Use per-champion M27 manifest to move toward truly complete P+QWER contracts and deep counterplay (including immunity/CC, interruption, real item/rune/summoner application, illegal fog/Realm targets, invalid recasts, undo receipts, snapshot/replay).
-2. Focus missing high-risk identity details: Viktor evolution, Lucian Q mandatory actual initial target, Mel individually tracked projectile collisions, Varus empowered Q/Blight, Yasuo-like? **only if in B01**; do not expand out of cohort by accident. Complete special behavior for Rell mount, Sylas/Locke W/R only after official reference validation, Zac & Vi charge interruption, Shen Spirit Blade initial position, Milio stock/tempo and Jarvan banner.
+2. Focus missing high-risk identity details: Viktor evolution, Lucian Q mandatory actual initial target, Mel individually tracked projectile collisions, Varus empowered Q/Blight; remain within the fixed B01 cohort until its outstanding certifications are closed. Complete special behavior for Rell mount, Locke W/R only after official reference validation, Zac & Vi charge interruption, Shen Spirit Blade initial position, Milio stock/tempo and Jarvan banner.
 3. Improve throughput with grouped champion-authored test matrices and reusable authoritative effect helpers, not generic fallback. Target large cohorts (25–35) while distinguishing **implemented delta** vs **fully certified P+QWER** explicitly.
 4. Keep same Skills branch and existing Draft PR #9; do not merge or create competitor PR. No edits to `main`, `dev69/integration`, `version.json`, Items branch, or `engine.browser.js`; integrator handles Node→browser synchronization.
 
