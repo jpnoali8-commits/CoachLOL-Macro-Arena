@@ -69,7 +69,7 @@ for(const champ of cohort)for(const team of ['blue','red'])try{
   assert.equal(enemy.m24TasteV453?.[u.id]?.stacks,3);
   cast('Q',{point:{x:.55,y:.5}});
   assert.equal(a.effectResolverV41().has(enemy,'stun'),true,'three Taste stacks empower Q');
-  assert.equal(enemy.m24TasteV453?.[u.id],undefined,'Q consumes Taste');
+  assert.equal(enemy.m24TasteV453?.[u.id]?.stacks,1,'Tongue consumes 3 Taste and applies a fresh stack');
  }else if(champ==='MasterYi'){
   cast('W');
   assert.ok(u.m29YiMeditateUntil>a.gameTime);
