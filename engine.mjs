@@ -3923,6 +3923,13 @@ export class Arena {
     }
    }
   }
+  if(s.m26FizzBleed)u.m26FizzBleedUntil=this.gameTime+5;
+  if(s.m26RellMagnet){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m26_rell_magnet',
+    ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},point:{x:u.x,y:u.y},
+    radius:450,nextAt:this.gameTime+1,until:this.gameTime+3.1,hitIds:[]});
+  }
   if(s.m26KarthusToggle){
    u.m26KarthusE={until:this.gameTime+12,nextAt:this.gameTime+1,
     radius:s.radius,power:35+Math.max(1,u.skillRanks.E||1)*12};
@@ -4357,6 +4364,8 @@ export class Arena {
     (dashTarget.m20MarksV453??={})['harrier_'+u.id]=this.gameTime+6;
    }
    const orbCount=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime).length;
+   if(s.m26SyndraBarrage)u.m26SyndraLastVolley={shots:3+Math.min(4,orbCount),
+    at:this.gameTime};
   if(s.m20OrbConsume||s.m20OrbConsumeAll){
    const live=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime);
    u.m20SyndraOrbsV453=s.m20OrbConsumeAll?[]:live.slice(1);
@@ -4430,7 +4439,13 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
-    if(done>0&&s.m23ExecuteThreshold&&v.champ&&v.hp>0)
+    if(done>0&&s.m26SyndraBarrage&&v.champ){
+      const shots=Math.max(3,u.m26SyndraLastVolley?.shots||3);
+      // Main bolt was charged by the shared executor; every extra sphere hits once.
+      for(let shot=1;shot<shots&&v.hp>0;shot++)
+       this.damage(v,28+Math.max(1,u.skillRanks.R||1)*8,u,'magic','m26_syndra_sphere');
+     }
+     if(done>0&&s.m23ExecuteThreshold&&v.champ&&v.hp>0)
      u.m23ExecuteMarkV453={targetId:v.id,until:this.gameTime+4};
      // M21 passives reuse real skill hit registration; failed hits never
      // detonate Blight or award Cassiopeia the poison-triggered speed bonus.
@@ -4677,7 +4692,25 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m26_braum_fissure'){
+    if(z.kind==='m26_rell_magnet'){
+     if(u.hp>0){
+      z.point={x:u.x,y:u.y};
+      const victims=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+       this.mapDistance(u,v)<=z.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+      for(const v of victims){
+       const dist=this.mapDistance(u,v);
+       const fraction=Math.min(.45,100/Math.max(1,dist));
+       const dest={x:v.x+(u.x-v.x)*fraction,y:v.y+(u.y-v.y)*fraction};
+       if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(v,dest)){
+        const from={x:v.x,y:v.y};
+        Object.assign(v,dest);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+        this.invalidateShopUndoOnDepartureV453Dev61(v);
+        this.itemEnergizeRelocateV453Dev39(v,from,dest,{kind:'magnet_pull'});
+       }
+      }
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m26_braum_fissure'){
      for(const v of skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
       {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight})
       .filter(v=>v.champ&&v.hp>0)){
@@ -9199,6 +9232,18 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
   }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='TahmKench'&&
+    target?.champ&&target.hp>0&&attacker.team!==target.team){
+   const ledger=target.m24TasteV453??={},old=ledger[attacker.id];
+   ledger[attacker.id]={stacks:Math.min(3,(old?.until>this.gameTime?old.stacks:0)+1),
+    until:this.gameTime+6};
+  }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Fizz'&&
+     attacker.m26FizzBleedUntil>this.gameTime&&target?.champ&&target.hp>0&&
+     attacker.team!==target.team)
+   this.applyEffectV41(target,'dot',{source:attacker,duration:3,
+    power:12+Math.max(1,attacker.skillRanks.W||1)*6,interval:1,
+    key:'m26_fizz_bleed_'+attacker.id+'_'+target.id});
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Vi'&&
      attacker.team!==target.team&&target?.champ&&target.hp>0&&
      (attacker.skillRanks?.W||0)>0){
