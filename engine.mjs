@@ -1169,7 +1169,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('global_enemy',25000,120,210,{mana:100,m20MarkRequired:'overwhelm'})),
  Rell:BK20('break_the_mold',
   B20('line_enemy',600,11,80,{width:200,cc:'stun',ccSeconds:.75,m26RellShieldBreak:true}),
-  B20('move_point',450,10,85,{radius:310,cc:'knockup',ccSeconds:.8,shield:[90,125,160,195,230],m25RellMount:true}),
+  B20('move_point',450,10,85,{radius:310,cc:'knockup',ccSeconds:.8,shield:[90,125,160,195,230],m25RellMount:true,m31RellDualForm:true}),
   B20('self',0,14,0,{speedBuff:.35,buffSeconds:3,m27RellAllyLink:true}),
   B20('circle_enemy',0,120,175,{originSelf:true,radius:450,pull:275,m26RellMagnet:true})),
  Sejuani:BK20('fury_of_the_north',
@@ -4244,8 +4244,18 @@ export class Arena {
   }
   if(s.m25LuluPixAttach&&target?.champ)u.m25LuluPix={targetId:target.id,until:this.gameTime+6};
   if(s.m25RellMount){
-   u.m25RellMounted=!u.m25RellMounted;
-   if(u.m25RellMounted)u.boardSpeedV453Dev69={until:this.gameTime+5,fraction:.2};
+   // Rell starts mounted. First W crashes down; next W mounts up.
+   // Board-owned form persists across phases and snapshot replay.
+   const wasMounted=u.m25RellMounted!==false;
+   u.m25RellMounted=!wasMounted;
+   u.m31RellLastWMode=wasMounted?'crash_down':'mount_up';
+   if(wasMounted){
+    u.m31RellDismountedUntil=this.gameTime+10;
+    u.boardSpeedV453Dev69={until:this.gameTime+3,fraction:-.12};
+   }else{
+    u.m31RellDismountedUntil=0;
+    u.boardSpeedV453Dev69={until:this.gameTime+5,fraction:.2};
+   }
   }
   if(s.m24FizzLeap){
    u.m24FizzLeapV453={origin:{x:u.x,y:u.y},point:{...q.point},
