@@ -29,6 +29,9 @@ for(const champ of champs)for(const team of ['blue','red']){
    e.x=.565;
    cast('Q',{point:{x:.59,y:.5},chargeSeconds:0});
    assert.equal(e.hp,7000,'uncharged range should miss distant enemy');
+   // Two distinct board planning phases; a second Q in the same phase
+   // must not bypass the authoritative one-action receipt.
+   a.gameTime+=20;a.round+=1;a.actionLocksV40={};
    u.skillCds.Q=0;
    const denial=a.queueBoardSkillV453Dev69(team,u.id,'Q',
     {point:{x:.59,y:.5},chargeSeconds:3});
