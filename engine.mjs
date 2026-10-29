@@ -8838,6 +8838,12 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
+   if(sourceType==='basic'&&target?.champ&&attacker?.team!==target.team&&
+      this.units.some(v=>v.team===target.team&&v.champ==='Shen'&&v.hp>0&&
+       (v.m25ShenRefugeUntil||0)>this.gameTime&&
+       this.sameCombatRealmV453Dev69(v,target)&&this.mapDistance(v,target)<=400))
+    return 0;
+   if(target?.m25YiAlphaUntil>this.gameTime)return 0;
    if(target?.champ==='Mel'&&target.m25MelReflectUntil>this.gameTime&&
       attacker?.champ&&attacker.team!==target.team&&sourceType==='spell'){
     target.m25MelReflectUntil=0;
@@ -9058,6 +9064,18 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
   }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Vi'&&
+     attacker.team!==target.team&&target?.champ&&target.hp>0&&
+     (attacker.skillRanks?.W||0)>0){
+   const ledger=target.m25ViDenting??={},prev=ledger[attacker.id];
+   const prior=prev?.until>this.gameTime?prev.stacks:0;
+   const next=prior+1;
+   ledger[attacker.id]={stacks:next===3?0:next,until:this.gameTime+5};
+   if(next===3){
+    target.m25ViShredUntil=this.gameTime+4;
+    this.damage(target,Math.max(1,target.maxHp*.04),attacker,'physical','m25_vi_denting');
+   }
+  }
   if(dealt>0&&target.champ==='Sett'&&target.hp>0&&attacker?.team!==target.team){
    const previous=target.m23GritV453?.value||0;
    target.m23GritV453={value:Math.min(target.maxHp*.5,previous+dealt),
