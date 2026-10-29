@@ -4228,8 +4228,7 @@ export class Arena {
     this.units.some(v=>v.hp>0&&v.team!==u.team&&
      this.sameCombatRealmV453Dev69(u,v)&&
      v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime)))
-   return {ok:false,reason:u.champ==='Mel'?
-    'm42_mel_mark_hidden_before_commit':'m32_global_mark_expired_before_commit'};
+   return {ok:false,reason:'m32_global_mark_expired_before_commit'};
   if(s.m24Devour&&(!target?.champ||target.hp<=0||
      u.m24DevourV453?.until>this.gameTime||
      target.m24DevouredByV453?.until>this.gameTime||
