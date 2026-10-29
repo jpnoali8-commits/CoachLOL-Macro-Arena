@@ -40,6 +40,73 @@ function setup(champ,team){
 }
 function check(team,name,fn){fn();cases.push(team+' '+name);}
 for(const team of ['blue','red']){
+ check(team,'Corki W leaves persistent damaging trail',()=>{
+  const {a,e,cast,snapshot}=setup('Corki',team);
+  cast('W',{point:{x:.53,y:.5}});
+  const z=a.boardTemporalV453Dev69.find(x=>x.kind==='m25_corki_trail');
+  assert.ok(z);
+  a.gameTime=1;a.advanceBoardTemporalV453Dev69();
+  assert.ok(a.effectResolverV41().has(e,'dot'));
+  snapshot();
+ });
+ check(team,'Karthus isolated Q doubles delayed impact',()=>{
+  const alone=setup('Karthus',team),group=setup('Karthus',team);
+  alone.cast('Q',{point:{x:.515,y:.5}});
+  group.other.x=.516;group.cast('Q',{point:{x:.515,y:.5}});
+  assert.equal(alone.e.hp,7000,'delayed Q must not immediately strike');
+  alone.a.gameTime=1;group.a.gameTime=1;
+  alone.a.advanceBoardTemporalV453Dev69();
+  group.a.advanceBoardTemporalV453Dev69();
+  assert.ok(7000-alone.e.hp>7000-group.e.hp,'isolated enemy takes amplified Q');
+  alone.snapshot();
+ });
+ check(team,'Yunara R enables transcendent W root',()=>{
+  const {a,u,e,cast,snapshot}=setup('Yunara',team);
+  cast('R');assert.ok(u.m25YunaraTranscendentUntil>0);
+  a.gameTime=.1;cast('W',{point:{x:.53,y:.5}});
+  assert.ok(a.effectResolverV41().has(e,'root'));snapshot();
+ });
+ check(team,'Mel W reflects an enemy spell once',()=>{
+  const {a,u,e,cast,snapshot}=setup('Mel',team);
+  cast('W');const hp=e.hp;
+  assert.equal(a.damage(u,220,e,'magic','spell'),0);
+  assert.ok(e.hp<hp);
+  assert.equal(u.m25MelReflectUntil,0);
+  assert.ok(a.damage(u,220,e,'magic','spell')>=0,'second hit resumes ordinary shielding');
+  snapshot();
+ });
+ check(team,'Sejuani R ice storm slows nearby second victim',()=>{
+  const {a,e,other,cast,snapshot}=setup('Sejuani',team);
+  other.x=.534;
+  const hp=other.hp;
+  cast('R',{point:{x:.55,y:.5}});
+  assert.ok(a.effectResolverV41().has(e,'stun'));
+  assert.ok(other.hp<hp);
+  assert.ok(a.effectResolverV41().has(other,'slow'));snapshot();
+ });
+ check(team,'Galio R protects first and lands after two seconds',()=>{
+  const {a,u,ally,e,cast,snapshot}=setup('Galio',team);
+  const origin=u.x;
+  cast('R',{targetId:ally.id});
+  assert.equal(u.x,origin,'Hero entrance may not teleport immediately');
+  assert.ok(a.effectResolverV41().has(ally,'magic_shield'));
+  const hp=e.hp;
+  a.gameTime=2;a.advanceBoardTemporalV453Dev69();
+  assert.equal(u.x,ally.x);
+  assert.ok(e.hp<hp);
+  assert.ok(a.effectResolverV41().has(e,'knockup'));snapshot();
+ });
+ check(team,'Lucian R applies four separate timed shots',()=>{
+  const {a,e,cast,snapshot}=setup('Lucian',team);
+  cast('R',{point:{x:.53,y:.5}});
+  assert.equal(e.hp,7000);
+  const z=a.boardTemporalV453Dev69.find(x=>x.kind==='m25_lucian_culling');
+  assert.ok(z);
+  for(let t=1;t<=4;t++){a.gameTime=t;a.advanceBoardTemporalV453Dev69();}
+  assert.equal(z.ticksLeft,0);
+  assert.ok(e.hp<7000);
+  snapshot();
+ });
  check(team,'Cassiopeia W creates grounded enemy status',()=>{
   const {a,e,cast,snapshot}=setup('Cassiopeia',team);
   cast('W',{point:{x:.515,y:.5}});
@@ -131,7 +198,7 @@ for(const team of ['blue','red']){
   assert.ok(a.effectResolverV41().has(e,'stun'));snapshot();
  });
 }
-assert.equal(cases.length,22);
+assert.equal(cases.length,36);
 console.log('M25_B01_IDENTITY_QA '+JSON.stringify({cases:cases.length,
- champions:11,teamSeats:2,uniqueIdentityMechanics:true,certifiedChampions:0,
+ champions:18,teamSeats:2,uniqueIdentityMechanics:true,certifiedChampions:0,
  names:cases}));
