@@ -3893,6 +3893,50 @@ export class Arena {
    const n=(u.m25SeraphineSpells||0)+1;
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
+  if(s.m26AlistarUnbreakable)u.m26AlistarUnbreakableUntil=this.gameTime+3.5;
+  if(s.m26QuinnFlight)u.m26QuinnFlightUntil=this.gameTime+7;
+  if(s.m26YunaraDash&&u.m25YunaraTranscendentUntil>this.gameTime){
+   const victim=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+    v.hp>0&&this.visible(u.team,v)&&this.mapDistance(u,v)<=650)
+    .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+     String(a.id).localeCompare(String(b.id)))[0];
+   if(victim){
+    const dist=this.mapDistance(u,victim),t=Math.max(0,(dist-175)/Math.max(1,dist));
+    const dest={x:u.x+(victim.x-u.x)*t,y:u.y+(victim.y-u.y)*t};
+    if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(u,dest)){
+     const from={x:u.x,y:u.y};Object.assign(u,dest);
+     this.invalidateShopUndoOnDepartureV453Dev61(u);
+     this.itemEnergizeRelocateV453Dev39(u,from,dest,{kind:'transcendent_dash'});
+     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    }
+   }
+  }
+  if(s.m26LuluWildGrowth&&target?.team===u.team&&target.champ){
+   const bonus=200+Math.max(1,u.skillRanks.R||1)*100;
+   if(target.m26LuluBonusHp?.until>this.gameTime){
+    target.maxHp-=target.m26LuluBonusHp.amount;
+    target.hp=Math.min(target.hp,target.maxHp);
+   }
+   target.m26LuluBonusHp={sourceId:u.id,amount:bonus,until:this.gameTime+6};
+   target.maxHp+=bonus;target.hp+=bonus;
+   for(const enemy of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+    v.hp>0&&this.mapDistance(v,target)<=350)){
+    this.applyEffectV41(enemy,'knockup',{source:u,duration:.8,
+     key:'m26_lulu_growth_'+u.id+'_'+enemy.id});
+   }
+  }
+  if(s.m26CorkiGatling||s.m26ZacBounces||s.m26ViktorAftershock){
+   const kind=s.m26CorkiGatling?'m26_corki_gatling':
+    s.m26ZacBounces?'m26_zac_bounce':'m26_viktor_aftershock';
+   const rank=Math.max(1,u.skillRanks[q.slot]||1);
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind,ownerId:u.id,team:u.team,
+    origin:{x:u.x,y:u.y},point:q.point?{...q.point}:{x:u.x,y:u.y},
+    range:s.range,arc:s.arc||55,width:s.width||165,radius:s.radius||390,
+    power:20+rank*15,ticksLeft:s.m26ViktorAftershock?1:3,
+    nextAt:this.gameTime+1,until:this.gameTime+(s.m26ViktorAftershock?1.1:3.1),
+    hitIds:[]});
+  }
   if(s.m26BraumStand&&target?.team===u.team){
    const until=this.gameTime+4,resist=20+Math.max(1,u.skillRanks.W||1)*8;
    target.m26BraumResists={sourceId:u.id,until,value:resist};
