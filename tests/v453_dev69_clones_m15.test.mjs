@@ -130,7 +130,7 @@ async function uiHttpM15(){
  try{
   const created=await fetch(root+'/api/create',{method:'POST',headers:{'content-type':'application/json'},
    body:JSON.stringify({maxSeats:2})});
-  assert.equal(created.status,200);
+  assert.equal(created.status,201,'server creates a new room');
   const cookie=created.headers.get('set-cookie')?.split(';')[0];
   const manifest=await (await fetch(root+'/api/kits',{headers:{cookie}})).json();
   assert.equal(Object.keys(manifest.kits).length,30);
