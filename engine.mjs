@@ -4775,7 +4775,24 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m26_corki_gatling'){
+    if(z.kind==='m26_shen_arrival'){
+     const ally=this.units.find(v=>v.id===z.anchorId&&v.team===z.team&&v.hp>0);
+     if(u.hp>0&&ally&&this.sameCombatRealmV453Dev69(u,ally)&&
+        this.effectResolverV41().canAct(u,'skill').ok&&this.walkable(ally.x,ally.y)){
+      const from={x:u.x,y:u.y},dest={x:ally.x,y:ally.y};
+      Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(u);
+      this.itemEnergizeRelocateV453Dev39(u,from,dest,{kind:'stand_united'});
+     }
+     ended=true;
+    }else if(z.kind==='m26_varus_hail'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius)){
+      this.applyEffectV41(v,'grievous_wounds',{source:u,duration:2.5,
+       key:'m26_varus_hail_'+z.id+'_'+v.id});
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m26_corki_gatling'){
      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
       {range:z.range,width:300,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
      for(const v of victims.filter(v=>v.champ&&v.hp>0)){
