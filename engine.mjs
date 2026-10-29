@@ -5527,6 +5527,24 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.champ==='Karthus'&&u.m26KarthusE){
+    const aura=u.m26KarthusE;
+    if(aura.until<=this.gameTime||u.mana<12||
+       (u.hp<=0&&!this.m23KarthusCanActV453(u,'E')))
+     u.m26KarthusE=null;
+    else if(this.gameTime>=aura.nextAt){
+     const steps=Math.min(12,Math.floor(this.gameTime-aura.nextAt)+1);
+     for(let i=0;i<steps;i++){
+      if(u.mana<12){u.m26KarthusE=null;break;}
+      u.mana-=12;
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+       .filter(v=>this.mapDistance(v,u)<=aura.radius)
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+       this.damage(v,aura.power,u,'magic','spell');
+     }
+     aura.nextAt+=steps;
+    }
+   }
    if(u.champ==='Zac'&&u.hp>0&&Array.isArray(u.m25ZacGoo)){
     const keep=[];
     for(const g of u.m25ZacGoo){
@@ -8912,6 +8930,17 @@ export class Arena {
        (v.m25ShenRefugeUntil||0)>this.gameTime&&
        this.sameCombatRealmV453Dev69(v,target)&&this.mapDistance(v,target)<=400))
     return 0;
+   if(target?.champ==='Braum'&&target.m26BraumShield?.until>this.gameTime&&
+      attacker?.team!==target.team&&attacker?.champ&&
+      ['basic','spell'].includes(sourceType)){
+    const s=target.m26BraumShield;
+    const dx=(attacker.x-target.x)*this.worldWidth,dy=(attacker.y-target.y)*this.worldHeight;
+    const length=Math.hypot(dx,dy)||1;
+    if((dx*s.dx+dy*s.dy)/length>=.35){
+     if(!s.firstBlocked){s.firstBlocked=true;return 0;}
+     amount*=.6;
+    }
+   }
    if(target?.m25YiAlphaUntil>this.gameTime)return 0;
    if(target?.champ==='Mel'&&target.m25MelReflectUntil>this.gameTime&&
       attacker?.champ&&attacker.team!==target.team&&sourceType==='spell'){
@@ -9032,7 +9061,10 @@ export class Arena {
    amount*=this.giantSlayerMultiplierV453Dev69(attacker,target);
  const derivedTarget=target.champ?this.elementalStatsV452d3(target):target;
  const cleaverDebuffV453Dev29=target.champ&&target.cleaverDebuffV453Dev29?.until>this.gameTime?target.cleaverDebuffV453Dev29:null;
- const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0);
+ const m26BraumBonus=target.m26BraumResists?.until>this.gameTime?
+  (target.m26BraumResists.value||0):0;
+ const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):
+  (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+m26BraumBonus;
  const effectiveTargetResV453Dev29=damageType==='physical'&&cleaverDebuffV453Dev29?targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes;
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
  const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
