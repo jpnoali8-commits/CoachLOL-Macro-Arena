@@ -1,0 +1,36 @@
+name: CoachLOL dev69 — isolated global Skills audit (P1 clone targetability)
+on:
+  push:
+    branches:
+      - audit/skills-global-20261028-b7676d
+    paths:
+      - "tests/audit/**"
+      - "docs/audit/skills_global_20261028/**"
+      - ".github/workflows/skills-global-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  targetable-entities-audit:
+    name: Audit evidence — clone targeting, ownership, fog and snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax check (no gameplay changes)
+        run: |
+          node --check engine.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check multiplayer/authoritative_actions_v453_dev47.mjs
+          node --check tests/audit/v453_clone_targetability_audit.test.mjs
+      - name: P1 probe — log failures without certifying a broken kit
+        run: node tests/audit/v453_clone_targetability_audit.test.mjs --probe
+      - name: M15 clone and dissimulation regressions
+        run: node tests/v453_dev69_clones_m15.test.mjs
+      - name: M16 stealth, traps and counters regressions
+        run: node tests/v453_dev69_mechanics_m16.test.mjs
+      - name: M9 reusable board grammar regressions
+        run: node tests/v453_dev69_board_grammar.test.mjs
