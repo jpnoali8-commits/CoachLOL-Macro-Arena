@@ -55,6 +55,14 @@ for(const team of ['blue','red'])for(const item of matrix){
   assert.equal(q.ok,true,'queue: '+q.reason);
   assert.equal(u.mana,mana,'queue does not debit before resolution');
   a.resolveBoardSkillsV453Dev69();
+  // DoT is scheduled by the cast; damage occurs only on the next simulation
+  // second. It is wrong to demand instant damage from Amumu/Mundo/Nasus/MF.
+  const rule=BOARD_KITS_V453_DEV69[item.champ][item.slot];
+  if(rule.dotSeconds){
+   assert.ok((clone.statusEffectsV41||[]).some(e=>e.type==='dot'),'DoT scheduled on clone');
+   a.gameTime+=1;
+   a.effectResolverV41().advanceTick();
+  }
   assert.ok(clone.hp<hp,'visible clone was ignored by '+item.champ+item.slot+' '+item.shape);
   assert.ok(u.mana<mana||(u.skillCds[item.slot]||0)>a.gameTime,'accepted skill did not commit cooldown or mana');
   const now=clone.hp; a.resolveBoardSkillsV453Dev69();
