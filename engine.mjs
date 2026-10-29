@@ -5713,9 +5713,10 @@ export class Arena {
      dy=Math.abs((v.y-point.y)*this.worldHeight);
     return Math.max(dx,dy)<=275&&Math.abs(dx-dy)<=85;
    }).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    const spellShield=!!this.effectResolverV41().has(v,'spell_shield');
     this.damage(v,z.power,u,'magic','spell');
     z.m44StarHitIds.push(v.id);
-    if(v.hp>0&&!this.effectResolverV41().has(v,'spell_shield')&&v.champ)
+    if(v.hp>0&&!spellShield&&v.champ)
      (v.m20MarksV453??={})['ardent_'+u.id]=now+6;
    }
   }
@@ -5848,8 +5849,9 @@ export class Arena {
       !this.obstacleLine(z.point,v)&&
       !(z.kind==='m44_milio_bounce'&&v.id===z.primaryId))
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      const spellShield=!!this.effectResolverV41().has(v,'spell_shield');
       this.damage(v,z.power,u,'magic','spell');
-      if(v.hp>0&&v.champ&&!this.effectResolverV41().has(v,'spell_shield'))
+      if(v.hp>0&&v.champ&&!spellShield)
        this.applyEffectV41(v,'slow',{source:u,
         duration:z.kind==='m44_sejuani_storm'?2:1.5,
         power:z.kind==='m44_sejuani_storm'?.45:.35,
