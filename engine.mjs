@@ -5236,7 +5236,18 @@ export class Arena {
    (u.champ==='TahmKench'&&q.slot==='Q')||
    (u.champ==='Nidalee'&&q.slot==='Q'&&(u.boardFormV453M14||'human')==='human')||
    (u.champ==='Varus'&&q.slot==='Q')||
-   (u.champ==='Elise'&&q.slot==='E'&&(u.boardFormV453M14||'human')==='human'));
+   (u.champ==='Elise'&&q.slot==='E'&&(u.boardFormV453M14||'human')==='human')||
+   // M44 B04: ten distinct champions and eleven individual slots.
+   (u.champ==='Leona'&&q.slot==='E')||
+   (u.champ==='Amumu'&&q.slot==='Q')||
+   (u.champ==='Janna'&&q.slot==='Q')||
+   (u.champ==='Veigar'&&q.slot==='Q')||
+   (u.champ==='Sona'&&q.slot==='R')||
+   (u.champ==='Seraphine'&&['E','R'].includes(q.slot))||
+   (u.champ==='Xerath'&&q.slot==='E')||
+   (u.champ==='TwistedFate'&&q.slot==='Q')||
+   (u.champ==='Warwick'&&q.slot==='R')||
+   (u.champ==='XinZhao'&&q.slot==='W'));
   if(m44Flight&&!q.stolenCast&&q.point){
    const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
    if(distance>=1){
@@ -5245,7 +5256,7 @@ export class Arena {
      y:start.y+(q.point.y-start.y)*ratio};
     const flightTicks=Math.max(1,Math.ceil(reach/550));
      const m44FirstBody=['Ashe','Morgana','Blitzcrank','Brand','DrMundo',
-      'KogMaw','TahmKench','Nidalee','Elise'];
+      'KogMaw','TahmKench','Nidalee','Elise','Amumu','Xerath','Warwick'];
      const m44Charge=u.champ==='Varus'&&q.slot==='Q'?
       Math.max(0,Math.min(2,q.m28ChargeSeconds||0)):0;
     (this.boardTemporalV453Dev69??=[]).push({
@@ -5263,8 +5274,24 @@ export class Arena {
      until:this.gameTime+flightTicks*(u.champ==='Sivir'?2:1)+1,
      m44ReturnOrigin:u.champ==='Sivir'?{...start}:null,
      m44ReturnLeg:false,m44ChargeSeconds:m44Charge,
-     m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0
+     m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0,
+     m44LatchTargetId:null,m44ExtensionCount:0,m44Ray:0
     });
+    if(u.champ==='TwistedFate'&&q.slot==='Q'){
+     // Wild Cards = three independent trajectories; one authoritative debit.
+     const base=(this.boardTemporalV453Dev69||[]).at(-1),
+      dx=(end.x-start.x)*this.worldWidth,
+      dy=(end.y-start.y)*this.worldHeight,heading=Math.atan2(dy,dx);
+     for(const sign of [-1,1]){
+      const angle=heading+sign*.22,rayEnd={
+       x:start.x+Math.cos(angle)*reach/this.worldWidth,
+       y:start.y+Math.sin(angle)*reach/this.worldHeight};
+      this.boardTemporalV453Dev69.push({
+       ...base,id:++this.boardTemporalIdV453Dev69,
+       origin:{...start},current:{...start},point:rayEnd,
+       hitIds:[],m44Ray:sign});
+     }
+    }
     if(u.champ==='LeeSin')u.m21SonicRecastV453=null;
     return {...committed,scheduled:true,hitCount:0,m44Projectile:true};
    }
@@ -5888,6 +5915,62 @@ export class Arena {
        }else if(z.champ==='Elise'&&z.slot==='E'&&victim.champ){
         this.applyEffectV41(victim,'stun',{source:u,duration:1.5,
          key:'m44_elise_cocoon_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Leona'&&z.slot==='E'&&victim.champ){
+        z.m44LatchTargetId=victim.id;
+        this.applyEffectV41(victim,'root',{source:u,duration:.5,
+         key:'m44_leona_zenith_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Amumu'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,duration:1,
+         key:'m44_amumu_bandage_'+z.id+'_'+victim.id});
+        const origin={x:u.x,y:u.y},dest={x:victim.x,y:victim.y};
+        if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(origin,dest)){
+         Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(u);
+         this.itemEnergizeRelocateV453Dev39(u,origin,dest,{kind:'amumu_q_bandage'});
+        }
+       }else if(z.champ==='Janna'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'knockup',{source:u,duration:1,
+         key:'m44_janna_howling_gale_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Sona'&&z.slot==='R'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,duration:1.5,
+         key:'m44_sona_crescendo_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Seraphine'&&z.slot==='E'&&victim.champ){
+        const resolver=this.effectResolverV41(),
+         upgraded=resolver.has(victim,'root')?'stun':
+          resolver.has(victim,'slow')?'root':'slow';
+        this.applyEffectV41(victim,upgraded,{source:u,duration:2,
+         power:upgraded==='slow'?.4:0,
+         key:'m44_seraphine_beat_drop_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Seraphine'&&z.slot==='R'&&victim.champ){
+        this.applyEffectV41(victim,'charm',{source:u,duration:1.5,
+         key:'m44_seraphine_encore_'+z.id+'_'+victim.id});
+        if(z.m44ExtensionCount<2){
+         const vx=(z.point.x-z.origin.x)*this.worldWidth,
+          vy=(z.point.y-z.origin.y)*this.worldHeight,
+          len=Math.max(1,Math.hypot(vx,vy)),reach=z.range+450,
+          extra={x:z.origin.x+vx/len*reach/this.worldWidth,
+           y:z.origin.y+vy/len*reach/this.worldHeight};
+         if(extra.x>=0&&extra.x<=1&&extra.y>=0&&extra.y<=1){
+          z.point=extra;z.range=reach;z.m44ExtensionCount++;z.until++;
+         }
+        }
+       }else if(z.champ==='Xerath'&&z.slot==='E'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,
+         duration:Math.min(2.25,.75+Math.max(0,distance)/1050*1.5),
+         key:'m44_xerath_shocking_orb_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Warwick'&&z.slot==='R'&&victim.champ){
+        this.applyEffectV41(victim,'suppression',{source:u,duration:1.5,
+         key:'m44_warwick_infinite_duress_'+z.id+'_'+victim.id});
+        const origin={x:u.x,y:u.y},dest={x:victim.x,y:victim.y};
+        if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(origin,dest)){
+         Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(u);
+         this.itemEnergizeRelocateV453Dev39(u,origin,dest,{kind:'warwick_r_duress'});
+        }
+       }else if(z.champ==='XinZhao'&&z.slot==='W'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.4,
+         key:'m44_xinzhao_spear_'+z.id+'_'+victim.id});
+        (victim.m20MarksV453??={})['xin_spear_'+u.id]=now+3;
        }else if(z.champ==='LeeSin'){
         if(dealt>0&&(victim.champ||this.minions.includes(victim)||
           this.boardCloneDamageableV453Dev69(victim)))
@@ -5943,6 +6026,18 @@ export class Arena {
        ['Sejuani','Milio','Lucian'].includes(z.champ))
       this.m44AuthoredImpactV453Dev69(z,u,
        this.obstacleLine(from,next)?from:next,null,false,keep);
+     if(z.champ==='Leona'&&z.slot==='E'&&endOfTravel&&
+       z.m44LatchTargetId){
+      const target=this.boardCombatEntityByIdV453Dev69(z.m44LatchTargetId);
+      if(target?.champ&&target.hp>0&&this.sameCombatRealmV453Dev69(u,target)){
+       const origin={x:u.x,y:u.y},dest={x:target.x,y:target.y};
+       if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(origin,dest)){
+        Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+        this.invalidateShopUndoOnDepartureV453Dev61(u);
+        this.itemEnergizeRelocateV453Dev39(u,origin,dest,{kind:'leona_e_zenith'});
+       }
+      }
+     }
      if(z.champ==='Sivir'&&z.slot==='Q'&&endOfTravel&&!z.m44ReturnLeg){
       // Boomerang Blade traverses both legs. The same body can be hit once
       // per leg, never repeatedly by overlapping travel segments.
