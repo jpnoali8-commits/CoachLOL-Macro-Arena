@@ -3,7 +3,7 @@ import http from 'node:http';
 import {readFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60,BOARD_KITS_V453_DEV69,FORM_KITS_V453_M14,M15_ENTITY_KITS_V453} from '../engine.mjs';
+import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60,BOARD_KITS_V453_DEV69,FORM_KITS_V453_M14,M15_ENTITY_KITS_V453,M16_MECHANIC_KITS} from '../engine.mjs';
 
 import {PvPRoomRegistryV453Dev47} from './room_v453_dev47.mjs';
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
@@ -56,6 +56,11 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
        passiveOnly:!!slots[slot].passiveOnly,
        implemented:slots[slot].implemented,
        transformTo:slots[slot].transformTo||null}]))]))])),
+    mechanicKits:Object.fromEntries(Object.entries(M16_MECHANIC_KITS).map(([champ,slots])=>[
+     champ,Object.fromEntries(Object.entries(slots).map(([slot,v])=>[slot,{
+      shape:v.shape,range:v.range,implemented:'partial_mechanic_adapter',
+      m16Stealth:v.m16Stealth||null,m16Trap:v.m16Trap||null,
+      m16FourShots:!!v.m16FourShots,m16OnlyHuman:!!v.m16OnlyHuman}]))])),
     entityKits:Object.fromEntries(Object.entries(M15_ENTITY_KITS_V453).map(([champ,slots])=>[
      champ,Object.fromEntries(Object.entries(slots).map(([slot,v])=>[slot,{
       shape:v.shape,range:v.range,implemented:'partial_entity_adapter',m15Entity:v.m15Entity}]))])),
