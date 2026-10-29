@@ -3973,6 +3973,20 @@ export class Arena {
     linked.boardSpeedV453Dev69={until,fraction:.25};
    }
   }
+  if(s.m27TahmGreyHealth){
+   const grey=Math.min(u.maxHp*.6,Math.max(0,u.m27TahmGrey||0));
+   u.m27TahmGrey=0;
+   if(grey>0)this.applyEffectV41(u,'shield',{source:u,duration:3,
+    power:grey,key:'m27_tahm_grey_'+u.id+'_'+this.gameTime});
+  }
+  if(s.m27UrgotPurge&&target?.champ){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m27_urgot_purge',
+    ownerId:u.id,team:u.team,targetId:target.id,
+    point:{x:target.x,y:target.y},origin:{x:u.x,y:u.y},
+    power:30+Math.max(1,u.skillRanks.W||1)*12,
+    nextAt:this.gameTime+1,until:this.gameTime+3.1,ticksLeft:3,hitIds:[]});
+  }
   if(s.m26BraumStand&&target?.team===u.team){
    const until=this.gameTime+4,resist=20+Math.max(1,u.skillRanks.W||1)*8;
    target.m26BraumResists={sourceId:u.id,until,value:resist};
@@ -4868,6 +4882,18 @@ export class Arena {
       {range:z.range,width:z.width,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
      for(const v of victims)this.damage(v,z.power,u,'magic','spell');
      ended=true;
+    }else if(z.kind==='m27_urgot_purge'){
+     const victim=this.units.find(v=>v.id===z.targetId&&v.hp>0&&
+      v.team!==u.team&&this.sameCombatRealmV453Dev69(u,v));
+     if(u.hp<=0||!this.effectResolverV41().canAct(u,'skill').ok||
+        !victim||!this.visible(u.team,victim)||
+        this.mapDistance(u,victim)>490||this.obstacleLine(u,victim))ended=true;
+     else{
+      this.damage(victim,z.power,u,'physical','m27_urgot_purge');
+      z.hitIds.push(victim.id);
+      z.ticksLeft--;z.nextAt=now+1;
+      if(z.ticksLeft<=0)ended=true;
+     }
     }else if(z.kind==='m26_rell_magnet'){
      if(u.hp>0){
       z.point={x:u.x,y:u.y};
@@ -9465,6 +9491,17 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      this.damage(target,Math.max(1,target.maxHp*.045),attacker,'physical','m27_jarvan_cadence');
     }
    }
+   if(name==='Galio'&&target.champ){
+    const ready=attacker.m27GalioSmashReadyAt||0;
+    if(ready<=this.gameTime){
+     attacker.m27GalioSmashReadyAt=this.gameTime+5;
+     for(const other of this.boardCombatEnemyPoolV453Dev69(attacker)
+      .filter(v=>v.id!==target.id&&v.hp>0&&this.mapDistance(v,target)<=240)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+      this.damage(other,35+Math.max(1,attacker.level||1)*5,attacker,
+       'magic','m27_galio_colossal_smash');
+    }
+   }
    if(name==='Sett'&&target.champ){
     const count=(attacker.m27SettPunch||0)+1;
     attacker.m27SettPunch=count===2?0:count;
@@ -9517,6 +9554,13 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     this.damage(target,Math.max(1,target.maxHp*.04),attacker,'physical','m25_vi_denting');
    }
   }
+  if(dealt>0&&target.champ==='TahmKench'&&target.hp>0&&
+     attacker?.team!==target.team)
+   target.m27TahmGrey=Math.min(target.maxHp*.6,
+    (target.m27TahmGrey||0)+dealt*.4);
+  if(dealt>0&&attacker?.champ==='Karthus'&&target.hp<=0&&
+     target.team!==attacker.team)
+   attacker.mana=Math.min(attacker.maxMana,attacker.mana+40);
   if(dealt>0&&target.champ==='Sett'&&target.hp>0&&attacker?.team!==target.team){
    const previous=target.m23GritV453?.value||0;
    target.m23GritV453={value:Math.min(target.maxHp*.5,previous+dealt),
