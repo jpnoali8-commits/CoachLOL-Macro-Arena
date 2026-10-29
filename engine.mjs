@@ -4874,6 +4874,22 @@ export class Arena {
     temporal.nextAt=this.gameTime+2;temporal.until=this.gameTime+8;
    }else if(s.boardTemporal==='minefield')temporal.until=this.gameTime+5;
    (this.boardTemporalV453Dev69??=[]).push(temporal);
+   if(s.m28ViktorStorm){
+    // Chaos Storm has its own ON-CAST disruption packet before roaming ticks.
+    // The scheduled branch returns early, so generic circle damage never ran.
+    temporal.m41InitialReceipts=[];
+    for(const victim of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+      this.mapDistance(v,temporal.point)<=temporal.radius&&
+      !this.obstacleLine(temporal.point,v))
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+     const blocked=this.effectResolverV41().has(victim,'spell_shield');
+     const dealt=this.damage(victim,power,u,'magic','spell');
+     temporal.m41InitialReceipts.push({targetId:victim.id,damaged:dealt>0});
+     if(dealt>0&&!blocked&&victim.champ)
+      this.m41ViktorStormDisruptV453Dev69(u,victim);
+    }
+   }
    if(s.boardTemporal!=='tibbers_aura'){
     this.event(u.champ+' '+q.slot+' criou efeito tático temporal.',u.team,'skill_vfx',u.id,
      {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
