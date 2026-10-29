@@ -934,6 +934,25 @@ export const M15_ENTITY_KITS_V453=Object.freeze({
  Neeko:{W:BS('move_point',900,0,[16,15,14,13,12],[],{m15Entity:'neeko_clone',missing:'P_Q_E_R_not_integrated'})},
  Shaco:{R:BS('move_point',500,100,[100,90,80],[],{m15Entity:'shaco_clone',missing:'P_Q_W_E_not_integrated'})}
 });
+/** M16 partial contract registry. Shared primitives, no false champion certification. */
+export const M16_MECHANIC_KITS=Object.freeze({
+ Twitch:{Q:BS('self',0,40,16,[],{m16Stealth:'camouflage',m16Delay:1,m16Radius:500,m16Duration:[10,11,12,13,14]})},
+ Teemo:{Q:BS('target_enemy',680,70,[7,6.5,6,5.5,5],[80,125,170,215,260],{m16Blind:true,apRatio:.8}),
+  R:BS('move_point',900,0,1,[],{m16Trap:'teemo_mushroom',m16Charges:3,m16Max:3})},
+ Shaco:{Q:BS('move_point',400,40,[12,11.5,11,10.5,10],[],{m16Stealth:'invisibility',m16Duration:[2.5,2.75,3,3.25,3.5],m16Blink:true,m16NextBasic:true}),
+  W:BS('move_point',425,50,[16,15.5,15,14.5,14],[],{m16Trap:'shaco_box',m16Max:5})},
+ Evelynn:{W:BS('target_enemy',1200,60,[15,14,13,12,11],[],{m16Charm:true})},
+ Rengar:{R:BS('self',0,0,[100,90,80],[],{m16Stealth:'camouflage',m16Delay:2,m16Radius:710,m16Duration:[12,16,20]})},
+ Khazix:{R:BS('self',0,100,[100,85,70],[],{m16Stealth:'invisibility',m16Duration:[1.25,1.25,1.25],m16Recasts:2})},
+ Akshan:{W:BS('self',0,[40,30,20,10,0],[18,14,10,6,2],[],{m16Stealth:'camouflage',m16Radius:800,m16Duration:[2,2,2,2,2],m16WallExtend:true})},
+ Pyke:{W:BS('self',0,50,[12,11,10,9,8],[],{m16Stealth:'camouflage',m16Radius:600,m16Duration:[5,5,5,5,5]})},
+ Viego:{E:BS('move_point',750,70,[14,12,10,8,6],[],{m16Stealth:'camouflage',m16Radius:450,m16Duration:[8,8,8,8,8],m16WallExtend:true})},
+ Caitlyn:{W:BS('move_point',800,20,[26,22,18,14,10],[],{m16Trap:'caitlyn_snap',m16Charges:3,m16Max:5})},
+ Nidalee:{W:BS('move_point',900,40,12,[],{m16Trap:'nidalee_bushwhack',m16Max:4,m16OnlyHuman:true})},
+ Jhin:{E:BS('move_point',750,30,[24,21.5,19,16.5,14],[],{m16Trap:'jhin_lotus',m16Charges:2,m16Max:2}),
+  R:BS('self',3500,100,[120,105,90],[],{m16FourShots:true})}
+});
+export const M16_STEALTH_RADIUS=Object.freeze({Twitch:500,Evelynn:700,Rengar:710,Akshan:800,Pyke:600,Viego:450});
 export const BOARD_KITS_V453_DEV69=Object.freeze({
  Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
   W:BS('self',0,0,23,[],{shield:[80,105,130,155,180]}),
@@ -1077,7 +1096,9 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
 export function abilityRule(u,slot){
- const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+ const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
+ const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
+  BOARD_KITS_V453_DEV69[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -1434,7 +1455,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.m15PublicSeq=0;this.realmContextV453Dev69=null;this.realmSeqV453Dev69=0;this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.m15PublicSeq=0;this.m16Traps=[];this.m16TrapSeq=0;this.realmContextV453Dev69=null;this.realmSeqV453Dev69=0;this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -2046,7 +2067,7 @@ export class Arena {
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
   a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
-  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;a.m15PublicSeq??=0;a.realmContextV453Dev69??=null;a.realmSeqV453Dev69??=0;
+  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;a.m15PublicSeq??=0;a.m16Traps??=[];a.m16TrapSeq??=0;a.realmContextV453Dev69??=null;a.realmSeqV453Dev69??=0;
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -3125,12 +3146,16 @@ export class Arena {
   if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
    e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
    return M15_ENTITY_KITS_V453.Shaco.R;
-  return BOARD_KITS_V453_DEV69[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+  const m16=M16_MECHANIC_KITS[champ]?.[slot];
+  return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
+   BOARD_KITS_V453_DEV69[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
   if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
+  if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
+   return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
@@ -3886,7 +3911,7 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const bu=this.units.find(v=>v.team===team&&v.id===unitId);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(M16_MECHANIC_KITS[bu.champ]||BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -4018,7 +4043,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const bu=this.units.find(v=>v.id===unitId&&v.team===team);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(M16_MECHANIC_KITS[bu.champ]||BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&(bu.sylasStolenV453M14||bu.shacoCloneIdV453M15))))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
@@ -5123,7 +5148,7 @@ export class Arena {
  // Currently Nami W is implemented; unsupported abilities fail instead of inventing effects.
  queueTargetedSkill(team,unitId,slot,targetId){
   const u=this.units.find(v=>v.team===team&&v.id===unitId),target=this.units.find(v=>v.id===targetId);
-  if(u&&(BOARD_KITS_V453_DEV69[u.champ]||FORM_KITS_V453_M14[u.champ]||(u.champ==='Sylas'&&u.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
+  if(u&&(M16_MECHANIC_KITS[u.champ]||BOARD_KITS_V453_DEV69[u.champ]||FORM_KITS_V453_M14[u.champ]||(u.champ==='Sylas'&&u.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{targetId});
   if(!u||!target||u.hp<=0||target.hp<=0||this.teams[team].ready||this.ended||this.phase==='executing'||this.phase==='decision')return {ok:false,reason:'Campeão ou fase indisponível.'};
   if(u.champ!=='Nami'||!['W','E'].includes(slot))return {ok:false,reason:'Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual.'};
   if(slot==='E'&&target.team!==team)return {ok:false,reason:'E_requer_aliado'};
