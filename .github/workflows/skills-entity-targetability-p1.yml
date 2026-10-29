@@ -38,6 +38,18 @@ jobs:
         run: node tests/audit/v453_entity_projectile_matrix_m17.test.mjs
       - name: M18 four clone families, disguise, aliases, targeted, projectile and Jhin R
         run: node tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
+      - name: M19 full 173 champion macro-batch QA gates
+        run: |
+          node --check tools/skills_macro_batch_planner_v453_dev69.mjs
+          node --check tests/audit/v453_m19_macro_batch_gate.test.mjs
+          node tests/audit/v453_m19_macro_batch_gate.test.mjs
+          node tools/skills_macro_batch_planner_v453_dev69.mjs --out docs/skills_macro_batches_dev69
+      - name: Export five macro-batch contracts for Skills engineering
+        uses: actions/upload-artifact@v4
+        with:
+          name: coachlol-skills-m19-173-pqwer-macro-batches
+          path: docs/skills_macro_batches_dev69/
+          retention-days: 30
       - name: Existing M15 clone/sylas checkpoints
         run: node tests/v453_dev69_clones_m15.test.mjs
       - name: Existing M16 stealth/traps/abilities
