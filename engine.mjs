@@ -5369,6 +5369,18 @@ export class Arena {
        hitIds:[],m44Ray:sign});
      }
     }
+    if(u.champ==='Caitlyn'&&q.slot==='E'&&s.m44CaitlynNet){
+     // Shot starts at the original position; recoil happens at launch.
+     const dx=(start.x-end.x)*this.worldWidth,dy=(start.y-end.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy)),
+      dest={x:u.x+dx/len*350/this.worldWidth,
+       y:u.y+dy/len*350/this.worldHeight};
+     if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(start,dest)){
+      Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(u);
+      this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'caitlyn_e_recoil'});
+     }
+    }
     if(u.champ==='LeeSin')u.m21SonicRecastV453=null;
     return {...committed,scheduled:true,hitCount:0,m44Projectile:true};
    }
@@ -5959,12 +5971,15 @@ export class Arena {
        z.champ==='Nidalee'&&z.slot==='Q'?
         z.power*(1+Math.min(1.5,Math.max(0,distance-450)/850)):
        z.champ==='Jhin'&&z.slot==='W'&&!victim.champ?z.power*.75:
+       z.champ==='Xayah'&&z.slot==='Q'&&z.hitCount>0?z.power*.5:
        z.champ==='DrMundo'&&z.slot==='Q'?
         Math.max(z.power,Math.min(victim.hp*.2,400)):z.power;
       const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
-      if(z.champ==='Jhin'&&z.slot==='W'&&victim.champ)z.maxHits=z.hitCount;
+      if(z.champ==='Jhin'&&z.slot==='W'&&
+       (victim.champ||this.boardCloneDamageableV453Dev69(victim)))
+       z.maxHits=z.hitCount;
       // Valor stops at first contact; only primary gets Harrier / blindness.
       if(z.champ==='Quinn'&&z.m44SplashRadius>0)
        for(const splash of this.boardCombatEnemyPoolV453Dev69(u)
@@ -6117,17 +6132,9 @@ export class Arena {
         const marks=victim.m44KaisaPlasma??={},old=marks[u.id];
         marks[u.id]={stacks:Math.min(4,(old?.until>now?old.stacks:0)+2),until:now+4};
         (victim.m16TrueSightUntil??={})[u.team]=now+4;
-       }else if(z.champ==='Caitlyn'&&z.slot==='E'&&victim.champ){
+        }else if(z.champ==='Caitlyn'&&z.slot==='E'&&victim.champ){
         this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.45,
          key:'m44_caitlyn_net_'+z.id+'_'+victim.id});
-        const start={x:u.x,y:u.y},dx=z.origin.x-z.point.x,dy=z.origin.y-z.point.y,
-         len=Math.max(1,Math.hypot(dx*this.worldWidth,dy*this.worldHeight)),
-         dest={x:u.x+dx/len*350,y:u.y+dy/len*350};
-        if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(start,dest)){
-         Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
-         this.invalidateShopUndoOnDepartureV453Dev61(u);
-         this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'caitlyn_e_net'});
-        }
         victim.m16CaitHeadshot={ownerId:u.id,until:now+3};
        }else if(z.champ==='LeeSin'){
         if(dealt>0&&(victim.champ||this.minions.includes(victim)||
