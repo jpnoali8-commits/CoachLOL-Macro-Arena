@@ -25,6 +25,7 @@ jobs:
           node --check tests/audit/v453_entity_shape_matrix.test.mjs
           node --check tests/audit/v453_entity_projectile_trap_m17.test.mjs
           node --check tests/audit/v453_entity_projectile_matrix_m17.test.mjs
+          node --check tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
       - name: New strict clone targetability contracts (previously 10 failures)
         run: node tests/audit/v453_clone_targetability_audit.test.mjs --strict
       - name: All 173 champion rule routes and M9-M16 authored slots
@@ -35,6 +36,8 @@ jobs:
         run: node tests/audit/v453_entity_projectile_trap_m17.test.mjs
       - name: M17 seven real travelling missile families x two PvP teams
         run: node tests/audit/v453_entity_projectile_matrix_m17.test.mjs
+      - name: M18 four clone families, disguise, aliases, targeted, projectile and Jhin R
+        run: node tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
       - name: Existing M15 clone/sylas checkpoints
         run: node tests/v453_dev69_clones_m15.test.mjs
       - name: Existing M16 stealth/traps/abilities
