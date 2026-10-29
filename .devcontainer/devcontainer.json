@@ -8,5 +8,9 @@
         "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
-  }
+  },
+  "containerEnv": {
+    "COACHLOL_QA_AUTO_PUBLISH": "1"
+  },
+  "postStartCommand": "bash tools/qa/codespaces_on_start.sh || echo 'CoachLOL QA reported failure; see ~/coachlol-qa-reports/ (no release certified)'"
 }
