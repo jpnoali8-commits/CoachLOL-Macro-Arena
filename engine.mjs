@@ -3607,6 +3607,23 @@ export class Arena {
   }
   return {...queued,...(queued.ok?{trustedChargeSeconds:chargeSeconds}:{})};
  }
+ m39SyndraPickupV453Dev69(u,point){
+  // Sphere has priority; only living, exposed enemy minions are fallback
+  // grab targets. The exact same rule runs before queue and before debit.
+  if(!u||!point)return null;
+  const orb=(u.m20SyndraOrbsV453||[]).filter(o=>
+   o.until>this.gameTime&&this.mapDistance(u,o)<=925&&
+   !this.obstacleLine(u,o))
+   .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
+  if(orb)return {kind:'sphere',entity:orb};
+  if(!this.walkable(point.x,point.y))return null;
+  const minion=(this.minions||[]).filter(m=>m.hp>0&&m.team!==u.team&&
+   this.mapDistance(u,m)<=925&&this.canSeePoint(u.team,m)&&
+   !this.obstacleLine(u,m)&&!this.obstacleLine(m,point))
+   .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+    String(a.id).localeCompare(String(b.id)))[0];
+  return minion?{kind:'minion',entity:minion}:null;
+ }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
@@ -3616,6 +3633,12 @@ export class Arena {
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(s.m23EmpowerNext&&u.champ==='Heimerdinger'&&
+     u.m23HeimerEmpowerV453?.until>this.gameTime){
+   u.pendingBoardV453Dev69={slot,m39HeimerCancel:true};
+   this.recordIntentV40(team,id,'m39_heimer_r_cancel',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   if(u.champ==='Shyvana'&&slot==='R'&&(u.boardFuryV453M14||0)<100)return {ok:false,reason:'fury_insuficiente'};
   // M15 recast never charges twice. A living clone is a server-owned entity.
   if((u.champ==='Neeko'&&slot==='W')||
@@ -3851,6 +3874,8 @@ export class Arena {
      (['circle_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
      (['move_point','deploy_point'].includes(s.shape)&&!this.walkable(point.x,point.y))))
    return {ok:false,reason:'ponto_invalido'};
+  if(s.m24OrbThrow&&!this.m39SyndraPickupV453Dev69(u,point))
+   return {ok:false,reason:'m39_syndra_no_valid_pickup'};
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
@@ -3906,6 +3931,12 @@ export class Arena {
    const elapsed=Math.min(2,this.gameTime-state.startedAt);
    if(q.m28ChargeSeconds===undefined||Math.abs(q.m28ChargeSeconds-elapsed)>1e-8)
     return {ok:false,reason:'m34_charge_duration_mismatch'};
+  }
+  if(q?.m39HeimerCancel&&s.m23EmpowerNext&&u.champ==='Heimerdinger'){
+   if(!(u.m23HeimerEmpowerV453?.until>this.gameTime))
+    return {ok:false,reason:'m39_heimer_upgrade_expired'};
+   u.m23HeimerEmpowerV453=null;
+   return {ok:true,recast:true,cancelled:true,spentMana:0};
   }
   if(q?.m26Recast==='karthus_e_off'&&s.m26KarthusToggle){
    if(!u.m26KarthusE||u.m26KarthusE.until<=this.gameTime)
@@ -4104,6 +4135,10 @@ export class Arena {
   if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot)&&
      this.m33LeeEnergyAvailableV453Dev69(u)<50)
    return {ok:false,reason:'m33_lee_energy_before_commit'};
+  const m39SyndraPickup=s.m24OrbThrow?
+   this.m39SyndraPickupV453Dev69(u,q.point):null;
+  if(s.m24OrbThrow&&!m39SyndraPickup)
+   return {ok:false,reason:'m39_syndra_pickup_lost_before_commit'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
   const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m23KarthusCanActV453(u,q.slot)?this.m23KarthusCommitV453(u,q.slot):
@@ -4518,28 +4553,17 @@ export class Arena {
   }
   if(s.m24OrbThrow&&q.point){
    const orbs=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime);
-   const orb=orbs.filter(o=>this.mapDistance(u,o)<=925&&
-    !this.obstacleLine(u,o)).sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
-   if(orb){
+   if(m39SyndraPickup.kind==='sphere'){
+    const orb=m39SyndraPickup.entity;
     orb.x=q.point.x;orb.y=q.point.y;orb.until=Math.max(orb.until,this.gameTime+3);
     u.m38SyndraLastThrow={kind:'sphere',at:this.gameTime,point:{...q.point}};
    }else{
-    // Force of Will can hurl a REAL visible enemy minion when no sphere is
-    // within reach. Stable distance/ID ordering makes both human seats and
-    // snapshot replay independent of entity-array insertion order.
-    const minion=(this.minions||[]).filter(m=>m.hp>0&&m.team!==u.team&&
-     this.mapDistance(u,m)<=s.range&&this.canSeePoint(u.team,m)&&
-     !this.obstacleLine(u,m)).sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
-      String(a.id).localeCompare(String(b.id)))[0];
-    if(minion&&this.walkable(q.point.x,q.point.y)&&
-       !this.obstacleLine(minion,q.point)){
-     const from={x:minion.x,y:minion.y};
-     minion.x=q.point.x;minion.y=q.point.y;
-     if(Array.isArray(minion.path))minion.path=[];
-     minion.m38SyndraThrown={ownerId:u.id,at:this.gameTime,from};
-     u.m38SyndraLastThrow={kind:'minion',id:minion.id,at:this.gameTime,
-      point:{...q.point}};
-    }
+    const minion=m39SyndraPickup.entity,from={x:minion.x,y:minion.y};
+    minion.x=q.point.x;minion.y=q.point.y;
+    if(Array.isArray(minion.path))minion.path=[];
+    minion.m38SyndraThrown={ownerId:u.id,at:this.gameTime,from};
+    u.m38SyndraLastThrow={kind:'minion',id:minion.id,at:this.gameTime,
+     point:{...q.point}};
    }
    u.m20SyndraOrbsV453=orbs;
   }
@@ -6596,12 +6620,7 @@ export class Arena {
      u.m26UrgotReel=null;
     }else if(reel.until<=this.gameTime)this.m26UrgotFinishV453(u);
    }
-   const grit=u.m23GritV453;
-   if(grit?.value>0&&this.gameTime>=grit.nextDecayAt){
-    const steps=Math.floor(this.gameTime-grit.nextDecayAt)+1;
-    grit.value*=Math.pow(.7,Math.min(steps,300));
-    grit.nextDecayAt+=steps;
-   }
+   // Sett Grit decay is owned exclusively by the M38 .8/s timer above.
    const mark=u.m23ExecuteMarkV453;
    if(mark&&this.gameTime>=mark.until){
     const victim=this.boardCombatEntityByIdV453Dev69(mark.targetId);
