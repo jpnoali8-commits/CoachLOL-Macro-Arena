@@ -1125,7 +1125,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Xerath:BK20('mana_surge',
   B20('line_enemy',1450,9,85,{width:155,m28XerathCharge:true,m20Missing:'charge_range'}),
   B20('circle_enemy',1000,14,90,{radius:260,cc:'slow',ccSeconds:2,ccPower:.4,m25XerathCenter:true}),
-  B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5}),
+  B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5,distanceStun:{min:.75,max:2.25,at:1050},m36XerathShockingOrb:true}),
   B20('circle_enemy',5000,130,190,{radius:240,boardTemporal:'m22_artillery_channel',zoneSeconds:10,m22ArtilleryShots:[3,4,5],m26XerathArtilleryCenter:true})),
  Zac:BK20('cell_division',
   B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m22SecondStage:'grab',m20Missing:'Q2_basic_grab_animation'}),
@@ -1151,7 +1151,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',850,10,85,{radius:285,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m21_gragas_barrel',zoneSeconds:4.2,m21Barrel:true,m20Missing:'barrel_charge_damage_growth'}),
   B20('self',0,5,0,{shield:[75,105,135,165,195],nextBasic:[45,65,85,105,125],charges:1,m26GragasDrink:true}),
   B20('move_point',600,14,90,{radius:245,cc:'stun',ccSeconds:1,m25GragasFirstCollision:true}),
-  B20('circle_enemy',1000,100,245,{radius:330,knockback:550})),
+  B20('circle_enemy',1000,100,245,{radius:330,knockback:550,m36GragasExplosiveCask:true})),
  LeeSin:BK20('flurry',
   B20('line_enemy',1100,10,85,{mana:0,width:140,maxHits:1,type:'physical',m20Mark:'sonic',m21SonicRecast:true,m20Missing:'sonic_wave_projectile_travel'}),
   B20('target_ally',700,8,0,{mana:0,shield:[65,95,125,155,185],m20JumpToAlly:true,m22SecondStage:'vamp',m20Missing:'energy_cost_and_vamp_values'}),
@@ -1173,7 +1173,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,14,0,{speedBuff:.35,buffSeconds:3,m27RellAllyLink:true}),
   B20('circle_enemy',0,120,175,{originSelf:true,radius:450,pull:275,m26RellMagnet:true})),
  Sejuani:BK20('fury_of_the_north',
-  B20('move_point',650,18,85,{radius:220,cc:'knockup',ccSeconds:.7}),
+  B20('move_point',650,18,85,{radius:220,cc:'knockup',ccSeconds:.7,m36SejuaniArcticAssault:true}),
   B20('cone_enemy',600,9,70,{arc:55,cc:'slow',ccSeconds:2,ccPower:.3,m20Mark:'frost',m28SejTwoSwings:true,m20Missing:'two_swings'}),
   B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true,m20Missing:'frost_from_other_melee_allies'}),
   B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m25SejStorm:true})),
@@ -1184,7 +1184,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',400,120,280,{mana:0,m24Slam:true,type:'physical'})),
  TahmKench:BK20('an_acquired_taste',
   B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste',m29TahmQStun:true}),
-  B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1}),
+  B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1,m36TahmAbyssalDive:true}),
   B20('self',0,3,0,{shield:[85,125,165,205,245],m27TahmGreyHealth:true}),
   B20('target_any',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
  Galio:BK20('colossal_smash',
@@ -1218,7 +1218,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('cone_enemy',650,15,80,{arc:80,knockback:260,m24OrbScatter:true}),
   B20('target_enemy',675,120,265,{mana:100,m20OrbConsumeAll:true,m26SyndraBarrage:true})),
  Urgot:BK20('echoing_flames',
-  B20('circle_enemy',800,10,85,{radius:250,type:'physical',cc:'slow',ccSeconds:2,ccPower:.3}),
+  B20('circle_enemy',800,10,85,{radius:250,type:'physical',cc:'slow',ccSeconds:2,ccPower:.3,m36UrgotCorrosiveCharge:true}),
   B20('target_enemy',490,12,100,{type:'physical',m27UrgotPurge:true}),
   B20('move_point',475,16,90,{radius:230,cc:'stun',ccSeconds:.75,shield:[85,120,155,190,225],m28UrgotFlip:true,m20Missing:'flip'}),
   B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25,m20Missing:'chains_channel_and_suppression'})),
@@ -1239,7 +1239,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1300,120,230,{width:160,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m24_fizz_shark',zoneSeconds:2,m24Shark:true})),
  JarvanIV:BK20('martial_cadence',
   B20('line_enemy',770,10,90,{width:160,type:'physical',m24FlagDash:true,m26JarvanArmorShred:true}),
-  B20('circle_enemy',0,9,0,{originSelf:true,radius:625,shield:[80,110,140,170,200],cc:'slow',ccSeconds:2,ccPower:.3}),
+  B20('circle_enemy',0,9,0,{originSelf:true,radius:625,shield:[80,110,140,170,200],cc:'slow',ccSeconds:2,ccPower:.3,m36JarvanGoldenAegis:true}),
   B20('circle_enemy',860,12,75,{radius:185,m24FlagDeploy:true,m29JarvanBanner:true}),
   B20('target_enemy',650,120,270,{dashToHit:true,m24Arena:true})),
  MasterYi:BK20('double_strike',
@@ -3777,6 +3777,17 @@ export class Arena {
       (this.realmOfV453Dev69(u)&&
        (!this.realmValidV453Dev69(u,point)||!this.realmValidV453Dev69(u,laserEnd)))))
    return {ok:false,reason:'m28_laser_invalid'};
+  // Urgot W: his own Corrosive Charge prioritizes the exposed enemy for
+  // Purge auto-targeting. Explicit player targets retain their identity.
+  if(s.m27UrgotPurge&&!targetId){
+   const marked=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+    v.hp>0&&v.m36UrgotCorrosive?.[u.id]>this.gameTime&&
+    this.mapDistance(u,v)<=s.range&&this.visible(team,v)&&
+    !this.obstacleLine(u,v))
+    .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+     String(a.id).localeCompare(String(b.id)))[0];
+   if(marked)targetId=marked.id;
+  }
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
   if(s.m30LucianAnchoredQ){
    if(!target||target.team===team||target.hp<=0||
@@ -4379,6 +4390,27 @@ export class Arena {
    });
    return {...committed,scheduled:true,entrance:true};
   }
+  if(s.m36TahmAbyssalDive&&q.point){
+   // Abyssal Dive is NOT an instant generic dash: Tahm burrows, then emerges
+   // at the server-owned destination one second later. A CC'd or dead caster
+   // cannot complete it. The original spell receipt already debited once.
+   this.boardTemporalV453Dev69.push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m36_tahm_abyssal_dive',
+    ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},point:{...q.point},
+    radius:s.radius,power:120+Math.max(1,u.skillRanks.W||1)*45,
+    nextAt:this.gameTime+1,until:this.gameTime+1.1,hitIds:[]});
+   u.m36TahmDiveUntil=this.gameTime+1;
+   return {...committed,scheduled:true,dive:true};
+  }
+  if(s.m36JarvanGoldenAegis){
+   const nearby=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+    v.hp>0&&this.mapDistance(u,v)<=s.radius&&this.visible(u.team,v)&&
+    this.sameCombatRealmV453Dev69(u,v)).length;
+   u.m36JarvanAegisTargets=nearby;
+   if(nearby)this.applyEffectV41(u,'shield',{source:u,duration:3,
+    power:nearby*(20+Math.max(1,u.skillRanks.W||1)*12),
+    key:'m36_jarvan_aegis_'+u.id+'_'+this.gameTime});
+  }
   if(s.m25ZacGoo){
    const near=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>this.mapDistance(u,v)<=350)
     .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)))[0];
@@ -4815,7 +4847,15 @@ export class Arena {
      }).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
     hits=[target,...more];
    }
-   if(s.m25GragasFirstCollision&&hits.length)
+   if(s.m36SejuaniArcticAssault&&q.point){
+    // Sejuani Q stops at the FIRST enemy champion intersecting her dash,
+    // not every enemy near the originally clicked destination.
+    const path=skillshotHitsV42(u,q.point,enemyPool,{
+     range:s.range,width:240,maxHits:1,worldWidth:this.worldWidth,
+     worldHeight:this.worldHeight}).filter(v=>v.champ&&v.hp>0);
+    if(path.length)hits=[path[0]];
+   }
+   if((s.m25GragasFirstCollision||s.m36SejuaniArcticAssault)&&hits.length)
    hits=hits.filter(v=>v.champ).sort((a,b)=>
     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id))).slice(0,1);
   if(s.m25YiAlpha&&target?.champ){
@@ -4847,7 +4887,7 @@ export class Arena {
    }
   }else if(s.shape==='move_point'){
    const start={x:u.x,y:u.y};
-   const first=s.m25GragasFirstCollision?hits[0]:null;
+   const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
     y:first.y-(first.y-u.y)*.1}:point;
    if(this.walkable(destination.x,destination.y)){
@@ -5058,7 +5098,9 @@ export class Arena {
     }
    }
    if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked){
-    const kicked=this.pushChampionThroughTerrain(u,v,s.knockback,{maxWallUnits:0});
+    const kicked=this.pushChampionThroughTerrain(s.m36GragasExplosiveCask?point:u,v,s.knockback,{maxWallUnits:0});
+    if(s.m36GragasExplosiveCask&&kicked.travelled>0)
+     v.m36GragasCaskKnockback={ownerId:u.id,at:this.gameTime,travelled:kicked.travelled};
     if(s.m25LeeWallCollision&&kicked.blocked){
      const hit=this.damage(v,65+Math.max(1,u.skillRanks.R||1)*50,u,'physical','spell');
      if(hit>0&&v.hp>0)this.applyEffectV41(v,'stun',{
@@ -5122,6 +5164,9 @@ export class Arena {
     if(!(previous?.lockUntil>this.gameTime))
      v.m21BraumConcussiveV453={sourceId:u.id,team:u.team,stacks:1,
       until:this.gameTime+8,lockUntil:0};
+   }
+   if(enemy&&s.m36UrgotCorrosiveCharge&&!blocked&&v.champ&&v.hp>0){
+    (v.m36UrgotCorrosive??={})[u.id]=this.gameTime+3;
    }
    if(enemy&&s.m20Mark&&!blocked&&v.hp>0)
     (v.m20MarksV453??={})[s.m20Mark+'_'+u.id]=this.gameTime+6;
@@ -5478,6 +5523,24 @@ export class Arena {
       if(result.ok)z.hitIds.push(v.id);
      }
      z.nextAt=now+1;
+    }else if(z.kind==='m36_tahm_abyssal_dive'){
+     const end=z.point;
+     if(u.hp>0&&this.effectResolverV41().canAct(u,'skill').ok&&
+       this.sameCombatRealmV453Dev69(u,end)&&this.walkable(end.x,end.y)){
+      const from={x:u.x,y:u.y};
+      Object.assign(u,end);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(u);
+      this.itemEnergizeRelocateV453Dev39(u,from,end,{kind:'abyssal_dive'});
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+       .filter(v=>v.champ&&v.hp>0&&this.mapDistance(v,end)<=z.radius)
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const dealt=this.damage(v,z.power,u,'magic','spell');
+       if(dealt>0&&v.hp>0)this.applyEffectV41(v,'knockup',{
+        source:u,duration:1,key:'m36_tahm_dive_'+z.id+'_'+v.id});
+      }
+     }
+     u.m36TahmDiveUntil=0;
+     ended=true;
     }else if(z.kind==='m25_galio_entrance'){
      const ally=this.units.find(v=>v.id===z.anchorId&&v.hp>0&&v.team===z.team);
      if(u.hp>0&&ally&&this.sameCombatRealmV453Dev69(u,ally)&&
