@@ -132,6 +132,8 @@ jobs:
           node tests/audit/v453_m43_b01_persistent_identity_family.test.mjs
           node --check tests/audit/v453_m43_b01_secondary_hazards.test.mjs
           node tests/audit/v453_m43_b01_secondary_hazards.test.mjs
+          node --check tests/audit/v453_m43_b01_mobile_geometry_family.test.mjs
+          node tests/audit/v453_m43_b01_mobile_geometry_family.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
