@@ -3627,6 +3627,50 @@ export class Arena {
   u.boardChannelUntilV453Dev69=0;
   return true;
  }
+ // M41: Karthus W is a perpendicular magic wall, never a solid collider.
+ m41KarthusWallContactV453Dev69(z,v){
+  const owner=this.units.find(u=>u.id===z.ownerId);
+  if(!owner||!v||v.hp<=0||v.team===z.team||
+    !this.sameCombatRealmV453Dev69(owner,v))return false;
+  const dx=(z.point.x-z.origin.x)*this.worldWidth,
+   dy=(z.point.y-z.origin.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy));
+  const x=(v.x-z.point.x)*this.worldWidth,y=(v.y-z.point.y)*this.worldHeight;
+  return Math.abs((x*dx+y*dy)/len)<=Math.max(90,(z.width||200)*.5)&&
+   Math.abs((x*dy-y*dx)/len)<=z.m41HalfSpan;
+ }
+ m41KarthusWallApplyV453Dev69(z,u,v){
+  if(!this.m41KarthusWallContactV453Dev69(z,v))return false;
+  const applied=this.applyEffectV41(v,'slow',{source:u,
+   duration:Math.min(1.6,Math.max(.25,z.until-this.gameTime)),
+   power:z.m41SlowPower,key:'m41_wall_slow_'+z.id+'_'+v.id});
+  if(v.champ&&!this.effectResolverV41().has(v,'spell_shield')&&
+    !this.effectResolverV41().has(v,'invulnerable'))
+   v.m41KarthusWallMR={sourceId:u.id,
+    until:Math.min(z.until+1,this.gameTime+2),ratio:.15};
+  return applied.ok;
+ }
+ m41ViktorStormDisruptV453Dev69(u,v){
+  if(!v?.champ||v.hp<=0)return false;
+  const cancellable=['cone_channel','m20_requiem_channel','m22_artillery_channel'];
+  const old=(this.boardTemporalV453Dev69||[]).length;
+  this.boardTemporalV453Dev69=(this.boardTemporalV453Dev69||[])
+   .filter(z=>!(z.ownerId===v.id&&cancellable.includes(z.kind)));
+  let interrupted=this.boardTemporalV453Dev69.length<old;
+  if(v.m40AuthoredChannelV453){
+   const state=v.m40AuthoredChannelV453;
+   if(state.kind==='sett_haymaker')
+    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
+     !(z.ownerId===v.id&&z.kind==='m40_sett_haymaker'));
+   if(state.kind==='galio_durand')v.m34ChargeStateV453=null;
+   if(state.kind==='master_yi_meditate')v.m29YiMeditateUntil=0;
+   v.m40AuthoredChannelV453=null;interrupted=true;
+  }
+  if(interrupted){
+   v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
+   this.event('Viktor R: interrompeu canalização.',u.team,'skill_vfx',u.id);
+  }
+  return interrupted;
+ }
  m39SyndraPickupV453Dev69(u,point){
   // Sphere has priority; only living, exposed enemy minions are fallback
   // grab targets. The exact same rule runs before queue and before debit.
@@ -3660,6 +3704,22 @@ export class Arena {
    return {ok:false,reason:'m40_channel_active'};
   }
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(s.m28ViktorStorm&&u.champ==='Viktor'&&slot==='R'){
+   const storm=(this.boardTemporalV453Dev69||[]).find(z=>z.kind==='m28_viktor_storm'&&
+    z.ownerId===u.id&&z.until>this.gameTime);
+   if(storm){
+    if(!point||![point.x,point.y].every(Number.isFinite)||
+       point.x<0||point.x>1||point.y<0||point.y>1||
+       this.mapDistance(storm.point,point)>950||
+       !this.walkable(point.x,point.y)||this.obstacleLine(storm.point,point)||
+       !this.effectResolverV41().canAct(u,'skill').ok)
+     return {ok:false,reason:'m41_viktor_storm_command_invalid'};
+    u.pendingBoardV453Dev69={slot,m41ViktorStormCommand:storm.id,
+     point:{x:point.x,y:point.y}};
+    this.recordIntentV40(team,id,'m41_viktor_storm_command',{stormId:storm.id});
+    return {ok:true,queued:true,recast:true};
+   }
+  }
   if(s.m23EmpowerNext&&u.champ==='Heimerdinger'&&
      u.m23HeimerEmpowerV453?.until>this.gameTime){
    u.pendingBoardV453Dev69={slot,m39HeimerCancel:true};
@@ -3968,6 +4028,20 @@ export class Arena {
    if(q.m28ChargeSeconds===undefined||Math.abs(q.m28ChargeSeconds-elapsed)>1e-8)
     return {ok:false,reason:'m34_charge_duration_mismatch'};
   }
+  if(q?.m41ViktorStormCommand!==undefined&&s.m28ViktorStorm&&u.champ==='Viktor'){
+   const storm=(this.boardTemporalV453Dev69||[]).find(z=>
+    z.kind==='m28_viktor_storm'&&z.ownerId===u.id&&
+    z.id===q.m41ViktorStormCommand&&z.until>this.gameTime);
+   if(!storm||!q.point||![q.point.x,q.point.y].every(Number.isFinite)||
+     q.point.x<0||q.point.x>1||q.point.y<0||q.point.y>1||
+     this.mapDistance(storm.point,q.point)>950||
+     !this.walkable(q.point.x,q.point.y)||
+     this.obstacleLine(storm.point,q.point)||
+     !this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m41_viktor_command_lost_before_commit'};
+   storm.m41CommandPoint={...q.point};
+   return {ok:true,recast:true,spentMana:0,commandedStormId:storm.id};
+  }
   if(q?.m39HeimerCancel&&s.m23EmpowerNext&&u.champ==='Heimerdinger'){
    if(!(u.m23HeimerEmpowerV453?.until>this.gameTime))
     return {ok:false,reason:'m39_heimer_upgrade_expired'};
@@ -4243,13 +4317,15 @@ export class Arena {
   }
   if(s.m26GragasDrink)u.m26GragasDrinkUntil=this.gameTime+2.5;
   if(s.m28GalioConverge||s.m28MelVolley){
-   const kind=s.m28GalioConverge?'m28_galio_converge':'m28_mel_volley',
-    ticks=s.m28GalioConverge?1:2;
+   const galio=!!s.m28GalioConverge,
+    kind=galio?'m28_galio_converge':'m28_mel_volley',
+    ticks=galio?3:2,rank=Math.max(1,u.skillRanks[q.slot]||1);
    (this.boardTemporalV453Dev69??=[]).push({
     id:++this.boardTemporalIdV453Dev69,kind,ownerId:u.id,team:u.team,
     origin:{x:u.x,y:u.y},point:{...q.point},radius:s.radius,
-    power:24+Math.max(1,u.skillRanks[q.slot]||1)*10,
-    nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,ticksLeft:ticks,hitIds:[]});
+    power:24+rank*10,nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,
+    ticksLeft:ticks,hitIds:[],
+    ...(galio?{m41Phase:'flight',m41Wings:[],m41VortexTicks:0}: {})});
   }
   if(s.m30VarusEmpowerQ)u.m30VarusEmpoweredQUntil=this.gameTime+8;
   if(s.m28VarusCharge&&u.m30VarusEmpoweredQUntil>this.gameTime){
@@ -4297,15 +4373,21 @@ export class Arena {
    stock.charges--;
   }
   if(s.m28KarthusWall||s.m28KogOoze||s.m28SejTwoSwings){
-   const kind=s.m28KarthusWall?'m28_karthus_wall':
-    s.m28KogOoze?'m28_kog_ooze':'m28_sej_second';
-   const ticks=s.m28SejTwoSwings?1:4;
-   (this.boardTemporalV453Dev69??=[]).push({
+   const wall=!!s.m28KarthusWall,
+    kind=wall?'m28_karthus_wall':
+     s.m28KogOoze?'m28_kog_ooze':'m28_sej_second';
+   const ticks=s.m28SejTwoSwings?1:4,
+    rank=Math.max(1,Math.min(5,u.skillRanks[q.slot]||1));
+   const z={
     id:++this.boardTemporalIdV453Dev69,kind,ownerId:u.id,team:u.team,
     origin:{x:u.x,y:u.y},point:{...q.point},range:s.range,
-    width:s.width||(s.m28KarthusWall?250:280),arc:s.arc||55,
-    hitIds:[],ticksLeft:ticks,power:25+Math.max(1,u.skillRanks[q.slot]||1)*12,
-    nextAt:this.gameTime+1,until:this.gameTime+ticks+.1});
+    width:wall?180:s.width||280,arc:s.arc||55,
+    hitIds:[],ticksLeft:ticks,power:25+rank*12,
+    nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,
+    ...(wall?{m41HalfSpan:430+rank*85,m41SlowPower:.35+rank*.09}: {})};
+   (this.boardTemporalV453Dev69??=[]).push(z);
+   if(wall)for(const v of this.boardCombatEnemyPoolV453Dev69(u))
+    this.m41KarthusWallApplyV453Dev69(z,u,v);
   }
   if(s.m26ShenChannel&&target?.team===u.team&&target.champ){
    (this.boardTemporalV453Dev69??=[]).push({
@@ -5018,6 +5100,7 @@ export class Arena {
      for(const v of fromPix)if(!hits.some(h=>h.id===v.id)&&!this.obstacleLine(pix,v))hits.push(v);
     }
    }
+   if(s.m28GalioConverge||s.m28KarthusWall)hits=[];
    if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
   const m25QuinnFrom=s.m25QuinnVault?{x:u.x,y:u.y}:null;
   const m28UrgotFrom=s.m28UrgotFlip?{x:u.x,y:u.y}:null;
@@ -5170,7 +5253,9 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
-    if(done>0&&s.m37LockePurgatory&&v.champ&&v.hp>0&&
+    if(done>0&&s.m28ViktorStorm&&v.champ&&!blocked)
+      this.m41ViktorStormDisruptV453Dev69(u,v);
+     if(done>0&&s.m37LockePurgatory&&v.champ&&v.hp>0&&
        v.hp<=v.maxHp*.18&&!blocked){
      // Purgatory's finishing hit is champion-only, uses the authoritative
      // lethal-damage pipeline and never executes a spell-shielded victim.
