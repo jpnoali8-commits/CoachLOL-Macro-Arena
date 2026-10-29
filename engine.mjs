@@ -4228,6 +4228,16 @@ export class Arena {
      source:u,duration:1.5,power:.65,key:'m24_slam_'+u.id+'_'+other.id});
    }
   }
+  if(s.m25GragasFirstCollision&&hits.length)
+   hits=hits.filter(v=>v.champ).sort((a,b)=>
+    this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id))).slice(0,1);
+  if(s.m25YiAlpha&&target?.champ){
+   const extra=enemyPool.filter(v=>v.hp>0&&v.id!==target.id&&
+    this.mapDistance(v,target)<=550&&this.visible(u.team,v))
+    .sort((a,b)=>this.mapDistance(a,target)-this.mapDistance(b,target)||
+     String(a.id).localeCompare(String(b.id))).slice(0,3);
+   hits=[target,...extra];
+  }
   if(s.m25LuluPixBolt&&q.point&&u.m25LuluPix?.until>this.gameTime){
     const pix=this.units.find(v=>v.id===u.m25LuluPix.targetId&&v.hp>0);
     if(pix&&this.sameCombatRealmV453Dev69(u,pix)&&this.mapDistance(u,pix)<=1800){
@@ -4249,8 +4259,14 @@ export class Arena {
    }
   }else if(s.shape==='move_point'){
    const start={x:u.x,y:u.y};
-   u.x=point.x;u.y=point.y;this.invalidateShopUndoOnDepartureV453Dev61(u);
-   this.itemEnergizeRelocateV453Dev39(u,start,point,{kind:'dash'});
+   const first=s.m25GragasFirstCollision?hits[0]:null;
+   const destination=first?{x:first.x-(first.x-u.x)*.1,
+    y:first.y-(first.y-u.y)*.1}:point;
+   if(this.walkable(destination.x,destination.y)){
+    u.x=destination.x;u.y=destination.y;
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,start,destination,{kind:'dash'});
+   }
    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
   }
   if(s.m25QuinnVault&&dashTarget&&m25QuinnFrom){
