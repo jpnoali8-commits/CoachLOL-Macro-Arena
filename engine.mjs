@@ -1186,7 +1186,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste'}),
   B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1}),
   B20('self',0,3,0,{shield:[85,125,165,205,245],m20Missing:'grey_health'}),
-  B20('target_enemy',250,120,230,{mana:100,m20MarkRequired:'taste',m20Missing:'devour_state_and_ally_target'})),
+  B20('target_enemy',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
  Galio:BK20('colossal_smash',
   B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m20Missing:'converging_windblasts'}),
   B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m20Missing:'charge'}),
@@ -2584,6 +2584,7 @@ export class Arena {
    :dist(p,point)<=p.r&&this.lineOfSight(p,point)&&(!brush||this.brushRegionAt(p.x,p.y)===brush));
  }
  visible(team,target,sources=null){
+   if(target.m24DevouredByV453?.until>this.gameTime&&target.team!==team)return false;
   if(target.team===team)return true;
   const m16=this.m16StealthVisible(team,target,sources);
   if(m16!==null)return m16;
@@ -3119,7 +3120,8 @@ export class Arena {
  }
  setOrder(team,unitId,order){
   const u=this.units.find(v=>v.id===unitId&&v.team===team);if(!u||this.teams[team].ready||this.ended||u.hp<=0)return {ok:false,reason:'Unidade indisponível'};
-  if(!order||typeof order.kind!=='string')return {ok:false,reason:'Ordem inválida'};
+  if(u.m24DevouredByV453?.until>this.gameTime)return {ok:false,reason:'engolido'};
+   if(!order||typeof order.kind!=='string')return {ok:false,reason:'Ordem inválida'};
   if(this.realmOfV453Dev69(u)&&['ward','recall','jungle','objective','farm','push','tp'].includes(order.kind))
    return {ok:false,reason:'reino_ordem_fora_do_duelo'};
   if(order.targetId){const enemy=this.units.find(e=>e.id===order.targetId&&e.team!==team);
@@ -3394,6 +3396,23 @@ export class Arena {
   }else this.damage(u,u.maxHp+10000,killer,'true','m23_zac_execution');
   return true;
  }
+ // M24 Tahm: captured targets remain serialized units, never extra entities.
+ m24DevourReleaseV453(u){
+  const state=u?.m24DevourV453;if(!state)return false;
+  u.m24DevourV453=null;
+  const v=this.units.find(x=>x.id===state.targetId);
+  if(v?.m24DevouredByV453?.ownerId===u.id){
+   v.m24DevouredByV453=null;
+   v.statusEffectsV41=(v.statusEffectsV41||[]).filter(e=>e.key!=='m24_devour_'+u.id);
+   v.stasisUntil=Math.max(0,...v.statusEffectsV41
+    .filter(e=>e.type==='stasis'&&e.until>this.gameTime).map(e=>e.until));
+   const dest=[{x:u.x+.012,y:u.y},{x:u.x-.012,y:u.y},
+    {x:u.x,y:u.y+.012},{x:u.x,y:u.y-.012},{x:u.x,y:u.y}]
+    .find(p=>this.walkable(p.x,p.y))||{x:u.x,y:u.y};
+   Object.assign(v,dest);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+  }
+  return true;
+ }
  // M24 Fizz E phase: temporary untargetability, explicit recast and timed landing.
  m24FizzLandV453(u,point){
   const state=u?.m24FizzLeapV453;if(!state)return false;
@@ -3445,21 +3464,26 @@ export class Arena {
  }
  boardCombatEntityByIdV453Dev69(id){
   if(!id)return null;
-  return this.units.find(v=>v.id===id&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime))||
+  return this.units.find(v=>v.id===id&&v.hp>0&&
+   !(v.m24FizzLeapV453?.until>this.gameTime)&&
+   !(v.m24DevouredByV453?.until>this.gameTime))||
    this.boardSummonsV453Dev69.find(v=>v.id===id&&this.boardCloneDamageableV453Dev69(v))||null;
  }
  boardCombatEnemyPoolV453Dev69(u){
   return [...this.units,...this.minions,...this.boardSummonsV453Dev69.filter(v=>
    this.boardCloneDamageableV453Dev69(v)&&v.team!==u.team&&
    (v.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,v))]
-   .filter(v=>v.team!==u.team&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime)&&this.sameCombatRealmV453Dev69(u,v)&&
+   .filter(v=>v.team!==u.team&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime)&&
+    !(v.m24DevouredByV453?.until>this.gameTime)&&
+    this.sameCombatRealmV453Dev69(u,v)&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
-  if(!u||!s||s.passiveOnly||(u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
+  if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
+     (u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
      (u.hp<=0&&!this.m23KarthusCanActV453(u,slot))||
      u.m23ZacDivisionV453?.active||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
@@ -3598,6 +3622,13 @@ export class Arena {
      target.m21FrostV453.until>this.gameTime&&
      target.m21FrostV453.stacks>=4))
    return {ok:false,reason:'requer_quatro_frost'};
+  if(s.m24Devour&&target?.champ){
+   if(target.m24DevouredByV453?.until>this.gameTime||u.m24DevourV453?.until>this.gameTime)
+    return {ok:false,reason:'devour_ja_ativo'};
+   if(target.team!==team&&
+      !(target.m24TasteV453?.[u.id]?.until>this.gameTime&&target.m24TasteV453[u.id].stacks>=3))
+    return {ok:false,reason:'devour_requer_tres_marcas'};
+  }
   if(s.m20MarkRequired&&s.shape==='target_enemy'&&
    !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
    return {ok:false,reason:'requer_marca'};
@@ -3806,6 +3837,19 @@ export class Arena {
    u.m24FizzLeapV453={origin:{x:u.x,y:u.y},point:{...q.point},
     until:this.gameTime+1.5};
    return {...committed,scheduled:true,phase:'untargetable'};
+  }
+  if(s.m24Devour){
+   if(!target?.champ||target.hp<=0||u.m24DevourV453?.until>this.gameTime||
+      target.m24DevouredByV453?.until>this.gameTime||
+      (target.team!==u.team&&
+       !(target.m24TasteV453?.[u.id]?.until>this.gameTime&&target.m24TasteV453[u.id].stacks>=3)))
+    return {...committed,ok:false,reason:'devour_alvo_invalido'};
+   const until=this.gameTime+3;
+   u.m24DevourV453={targetId:target.id,until};
+   target.m24DevouredByV453={ownerId:u.id,until};
+   this.applyEffectV41(target,'stasis',{source:u,duration:3,key:'m24_devour_'+u.id});
+   target.path=[];target.laneFollowPath=[];target.retreatPath=[];
+   return {...committed,swallowed:target.id,scheduled:true};
   }
   // M24 board entities/terrain reuse the existing queue/performActionV40 receipt.
   if(s.m24FlagDeploy&&q.point){
@@ -4190,6 +4234,12 @@ export class Arena {
    }
    if(enemy&&s.m20Mark&&!blocked&&v.hp>0)
     (v.m20MarksV453??={})[s.m20Mark+'_'+u.id]=this.gameTime+6;
+   if(enemy&&u.champ==='TahmKench'&&q.slot==='Q'&&v.champ&&
+      !blocked&&v.hp>0&&!this.effectResolverV41().has(v,'invulnerable')){
+    const ledger=v.m24TasteV453??={},old=ledger[u.id];
+    ledger[u.id]={stacks:Math.min(3,(old?.until>this.gameTime?old.stacks:0)+1),
+     until:this.gameTime+6};
+   }
    if(enemy&&s.impactSplash&&v.champ){
     const extra=enemyPool.filter(t=>t.id!==v.id&&t.hp>0&&
      this.mapDistance(v,t)<=s.impactSplash.radius);
@@ -5067,6 +5117,15 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.m24DevourV453){
+    const state=u.m24DevourV453,target=this.units.find(v=>v.id===state.targetId);
+    if(state.until<=this.gameTime||u.hp<=0||!target||target.hp<=0||
+       !this.sameCombatRealmV453Dev69(u,target))this.m24DevourReleaseV453(u);
+    else{
+     target.x=u.x;target.y=u.y;target.path=[];target.laneFollowPath=[];
+     target.retreatPath=[];
+    }
+   }
    if(u.m24FizzLeapV453&&
      (u.m24FizzLeapV453.until<=this.gameTime||u.hp<=0))
     this.m24FizzLandV453(u,u.m24FizzLeapV453.point);
@@ -8425,7 +8484,8 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
-   if(target?.m24FizzLeapV453?.until>this.gameTime)return 0;
+   if(target?.m24FizzLeapV453?.until>this.gameTime||
+      target?.m24DevouredByV453?.until>this.gameTime)return 0;
    if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
   if(attacker?.champ&&attacker.team!==target?.team&&
      ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)&&
