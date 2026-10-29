@@ -2489,8 +2489,13 @@ export class Arena {
     if(!actor||actor.team===team||actor.hp<=0)return e;
     const cloneActive=actor.shacoCloneIdV453M15&&this.boardSummonsV453Dev69.some(s=>
      s.id===actor.shacoCloneIdV453M15&&s.hp>0&&s.until>this.gameTime);
+    const decoyActive=(actor.m16WukongCloneId||actor.m16LeblancCloneId)&&
+     this.boardSummonsV453Dev69.some(s=>
+      s.id===(actor.m16WukongCloneId||actor.m16LeblancCloneId)&&
+      s.hp>0&&s.until>this.gameTime);
     const alias=actor.neekoDisguiseV453M15?.publicId||
-     (cloneActive?actor.shacoPublicAliasV453M15:null);
+     (cloneActive?actor.shacoPublicAliasV453M15:
+      decoyActive?actor.m16DecoyPublicAlias:null);
     return alias?{id:e.id,time:e.time,tick:e.tick,round:e.round,
      team:e.team,kind:e.kind,unitId:alias,observedBy:[team],public:false,
      text:'Ação de uma unidade visível.'}:e;
@@ -3877,7 +3882,8 @@ export class Arena {
   if(q.m16Recast){
    if(s.m16FourShots){
     const channel=u.m16JhinChannel;
-    if(!channel||channel.until<=now||channel.remaining<=0||channel.nextAt>now)
+    if(!channel||channel.until<=now||channel.remaining<=0||channel.nextAt>now||
+       !this.effectResolverV41().canAct(u,'skill').ok||(u.stunUntil||0)>now)
      return {ok:false,reason:'jhin_r_sem_recarga'};
     const hits=skillshotHitsV42(u,q.point,this.units.filter(t=>t.team!==u.team&&t.hp>0&&
      this.sameCombatRealmV453Dev69(u,t)),{range:3500,width:160,maxHits:Infinity,
@@ -4023,11 +4029,13 @@ export class Arena {
    }
    if(u.champ==='Evelynn'&&u.level>=6&&
     (!u.m16StealthV453||u.m16StealthV453.until<=now)&&
-    now>=Math.max(u.combatUntil||0,u.m16PassiveReadyAt||0)+4){
+    now>=Math.max(4,u.m16PassiveReadyAt||0)){
     u.m16StealthV453={type:'camouflage',source:'Evelynn:P',radius:700,
      startsAt:now,until:Number.MAX_SAFE_INTEGER};
    }
-   if(u.m16JhinChannel?.until<=now)u.m16JhinChannel=null;
+   if(u.m16JhinChannel?.until<=now||u.m16JhinChannel&&
+     (moving||!this.effectResolverV41().canAct(u,'skill').ok||
+       (u.stunUntil||0)>now))u.m16JhinChannel=null;
    if(u.champ==='Jhin'&&u.m16JhinAmmo===0&&(u.m16JhinReloadUntil||0)<=now)
     u.m16JhinAmmo=4;
   }
@@ -4048,6 +4056,7 @@ export class Arena {
    if(t.triggeredAt!==null||t.armedAt>now)continue;
    const candidates=[...this.units,...this.minions].filter(u=>u.team!==t.team&&u.hp>0&&
     (u.spawnAt===undefined||u.spawnAt<=now)&&
+    this.sameCombatRealmV453Dev69(owner,u)&&
     (t.kind!=='caitlyn_snap'&&t.kind!=='nidalee_bushwhack'&&t.kind!=='shaco_box'||!!u.champ)&&
     this.mapDistance(u,t)<=t.triggerRadius)
     .sort((a,b)=>this.mapDistance(a,t)-this.mapDistance(b,t)||a.id.localeCompare(b.id));
