@@ -1179,7 +1179,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m20Missing:'long_range_ice_storm'})),
  Sett:BK20('pit_grit',
   B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m20Missing:'max_hp_bonus'}),
-  B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',shield:[100,150,200,250,300],m20Missing:'grit_and_true_damage_center'}),
+  B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',m23UseGrit:true,m20Missing:'cast_time_and_grit_decay'}),
   B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m20Missing:'pull_opposite_stun'}),
   B20('target_enemy',400,120,280,{mana:0,knockback:450,type:'physical',m20Missing:'slam_aoe'})),
  TahmKench:BK20('an_acquired_taste',
@@ -1221,7 +1221,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',800,10,85,{radius:250,type:'physical',cc:'slow',ccSeconds:2,ccPower:.3}),
   B20('target_enemy',490,12,100,{type:'physical',m20Missing:'continuous_autofire'}),
   B20('move_point',475,16,90,{radius:230,cc:'stun',ccSeconds:.75,shield:[85,120,155,190,225],m20Missing:'flip'}),
-  B20('line_enemy',2500,100,210,{width:145,maxHits:1,m20Missing:'impale_execute_and_fear'})),
+  B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25,m20Missing:'chains_channel_and_suppression'})),
  Varus:BK20('living_vengeance',
   B20('line_enemy',1500,16,100,{width:155,type:'physical',m20Missing:'charge_damage_and_range'}),
   B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m20Missing:'blight_charge_empowered_q'}),
@@ -1266,7 +1266,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m20Missing:'turret_ai_and_charge_stock'}),
   B20('line_enemy',1325,11,95,{width:270,m20Missing:'five_converging_rockets'}),
   B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m20Missing:'center_stun_outer_slow'}),
-  B20('self',0,100,0,{shield:[95,145,195],m20UpgradeNext:true,m20Missing:'three_upgraded_spells'})),
+  B20('self',0,100,0,{m23EmpowerNext:true,m20Missing:'upgraded_ability_visuals_and_R_cancel'})),
  Kassadin:BK20('void_stone',
   B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
   B20('self',0,7,0,{nextBasic:[55,75,95,115,135],charges:1,m20Missing:'mana_refund'}),
@@ -3309,6 +3309,25 @@ export class Arena {
  // Shared combat target contract: clones are server-owned, damageable entities,
  // never a new champion in the ten-unit roster.
  // Dead Karthus owns a bounded skill-only window, never a second life.
+ m23UrgotExecuteV453(u,targetId,threshold=.25){
+  const mark=u?.m23ExecuteMarkV453;
+  const victim=this.boardCombatEntityByIdV453Dev69(targetId);
+  if(!mark||mark.targetId!==targetId||mark.until<=this.gameTime||
+     !u||u.hp<=0||!victim?.champ||victim.hp>victim.maxHp*threshold||
+     victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
+     !this.visible(u.team,victim))return {ok:false,reason:'execucao_invalida'};
+  u.m23ExecuteMarkV453=null;
+  const dealt=this.damage(victim,victim.hp+100000,u,'true','spell');
+  if(victim.hp<=0){
+   for(const enemy of this.units.filter(v=>v.team!==u.team&&v.hp>0&&
+      v.id!==victim.id&&this.sameCombatRealmV453Dev69(u,v)&&
+      this.mapDistance(u,v)<=600).sort((a,b)=>a.id.localeCompare(b.id)))
+    this.applyEffectV41(enemy,'fear',{source:u,duration:1.5,
+     key:'m23_urgot_fear_'+u.id+'_'+enemy.id});
+  }
+  this.event('Urgot R: Fear Beyond Death.',u.team,'skill_vfx',u.id);
+  return {ok:true,executed:victim.hp<=0,damage:dealt};
+ }
  m23KarthusCanActV453(u,slot){
   return !!u&&u.champ==='Karthus'&&u.hp<=0&&
    u.m23DeathDefiedV453?.until>this.gameTime&&
@@ -3460,6 +3479,16 @@ export class Arena {
    this.recordIntentV40(team,id,'m22_secondary',{slot,kind:secondary.kind});
    return {ok:true,queued:true,recast:true};
   }
+  if(s.m23ExecuteThreshold&&slot==='R'&&u.m23ExecuteMarkV453?.until>this.gameTime){
+   const victim=this.boardCombatEntityByIdV453Dev69(u.m23ExecuteMarkV453.targetId);
+   if(targetId&&targetId!==victim?.id)return {ok:false,reason:'execucao_outro_alvo'};
+   if(!victim||!victim.champ||victim.team===team||!this.sameCombatRealmV453Dev69(u,victim)||
+      !this.visible(team,victim))return {ok:false,reason:'execucao_sem_alvo'};
+   if(victim.hp>victim.maxHp*s.m23ExecuteThreshold)return {ok:false,reason:'limiar_execucao'};
+   u.pendingBoardV453Dev69={slot,m23Recast:'execute',targetId:victim.id};
+   this.recordIntentV40(team,id,'m23_execute_recast',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   const satchel=['satchel_charge','m21_gragas_barrel'].includes(s.boardTemporal)&&
    this.boardTemporalV453Dev69?.find(z=>z.kind===s.boardTemporal&&
     z.ownerId===u.id&&z.until>=this.gameTime);
@@ -3585,6 +3614,10 @@ export class Arena {
    this.event('Lee Sin Q2: Resonating Strike.',u.team,'skill_vfx',u.id);
    return {ok:true,recast:true,spentMana:0,hitCount:dealt>0?1:0};
   }
+  if(q?.m23Recast==='execute'&&s.m23ExecuteThreshold){
+   const result=this.m23UrgotExecuteV453(u,q.targetId,s.m23ExecuteThreshold);
+   return result.ok?{...result,recast:true,spentMana:0}:result;
+  }
   if(q?.m22Recast==='secondary'&&s.m22SecondStage){
    const state=u.m22SecondaryV453?.[q.slot];
    if(!state||state.until<=this.gameTime||state.kind!==s.m22SecondStage)
@@ -3696,6 +3729,13 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  const spentGrit=s.m23UseGrit?Math.max(0,u.m23GritV453?.value||0):0;
+  if(s.m23UseGrit)u.m23GritV453={value:0,lastHitAt:this.gameTime,
+   nextDecayAt:this.gameTime+5};
+  const empower=u.champ==='Heimerdinger'&&
+   u.m23HeimerEmpowerV453?.until>this.gameTime&&['Q','W','E'].includes(q.slot);
+  if(s.m23EmpowerNext)u.m23HeimerEmpowerV453={until:this.gameTime+7};
+  if(empower)u.m23HeimerEmpowerV453=null;
   if(s.m22SecondStage)(u.m22SecondaryV453??={})[q.slot]={
    kind:s.m22SecondStage,until:this.gameTime+3,targetIds:[],firstId:null};
   if(s.m22Magazine&&q.slot==='R'){
@@ -4883,6 +4923,19 @@ export class Arena {
   this.advanceMechanicsV453M16();
   for(const u of this.units){
    if(u.m23DeathDefiedV453?.until<=this.gameTime)u.m23DeathDefiedV453=null;
+   const grit=u.m23GritV453;
+   if(grit?.value>0&&this.gameTime>=grit.nextDecayAt){
+    const steps=Math.floor(this.gameTime-grit.nextDecayAt)+1;
+    grit.value*=Math.pow(.7,Math.min(steps,300));
+    grit.nextDecayAt+=steps;
+   }
+   const mark=u.m23ExecuteMarkV453;
+   if(mark&&this.gameTime>=mark.until){
+    const victim=this.boardCombatEntityByIdV453Dev69(mark.targetId);
+    if(victim?.champ&&victim.hp<=victim.maxHp*.25&&u.hp>0)
+     this.m23UrgotExecuteV453(u,victim.id,.25);
+    u.m23ExecuteMarkV453=null;
+   }
    if(u.m23ZacDivisionV453?.active&&this.gameTime>=u.m23ZacDivisionV453.until)
     this.m23FinishZacDivisionV453(u);
   }
@@ -8433,6 +8486,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
   }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  if(dealt>0&&target.champ==='Sett'&&target.hp>0&&attacker?.team!==target.team){
+   const previous=target.m23GritV453?.value||0;
+   target.m23GritV453={value:Math.min(target.maxHp*.5,previous+dealt),
+    lastHitAt:this.gameTime,nextDecayAt:this.gameTime+5};
+  }
   if(dealt>0&&attacker?.m22IronWillV453?.until>this.gameTime&&
      attacker.champ&&target.team!==attacker.team&&
      ['basic','spell'].includes(sourceType))
