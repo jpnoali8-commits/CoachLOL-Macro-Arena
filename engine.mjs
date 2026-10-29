@@ -4648,6 +4648,31 @@ export class Arena {
       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
     }
    }
+   if(s.m32ViRKnockaside&&target?.champ&&target.hp>0){
+    // Assault & Battery: secondary units hit along the *actual approach*
+    // are displaced aside, not substituted for the primary locked victim.
+    const start={x:u.x,y:u.y},dx=(target.x-u.x)*this.worldWidth,
+     dy=(target.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy));
+    for(const other of enemyPool.filter(v=>v.champ&&v.id!==target.id&&v.hp>0&&
+       !this.obstacleLine(start,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+     const ox=(other.x-start.x)*this.worldWidth,oy=(other.y-start.y)*this.worldHeight,
+      depth=(ox*dx+oy*dy)/len,side=(ox*dy-oy*dx)/len;
+     if(depth<0||depth>len||Math.abs(side)>160)continue;
+     const hit=this.damage(other,55+Math.max(1,u.skillRanks.R||1)*35,u,'physical','spell');
+     if(hit>0&&other.hp>0){
+      const sign=side>=0?-1:1,from={x:other.x,y:other.y},
+       dest={x:other.x+sign*(-dy/len)*120/this.worldWidth,
+        y:other.y+sign*(dx/len)*120/this.worldHeight};
+      if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(other,dest)){
+       Object.assign(other,dest);other.path=[];other.laneFollowPath=[];
+       other.retreatPath=[];this.invalidateShopUndoOnDepartureV453Dev61(other);
+       this.itemEnergizeRelocateV453Dev39(other,from,dest,{kind:'vi_r_knockaside'});
+      }
+      this.applyEffectV41(other,'knockup',{source:u,duration:.45,
+       key:'m32_vi_path_'+u.id+'_'+other.id+'_'+this.gameTime});
+     }
+    }
+   }
    if(s.m26ViShockwave&&target?.champ&&target.hp>0){
     const dx=(target.x-u.x)*this.worldWidth,dy=(target.y-u.y)*this.worldHeight;
     const len=Math.hypot(dx,dy)||1;
@@ -4828,6 +4853,18 @@ export class Arena {
      if(this.boardTemporalV453Dev69.length<prior){
       v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
       this.event('Kassadin Q: canalização interrompida.',u.team,'skill_vfx',u.id);
+     }
+    }
+    if(done>0&&s.m32MilioBounce&&v.champ&&v.hp>0){
+     const next=this.boardCombatEnemyPoolV453Dev69(u).filter(x=>x.id!==v.id&&
+      x.hp>0&&this.mapDistance(x,v)<=350&&!this.obstacleLine(v,x))
+      .sort((a,b)=>this.mapDistance(a,v)-this.mapDistance(b,v)||
+       String(a.id).localeCompare(String(b.id)))[0];
+     if(next){
+      const hit=this.damage(next,raw*.55,u,'magic','m32_milio_bounce');
+      if(hit>0&&next.champ&&next.hp>0)this.applyEffectV41(next,'slow',{
+       source:u,duration:1.5,power:.35,
+       key:'m32_milio_bounce_'+instance+'_'+next.id});
      }
     }
     if(done>0&&s.m26JarvanArmorShred&&v.champ)
@@ -5017,6 +5054,10 @@ export class Arena {
     if(s.heal)this.effectResolverV41().heal(v,power(s.heal),u);
     if(s.shield)this.applyEffectV41(v,s.shieldType||'shield',{source:u,duration:3,
      power:power(s.shield),key:'board_shield_'+instance+'_'+v.id});
+    if(s.m32SeraphineEchoShield&&m25SeraphineEcho&&v.champ)
+     this.applyEffectV41(v,'shield',{source:u,duration:3,
+      power:Math.max(25,power(s.shield)*.65),
+      key:'m32_seraphine_echo_shield_'+instance+'_'+v.id});
     if(s.invulnerableSeconds)this.applyEffectV41(v,'invulnerable',{source:u,
      duration:s.invulnerableSeconds,key:'board_invuln_'+instance+'_'+v.id});
     if(s.spellShieldSeconds)this.applyEffectV41(v,'spell_shield',{source:u,
@@ -9461,8 +9502,9 @@ export class Arena {
       this.sameCombatRealmV453Dev69(j,u)))?25:0;
   const flurry=u.champ==='LeeSin'&&u.m30LeeFlurry?.until>this.gameTime&&
    u.m30LeeFlurry.charges>0?35:0;
+  const highlander=u.champ==='MasterYi'&&u.m32YiHighlanderUntil>this.gameTime?45:0;
   const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+
-   ireliaBuff+revved+whimsy+banner+flurry-rocketPenalty)/100;
+   ireliaBuff+revved+whimsy+banner+flurry+highlander-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -10016,6 +10058,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      (attacker.m30ViktorFragments||0)+50);
    }else if(target.hp<=0&&target.id?.startsWith('m'))
     attacker.m30ViktorFragments=Math.min(300,(attacker.m30ViktorFragments||0)+4);
+  }
+  if(dealt>0&&target.hp<=0&&target.champ&&attacker?.champ==='MasterYi'&&
+     attacker.team!==target.team&&attacker.m32YiHighlanderUntil>this.gameTime){
+   for(const slot of ['Q','W','E'])attacker.skillCds[slot]=Math.max(this.gameTime,
+    this.gameTime+Math.max(0,(attacker.skillCds[slot]||0)-this.gameTime)*.3);
   }
   if(dealt>0&&target.hp<=0&&attacker?.champ==='Varus'&&
     attacker.team!==target.team){
