@@ -3504,6 +3504,18 @@ export class Arena {
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
+ // M33: Lee Sin energy is a champion-owned, time-derived board resource.
+ // Reading energy does not mutate the state on a rejected queue.
+ m33LeeEnergyAvailableV453Dev69(u){
+  const e=u.m33LeeEnergyV453||{value:200,at:this.gameTime};
+  return Math.min(200,Math.max(0,e.value)+10*Math.max(0,this.gameTime-e.at));
+ }
+ m33LeeEnergySpendV453Dev69(u,cost){
+  const value=this.m33LeeEnergyAvailableV453Dev69(u);
+  if(cost>value)return false;
+  u.m33LeeEnergyV453={value:Math.min(200,Math.max(0,value-cost)),at:this.gameTime};
+  return true;
+ }
  // M33: facing is a tactical orientation order, not an enemy targeting action.
  queueBoardFacingV453Dev69(team,id,point){
   const u=this.units.find(v=>v.id===id&&v.team===team);
@@ -3534,8 +3546,27 @@ export class Arena {
   const upgrades=u.m30ViktorAugments??={};
   upgrades[slot]=true;
   if(['Q','W','E'].every(k=>upgrades[k]))upgrades.R=true;
+  (u.m33ViktorEvolutionHistory??=[]).push({slot,round:this.round});
   this.recordIntentV40(team,id,'viktor_evolution',{slot,remaining:u.m30ViktorFragments});
   return {ok:true,slot,upgrades:{...upgrades},spentFragments:100};
+ }
+ // M33: LIFO research undo is available in the SAME planning round only.
+ // This is not the shop undo mechanism or a retroactive combat rollback.
+ undoBoardViktorEvolutionV453Dev69(team,id){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Viktor');
+  const previous=u?.m33ViktorEvolutionHistory?.at(-1);
+  if(!u||u.hp<=0||this.ended||this.teams[team]?.ready||
+    !['planning','preparation'].includes(this.phase)||u.pendingBoardV453Dev69||
+    !previous||previous.round!==this.round)
+   return {ok:false,reason:'m33_evolution_undo_unavailable'};
+  u.m33ViktorEvolutionHistory.pop();
+  delete u.m30ViktorAugments[previous.slot];
+  u.m30ViktorAugments.R=['Q','W','E'].every(k=>!!u.m30ViktorAugments[k]);
+  if(!u.m30ViktorAugments.R)delete u.m30ViktorAugments.R;
+  u.m30ViktorFragments=(u.m30ViktorFragments||0)+100;
+  this.recordIntentV40(team,id,'viktor_evolution_undo',{
+   slot:previous.slot,refundedFragments:100});
+  return {ok:true,slot:previous.slot,upgrades:{...u.m30ViktorAugments},refunded:100};
  }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
@@ -3624,6 +3655,8 @@ export class Arena {
   // Shared secondary stage: explicit slot and time, no second resource commit.
   const secondary=s.m22SecondStage&&u.m22SecondaryV453?.[slot];
   if(secondary&&secondary.kind===s.m22SecondStage&&secondary.until>this.gameTime){
+   if(u.champ==='LeeSin'&&this.m33LeeEnergyAvailableV453Dev69(u)<30)
+    return {ok:false,reason:'m33_lee_recast_energy'};
    const selected=this.boardCombatEntityByIdV453Dev69(targetId);
    if(secondary.kind==='grab'){
     if(!selected||selected.team===team||selected.id===secondary.firstId||
@@ -3658,6 +3691,8 @@ export class Arena {
    if(!victim||victim.team===team||!this.sameCombatRealmV453Dev69(u,victim)||
       !(victim.champ?this.visible(team,victim):this.canSeePoint(team,victim))||
       this.mapDistance(u,victim)>1300)return {ok:false,reason:'recast_alvo_invalido'};
+   if(u.champ==='LeeSin'&&this.m33LeeEnergyAvailableV453Dev69(u)<30)
+    return {ok:false,reason:'m33_lee_recast_energy'};
    u.pendingBoardV453Dev69={slot,m21Recast:'sonic_dash',targetId:victim.id};
    this.recordIntentV40(team,id,'m21_recast',{slot});
    return {ok:true,queued:true,recast:true};
@@ -3769,6 +3804,9 @@ export class Arena {
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
+   if(u.champ==='LeeSin'&&['Q','W','E'].includes(slot)&&
+      this.m33LeeEnergyAvailableV453Dev69(u)<50)
+    return {ok:false,reason:'m33_lee_energy'};
    const gate=this.m23KarthusCanActV453(u,slot)?
     this.m23KarthusCastGateV453(u,slot):castGateV39(u,slot,this.gameTime);
    if(!gate.ok)return gate;
@@ -3831,6 +3869,8 @@ export class Arena {
     x:victim.x-(victim.x-u.x)*.10,y:victim.y-(victim.y-u.y)*.10};
    if(!this.walkable(end.x,end.y)||this.obstacleLine(old,end))
     return {ok:false,reason:'recast_rota_bloqueada'};
+   if(u.champ==='LeeSin'&&!this.m33LeeEnergySpendV453Dev69(u,30))
+    return {ok:false,reason:'m33_lee_recast_energy'};
    u.m21SonicRecastV453=null;
    Object.assign(u,end);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
    this.invalidateShopUndoOnDepartureV453Dev61(u);
@@ -3881,6 +3921,8 @@ export class Arena {
        key:'m22_cripple_'+u.id+'_'+v.id});
     }
    }
+   if(u.champ==='LeeSin'&&!this.m33LeeEnergySpendV453Dev69(u,30))
+    return {ok:false,reason:'m33_lee_recast_energy'};
    u.m22SecondaryV453[q.slot]=null;
    this.event(u.champ+' '+q.slot+' segunda etapa '+state.kind+'.',u.team,'skill_vfx',u.id);
    return {ok:true,recast:true,spentMana:0};
@@ -3989,6 +4031,9 @@ export class Arena {
    return {ok:false,reason:'m32_charge_release_range'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
+  if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot)&&
+     this.m33LeeEnergyAvailableV453Dev69(u)<50)
+   return {ok:false,reason:'m33_lee_energy_before_commit'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
   const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m23KarthusCanActV453(u,q.slot)?this.m23KarthusCommitV453(u,q.slot):
@@ -3997,10 +4042,12 @@ export class Arena {
     point:target&&!target.champ?{x:target.x,y:target.y}:q.point||null,
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot))
+   this.m33LeeEnergySpendV453Dev69(u,50);
   // M33: a queued but denied ability cannot rotate a defender for Cassiopeia R.
   const aim=target||q.m28LaserOrigin||q.point;
   if(aim&&['target_enemy','target_ally','target_any','line_enemy',
-   'cone_enemy','circle_enemy','move_point'].includes(s.shape)){
+   'cone_enemy','circle_enemy','move_point','deploy_point','vision_point'].includes(s.shape)){
    const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight;
    const len=Math.hypot(dx,dy);
    if(len>=1)u.m28FacingV453={x:dx/len,y:dy/len};
@@ -10166,7 +10213,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      stacks:Math.min(3,stacks+1)};
    }
    if(attacker.champ==='LeeSin'&&attacker.m30LeeFlurry?.until>this.gameTime&&
-      attacker.m30LeeFlurry.charges>0)attacker.m30LeeFlurry.charges--;
+      attacker.m30LeeFlurry.charges>0){
+    attacker.m30LeeFlurry.charges--;
+    this.m33LeeEnergySpendV453Dev69(attacker,-20);
+   }
    if(attacker.champ==='Sejuani'&&target.champ&&target.hp>0){
     const frost=target.m21FrostV453;
     const stacks=frost?.sourceId===attacker.id&&frost.until>this.gameTime?

@@ -94,6 +94,8 @@ jobs:
           node tests/audit/v453_m32_b01_five_deep_identities.test.mjs
           node --check tests/audit/v453_m33_b01_real_identity_runtime.test.mjs
           node tests/audit/v453_m33_b01_real_identity_runtime.test.mjs
+          node --check tests/audit/v453_m33_b01_pqwer_cohort_facing_energy_evolution.test.mjs
+          node tests/audit/v453_m33_b01_pqwer_cohort_facing_energy_evolution.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
