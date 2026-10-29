@@ -1180,8 +1180,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Sett:BK20('pit_grit',
   B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m20Missing:'max_hp_bonus'}),
   B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',m23UseGrit:true,m20Missing:'cast_time_and_grit_decay'}),
-  B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m20Missing:'pull_opposite_stun'}),
-  B20('target_enemy',400,120,280,{mana:0,knockback:450,type:'physical',m20Missing:'slam_aoe'})),
+  B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m24OppositePull:true}),
+  B20('target_enemy',400,120,280,{mana:0,m24Slam:true,type:'physical'})),
  TahmKench:BK20('an_acquired_taste',
   B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste'}),
   B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1}),
@@ -3536,6 +3536,15 @@ export class Arena {
    this.recordIntentV40(team,id,'m24_recast',{slot});
    return {ok:true,queued:true,recast:true};
   }
+  if(s.m24Arena&&slot==='R'){
+   const arena=(this.boardTemporalV453Dev69||[]).find(z=>
+    z.kind==='m24_jarvan_arena'&&z.ownerId===u.id&&z.until>this.gameTime);
+   if(arena&&!targetId){
+    u.pendingBoardV453Dev69={slot,m24Recast:'arena_remove',temporalId:arena.id};
+    this.recordIntentV40(team,id,'m24_recast',{slot});
+    return {ok:true,queued:true,recast:true};
+   }
+  }
   if(s.m22Magazine&&slot==='R'){
    const state=u.m22MagazineV453||{charges:s.m22Magazine.max,nextAt:0,shots:0};
    if(state.charges<s.m22Magazine.max&&state.nextAt>0&&this.gameTime>=state.nextAt){
@@ -3689,6 +3698,13 @@ export class Arena {
   if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
       s.passiveOnly||u.m23ZacDivisionV453?.active)
    return {ok:false,reason:'board_indisponivel'};
+  if(q?.m24Recast==='arena_remove'&&s.m24Arena){
+   const before=this.boardTemporalV453Dev69.length;
+   this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
+    !(z.id===q.temporalId&&z.kind==='m24_jarvan_arena'&&z.ownerId===u.id));
+   return this.boardTemporalV453Dev69.length<before?
+    {ok:true,recast:true,spentMana:0}:{ok:false,reason:'arena_expirada'};
+  }
   if(q?.m24Recast==='fizz_land'&&s.m24FizzLeap){
    if(!(u.m24FizzLeapV453?.until>this.gameTime))
     return {ok:false,reason:'fizz_recast_expirado'};
@@ -4074,6 +4090,49 @@ export class Arena {
     .sort((a,b)=>this.mapDistance(primary,a)-this.mapDistance(primary,b)||
      String(a.id).localeCompare(String(b.id))).slice(0,s.bounce);
    hits.push(...extra);
+  }
+  if(s.m24OppositePull&&q.point){
+   // Universal opposing-side pull: line geometry, collision and symmetric stun.
+   const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight;
+   const len=Math.hypot(dx,dy),positive=[],negative=[];
+   if(len>0)for(const v of enemyPool.filter(v=>v.champ&&v.hp>0)){
+    const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
+    const depth=(x*dx+y*dy)/len,side=Math.abs(x*dy-y*dx)/len;
+    if(Math.abs(depth)>s.range||side>115||this.obstacleLine(u,v))continue;
+    (depth>=0?positive:negative).push({v,depth});
+   }
+   const pair=positive.length>0&&negative.length>0;
+   hits=[...positive,...negative].sort((a,b)=>Math.abs(a.depth)-Math.abs(b.depth)||
+    a.v.id.localeCompare(b.v.id)).map(t=>t.v);
+   for(const v of hits){
+    const from={x:v.x,y:v.y};
+    const to={x:u.x+(v.x-u.x)*Math.min(1,140/Math.max(1,this.mapDistance(u,v))),
+     y:u.y+(v.y-u.y)*Math.min(1,140/Math.max(1,this.mapDistance(u,v)))};
+    if(this.walkable(to.x,to.y)&&!this.obstacleLine(from,to)){
+     Object.assign(v,to);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+     this.invalidateShopUndoOnDepartureV453Dev61(v);
+     this.itemEnergizeRelocateV453Dev39(v,from,to,{kind:'pull'});
+    }
+    if(pair)this.applyEffectV41(v,'stun',{source:u,duration:1,
+     key:'m24_sett_pull_'+u.id+'_'+v.id+'_'+this.gameTime});
+   }
+  }
+  if(s.m24Slam&&target?.champ&&target.hp>0){
+   const from={x:u.x,y:u.y};
+   const displaced=this.pushChampionThroughTerrain(u,target,360,{maxWallUnits:0});
+   const to=displaced.point;
+   if(this.walkable(to.x,to.y)&&!this.obstacleLine(from,to)){
+    Object.assign(u,{x:to.x,y:to.y});u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'slam'});
+   }
+   const r=Math.max(1,u.skillRanks.R||1);
+   for(const other of enemyPool.filter(v=>v.id!==target.id&&v.hp>0&&
+     this.mapDistance(v,to)<=400).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    const hit=this.damage(other,50+r*50+target.maxHp*.08,u,'physical','spell');
+    if(hit>0&&other.champ&&other.hp>0)this.applyEffectV41(other,'slow',{
+     source:u,duration:1.5,power:.65,key:'m24_slam_'+u.id+'_'+other.id});
+   }
   }
   if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
   const dashTarget=s.dashToHit?hits.find(v=>v.champ&&v.hp>0):null;
