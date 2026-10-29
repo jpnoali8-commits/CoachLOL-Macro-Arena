@@ -178,6 +178,13 @@ function work(lane,dir,config){
  }
 }
 try{
+ const infra={name:'qa-infra',branch:'ops/qa-orchestrator-dev69',
+  commit:git(['rev-parse','HEAD']),jobs:[],ok:false};
+ summary.lanes.push(infra);
+ execute(infra,root,'QA orchestrator contract','node',
+  ['tests/qa/orchestrator_contract.test.mjs'],{timeoutMs:30000});
+ infra.ok=infra.jobs.length>0&&infra.jobs.every(j=>j.ok);
+ if(!infra.ok)console.error('QA infrastructure validation FAILED; release cannot be certified.');
  for(const config of chosen){
   const lane={name:config.name,branch:config.branch,commit:null,jobs:[],ok:false};
   summary.lanes.push(lane);
