@@ -5790,7 +5790,8 @@ export class Arena {
      const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
       this.sameCombatRealmV453Dev69(u,v)&&
-      (!['Varus','Sejuani','Ashe'].includes(z.champ)||
+      (!((z.champ==='Varus'&&z.slot==='R')||
+        z.champ==='Sejuani'||z.champ==='Ashe')||
        v.champ||this.boardCloneDamageableV453Dev69(v)));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
@@ -5916,7 +5917,7 @@ export class Arena {
        }else if(z.champ==='Milio'&&victim.champ){
         this.applyEffectV41(victim,'slow',{source:u,duration:1.5,
          power:.3,key:'m44_milio_first_'+z.id+'_'+victim.id});
-       }else if(z.champ==='Varus'&&victim.champ){
+       }else if(z.champ==='Varus'&&z.slot==='R'&&victim.champ){
         this.applyEffectV41(victim,'root',{source:u,duration:2,
          key:'m44_varus_r_root_'+z.id+'_'+victim.id});
         // Spread belongs to Varus only; enqueue for a later tick, never
