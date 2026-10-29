@@ -44,6 +44,10 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
   if(s.m24Devour)e.m24TasteV453={[u.id]:{stacks:3,until:a.gameTime+10}};
   if(s.m20OrbConsume||s.m20OrbConsumeAll)
    u.m20SyndraOrbsV453=[{x:.51,y:.5,until:a.gameTime+10}];
+  // M39: a valid Syndra W now REQUIRES a real pickup at queue and commit.
+  // Supply a genuine owned orb; never weaken production preflight.
+  if(s.m24OrbThrow)u.m20SyndraOrbsV453=[
+   {x:.506,y:.5,until:a.gameTime+10}];
   if(s.m20Rewind){u.skillCds.Q=a.gameTime+30;u.skillCds.E=a.gameTime+30;}
   const before={
    mana:u.mana,cd:u.skillCds[slot]||0,enemyHp:e.hp,
