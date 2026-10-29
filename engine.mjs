@@ -1214,8 +1214,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,90,0,{speedBuff:.45,buffSeconds:7,m20Missing:'flight_transform_skystrike'})),
  Syndra:BK20('transcendent',
   B20('circle_enemy',800,7,90,{radius:220,m20OrbSpawn:true}),
-  B20('circle_enemy',925,13,85,{radius:270,cc:'slow',ccSeconds:1.5,ccPower:.35,m20OrbConsume:true,m20Missing:'grab_orb_or_minion'}),
-  B20('cone_enemy',650,15,80,{arc:80,knockback:260,m20Missing:'orb_stun'}),
+  B20('circle_enemy',925,13,85,{radius:270,cc:'slow',ccSeconds:1.5,ccPower:.35,m24OrbThrow:true,m20Missing:'minion_throw'}),
+  B20('cone_enemy',650,15,80,{arc:80,knockback:260,m24OrbScatter:true}),
   B20('target_enemy',675,120,265,{mana:100,m20OrbConsumeAll:true,m20Missing:'sphere_barrage_count'})),
  Urgot:BK20('echoing_flames',
   B20('circle_enemy',800,10,85,{radius:250,type:'physical',cc:'slow',ccSeconds:2,ccPower:.3}),
@@ -1238,10 +1238,10 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',400,16,105,{radius:260,cc:'slow',ccSeconds:2,ccPower:.3,m20Missing:'untargetable_recast'}),
   B20('line_enemy',1300,120,230,{width:160,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'delayed_shark_knockup'})),
  JarvanIV:BK20('martial_cadence',
-  B20('line_enemy',770,10,90,{width:160,type:'physical',m20Missing:'armor_shred_and_flag_dash'}),
+  B20('line_enemy',770,10,90,{width:160,type:'physical',m24FlagDash:true,m20Missing:'armor_shred'}),
   B20('circle_enemy',0,9,0,{originSelf:true,radius:625,shield:[80,110,140,170,200],cc:'slow',ccSeconds:2,ccPower:.3}),
-  B20('circle_enemy',860,12,75,{radius:185,m20Missing:'standard_aura'}),
-  B20('target_enemy',650,120,270,{dashToHit:true,m20Missing:'arena_walls'})),
+  B20('circle_enemy',860,12,75,{radius:185,m24FlagDeploy:true}),
+  B20('target_enemy',650,120,270,{dashToHit:true,m24Arena:true})),
  MasterYi:BK20('double_strike',
   B20('target_enemy',600,20,100,{dashToHit:true,m20Missing:'multi_target_untargetable'}),
   B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m20Missing:'damage_reduction_channel'}),
@@ -2368,7 +2368,12 @@ export class Arena {
   return null;
  }
  maskAt(layer,x,y){let ix=Math.floor(clamp(x,0,.999)*this.mask.size),iy=Math.floor(clamp(y,0,.999)*this.mask.size);return this.riftMaskV452d4(layer)?.[iy*this.mask.size+ix]==='1'}
- walkable(x,y){return x>=.019&&x<=.978&&y>=.019&&y<=.978&&!this.maskAt('wall',x,y)}
+ m24ArenaWallBlocksV453(p){
+  return (this.boardTemporalV453Dev69||[]).some(z=>z.kind==='m24_jarvan_arena'&&
+   z.until>this.gameTime&&Math.abs(this.mapDistance(p,z.point)-z.radius)<=40);
+ }
+ walkable(x,y){return x>=.019&&x<=.978&&y>=.019&&y<=.978&&
+  !this.maskAt('wall',x,y)&&!this.m24ArenaWallBlocksV453({x,y})}
  obstacleLine(a,b){const steps=Math.max(2,Math.ceil(dist(a,b)*130));for(let i=1;i<steps;i++){let f=i/steps;if(!this.walkable(a.x+(b.x-a.x)*f,a.y+(b.y-a.y)*f))return true}return false}
  lineOfSight(a,b){
   const steps=Math.max(2,Math.ceil(dist(a,b)*155));
@@ -2391,7 +2396,7 @@ export class Arena {
  // A* 128x128 cost grid derived from supplied wall mask; diagonal corner-cutting is forbidden.
  findPath(from,to){let N=this.mask.size,c=(v)=>clamp(Math.floor(v*N),0,N-1), sx=c(from.x),sy=c(from.y),ex=c(to.x),ey=c(to.y);
   const idx=(x,y)=>y*N+x;const goal=idx(ex,ey);if(!this.walkable(to.x,to.y))return null;
-  const effectiveWall=this.riftMaskV452d4('wall');let blocked=(x,y)=>x<1||x>=N-1||y<1||y>=N-1||effectiveWall[idx(x,y)]==='1';
+  const effectiveWall=this.riftMaskV452d4('wall');let blocked=(x,y)=>x<1||x>=N-1||y<1||y>=N-1||effectiveWall[idx(x,y)]==='1'||this.m24ArenaWallBlocksV453({x:(x+.5)/N,y:(y+.5)/N});
   if(blocked(sx,sy)){let found=null;for(let r=1;r<7&&!found;r++)for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++)if(!blocked(sx+a,sy+b)){found=[sx+a,sy+b];break}if(found)[sx,sy]=found;else return null;}
   const start=idx(sx,sy),len=N*N,g=new Float32Array(len);g.fill(Infinity);g[start]=0;const parent=new Int32Array(len);parent.fill(-1);const closed=new Uint8Array(len),heap=[];
   const h=(x,y)=>Math.hypot(ex-x,ey-y);function push(id,score){heap.push([id,score]);let k=heap.length-1;while(k>0){const p=(k-1)>>1;if(heap[p][1]<=heap[k][1])break;[heap[k],heap[p]]=[heap[p],heap[k]];k=p}}function pop(){const root=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let i=0;while(true){let l=i*2+1,r=l+1,m=i;if(l<heap.length&&heap[l][1]<heap[m][1])m=l;if(r<heap.length&&heap[r][1]<heap[m][1])m=r;if(m===i)break;[heap[m],heap[i]]=[heap[i],heap[m]];i=m}}return root[0]}
@@ -3389,6 +3394,29 @@ export class Arena {
   }else this.damage(u,u.maxHp+10000,killer,'true','m23_zac_execution');
   return true;
  }
+ // M24/B01: shared serializable sphere scatter; deterministic geometry.
+ m24SyndraScatterV453(u){
+  const orbs=(u.m20SyndraOrbsV453||[]).filter(v=>v.until>this.gameTime);
+  for(const orb of orbs){
+   if(this.mapDistance(u,orb)>650||this.obstacleLine(u,orb))continue;
+   const dx=(orb.x-u.x)*this.worldWidth,dy=(orb.y-u.y)*this.worldHeight;
+   const len=Math.hypot(dx,dy);if(len<1)continue;
+   const end={x:orb.x+dx/len*550/this.worldWidth,
+    y:orb.y+dy/len*550/this.worldHeight};
+   const destination=this.walkable(end.x,end.y)&&!this.obstacleLine(orb,end)?end:orb;
+   for(const enemy of this.boardCombatEnemyPoolV453Dev69(u)
+    .filter(v=>v.champ&&v.hp>0)){
+    const px=(enemy.x-orb.x)*this.worldWidth,py=(enemy.y-orb.y)*this.worldHeight;
+    const along=(px*dx+py*dy)/len,away=Math.abs(px*dy-py*dx)/len;
+    if(along>=0&&along<=550&&away<=95&&
+     this.sameCombatRealmV453Dev69(u,enemy)&&!this.obstacleLine(orb,enemy))
+     this.applyEffectV41(enemy,'stun',{source:u,duration:1.25,
+      key:'m24_orb_'+u.id+'_'+orb.x+'_'+orb.y+'_'+enemy.id});
+   }
+   Object.assign(orb,destination);
+  }
+  u.m20SyndraOrbsV453=orbs;
+ }
  boardCloneDamageableV453Dev69(v){
   return !!v&&['neeko_clone','shaco_clone','wukong_clone','leblanc_clone','zac_blob'].includes(v.kind)&&
    v.hp>0&&v.until>this.gameTime;
@@ -3735,6 +3763,50 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  // M24 board entities/terrain reuse the existing queue/performActionV40 receipt.
+  if(s.m24FlagDeploy&&q.point){
+   this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(z=>
+    !(z.kind==='jarvan_flag'&&z.ownerId===u.id));
+   this.boardSummonsV453Dev69.push({id:'jarvan_flag_'+(++this.boardSummonIdV453Dev69),
+    kind:'jarvan_flag',ownerId:u.id,team:u.team,x:q.point.x,y:q.point.y,
+    hp:1,maxHp:1,lastTick:this.gameTime,createdAt:this.gameTime,until:this.gameTime+8});
+  }
+  if(s.m24FlagDash&&q.point){
+   const flag=(this.boardSummonsV453Dev69||[]).find(z=>z.kind==='jarvan_flag'&&
+    z.ownerId===u.id&&z.until>this.gameTime&&this.mapDistance(u,z)<=770&&
+    this.mapDistance(z,q.point)<=145);
+   if(flag&&this.walkable(flag.x,flag.y)&&!this.obstacleLine(u,flag)){
+    const from={x:u.x,y:u.y};
+    const victims=skillshotHitsV42(u,flag,this.boardCombatEnemyPoolV453Dev69(u),
+     {range:770,width:165,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    let damaged=0;const rank=Math.max(1,u.skillRanks.Q||1);
+    for(const enemy of victims.filter(v=>v.hp>0)){
+     if(this.damage(enemy,45+rank*45,u,'physical','spell')>0)damaged++;
+     if(enemy.champ&&enemy.hp>0)this.applyEffectV41(enemy,'knockup',{
+      source:u,duration:.75,key:'m24_flag_'+u.id+'_'+enemy.id+'_'+this.gameTime});
+    }
+    Object.assign(u,{x:flag.x,y:flag.y});u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,flag,{kind:'dash'});
+    return {...committed,hitCount:damaged,flagDash:true};
+   }
+  }
+  if(s.m24OrbThrow&&q.point){
+   const orbs=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime);
+   const orb=orbs.filter(o=>this.mapDistance(u,o)<=925&&
+    !this.obstacleLine(u,o)).sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
+   if(orb){orb.x=q.point.x;orb.y=q.point.y;orb.until=Math.max(orb.until,this.gameTime+3);}
+   u.m20SyndraOrbsV453=orbs;
+  }
+  if(s.m24OrbScatter&&q.point)this.m24SyndraScatterV453(u);
+  if(s.m24Arena&&target?.champ){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m24_jarvan_arena',
+    ownerId:u.id,team:u.team,slot:q.slot,point:{x:target.x,y:target.y},
+    origin:{x:u.x,y:u.y},radius:325,hitIds:[],
+    createdAt:this.gameTime,nextAt:this.gameTime+100,
+    until:this.gameTime+3.5});
+  }
   const spentGrit=s.m23UseGrit?Math.max(0,u.m23GritV453?.value||0):0;
   if(s.m23UseGrit)u.m23GritV453={value:0,lastHitAt:this.gameTime,
    nextDecayAt:this.gameTime+5};
