@@ -41,6 +41,113 @@ function setup(champ,team){
 function check(team,name,fn){try{fn();cases.push(team+' '+name)}
  catch(e){failures.push({team,name,error:String(e?.stack||e)})}}
 for(const team of ['blue','red']){
+ check(team,'Shen Ki Barrier occurs on cast and is cooldown-gated',()=>{
+  const {a,u,cast,snap}=setup('Shen',team);
+  cast('Q');assert.ok(u.m27ShenKiReadyAt>0);
+  const count=()=>a.effectResolverV41().list(u).filter(x=>
+   String(x.key||'').startsWith('m27_shen_ki_barrier')).length;
+  assert.equal(count(),1);
+  a.gameTime=1;cast('W');assert.equal(count(),1);
+  snap();
+ });
+ check(team,'Fizz Nimble Fighter reduces real basic hit but not spell',()=>{
+  const attack=setup('Fizz',team),spell=setup('Fizz',team);
+  const basic=attack.a.damage(attack.u,200,attack.e,'true','basic');
+  const magic=spell.a.damage(spell.u,200,spell.e,'true','spell');
+  assert.ok(basic<magic);
+  attack.snap();
+ });
+ check(team,'Sejuani first Frost Armor absorbs hit and then goes on cooldown',()=>{
+  const {a,u,e,snap}=setup('Sejuani',team);
+  const first=a.damage(u,200,e,'true','basic');
+  const second=a.damage(u,200,e,'true','basic');
+  assert.ok(first<second);
+  assert.ok(u.m27SejuaniFrostReadyAt>0);
+  snap();
+ });
+ check(team,'Heimer affinity speeds him only near owned live turret',()=>{
+  const {a,u,cast,snap}=setup('Heimerdinger',team);
+  cast('Q',{point:{x:.508,y:.5}});
+  a.gameTime=1;a.advanceBoardPassivesV453Dev69();
+  assert.ok(u.boardSpeedV453Dev69?.until>a.gameTime);
+  assert.equal(u.boardSpeedV453Dev69.fraction,.15);
+  u.x=.1;u.y=.1;a.gameTime=4;a.advanceBoardPassivesV453Dev69();
+  assert.ok(u.boardSpeedV453Dev69.until<=4);
+  snap();
+ });
+ check(team,'Seraphine Stage Presence notes empower one next basic',()=>{
+  const {a,u,e,cast,snap}=setup('Seraphine',team);
+  cast('Q',{point:{x:.515,y:.5}});
+  assert.ok(u.m27SeraphineNotes>0);
+  const marks=[],old=a.damage.bind(a);
+  a.damage=(v,value,actor,dtype,stype)=>{
+   if(stype==='m27_seraphine_notes')marks.push(value);
+   return old(v,value,actor,dtype,stype);
+  };
+  a.damage(e,70,u,'physical','basic');
+  assert.equal(marks.length,1);assert.equal(u.m27SeraphineNotes,0);
+  snap();
+ });
+ check(team,'Lulu Pix attached to ally adds one magical on-hit packet',()=>{
+  const {a,u,e,ally,cast,snap}=setup('Lulu',team);
+  cast('E',{targetId:ally.id});
+  const packets=[],old=a.damage.bind(a);
+  a.damage=(v,value,actor,dtype,stype)=>{
+   if(stype==='m27_lulu_pix_companion')packets.push(actor.id);
+   return old(v,value,actor,dtype,stype);
+  };
+  a.damage(e,100,ally,'physical','basic');
+  assert.deepEqual(packets,[u.id]);
+  a.gameTime=8;a.damage(e,100,ally,'physical','basic');
+  assert.equal(packets.length,1);
+  snap();
+ });
+ check(team,'Mel Overwhelm skill mark is consumed by one true basic',()=>{
+  const {a,u,e,cast,snap}=setup('Mel',team);
+  cast('Q',{point:{x:.515,y:.5}});
+  assert.ok(e.m20MarksV453?.['overwhelm_'+u.id]>0);
+  const procs=[],old=a.damage.bind(a);
+  a.damage=(v,value,actor,dtype,stype)=>{
+   if(stype==='m27_mel_overwhelm')procs.push(value);
+   return old(v,value,actor,dtype,stype);
+  };
+  a.damage(e,80,u,'physical','basic');
+  a.damage(e,80,u,'physical','basic');
+  assert.equal(procs.length,1);
+  assert.equal(e.m20MarksV453['overwhelm_'+u.id],undefined);
+  snap();
+ });
+ check(team,'Rell Break the Mold steals resistances on real basic',()=>{
+  const {a,u,e,snap}=setup('Rell',team);
+  a.damage(e,80,u,'physical','basic');
+  assert.equal(e.m27RellArmorTheft?.value,15);
+  assert.equal(u.m27RellStolenDefenses?.value,15);
+  const damageA=a.damage(e,150,u,'physical','basic');
+  assert.ok(damageA>0);
+  snap();
+ });
+ check(team,'Varus Living Vengeance grants combat sprint after enemy kill',()=>{
+  const {a,u,e,snap}=setup('Varus',team);
+  e.hp=25;a.damage(e,200,u,'physical','basic');
+  assert.equal(e.hp,0);
+  assert.ok(u.m27VarusVengeanceUntil>0);
+  assert.equal(u.boardSpeedV453Dev69.fraction,.3);
+  snap();
+ });
+ check(team,'Yunara four basics prime Vow and Q spends stacks for magic',()=>{
+  const {a,u,e,cast,snap}=setup('Yunara',team);
+  for(let i=0;i<4;i++)a.damage(e,100,u,'physical','basic');
+  assert.equal(u.m27YunaraVowStacks,4);
+  cast('Q');assert.equal(u.m27YunaraVowStacks,0);
+  const shots=[],old=a.damage.bind(a);
+  a.damage=(v,val,who,dt,src)=>{
+   if(src==='m27_yunara_vow')shots.push(val);
+   return old(v,val,who,dt,src);
+  };
+  a.damage(e,100,u,'physical','basic');
+  assert.equal(shots.length,1);
+  snap();
+ });
  check(team,'Master Yi E true damage is triggered only by actual basic',()=>{
   const {a,u,e,cast,snap}=setup('MasterYi',team);
   const types=[],base=a.damage.bind(a);
@@ -200,8 +307,8 @@ for(const team of ['blue','red']){
 }
 for(const e of failures)console.error('M27_B01_PASSIVE_FAIL',JSON.stringify(e));
 console.log('M27_B01_PASSIVE_QA '+JSON.stringify({
- cases:cases.length,failures:failures.length,champions:15,teams:2,
+ cases:cases.length,failures:failures.length,champions:24,teams:2,
  certifiedChampions:0,names:cases
 }));
 assert.equal(failures.length,0,'M27 champion authored passive assertions');
-assert.equal(cases.length,30);
+assert.equal(cases.length,50);
