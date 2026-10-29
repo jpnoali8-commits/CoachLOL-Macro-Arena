@@ -7259,6 +7259,8 @@ export class Arena {
     (u.m16CaitTrapImmuneUntil||0)<=now);
    if(!victim)continue;
    t.triggeredAt=now;
+   if(t.kind==='jhin_lotus'&&victim.champ)
+    (victim.m44JhinWMarks??={})[owner.id]=now+4;
    if(t.kind==='caitlyn_snap'){
     this.applyEffectV41(victim,'root',{source:owner,duration:1.5,key:t.id});
     (victim.m16TrueSightUntil??={})[t.team]=now+3;
@@ -10594,6 +10596,8 @@ export class Arena {
     }
    }
   }
+  if(u.champ==='Xayah'&&u.m44XayahPlumageUntil>this.gameTime)
+   dmg*=1.2;
   // Caitlyn headshot every six basic attacks (brush contributes two);
   // trapped enemy grants its own independently empowered headshot.
   if(u.champ==='Caitlyn'){
@@ -11230,6 +11234,27 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      this.effectResolverV41().heal(ally,65+alistar.level*3,alistar);
    }
   }
+  // B05: four-second W mark for each allied Jhin, only after real damage.
+  if(dealt>0&&target.champ&&attacker?.champ&&attacker.team!==target.team)
+   for(const jhin of this.units.filter(v=>v.champ==='Jhin'&&v.hp>0&&
+      v.team===attacker.team))
+    (target.m44JhinWMarks??={})[jhin.id]=this.gameTime+4;
+  // Clean Cuts consumes one charge only on a committed basic hit.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Xayah'&&
+     attacker.team!==target.team&&attacker.m44XayahCleanCuts>0){
+   attacker.m44XayahCleanCuts--;
+   const dx=(target.x-attacker.x)*this.worldWidth,
+    dy=(target.y-attacker.y)*this.worldHeight,
+    len=Math.max(1,Math.hypot(dx,dy)),
+    p={x:target.x+dx/len*120/this.worldWidth,
+     y:target.y+dy/len*120/this.worldHeight};
+   if(p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1)
+    this.m44XayahPlantFeatherV453Dev69(attacker,p);
+  }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Xayah'&&
+     attacker.team!==target.team&&target.champ&&
+     attacker.m44XayahPlumageUntil>this.gameTime)
+   attacker.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:.25};
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Quinn'&&
     attacker.m26QuinnFlightUntil>this.gameTime&&target?.champ&&
