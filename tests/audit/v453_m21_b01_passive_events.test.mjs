@@ -78,7 +78,9 @@ for(const team of ['blue','red']){
   assert.equal(noStack.ok,false,'Permafrost wrongly casts with zero frost');
   assert.equal(noStack.reason,'requer_quatro_frost');
   cast('W',{point:{x:.53,y:.5}});
-  assert.equal(e.m21FrostV453?.stacks,2);
+  assert.equal(e.m21FrostV453?.stacks,1,'first W swing stacks Frost');
+  a.gameTime+=1;a.advanceBoardTemporalV453Dev69();
+  assert.equal(e.m21FrostV453?.stacks,2,'second W swing stacks Frost');
   a.damage(e,25,u,'physical','basic');
   a.damage(e,25,u,'physical','basic');
   assert.equal(e.m21FrostV453?.stacks,4);
