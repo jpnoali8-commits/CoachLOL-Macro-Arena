@@ -38,7 +38,6 @@ function setup(champ,team){
 }
 function optsFor(rule,champ,slot,e,ally){
  if(champ==='Lucian'&&slot==='Q')return {targetId:e.id};
- if(rule.m24Devour){e.m24TasteV453={};}
  const shape=rule.shape;
  if(shape==='target_enemy'||shape==='target_any')return {targetId:e.id};
  if(shape==='target_ally')return {targetId:ally.id};
