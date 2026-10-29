@@ -3605,6 +3605,11 @@ export class Arena {
    this.recordIntentV40(team,id,'m21_recast',{slot});
    return {ok:true,queued:true,recast:true};
   }
+  if(s.m26KarthusToggle&&slot==='E'&&u.m26KarthusE?.until>this.gameTime){
+   u.pendingBoardV453Dev69={slot,m26Recast:'karthus_e_off'};
+   this.recordIntentV40(team,id,'m26_karthus_e_off',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   if(s.m22ArtilleryShots&&slot==='R'&&u.m22ArtilleryV453?.until>this.gameTime&&
      u.m22ArtilleryV453.remaining>0){
    const state=u.m22ArtilleryV453;
@@ -3704,6 +3709,12 @@ export class Arena {
   if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
       s.passiveOnly||u.m23ZacDivisionV453?.active)
    return {ok:false,reason:'board_indisponivel'};
+  if(q?.m26Recast==='karthus_e_off'&&s.m26KarthusToggle){
+   if(!u.m26KarthusE||u.m26KarthusE.until<=this.gameTime)
+    return {ok:false,reason:'m26_toggle_expirado'};
+   u.m26KarthusE=null;
+   return {ok:true,recast:true,spentMana:0};
+  }
   if(q?.m24Recast==='arena_remove'&&s.m24Arena){
    const before=this.boardTemporalV453Dev69.length;
    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
