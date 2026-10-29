@@ -34,16 +34,23 @@ function arenaFor(c,team){
 }
 const reference=arenaFor('Annie','blue');
 let lookupCount=0,training=0;const selection={};
+const runtimeRows=[];
 for(const team of teams){
  const unit=reference.a.units.find(x=>x.id===team+'_MID');
  for(const champion of names){
   unit.champ=champion;unit.boardFormV453M14=null;
+  const row={champion,slots:{}};
   for(const slot of roles){
    const rule=abilityRule(unit,slot);
    assert.ok(rule&&typeof rule.kind==='string',champion+' '+slot+' needs a valid rule object');
+   const descriptor={kind:rule.kind,shape:rule.shape||null,
+    implemented:rule.implemented||null,effect:rule.effect||null};
+   row.slots[slot]=descriptor;
    selection[rule.kind]=(selection[rule.kind]||0)+1;
    lookupCount++;if(rule.kind==='training')training++;
   }
+  if(team==='blue')runtimeRows.push(row);
+  else assert.deepEqual(row,runtimeRows[names.indexOf(champion)],'routing must be seat-independent: '+champion);
  }
 }
 assert.equal(lookupCount,173*4*2);
@@ -51,6 +58,7 @@ console.log('AUDIT_GLOBAL_RULES '+JSON.stringify({champions:names.length,
  slotsPerChampion:4,teamSeats:2,actualRuleLookups:lookupCount,
  trainingFallbacks:training,kindCounts:selection,
  caution:'Rule existence is not gameplay proof; PASS here means lookup did not crash'}));
+for(const row of runtimeRows)console.log('AUDIT_ROUTE_ROW '+JSON.stringify(row));
 const contract=[];
 for(const [champ,kit] of Object.entries(BOARD_KITS_V453_DEV69))
  for(const slot of roles)contract.push({family:'M9_BOARD',champ,slot});
