@@ -86,7 +86,9 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
    a.boardTemporalV453Dev69.some(v=>v.ownerId===u.id)||
    !!ally.m21ChronoshiftV453||!!u.m23HeimerEmpowerV453||
    // Fizz E has an authoritative untargetable phase, damage only on landing.
-   !!u.m24FizzLeapV453||!!u.m24DevourV453;
+   !!u.m24FizzLeapV453||!!u.m24DevourV453||
+   // Karthus E is now an on/off server-owned aura, not instant fake damage.
+   !!u.m26KarthusE;
   assert.ok(changed,'no gameplay effect after actual cast '+champ+' '+slot+' '+team);
   proofCount++;
   // Re-entry must not double-charge/double-apply the already drained queue.
