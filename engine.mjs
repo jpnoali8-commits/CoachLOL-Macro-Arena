@@ -3917,16 +3917,20 @@ export class Arena {
     if(!channel||channel.until<=now||channel.remaining<=0||channel.nextAt>now||
        !this.effectResolverV41().canAct(u,'skill').ok||(u.stunUntil||0)>now)
      return {ok:false,reason:'jhin_r_sem_recarga'};
-    const hits=skillshotHitsV42(u,q.point,this.units.filter(t=>t.team!==u.team&&t.hp>0&&
-     this.sameCombatRealmV453Dev69(u,t)),{range:3500,width:160,maxHits:Infinity,
+    // The same targetable-entity resolver handles R bullets and other board
+    // geometry. A visible clone absorbs a bullet; minions do not.
+    const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(t=>
+     !!t.champ||this.boardCloneDamageableV453Dev69(t));
+    const hits=skillshotHitsV42(u,q.point,pool,{range:3500,width:160,maxHits:Infinity,
      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-    const victim=hits.find(t=>t.champ),shot=5-channel.remaining;
+    const victim=hits[0],shot=5-channel.remaining;
     if(victim){
      const dmg=(64*(u.skillRanks.R||1)+this.elementalStatsV452d3(u).ad*.25)*
       (1+Math.min(3,3*(1-victim.hp/Math.max(1,victim.maxHp))))*
       (shot===4?2.3:1);
      this.damage(victim,dmg,u,'physical','spell');
-     if(victim.hp>0){
+     // Slow and champion True Sight do not turn a decoy into a real champion.
+     if(victim.hp>0&&victim.champ){
       this.applyEffectV41(victim,'slow',{source:u,duration:.5,power:.8,key:'jhin_r_'+shot});
       (victim.m16TrueSightUntil??={})[u.team]=now+2;
      }
@@ -4084,7 +4088,7 @@ export class Arena {
    if(!owner)continue;
    if(t.kind==='jhin_lotus'&&t.explodeAt!==null){
     if(now<t.explodeAt)continue;
-    const victims=[...this.units,...this.minions].filter(u=>u.team!==t.team&&u.hp>0&&
+    const victims=this.boardCombatEnemyPoolV453Dev69(owner).filter(u=>
      (u.spawnAt===undefined||u.spawnAt<=now)&&this.mapDistance(u,t)<=220);
     for(const v of victims){
      this.damage(v,80+40*t.rank+this.elementalStatsV452d3(owner).ap*.6,owner,'magic','spell');
@@ -4092,10 +4096,11 @@ export class Arena {
     t.until=now;continue;
    }
    if(t.triggeredAt!==null||t.armedAt>now)continue;
-   const candidates=[...this.units,...this.minions].filter(u=>u.team!==t.team&&u.hp>0&&
+   // Shared entity pool; typed champion-only trap effects remain restricted.
+   const candidates=this.boardCombatEnemyPoolV453Dev69(owner).filter(u=>
     (u.spawnAt===undefined||u.spawnAt<=now)&&
-    this.sameCombatRealmV453Dev69(owner,u)&&
-    (t.kind!=='caitlyn_snap'&&t.kind!=='nidalee_bushwhack'&&t.kind!=='shaco_box'||!!u.champ)&&
+    (t.kind!=='caitlyn_snap'&&t.kind!=='nidalee_bushwhack'&&t.kind!=='shaco_box'||
+     !!u.champ||(t.kind==='nidalee_bushwhack'&&this.boardCloneDamageableV453Dev69(u)))&&
     this.mapDistance(u,t)<=t.triggerRadius)
     .sort((a,b)=>this.mapDistance(a,t)-this.mapDistance(b,t)||a.id.localeCompare(b.id));
    const victim=candidates.find(u=>t.kind!=='caitlyn_snap'||
@@ -4111,13 +4116,15 @@ export class Arena {
    }else if(t.kind==='nidalee_bushwhack'){
     this.applyEffectV41(victim,'dot',{source:owner,duration:4,interval:1,
      power:8+6*t.rank,key:t.id});
-    (victim.m16TrueSightUntil??={})[t.team]=now+4;
-    victim.m16HuntedUntil=now+4;
+    if(victim.champ){
+     (victim.m16TrueSightUntil??={})[t.team]=now+4;
+     victim.m16HuntedUntil=now+4;
+    }
     t.until=now;
    }else if(t.kind==='teemo_mushroom'){
     const near=candidates.filter(v=>this.mapDistance(v,t)<=250);
     for(const v of near){
-     this.applyEffectV41(v,'slow',{source:owner,duration:4,power:.3,key:t.id+'_slow_'+v.id});
+     if(v.champ)this.applyEffectV41(v,'slow',{source:owner,duration:4,power:.3,key:t.id+'_slow_'+v.id});
      this.applyEffectV41(v,'dot',{source:owner,duration:4,interval:1,
       power:35+12*t.rank+this.elementalStatsV452d3(owner).ap*.12,
       key:t.id+'_dot_'+v.id});
@@ -4137,7 +4144,7 @@ export class Arena {
      const base=50+25*(t.rank-1)+v.maxHp*.04+
       this.elementalStatsV452d3(owner).ap*.25;
      this.damage(v,base*(brush?1.5:1),owner,'magic','spell');
-     if(v.hp>0)this.applyEffectV41(v,'slow',{source:owner,duration:2,
+     if(v.hp>0&&v.champ)this.applyEffectV41(v,'slow',{source:owner,duration:2,
       power:.45,key:t.id+'_'+v.id});
     }
     t.until=now;
@@ -4148,8 +4155,10 @@ export class Arena {
    }else if(t.kind==='jhin_lotus'){
     t.explodeAt=now+2;t.until=now+2.01;
     for(const v of candidates.filter(v=>this.mapDistance(v,t)<=180)){
-     this.applyEffectV41(v,'slow',{source:owner,duration:2,power:.35,key:t.id+'_slow'});
-     (v.m16TrueSightUntil??={})[t.team]=now+2;
+     if(v.champ){
+      this.applyEffectV41(v,'slow',{source:owner,duration:2,power:.35,key:t.id+'_slow'});
+      (v.m16TrueSightUntil??={})[t.team]=now+2;
+     }
     }
    }
   }
@@ -8208,7 +8217,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    const position=d=>({x:origin.x+p.unit.x*d/this.worldWidth,y:origin.y+p.unit.y*d/this.worldHeight});
    const end=position(to);
    // Valid moving interceptors, ordered by nearest world-depth, independent of list order.
-   const line=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+   const line=this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
       (v.spawnAt==null||v.spawnAt<=now)).map(v=>{
     const x=(v.x-origin.x)*this.worldWidth,y=(v.y-origin.y)*this.worldHeight;
     return {v,depth:x*p.unit.x+y*p.unit.y,side:Math.abs(x*p.unit.y-y*p.unit.x)};
@@ -8301,13 +8310,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
    if(p.kind==='jinx_r'){
     // Rocket ignores ordinary minions, explodes at the FIRST enemy champion.
-    const blockers=line.filter(x=>x.v.champ&&x.depth<barrierDepth-1e-7);
+    const blockers=line.filter(x=>(x.v.champ||this.boardCloneDamageableV453Dev69(x.v))&&
+     x.depth<barrierDepth-1e-7);
     const victim=blockers[0],impact=victim?.v;
     if(impact){
      const d=victim.depth,scale=.1+.9*Math.min(1,d/1500);
      const primary=(v,ratio)=>{const missing=Math.max(0,v.maxHp-v.hp);
       return (p.base*scale+1.2*p.bonusAD*scale+p.missingFraction*missing)*ratio;};
-     const hits=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
+     const hits=this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
       (v.spawnAt==null||v.spawnAt<=now)&&this.mapDistance(v,impact)<=p.splashRadius);
      for(const target of hits){
       const ratio=target.id===impact.id?1:.8;
@@ -8419,13 +8429,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
        duration:2+2*Math.min(1,Math.max(0,depth)/p.range),
        power:.70,key:'nami_r_slow_'+p.id});
      }
-     if(p.kind==='vex_r'&&v.champ){
-      // The first enemy champion absorbs the missile even if shielded.
-      if(!shielded&&v.hp>0){
+     if(p.kind==='vex_r'&&(v.champ||this.boardCloneDamageableV453Dev69(v))){
+      // A clone absorbs the physical missile without receiving a champion-only
+      // R2 mark, true sight or Vex recast entitlement.
+      if(v.champ&&!shielded&&v.hp>0){
        owner.vexMark={targetId:v.id,until:now+4};
        v.revealedUntil??={};v.revealedUntil[p.team]=Math.max(v.revealedUntil[p.team]||0,now+4);
       }
-      reason=shielded?'escudo_de_feitiço':'impacto_marca';break;
+      reason=v.champ?(shielded?'escudo_de_feitiço':'impacto_marca'):'impacto_clone';break;
      }
     }
     if(!reason&&Number.isFinite(cutoff)){reason='bloqueio_posicional';lastDepth=cutoff;}
