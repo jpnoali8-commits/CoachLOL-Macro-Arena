@@ -5723,7 +5723,8 @@ export class Arena {
       if(victim.hp>0&&!spellShield){
        if(z.m44Mark)(victim.m20MarksV453??={})[z.m44Mark+'_'+u.id]=now+6;
        if(z.champ==='LeeSin'){
-        if(dealt>0&&(victim.champ||this.boardCloneDamageableV453Dev69(victim)))
+        if(dealt>0&&(victim.champ||this.minions.includes(victim)||
+          this.boardCloneDamageableV453Dev69(victim)))
          u.m21SonicRecastV453={targetId:victim.id,until:now+3};
        }else if(z.champ==='Braum'&&victim.champ){
         this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.5,
