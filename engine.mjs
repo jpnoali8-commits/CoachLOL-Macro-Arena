@@ -7526,7 +7526,10 @@ export class Arena {
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
   if(attacker?.champ&&attacker.team!==target?.team&&
      ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)&&
-     attacker.m16StealthV453?.startsAt<=this.gameTime)
+     attacker.m16StealthV453?.startsAt<=this.gameTime&&
+     !(attacker.champ==='Talon'&&sourceType==='spell'&&
+       attacker.m16StealthV453?.source==='Talon:R'&&
+       attacker.m16StealthV453.startsAt===this.gameTime))
    this.m16BreakStealth(attacker,sourceType);
   if(target?.champ==='Evelynn'&&attacker?.team!==target.team&&
      (attacker?.champ||attacker?.type==='tower')){
