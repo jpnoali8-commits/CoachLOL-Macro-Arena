@@ -4660,6 +4660,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+    if(s.m29ViCharge&&q.m28ChargeSeconds!==undefined)
+     raw*=1+.30*q.m28ChargeSeconds;
     if(s.m28XerathCharge&&q.m28ChargeSeconds!==undefined)raw*=1+.22*q.m28ChargeSeconds;
     if(s.m28VarusCharge&&q.m28ChargeSeconds!==undefined)raw*=1+.25*q.m28ChargeSeconds;
      if(s.m25KassRift)raw*=1+.25*(u.m25KassRift?.bonus||0);
@@ -4677,6 +4679,13 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
+    if(done>0&&s.m29CorkiBigRocket&&
+       u.m22MagazineV453?.shots%s.m22Magazine.bigEvery===0){
+     for(const other of this.boardCombatEnemyPoolV453Dev69(u).filter(x=>
+      x.id!==v.id&&x.hp>0&&this.mapDistance(x,v)<=220&&
+      !this.obstacleLine(v,x)).sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+      this.damage(other,raw*.4,u,'magic','m29_corki_big_one');
+    }
     if(done>0&&s.m26JarvanArmorShred&&v.champ)
       v.m26JarvanArmorShred={sourceId:u.id,ratio:.22,until:this.gameTime+4};
      if(done>0&&s.m26VarusHail&&v.champ)
@@ -4771,9 +4780,12 @@ export class Arena {
       tx=(v.x-u.x)*this.worldWidth,ty=(v.y-u.y)*this.worldHeight;
      return Math.abs(tx*by-ty*bx)/Math.max(1,Math.hypot(bx,by));
     })():0;
+    const seraUpgrade=s.m29SeraphineBeatDrop&&v.champ?
+     (this.effectResolverV41().has(v,'root')?'stun':
+      this.effectResolverV41().has(v,'slow')?'root':null):null;
     const outer=(s.m28MelOuterSlow&&lateral>65)||
      (s.m28HeimerGrenadeOuter&&this.mapDistance(v,point)>110);
-    this.applyEffectV41(v,gaze?'stun':outer?'slow':s.cc,{
+    this.applyEffectV41(v,gaze?'stun':outer?'slow':seraUpgrade||s.cc,{
      source:u,duration:gaze?1.5:scaled,power:outer?.45:s.ccPower||0,
      key:'board_'+instance+'_'+v.id});
    }
@@ -4783,6 +4795,14 @@ export class Arena {
     const previous=frost?.sourceId===u.id&&frost.until>this.gameTime?frost.stacks:0;
     v.m21FrostV453={sourceId:u.id,stacks:Math.min(4,previous+(s.m28SejTwoSwings?1:2)),
      until:this.gameTime+6};
+   }
+   if(enemy&&s.m29TahmQStun&&v.champ&&!blocked&&v.hp>0){
+    const ledger=v.m24TasteV453?.[u.id];
+    if(ledger?.stacks>=3&&ledger.until>this.gameTime){
+     delete v.m24TasteV453[u.id];
+     this.applyEffectV41(v,'stun',{source:u,duration:1.25,
+      key:'m29_tahm_tongue_'+u.id+'_'+v.id});
+    }
    }
    if(enemy&&s.m21BraumConcussive&&v.champ&&!blocked&&v.hp>0&&
       !this.effectResolverV41().has(v,'invulnerable')){
@@ -9529,6 +9549,9 @@ export class Arena {
  }
   // Irelia W is a defensive channel even during crowd control; apply only
   // to incoming champion damage before resistance, never to true damage.
+  if(target?.champ==='MasterYi'&&damageType!=='true'&&
+     target.m29YiMeditateUntil>this.gameTime)
+   amount*=.35;
   if(target?.champ==='Irelia'&&damageType!=='true'&&
     target.ireliaDanceV453Dev69M7?.endAt>this.gameTime){
    const stance=target.ireliaDanceV453Dev69M7;
@@ -9887,6 +9910,14 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      b.apRatio*this.elementalStatsV452d3(attacker).ap+
      (attacker.champ==='Nasus'?(attacker.boardSiphonStacksV453Dev69||0):0));
     if(target.hp>0)this.damage(target,power,attacker,b.card?'magic':'physical','board_basic_proc');
+    if(attacker.champ==='Yunara'&&b.sourceSlot==='Q'){
+     const splash=this.boardCombatEnemyPoolV453Dev69(attacker).filter(v=>
+      v.id!==target.id&&v.hp>0&&this.mapDistance(v,target)<=350&&
+      this.visible(attacker.team,v)&&!this.obstacleLine(target,v))
+      .sort((a,c)=>this.mapDistance(a,target)-this.mapDistance(c,target)||
+       String(a.id).localeCompare(String(c.id))).slice(0,2);
+     for(const other of splash)this.damage(other,power*.4,attacker,'physical','m29_yunara_spread');
+    }
     if(b.card==='blue')attacker.mana=Math.min(attacker.maxMana,attacker.mana+60);
     if(b.card==='red'&&target.hp>0){
      const other=this.units.filter(v=>v.team!==attacker.team&&v.id!==target.id&&
