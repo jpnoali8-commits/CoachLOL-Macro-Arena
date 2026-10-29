@@ -4456,7 +4456,7 @@ export class Arena {
      const centers=[[0,0],[200,0],[-200,0],[0,200],[0,-200]].map(([x,y])=>({
       x:z.point.x+x/this.worldWidth,y:z.point.y+y/this.worldHeight}));
      for(const victim of this.boardCombatEnemyPoolV453Dev69(u)
-      .filter(v=>v.champ&&v.hp>0).sort((a,b)=>String(a.id).localeCompare(String(b.id))){
+      .filter(v=>v.champ&&v.hp>0).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
       if(z.hitIds.includes(victim.id)||!centers.some(p=>this.mapDistance(p,victim)<=155))continue;
       const hit=this.damage(victim,z.power,u,'magic','spell');
       z.hitIds.push(victim.id);
