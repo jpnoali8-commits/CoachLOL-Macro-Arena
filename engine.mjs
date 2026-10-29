@@ -3921,6 +3921,30 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  // Once-per-receipt Force Pulse spell observations, capped for deterministic turns.
+  if(s.m29KassForcePulse){
+   q.m29KassStacks=Math.min(6,u.m29KassPulseStacks||0);
+   u.m29KassPulseStacks=0;
+  }
+  for(const kass of this.units.filter(v=>v.champ==='Kassadin'&&v.hp>0&&
+      this.mapDistance(u,v)<=750&&this.sameCombatRealmV453Dev69(u,v))){
+   if(kass.id===u.id&&s.m29KassForcePulse)continue;
+   kass.m29KassPulseStacks=Math.min(6,(kass.m29KassPulseStacks||0)+1);
+  }
+  if(s.m29ShenBladePull){
+   const blade=u.m29ShenBladePoint;
+   if(blade&&this.mapDistance(u,blade)>30){
+    const victims=skillshotHitsV42(blade,u,this.boardCombatEnemyPoolV453Dev69(u),
+     {range:this.mapDistance(blade,u),width:160,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    for(const v of victims.filter(v=>v.champ&&v.hp>0&&!this.obstacleLine(blade,v))){
+     this.applyEffectV41(v,'slow',{source:u,duration:2,power:.35,
+      key:'m29_shen_blade_'+u.id+'_'+v.id});
+     u.m29ShenEmpoweredUntil=this.gameTime+5;
+    }
+   }
+   u.m29ShenBladePoint={x:u.x,y:u.y};
+  }
   // M25: authored champion identities use the same single-cost receipt.
   // M27 authored passive spell receipts. Only committed spells may arm these.
   if(u.champ==='Shen'&&u.hp>0&&(u.m27ShenKiReadyAt||0)<=this.gameTime){
@@ -4668,6 +4692,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+    if(s.m29KassForcePulse&&q.m29KassStacks)
+     raw*=1+.15*q.m29KassStacks;
     if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined)
      raw*=1+.25*q.m28ChargeSeconds;
     if(s.m29ViCharge&&q.m28ChargeSeconds!==undefined)
@@ -4795,7 +4821,7 @@ export class Arena {
       this.effectResolverV41().has(v,'slow')?'root':null):null;
     const outer=(s.m28MelOuterSlow&&lateral>65)||
      (s.m28HeimerGrenadeOuter&&this.mapDistance(v,point)>110);
-    this.applyEffectV41(v,gaze?'stun':outer?'slow':seraUpgrade||s.cc,{
+    this.applyEffectV41(v,gaze?'stun':outer?'slow':s.m29KassForcePulse&&q.m29KassStacks>=4?'root':seraUpgrade||s.cc,{
      source:u,duration:gaze?1.5:scaled,power:outer?.45:s.ccPower||0,
      key:'board_'+instance+'_'+v.id});
    }
