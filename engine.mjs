@@ -4083,7 +4083,10 @@ export class Arena {
   }
   const original=[...this.m16Traps];
   for(const t of original){
-   if(t.until<=now)continue;
+   // A Jhin lotus detonation is an already-armed scheduled event; resolving a
+   // coarse board tick slightly after its nominal expiry must not erase it.
+   const dueLotus=t.kind==='jhin_lotus'&&t.explodeAt!==null&&now>=t.explodeAt;
+   if(t.until<=now&&!dueLotus)continue;
    const owner=this.units.find(u=>u.id===t.ownerId);
    if(!owner)continue;
    if(t.kind==='jhin_lotus'&&t.explodeAt!==null){
