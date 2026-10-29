@@ -10061,6 +10061,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      const prior=target.m21FrostV453,stacks=prior?.sourceId===sej.id&&
       prior.until>this.gameTime?prior.stacks:0;
      target.m21FrostV453={sourceId:sej.id,until:this.gameTime+6,stacks:Math.min(4,stacks+1)};
+     (target.m20MarksV453??={})['frost_'+sej.id]=this.gameTime+6;
     }
    const b=attacker.boardNextBasicV453Dev69;
    if(b?.charges>0&&b.until>this.gameTime){
