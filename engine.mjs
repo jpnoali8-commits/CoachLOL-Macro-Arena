@@ -1150,13 +1150,13 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Gragas:BK20('happy_hour',
   B20('circle_enemy',850,10,85,{radius:285,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m21_gragas_barrel',zoneSeconds:4.2,m21Barrel:true,m20Missing:'barrel_charge_damage_growth'}),
   B20('self',0,5,0,{shield:[75,105,135,165,195],nextBasic:[45,65,85,105,125],charges:1,m20Missing:'channel'}),
-  B20('move_point',600,14,90,{radius:245,cc:'stun',ccSeconds:1,m20Missing:'first_enemy_collision'}),
+  B20('move_point',600,14,90,{radius:245,cc:'stun',ccSeconds:1,m25GragasFirstCollision:true}),
   B20('circle_enemy',1000,100,245,{radius:330,knockback:550})),
  LeeSin:BK20('flurry',
   B20('line_enemy',1100,10,85,{mana:0,width:140,maxHits:1,type:'physical',m20Mark:'sonic',m21SonicRecast:true,m20Missing:'sonic_wave_projectile_travel'}),
   B20('target_ally',700,8,0,{mana:0,shield:[65,95,125,155,185],m20JumpToAlly:true,m22SecondStage:'vamp',m20Missing:'energy_cost_and_vamp_values'}),
   B20('circle_enemy',0,8,75,{mana:0,originSelf:true,radius:450,m22SecondStage:'cripple',m20Missing:'on_hit_reveal'}),
-  B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m20Missing:'knockback_collision'})),
+  B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m25LeeWallCollision:true})),
  Lulu:BK20('pix_faerie_companion',
   B20('line_enemy',925,7,80,{width:160,cc:'slow',ccSeconds:2,ccPower:.6,m25LuluPixBolt:true}),
   B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m20Missing:'ally_attack_speed'}),
@@ -1243,18 +1243,18 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',860,12,75,{radius:185,m24FlagDeploy:true}),
   B20('target_enemy',650,120,270,{dashToHit:true,m24Arena:true})),
  MasterYi:BK20('double_strike',
-  B20('target_enemy',600,20,100,{dashToHit:true,m20Missing:'multi_target_untargetable'}),
+  B20('target_enemy',600,20,100,{dashToHit:true,m25YiAlpha:true}),
   B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m20Missing:'damage_reduction_channel'}),
   B20('self',0,14,0,{nextBasic:[35,45,55,65,75],charges:3,m20Missing:'true_damage_onhit'}),
   B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m20Missing:'attack_speed_and_reset'})),
  Shen:BK20('ki_barrier',
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m20Missing:'blade_pull'}),
-  B20('circle_ally',0,16,0,{radius:400,shield:[70,100,130,160,190],m20Missing:'auto_attack_dodge'}),
+  B20('circle_ally',0,16,0,{radius:400,shield:[70,100,130,160,190],m25ShenRefuge:true}),
   B20('move_point',600,18,80,{radius:200,cc:'taunt',ccSeconds:1.5}),
   B20('target_ally',25000,200,0,{mana:0,shield:[175,325,475],m20JumpToAlly:true,m20Missing:'channel_and_missing_hp_scaling'})),
  Vi:BK20('blast_shield',
   B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m20Missing:'charge'}),
-  B20('self',0,1,0,{nextBasic:[35,45,55,65,75],charges:3,m20Missing:'automatic_third_hit_shred'}),
+  B20('self',0,1,0,{nextBasic:[35,45,55,65,75],charges:3,m25ViDenting:true}),
   B20('target_enemy',400,1,75,{m20Missing:'cone_behind_and_charges'}),
   B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m20Missing:'knockaside_path'})),
  Braum:BK20('concussive_blows',
@@ -1271,12 +1271,12 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
   B20('self',0,7,0,{nextBasic:[55,75,95,115,135],charges:1,m20Missing:'mana_refund'}),
   B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m20Missing:'spell_stacks'}),
-  B20('move_point',500,5,75,{radius:240,m20Missing:'stacking_mana_and_damage'})),
+  B20('move_point',500,5,75,{radius:240,m25KassRift:true})),
  KogMaw:BK20('icathian_surprise',
   B20('line_enemy',1175,7,100,{width:165,maxHits:1,m20Missing:'armor_and_mr_shred'}),
   B20('self',0,17,0,{nextBasic:[40,50,60,70,80],charges:4,m20Missing:'attack_range_and_max_hp_onhit'}),
   B20('line_enemy',1200,12,95,{width:280,cc:'slow',ccSeconds:2,ccPower:.35,m20Missing:'ooze_trail'}),
-  B20('circle_enemy',1800,2,150,{radius:255,missingHpRatio:.1,m20Missing:'ramping_cost_and_delay'}))
+  B20('circle_enemy',1800,2,150,{radius:255,missingHpRatio:.1,m25KogArtillery:true}))
 });
 // No "certified" entries: complex recasts, pets and bespoke passives have
 // explicit QA debt and must not be replaced with fabricated generic effects.
@@ -3626,6 +3626,12 @@ export class Arena {
    return {ok:true,queued:true,recast:true};
   }
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
+  const extraM25=s.m25KassRift?
+   (u.m25KassRift?.until>this.gameTime?Math.min(4,u.m25KassRift.stacks)*20:0):
+   s.m25KogArtillery?(u.m25KogArtillery?.until>this.gameTime?
+    Math.min(4,u.m25KogArtillery.stacks)*15:0):0;
+  if(extraM25&&u.mana<abilityCost(u,slot)+extraM25)
+   return {ok:false,reason:'m25_empilhamento_sem_mana'};
   if(s.m21FrostRequired&&
    !(target?.m21FrostV453?.sourceId===u.id&&
      target.m21FrostV453.until>this.gameTime&&
@@ -3855,6 +3861,16 @@ export class Arena {
    const n=(u.m25SeraphineSpells||0)+1;
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
+  if(s.m25KassRift||s.m25KogArtillery){
+   const key=s.m25KassRift?'m25KassRift':'m25KogArtillery';
+   const previous=u[key]?.until>this.gameTime?u[key].stacks:0;
+   const extra=Math.min(4,previous)*(s.m25KassRift?20:15);
+   if(extra>0)u.mana-=extra;
+   u[key]={stacks:Math.min(4,previous+1),bonus:previous,
+    until:this.gameTime+(s.m25KassRift?12:8)};
+  }
+  if(s.m25YiAlpha)u.m25YiAlphaUntil=this.gameTime+1;
+  if(s.m25ShenRefuge)u.m25ShenRefugeUntil=this.gameTime+3;
   if(s.m25YunaraTranscendent)u.m25YunaraTranscendentUntil=this.gameTime+7;
   if(s.m25MelReflect)u.m25MelReflectUntil=this.gameTime+2;
   if(s.m25CorkiTrail&&q.point){
