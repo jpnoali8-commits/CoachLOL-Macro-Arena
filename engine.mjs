@@ -3524,6 +3524,46 @@ export class Arena {
    this.event('Lee Sin Q2: Resonating Strike.',u.team,'skill_vfx',u.id);
    return {ok:true,recast:true,spentMana:0,hitCount:dealt>0?1:0};
   }
+  if(q?.m22Recast==='secondary'&&s.m22SecondStage){
+   const state=u.m22SecondaryV453?.[q.slot];
+   if(!state||state.until<=this.gameTime||state.kind!==s.m22SecondStage)
+    return {ok:false,reason:'recast_expirado'};
+   if(state.kind==='grab'){
+    const first=this.boardCombatEntityByIdV453Dev69(state.firstId);
+    const second=this.boardCombatEntityByIdV453Dev69(q.targetId);
+    if(!first||!second||first.team===u.team||second.team===u.team||
+       first.id===second.id||!this.sameCombatRealmV453Dev69(u,first)||
+       !this.sameCombatRealmV453Dev69(u,second)||
+       !(second.champ?this.visible(u.team,second):this.canSeePoint(u.team,second))||
+       this.mapDistance(u,second)>s.range||this.mapDistance(first,second)>1000)
+     return {ok:false,reason:'segundo_alvo_expirado'};
+    const middle={x:(first.x+second.x)/2,y:(first.y+second.y)/2};
+    if(!this.walkable(middle.x,middle.y)||
+       this.obstacleLine(first,middle)||this.obstacleLine(second,middle))
+     return {ok:false,reason:'colisor_grab'};
+    for(const v of [first,second]){
+     const from={x:v.x,y:v.y};Object.assign(v,middle);
+     v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+     this.invalidateShopUndoOnDepartureV453Dev61(v);
+     this.itemEnergizeRelocateV453Dev39(v,from,middle,{kind:'pull'});
+     if(v.champ)this.applyEffectV41(v,'stun',{source:u,duration:.5,
+      key:'m22_zac_grab_'+u.id+'_'+v.id});
+    }
+   }else if(state.kind==='vamp'){
+    u.m22IronWillV453={until:this.gameTime+4,lifesteal:.22};
+   }else if(state.kind==='cripple'){
+    for(const targetId of state.targetIds||[]){
+     const v=this.boardCombatEntityByIdV453Dev69(targetId);
+     if(v?.champ&&v.hp>0&&v.team!==u.team&&this.sameCombatRealmV453Dev69(u,v)&&
+       this.mapDistance(u,v)<=600&&this.visible(u.team,v))
+      this.applyEffectV41(v,'slow',{source:u,duration:3,power:.45,
+       key:'m22_cripple_'+u.id+'_'+v.id});
+    }
+   }
+   u.m22SecondaryV453[q.slot]=null;
+   this.event(u.champ+' '+q.slot+' segunda etapa '+state.kind+'.',u.team,'skill_vfx',u.id);
+   return {ok:true,recast:true,spentMana:0};
+  }
   if(q?.m22Recast==='artillery_shot'&&s.m22ArtilleryShots){
    const state=u.m22ArtilleryV453,point=q.point;
    if(!state||state.until<=this.gameTime||state.remaining<1||
@@ -3836,6 +3876,13 @@ export class Arena {
      const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
      // M21 passives reuse real skill hit registration; failed hits never
      // detonate Blight or award Cassiopeia the poison-triggered speed bonus.
+     if(done>0&&s.m22SecondStage&&v.hp>0){
+      const state=u.m22SecondaryV453?.[q.slot];
+      if(state?.until>this.gameTime){
+       if(!state.firstId)state.firstId=v.id;
+       if(!state.targetIds.includes(v.id))state.targetIds.push(v.id);
+      }
+     }
      if(done>0&&u.champ==='Varus'&&v.champ&&v.hp>0){
       const blight=v.m21VarusBlightV453;
       if(blight?.sourceId===u.id&&blight.until>this.gameTime&&blight.stacks>0){
@@ -8281,6 +8328,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
   }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  if(dealt>0&&attacker?.m22IronWillV453?.until>this.gameTime&&
+     attacker.champ&&target.team!==attacker.team&&
+     ['basic','spell'].includes(sourceType))
+   this.effectResolverV41().heal(attacker,dealt*attacker.m22IronWillV453.lifesteal,attacker);
   // Leblanc Mirror Image: 40% HP, 60s CD, harmless decoy, private real identity.
   if(target.champ==='Leblanc'&&dealt>0&&target.hp>0&&
     target.hp<=target.maxHp*.4&&(target.m16LeblancReadyAt||0)<=this.gameTime){
