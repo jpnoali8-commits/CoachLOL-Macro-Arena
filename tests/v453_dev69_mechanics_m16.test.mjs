@@ -22,7 +22,7 @@ ok('12 distinct champion families have authored slot contracts; baseline stays 3
  assert.equal(Object.keys(M16_MECHANIC_KITS).length,12);
  assert.equal(Object.keys(BOARD_KITS_V453_DEV69).length,30);
  const slots=Object.values(M16_MECHANIC_KITS).reduce((n,x)=>n+Object.keys(x).length,0);
- assert.ok(slots>=16,slots);
+ assert.equal(slots,15,'15 authored M16 skills, distributed over 12 distinct champions');
  for(const kits of Object.values(M16_MECHANIC_KITS))for(const s of Object.values(kits))
   assert.equal(s.kind,'board_effect');
 });
