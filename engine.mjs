@@ -3308,6 +3308,26 @@ export class Arena {
  }
  // Shared combat target contract: clones are server-owned, damageable entities,
  // never a new champion in the ten-unit roster.
+ // Dead Karthus owns a bounded skill-only window, never a second life.
+ m23KarthusCanActV453(u,slot){
+  return !!u&&u.champ==='Karthus'&&u.hp<=0&&
+   u.m23DeathDefiedV453?.until>this.gameTime&&
+   ['Q','W','E','R'].includes(slot)&&
+   (slot!=='R'||u.m23DeathDefiedV453.until-this.gameTime>=3);
+ }
+ m23KarthusCastGateV453(u,slot){
+  if(!this.m23KarthusCanActV453(u,slot))return {ok:false,reason:'post_mortem_expirado'};
+  if(!(u.skillRanks?.[slot]>0))return {ok:false,reason:'não_aprendido'};
+  if((u.skillCds?.[slot]||0)>this.gameTime)return {ok:false,reason:'recarga'};
+  if(u.m23PostCastAtV453===this.gameTime)return {ok:false,reason:'ação_duplicada'};
+  return {ok:true};
+ }
+ m23KarthusCommitV453(u,slot){
+  const gate=this.m23KarthusCastGateV453(u,slot);if(!gate.ok)return gate;
+  u.m23PostCastAtV453=this.gameTime;
+  u.skillCds[slot]=this.gameTime+this.abilityCooldownV452d3(u,slot);
+  return {ok:true,spentMana:0,postMortem:true,cooldownEndsAt:u.skillCds[slot]};
+ }
  boardCloneDamageableV453Dev69(v){
   return !!v&&['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(v.kind)&&
    v.hp>0&&v.until>this.gameTime;
@@ -3328,7 +3348,8 @@ export class Arena {
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
-  if(!u||!s||s.passiveOnly||u.hp<=0||this.ended||this.teams[team]?.ready||
+  if(!u||!s||s.passiveOnly||(u.hp<=0&&!this.m23KarthusCanActV453(u,slot))||
+     u.m23ZacDivisionV453?.active||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
@@ -3477,7 +3498,9 @@ export class Arena {
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
-   const gate=castGateV39(u,slot,this.gameTime);if(!gate.ok)return gate;
+   const gate=this.m23KarthusCanActV453(u,slot)?
+    this.m23KarthusCastGateV453(u,slot):castGateV39(u,slot,this.gameTime);
+   if(!gate.ok)return gate;
   }
   u.pendingBoardV453Dev69={slot,stolenCast:!!hijacked,targetId:target?.id||null,
    point:aimed?{x:point.x,y:point.y}:null};
@@ -3500,7 +3523,9 @@ export class Arena {
  }
  executeBoardSkillV453Dev69(u,q){
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
-  if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
+  if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
+      s.passiveOnly||u.m23ZacDivisionV453?.active)
+   return {ok:false,reason:'board_indisponivel'};
   if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
    return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
@@ -3628,6 +3653,7 @@ export class Arena {
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
   const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
+   this.m23KarthusCanActV453(u,q.slot)?this.m23KarthusCommitV453(u,q.slot):
    this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.champ?target.id:null,
     point:target&&!target.champ?{x:target.x,y:target.y}:q.point||null,
@@ -4067,7 +4093,10 @@ export class Arena {
    if(!u){continue;}
    let ended=false;
    if(['cone_channel','m20_requiem_channel','m22_artillery_channel'].includes(z.kind)&&
-    (!u.hp||!this.effectResolverV41().canAct(u,'skill').ok||
+    ((!u.hp&&!(z.kind==='m20_requiem_channel'&&
+       u.m23DeathDefiedV453?.until>=z.nextAt))||
+     (z.kind==='m20_requiem_channel'&&u.hp<=0?false:
+      !this.effectResolverV41().canAct(u,'skill').ok)||
      this.mapDistance(u,z.origin)>60)){
     u.boardChannelUntilV453Dev69=0;
     if(z.kind==='m22_artillery_channel')u.m22ArtilleryV453=null;
@@ -8311,6 +8340,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.event('Zilean R: Chronoshift acionado.',target.team,'skill_vfx',target.id);
   }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+  if(target.champ==='Karthus'&&target.hp<=0&&!target.m23DeathDefiedV453){
+   target.m23DeathDefiedV453={until:this.gameTime+7,startedAt:this.gameTime};
+   target.mana=target.maxMana;
+  }
   if(target.champ==='KogMaw'&&target.hp<=0&&!target.m21KogDeathV453){
    target.m21KogDeathV453={explodeAt:this.gameTime+4,
     at:{x:target.x,y:target.y},power:120+Math.max(1,target.level||1)*14};
