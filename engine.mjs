@@ -2010,6 +2010,7 @@ export class Arena {
    }
    if(kind==='basic_attack'&&u.m16StealthV453?.startsAt<=now)
     this.m16BreakStealth(u,'basic');
+   if(kind==='basic_attack'&&u.champ==='Evelynn')u.m16PassiveReadyAt=now+4;
    return {ok:true,spentMana:cost,cooldownEndsAt:now+cd,seq:entry.seq};
   }catch(err){
    u.mana=previousMana;if(kind==='skill')u.skillCds[slot]=previousCD;else u[cdField]=previousCD;
@@ -3779,6 +3780,8 @@ export class Arena {
  m16BreakStealth(u,reason='action'){
   const v=u?.m16StealthV453;if(!v||v.until<=this.gameTime)return false;
   u.m16StealthV453=null;u.m16LastRevealAt=this.gameTime;
+  if(u.champ==='Teemo'){u.m16IdleSince=this.gameTime;u.m16PassiveReadyAt=this.gameTime+1.5;}
+  if(u.champ==='Evelynn')u.m16PassiveReadyAt=this.gameTime+4;
   if(u.champ==='Twitch'&&reason!=='expire')
    u.m16TwitchAttackSpeedUntil=this.gameTime+6;
   if(u.champ==='Teemo'&&reason!=='expire')
@@ -7096,6 +7099,31 @@ export class Arena {
  basicAttackPowerV452c(u,target,style='auto',{commit=false,bonusDamage=0}={}){
   const elemental=this.elementalStatsV452d3(u);let dmg=elemental.ad;
   dmg+=bonusDamage;
+  // Jhin's four-round magazine (including the last-shot execute).
+  if(u.champ==='Jhin'){
+   const ammo=u.m16JhinAmmo??4;
+   if(ammo===1)dmg=dmg*1.5+(target?.champ?Math.max(0,target.maxHp-target.hp)*.15:0);
+   if(commit){
+    u.m16JhinAmmo=Math.max(0,ammo-1);
+    if(ammo===1){
+     u.m16JhinReloadUntil=this.gameTime+2.5;
+     u.attackAt=Math.max(u.attackAt||0,u.m16JhinReloadUntil);
+    }
+   }
+  }
+  // Caitlyn headshot every six basic attacks (brush contributes two);
+  // trapped enemy grants its own independently empowered headshot.
+  if(u.champ==='Caitlyn'){
+   const trap=target?.m16CaitHeadshot?.ownerId===u.id&&
+    target.m16CaitHeadshot.until>this.gameTime;
+   const count=u.m16CaitHeadshotCount||0,inc=this.brushRegionAt(u.x,u.y)?2:1;
+   const procs=trap||count+inc>=6;
+   if(procs)dmg+=30+u.level*4+elemental.ad*.6+(trap?35+45*Math.max(0,(u.skillRanks.W||1)-1):0);
+   if(commit){
+    u.m16CaitHeadshotCount=trap?count:(procs?0:count+inc);
+    if(trap)target.m16CaitHeadshot=null;
+   }
+  }
   const onHit=style==='on_hit'||style==='skill_aa';
   const stacks=onHit?((this.gameTime-(u.lastAttackAt??-100)>4)?1:Math.min(5,(u.onHitStacks||0)+1)):0;
   if(onHit)dmg+=Math.min(14,2*stacks)+Math.max(0,elemental.ap)*.06;
@@ -7411,6 +7439,15 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
+  if(attacker?.champ&&attacker.team!==target?.team&&
+     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)&&
+     attacker.m16StealthV453?.startsAt<=this.gameTime)
+   this.m16BreakStealth(attacker,sourceType);
+  if(target?.champ==='Evelynn'&&attacker?.team!==target.team&&
+     (attacker?.champ||attacker?.type==='tower')){
+   this.m16BreakStealth(target,'damage');
+   target.m16PassiveReadyAt=this.gameTime+1.5;
+  }
   if(attacker?.champ==='Neeko'&&attacker.neekoDisguiseV453M15&&
      ['spell','ability_onhit_v453_dev40'].includes(sourceType))
    this.m15BreakDisguise(attacker,'damaging_spell',2);
@@ -7603,6 +7640,17 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    target.champ&&target.team!==attacker.team&&target.hp>0)
    this.applyBoardHemorrhageV453Dev69(attacker,target);
   // Passive triggers only on an actual landed basic attack by Ashe.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Teemo'&&
+   (attacker.skillRanks?.E||0)>0&&target.hp>0&&attacker.team!==target.team)
+   this.applyEffectV41(target,'dot',{source:attacker,duration:4,interval:1,
+    power:10+6*(attacker.skillRanks.E||1)+this.elementalStatsV452d3(attacker).ap*.1,
+    key:'teemo_e_'+attacker.id});
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Twitch'&&
+    target.hp>0&&attacker.team!==target.team){
+   const old=target.m16TwitchPoison?.[attacker.id]||{stacks:0,until:0};
+   (target.m16TwitchPoison??={})[attacker.id]={
+    stacks:Math.min(6,(old.until>this.gameTime?old.stacks:0)+1),until:this.gameTime+6};
+  }
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Ashe'&&
    target.team!==attacker.team&&target.hp>0)
    this.applyEffectV41(target,'slow',{source:attacker,duration:2,power:.2,
@@ -8678,7 +8726,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   }
  }
  resolveCombat(){this.autoWaveSkillV451();this.resolveSylasHijacksV453M14();this.resolveBoardSkillsV453Dev69();this.resolveKitSkillsV42();this.resolveDirectionalSkills();this.resolveTargetedCasts();if(this.pendingDecision)return;this.resolveQueuedCombos();if(this.pendingDecision)return; // Skills are processed even while AA is recovering.
-  for(const u of this.units){if(u.champ==='Jhin'&&(u.m16JhinReloadUntil||0)>this.gameTime)continue;
+  for(const u of this.units){if(u.champ==='Jhin'&&
+    ((u.m16JhinReloadUntil||0)>this.gameTime||u.m16JhinChannel?.until>this.gameTime))continue;
     if(u.hp<=0||u.attackAt>this.gameTime||u.autoAttack===false||
     u.boardChannelUntilV453Dev69>this.gameTime||(u.stunUntil||0)>this.gameTime||
     (u.champ==='Irelia'&&u.ireliaDanceV453Dev69M7&&!u.ireliaDanceV453Dev69M7.released&&
