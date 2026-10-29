@@ -1205,7 +1205,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Milio:BK20('fired_up',
   B20('line_enemy',1200,10,85,{width:175,maxHits:1,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m32MilioBounce:true,m20Missing:'ball_bounce'}),
   B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m27MilioFiredUp:true,m20Missing:'attack_range_extension'}),
-  B20('target_ally',650,.5,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true,m20Missing:'two_charges_and_speed'}),
+  B20('target_ally',650,0,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true,m20Missing:'two_charges_and_speed'}),
   B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m27MilioFiredUp:true,m20Missing:'empowered_passive_followup'})),
  Quinn:BK20('harrier',
   B20('line_enemy',1025,11,95,{width:180,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m27QuinnBlind:true}),
@@ -1670,7 +1670,7 @@ export class Arena {
      moveSpeed:source.moveSpeed,hpRegen:source.hpRegen,manaRegen:source.manaRegen,
      attackSpeedBaseV453Dev69M1:source.attackSpeedBase,attackSpeedRealV453Dev69M1:source.attackSpeedBase,
      attackRange:source.attackRange}:{} )};const sp=map.objects.find(o=>o.id===team+'_spawn_shop');let x=sp?.x||(team==='blue'?.065:.93), y=sp?.y||(team==='blue'?.93:.07);
-   this.units.push({id:team+'_'+role,team,role,champ,klass,x,y,hp:stats.hp,maxHp:stats.hp,mana:stats.mana,maxMana:stats.mana,ad:stats.ad,ap:stats.ap,armor:stats.armor,mr:stats.mr??CLASS_MAGIC_RESIST[klass],baseStats2026:!!CHAMPION_STATS_V38[champ],range:source?source.attackRange/ATLAS_SIDE_UNITS:baseAttackRangeWorld(champ,stats.range),moveSpeed:stats.moveSpeed??BASE_MS_BY_CLASS[klass],flatMoveSpeed:0,percentMoveSpeed:0,slowPercent:0,atkSpeed:stats.atkSpeed,skillPower:stats.skill,level:1,xp:0,skillPoints:1,skillRanks:{Q:0,W:0,E:0,R:SPECIAL_R_FROM_LEVEL_ONE.has(champ)?1:0},skillPriority:['Q','E','W'],skillBuild:null,autoLevelSkills:false,explicitOrder:false,gold:500,postgameV452d4Dev7:{schema:'coachlol.postgame.player.v1',initialGold:500,goldEarned:0,goldSpent:0,goldRefunded:0,damageDealtChampions:{physical:0,magic:0,true:0},damageTakenChampions:{physical:0,magic:0,true:0},wardsPlaced:0,wardsDestroyed:0,complete:true},cs:0,runePageV43:'none',runeProcNextV43:0,runeStacksV43:0,runeLastHitAtV43:-999,rabadonBonusV43:0,economyLedgerV43:[],economySeqV43:0,runeCombatAtV43:null,runeGraspLastProcAtV43:-999,critChance:0,abilityHaste:0,basicHaste:0,ultimateHaste:0,summonerHaste:0,itemHaste:0,lethality:0,armorPenFlat:0,armorPenPercent:0,magicPenFlat:0,magicPenPercent:0,lifeSteal:0,omnivamp:0,physicalVamp:0,spellVamp:0,healShieldPower:0,tenacity:0,slowResist:0,hpRegen:stats.hpRegen||0,manaRegen:stats.manaRegen||0,attackSpeedRealV453Dev69M1:stats.attackSpeedRealV453Dev69M1||null,critDamage:175,kills:0,deaths:0,assists:0,damageContributors:{},items:[],deadUntil:0,shield:0,statusEffectsV41:[],stasisUntil:0,stasisCd:0,rootUntil:0,groundedUntil:0,flashCd:0,exhaustCd:0,igniteCd:0,healCd:0,tpCd:0,barrierCd:0,barrierAmount:0,barrierUntil:0,summonerSpell:role==='JG'?'smite':role==='SUP'?'exhaust':role==='TOP'?'tp':role==='ADC'?'heal':'ignite',baronBuffUntilV452:0,elderBuffUntilV452:0,ghostCd:0,ghostUntil:0,cleanseCd:0,cleanseTenacityUntilV453Dev66:0,elderPendingV452:null,skillCd:0,attackAt:0,combatStyle:'auto',onHitStacks:0,retreatUntil:0,retreatPath:[],path:[],order:{kind:'auto',focus:null,spell:'none'},spentMove:0,wardCharges:2,controlWardStock:0,trinket:"stealth",oracleCd:0,oracleUntil:0,trinketNextChargeAt:210,smiteTier:role==='JG'?1:0,smiteDamage:role==='JG'?600:0,smiteCd:0,smiteCharges:role==='JG'?1:0,smiteRecoveries:role==='JG'?[48]:[],smitePolicy:{mode:'auto',rules:[]},smiteCastHistory:{},junglePet:null,jungleTreats:0,jungleBonusTreats:0,jungleNextBonusAt:60,jungleBuff:null,junglePetStage:0,supportQuest:0,supportCharges:role==='SUP'?3:0,supportNextChargeAt:20,supportLastGoldTick:0,buildPlan:[],purchaseQueue:[],policy:'balanced',reaction:'balanced',autoRespond:team==='red'&&this.mode!=='pvp',reactionCd:0,tactics:{wave:'normal',trade:'normal',poke:'off',conserveMana:false},skillCds:{Q:0,W:0,E:0,R:0},manualMoveHold:false,autoFarm:role!=='JG'&&role!=='SUP',autoAttack:true,autoFollow:role!=='JG',autoJungle:role==='JG',laneFollowPath:[],laneFollowGoal:null,nextLaneUpdate:0,plan:null,lastHitBy:null,lastHitAt:-999,combatUntil:0,threatId:null,reactAt:0,holdUntil:0,regenAt:0,hpRegenBasePct:0,manaRegenBasePct:0,scoutBullseyeReadyAtV453Dev38:0,doransCombatManaUntilV453Dev38:0,energizeStacksV453Dev38:0,ireliaMarkV453Dev42:null});
+   this.units.push({id:team+'_'+role,team,role,champ,klass,x,y,hp:stats.hp,maxHp:stats.hp,mana:stats.mana,maxMana:stats.mana,ad:stats.ad,ap:stats.ap,armor:stats.armor,mr:stats.mr??CLASS_MAGIC_RESIST[klass],baseStats2026:!!CHAMPION_STATS_V38[champ],range:source?source.attackRange/ATLAS_SIDE_UNITS:baseAttackRangeWorld(champ,stats.range),moveSpeed:stats.moveSpeed??BASE_MS_BY_CLASS[klass],flatMoveSpeed:0,percentMoveSpeed:0,slowPercent:0,atkSpeed:stats.atkSpeed,skillPower:stats.skill,level:1,xp:0,skillPoints:1,skillRanks:{Q:0,W:0,E:0,R:SPECIAL_R_FROM_LEVEL_ONE.has(champ)?1:0},skillPriority:['Q','E','W'],skillBuild:null,autoLevelSkills:false,explicitOrder:false,gold:500,postgameV452d4Dev7:{schema:'coachlol.postgame.player.v1',initialGold:500,goldEarned:0,goldSpent:0,goldRefunded:0,damageDealtChampions:{physical:0,magic:0,true:0},damageTakenChampions:{physical:0,magic:0,true:0},wardsPlaced:0,wardsDestroyed:0,complete:true},cs:0,runePageV43:'none',runeProcNextV43:0,runeStacksV43:0,runeLastHitAtV43:-999,rabadonBonusV43:0,economyLedgerV43:[],economySeqV43:0,runeCombatAtV43:null,runeGraspLastProcAtV43:-999,critChance:0,abilityHaste:0,basicHaste:0,ultimateHaste:0,summonerHaste:0,itemHaste:0,lethality:0,armorPenFlat:0,armorPenPercent:0,magicPenFlat:0,magicPenPercent:0,lifeSteal:0,omnivamp:0,physicalVamp:0,spellVamp:0,healShieldPower:0,tenacity:0,slowResist:0,hpRegen:stats.hpRegen||0,manaRegen:stats.manaRegen||0,attackSpeedRealV453Dev69M1:stats.attackSpeedRealV453Dev69M1||null,critDamage:175,kills:0,deaths:0,assists:0,damageContributors:{},items:[],deadUntil:0,shield:0,statusEffectsV41:[],stasisUntil:0,stasisCd:0,rootUntil:0,groundedUntil:0,flashCd:0,exhaustCd:0,igniteCd:0,healCd:0,tpCd:0,barrierCd:0,barrierAmount:0,barrierUntil:0,summonerSpell:role==='JG'?'smite':role==='SUP'?'exhaust':role==='TOP'?'tp':role==='ADC'?'heal':'ignite',baronBuffUntilV452:0,elderBuffUntilV452:0,ghostCd:0,ghostUntil:0,cleanseCd:0,cleanseTenacityUntilV453Dev66:0,elderPendingV452:null,skillCd:0,attackAt:0,combatStyle:'auto',onHitStacks:0,retreatUntil:0,retreatPath:[],path:[],order:{kind:'auto',focus:null,spell:'none'},spentMove:0,wardCharges:2,controlWardStock:0,trinket:"stealth",oracleCd:0,oracleUntil:0,trinketNextChargeAt:210,smiteTier:role==='JG'?1:0,smiteDamage:role==='JG'?600:0,smiteCd:0,smiteCharges:role==='JG'?1:0,smiteRecoveries:role==='JG'?[48]:[],smitePolicy:{mode:'auto',rules:[]},smiteCastHistory:{},junglePet:null,jungleTreats:0,jungleBonusTreats:0,jungleNextBonusAt:60,jungleBuff:null,junglePetStage:0,supportQuest:0,supportCharges:role==='SUP'?3:0,supportNextChargeAt:20,supportLastGoldTick:0,buildPlan:[],purchaseQueue:[],policy:'balanced',reaction:'balanced',autoRespond:team==='red'&&this.mode!=='pvp',reactionCd:0,tactics:{wave:'normal',trade:'normal',poke:'off',conserveMana:false},skillCds:{Q:0,W:0,E:0,R:0},manualMoveHold:false,autoFarm:role!=='JG'&&role!=='SUP',autoAttack:true,autoFollow:role!=='JG',autoJungle:role==='JG',laneFollowPath:[],laneFollowGoal:null,nextLaneUpdate:0,plan:null,lastHitBy:null,lastHitAt:-999,combatUntil:0,threatId:null,reactAt:0,holdUntil:0,regenAt:0,hpRegenBasePct:0,manaRegenBasePct:0,scoutBullseyeReadyAtV453Dev38:0,doransCombatManaUntilV453Dev38:0,energizeStacksV453Dev38:0,ireliaMarkV453Dev42:null,m29ShenBladePoint:champ==='Shen'?{x,y}:null});
   }
   for(const u of this.units){
    const chosen=draftSpellsV452[u.team]?.[u.role];
@@ -3504,6 +3504,23 @@ export class Arena {
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
+ // M33: facing is a tactical orientation order, not an enemy targeting action.
+ queueBoardFacingV453Dev69(team,id,point){
+  const u=this.units.find(v=>v.id===id&&v.team===team);
+  if(!u||u.hp<=0||this.ended||this.teams[team]?.ready||
+    !['planning','preparation'].includes(this.phase)||u.pendingBoardV453Dev69)
+   return {ok:false,reason:'m33_facing_unavailable'};
+  if(!point||![point.x,point.y].every(Number.isFinite)||
+    point.x<0||point.x>1||point.y<0||point.y>1||
+    (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,point)))
+   return {ok:false,reason:'m33_facing_invalid'};
+  const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight;
+  const len=Math.hypot(dx,dy);
+  if(len<1)return {ok:false,reason:'m33_facing_zero'};
+  u.m28FacingV453={x:dx/len,y:dy/len};
+  this.recordIntentV40(team,id,'board_facing',{x:u.m28FacingV453.x,y:u.m28FacingV453.y});
+  return {ok:true,facing:{...u.m28FacingV453}};
+ }
  // M30 player-selected Hex research; combat awards never come from the client.
  queueBoardViktorEvolutionV453Dev69(team,id,slot){
   const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Viktor');
@@ -3670,7 +3687,7 @@ export class Arena {
    this.recordIntentV40(team,id,'board_recast',{slot,temporalId:satchel.id});
    return {ok:true,queued:true,recast:true};
   }
-  if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
+  if(s.m28HeimerStock&&!(u.champ==='Heimerdinger'&&u.m23HeimerEmpowerV453?.until>this.gameTime)&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
@@ -3949,7 +3966,7 @@ export class Arena {
      (target.team!==u.team&&!(target.m24TasteV453?.[u.id]?.until>this.gameTime&&
       target.m24TasteV453[u.id].stacks>=3))))
    return {ok:false,reason:'m32_devour_mark_expired_before_commit'};
-  if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
+  if(s.m28HeimerStock&&!(u.champ==='Heimerdinger'&&u.m23HeimerEmpowerV453?.until>this.gameTime)&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
@@ -3980,6 +3997,14 @@ export class Arena {
     point:target&&!target.champ?{x:target.x,y:target.y}:q.point||null,
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
+  // M33: a queued but denied ability cannot rotate a defender for Cassiopeia R.
+  const aim=target||q.m28LaserOrigin||q.point;
+  if(aim&&['target_enemy','target_ally','target_any','line_enemy',
+   'cone_enemy','circle_enemy','move_point'].includes(s.shape)){
+   const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight;
+   const len=Math.hypot(dx,dy);
+   if(len>=1)u.m28FacingV453={x:dx/len,y:dy/len};
+  }
   if(q.stolenCast)u.sylasStolenV453M14=null;
   // Once-per-receipt Force Pulse spell observations, capped for deterministic turns.
   if(s.m29KassForcePulse){
@@ -4066,7 +4091,7 @@ export class Arena {
     power:[60,90,120,150,180][Math.min(4,rank-1)]*(u.m30ViktorAugments?.Q?1.5:1),
     key:'m28_viktor_siphon_'+u.id+'_'+this.gameTime});
   }
-  if(s.m28HeimerStock){
+  if(s.m28HeimerStock&&!(u.champ==='Heimerdinger'&&u.m23HeimerEmpowerV453?.until>this.gameTime)){
    const stock=u.m28HeimerStock??={charges:3,nextAt:0};
    if(stock.charges===3)stock.nextAt=this.gameTime+20;
    stock.charges--;
