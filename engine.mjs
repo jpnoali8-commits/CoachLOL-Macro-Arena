@@ -1104,7 +1104,7 @@ const B20=(shape,range,cd,damage=0,extra={})=>{
 const BK20=(passive,Q,W,E,R)=>Object.freeze({passive,Q,W,E,R});
 export const BOARD_M20_B01_V453=Object.freeze({
  Corki:BK20('hextech_munitions',
-  B20('circle_enemy',825,9,75,{radius:230,apRatio:.5}),B20('move_point',600,20,55,{radius:170,m20Missing:'burning_trail'}),
+  B20('circle_enemy',825,9,75,{radius:230,apRatio:.5}),B20('move_point',600,20,55,{radius:170,m25CorkiTrail:true}),
   B20('cone_enemy',600,12,65,{arc:50,type:'physical',adRatio:.7,m20Missing:'armor_shred_ticks'}),
   B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m22Magazine:{max:7,reload:10,bigEvery:3},m20Missing:'ammo_ui'})),
  Cassiopeia:BK20('serpentine_grace',
@@ -1113,7 +1113,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',700,.75,75,{apRatio:.6,m20BonusAgainst:'poison',m20BonusDamage:50,healFromDamage:.2}),
   B20('cone_enemy',825,120,210,{arc:65,cc:'slow',ccSeconds:2,ccPower:.6,m20Missing:'directional_stun'})),
  Karthus:BK20('death_defied',
-  B20('circle_enemy',875,1,55,{radius:160,m20Missing:'isolated_bonus_and_fuse'}),
+  B20('circle_enemy',875,1,55,{radius:160,boardTemporal:'m25_karthus_q',zoneSeconds:1.1}),
   B20('line_enemy',1000,15,0,{width:250,cc:'slow',ccSeconds:3,ccPower:.5,m20Missing:'persistent_wall'}),
   B20('circle_enemy',0,.5,45,{originSelf:true,radius:550,dotSeconds:2,m20Missing:'toggle_and_mana_refund'}),
   B20('global_enemy',25000,200,280,{mana:100,boardTemporal:'m20_requiem_channel',zoneSeconds:3.1,m20Missing:'death_defied_passive_and_postdeath_channel'})),
@@ -1141,7 +1141,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m20Missing:'attack_resource_and_spread'}),
   B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Missing:'transcendent_variant'}),
   B20('self',0,9,0,{speedBuff:.3,buffSeconds:3,m20Missing:'transcendent_dash'}),
-  B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m20Missing:'transcendent_state'})),
+  B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m25YunaraTranscendent:true})),
  Alistar:BK20('triumphant_roar',
   B20('circle_enemy',0,14,80,{originSelf:true,radius:365,cc:'knockup',ccSeconds:1}),
   B20('target_enemy',650,14,90,{dashToHit:true,knockback:450}),
@@ -1164,7 +1164,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',900,120,0,{shield:[240,360,480],m20Missing:'bonus_health_and_knockup'})),
  Mel:BK20('searing_brilliance',
   B20('circle_enemy',950,10,85,{radius:310,m20Mark:'overwhelm',m20Missing:'multi_projectiles'}),
-  B20('self',0,38,0,{shield:[100,145,190,235,280],spellShieldSeconds:2,m20Missing:'reflection'}),
+  B20('self',0,38,0,{shield:[100,145,190,235,280],spellShieldSeconds:2,m25MelReflect:true}),
   B20('line_enemy',1000,11,75,{width:220,cc:'root',ccSeconds:1.4,m20Mark:'overwhelm',m20Missing:'outer_slow'}),
   B20('global_enemy',25000,120,210,{mana:100,m20MarkRequired:'overwhelm'})),
  Rell:BK20('break_the_mold',
@@ -1176,7 +1176,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',650,18,85,{radius:220,cc:'knockup',ccSeconds:.7}),
   B20('cone_enemy',600,9,70,{arc:55,cc:'slow',ccSeconds:2,ccPower:.3,m20Mark:'frost',m20Missing:'two_swings'}),
   B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true,m20Missing:'frost_from_other_melee_allies'}),
-  B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m20Missing:'long_range_ice_storm'})),
+  B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m25SejStorm:true})),
  Sett:BK20('pit_grit',
   B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m20Missing:'max_hp_bonus'}),
   B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',m23UseGrit:true,m20Missing:'cast_time_and_grit_decay'}),
@@ -1191,7 +1191,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m20Missing:'converging_windblasts'}),
   B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m20Missing:'charge'}),
   B20('move_point',650,11,95,{radius:210,cc:'knockup',ccSeconds:.8}),
-  B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m20JumpToAlly:true,m20Missing:'landing_aoe_delay'})),
+  B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m25GalioEntrance:true})),
  Locke:BK20('silver_stake',
   B20('line_enemy',950,10,85,{width:160,m20Mark:'soul_nails',m20Missing:'multiple_nails_and_recast'}),
   B20('self',0,18,0,{speedBuff:.3,buffSeconds:3,m20Missing:'self_damage_burst'}),
@@ -1201,7 +1201,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',850,9,95,{width:155,type:'physical',m20Missing:'requires_initial_target'}),
   B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m20Missing:'star_pattern'}),
   B20('move_point',445,16,0,{radius:0,m20Missing:'passive_cooldown_reduction'}),
-  B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',m20Missing:'culling_multishot'})),
+  B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',boardTemporal:'m25_lucian_culling',zoneSeconds:4.1})),
  Milio:BK20('fired_up',
   B20('line_enemy',1200,10,85,{width:175,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m20Missing:'ball_bounce'}),
   B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m20Missing:'attack_range_extension'}),
@@ -3855,6 +3855,29 @@ export class Arena {
    const n=(u.m25SeraphineSpells||0)+1;
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
+  if(s.m25YunaraTranscendent)u.m25YunaraTranscendentUntil=this.gameTime+7;
+  if(s.m25MelReflect)u.m25MelReflectUntil=this.gameTime+2;
+  if(s.m25CorkiTrail&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m25_corki_trail',
+    ownerId:u.id,team:u.team,point:{...q.point},origin:{x:u.x,y:u.y},
+    range:this.mapDistance(u,q.point),radius:120,nextAt:this.gameTime+1,
+    until:this.gameTime+4.1,hitIds:[],power:35+Math.max(1,u.skillRanks.W||1)*10
+   });
+  }
+  if(s.m25GalioEntrance&&target?.champ&&target.team===u.team){
+   this.applyEffectV41(target,'magic_shield',{
+    source:u,duration:3,power:100+Math.max(1,u.skillRanks.R||1)*75,
+    key:'m25_galio_protection_'+u.id});
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m25_galio_entrance',
+    ownerId:u.id,team:u.team,anchorId:target.id,origin:{x:u.x,y:u.y},
+    point:{x:target.x,y:target.y},radius:360,hitIds:[],
+    power:125+Math.max(1,u.skillRanks.R||1)*90,
+    nextAt:this.gameTime+2,until:this.gameTime+2.1
+   });
+   return {...committed,scheduled:true,entrance:true};
+  }
   if(s.m25ZacGoo){
    const near=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>this.mapDistance(u,v)<=350)
     .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)))[0];
@@ -4080,6 +4103,11 @@ export class Arena {
      this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>z!==previous);
      this.detonateM22BombV453(previous,true);
     }
+   }else if(s.boardTemporal==='m25_karthus_q'){
+    temporal.nextAt=this.gameTime+1;temporal.until=temporal.nextAt+.1;
+   }else if(s.boardTemporal==='m25_lucian_culling'){
+    temporal.nextAt=this.gameTime+1;temporal.until=this.gameTime+4.1;
+    temporal.ticksLeft=4;
    }else if(s.boardTemporal==='m24_fizz_shark'){
     temporal.nextAt=this.gameTime+2;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m21_gragas_barrel'){
@@ -4392,7 +4420,19 @@ export class Arena {
       key:'board_splash_'+instance+'_'+splash.id});
     }
    }
-   if(enemy&&m25SeraphineEcho&&q.slot==='Q'&&!blocked&&v.hp>0)
+   if(enemy&&s.m25SejStorm&&v.champ&&v.hp>0&&!blocked){
+     for(const other of enemyPool.filter(t=>t.id!==v.id&&t.champ&&t.hp>0&&
+      this.mapDistance(t,v)<=350)){
+      const spread=this.damage(other,45+Math.max(1,u.skillRanks.R||1)*30,u,'magic','spell');
+      if(spread>0&&other.hp>0)this.applyEffectV41(other,'slow',{
+       source:u,duration:2,power:.45,key:'m25_sej_storm_'+instance+'_'+other.id});
+     }
+    }
+    if(enemy&&u.champ==='Yunara'&&q.slot==='W'&&
+       u.m25YunaraTranscendentUntil>this.gameTime&&!blocked&&v.champ&&v.hp>0)
+     this.applyEffectV41(v,'root',{source:u,duration:1,
+      key:'m25_yunara_transcendent_'+instance+'_'+v.id});
+    if(enemy&&m25SeraphineEcho&&q.slot==='Q'&&!blocked&&v.hp>0)
      this.damage(v,power(s.damage)*.75,u,'magic','spell');
     if(enemy&&m25SeraphineEcho&&q.slot==='E'&&!blocked&&v.champ&&v.hp>0)
      this.applyEffectV41(v,'root',{source:u,duration:1.25,key:'m25_seraphine_'+instance+'_'+v.id});
@@ -4515,7 +4555,48 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m25_alistar_trample'){
+    if(z.kind==='m25_karthus_q'){
+     const victims=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      this.mapDistance(v,z.point)<=z.radius)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+     for(const v of victims)this.damage(v,z.power*(victims.length===1?2:1),u,'magic','spell');
+     ended=true;
+    }else if(z.kind==='m25_lucian_culling'){
+     if(u.hp>0&&this.effectResolverV41().canAct(u,'skill').ok){
+      const targets=skillshotHitsV42(z.origin,z.point,
+       this.boardCombatEnemyPoolV453Dev69(u),
+       {range:z.range,width:200,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      for(const v of targets)this.damage(v,z.power/4,u,'physical','spell');
+     }else ended=true;
+     z.ticksLeft--;z.nextAt=now+1;
+     if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m25_corki_trail'){
+     const along=skillshotHitsV42(z.origin,z.point,
+      this.boardCombatEnemyPoolV453Dev69(u),{range:z.range,width:240,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const v of along.filter(v=>!z.hitIds.includes(v.id))){
+      const result=this.applyEffectV41(v,'dot',{source:u,duration:3,
+       power:z.power,interval:1,key:'m25_corki_burn_'+z.id+'_'+v.id});
+      if(result.ok)z.hitIds.push(v.id);
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m25_galio_entrance'){
+     const ally=this.units.find(v=>v.id===z.anchorId&&v.hp>0&&v.team===z.team);
+     if(u.hp>0&&ally&&this.sameCombatRealmV453Dev69(u,ally)&&
+       this.walkable(ally.x,ally.y)){
+      const from={x:u.x,y:u.y},destination={x:ally.x,y:ally.y};
+      Object.assign(u,destination);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(u);
+      this.itemEnergizeRelocateV453Dev39(u,from,destination,{kind:'hero_entrance'});
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+       .filter(v=>this.mapDistance(v,destination)<=z.radius)){
+       const damage=this.damage(v,z.power,u,'magic','spell');
+       if(damage>0&&v.champ&&v.hp>0)this.applyEffectV41(v,'knockup',{
+        source:u,duration:1,key:'m25_galio_entrance_'+z.id+'_'+v.id});
+      }
+     }
+     ended=true;
+    }else if(z.kind==='m25_alistar_trample'){
      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
       this.mapDistance(v,z.point)<=z.radius)
       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
@@ -8717,6 +8798,12 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
+   if(target?.champ==='Mel'&&target.m25MelReflectUntil>this.gameTime&&
+      attacker?.champ&&attacker.team!==target.team&&sourceType==='spell'){
+    target.m25MelReflectUntil=0;
+    this.damage(attacker,Math.max(1,amount*.45),target,'magic','m25_mel_reflect');
+    return 0;
+   }
    if(target?.m24FizzLeapV453?.until>this.gameTime||
       target?.m24DevouredByV453?.until>this.gameTime)return 0;
    if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
