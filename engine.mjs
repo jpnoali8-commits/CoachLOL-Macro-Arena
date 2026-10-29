@@ -9501,6 +9501,32 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(dealt>0&&sourceType==='basic'&&attacker?.champ&&target.hp>0&&
      attacker.team!==target.team){
    const name=attacker.champ,rank=attacker.skillRanks||{};
+   if(name==='Yunara'){
+    attacker.m27YunaraVowStacks=Math.min(4,(attacker.m27YunaraVowStacks||0)+1);
+    if(attacker.m27YunaraVowEmpoweredUntil>this.gameTime)
+     this.damage(target,50+Math.max(1,rank.Q||1)*10,attacker,
+      'magic','m27_yunara_vow');
+   }
+   if(name==='Seraphine'&&attacker.m27SeraphineNotes>0){
+    const notes=attacker.m27SeraphineNotes;attacker.m27SeraphineNotes=0;
+    this.damage(target,Math.max(1,notes*18),attacker,'magic','m27_seraphine_notes');
+   }
+   if(name==='Mel'&&target.champ&&
+      (target.m20MarksV453?.['overwhelm_'+attacker.id]||0)>this.gameTime){
+    delete target.m20MarksV453['overwhelm_'+attacker.id];
+    this.damage(target,50+Math.max(1,attacker.level||1)*5,
+     attacker,'magic','m27_mel_overwhelm');
+   }
+   if(name==='Rell'&&target.champ){
+    target.m27RellArmorTheft={until:this.gameTime+4,value:15};
+    attacker.m27RellStolenDefenses={until:this.gameTime+4,value:15};
+   }
+   for(const lulu of this.units.filter(v=>v.team===attacker.team&&v.hp>0&&
+      v.champ==='Lulu'&&v.m25LuluPix?.targetId===attacker.id&&
+      v.m25LuluPix.until>this.gameTime&&
+      this.sameCombatRealmV453Dev69(v,target)&&this.mapDistance(v,attacker)<=850))
+    this.damage(target,25+Math.max(1,lulu.skillRanks.E||1)*8,lulu,
+     'magic','m27_lulu_pix_companion');
    if(name==='MasterYi'&&attacker.m27YiWujuUntil>this.gameTime)
     this.damage(target,30+Math.max(1,rank.E||1)*12,attacker,'true','m27_yi_wuju');
    if(name==='KogMaw'&&attacker.m27KogBioArcaneUntil>this.gameTime)
@@ -9588,6 +9614,12 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.m25ViShredUntil=this.gameTime+4;
     this.damage(target,Math.max(1,target.maxHp*.04),attacker,'physical','m25_vi_denting');
    }
+  }
+  if(dealt>0&&target.hp<=0&&attacker?.champ==='Varus'&&
+    attacker.team!==target.team){
+   attacker.m27VarusVengeanceUntil=this.gameTime+(target.champ?6:3);
+   attacker.boardSpeedV453Dev69={until:attacker.m27VarusVengeanceUntil,
+    fraction:target.champ?0.3:0.15};
   }
   if(dealt>0&&target.champ==='TahmKench'&&target.hp>0&&
      attacker?.team!==target.team)
