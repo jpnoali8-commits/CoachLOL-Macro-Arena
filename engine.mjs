@@ -1178,7 +1178,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true,m20Missing:'frost_from_other_melee_allies'}),
   B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m25SejStorm:true})),
  Sett:BK20('pit_grit',
-  B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m20Missing:'max_hp_bonus'}),
+  B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m30SettKnuckle:true,m20Missing:'max_hp_bonus'}),
   B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',m23UseGrit:true,m20Missing:'cast_time_and_grit_decay'}),
   B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m24OppositePull:true}),
   B20('target_enemy',400,120,280,{mana:0,m24Slam:true,type:'physical'})),
@@ -1268,7 +1268,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m24UpgradePattern:'grenade_cluster',m28HeimerGrenadeOuter:true,m20Missing:'outer_slow'}),
   B20('self',0,100,0,{m23EmpowerNext:true,m20Missing:'upgraded_ability_visuals_and_R_cancel'})),
  Kassadin:BK20('void_stone',
-  B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
+  B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m30KassInterrupt:true,m20Missing:'interrupt'}),
   B20('self',0,7,0,{nextBasic:[55,75,95,115,135],charges:1,m27KassWRefund:true}),
   B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m29KassForcePulse:true,m20Missing:'spell_stacks'}),
   B20('move_point',500,5,75,{radius:240,m25KassRift:true})),
@@ -3980,6 +3980,7 @@ export class Arena {
   }
   // M25: authored champion identities use the same single-cost receipt.
   // M27 authored passive spell receipts. Only committed spells may arm these.
+  if(u.champ==='LeeSin')u.m30LeeFlurry={until:this.gameTime+4,charges:2};
   if(u.champ==='Shen'&&u.hp>0&&(u.m27ShenKiReadyAt||0)<=this.gameTime){
    this.applyEffectV41(u,'shield',{source:u,duration:2.5,
     power:65+Math.max(1,u.level||1)*10,
@@ -4768,6 +4769,16 @@ export class Arena {
       x.id!==v.id&&x.hp>0&&this.mapDistance(x,v)<=220&&
       !this.obstacleLine(v,x)).sort((a,b)=>String(a.id).localeCompare(String(b.id))))
       this.damage(other,raw*.4,u,'magic','m29_corki_big_one');
+    }
+    if(done>0&&s.m30KassInterrupt&&v.champ){
+     const prior=(this.boardTemporalV453Dev69||[]).length;
+     this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
+      !(z.ownerId===v.id&&['cone_channel','m20_requiem_channel',
+       'm22_artillery_channel'].includes(z.kind)));
+     if(this.boardTemporalV453Dev69.length<prior){
+      v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
+      this.event('Kassadin Q: canalização interrompida.',u.team,'skill_vfx',u.id);
+     }
     }
     if(done>0&&s.m26JarvanArmorShred&&v.champ)
       v.m26JarvanArmorShred={sourceId:u.id,ratio:.22,until:this.gameTime+4};
@@ -9397,7 +9408,10 @@ export class Arena {
     this.mapDistance(f,u)<=700&&
     this.units.some(j=>j.id===f.ownerId&&j.hp>0&&
       this.sameCombatRealmV453Dev69(j,u)))?25:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+ireliaBuff+revved+whimsy+banner-rocketPenalty)/100;
+  const flurry=u.champ==='LeeSin'&&u.m30LeeFlurry?.until>this.gameTime&&
+   u.m30LeeFlurry.charges>0?35:0;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+
+   ireliaBuff+revved+whimsy+banner+flurry-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
@@ -10028,6 +10042,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.m21VarusBlightV453={sourceId:attacker.id,until:this.gameTime+6,
      stacks:Math.min(3,stacks+1)};
    }
+   if(attacker.champ==='LeeSin'&&attacker.m30LeeFlurry?.until>this.gameTime&&
+      attacker.m30LeeFlurry.charges>0)attacker.m30LeeFlurry.charges--;
    if(attacker.champ==='Sejuani'&&target.champ&&target.hp>0){
     const frost=target.m21FrostV453;
     const stacks=frost?.sourceId===attacker.id&&frost.until>this.gameTime?
@@ -10035,6 +10051,17 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     target.m21FrostV453={sourceId:attacker.id,until:this.gameTime+6,
      stacks:Math.min(4,stacks+1)};
    }
+   // Only nearby ally's real MELEE basics contribute to Sejuani-owned Frost.
+   // Independent proc packets, ranged AAs and other Realms cannot add stacks.
+   if(target.champ&&target.hp>0&&
+      (attacker.range||0)*this.worldWidth<=220)
+    for(const sej of this.units.filter(v=>v.champ==='Sejuani'&&v.team===attacker.team&&
+      v.id!==attacker.id&&v.hp>0&&this.mapDistance(v,attacker)<=1100&&
+      this.sameCombatRealmV453Dev69(v,target))){
+     const prior=target.m21FrostV453,stacks=prior?.sourceId===sej.id&&
+      prior.until>this.gameTime?prior.stacks:0;
+     target.m21FrostV453={sourceId:sej.id,until:this.gameTime+6,stacks:Math.min(4,stacks+1)};
+    }
    const b=attacker.boardNextBasicV453Dev69;
    if(b?.charges>0&&b.until>this.gameTime){
     b.charges--;
@@ -10043,6 +10070,10 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      b.apRatio*this.elementalStatsV452d3(attacker).ap+
      (attacker.champ==='Nasus'?(attacker.boardSiphonStacksV453Dev69||0):0));
     if(target.hp>0)this.damage(target,power,attacker,b.card?'magic':'physical','board_basic_proc');
+    if(attacker.champ==='Sett'&&b.sourceSlot==='Q'&&target.hp>0)
+     this.damage(target,Math.min(target.champ?Infinity:150,
+      target.maxHp*(.012+.003*Math.max(1,attacker.skillRanks?.Q||1))),
+      attacker,'physical','m30_sett_knuckle');
     if(attacker.champ==='Yunara'&&b.sourceSlot==='Q'){
      const splash=this.boardCombatEnemyPoolV453Dev69(attacker).filter(v=>
       v.id!==target.id&&v.hp>0&&this.mapDistance(v,target)<=350&&
