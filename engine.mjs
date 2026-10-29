@@ -3590,6 +3590,11 @@ export class Arena {
     this.mapDistance(v,e)<=400&&this.canSeePoint(e.team,v))
     .sort((a,b)=>this.mapDistance(a,e)-this.mapDistance(b,e)||a.id.localeCompare(b.id));
    if(targets.length){
+    if(!e.armedV453M15){
+     e.armedV453M15=true;
+     for(const v of targets)this.applyEffectV41(v,'fear',{source:owner,
+      duration:v.champ?1:2.2,key:'shaco_minibox_fear_'+e.id+'_'+v.id});
+    }
     for(const v of targets)this.damage(v,targets.length===1?e.singlePower:e.power,owner,'magic','summon_pet');
     e.nextAttackAt=now+1;
    }
@@ -7076,6 +7081,9 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
+  if(attacker?.champ==='Neeko'&&attacker.neekoDisguiseV453M15&&
+     ['spell','ability_onhit_v453_dev40'].includes(sourceType))
+   this.m15BreakDisguise(attacker,'damaging_spell',2);
   if(target?.champ==='Neeko'&&target.neekoDisguiseV453M15){
    if(attacker?.type==='tower')this.m15BreakDisguise(target,'tower',2);
    else if(Number.isFinite(amount)&&amount>=target.neekoDisguiseV453M15.visualHp)
