@@ -3525,6 +3525,12 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(s.m21Chronoshift&&target?.champ&&target.team===u.team){
+   const rank=Math.max(1,Math.min(3,u.skillRanks.R||1));
+   target.m21ChronoshiftV453={
+    sourceId:u.id,until:this.gameTime+5,
+    heal:[600,850,1100][rank-1],pendingAt:0};
+  }
   if(s.m20Rewind)for(const k of ['Q','E'])
    u.skillCds[k]=Math.max(this.gameTime,(u.skillCds[k]||0)-s.m20Rewind);
   if(s.m20JumpToAlly&&target?.team===u.team&&this.walkable(target.x,target.y)){
@@ -4591,6 +4597,26 @@ export class Arena {
  }
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
+  for(const u of this.units){
+   const chrono=u.m21ChronoshiftV453;
+   if(chrono?.pendingAt&&chrono.pendingAt<=this.gameTime){
+    if(u.hp>0)this.effectResolverV41().heal(u,chrono.heal,
+     this.units.find(v=>v.id===chrono.sourceId)||null);
+    u.m21ChronoshiftV453=null;
+   }else if(chrono&&!chrono.pendingAt&&chrono.until<=this.gameTime)
+    u.m21ChronoshiftV453=null;
+   const explosion=u.m21KogDeathV453;
+   if(explosion&&explosion.explodeAt<=this.gameTime){
+    u.m21KogDeathV453=null;
+    if(u.hp<=0){
+     for(const enemy of this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>this.mapDistance(v,explosion.at)<=400)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+      this.damage(enemy,explosion.power,u,'true','m21_kog_death');
+     this.event('KogMaw P: Icathian Surprise.',u.team,'skill_vfx',u.id);
+    }
+   }
+  }
   for(const u of this.units){
    const c=u.neekoCollectV453M15;
    if(c&&this.gameTime>=c.readyAt){
@@ -8067,7 +8093,23 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    final-=absorbed;target.hexdrinkerMagicBarrierV453Dev57-=absorbed;
   }
  }
- const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+ const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);
+  final=absorbedV41.remaining;
+  // Fatal hit consumes Chronoshift once; resurrection occurs after short stasis.
+  const chrono=target.champ&&target.m21ChronoshiftV453;
+  if(chrono&&chrono.until>this.gameTime&&!chrono.pendingAt&&final>=target.hp&&target.hp>0){
+   chrono.pendingAt=this.gameTime+1.5;chrono.until=chrono.pendingAt;
+   final=Math.max(0,target.hp-1);
+   this.applyEffectV41(target,'stasis',{duration:1.5,
+    source:this.units.find(v=>v.id===chrono.sourceId)||null,
+    key:'m21_chronoshift_'+target.id});
+   this.event('Zilean R: Chronoshift acionado.',target.team,'skill_vfx',target.id);
+  }
+  const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+  if(target.champ==='KogMaw'&&target.hp<=0&&!target.m21KogDeathV453){
+   target.m21KogDeathV453={explodeAt:this.gameTime+4,
+    at:{x:target.x,y:target.y},power:120+Math.max(1,target.level||1)*14};
+  }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
   // Leblanc Mirror Image: 40% HP, 60s CD, harmless decoy, private real identity.
   if(target.champ==='Leblanc'&&dealt>0&&target.hp>0&&
@@ -8088,6 +8130,19 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   // Per-attack buffs and stacking passives are triggered by real basic hits,
   // never another skill, item proc or a nested board proc.
   if(dealt>0&&sourceType==='basic'&&attacker?.champ&&attacker.team!==target.team){
+   // Braum's four-hit mark advances from actual allied attacks only.
+   const conc=target.champ&&target.m21BraumConcussiveV453;
+   if(conc&&conc.team===attacker.team&&conc.until>this.gameTime&&
+      !(conc.lockUntil>this.gameTime)&&target.hp>0){
+    conc.stacks=Math.min(4,conc.stacks+1);
+    if(conc.stacks===4){
+     const braum=this.units.find(v=>v.id===conc.sourceId&&v.team===attacker.team);
+     if(braum&&braum.hp>0)
+      this.applyEffectV41(target,'stun',{source:braum,duration:1.25,
+       key:'m21_concussive_'+braum.id+'_'+target.id});
+     conc.stacks=0;conc.until=0;conc.lockUntil=this.gameTime+8;
+    }
+   }
    const b=attacker.boardNextBasicV453Dev69;
    if(b?.charges>0&&b.until>this.gameTime){
     b.charges--;
