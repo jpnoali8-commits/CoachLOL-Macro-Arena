@@ -3116,6 +3116,24 @@ export class Arena {
   candidates.sort((a,b)=>a.length-b.length);
   return candidates[0]?.route||null;
  }
+ // Shared combat target contract: clones are server-owned, damageable entities,
+ // never a new champion in the ten-unit roster.
+ boardCloneDamageableV453Dev69(v){
+  return !!v&&['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(v.kind)&&
+   v.hp>0&&v.until>this.gameTime;
+ }
+ boardCombatEntityByIdV453Dev69(id){
+  if(!id)return null;
+  return this.units.find(v=>v.id===id&&v.hp>0)||
+   this.boardSummonsV453Dev69.find(v=>v.id===id&&this.boardCloneDamageableV453Dev69(v))||null;
+ }
+ boardCombatEnemyPoolV453Dev69(u){
+  return [...this.units,...this.minions,...this.boardSummonsV453Dev69.filter(v=>
+   this.boardCloneDamageableV453Dev69(v)&&v.team!==u.team&&
+   (v.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,v))]
+   .filter(v=>v.team!==u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
+ }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
@@ -3178,10 +3196,16 @@ export class Arena {
    this.recordIntentV40(team,id,'board_recast',{slot,temporalId:satchel.id});
    return {ok:true,queued:true,recast:true};
   }
-  const target=targetId?this.units.find(v=>v.id===targetId&&v.hp>0):null;
+  const target=this.boardCombatEntityByIdV453Dev69(targetId);
   if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
-  if(s.shape==='target_ally'&&(!target||target.team!==team))return {ok:false,reason:'alvo_aliado'};
-  if(target&&target.team!==team&&(!this.visible(team,target)||!this.sameCombatRealmV453Dev69(u,target)))return {ok:false,reason:'alvo_oculto_ou_reino'};
+  if(s.shape==='target_ally'&&(!target||target.team!==team||!target.champ))return {ok:false,reason:'alvo_aliado'};
+  // Charm is a champion-only mark. Damage/blind spells can target decoys.
+  if(s.m16Charm&&target&&!target.champ)return {ok:false,reason:'alvo_campeao_exigido'};
+  if(target&&target.team!==team&&(
+    !(target.champ?this.visible(team,target):
+      (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(team,target))||
+    !this.sameCombatRealmV453Dev69(u,target)))
+   return {ok:false,reason:'alvo_oculto_ou_reino'};
   if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
   const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
   if(this.realmOfV453Dev69(u)&&aimed&&point&&!this.realmValidV453Dev69(u,point))
@@ -3247,11 +3271,12 @@ export class Arena {
    this.detonateBoardSatchelV453Dev69(charge);
    return {ok:true,recast:true,spentMana:0};
   }
-  const target=q.targetId?this.units.find(v=>v.id===q.targetId&&v.hp>0):null;
+  const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
   if(['target_enemy','target_ally'].includes(s.shape)&&(!target||!this.sameCombatRealmV453Dev69(u,target)||
-    (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team)||
+    (s.shape==='target_enemy'?target.team===u.team:target.team!==u.team||!target.champ)||
     this.mapDistance(u,target)>s.range||
-    (target.team!==u.team&&!this.visible(u.team,target))))
+    (target.team!==u.team&&!(target.champ?this.visible(u.team,target):
+      (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target)))))
    return {ok:false,reason:'alvo_invalido'};
   if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&
     !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)))
@@ -3264,7 +3289,9 @@ export class Arena {
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
   const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
-    targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
+    targetId:target?.champ?target.id:null,
+    point:target&&!target.champ?{x:target.x,y:target.y}:q.point||null,
+    source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
   if(s.transformTo){
@@ -3326,8 +3353,7 @@ export class Arena {
     return {...committed,scheduled:true};
    }
   }
-  const enemyPool=[...this.units,...this.minions].filter(v=>v.team!==u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
-    (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
+  const enemyPool=this.boardCombatEnemyPoolV453Dev69(u);
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
   let hits=[];const point=q.point||u;
   if(s.shape==='target_enemy'||s.shape==='target_ally')hits=[target];
@@ -3455,7 +3481,7 @@ export class Arena {
     v.x=end.x;v.y=end.y;this.invalidateShopUndoOnDepartureV453Dev61(v);
     v.path=[];v.laneFollowPath=[];v.retreatPath=[];
    }
-   if(enemy&&s.cc&&!blocked&&v.hp>0){
+   if(enemy&&s.cc&&!blocked&&v.hp>0&&v.champ){
     const scaled=s.distanceStun?Math.min(s.distanceStun.max,
      s.distanceStun.min+(s.distanceStun.max-s.distanceStun.min)*
       Math.min(1,this.mapDistance(u,v)/s.distanceStun.at)):s.ccSeconds||1;
@@ -3927,8 +3953,11 @@ export class Arena {
    if(stock.state.charges<1)return {ok:false,reason:'armadilha_sem_cargas'};
   }
   const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
-   targetId:q.targetId||null,point:q.point||null,source:'m16_mechanics',
-   cooldownOverride:s.m16Charges?0:null});
+   targetId:this.boardCombatEntityByIdV453Dev69(q.targetId)?.champ?q.targetId:null,
+   point:this.boardCombatEntityByIdV453Dev69(q.targetId)?.kind?
+    {x:this.boardCombatEntityByIdV453Dev69(q.targetId).x,
+     y:this.boardCombatEntityByIdV453Dev69(q.targetId).y}:q.point||null,
+   source:'m16_mechanics',cooldownOverride:s.m16Charges?0:null});
   if(!cast.ok)return cast;
   if(stock){
    stock.state.charges--;
@@ -3944,14 +3973,17 @@ export class Arena {
    return {...cast,channel:true,shots:4};
   }
   if(s.m16Blind||s.m16Charm){
-   const target=this.units.find(v=>v.id===q.targetId&&v.hp>0&&v.team!==u.team&&
-    this.visible(u.team,v)&&this.mapDistance(u,v)<=s.range);
-   if(!target)return {...cast,hit:false};
+   const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
+   if(!target||target.team===u.team||this.mapDistance(u,target)>s.range||
+     !(target.champ?this.visible(u.team,target):
+       (target.stealthUntil||0)<=now&&this.canSeePoint(u.team,target))||
+     !this.sameCombatRealmV453Dev69(u,target))
+    return {...cast,hit:false};
    if(s.m16Blind){
     this.damage(target,value(s.damage)+this.elementalStatsV452d3(u).ap*(s.apRatio||0),u,'magic','spell');
-    this.applyEffectV41(target,'blind',{source:u,duration:[2,2.25,2.5,2.75,3][Math.min(4,rank-1)],key:'teemo_q_'+u.id});
+    if(target.champ&&target.hp>0)this.applyEffectV41(target,'blind',{source:u,duration:[2,2.25,2.5,2.75,3][Math.min(4,rank-1)],key:'teemo_q_'+u.id});
    }
-   if(s.m16Charm)target.m16EvelynnMark={ownerId:u.id,maturesAt:now+2.5,until:now+5};
+   if(s.m16Charm&&target.champ)target.m16EvelynnMark={ownerId:u.id,maturesAt:now+2.5,until:now+5};
    return {...cast,hit:true};
   }
   if(s.m16Stealth){
