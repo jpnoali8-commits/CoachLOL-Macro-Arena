@@ -8137,6 +8137,18 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    target.m21KogDeathV453={explodeAt:this.gameTime+4,
     at:{x:target.x,y:target.y},power:120+Math.max(1,target.level||1)*14};
   }
+  // A champion death triggers nearby Alistar passive healing once per
+  // cooldown window; ignore structures, pets, minions and repeated hits.
+  if(dealt>0&&target.champ&&target.hp<=0){
+   for(const alistar of this.units.filter(v=>v.champ==='Alistar'&&v.hp>0&&
+       v.team!==target.team&&this.mapDistance(v,target)<=800&&
+       (v.m21AlistarRoarNextV453||0)<=this.gameTime)){
+    alistar.m21AlistarRoarNextV453=this.gameTime+8;
+    for(const ally of this.units.filter(v=>v.team===alistar.team&&v.hp>0&&
+        this.mapDistance(v,alistar)<=800))
+     this.effectResolverV41().heal(ally,65+alistar.level*3,alistar);
+   }
+  }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
   // Leblanc Mirror Image: 40% HP, 60s CD, harmless decoy, private real identity.
   if(target.champ==='Leblanc'&&dealt>0&&target.hp>0&&
@@ -8169,6 +8181,35 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
        key:'m21_concussive_'+braum.id+'_'+target.id});
      conc.stacks=0;conc.until=0;conc.lockUntil=this.gameTime+8;
     }
+   }
+   // M21 on-basic adapter. Nested passive damage is explicitly not 'basic',
+   // preventing recursion or extra item on-hit and keeping the game deterministic.
+   if(attacker.champ==='Lucian'&&attacker.m21LightslingerV453?.charges>0&&
+      attacker.m21LightslingerV453.until>this.gameTime&&target.hp>0){
+    attacker.m21LightslingerV453=null;
+    this.damage(target,Math.max(1,(attacker.ad||60)*.45),
+     attacker,'physical','m21_lightslinger');
+   }
+   if(attacker.champ==='Quinn'&&target.champ&&target.hp>0&&
+      target.m20MarksV453?.['harrier_'+attacker.id]>this.gameTime){
+    delete target.m20MarksV453['harrier_'+attacker.id];
+    this.damage(target,Math.max(20,(attacker.ad||60)*.45),
+     attacker,'physical','m21_harrier');
+    attacker.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.18};
+   }
+   if(attacker.champ==='Varus'&&target.champ&&target.hp>0){
+    const blight=target.m21VarusBlightV453;
+    const stacks=blight?.sourceId===attacker.id&&blight.until>this.gameTime?
+     blight.stacks:0;
+    target.m21VarusBlightV453={sourceId:attacker.id,until:this.gameTime+6,
+     stacks:Math.min(3,stacks+1)};
+   }
+   if(attacker.champ==='Sejuani'&&target.champ&&target.hp>0){
+    const frost=target.m21FrostV453;
+    const stacks=frost?.sourceId===attacker.id&&frost.until>this.gameTime?
+     frost.stacks:0;
+    target.m21FrostV453={sourceId:attacker.id,until:this.gameTime+6,
+     stacks:Math.min(4,stacks+1)};
    }
    const b=attacker.boardNextBasicV453Dev69;
    if(b?.charges>0&&b.until>this.gameTime){
