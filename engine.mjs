@@ -4515,7 +4515,52 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m22_zilean_bomb'){
+    if(z.kind==='m25_alistar_trample'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+      this.mapDistance(v,z.point)<=z.radius)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      const hit=this.damage(v,z.power,u,'magic','spell');
+      if(hit<=0||v.hp<=0)continue;
+      z.stacks[v.id]=(z.stacks[v.id]||0)+1;
+      if(z.stacks[v.id]===5)this.applyEffectV41(v,'stun',{source:u,
+       duration:1,key:'m25_alistar_trample_'+z.id+'_'+v.id});
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m25_milio_campfire'){
+     for(const v of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+      this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,z.point)<=z.radius)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      this.effectResolverV41().heal(v,z.power,u);
+      v.m25MilioRangeUntil=Math.max(v.m25MilioRangeUntil||0,now+1.5);
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m25_viktor_gravity'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+      this.mapDistance(v,z.point)<=z.radius)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      z.stacks[v.id]=(z.stacks[v.id]||0)+1;
+      if(z.stacks[v.id]===2)this.applyEffectV41(v,'stun',{
+       source:u,duration:1.5,key:'m25_viktor_'+z.id+'_'+v.id});
+      else if(z.stacks[v.id]===1)this.applyEffectV41(v,'slow',{
+       source:u,duration:1.5,power:.4,key:'m25_viktor_slow_'+z.id+'_'+v.id});
+     }
+     z.nextAt=now+1;
+    }else if(z.kind==='m25_varus_chain'){
+     const origin=this.units.find(v=>v.id===z.sourceId&&v.hp>0)||z.point;
+     const victim=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+      v.hp>0&&!z.hitIds.includes(v.id)&&this.mapDistance(v,origin)<=z.radius&&
+      this.visible(u.team,v)&&!this.obstacleLine(origin,v))
+      .sort((a,b)=>this.mapDistance(a,origin)-this.mapDistance(b,origin)||
+       String(a.id).localeCompare(String(b.id)))[0];
+     if(victim){
+      this.applyEffectV41(victim,'root',{source:u,duration:1.5,
+       key:'m25_varus_spread_'+z.id+'_'+victim.id});
+      z.hitIds.push(victim.id);z.sourceId=victim.id;
+      z.point={x:victim.x,y:victim.y};
+     }
+     z.steps--;z.nextAt=now+1;
+     if(z.steps<=0)ended=true;
+    }else if(z.kind==='m22_zilean_bomb'){
      this.detonateM22BombV453(z,false);ended=true;
     }else if(z.kind==='m24_heimer_rockets'){
      const pool=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
@@ -5292,6 +5337,19 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.champ==='Zac'&&u.hp>0&&Array.isArray(u.m25ZacGoo)){
+    const keep=[];
+    for(const g of u.m25ZacGoo){
+     if(g.until<=this.gameTime)continue;
+     if(this.mapDistance(u,g)<=90){
+      this.effectResolverV41().heal(u,u.maxHp*.04,u);
+      u.skillCds.W=Math.max(this.gameTime,(u.skillCds.W||0)-1);
+      continue;
+     }
+     keep.push(g);
+    }
+    u.m25ZacGoo=keep;
+   }
    if(u.m24DevourV453){
     const state=u.m24DevourV453,target=this.units.find(v=>v.id===state.targetId);
     if(state.until<=this.gameTime||u.hp<=0||!target||target.hp<=0||
@@ -10077,7 +10135,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      this.gameTime<u.ireliaDanceV453Dev69M7.releaseAt)||
     !this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
    let stage=this.activeStage(u);const activeAction=stage?.startedAt!==null?stage?.action:null;
-   const effectiveAARange=this.itemAttackRangeV453Dev38(u);
+   const effectiveAARange=this.itemAttackRangeV453Dev38(u)+
+    ((u.m25MilioRangeUntil||0)>this.gameTime?100/this.worldWidth:0);
    const enemies=this.units.filter(x=>x.team!==u.team&&x.hp>0&&dist(u,x)<=effectiveAARange&&this.visible(u.team,x)&&this.sameCombatRealmV453Dev69(u,x));
    if(o.kind==='chase')continue; // follow-only never forces an attack
    let candidate=null;const requested=o.targetId||u.reactionCombo?.targetId||stage?.targetId;
