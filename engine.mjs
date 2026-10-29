@@ -5209,6 +5209,37 @@ export class Arena {
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
+  // M44: six distinct author-owned flying skills. The shared scheduler moves
+  // geometry; the impact dispatcher below retains each champion's identity.
+  // No Q2, mark, damage, crowd control or target receipt at launch.
+  const m44Flight=(
+   (u.champ==='LeeSin'&&q.slot==='Q'&&s.m21SonicRecast)||
+   (u.champ==='Braum'&&q.slot==='Q'&&s.m21BraumConcussive)||
+   (u.champ==='Quinn'&&q.slot==='Q'&&s.m27QuinnBlind)||
+   (u.champ==='Rell'&&q.slot==='Q'&&s.m26RellShieldBreak)||
+   (u.champ==='Locke'&&q.slot==='Q'&&s.m26LockeNails)||
+   (u.champ==='Varus'&&q.slot==='R'&&s.m25VarusChain));
+  if(m44Flight&&!q.stolenCast&&q.point){
+   const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
+   if(distance>=1){
+    const reach=Math.min(distance,s.range),ratio=reach/distance;
+    const end={x:start.x+(q.point.x-start.x)*ratio,
+     y:start.y+(q.point.y-start.y)*ratio};
+    const flightTicks=Math.max(1,Math.ceil(reach/550));
+    (this.boardTemporalV453Dev69??=[]).push({
+     id:++this.boardTemporalIdV453Dev69,kind:'m44_authored_projectile',
+     ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
+     origin:start,current:{...start},point:end,
+     range:reach,width:s.width||160,power:power(s.damage),
+     damageType:s.type||'magic',maxHits:s.maxHits??Infinity,
+     hitIds:[],distanceDone:0,hitCount:0,speed:550,
+     nextAt:this.gameTime+1,until:this.gameTime+flightTicks+1,
+     m44Mark:s.m20Mark||null
+    });
+    if(u.champ==='LeeSin')u.m21SonicRecastV453=null;
+    return {...committed,scheduled:true,hitCount:0,m44Projectile:true};
+   }
+  }
    if(s.m25VarusChain){
     const victim=hits.find(v=>v.champ&&v.hp>0&&v.team!==u.team);
     if(victim)(this.boardTemporalV453Dev69??=[]).push({
@@ -5667,7 +5698,69 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m40_sett_haymaker'){
+    if(z.kind==='m44_authored_projectile'){
+     // Each discrete movement segment is swept for actual intervening
+     // bodies; no pre-selected target or omniscient destination hit.
+     const remaining=Math.max(0,z.range-z.distanceDone);
+     const travel=Math.min(z.speed,remaining);
+     const from={...z.current},factor=(z.distanceDone+travel)/Math.max(1,z.range);
+     const next={x:z.origin.x+(z.point.x-z.origin.x)*factor,
+      y:z.origin.y+(z.point.y-z.origin.y)*factor};
+     const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.hp>0&&!z.hitIds.includes(v.id)&&
+      this.sameCombatRealmV453Dev69(u,v));
+     const bodies=travel>0?skillshotHitsV42(from,next,pool,{
+      range:travel+10,width:z.width,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight}):[];
+     for(const victim of bodies){
+      if(z.hitCount>=z.maxHits)break;
+      if(this.obstacleLine(from,victim))continue;
+      const spellShield=!!this.effectResolverV41().has(victim,'spell_shield');
+      const dealt=this.damage(victim,z.power,u,z.damageType,'spell');
+      z.hitIds.push(victim.id);z.hitCount++;
+      // Each authored identity has separate counterplay and on-hit effects.
+      if(dealt>0&&victim.hp>0&&!spellShield){
+       if(z.m44Mark)(victim.m20MarksV453??={})[z.m44Mark+'_'+u.id]=now+6;
+       if(z.champ==='LeeSin'){
+        if(victim.champ||this.boardCloneDamageableV453Dev69(victim))
+         u.m21SonicRecastV453={targetId:victim.id,until:now+3};
+       }else if(z.champ==='Braum'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.5,
+         key:'m44_braum_q_slow_'+z.id+'_'+victim.id});
+        if(!(victim.m21BraumConcussiveV453?.lockUntil>now))
+         victim.m21BraumConcussiveV453={sourceId:u.id,team:u.team,
+          stacks:1,until:now+8,lockUntil:0};
+       }else if(z.champ==='Quinn'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.35,
+         key:'m44_quinn_q_slow_'+z.id+'_'+victim.id});
+        this.applyEffectV41(victim,'blind',{source:u,duration:1.5,
+         key:'m44_quinn_q_blind_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Rell'&&victim.champ){
+        this.effectResolverV41().remove(victim,{
+         types:['shield','magic_shield','physical_shield']});
+        this.applyEffectV41(victim,'stun',{source:u,duration:.75,
+         key:'m44_rell_q_stun_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Locke'&&victim.champ){
+        const ledger=victim.m26LockeNails??={},prior=ledger[u.id];
+        ledger[u.id]={stacks:Math.min(3,
+         (prior?.until>now?prior.stacks:0)+1),until:now+6};
+       }else if(z.champ==='Varus'&&victim.champ){
+        this.applyEffectV41(victim,'root',{source:u,duration:2,
+         key:'m44_varus_r_root_'+z.id+'_'+victim.id});
+        // Spread belongs to Varus only; enqueue for a later tick, never
+        // recursively apply root to everything in the initial collision.
+        keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m25_varus_chain',
+         ownerId:u.id,team:u.team,point:{x:victim.x,y:victim.y},
+         sourceId:victim.id,radius:550,hitIds:[victim.id],
+         nextAt:now+1,until:now+3.1,steps:2});
+       }
+      }
+     }
+     z.current=next;z.distanceDone+=travel;
+     z.nextAt=now+1;
+     if(z.hitCount>=z.maxHits||z.distanceDone>=z.range-1e-6||
+        this.obstacleLine(from,next))ended=true;
+    }else if(z.kind==='m40_sett_haymaker'){
      const state=u.m40AuthoredChannelV453;
      if(!state||state.kind!=='sett_haymaker'||
         state.startedAt!==z.token||this.m40InterruptChannelV453Dev69(u))
