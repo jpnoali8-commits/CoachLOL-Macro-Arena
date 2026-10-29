@@ -3568,6 +3568,45 @@ export class Arena {
    slot:previous.slot,refundedFragments:100});
   return {ok:true,slot:previous.slot,upgrades:{...u.m30ViktorAugments},refunded:100};
  }
+ // M34: owner-authoritative charge staging. This does not generalize any
+ // champion's Q/W/E: each spell keeps its authored damage/range/CC/recast.
+ // The start is one tactical board order, and release is another. Client input
+ // never supplies the elapsed charge to this interface.
+ queueBoardChargeStartV453Dev69(team,id,slot){
+  const u=this.units.find(v=>v.id===id&&v.team===team);
+  const s=u&&this.boardKitForV453Dev69(u.champ,slot,u);
+  const canCharge=s&&(s.m28XerathCharge||s.m28VarusCharge||
+   s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot);
+  if(!u||!canCharge)return {ok:false,reason:'m34_not_authored_charge'};
+  if(u.hp<=0||this.ended||this.teams[team]?.ready||
+    !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69||
+    u.m34ChargeStateV453?.expiresAt>this.gameTime)
+   return {ok:false,reason:'m34_charge_unavailable'};
+  const gate=castGateV39(u,slot,this.gameTime);
+  if(!gate.ok)return gate;
+  if(!this.effectResolverV41().canAct(u,'skill').ok)
+   return {ok:false,reason:'m34_charge_interrupted'};
+  u.pendingBoardV453Dev69={slot,m34ChargeStart:true};
+  this.recordIntentV40(team,id,'m34_champion_charge_start',{slot});
+  return {ok:true,queued:true,chargeStart:true};
+ }
+ queueBoardChargeReleaseV453Dev69(team,id,slot,{point=null,targetId=null}={}){
+  const u=this.units.find(v=>v.id===id&&v.team===team);
+  const state=u?.m34ChargeStateV453;
+  if(!state||state.slot!==slot||state.expiresAt<this.gameTime||
+     this.gameTime<state.startedAt)
+   return {ok:false,reason:'m34_no_live_charge'};
+  if(!this.effectResolverV41().canAct(u,'skill').ok)
+   return {ok:false,reason:'m34_charge_interrupted'};
+  const chargeSeconds=Math.min(2,Math.max(0,this.gameTime-state.startedAt));
+  const queued=this.queueBoardSkillV453Dev69(team,id,slot,
+   {point,targetId,chargeSeconds});
+  if(queued.ok){
+   u.pendingBoardV453Dev69.m34ChargeReleaseToken=state.startedAt;
+   u.pendingBoardV453Dev69.m34ChargeReleaseOrigin={...state.origin};
+  }
+  return {...queued,...(queued.ok?{trustedChargeSeconds:chargeSeconds}:{})};
+ }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
@@ -3837,6 +3876,26 @@ export class Arena {
   if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
       s.passiveOnly||u.m23ZacDivisionV453?.active)
    return {ok:false,reason:'board_indisponivel'};
+  if(q?.m34ChargeStart){
+   const canCharge=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||
+    s.m29ViCharge||s.m29ZacSlingshot;
+   if(!canCharge||!this.effectResolverV41().canAct(u,'skill').ok||
+      !castGateV39(u,q.slot,this.gameTime).ok)
+    return {ok:false,reason:'m34_charge_interrupted_before_commit'};
+   u.m34ChargeStateV453={slot:q.slot,startedAt:this.gameTime,
+    expiresAt:this.gameTime+3,origin:{x:u.x,y:u.y}};
+   return {ok:true,chargeStarted:true,spentMana:0};
+  }
+  if(q?.m34ChargeReleaseToken!==undefined){
+   const state=u.m34ChargeStateV453;
+   if(!state||state.slot!==q.slot||state.startedAt!==q.m34ChargeReleaseToken||
+      state.expiresAt<this.gameTime||this.gameTime<state.startedAt||
+      !this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m34_charge_expired_or_interrupted_before_commit'};
+   const elapsed=Math.min(2,this.gameTime-state.startedAt);
+   if(q.m28ChargeSeconds===undefined||Math.abs(q.m28ChargeSeconds-elapsed)>1e-8)
+    return {ok:false,reason:'m34_charge_duration_mismatch'};
+  }
   if(q?.m26Recast==='karthus_e_off'&&s.m26KarthusToggle){
    if(!u.m26KarthusE||u.m26KarthusE.until<=this.gameTime)
     return {ok:false,reason:'m26_toggle_expirado'};
@@ -5149,7 +5208,10 @@ export class Arena {
  }
  resolveBoardSkillsV453Dev69(){
   for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
-   u.pendingBoardV453Dev69=null;this.executeBoardSkillV453Dev69(u,q);}
+   u.pendingBoardV453Dev69=null;
+   const receipt=this.executeBoardSkillV453Dev69(u,q);
+   if(receipt?.ok&&q.m34ChargeReleaseToken!==undefined)u.m34ChargeStateV453=null;
+  }
  }
  // Shared timed barrel explosion. No target IDs outside the server or bypass
  // of Realm/visibility/collision; the same routine handles recast and fuse.
