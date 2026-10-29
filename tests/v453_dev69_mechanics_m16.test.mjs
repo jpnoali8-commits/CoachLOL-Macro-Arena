@@ -186,4 +186,44 @@ for(const team of ['blue','red']){
   assert.equal(result.ok,false);
  });
 }
+for(const team of ['blue','red']){
+ const kai=fixture('Kaisa',team);
+ ok(team+' Kaisa E grants speed but no invis without evolution',()=>{
+  const q=kai.a.queueKitSkillV42(team,kai.u.id,'E',null);
+  assert.equal(q.ok,true,q.reason);kai.a.resolveBoardSkillsV453Dev69();
+  assert.equal(kai.u.m16StealthV453,undefined);
+  assert.ok(kai.u.boardSpeedV453Dev69.until>0);
+ });
+ const evo=fixture('Kaisa',team);evo.u.m16KaisaEvolvedE=true;
+ ok(team+' Kaisa evolved E grants 0.5s invisibility and deterministic snapshot',()=>{
+  assert.equal(evo.a.queueKitSkillV42(team,evo.u.id,'E',null).ok,true);
+  evo.a.resolveBoardSkillsV453Dev69();
+  assert.equal(evo.u.m16StealthV453.type,'invisibility');
+  assert.equal(evo.u.m16StealthV453.until,.5);
+  const cp=Arena.fromSnapshotV40(map,mask,evo.a.snapshotV40());
+  assert.equal(checksumV40(cp.snapshotV40()),checksumV40(evo.a.snapshotV40()));
+ });
+ const le=fixture('Leblanc',team);le.u.hp=800;le.u.maxHp=1500;
+ ok(team+' Leblanc Mirror Image creates harmless clone at 40% HP only once',()=>{
+  le.a.damage(le.u,250,le.foe,'true','basic');
+  const clone=le.a.boardSummonsV453Dev69.find(x=>x.kind==='leblanc_clone');
+  assert.ok(clone);
+  assert.equal(clone.until,8);assert.equal(clone.nonCombat,true);
+  assert.equal(le.a.units.length,10);assert.equal(le.u.m16StealthV453.type,'invisibility');
+  const hp=le.u.hp;
+  le.a.damage(le.u,100,le.foe,'true','basic');
+  assert.equal(le.a.boardSummonsV453Dev69.filter(x=>x.kind==='leblanc_clone').length,1);
+  assert.ok(le.u.hp<hp);
+ });
+ const senna=fixture('Senna',team);
+ ok(team+' Senna mist grants camo only to friendly units in range',()=>{
+  const ally=senna.a.units.find(x=>x.team===team&&x.id!==senna.u.id);
+  Object.assign(ally,{x:.51,y:.5});
+  assert.equal(senna.a.queueKitSkillV42(team,senna.u.id,'E',null).ok,true);
+  senna.a.resolveBoardSkillsV453Dev69();
+  assert.equal(ally.m16StealthV453?.type,'camouflage');
+  const distant=senna.a.units.find(x=>x.team===team&&x.id!==ally.id&&x.id!==senna.u.id);
+  assert.equal(distant.m16StealthV453,undefined);
+ });
+}
 console.log('DEV69 M16 '+count+'/'+count+' PASS');
