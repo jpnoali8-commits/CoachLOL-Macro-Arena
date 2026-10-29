@@ -1235,8 +1235,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Fizz:BK20('nimble_fighter',
   B20('target_enemy',550,8,90,{dashToHit:true}),
   B20('self',0,7,0,{nextBasic:[50,75,100,125,150],charges:1,m20Missing:'bleed_onhit'}),
-  B20('move_point',400,16,105,{radius:260,cc:'slow',ccSeconds:2,ccPower:.3,m20Missing:'untargetable_recast'}),
-  B20('line_enemy',1300,120,230,{width:160,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'delayed_shark_knockup'})),
+  B20('move_point',400,16,105,{radius:260,cc:'slow',ccSeconds:2,ccPower:.3,m24FizzLeap:true}),
+  B20('line_enemy',1300,120,230,{width:160,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m24_fizz_shark',zoneSeconds:2,m24Shark:true})),
  JarvanIV:BK20('martial_cadence',
   B20('line_enemy',770,10,90,{width:160,type:'physical',m24FlagDash:true,m20Missing:'armor_shred'}),
   B20('circle_enemy',0,9,0,{originSelf:true,radius:625,shield:[80,110,140,170,200],cc:'slow',ccSeconds:2,ccPower:.3}),
@@ -3394,6 +3394,28 @@ export class Arena {
   }else this.damage(u,u.maxHp+10000,killer,'true','m23_zac_execution');
   return true;
  }
+ // M24 Fizz E phase: temporary untargetability, explicit recast and timed landing.
+ m24FizzLandV453(u,point){
+  const state=u?.m24FizzLeapV453;if(!state)return false;
+  u.m24FizzLeapV453=null;
+  const dest=point&&this.mapDistance(state.origin,point)<=400&&
+   this.walkable(point.x,point.y)&&!this.obstacleLine(state.origin,point)?point:state.origin;
+  if(u.hp>0){
+   const from={x:u.x,y:u.y};
+   Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,from,dest,{kind:'leap'});
+   const rank=Math.max(1,u.skillRanks.E||1),ap=this.elementalStatsV452d3(u).ap;
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+    .filter(t=>this.mapDistance(t,dest)<=260)
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    const hit=this.damage(v,65+rank*40+ap*.75,u,'magic','spell');
+    if(hit>0&&v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{
+     source:u,duration:2,power:.3,key:'m24_fizz_'+u.id+'_'+v.id});
+   }
+  }
+  return true;
+ }
  // M24/B01: shared serializable sphere scatter; deterministic geometry.
  m24SyndraScatterV453(u){
   const orbs=(u.m20SyndraOrbsV453||[]).filter(v=>v.until>this.gameTime);
@@ -3423,21 +3445,22 @@ export class Arena {
  }
  boardCombatEntityByIdV453Dev69(id){
   if(!id)return null;
-  return this.units.find(v=>v.id===id&&v.hp>0)||
+  return this.units.find(v=>v.id===id&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime))||
    this.boardSummonsV453Dev69.find(v=>v.id===id&&this.boardCloneDamageableV453Dev69(v))||null;
  }
  boardCombatEnemyPoolV453Dev69(u){
   return [...this.units,...this.minions,...this.boardSummonsV453Dev69.filter(v=>
    this.boardCloneDamageableV453Dev69(v)&&v.team!==u.team&&
    (v.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,v))]
-   .filter(v=>v.team!==u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+   .filter(v=>v.team!==u.team&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime)&&this.sameCombatRealmV453Dev69(u,v)&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
-  if(!u||!s||s.passiveOnly||(u.hp<=0&&!this.m23KarthusCanActV453(u,slot))||
+  if(!u||!s||s.passiveOnly||(u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
+     (u.hp<=0&&!this.m23KarthusCanActV453(u,slot))||
      u.m23ZacDivisionV453?.active||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
@@ -3477,6 +3500,16 @@ export class Arena {
   if(s.m16Stealth&&u.champ==='Akshan'&&slot==='W'&&u.m16StealthV453?.until>this.gameTime){
    u.pendingBoardV453Dev69={slot,m16Recast:true};
    this.recordIntentV40(team,id,'akshan_w_cancel',{});
+   return {ok:true,queued:true,recast:true};
+  }
+  if(s.m24FizzLeap&&slot==='E'&&u.m24FizzLeapV453?.until>this.gameTime){
+   const dest=point||u.m24FizzLeapV453.point;
+   if(!dest||![dest.x,dest.y].every(Number.isFinite)||
+      this.mapDistance(u.m24FizzLeapV453.origin,dest)>400||
+      !this.walkable(dest.x,dest.y)||this.obstacleLine(u.m24FizzLeapV453.origin,dest))
+    return {ok:false,reason:'fizz_recast_destino'};
+   u.pendingBoardV453Dev69={slot,m24Recast:'fizz_land',point:{...dest}};
+   this.recordIntentV40(team,id,'m24_recast',{slot});
    return {ok:true,queued:true,recast:true};
   }
   if(s.m22Magazine&&slot==='R'){
@@ -3625,6 +3658,12 @@ export class Arena {
   if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
       s.passiveOnly||u.m23ZacDivisionV453?.active)
    return {ok:false,reason:'board_indisponivel'};
+  if(q?.m24Recast==='fizz_land'&&s.m24FizzLeap){
+   if(!(u.m24FizzLeapV453?.until>this.gameTime))
+    return {ok:false,reason:'fizz_recast_expirado'};
+   this.m24FizzLandV453(u,q.point);
+   return {ok:true,recast:true,spentMana:0};
+  }
   if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
    return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
@@ -3763,6 +3802,11 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(s.m24FizzLeap){
+   u.m24FizzLeapV453={origin:{x:u.x,y:u.y},point:{...q.point},
+    until:this.gameTime+1.5};
+   return {...committed,scheduled:true,phase:'untargetable'};
+  }
   // M24 board entities/terrain reuse the existing queue/performActionV40 receipt.
   if(s.m24FlagDeploy&&q.point){
    this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(z=>
@@ -3926,6 +3970,8 @@ export class Arena {
      this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>z!==previous);
      this.detonateM22BombV453(previous,true);
     }
+   }else if(s.boardTemporal==='m24_fizz_shark'){
+    temporal.nextAt=this.gameTime+2;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m21_gragas_barrel'){
     temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m20_requiem_channel'){
@@ -4272,6 +4318,15 @@ export class Arena {
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
     if(z.kind==='m22_zilean_bomb'){
      this.detonateM22BombV453(z,false);ended=true;
+    }else if(z.kind==='m24_fizz_shark'){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>this.mapDistance(v,z.point)<=280)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      const dealt=this.damage(v,z.power,u,'magic','spell');
+      if(dealt>0&&v.champ&&v.hp>0)this.applyEffectV41(v,'knockup',{
+       source:u,duration:1.25,key:'m24_shark_'+z.id+'_'+v.id});
+     }
+     ended=true;
     }else if(z.kind==='m21_gragas_barrel'){
      this.detonateM21BarrelV453(z);ended=true;
     }else if(z.kind==='satchel_charge'){
@@ -5012,6 +5067,9 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.m24FizzLeapV453&&
+     (u.m24FizzLeapV453.until<=this.gameTime||u.hp<=0))
+    this.m24FizzLandV453(u,u.m24FizzLeapV453.point);
    if(u.m23DeathDefiedV453?.until<=this.gameTime)u.m23DeathDefiedV453=null;
    const grit=u.m23GritV453;
    if(grit?.value>0&&this.gameTime>=grit.nextDecayAt){
@@ -8366,7 +8424,9 @@ export class Arena {
    .sort((a,b)=>b.at-a.at||a.champ.id.localeCompare(b.champ.id));
   return eligible[0]?.champ||null;
  }
- damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
+ damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
+   if(target?.m24FizzLeapV453?.until>this.gameTime)return 0;
+   if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
   if(attacker?.champ&&attacker.team!==target?.team&&
      ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)&&
      attacker.m16StealthV453?.startsAt<=this.gameTime&&
