@@ -57,6 +57,10 @@ for(const team of ['blue','red']){
   assert.equal(second.queued.recast,true);
   assert.equal(second.result.spentMana,0);
   assert.equal(u.mana,cost);assert.equal(u.skillCds.R,cd);
+  assert.ok(e.hp>0,'Urgot must suppress before finishing the chain');
+  assert.ok(a.effectResolverV41().has(e,'suppression'));
+  assert.equal(second.result.channel,true);
+  a.gameTime=2.1;a.advanceBoardPassivesV453Dev69();
   assert.equal(e.hp,0);assert.equal(e.deaths,1);assert.equal(u.kills,1);
   assert.equal(a.effectResolverV41().has(e2,'fear'),true);
   assert.equal(u.m23ExecuteMarkV453,null);
@@ -66,6 +70,8 @@ for(const team of ['blue','red']){
   const {a,u,e,cast}=fixture('Urgot',team);
   cast('R',{point});e.hp=e.maxHp*.24;
   a.gameTime=4.1;a.advanceBoardPassivesV453Dev69();
+  assert.ok(e.hp>0,'automatic Urgot R must respect suppressible reel');
+  a.gameTime=5.2;a.advanceBoardPassivesV453Dev69();
   assert.equal(e.hp,0);assert.equal(u.kills,1);
   a.advanceBoardPassivesV453Dev69();
   assert.equal(u.kills,1);
@@ -80,7 +86,8 @@ for(const team of ['blue','red']){
   a.visible=()=>true;
   assert.equal(a.applyEffectV41(e,'invulnerable',{source:e,duration:3}).ok,true);
   const second=cast('R',{targetId:e.id});
-  assert.equal(second.result.executed,false,'invulnerability bypassed');
+  assert.equal(second.result.executed,false,'channel cannot execute immediately');
+  a.gameTime=2.1;a.advanceBoardPassivesV453Dev69();
   assert.ok(e.hp>0);assert.equal(u.kills,0);
   snap(a);
  });
