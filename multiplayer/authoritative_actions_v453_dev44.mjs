@@ -158,7 +158,10 @@ export class AuthoritativeActionsV453Dev44 {
     // Never accept the real stable ID behind a currently masked champion.
     const concealed=target.champ==='Neeko'&&target.neekoDisguiseV453M15||
      target.champ==='Shaco'&&this.arena.boardSummonsV453Dev69.some(e=>
-      e.id===target.shacoCloneIdV453M15&&e.hp>0&&e.until>this.arena.gameTime);
+      e.id===target.shacoCloneIdV453M15&&e.hp>0&&e.until>this.arena.gameTime)||
+     target.m16DecoyPublicAlias&&this.arena.boardSummonsV453Dev69.some(e=>
+      e.id===(target.m16WukongCloneId||target.m16LeblancCloneId)&&
+      e.hp>0&&e.until>this.arena.gameTime);
     if((concealed||['neeko_clone','shaco_clone'].includes(target.kind))&&!alias)
      return fail('alvo_identidade_oculta');
     const seen=target.kind&&!target.champ?
