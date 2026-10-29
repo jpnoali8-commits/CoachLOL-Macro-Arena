@@ -4340,6 +4340,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+     if(s.m25KassRift)raw*=1+.25*(u.m25KassRift?.bonus||0);
+     if(s.m25KogArtillery)raw*=1+.2*(u.m25KogArtillery?.bonus||0);
      const stunnedAblaze=s.stunIfAblaze&&v.champ&&
      (v.boardBrandAblazeV453Dev69?.[u.id]||0)>this.gameTime;
     if(s.dotSeconds){
@@ -4396,8 +4398,14 @@ export class Arena {
       this.applyBoardHemorrhageV453Dev69(u,v);
     }
    }
-   if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked)
-    this.pushChampionThroughTerrain(u,v,s.knockback,{maxWallUnits:0});
+   if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked){
+    const kicked=this.pushChampionThroughTerrain(u,v,s.knockback,{maxWallUnits:0});
+    if(s.m25LeeWallCollision&&kicked.blocked){
+     const hit=this.damage(v,65+Math.max(1,u.skillRanks.R||1)*50,u,'physical','spell');
+     if(hit>0&&v.hp>0)this.applyEffectV41(v,'stun',{
+      source:u,duration:1.5,key:'m25_lee_wall_'+instance+'_'+v.id});
+    }
+   }
    if(enemy&&s.pull&&v.champ&&v.hp>0&&!blocked&&!this.obstacleLine(u,v)){
     const from={x:v.x,y:v.y},distance=this.mapDistance(u,v),
      reach=Math.max(0,Math.min(s.pull,distance-140));
