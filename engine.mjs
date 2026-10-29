@@ -3872,6 +3872,41 @@ export class Arena {
    const n=(u.m25SeraphineSpells||0)+1;
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
+  if(s.m26BraumStand&&target?.team===u.team){
+   const until=this.gameTime+4,resist=20+Math.max(1,u.skillRanks.W||1)*8;
+   target.m26BraumResists={sourceId:u.id,until,value:resist};
+   u.m26BraumResists={sourceId:u.id,until,value:resist*.6};
+  }
+  if(s.m26BraumDirection){
+   const enemy=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&v.hp>0&&
+    this.visible(u.team,v)).sort((a,b)=>
+     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id)))[0];
+   const dx=enemy?enemy.x-u.x:1,dy=enemy?enemy.y-u.y:0;
+   const len=Math.hypot(dx*this.worldWidth,dy*this.worldHeight)||1;
+   u.m26BraumShield={until:this.gameTime+4,dx:dx*this.worldWidth/len,
+    dy:dy*this.worldHeight/len,firstBlocked:false};
+  }
+  if(s.m26LockeDash&&q.point){
+   const victim=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+    v.hp>0&&v.m26LockeNails?.[u.id]?.until>this.gameTime&&
+    this.mapDistance(v,q.point)<=200).sort((a,b)=>
+     this.mapDistance(a,q.point)-this.mapDistance(b,q.point)||
+     String(a.id).localeCompare(String(b.id)))[0];
+   if(victim){
+    const stacks=victim.m26LockeNails[u.id].stacks;
+    const dealt=this.damage(victim,50+stacks*55,u,'physical','spell');
+    if(dealt>0){
+     victim.m26LockeNails[u.id]=null;
+     this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.4,
+      key:'m26_locke_nail_dash_'+u.id+'_'+victim.id});
+    }
+   }
+  }
+  if(s.m26KarthusToggle){
+   u.m26KarthusE={until:this.gameTime+12,nextAt:this.gameTime+1,
+    radius:s.radius,power:35+Math.max(1,u.skillRanks.E||1)*12};
+   return {...committed,toggled:true};
+  }
   if(s.m25KassRift||s.m25KogArtillery){
    const key=s.m25KassRift?'m25KassRift':'m25KogArtillery';
    const previous=u[key]?.until>this.gameTime?u[key].stacks:0;
