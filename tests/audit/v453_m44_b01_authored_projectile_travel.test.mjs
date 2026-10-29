@@ -163,6 +163,61 @@ for(const team of ['blue','red']){
     z.kind==='m25_varus_chain'&&z.sourceId===e.id),false);
    negatives++;snap();
   });
+ run('Braum',team,'Q stops on first enemy even with a second champion in the line',
+  ({u,e,e2,cast,tick,snap})=>{
+   e.x=.519;e2.x=.533;e2.y=.5;e2.hp=e2.maxHp=10000;
+   const hp=e2.hp;cast('Q',{point:{x:.56,y:.5}});tick(1);
+   assert.equal(e2.hp,hp,'Braum Q must stop on first victim');
+   assert.equal(e2.m20MarksV453?.['concussive_'+u.id],undefined);
+   negatives++;snap();
+  });
+ run('Quinn',team,'Valor primary Harrier+blind and nearby physical splash only',
+  ({a,u,e,e2,cast,tick,snap})=>{
+   e.x=.518;e2.x=.529;e2.y=.506;e2.hp=e2.maxHp=10000;
+   const hp=e2.hp;cast('Q',{point:{x:.56,y:.5}});tick(1);
+   assert.ok(e2.hp<hp,'secondary enemy inside Quinn Q blast radius must take damage');
+   assert.equal(a.effectResolverV41().has(e2,'blind'),false);
+   assert.equal(e2.m20MarksV453?.['harrier_'+u.id],undefined);
+   assert.equal(a.effectResolverV41().has(e,'blind'),true);
+   negatives++;snap();
+  });
+ run('Rell',team,'Q breaks a damage shield before dealing lance damage',
+  ({a,e,cast,tick,snap})=>{
+   const hp=e.hp;
+   a.applyEffectV41(e,'shield',{source:e,duration:4,power:500,
+    key:'m44_rell_large_shield_'+team});
+   cast('Q',{point:{x:.56,y:.5}});tick(1);
+   assert.ok(e.hp<hp,'Rell Q must break the shield before damage');
+   assert.equal(a.effectResolverV41().has(e,'stun'),true);
+   negatives++;snap();
+  });
+ run('Varus',team,'R bypasses minion wave and roots first real champion',
+  ({a,e,u,cast,tick,snap})=>{
+   const minion={id:'m44_varus_wave_'+team,kind:'minion',
+    team:e.team,x:.518,y:.5,hp:900,maxHp:900,armor:0,mr:0,spawnAt:0};
+   a.minions.push(minion);
+   const initial=minion.hp;cast('R',{point:{x:.56,y:.5}});tick(1);
+   assert.equal(minion.hp,initial,'Varus R is not blocked by minions');
+   assert.equal(a.effectResolverV41().has(e,'root'),true);
+   assert.ok(a.boardTemporalV453Dev69.some(z=>
+    z.kind==='m25_varus_chain'&&z.ownerId===u.id&&z.sourceId===e.id));
+   negatives++;snap();
+  });
+ run('LeeSin',team,'Q2 can actually target the first marked minion',
+  ({a,u,e,queue,resolve,cast,tick,snap})=>{
+   const minion={id:'m44_lee_minion_'+team,kind:'minion',
+    team:e.team,x:.519,y:.5,hp:900,maxHp:900,armor:0,mr:0,spawnAt:0};
+   a.minions.push(minion);
+   const hp=e.hp;cast('Q',{point:{x:.56,y:.5}});tick(1);
+   assert.equal(u.m21SonicRecastV453?.targetId,minion.id);
+   assert.equal(e.hp,hp);
+   const q=queue('Q',{targetId:minion.id});
+   assert.equal(q.ok,true,'Sonic Wave marked this minion');
+   const receipt=resolve();assert.equal(receipt?.ok,true);
+   assert.equal(receipt.recast,true);
+   assert.equal(u.m21SonicRecastV453,null);
+   negatives++;snap();
+  });
 }
 for(const x of failures)console.error('M44_TRAVEL_FAIL',JSON.stringify(x));
 console.log('M44_B01_AUTHORED_TRAVEL '+JSON.stringify({
@@ -170,5 +225,5 @@ console.log('M44_B01_AUTHORED_TRAVEL '+JSON.stringify({
  seats:2,scenarios:tests,snapshots,negativeChecks:negatives,
  failures:failures.length,certifiedKits:0}));
 assert.equal(failures.length,0);
-assert.equal(tests,24);
-assert.equal(snapshots,24);
+assert.equal(tests,34);
+assert.equal(snapshots,34);
