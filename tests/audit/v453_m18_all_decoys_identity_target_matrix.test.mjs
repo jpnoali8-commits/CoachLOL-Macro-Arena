@@ -153,4 +153,76 @@ for(const team of teams)for(const champ of Object.keys(kinds)){
   assert.ok(!t.a.perspective(team).units.some(v=>v.id===t.clone.publicId));
  });
 }
+
+for(const team of teams){
+ ok(team+' Neeko clone fades after taking damage without exposing the owner',()=>{
+  const t=make(team,'Neeko');
+  const ownerAppearance=t.owner.neekoDisguiseV453M15?.publicId;
+  const old=t.clone.hp;
+  const hit=t.a.damage(t.clone,100,t.caster,'magic','spell');
+  assert.ok(hit>0&&t.clone.hp<old);
+  assert.equal(t.clone.damageFadeAt,t.a.gameTime+.5);
+  assert.equal(t.owner.neekoDisguiseV453M15?.publicId,ownerAppearance);
+  t.a.gameTime=t.clone.damageFadeAt-.1;
+  t.a.advanceBoardSummonsV453Dev69();
+  assert.ok(t.clone.hp>0,'Neeko W must not fade immediately before its timer');
+  t.a.gameTime=t.clone.damageFadeAt+.01;
+  t.a.advanceBoardSummonsV453Dev69();
+  assert.ok(!t.a.boardSummonsV453Dev69.includes(t.clone),'Neeko W must disappear after fade timer');
+  assert.ok(!t.a.perspective(team).units.some(u=>u.id===t.clone.publicId));
+ });
+ ok(team+' Neeko disguised apparent-lethal damage reveals only her real identity',()=>{
+  const t=make(team,'Neeko');
+  const before=t.owner.neekoDisguiseV453M15;
+  assert.ok(before);
+  const alias=before.publicId;
+  const visualHp=before.visualHp;
+  t.owner.maxHp=t.owner.hp=visualHp+500;
+  const damage=t.a.damage(t.owner,visualHp+1,t.caster,'true','spell');
+  assert.ok(damage>0&&t.owner.hp>0);
+  assert.equal(t.owner.neekoDisguiseV453M15,null,'apparent lethal must break passive disguise');
+  assert.ok(t.a.perspective(team).units.some(v=>v.id===t.owner.id));
+  assert.ok(!t.a.perspective(team).units.some(v=>v.id===alias));
+  assert.equal(t.a.m15ResolvePublicId(team,alias),null,'old disguised ID cannot select real Neeko');
+ });
+ ok(team+' MonkeyKing decoy basic strike damages a close real champion only once per tick',()=>{
+  const t=make(team,'MonkeyKing');
+  t.caster.x=t.clone.x+.006;t.caster.y=t.clone.y; // inside 175 units
+  t.clone.nextAttackAt=2;
+  const before=t.caster.hp;
+  t.a.gameTime=2.1;
+  t.a.advanceBoardSummonsV453Dev69();
+  assert.ok(t.caster.hp<before,'Wukong clone was incorrectly inert');
+  const hp=t.caster.hp;
+  t.a.advanceBoardSummonsV453Dev69();
+  assert.equal(t.caster.hp,hp,'Wukong clone double-attacked within same tick');
+  assert.equal(t.a.units.length,10);
+ });
+ ok(team+' Leblanc passive creates one decoy under 60s cooldown and keeps its identity',()=>{
+  const t=make(team,'Leblanc');
+  const ready=t.owner.m16LeblancReadyAt;
+  assert.equal(ready,60,'Mirror Image initial cooldown incorrect');
+  assert.equal(t.a.boardSummonsV453Dev69.filter(s=>s.kind==='leblanc_clone').length,1);
+  const oldAlias=t.owner.m16DecoyPublicAlias;
+  const hit=t.a.damage(t.owner,30,t.caster,'true','spell');
+  assert.ok(hit>0);
+  assert.equal(t.owner.m16LeblancReadyAt,ready);
+  assert.equal(t.owner.m16DecoyPublicAlias,oldAlias);
+  assert.equal(t.a.boardSummonsV453Dev69.filter(s=>s.kind==='leblanc_clone').length,1);
+ });
+ ok(team+' Shaco clone lethal damage explodes once, spawns exactly three mini-boxes',()=>{
+  const t=make(team,'Shaco');
+  const dealt=t.a.damage(t.clone,99999,t.caster,'true','spell');
+  assert.ok(dealt>0);
+  assert.equal(t.clone.hp,0);
+  assert.equal(t.clone.explodedV453M15,true);
+  const initial=t.a.boardSummonsV453Dev69.filter(s=>s.kind==='shaco_minibox').length;
+  assert.equal(initial,3);
+  t.a.m15ExplodeShacoClone(t.clone);
+  t.a.advanceBoardSummonsV453Dev69();
+  assert.equal(t.a.boardSummonsV453Dev69.filter(s=>s.kind==='shaco_minibox').length,3);
+  const snap=t.a.snapshotV40();
+  assert.equal(checksumV40(snap),checksumV40(Arena.fromSnapshotV40(map,mask,snap).snapshotV40()));
+ });
+}
 console.log('M18_CLONES_SUMMARY '+checks+'/'+checks+' PASS');
