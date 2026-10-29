@@ -4116,8 +4116,10 @@ export class Arena {
      nextAt:this.gameTime+1,until:temporal.until};
     u.boardChannelUntilV453Dev69=temporal.until;
    }else if(s.boardTemporal==='m22_zilean_bomb'){
-    const victim=this.boardCombatEnemyPoolV453Dev69(u)
-     .filter(v=>v.champ&&this.mapDistance(v,temporal.point)<=120)
+    const pool=s.m26ZileanAllyAnchor?this.units.filter(v=>v.champ&&v.hp>0&&
+     this.sameCombatRealmV453Dev69(u,v)):
+     this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ);
+    const victim=pool.filter(v=>this.mapDistance(v,temporal.point)<=120)
      .sort((a,b)=>this.mapDistance(a,temporal.point)-this.mapDistance(b,temporal.point)||
        String(a.id).localeCompare(String(b.id)))[0];
     temporal.anchorId=victim?.id||null;
