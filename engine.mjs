@@ -2334,6 +2334,10 @@ export class Arena {
   for(const w of activeTeamWards)sources.push({x:w.x,y:w.y,r:this.wardRadius(w),kind:'ward'});
   for(const s of this.structures){if(s.team===team&&s.alive)sources.push({x:s.x,y:s.y,r:.075,kind:'structure'});}
   for(const scout of this.boardVisionV453Dev69||[])if(scout.team===team&&scout.until>this.gameTime)sources.push({x:scout.x,y:scout.y,r:scout.r,kind:'board_scout'});
+  for(const sapling of this.m16Traps||[])if(sapling.team===team&&
+    sapling.kind==='maokai_sapling'&&sapling.armedAt<=this.gameTime&&
+    sapling.until>this.gameTime)
+    sources.push({x:sapling.x,y:sapling.y,r:350/this.worldWidth,kind:'sapling'});
   for(const trap of this.jinxChompersV453Dev69M5||[]){
    if(trap.team===team&&trap.landAt<=this.gameTime&&trap.expireAt>this.gameTime)
     for(const center of trap.centers)sources.push({x:center.x,y:center.y,r:150/this.worldWidth,kind:'jinx_e'});
@@ -7680,6 +7684,22 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
  }
  const absorbedV41=this.effectResolverV41().absorb(target,final,damageType);final=absorbedV41.remaining;const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  // Leblanc Mirror Image: 40% HP, 60s CD, harmless decoy, private real identity.
+  if(target.champ==='Leblanc'&&dealt>0&&target.hp>0&&
+    target.hp<=target.maxHp*.4&&(target.m16LeblancReadyAt||0)<=this.gameTime){
+   target.m16LeblancReadyAt=this.gameTime+60;
+   target.m16StealthV453={type:'invisibility',source:'Leblanc:P',
+    startsAt:this.gameTime,until:this.gameTime+1,radius:0};
+   const dx=target.team==='blue'?1:-1,
+    goal={x:target.x+dx*850/this.worldWidth,y:target.y+850/this.worldHeight};
+   const clone=this.m15Summon('leblanc_clone',target,{x:target.x,y:target.y},{
+    until:this.gameTime+8,stealthUntil:this.gameTime+1,
+    commandPoint:this.walkable(goal.x,goal.y)?goal:{x:target.x,y:target.y},
+    nonCombat:true,power:0,attackRange:0,
+    appearance:{kind:'champion',champ:'Leblanc'}});
+   target.m16LeblancCloneId=clone.id;
+   target.m16DecoyPublicAlias='appearance_'+(++this.m15PublicSeq).toString(36);
+  }
   // Per-attack buffs and stacking passives are triggered by real basic hits,
   // never another skill, item proc or a nested board proc.
   if(dealt>0&&sourceType==='basic'&&attacker?.champ&&attacker.team!==target.team){
