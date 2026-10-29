@@ -397,6 +397,14 @@ $('realmCanvasV453').onclick=e=>{
 function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complete&&map.naturalWidth)ctx.drawImage(map,0,0,800,800);
  if(!state?.projection)return;const p=state.projection;
  for(const v of p.wards||[]){ctx.fillStyle=v.team==='blue'?'#5eceff':'#ef756c';ctx.fillRect(v.x*800-4,v.y*800-4,8,8);}
+ for(const m of p.minions||[]){
+  if(!Number.isFinite(m.x)||!Number.isFinite(m.y)||m.hp<=0)continue;
+  const size=m.kind==='cannon'?7:m.kind==='caster'?4:5;
+  ctx.fillStyle=m.team==='blue'?'#6f98af':'#af786b';
+  ctx.fillRect(m.x*800-size/2,m.y*800-size/2,size,size);
+  ctx.strokeStyle='#1b1c18';ctx.lineWidth=1;
+  ctx.strokeRect(m.x*800-size/2,m.y*800-size/2,size,size);
+ }
  for(const s of p.boardSummons||[]){
   ctx.beginPath();ctx.arc(s.x*800,s.y*800,11,0,Math.PI*2);
   ctx.fillStyle=s.team==='blue'?'#c1a65e':'#a86d59';ctx.fill();
