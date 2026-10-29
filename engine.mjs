@@ -1128,7 +1128,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5}),
   B20('circle_enemy',5000,130,190,{radius:240,boardTemporal:'m22_artillery_channel',zoneSeconds:10,m22ArtilleryShots:[3,4,5],m20Missing:'ritual_charge_and_inner_center_multiplier'})),
  Zac:BK20('cell_division',
-  B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m20Missing:'second_grab'}),
+  B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m22SecondStage:'grab',m20Missing:'Q2_basic_grab_animation'}),
   B20('circle_enemy',0,5,60,{mana:0,originSelf:true,radius:350,maxHpRatio:.03}),
   B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m20Missing:'charge_range'}),
   B20('circle_enemy',0,120,180,{mana:0,originSelf:true,radius:390,cc:'knockup',ccSeconds:1,m20Missing:'four_bounces'})),
@@ -1154,8 +1154,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',1000,100,245,{radius:330,knockback:550})),
  LeeSin:BK20('flurry',
   B20('line_enemy',1100,10,85,{mana:0,width:140,maxHits:1,type:'physical',m20Mark:'sonic',m21SonicRecast:true,m20Missing:'sonic_wave_projectile_travel'}),
-  B20('target_ally',700,8,0,{mana:0,shield:[65,95,125,155,185],m20JumpToAlly:true,m20Missing:'iron_will_recast'}),
-  B20('circle_enemy',0,8,75,{mana:0,originSelf:true,radius:450,cc:'slow',ccSeconds:2,ccPower:.3,m20Missing:'recast'}),
+  B20('target_ally',700,8,0,{mana:0,shield:[65,95,125,155,185],m20JumpToAlly:true,m22SecondStage:'vamp',m20Missing:'energy_cost_and_vamp_values'}),
+  B20('circle_enemy',0,8,75,{mana:0,originSelf:true,radius:450,m22SecondStage:'cripple',m20Missing:'on_hit_reveal'}),
   B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m20Missing:'knockback_collision'})),
  Lulu:BK20('pix_faerie_companion',
   B20('line_enemy',925,7,80,{width:160,cc:'slow',ccSeconds:2,ccPower:.6,m20Missing:'pix_second_bolt'}),
@@ -3388,6 +3388,21 @@ export class Arena {
    this.recordIntentV40(team,id,'board_recast',{slot,kind:'card_pick'});
    return {ok:true,queued:true,recast:true};
   }
+  // Shared secondary stage: explicit slot and time, no second resource commit.
+  const secondary=s.m22SecondStage&&u.m22SecondaryV453?.[slot];
+  if(secondary&&secondary.kind===s.m22SecondStage&&secondary.until>this.gameTime){
+   const selected=this.boardCombatEntityByIdV453Dev69(targetId);
+   if(secondary.kind==='grab'){
+    if(!selected||selected.team===team||selected.id===secondary.firstId||
+       !this.sameCombatRealmV453Dev69(u,selected)||
+       !(selected.champ?this.visible(team,selected):this.canSeePoint(team,selected))||
+       this.mapDistance(u,selected)>s.range)
+     return {ok:false,reason:'segundo_alvo_invalido'};
+   }else if(targetId)return {ok:false,reason:'recast_sem_alvo'};
+   u.pendingBoardV453Dev69={slot,m22Recast:'secondary',targetId:selected?.id||null};
+   this.recordIntentV40(team,id,'m22_secondary',{slot,kind:secondary.kind});
+   return {ok:true,queued:true,recast:true};
+  }
   const satchel=['satchel_charge','m21_gragas_barrel'].includes(s.boardTemporal)&&
    this.boardTemporalV453Dev69?.find(z=>z.kind===s.boardTemporal&&
     z.ownerId===u.id&&z.until>=this.gameTime);
@@ -3579,6 +3594,8 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(s.m22SecondStage)(u.m22SecondaryV453??={})[q.slot]={
+   kind:s.m22SecondStage,until:this.gameTime+3,targetIds:[],firstId:null};
   if(s.m22Magazine&&q.slot==='R'){
    const state=u.m22MagazineV453??={charges:s.m22Magazine.max,nextAt:0,shots:0};
    if(state.charges<=0)return {ok:false,reason:'municao_insuficiente'};
