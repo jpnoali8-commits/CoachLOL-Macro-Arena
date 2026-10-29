@@ -1,0 +1,42 @@
+name: CoachLOL dev69 — P1 targetable clones, isolated specialist QA
+on:
+  push:
+    branches:
+      - fix/skills-entity-targetability-p1-dev69
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  skills-entity-targetability:
+    name: P1 clone selection, QWER regressions, PvP and snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax validation
+        run: |
+          node --check engine.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tests/audit/v453_clone_targetability_audit.test.mjs
+          node --check tests/audit/v453_global_contract_execution_audit.test.mjs
+      - name: New strict clone targetability contracts (previously 10 failures)
+        run: node tests/audit/v453_clone_targetability_audit.test.mjs --strict
+      - name: All 173 champion rule routes and M9-M16 authored slots
+        run: node tests/audit/v453_global_contract_execution_audit.test.mjs
+      - name: Existing M15 clone/sylas checkpoints
+        run: node tests/v453_dev69_clones_m15.test.mjs
+      - name: Existing M16 stealth/traps/abilities
+        run: node tests/v453_dev69_mechanics_m16.test.mjs
+      - name: Board grammar, mechanics and M14 forms
+        run: |
+          node tests/v453_dev69_board_grammar.test.mjs
+          node tests/v453_dev69_forms_m14.test.mjs
+          node tests/v453_dev69_sylas_m14.test.mjs
+      - name: Existing V42 and PvP regressions
+        run: |
+          node tests/v42_champion_kits.test.mjs
+          node tests/v453_dev69_skills_batch2.test.mjs
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs
