@@ -48,15 +48,15 @@ for(const team of ['blue','red'])for(const entry of projects){
   replay.canSeePoint=()=>true;replay.visible=()=>true;
   if(entry.kind==='ezreal_r'){
    a.gameTime=Math.max(a.gameTime+1,a.ezrealBarrageWindsV453Dev69M7[0].dueAt+.1);
+   replay.gameTime=a.gameTime;
    a.advanceEzrealBarrageV453Dev69M7();
+   replay.advanceEzrealBarrageV453Dev69M7();
    assert.ok(a.championProjectilesV453Dev42.some(v=>v.kind==='ezreal_r'));
-   a.gameTime+=1;
-  }else a.gameTime=2.5;
+   a.gameTime+=1;replay.gameTime+=1;
+  }else {a.gameTime=2.5;replay.gameTime=2.5;}
   a.advanceChampionProjectilesV453Dev42();
   // Both original and restored games must see exactly the same geometry and
   // damage from the same serialized projectile + clone entity state.
-  replay.gameTime=a.gameTime;
-  if(entry.kind==='ezreal_r')replay.advanceEzrealBarrageV453Dev69M7();
   replay.advanceChampionProjectilesV453Dev42();
   const shadow=replay.boardSummonsV453Dev69.find(e=>e.id===clone.id);
   assert.ok(shadow,'checkpoint must preserve the independent decoy entity');
