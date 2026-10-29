@@ -3954,6 +3954,25 @@ export class Arena {
     nextAt:this.gameTime+1,until:this.gameTime+(s.m26ViktorAftershock?1.1:3.1),
     hitIds:[]});
   }
+  // M27: states are champion-authored and are applied ONLY after receipt commit.
+  if(u.champ==='Gragas'&&u.hp>0&&(u.m27HappyHourReadyAt||0)<=this.gameTime){
+   this.effectResolverV41().heal(u,u.maxHp*.065,u);
+   u.m27HappyHourReadyAt=this.gameTime+8;
+  }
+  if(s.m27YiWuju)u.m27YiWujuUntil=this.gameTime+5;
+  if(s.m27KogBioArcane)u.m27KogBioArcaneUntil=this.gameTime+6;
+  if(s.m27LucianPursuit)u.m27LucianPursuitUntil=this.gameTime+6;
+  if(s.m27KassWRefund)u.m27KassWRefundUntil=this.gameTime+5;
+  if(s.m27RellAllyLink){
+   const linked=this.units.filter(v=>v.hp>0&&v.champ&&v.team===u.team&&v.id!==u.id&&
+    this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(u,v)<=700)
+    .sort((v,w)=>this.mapDistance(u,v)-this.mapDistance(u,w)||String(v.id).localeCompare(String(w.id)))[0];
+   if(linked){
+    const until=this.gameTime+5;
+    u.m27RellLinkedId=linked.id;linked.m27RellLink={ownerId:u.id,until,armed:true};
+    linked.boardSpeedV453Dev69={until,fraction:.25};
+   }
+  }
   if(s.m26BraumStand&&target?.team===u.team){
    const until=this.gameTime+4,resist=20+Math.max(1,u.skillRanks.W||1)*8;
    target.m26BraumResists={sourceId:u.id,until,value:resist};
@@ -4642,6 +4661,9 @@ export class Arena {
     ledger[u.id]={stacks:Math.min(3,(prior?.until>this.gameTime?prior.stacks:0)+1),
      until:this.gameTime+6};
    }
+   if(enemy&&s.m27QuinnBlind&&v.champ&&!blocked&&v.hp>0)
+    this.applyEffectV41(v,'blind',{source:u,duration:1.5,
+     key:'m27_quinn_blind_'+instance+'_'+v.id});
    if(enemy&&s.m26RellShieldBreak&&v.champ&&!blocked&&v.hp>0)
     this.effectResolverV41().remove(v,{types:['shield','magic_shield','physical_shield']});
    if(enemy&&u.champ==='TahmKench'&&q.slot==='Q'&&v.champ&&
@@ -4683,6 +4705,10 @@ export class Arena {
     this.applyEffectV41(v,'stun',{source:u,duration:1.25,key:'annie_board_'+instance+'_'+v.id});
    if(!enemy){
     if(s.m21CleanseAllies&&v.champ)this.effectResolverV41().remove(v,{ccOnly:true});
+    if(s.m27MilioFiredUp&&v.champ){
+     const until=this.gameTime+6;
+     v.m27MilioFire={ownerId:u.id,until,armed:true};
+    }
     if(s.m21AllySpeed)
      v.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.m21AllySpeed};
     if(m21ShieldedOnCast)this.effectResolverV41().heal(v,power(s.m21HealIfShielded),u);
@@ -10638,7 +10664,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     !this.effectResolverV41().canAct(u,'attack').ok)continue;let o=u.order||{};if(o.kind==='recall'||u.recallProgress>0)continue;
    let stage=this.activeStage(u);const activeAction=stage?.startedAt!==null?stage?.action:null;
    const effectiveAARange=this.itemAttackRangeV453Dev38(u)+
-    ((u.m25MilioRangeUntil||0)>this.gameTime?100/this.worldWidth:0);
+    ((u.m25MilioRangeUntil||0)>this.gameTime?100/this.worldWidth:0)+
+    (u.champ==='KogMaw'&&u.m27KogBioArcaneUntil>this.gameTime?200/this.worldWidth:0);
    const enemies=this.units.filter(x=>x.team!==u.team&&x.hp>0&&dist(u,x)<=effectiveAARange&&this.visible(u.team,x)&&this.sameCombatRealmV453Dev69(u,x));
    if(o.kind==='chase')continue; // follow-only never forces an attack
    let candidate=null;const requested=o.targetId||u.reactionCombo?.targetId||stage?.targetId;
