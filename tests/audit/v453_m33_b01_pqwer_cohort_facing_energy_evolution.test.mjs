@@ -50,8 +50,9 @@ for(const team of ['blue','red']){
   run(champ,team,'real committed facing',({a,u,e,ally,cast,snap})=>{
    const slot=['Q','W','E'].find(key=>aimed.has(kit[key].shape)&&!kit[key].originSelf);
    assert.ok(slot,champ+' must have a directed QWE');
-   const shape=kit[slot].shape,opts=shape==='target_ally'?
-    {targetId:ally.id}:['target_enemy','target_any'].includes(shape)?
+   const shape=kit[slot].shape,opts=(champ==='Lucian'&&slot==='Q')?
+    {targetId:e.id}:shape==='target_ally'?{targetId:ally.id}:
+    ['target_enemy','target_any'].includes(shape)?
     {targetId:e.id}:{point:{x:.516,y:.5}};
    const initial={x:u.x,y:u.y};
    cast(slot,opts);
