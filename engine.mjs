@@ -967,6 +967,32 @@ export const M16_MECHANIC_KITS=Object.freeze({
  Jhin:{E:BS('move_point',750,30,[24,21.5,19,16.5,14],[],{m16Trap:'jhin_lotus',m16Charges:2,m16Max:2}),
   R:BS('self',3500,100,[120,105,90],[],{m16FourShots:true})}
 });
+// B05: champion-specific contracts, never a fallback for unfinished slots.
+export const M44_B05_KITS_V453=Object.freeze({
+ Jhin:{W:BS('line_enemy',2520,[50,55,60,65,70],12,[70,105,140,175,210],
+  {type:'physical',adRatio:.5,width:80,m44JhinFlourish:true})},
+ Xayah:{Q:BS('line_enemy',1100,35,[10,9,8,7,6],[40,60,80,100,120],
+   {type:'physical',adRatio:.5,width:95,m44XayahDouble:true}),
+  W:BS('self',0,60,[18,17,16,15,14],[],{m44XayahPlumage:true}),
+  E:BS('self',0,20,[12,11,10,9,8],[],{m44XayahRecall:true}),
+  R:BS('self',0,100,[140,120,100],[],{m44XayahFeatherstorm:true})},
+ Kennen:{Q:BS('line_enemy',1050,60,[8,7,6,5,4],[75,115,155,195,235],
+   {apRatio:.75,width:125,maxHits:1,m44KennenShuriken:true})},
+ Ezreal:{Q:BS('line_enemy',1200,[28,31,34,37,40],[5.5,5.25,5,4.75,4.5],
+   [20,45,70,95,120],{type:'physical',adRatio:1.3,apRatio:.3,width:120,
+   maxHits:1,m44EzrealMystic:true})},
+ Lux:{Q:BS('line_enemy',1300,50,10,[80,120,160,200,240],
+   {apRatio:.75,width:140,maxHits:2,m44LuxBinding:true})},
+ Ahri:{E:BS('line_enemy',975,60,12,[80,110,140,170,200],
+   {apRatio:.75,width:135,maxHits:1,m44AhriCharm:true})},
+ Jinx:{W:BS('line_enemy',1500,[40,45,50,55,60],[8,7,6,5,4],
+   [10,60,110,160,210],{type:'physical',adRatio:1.4,width:120,
+   maxHits:1,m44JinxZap:true})},
+ Kaisa:{W:BS('line_enemy',3000,55,[22,20,18,16,14],[30,55,80,105,130],
+   {apRatio:.45,adRatio:1.3,width:120,maxHits:1,m44KaisaVoidSeeker:true})},
+ Caitlyn:{E:BS('line_enemy',800,75,[16,15,14,13,12],[80,130,180,230,280],
+   {apRatio:.8,width:135,maxHits:1,m44CaitlynNet:true})}
+});
 export const M16_STEALTH_RADIUS=Object.freeze({Twitch:500,Evelynn:700,Rengar:710,Akshan:800,Pyke:600,Viego:450});
 export const BOARD_KITS_V453_DEV69=Object.freeze({
  Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
@@ -1299,7 +1325,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4005,7 +4031,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -4283,6 +4309,8 @@ export class Arena {
   if(!committed.ok)return committed;
   if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot))
    this.m33LeeEnergySpendV453Dev69(u,50);
+  if(u.champ==='Xayah'&&!q.stolenCast)
+   u.m44XayahCleanCuts=Math.min(5,(u.m44XayahCleanCuts||0)+3);
   // M33: a queued but denied ability cannot rotate a defender for Cassiopeia R.
   const aim=target||q.m28LaserOrigin||q.point;
   if(aim&&['target_enemy','target_ally','target_any','line_enemy',
@@ -5219,6 +5247,31 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  if(u.champ==='Xayah'&&q.slot==='W'&&s.m44XayahPlumage)
+   u.m44XayahPlumageUntil=this.gameTime+4;
+  if(u.champ==='Xayah'&&q.slot==='R'&&s.m44XayahFeatherstorm){
+   this.applyEffectV41(u,'invulnerable',{source:u,duration:1,
+    key:'m44_xayah_featherstorm_'+instance});
+   const face=u.m28FacingV453||{x:1,y:0},center=Math.atan2(face.y,face.x);
+   for(let i=-2;i<=2;i++){
+    const a=center+i*.16,p={x:u.x+Math.cos(a)*850/this.worldWidth,
+     y:u.y+Math.sin(a)*850/this.worldHeight};
+    if(p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1)
+     this.m44XayahPlantFeatherV453Dev69(u,p);
+   }
+   return {...committed,scheduled:true,feathers:5};
+  }
+  if(u.champ==='Xayah'&&q.slot==='E'&&s.m44XayahRecall){
+   const feathers=(u.m44XayahFeathers||[]).filter(f=>f.until>this.gameTime)
+    .map(f=>({...f}));
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_xayah_bladecaller',
+    ownerId:u.id,team:u.team,feathers,origin:{x:u.x,y:u.y},
+    point:{x:u.x,y:u.y},nextAt:this.gameTime+1,until:this.gameTime+1.1,
+    power:power([50,65,80,95,110],0,.4)});
+   u.m44XayahFeathers=[];
+   return {...committed,scheduled:true,feathers:feathers.length};
+  }
   const m44Flight=(
    (u.champ==='LeeSin'&&q.slot==='Q'&&s.m21SonicRecast)||
    (u.champ==='Braum'&&q.slot==='Q'&&s.m21BraumConcussive)||
@@ -5252,7 +5305,16 @@ export class Arena {
    (u.champ==='Xerath'&&q.slot==='E')||
    (u.champ==='TwistedFate'&&q.slot==='Q')||
    (u.champ==='Warwick'&&q.slot==='R')||
-   (u.champ==='XinZhao'&&q.slot==='W'));
+   (u.champ==='XinZhao'&&q.slot==='W')||
+   (u.champ==='Jhin'&&q.slot==='W'&&s.m44JhinFlourish)||
+   (u.champ==='Xayah'&&q.slot==='Q'&&s.m44XayahDouble)||
+   (u.champ==='Kennen'&&q.slot==='Q'&&s.m44KennenShuriken)||
+   (u.champ==='Ezreal'&&q.slot==='Q'&&s.m44EzrealMystic)||
+   (u.champ==='Lux'&&q.slot==='Q'&&s.m44LuxBinding)||
+   (u.champ==='Ahri'&&q.slot==='E'&&s.m44AhriCharm)||
+   (u.champ==='Jinx'&&q.slot==='W'&&s.m44JinxZap)||
+   (u.champ==='Kaisa'&&q.slot==='W'&&s.m44KaisaVoidSeeker)||
+   (u.champ==='Caitlyn'&&q.slot==='E'&&s.m44CaitlynNet));
   if(m44Flight&&!q.stolenCast&&q.point){
    const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
    if(distance>=1){
@@ -5261,7 +5323,8 @@ export class Arena {
      y:start.y+(q.point.y-start.y)*ratio};
     const flightTicks=Math.max(1,Math.ceil(reach/550));
      const m44FirstBody=['Ashe','Morgana','Blitzcrank','Brand','DrMundo',
-      'KogMaw','TahmKench','Nidalee','Elise','Amumu','Xerath','Warwick'];
+      'KogMaw','TahmKench','Nidalee','Elise','Amumu','Xerath','Warwick',
+      'Kennen','Ezreal','Ahri','Jinx','Kaisa','Caitlyn'];
      const m44Charge=u.champ==='Varus'&&q.slot==='Q'?
       Math.max(0,Math.min(2,q.m28ChargeSeconds||0)):0;
     (this.boardTemporalV453Dev69??=[]).push({
@@ -5282,6 +5345,13 @@ export class Arena {
      m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0,
      m44LatchTargetId:null,m44ExtensionCount:0,m44Ray:0
     });
+    if(u.champ==='Xayah'&&q.slot==='Q'){
+     const first=(this.boardTemporalV453Dev69||[]).at(-1);
+     first.m44FeatherIndex=0;
+     this.boardTemporalV453Dev69.push({
+      ...first,id:++this.boardTemporalIdV453Dev69,hitIds:[],
+      origin:{...start},current:{...start},point:{...end},m44FeatherIndex:1});
+    }
     if(u.champ==='TwistedFate'&&q.slot==='Q'){
      // Wild Cards = three independent trajectories; one authoritative debit.
      const base=(this.boardTemporalV453Dev69||[]).at(-1);
