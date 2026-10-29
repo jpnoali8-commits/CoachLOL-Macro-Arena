@@ -52,7 +52,7 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
    vision:a.boardVisionV453Dev69.length,
    cds:{...u.skillCds},orbs:u.m20SyndraOrbsV453?.length||0
   };
-  const opts=['target_enemy'].includes(s.shape)?{targetId:e.id}:
+  const opts=['target_enemy','target_any'].includes(s.shape)?{targetId:e.id}:
    ['target_ally'].includes(s.shape)?{targetId:ally.id}:
    ['circle_enemy','line_enemy','cone_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&
     !s.originSelf?{point:{x:.51,y:.5}}:{};
