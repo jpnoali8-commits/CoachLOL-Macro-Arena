@@ -3503,24 +3503,97 @@ export class Arena {
   u.shacoPublicAliasV453M15='appearance_'+(++this.m15PublicSeq).toString(36);
   return {...committed,entityId:e.id};
  }
+ // Resolve death or expiry exactly once. Boxes are ordinary non-roster entities.
+ m15ExplodeShacoClone(e){
+  if(e.explodedV453M15)return;
+  e.explodedV453M15=true;
+  const owner=this.units.find(u=>u.id===e.ownerId);
+  if(!owner)return;
+  const enemies=[...this.units,...this.minions].filter(v=>v.team!==e.team&&v.hp>0&&
+   this.mapDistance(v,e)<=250&&this.sameCombatRealmV453Dev69(owner,v));
+  for(const enemy of enemies){
+   this.damage(enemy,e.explosionPower,owner,'magic','spell');
+   if(enemy.hp>0)this.applyEffectV41(enemy,'fear',{source:owner,
+    duration:enemy.champ?1:2.2,key:'shaco_explosion_'+e.id+'_'+enemy.id});
+  }
+  for(let i=0;i<3;i++){
+   const theta=i*Math.PI*2/3,at={x:e.x+Math.cos(theta)*75/this.worldWidth,
+    y:e.y+Math.sin(theta)*75/this.worldHeight};
+   this.m15Summon('shaco_minibox',owner,this.walkable(at.x,at.y)?at:{x:e.x,y:e.y},{
+    until:this.gameTime+6,invulnerableUntil:this.gameTime+.5,
+    hp:240,maxHp:240,moveSpeed:0,attackRange:400,
+    nextAttackAt:this.gameTime+1,power:e.boxPower,singlePower:e.boxSinglePower});
+  }
+  this.event('Shaco: clone explodiu e deixou três caixas.',e.team,'skill_vfx',owner.id,
+   {observedBy:['blue','red'].filter(team=>team===e.team||this.canSeePoint(team,e))});
+ }
+ m15AdvanceEntity(e){
+  const now=this.gameTime,owner=this.units.find(u=>u.id===e.ownerId);
+  if(e.kind==='shaco_clone'&&(e.hp<=0||e.until<=now)){
+   this.m15ExplodeShacoClone(e);return;
+  }
+  if(e.hp<=0||e.until<=now||e.lastTick>=now)return;
+  e.lastTick=now;
+  if(e.kind==='neeko_clone'&&e.damageFadeAt!=null&&e.damageFadeAt<=now){e.hp=0;return;}
+  if(e.kind==='shaco_minibox'){
+   if(now<e.nextAttackAt||!owner)return;
+   const targets=this.units.filter(v=>v.team!==e.team&&v.hp>0&&
+    this.mapDistance(v,e)<=400&&this.canSeePoint(e.team,v))
+    .sort((a,b)=>this.mapDistance(a,e)-this.mapDistance(b,e)||a.id.localeCompare(b.id));
+   if(targets.length){
+    for(const v of targets)this.damage(v,targets.length===1?e.singlePower:e.power,owner,'magic','summon_pet');
+    e.nextAttackAt=now+1;
+   }
+   return;
+  }
+  if(!owner)return;
+  if(e.kind==='shaco_clone'&&owner.hp<=0&&!e.targetId){
+   e.targetId=this.units.filter(v=>v.team!==e.team&&v.hp>0&&
+    this.canSeePoint(e.team,v)&&this.mapDistance(v,e)<=1500)
+    .sort((a,b)=>this.mapDistance(a,e)-this.mapDistance(b,e)||a.id.localeCompare(b.id))[0]?.id||null;
+  }
+  const target=e.kind==='shaco_clone'?
+   this.units.find(v=>v.id===e.targetId&&v.hp>0&&v.team!==e.team&&this.canSeePoint(e.team,v)):null;
+  if(e.targetId&&!target)e.targetId=null;
+  const point=target||e.commandPoint;
+  if(point&&this.mapDistance(e,point)>(target?e.attackRange:30)){
+   const d=this.mapDistance(e,point),step=Math.min(1,e.moveSpeed/Math.max(1,d)),
+    next={x:e.x+(point.x-e.x)*step,y:e.y+(point.y-e.y)*step};
+   if(this.walkable(next.x,next.y)&&!this.obstacleLine(e,next))Object.assign(e,next);
+   else {
+    const path=this.findPath(e,point);
+    const ahead=path?.find(p=>this.mapDistance(e,p)>10&&this.walkable(p.x,p.y));
+    if(ahead){
+     const distance=this.mapDistance(e,ahead),f=Math.min(1,e.moveSpeed/Math.max(1,distance)),
+      nextHop={x:e.x+(ahead.x-e.x)*f,y:e.y+(ahead.y-e.y)*f};
+     if(this.walkable(nextHop.x,nextHop.y))Object.assign(e,nextHop);
+    }
+   }
+  }
+  if(e.commandPoint&&this.mapDistance(e,e.commandPoint)<=30)e.commandPoint=null;
+  if(target&&this.mapDistance(e,target)<=e.attackRange&&now>=e.nextAttackAt){
+   this.damage(target,e.power,owner,'physical','summon_pet');
+   e.nextAttackAt=now+2;
+  }
+ }
  queueBoardSummonOrderV453Dev69(team,ownerId,summonId,{point=null,targetId=null}={}){
   const owner=this.units.find(u=>u.id===ownerId&&u.team===team&&u.hp>0);
   const s=this.boardSummonsV453Dev69?.find(v=>v.id===summonId&&v.ownerId===ownerId&&
    v.team===team&&v.hp>0&&v.until>this.gameTime);
-  if(!owner||!s||this.ended||this.teams[team]?.ready||
+  if((!owner&&s?.kind!=='shaco_clone')||!s||this.ended||this.teams[team]?.ready||
    !['planning','preparation'].includes(this.phase))
    return {ok:false,reason:'invocacao_indisponivel'};
   if((point===null)===(targetId===null))return {ok:false,reason:'escolha_destino_ou_alvo'};
   if(targetId!==null){
    const target=this.units.find(u=>u.id===targetId&&u.team!==team&&u.hp>0);
    if(!target||!this.visible(team,target))return {ok:false,reason:'alvo_oculto'};
-   if(this.mapDistance(owner,target)>(s.leashRange||1200))return {ok:false,reason:'alvo_alem_limite_tibbers'};
+   if(this.mapDistance(s.kind==='shaco_clone'?s:owner,target)>(s.leashRange||1200))return {ok:false,reason:'alvo_alem_limite_tibbers'};
    s.targetId=target.id;s.commandPoint=null;
   }else{
    if(!point||![point.x,point.y].every(Number.isFinite)||point.x<0||point.x>1||
     point.y<0||point.y>1||!this.walkable(point.x,point.y))
     return {ok:false,reason:'destino_invalido'};
-   if(this.mapDistance(owner,point)>(s.leashRange||1200))return {ok:false,reason:'destino_alem_limite_tibbers'};
+   if(this.mapDistance(s.kind==='shaco_clone'?s:owner,point)>(s.leashRange||1200))return {ok:false,reason:'destino_alem_limite_tibbers'};
    s.commandPoint={x:point.x,y:point.y};s.targetId=null;
   }
   this.recordIntentV40(team,ownerId,'summon_order',{summonId,
@@ -3529,7 +3602,10 @@ export class Arena {
  }
  advanceBoardSummonsV453Dev69(){
   const now=this.gameTime;
-  for(const s of this.boardSummonsV453Dev69||[]){
+  for(const s of [...(this.boardSummonsV453Dev69||[])]){
+   if(['neeko_clone','shaco_clone','shaco_minibox'].includes(s.kind)){
+    this.m15AdvanceEntity(s);continue;
+   }
    if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
    const owner=this.units.find(v=>v.id===s.ownerId);
    if(!owner){s.hp=0;continue;}
@@ -3587,8 +3663,14 @@ export class Arena {
     s.nextAttackAt=now+2;
    }
   }
-  this.boardSummonsV453Dev69=(this.boardSummonsV453Dev69||[]).filter(s=>
-   s.hp>0&&s.until>now);
+  this.boardSummonsV453Dev69=(this.boardSummonsV453Dev69||[]).filter(s=>{
+   if(s.kind==='shaco_clone'&&(s.hp<=0||s.until<=now))this.m15ExplodeShacoClone(s);
+   if(s.kind==='neeko_clone'&&(s.hp<=0||s.until<=now)){
+    const owner=this.units.find(u=>u.id===s.ownerId);
+    if(owner)owner.skillCds.W=Math.min(owner.skillCds.W||Infinity,now+(s.cooldownSeconds||16));
+   }
+   return s.hp>0&&s.until>now;
+  });
  }
  advanceBoardPassivesV453Dev69(){
   for(const u of this.units)if(u.champ==='Shyvana'&&u.hp>0){
@@ -6866,7 +6948,16 @@ export class Arena {
    .sort((a,b)=>b.at-a.at||a.champ.id.localeCompare(b.champ.id));
   return eligible[0]?.champ||null;
  }
- damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
+ damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
+  if(['neeko_clone','shaco_clone','shaco_minibox'].includes(target?.kind)){
+   if(target.hp<=0||target.until<=this.gameTime||target.stealthUntil>this.gameTime||
+      target.invulnerableUntil>this.gameTime)return 0;
+   const hit=Math.min(target.hp,Math.max(0,Math.round(amount*(target.damageTakenMultiplier||1))));
+   target.hp-=hit;
+   if(target.kind==='neeko_clone'&&hit>0)target.damageFadeAt=this.gameTime+.5;
+   if(target.kind==='shaco_clone'&&target.hp<=0)this.m15ExplodeShacoClone(target);
+   return hit;
+  }if(sourceType==='basic'&&attacker?.champ&&this.effectResolverV41().has(attacker,'blind'))return 0;
   // Explicit opt-in ability hits can apply item on-hit, without masquerading as
   // basic attacks. Spell shields still block the primary ability and its procs.
   if(['spell','ability_onhit_v453_dev40'].includes(sourceType)&&attacker?.team&&attacker.team!==target.team&&this.effectResolverV41().has(target,'spell_shield')){const layer=this.effectResolverV41().list(target).find(e=>e.type==='spell_shield');layer.until=this.gameTime;this.effectResolverV41().record('spell_shield_block',target,attacker,{effectId:layer.id,type:'damage'});return 0;}
