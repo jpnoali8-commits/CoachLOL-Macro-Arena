@@ -1106,7 +1106,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Corki:BK20('hextech_munitions',
   B20('circle_enemy',825,9,75,{radius:230,apRatio:.5}),B20('move_point',600,20,55,{radius:170,m25CorkiTrail:true}),
   B20('cone_enemy',600,12,65,{arc:50,type:'physical',adRatio:.7,m26CorkiGatling:true}),
-  B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m22Magazine:{max:7,reload:10,bigEvery:3},m20Missing:'ammo_ui'})),
+  B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m22Magazine:{max:7,reload:10,bigEvery:3},m29CorkiBigRocket:true,m20Missing:'ammo_ui'})),
  Cassiopeia:BK20('serpentine_grace',
   B20('circle_enemy',850,3.5,80,{radius:210,dotSeconds:3,m20Mark:'poison'}),
   B20('circle_enemy',700,24,60,{radius:300,dotSeconds:3,cc:'slow',ccSeconds:2,ccPower:.35,m20Mark:'poison',m25CassGrounded:true}),
@@ -1120,7 +1120,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Seraphine:BK20('stage_presence',
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m25SeraphineEcho:true}),
   B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m20Missing:'echo_cast'}),
-  B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'cc_upgrade'}),
+  B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m29SeraphineBeatDrop:true,m20Missing:'cc_upgrade'}),
   B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m26EncoreExtension:true})),
  Xerath:BK20('mana_surge',
   B20('line_enemy',1450,9,85,{width:155,m28XerathCharge:true,m20Missing:'charge_range'}),
@@ -1138,7 +1138,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_any',550,15,0,{cc:'slow',ccSeconds:3,ccPower:.6,m21AllySpeed:.45,buffSeconds:3}),
   B20('target_ally',900,120,0,{mana:125,m21Chronoshift:true,m20Missing:'death_phase_revival_animation'})),
  Yunara:BK20('vow_of_the_first_lands',
-  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m20Missing:'attack_resource_and_spread'}),
+  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m29YunaraQSpread:true,m20Missing:'attack_resource_and_spread'}),
   B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Missing:'transcendent_variant'}),
   B20('self',0,9,0,{speedBuff:.3,buffSeconds:3,m26YunaraDash:true}),
   B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m25YunaraTranscendent:true})),
@@ -1183,7 +1183,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m24OppositePull:true}),
   B20('target_enemy',400,120,280,{mana:0,m24Slam:true,type:'physical'})),
  TahmKench:BK20('an_acquired_taste',
-  B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste'}),
+  B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste',m29TahmQStun:true}),
   B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1}),
   B20('self',0,3,0,{shield:[85,125,165,205,245],m27TahmGreyHealth:true}),
   B20('target_any',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
@@ -1205,11 +1205,11 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Milio:BK20('fired_up',
   B20('line_enemy',1200,10,85,{width:175,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m20Missing:'ball_bounce'}),
   B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m27MilioFiredUp:true,m20Missing:'attack_range_extension'}),
-  B20('target_ally',650,.5,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m20Missing:'two_charges_and_speed'}),
+  B20('target_ally',650,.5,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true,m20Missing:'two_charges_and_speed'}),
   B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m27MilioFiredUp:true,m20Missing:'empowered_passive_followup'})),
  Quinn:BK20('harrier',
   B20('line_enemy',1025,11,95,{width:180,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m27QuinnBlind:true}),
-  B20('vision_point',2100,50,0,{mana:0,radius:1200,visionSeconds:3,m20Missing:'passive_heightened_senses'}),
+  B20('vision_point',2100,50,0,{mana:0,radius:1200,visionSeconds:3,m29QuinnHeightened:true,m20Missing:'passive_heightened_senses'}),
   B20('target_enemy',675,12,80,{dashToHit:true,cc:'slow',ccSeconds:1.5,ccPower:.4,m25QuinnVault:true}),
   B20('self',0,90,0,{speedBuff:.45,buffSeconds:7,m26QuinnFlight:true})),
  Syndra:BK20('transcendent',
@@ -1244,7 +1244,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',650,120,270,{dashToHit:true,m24Arena:true})),
  MasterYi:BK20('double_strike',
   B20('target_enemy',600,20,100,{dashToHit:true,m25YiAlpha:true}),
-  B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m20Missing:'damage_reduction_channel'}),
+  B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m29YiMeditate:true,m20Missing:'damage_reduction_channel'}),
   B20('self',0,14,0,{nextBasic:[35,45,55,65,75],charges:3,m27YiWuju:true}),
   B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m20Missing:'attack_speed_and_reset'})),
  Shen:BK20('ki_barrier',
@@ -1253,7 +1253,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',600,18,80,{radius:200,cc:'taunt',ccSeconds:1.5}),
   B20('target_ally',25000,200,0,{mana:0,shield:[175,325,475],m26ShenChannel:true})),
  Vi:BK20('blast_shield',
-  B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m20Missing:'charge'}),
+  B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m29ViCharge:true,m20Missing:'charge'}),
   B20('self',0,1,0,{nextBasic:[35,45,55,65,75],charges:3,m25ViDenting:true}),
   B20('target_enemy',400,1,75,{m26ViShockwave:true}),
   B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m20Missing:'knockaside_path'})),
@@ -3656,7 +3656,9 @@ export class Arena {
   }
   if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
-  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge;
+  if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
+   return {ok:false,reason:'m29_milio_no_charges'};
+  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge;
   if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
      chargeSeconds<0||chargeSeconds>2))
    return {ok:false,reason:'m28_charge_invalid'};
@@ -3710,6 +3712,9 @@ export class Arena {
    return {ok:false,reason:'reino_alvo_fora_do_circulo'};
   const m16Range=s.m16Trap==='teemo_mushroom'?
    [400,650,900][Math.min(2,Math.max(0,(u.skillRanks.R||1)-1))]:s.range;
+  if(s.m29ViCharge&&chargeSeconds!==null&&point&&
+     this.mapDistance(u,point)>400+325*chargeSeconds/2)
+   return {ok:false,reason:'m29_vi_charge_range'};
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
@@ -3897,6 +3902,8 @@ export class Arena {
   if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
   if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
+  if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
+   return {ok:false,reason:'m29_milio_no_charges'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
@@ -3939,6 +3946,23 @@ export class Arena {
     origin:{x:u.x,y:u.y},point:{...q.point},radius:s.radius,
     power:24+Math.max(1,u.skillRanks[q.slot]||1)*10,
     nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,ticksLeft:ticks,hitIds:[]});
+  }
+  if(s.m29MilioTwoE){
+   const state=u.m29MilioEStock??={charges:2,nextAt:0};
+   if(state.charges===2)state.nextAt=this.gameTime+17;
+   state.charges--;
+   if(target?.team===u.team&&target.champ)
+    target.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.2};
+  }
+  if(s.m29YiMeditate)u.m29YiMeditateUntil=this.gameTime+3;
+  if(s.m29QuinnHeightened&&q.point){
+   const candidates=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
+     v.hp>0&&this.mapDistance(v,q.point)<=s.radius&&this.visible(u.team,v)&&
+     !this.obstacleLine(u,v))
+     .sort((a,b)=>this.mapDistance(q.point,a)-this.mapDistance(q.point,b)||
+       String(a.id).localeCompare(String(b.id)));
+   if(candidates.length)
+    (candidates[0].m20MarksV453??={})['harrier_'+u.id]=this.gameTime+6;
   }
   if(s.m28ViktorShield){
    const rank=Math.max(1,u.skillRanks.Q||1);
@@ -5964,6 +5988,12 @@ export class Arena {
        t.ownerId===u.id&&t.team===u.team&&t.hp>0&&
        t.until>this.gameTime&&this.mapDistance(u,t)<=500))
     u.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:.15};
+   if(u.champ==='Milio'&&u.m29MilioEStock&&
+      u.m29MilioEStock.charges<2&&this.gameTime>=u.m29MilioEStock.nextAt){
+    const stock=u.m29MilioEStock,steps=Math.min(2-stock.charges,
+     1+Math.floor((this.gameTime-stock.nextAt)/17));
+    stock.charges+=steps;stock.nextAt=stock.charges<2?stock.nextAt+17*steps:0;
+   }
    if(u.champ==='Heimerdinger'&&u.m28HeimerStock&&
      u.m28HeimerStock.charges<3&&this.gameTime>=u.m28HeimerStock.nextAt){
     const stock=u.m28HeimerStock,steps=Math.min(3-stock.charges,
