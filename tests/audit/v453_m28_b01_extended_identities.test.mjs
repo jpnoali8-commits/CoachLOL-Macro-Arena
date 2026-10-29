@@ -24,7 +24,7 @@ for(const champ of champs)for(const team of ['blue','red']){
    assert.equal(receipt.ok,true,champ+' '+slot+': '+JSON.stringify(receipt));
    a.resolveBoardSkillsV453Dev69();
   };
-  const point={x:.54,y:.5};
+  const point={x:.52,y:.5};
   if(champ==='Xerath'||champ==='Varus'){
    e.x=.565;
    cast('Q',{point:{x:.59,y:.5},chargeSeconds:0});
