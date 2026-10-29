@@ -106,17 +106,21 @@ export function buildM34AtomicReleaseTrain({claims={},runner=runKitProofSuite}={
     k!=='m20Status'&&k!=='m20Missing'):[];
    const descriptor=rule?.m20Status||null;
    const legacy=rule?.m20Missing||null;
-   const generic=!rule||a.status==='TRAINING_FALLBACK'&&!authored;
-   slots[a.slot]={reference:a.name,riotId:a.riotId,actualShape:rule?.shape||null,
+   // B02-B05 are *not* absent from the real game engine: their routing
+   // lives outside B01. Record the M19 abilityRule result truthfully rather
+   // than mislabelling every non-B01 skill a generic fallback.
+   const generic=!rule&&a.status==='TRAINING_FALLBACK';
+   slots[a.slot]={reference:a.name,riotId:a.riotId,
+    actualShape:rule?.shape||a.runtimeShape||null,
     authoredRuleKeys:keys,legacyDebt:legacy,
-    status:generic?'UNROUTED_OR_GENERIC':
+    status:generic?'TRAINING_FALLBACK':!rule?'ROUTED_UNVERIFIED_OUTSIDE_B01':
      descriptor==='partial_executable'?'EXECUTABLE_PARTIAL':'ROUTED_UNVERIFIED'};
    if(generic)issues.push('runtime_generic_'+a.slot);
    if(descriptor==='partial_executable')issues.push('descriptor_still_partial_'+a.slot);
    if(legacy)issues.push('legacy_identity_debt_'+a.slot+':'+legacy);
    if(rule&&!keys.length)issues.push('no_authored_rule_keys_'+a.slot);
   }
-  if(!authored)issues.push('no_35_champion_authored_ledger');
+  if(!authored)issues.push('atomic_kit_ledger_pending_for_batch');
   if(!claims[champion])issues.push('kit_evidence_not_submitted');
   else issues.push(...approvedProofs(champion,claims[champion],runner));
   const unique=[...new Set(issues)];
@@ -137,7 +141,8 @@ export function buildM34AtomicReleaseTrain({claims={},runner=runKitProofSuite}={
  const metrics={champions:rows.length,batches:batches.length,
   qwer:rows.length*4,fullyCertified:rows.filter(x=>x.certification==='CERTIFIED_BY_ATOMIC_GATE').length,
   readyBatches:batches.filter(x=>x.blocked===0).length,
-  openGenericSlots:rows.reduce((n,r)=>n+ABILITIES.filter(s=>r.slots[s].status==='UNROUTED_OR_GENERIC').length,0),
+  trainingFallbackSlots:rows.reduce((n,r)=>n+ABILITIES.filter(s=>r.slots[s].status==='TRAINING_FALLBACK').length,0),
+  routedOutsideB01:rows.reduce((n,r)=>n+ABILITIES.filter(s=>r.slots[s].status==='ROUTED_UNVERIFIED_OUTSIDE_B01').length,0),
   legacyB01DebtTags:rows.reduce((n,r)=>n+ABILITIES.filter(s=>r.slots[s].legacyDebt).length,0)};
  if(rows.length!==173||metrics.qwer!==692||batches.map(b=>b.expected).join(',')!=='35,35,35,35,33')
   throw Error('Fixed macro-cohort drift');
