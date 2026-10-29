@@ -1,106 +1,215 @@
-/** CoachLOL: local/Codespaces QA without GitHub Actions minutes.
- * Never merges branches, pushes commits or changes canonical refs.
- * Reports branch-isolated QA, not fictional combined-release certification.
+/** CoachLOL central QA executor (no GitHub Actions; no merges or pushes).
+ * Uses detached worktrees only. PASS_LANES != PASS_RELEASE.
+ * Read qa_manifest_dev69.json for the required suites.
  */
-import {spawnSync, execFileSync} from 'node:child_process';
-import {mkdtempSync, mkdirSync, readdirSync, writeFileSync, openSync, closeSync, readFileSync, rmSync, existsSync} from 'node:fs';
+import {spawnSync,execFileSync} from 'node:child_process';
+import {mkdtempSync,mkdirSync,readdirSync,writeFileSync,openSync,closeSync,readFileSync,rmSync,existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
 const args=new Set(process.argv.slice(2));
+const allowed=new Set(['--quick','--full','--browser','--release','--with-main','--with-candidate','--help','-h']);
 if(args.has('--help')||args.has('-h')){
- console.log(`CoachLOL QA, zero GitHub Actions minutes\n  node tools/qa/offline_full_project.mjs --quick  # routine: 3 branches\n  node tools/qa/offline_full_project.mjs --full   # whole integration npm test + all authored B01 suites + items\n  Option: --with-candidate  also tests the independent QA candidate\n  Option: --with-main       also tests main legacy baseline`);
+ console.log('CoachLOL QA (branch-isolated, no Actions)\n'+
+  '  node tools/qa/offline_full_project.mjs --quick\n'+
+  '  node tools/qa/offline_full_project.mjs --full\n'+
+  '  node tools/qa/offline_full_project.mjs --browser\n'+
+  '  node tools/qa/offline_full_project.mjs --release\n'+
+  '  Optional: --with-main --with-candidate (quick/full only)');
  process.exit(0);
 }
-const invalid=[...args].filter(a=>!['--quick','--full','--with-candidate','--with-main'].includes(a));
-if(invalid.length||args.has('--quick')&&args.has('--full')){
- console.error('Invalid options:',invalid.join(' '));process.exit(2);
+if([...args].some(a=>!allowed.has(a))||
+ ['--quick','--full','--browser','--release'].filter(a=>args.has(a)).length>1||
+ (args.has('--browser')||args.has('--release'))&&(args.has('--with-main')||args.has('--with-candidate'))){
+ console.error('Invalid QA profile/options');process.exit(2);
 }
-const full=args.has('--full');
+const profile=['release','browser','full'].find(v=>args.has('--'+v))||'quick';
 const root=execFileSync('git',['rev-parse','--show-toplevel'],{encoding:'utf8'}).trim();
-const scratch=mkdtempSync(join(tmpdir(),'coachlol-full-qa-'));
+const manifest=JSON.parse(readFileSync(join(root,'tools','qa','qa_manifest_dev69.json'),'utf8'));
+if(manifest.schema!=='coachlol.qa.manifest.v1')throw Error('QA manifest schema mismatch');
+const scratch=mkdtempSync(join(tmpdir(),'coachlol-qa-isolated-'));
 const reports=join(root,'qa-reports');mkdirSync(reports,{recursive:true});
 const stamp=new Date().toISOString().replace(/[:.]/g,'-');
-const reportFile=join(reports,`offline-${full?'full':'quick'}-${stamp}.json`);
-const summary={startedAt:new Date().toISOString(),profile:full?'full':'quick',
- descriptions:'Branch-isolated QA: integration cannot be claimed to include pending Skills/Items commits until merged.',
- lanes:[],completedAt:null,ok:false};
-const targets=[
- {name:'integration',branch:'dev69/integration'},
- {name:'skills',branch:'dev69/skills-batch2'},
- {name:'items',branch:'dev69/items-batch7'}
-];
-if(args.has('--with-candidate'))targets.push({name:'candidate',branch:'dev69/qa-candidate'});
-if(args.has('--with-main'))targets.push({name:'main',branch:'main'});
-function git(args,cwd=root){const p=spawnSync('git',args,{cwd,encoding:'utf8',timeout:120000});
- if(p.status!==0)throw Error('git '+args.join(' ')+' failed: '+(p.stderr||p.stdout||p.error));
+const reportFile=join(reports,'offline-'+profile+'-'+stamp+'.json');
+const started=Date.now();
+const maxMs={quick:12,full:70,browser:30,release:90}[profile]*60*1000;
+const summary={schema:'coachlol.qa.report.v2',profile,
+ startedAt:new Date().toISOString(),completedAt:null,ok:false,
+ certification:'NOT_CERTIFIED',manifest:'tools/qa/qa_manifest_dev69.json',
+ branchIsolation:true,mergesPerformed:0,actionsUsed:false,lanes:[]};
+const chosen=(profile==='browser'||profile==='release')?
+ manifest.lanes.filter(z=>z.name==='integration'):manifest.lanes;
+if(args.has('--with-candidate'))chosen.push({name:'candidate',branch:'dev69/qa-candidate',
+ quickScripts:['test:v453:dev69:integration'],fullScripts:['test'],requiredFiles:['engine.mjs','engine.browser.js']});
+if(args.has('--with-main'))chosen.push({name:'main',branch:'main',
+ quickScripts:['test:v40'],fullScripts:['test'],requiredFiles:['engine.mjs','engine.browser.js']});
+
+function git(argv,cwd=root){
+ const p=spawnSync('git',argv,{cwd,encoding:'utf8',timeout:120000});
+ if(p.status!==0)throw Error('git '+argv.join(' ')+' failed: '+(p.stderr||p.stdout||p.error));
  return (p.stdout||'').trim();
 }
-function test(lane,cwd,title,cmd,args){
- const out=join(reports,`${stamp}-${lane.name}-${lane.jobs.length+1}.log`),fd=openSync(out,'w');
- console.log(`[${lane.name}] ${title}`);
- const start=Date.now();let result;
- try{result=spawnSync(cmd,args,{cwd,stdio:['ignore',fd,fd],timeout:full?1800000:600000});}
- finally{closeSync(fd)}
- const ok=result.status===0&&!result.error;
- const job={title,command:[cmd,...args].join(' '),ok,exitCode:result.status,
- signal:result.signal||null,elapsedSeconds:Math.round((Date.now()-start)/1000),log:out};
- lane.jobs.push(job);
- if(!ok){
-  console.error(`  FAIL: ${job.command} (${job.exitCode??job.signal??result.error})`);
-  console.error(readFileSync(out,'utf8').split('\n').slice(-18).join('\n'));
- }else console.log(`  PASS (${job.elapsedSeconds}s)`);
- return ok;
+function record(lane,title,status,reason=''){
+ lane.jobs.push({title,status,ok:status==='PASS',reason});
+ console.log('  '+status+': '+title+(reason?' — '+reason:''));
 }
-function suite(lane,dir){
- test(lane,dir,'Engine syntax','node',['--check','engine.mjs']);
- if(lane.name==='integration'||lane.name==='candidate'||lane.name==='main'){
-  test(lane,dir,full?'FULL historical and current test suite':'Combined integration regression',
-   'npm',full?['test']:['run','test:v453:dev69:integration']);
- }else if(lane.name==='skills'){
-  test(lane,dir,'Legacy Skills regression','npm',['run','test:v453:dev69:skills']);
-  const audit=join(dir,'tests','audit');
-  const files=existsSync(audit)?readdirSync(audit).filter(name=>
-   full?/^v453_m(2[0-9]|3[0-9]|4[0-4])_.*\.test\.mjs$/.test(name):
-    /^v453_m(42|43|44)_.*\.test\.mjs$/.test(name)).sort():[];
-  if(!files.length){lane.jobs.push({title:'B01 specialist audit discovery',ok:false,
-   reason:'No matching authored-skill tests found on this branch'});return;}
-  console.log(`[skills] ${files.length} distinct authored audit tests`);
-  for(const file of files)test(lane,dir,file,'node',[join('tests','audit',file)]);
- }else if(lane.name==='items'){
-  const p=JSON.parse(readFileSync(join(dir,'package.json'),'utf8'));
-  const scripts=full?['test:v453:dev69:items',...Array.from({length:6},(_,i)=>`test:v453:dev69:items-batch${i+2}`)]:
-   ['test:v453:dev69:items-batch7'];
-  for(const name of scripts){if(!p.scripts?.[name]){
-    lane.jobs.push({title:name,ok:false,reason:'Missing npm test script'});
-   }else test(lane,dir,name,'npm',['run',name]);}
+function execute(lane,cwd,title,cmd,argv,{timeoutMs}={}){
+ if(Date.now()-started>=maxMs){
+  record(lane,title,'NOT_RUN','QA execution time budget exceeded');return false;
+ }
+ const log=join(reports,stamp+'-'+lane.name+'-'+(lane.jobs.length+1)+'.log');
+ const fd=openSync(log,'w');const at=Date.now();let result;
+ try{
+  result=spawnSync(cmd,argv,{cwd,stdio:['ignore',fd,fd],
+   timeout:Math.min(timeoutMs|| (profile==='quick'?360000:1800000),
+    Math.max(1000,maxMs-(Date.now()-started)))});
+ }finally{closeSync(fd)}
+ const status=result.error?.code==='ETIMEDOUT'?'TIMEOUT':
+  result.status===0&&!result.error?'PASS':'FAIL';
+ const j={title,status,ok:status==='PASS',command:[cmd,...argv].join(' '),
+  exitCode:result.status,signal:result.signal||null,
+  elapsedSeconds:Math.round((Date.now()-at)/1000),log};
+ lane.jobs.push(j);
+ console.log('  '+status+': '+title+' ('+j.elapsedSeconds+'s)');
+ if(status!=='PASS'){
+  console.error(readFileSync(log,'utf8').split('\n').slice(-14).join('\n'));
+  if(result.error)console.error(String(result.error));
+ }
+ return j.ok;
+}
+function required(lane,dir,paths){
+ let good=true;
+ for(const f of paths||[])if(!existsSync(join(dir,f))){
+  record(lane,'Required '+f,'FAIL','File or directory missing at '+lane.commit);
+  good=false;
+ }
+ return good;
+}
+function syntax(lane,dir){
+ const files=profile==='quick'?['engine.mjs','engine.browser.js','app.js']:
+  manifest.syntax;
+ for(const f of files)if(existsSync(join(dir,f)))execute(lane,dir,'Syntax '+f,'node',['--check',f]);
+ else record(lane,'Syntax '+f,'NOT_RUN','Missing source file');
+}
+function npmScripts(lane,dir,names){
+ const scripts=JSON.parse(readFileSync(join(dir,'package.json'),'utf8')).scripts||{};
+ for(const name of names||[]){
+  if(!scripts[name])record(lane,'npm '+name,'FAIL','Required script missing on '+lane.branch);
+  else execute(lane,dir,'npm '+name,'npm',['run',name]);
+ }
+}
+function audits(lane,dir,config){
+ const folder=join(dir,config.auditDir);
+ if(!existsSync(folder)){
+  record(lane,'Authored skill audit discovery','FAIL','tests/audit missing');return;
+ }
+ const all=readdirSync(folder).filter(f=>/^v453_.*\.test\.mjs$/.test(f)).sort();
+ const milestones=[...new Set(all.map(f=>/^v453_m(\d+)_/.exec(f)?.[1]).filter(Boolean).map(Number))].sort((a,b)=>b-a);
+ const recent=new Set(milestones.slice(0,config.quickRecentMilestones));
+ const selected=profile==='quick'?
+  all.filter(f=>recent.has(Number(/^v453_m(\d+)_/.exec(f)?.[1]))):all;
+ const minimum=profile==='quick'?config.quickMinAuditFiles:config.fullMinAuditFiles;
+ if(selected.length<minimum){
+  record(lane,'Authored audit coverage','FAIL',
+   'Found '+selected.length+' required files, expected at least '+minimum);
+ }else record(lane,'Authored audit coverage','PASS',
+  selected.length+' discovered of '+all.length+' total; latest milestones '+[...recent].join(','));
+ for(const f of selected)execute(lane,dir,f,'node',[join(config.auditDir,f)]);
+}
+function parity(lane,dir){
+ if(!existsSync(join(dir,'tools/sync_browser_v43.py'))){
+  record(lane,'Node/browser regeneration','NOT_RUN','Generator missing');return;
+ }
+ if(execute(lane,dir,'Regenerate browser in disposable worktree','python3',
+  ['tools/sync_browser_v43.py'],{timeoutMs:180000}))
+  execute(lane,dir,'Exact engine.browser.js parity','git',
+   ['diff','--exit-code','--','engine.browser.js']);
+ else record(lane,'Exact engine.browser.js parity','NOT_RUN','Generator failed');
+}
+function browser(lane,dir){
+ if(!existsSync(join(dir,'assets/user_rift_masks_20261026/mapa_atualizado.jpg'))){
+  record(lane,'Chromium original maps','BLOCKED',
+   'Integrated branch lacks original assets; do not substitute images');
+  return;
+ }
+ const py=execute(lane,dir,'Playwright and Pillow dependencies','python3',
+  ['-c','from playwright.sync_api import sync_playwright; from PIL import Image'],{timeoutMs:30000});
+ const chromium=execute(lane,dir,'Chromium executable','bash',
+  ['-lc','command -v chromium || command -v chromium-browser'],{timeoutMs:30000});
+ if(!py||!chromium){record(lane,'Browser PvP scripts','NOT_RUN','Browser prerequisites unavailable');return;}
+ for(const file of manifest.release.browser){
+  if(!existsSync(join(dir,file))){record(lane,file,'NOT_RUN','Browser script missing');continue;}
+  execute(lane,dir,'Chromium '+file,'python3',[file],{timeoutMs:1200000});
+ }
+}
+function releaseProvenance(lane,dir){
+ let ready=true;
+ for(const branch of manifest.release.requiredIntegratedBranches){
+  try{
+   git(['fetch','--no-tags','origin',
+    '+refs/heads/'+branch+':refs/remotes/origin/'+branch]);
+   const sha=git(['rev-parse','refs/remotes/origin/'+branch]);
+   const p=spawnSync('git',['merge-base','--is-ancestor',sha,lane.commit],
+    {cwd:dir,encoding:'utf8',timeout:120000});
+   if(p.status===0)record(lane,'Release provenance '+branch,'PASS','source '+sha);
+   else{record(lane,'Release provenance '+branch,'BLOCKED',
+    'source '+sha+' is not an ancestor of integrated '+lane.commit);ready=false;}
+  }catch(e){record(lane,'Release provenance '+branch,'BLOCKED',String(e));ready=false;}
+ }
+ return ready;
+}
+function work(lane,dir,config){
+ if(!required(lane,dir,config.requiredFiles))return;
+ syntax(lane,dir);
+ if(profile==='release'&&!releaseProvenance(lane,dir)){
+  record(lane,'Release suite','NOT_RUN','Required Skills, Items and Assets not integrated');return;
+ }
+ if(profile==='browser'){
+  parity(lane,dir);browser(lane,dir);return;
+ }
+ npmScripts(lane,dir,profile==='quick'?config.quickScripts:config.fullScripts);
+ if(lane.name==='skills')audits(lane,dir,config);
+ if(lane.name==='integration'||lane.name==='candidate')parity(lane,dir);
+ if(profile==='release'){
+  const verify=manifest.release.assetsGate;
+  if(existsSync(join(dir,verify)))execute(lane,dir,'Assets SHA-256','python3',[verify]);
+  else record(lane,'Assets SHA-256','BLOCKED','Assets verifier not integrated');
+  browser(lane,dir);
  }
 }
 try{
- for(const target of targets){
-  const lane={...target,commit:null,jobs:[],ok:false};summary.lanes.push(lane);
-  const name=target.branch.replaceAll('/','-');
-  const dir=join(scratch,name);
-  console.log(`\n=== ${target.name}: ${target.branch} ===`);
+ for(const config of chosen){
+  const lane={name:config.name,branch:config.branch,commit:null,jobs:[],ok:false};
+  summary.lanes.push(lane);
+  const dir=join(scratch,config.branch.replaceAll('/','-'));
+  console.log('\n=== '+lane.name+' '+lane.branch+' ===');
   try{
-   // Fetch branch tip; preserve every existing local branch and commit.
-   git(['fetch','--no-tags','origin',`+refs/heads/${target.branch}:refs/remotes/origin/${target.branch}`]);
-   git(['worktree','add','--detach',dir,`refs/remotes/origin/${target.branch}`]);
+   git(['fetch','--no-tags','origin',
+    '+refs/heads/'+lane.branch+':refs/remotes/origin/'+lane.branch]);
+   git(['worktree','add','--detach',dir,'refs/remotes/origin/'+lane.branch]);
    lane.commit=git(['rev-parse','HEAD'],dir);
-   suite(lane,dir);
-  }catch(e){lane.jobs.push({title:'Fetch/setup or runner',ok:false,reason:String(e)});console.error(e)}
-  lane.ok=lane.jobs.length>0&&lane.jobs.every(j=>j.ok);
-  console.log(`=== ${target.name}: ${lane.ok?'PASS':'FAIL'} ===`);
-  if(existsSync(dir)){
-   try{git(['worktree','remove','--force',dir])}catch(err){console.error('Cleanup warning',err)}
+   console.log('SHA '+lane.commit);
+   work(lane,dir,config);
+  }catch(e){
+   record(lane,'Fetch/worktree/runner','FAIL',String(e));console.error(e);
+  }finally{
+   if(existsSync(dir)){
+    try{git(['worktree','remove','--force',dir])}
+    catch(err){console.error('Cleanup warning: '+String(err));}
+   }
   }
+  lane.ok=lane.jobs.length>0&&lane.jobs.every(j=>j.ok);
+  console.log('=== '+lane.name+' '+(lane.ok?'PASS':'FAIL')+' ===');
  }
 }finally{
  summary.completedAt=new Date().toISOString();
- summary.ok=summary.lanes.every(l=>l.ok);
+ summary.ok=summary.lanes.length>0&&summary.lanes.every(l=>l.ok);
+ summary.certification=summary.ok?(profile==='release'?'PASS_RELEASE':'PASS_LANES'):
+  profile==='release'?'RELEASE_BLOCKED':'NOT_CERTIFIED';
  writeFileSync(reportFile,JSON.stringify(summary,null,2)+'\n');
+ writeFileSync(join(reports,'latest.json'),JSON.stringify(summary,null,2)+'\n');
  rmSync(scratch,{recursive:true,force:true});
- console.log(`\n${summary.ok?'ALL CHECKED LANES PASS':'AT LEAST ONE LANE FAILED'} — ${reportFile}`);
- console.log('A full RELEASE certification still requires an integrated code+browser build and explicit PvP QA.');
+ console.log('\n'+summary.certification+' — '+reportFile);
+ console.log('PASS_LANES is branch-isolated; only PASS_RELEASE on an integrated HEAD can certify release.');
 }
 process.exit(summary.ok?0:1);
