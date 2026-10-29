@@ -5978,7 +5978,9 @@ export class Arena {
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
       if(z.champ==='Jhin'&&z.slot==='W'&&
-       (victim.champ||this.boardCloneDamageableV453Dev69(victim)))
+       (victim.champ||(victim.kind!=='zac_blob'&&
+        this.boardCloneDamageableV453Dev69(victim)&&
+        (!victim.appearance||victim.appearance.kind==='champion'))))
        z.maxHits=z.hitCount;
       // Valor stops at first contact; only primary gets Harrier / blindness.
       if(z.champ==='Quinn'&&z.m44SplashRadius>0)

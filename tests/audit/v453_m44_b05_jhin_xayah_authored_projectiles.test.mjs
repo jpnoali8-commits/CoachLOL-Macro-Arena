@@ -130,6 +130,23 @@ for(const team of ['blue','red']){
   assert.equal(e.hp,10000,'real champion behind clone not hit');
   assert.equal(a.effectResolverV41().has(e,'root'),false);snap();
  });
+ for(const [shape,kind,appearance] of [
+  ['disguised','neeko_clone',{kind:'minion',appearance:'caster'}],
+  ['blob','zac_blob',null]
+ ]){
+  run('Jhin',team,'W crosses non-champion '+shape+' collision',f=>{
+   const {a,u,e,cast,tick,snap}=f;
+   const decoy={id:'b05_nontarget_'+shape+'_'+team,kind,
+    team:e.team,ownerId:e.id,x:.517,y:.5,
+    hp:900,maxHp:900,until:10,stealthUntil:0,
+    ...(appearance?{appearance}:{})};
+   a.boardSummonsV453Dev69.push(decoy);
+   cast('W');tick();
+   assert.ok(decoy.hp<900,'body damage applies to '+shape);
+   assert.ok(e.hp<10000,'W crosses non-champion body '+shape);
+   snap();
+  });
+ }
  run('Xayah',team,'Q twice + Clean Cuts third feather + E roots',f=>{
   const {a,u,e,cast,tick,snap}=f;
   cast('Q');tick();tick();
@@ -235,5 +252,5 @@ console.log('M44_B05_AUTHORED '+JSON.stringify({
  bilateralSeats:2,passed,snapshots,failures:failures.length,
  certifiedKits:0}));
 assert.equal(failures.length,0);
-assert.equal(passed,100);
-assert.equal(snapshots,100);
+assert.equal(passed,104);
+assert.equal(snapshots,104);

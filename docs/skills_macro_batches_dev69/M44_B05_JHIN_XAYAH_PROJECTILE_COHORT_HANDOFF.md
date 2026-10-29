@@ -18,9 +18,9 @@ No generic fallback added; all existing M44 B01-B04 functions and PvP state pres
 
 ## QA
 - Actual full engine `Arena` evaluated in isolated V8 with real map/masks.
-- M44 B01 34/34, B02 18/18, B03 106/106, B04 100/100 PASS in the same source run.
-- M44 B05 **100/100 PASS** both teams. Covers launch vs contact, spell shields, minions, walls, 2 rays, prior allied mark, Lotus trigger, clone interception, source-owned feathers, Clean Cuts, Bladecaller triple root, expiration, Kennen stacks, Ezreal refund, Lux two-body cap, Kai'Sa plasma, and Caitlyn recoil. 100 V40 snapshots/checksums.
-- Total 358/358 scoped scenarios, 0 full kits certified.
+- M44 B01 34/34, B02 18/18, B03 106/106, B04 104/104 PASS in the same source run.
+- M44 B05 **104/104 PASS** both teams. Covers launch vs contact, spell shields, minions, walls, 2 rays, prior allied mark, Lotus trigger, clone interception (including non-champion disguise / Zac blob pass-through), source-owned feathers, Clean Cuts, Bladecaller triple root, expiration, Kennen stacks, Ezreal refund, Lux two-body cap, Kai'Sa plasma, and Caitlyn recoil. 104 V40 snapshots/checksums.
+- Total 362/362 scoped scenarios, 0 full kits certified.
 - Native `node --check`, `npm test`, Chromium, browser parity, networked two-client PvP, 17-dimension kit certification: **NOT_RUN**.
 
 ## References and QA debt
