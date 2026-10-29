@@ -4092,7 +4092,11 @@ export class Arena {
      {range:770,width:165,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
     let damaged=0;const rank=Math.max(1,u.skillRanks.Q||1);
     for(const enemy of victims.filter(v=>v.hp>0)){
-     if(this.damage(enemy,45+rank*45,u,'physical','spell')>0)damaged++;
+     if(this.damage(enemy,45+rank*45,u,'physical','spell')>0){
+      damaged++;
+      if(s.m26JarvanArmorShred&&enemy.champ)
+       enemy.m26JarvanArmorShred={sourceId:u.id,ratio:.22,until:this.gameTime+4};
+     }
      if(enemy.champ&&enemy.hp>0)this.applyEffectV41(enemy,'knockup',{
       source:u,duration:.75,key:'m24_flag_'+u.id+'_'+enemy.id+'_'+this.gameTime});
     }
@@ -4388,6 +4392,17 @@ export class Arena {
       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
     }
    }
+   if(s.m26ViShockwave&&target?.champ&&target.hp>0){
+    const dx=(target.x-u.x)*this.worldWidth,dy=(target.y-u.y)*this.worldHeight;
+    const len=Math.hypot(dx,dy)||1;
+    const more=enemyPool.filter(v=>v.id!==target.id&&v.hp>0&&
+     this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(target,v)).filter(v=>{
+      const x=(v.x-target.x)*this.worldWidth,y=(v.y-target.y)*this.worldHeight;
+      const depth=(x*dx+y*dy)/len,side=Math.abs(x*dy-y*dx)/len;
+      return depth>=0&&depth<=400&&side<=150;
+     }).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+    hits=[target,...more];
+   }
    if(s.m25GragasFirstCollision&&hits.length)
    hits=hits.filter(v=>v.champ).sort((a,b)=>
     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id))).slice(0,1);
@@ -4517,7 +4532,12 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
-    if(done>0&&s.m26KogShred&&v.champ){
+    if(done>0&&s.m26JarvanArmorShred&&v.champ)
+      v.m26JarvanArmorShred={sourceId:u.id,ratio:.22,until:this.gameTime+4};
+     if(done>0&&s.m26VarusHail&&v.champ)
+      this.applyEffectV41(v,'grievous_wounds',{source:u,duration:2.5,
+       key:'m26_varus_hail_initial_'+instance+'_'+v.id});
+     if(done>0&&s.m26KogShred&&v.champ){
       (v.m26KogShred??={})[u.id]={until:this.gameTime+4,ratio:.18};
      }
      if(done>0&&s.m26LeeReveal&&v.champ)
@@ -9142,6 +9162,8 @@ export class Arena {
      amount*=.6;
     }
    }
+   if(target?.champ==='Gragas'&&target.m26GragasDrinkUntil>this.gameTime)
+    amount*=.8;
    if(target?.champ==='Alistar'&&target.m26AlistarUnbreakableUntil>this.gameTime)
     amount*=.45;
    if(target?.m25YiAlphaUntil>this.gameTime)return 0;
@@ -9264,6 +9286,9 @@ export class Arena {
    amount*=this.giantSlayerMultiplierV453Dev69(attacker,target);
  const derivedTarget=target.champ?this.elementalStatsV452d3(target):target;
  const cleaverDebuffV453Dev29=target.champ&&target.cleaverDebuffV453Dev29?.until>this.gameTime?target.cleaverDebuffV453Dev29:null;
+ const m26JarvanShred=damageType==='physical'&&
+  target.m26JarvanArmorShred?.until>this.gameTime?
+  (target.m26JarvanArmorShred.ratio||0):0;
  const m26CorkiArmorShred=damageType==='physical'?
    Math.min(.24,Object.values(target.m26CorkiShred||{}).filter(x=>x?.until>this.gameTime)
     .reduce((sum,x)=>sum+(x.stacks||0)*.06,0)):0;
@@ -9275,7 +9300,7 @@ export class Arena {
   (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+m26BraumBonus;
  const effectiveTargetResV453Dev29=(damageType==='physical'&&cleaverDebuffV453Dev29?
   targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes)*
-  (1-m26CorkiArmorShred)*(1-m26KogRatio);
+  (1-m26CorkiArmorShred)*(1-m26KogRatio)*(1-m26JarvanShred);
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
  const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
