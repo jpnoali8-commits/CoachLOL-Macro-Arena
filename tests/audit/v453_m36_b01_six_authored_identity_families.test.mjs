@@ -66,8 +66,8 @@ for(const team of ['blue','red']){
   snapshot();
  });
  verify('Sejuani',team,({u,e,second,cast,snapshot})=>{
-  e.x=.515;second.x=.54;
-  cast('Q',{point:{x:.545,y:.5}});
+  e.x=.515;second.x=.539;
+  cast('Q',{point:{x:.54,y:.5}});
   assert.ok(u.x>.5&&u.x<.53,'Arctic Assault stops at first actual contact');
   assert.ok(e.hp<7000,'first champion hit');
   assert.equal(second.hp,7000,'no extra full-path remote hit');
