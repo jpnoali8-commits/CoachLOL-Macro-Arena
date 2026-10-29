@@ -5231,7 +5231,7 @@ export class Arena {
      ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
      origin:start,current:{...start},point:end,
      range:reach,width:s.width||160,power:power(s.damage),
-     damageType:s.type||'magic',maxHits:s.maxHits??Infinity,
+     damageType:s.type||'magic',maxHits:s.maxHits??9999,
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
      nextAt:this.gameTime+1,until:this.gameTime+flightTicks+1,
      m44Mark:s.m20Mark||null
@@ -5718,11 +5718,12 @@ export class Arena {
       const spellShield=!!this.effectResolverV41().has(victim,'spell_shield');
       const dealt=this.damage(victim,z.power,u,z.damageType,'spell');
       z.hitIds.push(victim.id);z.hitCount++;
-      // Each authored identity has separate counterplay and on-hit effects.
-      if(dealt>0&&victim.hp>0&&!spellShield){
+      // Shield absorb may reduce HP damage to zero; authored CC, mark and
+      // shield-break are contact effects unless the spell shield blocks them.
+      if(victim.hp>0&&!spellShield){
        if(z.m44Mark)(victim.m20MarksV453??={})[z.m44Mark+'_'+u.id]=now+6;
        if(z.champ==='LeeSin'){
-        if(victim.champ||this.boardCloneDamageableV453Dev69(victim))
+        if(dealt>0&&(victim.champ||this.boardCloneDamageableV453Dev69(victim)))
          u.m21SonicRecastV453={targetId:victim.id,until:now+3};
        }else if(z.champ==='Braum'&&victim.champ){
         this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.5,
