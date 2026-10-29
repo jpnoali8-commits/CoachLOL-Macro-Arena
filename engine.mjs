@@ -3896,6 +3896,20 @@ export class Arena {
    const n=(u.m25SeraphineSpells||0)+1;
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
+  if(s.m26GragasDrink)u.m26GragasDrinkUntil=this.gameTime+2.5;
+  if(s.m26ShenChannel&&target?.team===u.team&&target.champ){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m26_shen_arrival',
+    ownerId:u.id,team:u.team,anchorId:target.id,origin:{x:u.x,y:u.y},
+    point:{x:target.x,y:target.y},nextAt:this.gameTime+2,
+    until:this.gameTime+2.1,hitIds:[]});
+  }
+  if(s.m26VarusHail&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m26_varus_hail',
+    ownerId:u.id,team:u.team,point:{...q.point},origin:{x:u.x,y:u.y},
+    radius:s.radius||310,nextAt:this.gameTime+1,until:this.gameTime+3.1,hitIds:[]});
+  }
   if(s.m26AlistarUnbreakable)u.m26AlistarUnbreakableUntil=this.gameTime+3.5;
   if(s.m26QuinnFlight)u.m26QuinnFlightUntil=this.gameTime+7;
   if(s.m26YunaraDash&&u.m25YunaraTranscendentUntil>this.gameTime){
