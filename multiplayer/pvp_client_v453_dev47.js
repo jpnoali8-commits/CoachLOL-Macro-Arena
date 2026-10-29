@@ -8,7 +8,7 @@ let shopCatalog=[],shopReference=[],selectedShopItemId=null,shopUnitId=null,shop
 const announce=t=>{$('feed').textContent=t;};
 async function fetchBoardKitsV453(){try{
  const response=await fetch('/api/kits',{credentials:'same-origin'});if(!response.ok)return;
- const x=await response.json();boardKitsV453={...(x.specials||{}),...(x.kits||{})};formKitsV453=x.formKits||{};
+ const x=await response.json();boardKitsV453={...(x.specials||{}),...(x.kits||{}),...(x.entityKits||{})};formKitsV453=x.formKits||{};
  if(state)renderBoardSlotsV453(state);
 }catch(e){announce('Habilidades: '+e.message);}}
 async function api(path,payload){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),credentials:'same-origin'});const data=await res.json();if(!res.ok)throw Error(data.reason||'Falha');return data;}
@@ -119,12 +119,17 @@ function renderBoardSlotsV453(v){
  $('sylasHijackV453').classList.toggle('hidden',unit?.champ!=='Sylas'||!!unit.sylasStolenV453M14);
  $('sylasHijackV453').disabled=!can||!unit||!(unit.skillRanks?.R>0);
  const ownSummon=activeOwnSummonV453();
+ renderNeekoM15(v,unit,can);
  $('boardSummonMoveV453').classList.toggle('hidden',!ownSummon);
- $('boardSummonAttackV453').classList.toggle('hidden',!ownSummon);
+ $('boardSummonAttackV453').classList.toggle('hidden',!ownSummon||!!ownSummon.nonCombat);
+ $('boardSummonMoveV453').textContent=ownSummon?.kind==='neeko_clone'?'Mover clone Neeko':
+  ownSummon?.kind==='shaco_clone'?'Mover clone Shaco':'Mover Tibbers';
+ $('boardSummonAttackV453').textContent=ownSummon?.kind==='shaco_clone'?'Clone atacar alvo':'Tibbers atacar alvo';
  $('boardSummonMoveV453').disabled=!can||!ownSummon;
- $('boardSummonAttackV453').disabled=!can||!ownSummon;
+ $('boardSummonAttackV453').disabled=!can||!ownSummon||!!ownSummon.nonCombat;
  $('boardEnemySummonV453').classList.toggle('hidden',
-  !(v.projection?.boardSummons||[]).some(s=>s.team!==v.team));
+  !(v.projection?.boardSummons||[]).some(s=>s.team!==v.team)&&
+  !(v.projection?.units||[]).some(s=>s.team!==v.team&&s.id.startsWith('appearance_')));
  $('boardEnemySummonV453').disabled=!can;
  const fates=unit?.champ==='Kalista'&&!!(unit.queuedUltimate||unit.fatesCallV453M14)&&
   !!unit.oathswornIdV453Dev69C;
@@ -136,16 +141,52 @@ function renderBoardSlotsV453(v){
   'Kit ainda em auditoria na interface · combos continuam disponíveis':rule?
   unit.champ+' '+(unit.boardFormV453M14|| (formKitsV453[unit.champ]?'human':''))+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
 }
+function renderNeekoM15(v,unit,can){
+ const panel=$('neekoKitV453'),active=unit?.champ==='Neeko';
+ panel.classList.toggle('hidden',!active);if(!active)return;
+ const choices=[{id:'self',label:'Forma real'},...(v.projection?.units||[])
+  .filter(x=>x.team===v.team&&x.id!==unit.id&&x.hp>0)
+  .map(x=>({id:x.id,label:x.champ}))];
+ if(unit.neekoShomaV453M15)choices.push({id:'shoma',label:'Sho’Ma: '+unit.neekoShomaV453M15.appearance});
+ const options=(sel,data)=>{
+  const prev=sel.value;
+  sel.replaceChildren(...data.map(item=>{const x=document.createElement('option');
+   x.value=item.id;x.textContent=item.label;return x;}));
+  sel.value=data.some(item=>item.id===prev)?prev:(data[0]?.id||'');
+ };
+ options($('neekoAppearanceV453'),choices);
+ const near=(v.projection?.minions||[]).concat(v.projection?.wards||[],
+  (v.projection?.boardSummons||[]),v.projection?.camps||[])
+  .filter(x=>x.id&&x.hp!==0&&x.alive!==false&&Number.isFinite(x.x)&&Number.isFinite(x.y)&&
+   Math.hypot(x.x-unit.x,x.y-unit.y)<=400/15000&&
+   !['baron','dragon','herald','voidgrubs'].includes(x.timerKey))
+  .map(x=>({id:x.id,label:x.kind||x.timerKey||x.type||x.id}));
+ options($('neekoSourceV453'),near);
+ $('neekoTransformV453').disabled=!can||!$('neekoAppearanceV453').value;
+ $('neekoCancelV453').disabled=!can||!unit.neekoDisguiseV453M15;
+ $('neekoCollectV453').disabled=!can||!near.length||!!unit.neekoDisguiseV453M15;
+ $('neekoSourceV453').disabled=!can||!near.length;
+}
+$('neekoTransformV453').onclick=()=>{
+ const id=$('neekoAppearanceV453').value;
+ if(id)return send('skill.neeko_disguise',{appearanceId:id},selectedUnitId);
+};
+$('neekoCancelV453').onclick=()=>send('skill.neeko_disguise',{appearanceId:'self'},selectedUnitId);
+$('neekoCollectV453').onclick=()=>{
+ const sourceId=$('neekoSourceV453').value;
+ if(sourceId)return send('skill.neeko_shoma',{sourceId},selectedUnitId);
+};
 function activeOwnSummonV453(){
- return (state?.projection?.boardSummons||[]).find(s=>s.ownerId===selectedUnitId&&
-  s.team===state.team&&s.hp>0)||null;
+ const list=(state?.projection?.boardSummons||[]).filter(s=>s.ownerId===selectedUnitId&&
+  s.team===state.team&&s.hp>0);
+ return list.find(s=>['shaco_clone','neeko_clone','tibbers'].includes(s.kind))||null;
 }
 $('boardSummonMoveV453').onclick=()=>{if(activeOwnSummonV453())setMode('summon_move');};
 $('boardSummonAttackV453').onclick=()=>{
  const summon=activeOwnSummonV453(),id=$('boardTargetV453').value,
   foe=state?.projection?.units?.find(u=>u.id===id&&u.team!==state.team);
  if(summon&&foe)return send('summon.order',{summonId:summon.id,targetId:id},selectedUnitId);
- announce('Escolha um inimigo visível para Tibbers');
+ announce('Escolha um inimigo visível para a invocação');
 };
 $('boardEnemySummonV453').onclick=()=>setMode('summon_enemy');
 $('kalistaLaunchV453').onclick=()=>setMode('kalista_launch');
@@ -191,7 +232,8 @@ canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:M
   const summon=activeOwnSummonV453();
   if(summon)await send('summon.order',{summonId:summon.id,point},selectedUnitId);
  }else if(mode==='summon_enemy'){
-  const pet=(state.projection?.boardSummons||[]).filter(s=>s.team!==state.team&&
+  const pet=[...(state.projection?.boardSummons||[]),...(state.projection?.units||[]).filter(u=>
+    u.id.startsWith('appearance_'))].filter(s=>s.team!==state.team&&
    Math.hypot(s.x-point.x,s.y-point.y)<=.025)
    .sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y))[0];
   if(pet)await send('order.attack',{targetId:pet.id},selectedUnitId);
