@@ -5154,7 +5154,12 @@ export class Arena {
    if(s.maxHits!=null)hits=hits.slice(0,s.maxHits);
   const m25QuinnFrom=s.m25QuinnVault?{x:u.x,y:u.y}:null;
   const m28UrgotFrom=s.m28UrgotFlip?{x:u.x,y:u.y}:null;
-   const dashTarget=s.dashToHit?hits.find(v=>v.champ&&v.hp>0):null;
+   // M44 B04: genuine projectile dashes NEVER run during legacy geometry.
+   // The contact dispatcher owns them after the swept segment hits a body.
+   const m44ContactDash=(u.champ==='Amumu'&&q.slot==='Q')||
+    (u.champ==='Warwick'&&q.slot==='R');
+   const dashTarget=s.dashToHit&&!m44ContactDash?
+    hits.find(v=>v.champ&&v.hp>0):null;
   if(s.dashToHit&&dashTarget&&this.walkable(dashTarget.x,dashTarget.y)){
    const start={x:u.x,y:u.y},vx=dashTarget.x-u.x,vy=dashTarget.y-u.y;
    const end={x:dashTarget.x-vx*.15,y:dashTarget.y-vy*.15};
