@@ -1,0 +1,12 @@
+{
+  "name": "CoachLOL Macro Arena — QA sem GitHub Actions",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "postCreateCommand": "node --version && npm --version && git --version",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
