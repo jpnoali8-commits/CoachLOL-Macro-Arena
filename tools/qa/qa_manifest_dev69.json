@@ -58,6 +58,27 @@
         "engine.mjs",
         "data/riot_reference"
       ]
+    },
+    {
+      "name": "items-audit",
+      "branch": "dev69/items-full-audit",
+      "fullOnly": true,
+      "quickScripts": [],
+      "fullScripts": [
+        "test:v453:dev69:items-batch7"
+      ],
+      "requiredFiles": [
+        "engine.mjs",
+        "tests/v453_dev69_items_full_audit_all202_shop_undo.test.mjs"
+      ],
+      "auditFiles": [
+        "tests/v453_dev69_items_full_audit_all202_shop_undo.test.mjs",
+        "tests/v453_dev69_items_full_audit_mid_quest.test.mjs",
+        "tests/v453_dev69_items_full_audit_patch2621.test.mjs",
+        "tests/v453_dev69_items_conditionals_effigy_oath.test.mjs",
+        "tests/v453_dev69_items_conditionals_gateway_pvp.test.mjs",
+        "tests/v453_dev69_items_conditionals_support_final.test.mjs"
+      ]
     }
   ],
   "syntax": [
@@ -72,7 +93,8 @@
     "requiredIntegratedBranches": [
       "dev69/skills-batch2",
       "dev69/items-batch7",
-      "dev69/assets-import"
+      "dev69/assets-import",
+      "dev69/items-full-audit"
     ],
     "assetsGate": "tools/verify_binary_assets_dev69.py",
     "browser": [
