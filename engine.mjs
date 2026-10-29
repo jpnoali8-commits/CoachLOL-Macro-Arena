@@ -1198,7 +1198,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',425,10,90,{radius:200,m26LockeDash:true}),
   B20('line_enemy',1000,120,260,{width:200,maxHits:1,m20Missing:'execute_transformation'})),
  Lucian:BK20('lightslinger',
-  B20('line_enemy',850,9,95,{width:155,type:'physical',m20Missing:'requires_initial_target'}),
+  B20('line_enemy',850,9,95,{width:155,type:'physical',m30LucianAnchoredQ:true,m20Missing:'requires_initial_target'}),
   B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m20Missing:'star_pattern'}),
   B20('move_point',445,16,0,{radius:0,m27LucianPursuit:true}),
   B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',boardTemporal:'m25_lucian_culling',zoneSeconds:4.1})),
@@ -1224,11 +1224,11 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25,m20Missing:'chains_channel_and_suppression'})),
  Varus:BK20('living_vengeance',
   B20('line_enemy',1500,16,100,{width:155,type:'physical',m28VarusCharge:true,m20Missing:'charge_damage_and_range'}),
-  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m20Missing:'blight_charge_empowered_q'}),
+  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m30VarusEmpowerQ:true,m20Missing:'blight_charge_empowered_q'}),
   B20('circle_enemy',925,18,100,{radius:310,cc:'slow',ccSeconds:2.5,ccPower:.4,m26VarusHail:true}),
   B20('line_enemy',1300,100,200,{width:185,maxHits:1,cc:'root',ccSeconds:2,m25VarusChain:true})),
  Viktor:BK20('glorious_evolution',
-  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m28ViktorShield:true,m20Missing:'self_shield_and_evolution'}),
+  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m28ViktorShield:true,m30ViktorEvolution:true,m20Missing:'self_shield_and_evolution'}),
   B20('circle_enemy',800,17,0,{radius:285,cc:'slow',ccSeconds:2,ccPower:.45,m25ViktorGravity:true}),
   B20('line_enemy',1050,12,105,{width:165,m26ViktorAftershock:true,m28ViktorLaser:true}),
   B20('circle_enemy',700,120,155,{radius:300,boardTemporal:'damage_pool',zoneSeconds:3,m28ViktorStorm:true,m20Missing:'moving_storm_interrupt'})),
@@ -3671,6 +3671,15 @@ export class Arena {
        (!this.realmValidV453Dev69(u,point)||!this.realmValidV453Dev69(u,laserEnd)))))
    return {ok:false,reason:'m28_laser_invalid'};
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
+  if(s.m30LucianAnchoredQ){
+   if(!target||target.team===team||target.hp<=0||
+      !this.sameCombatRealmV453Dev69(u,target)||
+      !(target.champ?this.visible(team,target):
+       (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(team,target))||
+      this.mapDistance(u,target)>s.range||this.obstacleLine(u,target))
+    return {ok:false,reason:'m30_lucian_initial_target'};
+   point={x:target.x,y:target.y};
+  }
   const extraM25=s.m25KassRift?
    (u.m25KassRift?.until>this.gameTime?Math.min(4,u.m25KassRift.stacks)*20:0):
    s.m25KogArtillery?(u.m25KogArtillery?.until>this.gameTime?
@@ -3907,6 +3916,14 @@ export class Arena {
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
+  if(s.m30LucianAnchoredQ){
+   if(!target||target.team===u.team||target.hp<=0||
+      !this.sameCombatRealmV453Dev69(u,target)||
+      !(target.champ?this.visible(u.team,target):
+       (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target))||
+      this.mapDistance(u,target)>s.range||this.obstacleLine(u,target))
+    return {ok:false,reason:'m30_lucian_target_lost'};
+  }
   if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined&&
      this.mapDistance(u,q.point)>550+550*q.m28ChargeSeconds/2)
    return {ok:false,reason:'m29_zac_charge_range'};
@@ -3977,6 +3994,10 @@ export class Arena {
     power:24+Math.max(1,u.skillRanks[q.slot]||1)*10,
     nextAt:this.gameTime+1,until:this.gameTime+ticks+.1,ticksLeft:ticks,hitIds:[]});
   }
+  if(s.m30VarusEmpowerQ)u.m30VarusEmpoweredQUntil=this.gameTime+8;
+  if(s.m28VarusCharge&&u.m30VarusEmpoweredQUntil>this.gameTime){
+   q.m30VarusEmpowered=true;u.m30VarusEmpoweredQUntil=0;
+  }
   if(s.m29MilioTwoE){
    const state=u.m29MilioEStock??={charges:2,nextAt:0};
    if(state.charges===2)state.nextAt=this.gameTime+17;
@@ -3997,7 +4018,7 @@ export class Arena {
   if(s.m28ViktorShield){
    const rank=Math.max(1,u.skillRanks.Q||1);
    this.applyEffectV41(u,'shield',{source:u,duration:3,
-    power:[60,90,120,150,180][Math.min(4,rank-1)],
+    power:[60,90,120,150,180][Math.min(4,rank-1)]*(u.m30ViktorAugments?.Q?1.5:1),
     key:'m28_viktor_siphon_'+u.id+'_'+this.gameTime});
   }
   if(s.m28HeimerStock){
@@ -4070,7 +4091,7 @@ export class Arena {
     origin:q.m28LaserOrigin?{...q.m28LaserOrigin}:{x:u.x,y:u.y},
     point:q.point?{...q.point}:{x:u.x,y:u.y},
     range:s.range,arc:s.arc||55,width:s.width||165,radius:s.radius||390,
-    power:20+rank*15,ticksLeft:s.m26ViktorAftershock?1:3,
+    power:(20+rank*15)*(s.m26ViktorAftershock&&u.m30ViktorAugments?.E?1.6:1),ticksLeft:s.m26ViktorAftershock?1:3,
     nextAt:this.gameTime+1,until:this.gameTime+(s.m26ViktorAftershock?1.1:3.1),
     hitIds:[]});
   }
@@ -4420,7 +4441,9 @@ export class Arena {
      this.detonateM22BombV453(previous,true);
     }
    }else if(s.m28ViktorStorm){
-    temporal.nextAt=this.gameTime+1;temporal.until=this.gameTime+4.1;
+    temporal.nextAt=this.gameTime+1;
+    temporal.until=this.gameTime+(u.m30ViktorAugments?.R?6.1:4.1);
+    temporal.m30Evolved=!!u.m30ViktorAugments?.R;
    }else if(s.boardTemporal==='m25_karthus_q'){
     temporal.nextAt=this.gameTime+1;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m25_lucian_culling'){
@@ -4449,7 +4472,13 @@ export class Arena {
   }
   const enemyPool=this.boardCombatEnemyPoolV453Dev69(u);
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
-  let hits=[];const point=q.point||u;
+  let hits=[];
+  const point=s.m30LucianAnchoredQ&&target?(()=>{
+   const dx=(target.x-u.x)*this.worldWidth,dy=(target.y-u.y)*this.worldHeight,
+    len=Math.max(1,Math.hypot(dx,dy));
+   return {x:u.x+dx/len*1100/this.worldWidth,
+    y:u.y+dy/len*1100/this.worldHeight};
+  })():q.point||u;
   if(['target_enemy','target_ally','target_any'].includes(s.shape))hits=[target];
    else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
@@ -4692,6 +4721,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+    if(s.m28VarusCharge&&q.m30VarusEmpowered)
+     raw+=Math.max(0,v.maxHp-v.hp)*(.075+.025*Math.max(1,u.skillRanks.W||1));
     if(s.m29KassForcePulse&&q.m29KassStacks)
      raw*=1+.15*q.m29KassStacks;
     if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined)
