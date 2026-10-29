@@ -168,7 +168,8 @@ for(const team of ['blue','red']){
   assert.ok(u.boardSpeedV453Dev69?.until>a.gameTime);
   const n=u.m44XayahFeathers?.length||0;
   cast('R');
-  assert.equal(a.effectResolverV41().has(u,'invulnerable'),true);
+  assert.ok(u.m44XayahUntargetableUntil>a.gameTime,
+    'Featherstorm is untargetable, not damage invulnerability');
   assert.equal(u.m44XayahFeathers?.length,n+5);
   snap();
  });

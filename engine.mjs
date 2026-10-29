@@ -3516,7 +3516,8 @@ export class Arena {
   if(!id)return null;
   return this.units.find(v=>v.id===id&&v.hp>0&&
    !(v.m24FizzLeapV453?.until>this.gameTime)&&
-   !(v.m24DevouredByV453?.until>this.gameTime))||
+   !(v.m24DevouredByV453?.until>this.gameTime)&&
+   !(v.m44XayahUntargetableUntil>this.gameTime))||
    this.boardSummonsV453Dev69.find(v=>v.id===id&&this.boardCloneDamageableV453Dev69(v))||null;
  }
  boardCombatEnemyPoolV453Dev69(u){
@@ -3525,6 +3526,7 @@ export class Arena {
    (v.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,v))]
    .filter(v=>v.team!==u.team&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime)&&
     !(v.m24DevouredByV453?.until>this.gameTime)&&
+    !(v.m44XayahUntargetableUntil>this.gameTime)&&
     this.sameCombatRealmV453Dev69(u,v)&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
  }
@@ -5250,8 +5252,7 @@ export class Arena {
   if(u.champ==='Xayah'&&q.slot==='W'&&s.m44XayahPlumage)
    u.m44XayahPlumageUntil=this.gameTime+4;
   if(u.champ==='Xayah'&&q.slot==='R'&&s.m44XayahFeatherstorm){
-   this.applyEffectV41(u,'invulnerable',{source:u,duration:1,
-    key:'m44_xayah_featherstorm_'+instance});
+   u.m44XayahUntargetableUntil=this.gameTime+1;
    const face=u.m28FacingV453||{x:1,y:0},center=Math.atan2(face.y,face.x);
    for(let i=-2;i<=2;i++){
     const a=center+i*.16,p={x:u.x+Math.cos(a)*850/this.worldWidth,
@@ -5347,10 +5348,15 @@ export class Arena {
     });
     if(u.champ==='Xayah'&&q.slot==='Q'){
      const first=(this.boardTemporalV453Dev69||[]).at(-1);
-     first.m44FeatherIndex=0;
+     const heading=Math.atan2((end.y-start.y)*this.worldHeight,
+      (end.x-start.x)*this.worldWidth);
+     const angled=sign=>({
+      x:start.x+Math.cos(heading+sign*.035)*reach/this.worldWidth,
+      y:start.y+Math.sin(heading+sign*.035)*reach/this.worldHeight});
+     first.m44FeatherIndex=0;first.point=angled(-1);
      this.boardTemporalV453Dev69.push({
       ...first,id:++this.boardTemporalIdV453Dev69,hitIds:[],
-      origin:{...start},current:{...start},point:{...end},m44FeatherIndex:1});
+      origin:{...start},current:{...start},point:angled(1),m44FeatherIndex:1});
     }
     if(u.champ==='TwistedFate'&&q.slot==='Q'){
      // Wild Cards = three independent trajectories; one authoritative debit.
@@ -5941,8 +5947,10 @@ export class Arena {
       v.hp>0&&!z.hitIds.includes(v.id)&&
       this.sameCombatRealmV453Dev69(u,v)&&
       (!((z.champ==='Varus'&&z.slot==='R')||
-        z.champ==='Sejuani'||z.champ==='Ashe'||z.champ==='Warwick')||
-       v.champ||this.boardCloneDamageableV453Dev69(v)));
+        z.champ==='Sejuani'||z.champ==='Ashe'||z.champ==='Warwick'||
+        (z.champ==='Jhin'&&z.slot==='R'))||
+       v.champ||(this.boardCloneDamageableV453Dev69(v)&&
+        v.kind!=='zac_blob'&&(!v.appearance||v.appearance.kind==='champion'))));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
       worldWidth:this.worldWidth,worldHeight:this.worldHeight}):[];
@@ -5970,6 +5978,9 @@ export class Arena {
       const raw=z.champ==='Lucian'&&z.slot==='W'?0:
        z.champ==='Nidalee'&&z.slot==='Q'?
         z.power*(1+Math.min(1.5,Math.max(0,distance-450)/850)):
+       z.champ==='Jhin'&&z.slot==='R'?
+        z.power*(1+Math.min(3,3*(1-victim.hp/Math.max(1,victim.maxHp))))*
+         (z.m44CurtainCallShot===4?2.3:1):
        z.champ==='Jhin'&&z.slot==='W'&&!victim.champ?z.power*.75:
        z.champ==='Xayah'&&z.slot==='Q'&&z.hitCount>0?z.power*.5:
        z.champ==='DrMundo'&&z.slot==='Q'?
@@ -6103,6 +6114,10 @@ export class Arena {
         this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.4,
          key:'m44_xinzhao_spear_'+z.id+'_'+victim.id});
         (victim.m20MarksV453??={})['xin_spear_'+u.id]=now+3;
+       }else if(z.champ==='Jhin'&&z.slot==='R'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:.5,power:.8,
+         key:'m44_jhin_curtain_'+z.id+'_'+victim.id});
+        (victim.m16TrueSightUntil??={})[u.team]=now+2;
        }else if(z.champ==='Jhin'&&z.slot==='W'&&victim.champ){
         if(jhinWasMarked){
          this.applyEffectV41(victim,'root',{source:u,
@@ -6223,14 +6238,16 @@ export class Arena {
     }else if(z.kind==='m44_xayah_bladecaller'){
      const count={};
      for(const feather of (z.feathers||[]).filter(f=>f.until>=now-1)){
-      const origin={x:feather.x,y:feather.y},range=this.mapDistance(origin,z.point);
-      if(range<1)continue;
-      const targets=skillshotHitsV42(origin,z.point,
+      const origin={x:feather.x,y:feather.y},
+       recallPoint={x:u.x,y:u.y},range=this.mapDistance(origin,recallPoint);
+      if(range<1||this.obstacleLine(origin,recallPoint))continue;
+      const targets=skillshotHitsV42(origin,recallPoint,
        this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
         this.sameCombatRealmV453Dev69(u,v)),{
         range,width:140,maxHits:Infinity,
         worldWidth:this.worldWidth,worldHeight:this.worldHeight});
       for(const victim of targets){
+       if(this.obstacleLine(origin,victim))continue;
        const shielded=!!this.effectResolverV41().has(victim,'spell_shield');
        this.damage(victim,z.power,u,'physical','spell');
        if(!shielded&&victim.hp>0&&victim.champ)
@@ -7077,25 +7094,27 @@ export class Arena {
      return {ok:false,reason:'jhin_r_sem_recarga'};
     // The same targetable-entity resolver handles R bullets and other board
     // geometry. A visible clone absorbs a bullet; minions do not.
-    const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(t=>
-     !!t.champ||this.boardCloneDamageableV453Dev69(t));
-    const hits=skillshotHitsV42(u,q.point,pool,{range:3500,width:160,maxHits:Infinity,
-     worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-    const victim=hits[0],shot=5-channel.remaining;
-    if(victim){
-     const dmg=(64*(u.skillRanks.R||1)+this.elementalStatsV452d3(u).ad*.25)*
-      (1+Math.min(3,3*(1-victim.hp/Math.max(1,victim.maxHp))))*
-      (shot===4?2.3:1);
-     this.damage(victim,dmg,u,'physical','spell');
-     // Slow and champion True Sight do not turn a decoy into a real champion.
-     if(victim.hp>0&&victim.champ){
-      this.applyEffectV41(victim,'slow',{source:u,duration:.5,power:.8,key:'jhin_r_'+shot});
-      (victim.m16TrueSightUntil??={})[u.team]=now+2;
-     }
-    }
+    const origin={...(channel.origin||{x:u.x,y:u.y})};
+    const dx=(q.point.x-origin.x)*this.worldWidth,
+     dy=(q.point.y-origin.y)*this.worldHeight,range=Math.hypot(dx,dy);
+    if(range<1||range>3500.001)return {ok:false,reason:'jhin_mira_invalida'};
+    const axis={x:dx/range,y:dy/range};
+    if(channel.axis&&axis.x*channel.axis.x+axis.y*channel.axis.y<.866)
+     return {ok:false,reason:'jhin_fora_do_cone'};
+    // First R bullet fixes a 60-degree firing cone for the remaining shots.
+    channel.axis??=axis;
+    const shot=5-channel.remaining;
+    (this.boardTemporalV453Dev69??=[]).push({
+     id:++this.boardTemporalIdV453Dev69,kind:'m44_authored_projectile',
+     ownerId:u.id,team:u.team,champ:'Jhin',slot:'R',
+     origin,current:{...origin},point:{...q.point},range,width:160,
+     power:64*(u.skillRanks.R||1)+this.elementalStatsV452d3(u).ad*.25,
+     damageType:'physical',maxHits:1,hitIds:[],distanceDone:0,hitCount:0,
+     speed:900,nextAt:now+1,until:now+Math.ceil(range/900)+1,
+     m44CurtainCallShot:shot});
     channel.remaining--;channel.nextAt=now+1;
     if(channel.remaining<=0)u.m16JhinChannel=null;
-    return {ok:true,recast:true,shot,hit:!!victim,spentMana:0};
+    return {ok:true,recast:true,shot,scheduled:true,hit:false,spentMana:0};
    }
    if(u.champ==='Akshan'&&q.slot==='W'){
     this.m16BreakStealth(u,'manual');return {ok:true,recast:true,spentMana:0};
@@ -7135,7 +7154,7 @@ export class Arena {
   }
   if(s.m16FourShots){
    u.m16JhinChannel={remaining:4,nextAt:now+1,until:now+10,
-    facing:{x:1,y:0}};
+    origin:{x:u.x,y:u.y},axis:null};
    return {...cast,channel:true,shots:4};
   }
   if(s.m16Blind||s.m16Charm){
@@ -10946,6 +10965,10 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
+   // B06: Featherstorm is untargetability, not DoT immunity.
+   if(target?.m44XayahUntargetableUntil>this.gameTime&&
+      attacker?.team!==target.team&&
+      ['basic','spell','ability_onhit_v453_dev40','tower'].includes(sourceType))return 0;
    if(sourceType==='basic'&&target?.champ&&attacker?.team!==target.team&&
       this.units.some(v=>v.team===target.team&&v.champ==='Shen'&&v.hp>0&&
        (v.m25ShenRefugeUntil||0)>this.gameTime&&
