@@ -930,6 +930,9 @@ export const FORM_KITS_V453_M14=Object.freeze({
 export const DEFAULT_FORM_V453_M14=Object.freeze({Nidalee:'human',Elise:'human',Shyvana:'human'});
 
 export const BOARD_KITS_V453_DEV69=Object.freeze({
+ // M15 entity adapters use the shared board engine; incomplete kits remain PARTIAL.
+ Neeko:{passive:'inherent_glamour',W:BS('move_point',900,0,[16,15,14,13,12],[],{m15Entity:'neeko_clone',missing:'P_Q_E_R_not_integrated'})},
+ Shaco:{passive:'backstab',R:BS('move_point',500,100,[100,90,80],[],{m15Entity:'shaco_clone',missing:'P_Q_W_E_not_integrated'})},
  Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
   W:BS('self',0,0,23,[],{shield:[80,105,130,155,180]}),
   E:BS('circle_enemy',0,0,9,[60,95,130,165,200],{originSelf:true,radius:325,type:'physical',adRatio:.7}),
@@ -1429,7 +1432,7 @@ export class Arena {
   this.farmTelemetryV452={blue:{},red:{},events:[]};
   this.postgameTimelineV452d4Dev7={schema:'coachlol.postgame.timeline.v1',samples:[]};
   this.structureBurnV45={};this.voidmiteSiegesV45=[];this.heraldEyeV45=null;this.heraldMercenariesV45=[];
-  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.realmContextV453Dev69=null;this.realmSeqV453Dev69=0;this.ended=false;this.winner=null;
+  this.boardVisionV453Dev69=[];this.boardTemporalV453Dev69=[];this.boardTemporalIdV453Dev69=0;this.boardSummonsV453Dev69=[];this.boardSummonIdV453Dev69=0;this.m15PublicSeq=0;this.realmContextV453Dev69=null;this.realmSeqV453Dev69=0;this.ended=false;this.winner=null;
   this.lanes={};for(const name of ['top','mid','bot'])this.lanes[name]=prepareLine(map.waveSystem.lanes[name].blueToRed);
   const defaults={blue:{TOP:'Volibear',JG:'Warwick',MID:'Ahri',ADC:'Jinx',SUP:'Nami'},red:{TOP:'Darius',JG:'LeeSin',MID:'Vex',ADC:'Caitlyn',SUP:'Leona'}};
   const picks=draft||defaults; const draftSpellsV452=draft?.spells||{};
@@ -2041,7 +2044,7 @@ export class Arena {
   for(const u of a.units){u.scoutBullseyeReadyAtV453Dev38??=0;u.doransCombatManaUntilV453Dev38??=0;u.energizeStacksV453Dev38??=0;}
   // Backward compatible with all prior checkpoint payloads.
   a.championProjectilesV453Dev42??=[];a.championProjectileSeqV453Dev42??=0;a.boardVisionV453Dev69??=[];
-  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;a.realmContextV453Dev69??=null;a.realmSeqV453Dev69??=0;
+  a.boardTemporalV453Dev69??=[];a.boardTemporalIdV453Dev69??=0;a.boardSummonsV453Dev69??=[];a.boardSummonIdV453Dev69??=0;a.m15PublicSeq??=0;a.realmContextV453Dev69??=null;a.realmSeqV453Dev69??=0;
   a.ireliaBladesV453Dev43??={};a.ireliaBladeHistoryV453Dev43??=[];a.projectileBarriersV453Dev43??=[];
   for(const u of a.units)u.ireliaMarkV453Dev42??=null;
   a.rng.setState(snapshot.rngState);a.visionCache={};return a;
@@ -3010,6 +3013,19 @@ export class Arena {
    return {ok:false,reason:'board_indisponivel'};
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   if(u.champ==='Shyvana'&&slot==='R'&&(u.boardFuryV453M14||0)<100)return {ok:false,reason:'fury_insuficiente'};
+  // M15 recast never charges twice. A living clone is a server-owned entity.
+  if((u.champ==='Neeko'&&slot==='W')||(u.champ==='Shaco'&&slot==='R')){
+   const kind=u.champ==='Neeko'?'neeko_clone':'shaco_clone';
+   const clone=this.boardSummonsV453Dev69.find(e=>e.ownerId===u.id&&e.kind===kind&&e.hp>0&&e.until>this.gameTime);
+   if(clone){
+    if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||
+      !this.walkable(point.x,point.y)||this.mapDistance(clone,point)>900)
+     return {ok:false,reason:'clone_recast_invalido'};
+    u.pendingBoardV453Dev69={slot,recast:true,entityId:clone.id,point:{x:point.x,y:point.y}};
+    this.recordIntentV40(team,id,'clone_recast',{slot});
+    return {ok:true,queued:true,recast:true};
+   }
+  }
   // A second cast reactivates an existing charge without mana or cooldown.
   const cycle=s.boardCardCycle&&u.boardCardCycleV453Dev69?.until>this.gameTime;
   if(cycle){
@@ -3060,6 +3076,7 @@ export class Arena {
  executeBoardSkillV453Dev69(u,q){
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
   if(!s||!u||u.hp<=0||s.passiveOnly)return {ok:false,reason:'board_indisponivel'};
+  if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
    if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
@@ -3426,6 +3443,65 @@ export class Arena {
    else if(z.kind==='cone_channel')u.boardChannelUntilV453Dev69=0;
   }
   this.boardTemporalV453Dev69=keep;
+ }
+ // Shared entity factory. No clone is ever added to the ten champion roster.
+ m15Summon(kind,owner,position,attrs={}){
+  const obj={id:'entity_'+(++this.boardSummonIdV453Dev69),kind,
+   ownerId:owner.id,team:owner.team,x:position.x,y:position.y,
+   hp:owner.hp,maxHp:owner.maxHp,armor:owner.armor,mr:owner.mr,
+   createdAt:this.gameTime,until:this.gameTime+3,lastTick:this.gameTime,
+   commandPoint:null,targetId:null,moveSpeed:owner.moveSpeed||330,
+   nextAttackAt:this.gameTime+1,attackRange:175,leashRange:1200,
+   publicId:'appearance_'+(++this.m15PublicSeq).toString(36),...attrs};
+  this.boardSummonsV453Dev69.push(obj);return obj;
+ }
+ executeCloneSkillV453M15(u,q,s){
+  const kind=s.m15Entity;
+  if(q.recast){
+   const e=this.boardSummonsV453Dev69.find(x=>x.id===q.entityId&&x.kind===kind&&x.ownerId===u.id&&x.hp>0&&x.until>this.gameTime);
+   if(!e||!q.point||!this.walkable(q.point.x,q.point.y))return {ok:false,reason:'clone_expirado'};
+   e.commandPoint={...q.point};e.targetId=null;return {ok:true,recast:true,spentMana:0};
+  }
+  if(!q.point||this.mapDistance(u,q.point)>s.range||!this.walkable(q.point.x,q.point.y)||
+    this.obstacleLine(u,q.point))return {ok:false,reason:'clone_destino_invalido'};
+  const rank=Math.max(1,u.skillRanks[q.slot]||1),
+   cd=kind==='neeko_clone'?[16,15,14,13,12][Math.min(4,rank-1)]:[100,90,80][Math.min(2,rank-1)];
+  const committed=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+   point:q.point,costOverride:kind==='neeko_clone'?0:100,
+   cooldownOverride:kind==='neeko_clone'?0:cd,source:'m15_clone'});
+  if(!committed.ok)return committed;
+  const now=this.gameTime;
+  if(kind==='neeko_clone'){
+   const e=this.m15Summon(kind,u,{x:u.x,y:u.y},{
+    until:now+3,stealthUntil:now+.5,commandPoint:{...q.point},
+    moveSpeed:(u.moveSpeed||330)*(1+[.2,.25,.3,.35,.4][Math.min(4,rank-1)]),
+    attackRange:0,nonCombat:true,cooldownSeconds:cd,
+    appearance:u.neekoDisguiseV453M15||{kind:'champion',champ:'Neeko'}});
+   u.neekoCloneIdV453M15=e.id;u.neekoInvisibleUntilV453M15=now+.5;
+   u.skillCds.W=now+3+cd; // patch 26.05: cooldown begins after clone expiry
+   return {...committed,entityId:e.id};
+  }
+  const dx=q.point.x-u.x,dy=q.point.y-u.y,dist=Math.hypot(dx*this.worldWidth,dy*this.worldHeight)||1;
+  const target={x:u.x+dx/dist*200,y:u.y+dy/dist*200};
+  const mirror={x:u.x-dx/dist*200,y:u.y-dy/dist*200};
+  const valid=p=>p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1&&this.walkable(p.x,p.y)&&!this.obstacleLine(u,p);
+  const origin={x:u.x,y:u.y};
+  const clonePoint=valid(mirror)?mirror:origin;
+  if(valid(target)){
+   Object.assign(u,target);this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,origin,target,{kind:'blink'});
+  }
+  const e=this.m15Summon(kind,u,clonePoint,{
+   until:now+18,stealthUntil:now+.5,leashRange:1500,attackRange:175,
+   damageTakenMultiplier:1.5,power:Math.max(1,u.ad||50)*.75,
+   explosionPower:[150,225,300][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.7,
+   boxPower:[10,20,30][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.1,
+   boxSinglePower:[25,50,75][Math.min(2,rank-1)]+this.elementalStatsV452d3(u).ap*.15,
+   appearance:{kind:'champion',champ:'Shaco'}});
+  u.shacoCloneIdV453M15=e.id;
+  u.shacoInvisibleUntilV453M15=now+.5;
+  u.shacoPublicAliasV453M15='appearance_'+(++this.m15PublicSeq).toString(36);
+  return {...committed,entityId:e.id};
  }
  queueBoardSummonOrderV453Dev69(team,ownerId,summonId,{point=null,targetId=null}={}){
   const owner=this.units.find(u=>u.id===ownerId&&u.team===team&&u.hp>0);
