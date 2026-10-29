@@ -80,7 +80,8 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
    a.boardVisionV453Dev69.length>before.vision||
    (u.m20SyndraOrbsV453?.length||0)!==before.orbs||
    (s.m20Rewind&&(u.skillCds.Q<before.cds.Q||u.skillCds.E<before.cds.E))||
-   a.boardTemporalV453Dev69.some(v=>v.ownerId===u.id);
+   a.boardTemporalV453Dev69.some(v=>v.ownerId===u.id)||
+   !!ally.m21ChronoshiftV453;
   assert.ok(changed,'no gameplay effect after actual cast '+champ+' '+slot+' '+team);
   proofCount++;
   // Re-entry must not double-charge/double-apply the already drained queue.
