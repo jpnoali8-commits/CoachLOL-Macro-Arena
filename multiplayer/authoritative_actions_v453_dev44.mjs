@@ -162,7 +162,9 @@ export class AuthoritativeActionsV453Dev44 {
      target.m16DecoyPublicAlias&&this.arena.boardSummonsV453Dev69.some(e=>
       e.id===(target.m16WukongCloneId||target.m16LeblancCloneId)&&
       e.hp>0&&e.until>this.arena.gameTime);
-    if((concealed||['neeko_clone','shaco_clone'].includes(target.kind))&&!alias)
+    // All four disguise entities use opaque public IDs in perspective().
+    // Never accept an internal summon ID from the opposing seat.
+    if((concealed||['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(target.kind))&&!alias)
      return fail('alvo_identidade_oculta');
     const seen=target.kind&&!target.champ?
      this.arena.canSeePoint(seat.team,target)&&target.stealthUntil<=this.arena.gameTime:
