@@ -1123,7 +1123,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'cc_upgrade'}),
   B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m26EncoreExtension:true})),
  Xerath:BK20('mana_surge',
-  B20('line_enemy',1450,9,85,{width:155,m20Missing:'charge_range'}),
+  B20('line_enemy',1450,9,85,{width:155,m28XerathCharge:true,m20Missing:'charge_range'}),
   B20('circle_enemy',1000,14,90,{radius:260,cc:'slow',ccSeconds:2,ccPower:.4,m25XerathCenter:true}),
   B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5}),
   B20('circle_enemy',5000,130,190,{radius:240,boardTemporal:'m22_artillery_channel',zoneSeconds:10,m22ArtilleryShots:[3,4,5],m26XerathArtilleryCenter:true})),
@@ -1223,14 +1223,14 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',475,16,90,{radius:230,cc:'stun',ccSeconds:.75,shield:[85,120,155,190,225],m28UrgotFlip:true,m20Missing:'flip'}),
   B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25,m20Missing:'chains_channel_and_suppression'})),
  Varus:BK20('living_vengeance',
-  B20('line_enemy',1500,16,100,{width:155,type:'physical',m20Missing:'charge_damage_and_range'}),
+  B20('line_enemy',1500,16,100,{width:155,type:'physical',m28VarusCharge:true,m20Missing:'charge_damage_and_range'}),
   B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m20Missing:'blight_charge_empowered_q'}),
   B20('circle_enemy',925,18,100,{radius:310,cc:'slow',ccSeconds:2.5,ccPower:.4,m26VarusHail:true}),
   B20('line_enemy',1300,100,200,{width:185,maxHits:1,cc:'root',ccSeconds:2,m25VarusChain:true})),
  Viktor:BK20('glorious_evolution',
-  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m20Missing:'self_shield_and_evolution'}),
+  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m28ViktorShield:true,m20Missing:'self_shield_and_evolution'}),
   B20('circle_enemy',800,17,0,{radius:285,cc:'slow',ccSeconds:2,ccPower:.45,m25ViktorGravity:true}),
-  B20('line_enemy',1050,12,105,{width:165,m26ViktorAftershock:true}),
+  B20('line_enemy',1050,12,105,{width:165,m26ViktorAftershock:true,m28ViktorLaser:true}),
   B20('circle_enemy',700,120,155,{radius:300,boardTemporal:'damage_pool',zoneSeconds:3,m28ViktorStorm:true,m20Missing:'moving_storm_interrupt'})),
  Fizz:BK20('nimble_fighter',
   B20('target_enemy',550,8,90,{dashToHit:true}),
@@ -3504,7 +3504,7 @@ export class Arena {
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
  // resolution alone commits mana/CD. Geometry and CC are common primitives.
- queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null}={}){
+ queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
      (u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
@@ -3656,6 +3656,18 @@ export class Arena {
   }
   if(s.m28HeimerStock&&(u.m28HeimerStock?.charges??3)<1)
    return {ok:false,reason:'m28_turret_stock'};
+  const chargeable=s.m28XerathCharge||s.m28VarusCharge;
+  if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
+     chargeSeconds<0||chargeSeconds>2))
+   return {ok:false,reason:'m28_charge_invalid'};
+  if(laserEnd!==null&&(!s.m28ViktorLaser||!point||
+      ![laserEnd.x,laserEnd.y].every(Number.isFinite)||
+      laserEnd.x<0||laserEnd.x>1||laserEnd.y<0||laserEnd.y>1||
+      this.mapDistance(u,point)>500||this.mapDistance(point,laserEnd)>s.range||
+      this.mapDistance(point,laserEnd)<1||
+      (this.realmOfV453Dev69(u)&&
+       (!this.realmValidV453Dev69(u,point)||!this.realmValidV453Dev69(u,laserEnd)))))
+   return {ok:false,reason:'m28_laser_invalid'};
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
   const extraM25=s.m25KassRift?
    (u.m25KassRift?.until>this.gameTime?Math.min(4,u.m25KassRift.stacks)*20:0):
@@ -3712,7 +3724,9 @@ export class Arena {
    if(!gate.ok)return gate;
   }
   u.pendingBoardV453Dev69={slot,stolenCast:!!hijacked,targetId:target?.id||null,
-   point:aimed?{x:point.x,y:point.y}:null};
+   point:aimed?{x:laserEnd?.x??point.x,y:laserEnd?.y??point.y}:null,
+   ...(laserEnd?{m28LaserOrigin:{x:point.x,y:point.y}}:{}),
+   ...(chargeSeconds!==null?{m28ChargeSeconds:chargeSeconds}:{})};
   this.recordIntentV40(team,id,'board_skill',{slot,
     ...(target?{targetId:target.id}:{}),
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
@@ -3917,6 +3931,12 @@ export class Arena {
    m25SeraphineEcho=n===3;u.m25SeraphineSpells=m25SeraphineEcho?0:n;
   }
   if(s.m26GragasDrink)u.m26GragasDrinkUntil=this.gameTime+2.5;
+  if(s.m28ViktorShield){
+   const rank=Math.max(1,u.skillRanks.Q||1);
+   this.applyEffectV41(u,'shield',{source:u,duration:3,
+    power:[60,90,120,150,180][Math.min(4,rank-1)],
+    key:'m28_viktor_siphon_'+u.id+'_'+this.gameTime});
+  }
   if(s.m28HeimerStock){
    const stock=u.m28HeimerStock??={charges:3,nextAt:0};
    if(stock.charges===3)stock.nextAt=this.gameTime+20;
@@ -3984,7 +4004,8 @@ export class Arena {
    const rank=Math.max(1,u.skillRanks[q.slot]||1);
    (this.boardTemporalV453Dev69??=[]).push({
     id:++this.boardTemporalIdV453Dev69,kind,ownerId:u.id,team:u.team,
-    origin:{x:u.x,y:u.y},point:q.point?{...q.point}:{x:u.x,y:u.y},
+    origin:q.m28LaserOrigin?{...q.m28LaserOrigin}:{x:u.x,y:u.y},
+    point:q.point?{...q.point}:{x:u.x,y:u.y},
     range:s.range,arc:s.arc||55,width:s.width||165,radius:s.radius||390,
     power:20+rank*15,ticksLeft:s.m26ViktorAftershock?1:3,
     nextAt:this.gameTime+1,until:this.gameTime+(s.m26ViktorAftershock?1.1:3.1),
@@ -4373,8 +4394,11 @@ export class Arena {
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='move_point')hits=areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
-  else if(s.shape==='line_enemy')hits=skillshotHitsV42(u,point,enemyPool,{range:s.range,
-    width:s.width||180,maxHits:s.maxHits??Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+  else if(s.shape==='line_enemy')hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
+    range:(s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined?
+     900+(s.range-900)*q.m28ChargeSeconds/2:s.range,
+    width:s.width||180,maxHits:s.maxHits??Infinity,
+    worldWidth:this.worldWidth,worldHeight:this.worldHeight});
   else if(s.shape==='cone_enemy'){
    const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
     len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,spread=Math.tan((s.arc||60)*Math.PI/360);
@@ -4601,6 +4625,8 @@ export class Arena {
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     if(s.m25XerathCenter&&q.point&&this.mapDistance(v,q.point)<=110)raw*=1.4;
+    if(s.m28XerathCharge&&q.m28ChargeSeconds!==undefined)raw*=1+.22*q.m28ChargeSeconds;
+    if(s.m28VarusCharge&&q.m28ChargeSeconds!==undefined)raw*=1+.25*q.m28ChargeSeconds;
      if(s.m25KassRift)raw*=1+.25*(u.m25KassRift?.bonus||0);
      if(s.m25KogArtillery)raw*=1+.2*(u.m25KogArtillery?.bonus||0);
      const stunnedAblaze=s.stunIfAblaze&&v.champ&&
