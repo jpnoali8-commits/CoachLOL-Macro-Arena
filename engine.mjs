@@ -1264,8 +1264,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1250,130,250,{width:275,cc:'knockup',ccSeconds:1,m20Missing:'fissure_zone'})),
  Heimerdinger:BK20('hextech_affinity',
   B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m20Missing:'turret_ai_and_charge_stock'}),
-  B20('line_enemy',1325,11,95,{width:270,m20Missing:'five_converging_rockets'}),
-  B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m20Missing:'center_stun_outer_slow'}),
+  B20('line_enemy',1325,11,95,{width:270,m24UpgradePattern:'rocket_fan'}),
+  B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m24UpgradePattern:'grenade_cluster',m20Missing:'outer_slow'}),
   B20('self',0,100,0,{m23EmpowerNext:true,m20Missing:'upgraded_ability_visuals_and_R_cancel'})),
  Kassadin:BK20('void_stone',
   B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m20Missing:'interrupt'}),
@@ -3918,6 +3918,22 @@ export class Arena {
    u.m23HeimerEmpowerV453?.until>this.gameTime&&['Q','W','E'].includes(q.slot);
   if(s.m23EmpowerNext)u.m23HeimerEmpowerV453={until:this.gameTime+7};
   if(empower)u.m23HeimerEmpowerV453=null;
+  // Empowered W/E use the same authoritative temporal scheduler, with one cast cost.
+  if(empower&&s.m24UpgradePattern&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,
+    kind:s.m24UpgradePattern==='rocket_fan'?'m24_heimer_rockets':'m24_heimer_grenades',
+    ownerId:u.id,team:u.team,slot:q.slot,
+    point:{...q.point},origin:{x:u.x,y:u.y},
+    radius:s.m24UpgradePattern==='rocket_fan'?330:310,
+    range:s.range,width:s.width||250,hitIds:[],
+    createdAt:this.gameTime,nextAt:this.gameTime+1,
+    until:this.gameTime+(s.m24UpgradePattern==='rocket_fan'?3.1:1.1),
+    ticksLeft:s.m24UpgradePattern==='rocket_fan'?3:1,
+    power:45+Math.max(1,u.skillRanks[q.slot]||1)*24+
+     this.elementalStatsV452d3(u).ap*.23
+   });
+  }
   if(s.m22SecondStage)(u.m22SecondaryV453??={})[q.slot]={
    kind:s.m22SecondStage,until:this.gameTime+3,targetIds:[],firstId:null};
   if(s.m22Magazine&&q.slot==='R'){
@@ -3956,7 +3972,8 @@ export class Arena {
     hp:hp*(empower?2:1),maxHp:hp*(empower?2:1),
     armor:30,mr:30,createdAt:this.gameTime,
     until:this.gameTime+(empower?60:45),lastTick:this.gameTime,nextAttackAt:this.gameTime+1,
-    attackRange:525,power:(25+rank*12+this.elementalStatsV452d3(u).ap*.2)*(empower?2:1)
+    attackRange:525,attackCount:0,beamEvery:empower?3:0,
+     power:(25+rank*12+this.elementalStatsV452d3(u).ap*.2)*(empower?2:1)
    });
   }
   if(s.m20OrbSpawn&&q.point){
@@ -4427,6 +4444,26 @@ export class Arena {
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
     if(z.kind==='m22_zilean_bomb'){
      this.detonateM22BombV453(z,false);ended=true;
+    }else if(z.kind==='m24_heimer_rockets'){
+     const pool=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
+      {range:z.range,width:z.width,maxHits:Infinity,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const victim of pool.sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+      this.damage(victim,z.power,u,'magic','spell');
+     z.ticksLeft--;z.nextAt=now+1;
+     if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m24_heimer_grenades'){
+     const centers=[[0,0],[200,0],[-200,0],[0,200],[0,-200]].map(([x,y])=>({
+      x:z.point.x+x/this.worldWidth,y:z.point.y+y/this.worldHeight}));
+     for(const victim of this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>v.champ&&v.hp>0).sort((a,b)=>String(a.id).localeCompare(String(b.id))){
+      if(z.hitIds.includes(victim.id)||!centers.some(p=>this.mapDistance(p,victim)<=155))continue;
+      const hit=this.damage(victim,z.power,u,'magic','spell');
+      z.hitIds.push(victim.id);
+      if(hit>0&&victim.hp>0)this.applyEffectV41(victim,'stun',{
+       source:u,duration:1.25,key:'m24_heimer_grenade_'+z.id+'_'+victim.id});
+     }
+     ended=true;
     }else if(z.kind==='m24_fizz_shark'){
      for(const v of this.boardCombatEnemyPoolV453Dev69(u)
       .filter(v=>this.mapDistance(v,z.point)<=280)
@@ -5104,6 +5141,12 @@ export class Arena {
      .sort((a,b)=>this.mapDistance(s,a)-this.mapDistance(s,b)||a.id.localeCompare(b.id))[0];
     if(target&&now>=s.nextAttackAt){
      this.damage(target,s.power,owner,'magic','summon_pet');
+     s.attackCount=(s.attackCount||0)+1;
+     if(s.beamEvery>0&&s.attackCount%s.beamEvery===0){
+      this.damage(target,s.power*.75,owner,'magic','summon_pet');
+      this.event('Heimerdinger R+Q: feixe da torre aprimorada.',
+       owner.team,'skill_vfx',owner.id);
+     }
      s.nextAttackAt=now+2;
     }
     continue;
