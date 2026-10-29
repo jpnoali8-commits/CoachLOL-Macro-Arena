@@ -1,0 +1,8 @@
+# Local QA artifacts; immutable evidence is uploaded only to ops/qa-evidence-dev69
+qa-reports/
+.qa-cache/
+.qa-sandbox/
+node_modules/
+__pycache__/
+.pytest_cache/
+.venv/
