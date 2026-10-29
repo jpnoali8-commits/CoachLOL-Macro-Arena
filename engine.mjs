@@ -2411,7 +2411,7 @@ export class Arena {
      hp:disguise?.visualHp??u.hp,maxHp:disguise?.visualMaxHp??u.maxHp,
      mana:disguise?0:u.mana,maxMana:disguise?0:u.maxMana,level:disguise?1:u.level};
    }).concat(this.boardSummonsV453Dev69.filter(s=>s.team!==team&&
-     ['neeko_clone','shaco_clone'].includes(s.kind)&&s.hp>0&&s.until>this.gameTime&&
+     ['neeko_clone','shaco_clone','wukong_clone'].includes(s.kind)&&s.hp>0&&s.until>this.gameTime&&
      s.stealthUntil<=this.gameTime&&canSee(s)&&
      (!s.appearance||s.appearance.kind==='champion')).map(s=>({
       id:s.publicId,team:s.team,role:'unknown',
@@ -2441,7 +2441,7 @@ export class Arena {
     armed:t.armedAt<=this.gameTime}),
   boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
    s.until>this.gameTime&&(s.team===team||canSee(s))&&
-   (s.team===team||!['neeko_clone','shaco_clone'].includes(s.kind)))
+   (s.team===team||!['neeko_clone','shaco_clone','wukong_clone'].includes(s.kind)))
    .map(s=>s.team===team?{id:s.id,kind:s.kind,team:s.team,ownerId:s.ownerId,
     x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp,until:s.until,targetId:s.targetId}:
     {id:s.id,kind:s.kind,team:s.team,x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}),
@@ -3672,6 +3672,16 @@ export class Arena {
   if(e.hp<=0||e.until<=now||e.lastTick>=now)return;
   e.lastTick=now;
   if(e.kind==='neeko_clone'&&e.damageFadeAt!=null&&e.damageFadeAt<=now){e.hp=0;return;}
+  if(e.kind==='wukong_clone'){
+   if(now>=e.nextAttackAt&&owner){
+    const enemy=this.units.filter(v=>v.team!==e.team&&v.hp>0&&
+     this.mapDistance(v,e)<=e.attackRange&&this.visible(e.team,v))
+     .sort((a,b)=>this.mapDistance(a,e)-this.mapDistance(b,e)||a.id.localeCompare(b.id))[0];
+    if(enemy)this.damage(enemy,e.power,owner,'physical','summon_pet');
+    e.nextAttackAt=now+2;
+   }
+   return;
+  }
   if(e.kind==='shaco_minibox'){
    if(now<e.nextAttackAt||!owner)return;
    const targets=this.units.filter(v=>v.team!==e.team&&v.hp>0&&
@@ -3797,6 +3807,7 @@ export class Arena {
   u.m16StealthV453=null;u.m16LastRevealAt=this.gameTime;
   if(u.champ==='Teemo'){u.m16IdleSince=this.gameTime;u.m16PassiveReadyAt=this.gameTime+1.5;}
   if(u.champ==='Evelynn')u.m16PassiveReadyAt=this.gameTime+4;
+  if(u.champ==='Akali')u.m16PassiveReadyAt=this.gameTime+.9;
   if(u.champ==='Twitch'&&reason!=='expire')
    u.m16TwitchAttackSpeedUntil=this.gameTime+6;
   if(u.champ==='Teemo'&&reason!=='expire')
@@ -3960,7 +3971,7 @@ export class Arena {
      u,'physical','spell');
    if(u.champ==='Khazix')u.m16KhazixR={remaining:u.m16KhazixEvolvedR?2:1,
     nextAt:now+2,until:now+12};
-   return {...cast,stealthType:s.m16Stealth,until:now+delay+duration};
+   return {...cast,stealthType:evolved?s.m16Stealth:null,until:evolved?now+delay+duration:now};
   }
   return cast;
  }
@@ -3976,6 +3987,8 @@ export class Arena {
    u.m16LastPoint={x:u.x,y:u.y};
    const active=u.m16StealthV453;
    if(active){
+    if(active.zoneAnchor&&this.mapDistance(u,active.zoneAnchor)>active.zoneRadius)
+     this.m16BreakStealth(u,'left_shroud');
     if(active.wallExtend&&active.startsAt<=now&&this.m16NearTerrain(u)){
      active.until=now+2;
      active.wallLastAt=now;
@@ -3983,6 +3996,13 @@ export class Arena {
     if(active.until<=now)this.m16BreakStealth(u,'expire');
     else if(u.champ==='Teemo'&&moving&&!brush)this.m16BreakStealth(u,'movement');
    }
+   if(u.champ==='Akali'&&u.m16AkaliShroud?.until>now&&
+    (!u.m16StealthV453||u.m16StealthV453.until<=now)&&
+    now>=(u.m16PassiveReadyAt||0)&&
+    this.mapDistance(u,u.m16AkaliShroud.center)<=u.m16AkaliShroud.radius)
+    u.m16StealthV453={type:'invisibility',source:'Akali:W',
+     startsAt:now,until:u.m16AkaliShroud.until,radius:0,
+     zoneAnchor:u.m16AkaliShroud.center,zoneRadius:u.m16AkaliShroud.radius};
    if(u.champ==='Teemo'&&(!u.m16StealthV453||u.m16StealthV453.until<=now)&&
      now>=(u.m16IdleSince??now)+1.5&&
      now>=(u.m16PassiveReadyAt||0)&&!(u.combatUntil>now)){
@@ -4103,7 +4123,7 @@ export class Arena {
  advanceBoardSummonsV453Dev69(){
   const now=this.gameTime;
   for(const s of [...(this.boardSummonsV453Dev69||[])]){
-   if(['neeko_clone','shaco_clone','shaco_minibox'].includes(s.kind)){
+   if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone'].includes(s.kind)){
     this.m15AdvanceEntity(s);continue;
    }
    if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
@@ -7509,7 +7529,7 @@ export class Arena {
    else if(Number.isFinite(amount)&&amount>=target.neekoDisguiseV453M15.visualHp)
     this.m15BreakDisguise(target,'apparent_lethal',2);
   }
-  if(['neeko_clone','shaco_clone','shaco_minibox'].includes(target?.kind)){
+  if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone'].includes(target?.kind)){
    if(target.hp<=0||target.until<=this.gameTime||target.stealthUntil>this.gameTime||
       target.invulnerableUntil>this.gameTime)return 0;
    const hit=Math.min(target.hp,Math.max(0,Math.round(amount*(target.damageTakenMultiplier||1))));
