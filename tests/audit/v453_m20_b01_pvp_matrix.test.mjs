@@ -39,6 +39,7 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
   assert.equal(abilityRule(u,slot),s,'registry must reach actual cast dispatcher');
   // Setup legitimate prior marks for skills whose rules require them.
   if(s.m20MarkRequired)e.m20MarksV453={[s.m20MarkRequired+'_'+u.id]:a.gameTime+10};
+  if(s.m21FrostRequired)e.m21FrostV453={sourceId:u.id,stacks:4,until:a.gameTime+10};
   if(s.m20OrbConsume||s.m20OrbConsumeAll)
    u.m20SyndraOrbsV453=[{x:.51,y:.5,until:a.gameTime+10}];
   if(s.m20Rewind){u.skillCds.Q=a.gameTime+30;u.skillCds.E=a.gameTime+30;}
