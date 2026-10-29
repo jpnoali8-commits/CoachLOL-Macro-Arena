@@ -3891,6 +3891,22 @@ export class Arena {
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
   // M25: authored champion identities use the same single-cost receipt.
+  // M27 authored passive spell receipts. Only committed spells may arm these.
+  if(u.champ==='Shen'&&u.hp>0&&(u.m27ShenKiReadyAt||0)<=this.gameTime){
+   this.applyEffectV41(u,'shield',{source:u,duration:2.5,
+    power:65+Math.max(1,u.level||1)*10,
+    key:'m27_shen_ki_barrier_'+u.id+'_'+this.gameTime});
+   u.m27ShenKiReadyAt=this.gameTime+10;
+  }
+  if(u.champ==='Seraphine'&&['Q','W','E'].includes(q.slot)){
+   const allies=this.units.filter(v=>v.team===u.team&&v.champ&&v.hp>0&&v.id!==u.id&&
+    this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,u)<=800).length;
+   u.m27SeraphineNotes=Math.min(4,(u.m27SeraphineNotes||0)+Math.min(2,allies));
+  }
+  if(u.champ==='Yunara'&&q.slot==='Q'&&(u.m27YunaraVowStacks||0)>=4){
+   u.m27YunaraVowStacks=0;
+   u.m27YunaraVowEmpoweredUntil=this.gameTime+4;
+  }
   let m25SeraphineEcho=false;
   if(u.champ==='Seraphine'&&['Q','W','E'].includes(q.slot)){
    const n=(u.m25SeraphineSpells||0)+1;
