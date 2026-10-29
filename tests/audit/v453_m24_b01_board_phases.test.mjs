@@ -146,6 +146,48 @@ for(const team of ['blue','red']){
   assert.ok(a.effectResolverV41().has(e,'knockup'));
   snap(a);
  });
+ check(team+' Heimer R+Q enhanced turret beam on third attack',()=>{
+  const {a,u,e,cast}=fixture('Heimerdinger',team);
+  cast('R');
+  a.gameTime=.1;cast('Q',{point:{x:.51,y:.5}});
+  const turret=a.boardSummonsV453Dev69.find(s=>s.kind==='heimer_turret_upgraded');
+  assert.ok(turret&&turret.beamEvery===3);
+  a.gameTime=1.1;const before=e.hp;a.advanceBoardSummonsV453Dev69();
+  const basic=before-e.hp;assert.ok(basic>0);
+  a.gameTime=3.1;a.advanceBoardSummonsV453Dev69();
+  a.gameTime=5.1;const h=e.hp;a.advanceBoardSummonsV453Dev69();
+  assert.ok(h-e.hp>basic,'third turret attack should fire extra beam');
+  assert.equal(turret.attackCount,3);
+  snap(a);
+ });
+ check(team+' Heimer R+W three scheduled rocket waves',()=>{
+  const {a,u,e,cast}=fixture('Heimerdinger',team);
+  cast('R');a.gameTime=.1;cast('W',{point:{x:.53,y:.5}});
+  const projectile=a.boardTemporalV453Dev69.find(z=>z.kind==='m24_heimer_rockets');
+  assert.ok(projectile&&projectile.ticksLeft===3);
+  const initial=e.hp;
+  a.gameTime=1.2;a.advanceBoardTemporalV453Dev69();
+  assert.ok(e.hp<initial);
+  assert.equal(projectile.ticksLeft,2);
+  a.gameTime=2.2;a.advanceBoardTemporalV453Dev69();
+  a.gameTime=3.2;a.advanceBoardTemporalV453Dev69();
+  assert.equal(a.boardTemporalV453Dev69.some(z=>z.kind==='m24_heimer_rockets'),false);
+  snap(a);
+ });
+ check(team+' Heimer R+E grenade cluster resolves once',()=>{
+  const {a,u,e,cast}=fixture('Heimerdinger',team);
+  cast('R');a.gameTime=.1;cast('E',{point:{x:.53,y:.5}});
+  const grenade=a.boardTemporalV453Dev69.find(z=>z.kind==='m24_heimer_grenades');
+  assert.ok(grenade);
+  const hp=e.hp;
+  a.gameTime=1.2;a.advanceBoardTemporalV453Dev69();
+  assert.ok(e.hp<hp);
+  assert.equal(a.effectResolverV41().has(e,'stun'),true);
+  const after=e.hp;a.advanceBoardTemporalV453Dev69();
+  assert.equal(e.hp,after,'grenade must not double detonate');
+  assert.equal(a.boardTemporalV453Dev69.some(z=>z.kind==='m24_heimer_grenades'),false);
+  snap(a);
+ });
  check(team+' Tahm Q taste and unstacked enemy R denied',()=>{
   const {a,u,e,cast}=fixture('TahmKench',team);
   cast('Q',{point:{x:.53,y:.5}});
@@ -179,8 +221,8 @@ for(const team of ['blue','red']){
   snap(a);
  });
 }
-assert.equal(cases.length,26);
+assert.equal(cases.length,32);
 console.log('M24_B01_SHARED_PVP_QA '+JSON.stringify({
- cases:cases.length,teamSeats:2,families:['JarvanIV','Syndra','Fizz','TahmKench','Sett'],
+ cases:cases.length,teamSeats:2,families:['JarvanIV','Syndra','Fizz','TahmKench','Sett','Heimerdinger'],
  names:cases,certifiedChampions:0
 }));
