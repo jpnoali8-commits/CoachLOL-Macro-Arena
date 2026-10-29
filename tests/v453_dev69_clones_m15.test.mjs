@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {Arena,checksumV40} from '../engine.mjs';
 import {AuthoritativeActionsV453Dev47} from '../multiplayer/authoritative_actions_v453_dev47.mjs';
+import {createPvPServerV453Dev47} from '../multiplayer/server_v453_dev47.mjs';
 const read=name=>JSON.parse(readFileSync(new URL('../data/'+name,import.meta.url)));
 const map=read('coachlol_map_v6.json'),mask=read('masks_128.json');
 let count=0;const check=(name,fn)=>{fn();count++;console.log('✓ M15 '+name)};
@@ -123,4 +124,27 @@ for(const team of ['blue','red']){
   assert.equal(checksumV40(checkpoint.snapshotV40()),checksumV40(s.a.snapshotV40()));
  });
 }
+async function uiHttpM15(){
+ const server=createPvPServerV453Dev47({tickMs:0}),socket=await server.listen(0,'127.0.0.1');
+ const root='http://127.0.0.1:'+socket.port;
+ try{
+  const created=await fetch(root+'/api/create',{method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify({maxSeats:2})});
+  assert.equal(created.status,200);
+  const cookie=created.headers.get('set-cookie')?.split(';')[0];
+  const manifest=await (await fetch(root+'/api/kits',{headers:{cookie}})).json();
+  assert.equal(Object.keys(manifest.kits).length,30);
+  assert.equal(manifest.entityKits.Neeko.W.m15Entity,'neeko_clone');
+  assert.equal(manifest.entityKits.Shaco.R.m15Entity,'shaco_clone');
+  assert.equal(manifest.entityKits.Neeko.W.implemented,'partial_entity_adapter');
+  const html=await (await fetch(root+'/multiplayer.html')).text();
+  const client=await (await fetch(root+'/multiplayer/pvp_client_v453_dev47.js')).text();
+  for(const key of ['neekoKitV453','neekoTransformV453','neekoCancelV453','neekoCollectV453'])
+   assert.ok(html.includes('id="'+key+'"'),key);
+  assert.ok(client.includes("'skill.neeko_disguise'"));
+  assert.ok(client.includes("'skill.neeko_shoma'"));
+  count++;console.log('✓ M15 authenticated HTTP manifest + Neeko compact client controls');
+ }finally{await server.close();}
+}
+await uiHttpM15();
 console.log('DEV69 M15 CLONES '+count+'/'+count+' PASS');
