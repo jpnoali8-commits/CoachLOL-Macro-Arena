@@ -3351,10 +3351,12 @@ export class Arena {
  // without creating champion/XP/scoreboard identities.
  m23StartZacDivisionV453(u){
   if(u.m23ZacDivisionV453?.active)return false;
-  u.m23ZacDivisionV453={active:true,until:this.gameTime+8,createdAt:this.gameTime};
+  const duration=u.level>=17?4:u.level>=13?5:u.level>=10?6:u.level>=6?7:8;
+  u.m23ZacDivisionV453={active:true,until:this.gameTime+duration,
+   createdAt:this.gameTime};
   u.m23ZacReadyAtV453=this.gameTime+300;
-  u.hp=1;
-  this.applyEffectV41(u,'stasis',{source:u,duration:8,
+  u.hp=u.maxHp*.5;
+  this.applyEffectV41(u,'stasis',{source:u,duration,
    key:'m23_zac_division_'+u.id});
   for(const [dx,dy] of [[115,0],[-115,0],[0,115],[0,-115]]){
    const desired={x:u.x+dx/this.worldWidth,y:u.y+dy/this.worldHeight};
@@ -3362,22 +3364,26 @@ export class Arena {
    const hp=Math.max(1,Math.round(u.maxHp*.12));
    this.boardSummonsV453Dev69.push({id:'zac_blob_'+(++this.boardSummonIdV453Dev69),
     kind:'zac_blob',ownerId:u.id,team:u.team,x:at.x,y:at.y,hp,maxHp:hp,
-    createdAt:this.gameTime,lastTick:this.gameTime,until:u.m23ZacDivisionV453.until});
+    createdAt:this.gameTime,lastTick:this.gameTime,
+    invulnerableUntil:this.gameTime+1.5,until:u.m23ZacDivisionV453.until});
   }
   this.event('Zac P: Divisão Celular.',u.team,'skill_vfx',u.id);
   return true;
  }
  m23FinishZacDivisionV453(u,killer=null){
   if(!u?.m23ZacDivisionV453?.active)return false;
-  const living=this.boardSummonsV453Dev69.filter(v=>
-   v.kind==='zac_blob'&&v.ownerId===u.id&&v.hp>0);
+  const blobs=this.boardSummonsV453Dev69.filter(v=>
+   v.kind==='zac_blob'&&v.ownerId===u.id);
+  const living=blobs.filter(v=>v.hp>0);
+  const healthFraction=blobs.length?
+   living.reduce((sum,v)=>sum+v.hp,0)/Math.max(1,blobs.reduce((sum,v)=>sum+v.maxHp,0)):0;
   u.m23ZacDivisionV453=null;
   this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(v=>
    !(v.kind==='zac_blob'&&v.ownerId===u.id));
   u.statusEffectsV41=(u.statusEffectsV41||[]).filter(e=>e.type!=='stasis');
   u.stasisUntil=0;
   if(living.length){
-   u.hp=Math.min(u.maxHp,Math.max(1,u.maxHp*.10*living.length));
+   u.hp=Math.min(u.maxHp,Math.max(1,u.maxHp*(.1+.4*healthFraction)));
    u.deadUntil=0;
    this.event('Zac P: recomposição.',u.team,'skill_vfx',u.id);
   }else this.damage(u,u.maxHp+10000,killer,'true','m23_zac_execution');
@@ -4841,6 +4847,7 @@ export class Arena {
     const zac=this.units.find(v=>v.id===s.ownerId);
     if(zac?.m23ZacDivisionV453?.active){
      s.lastTick=now;
+     if(now<s.createdAt+1.5)continue;
      const d=this.mapDistance(s,zac);
      if(d>25){
       const t=Math.min(1,90/d),next={
