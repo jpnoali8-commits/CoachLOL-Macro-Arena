@@ -105,6 +105,9 @@ for(const team of ['blue','red']){
   const {a,u,ally,cast}=setup('Shen',team);
   const old={x:u.x,y:u.y};
   cast('R',{targetId:ally.id});
+  assert.deepEqual({x:u.x,y:u.y},old,'Shen now shields ally during a real delayed channel');
+  assert.ok(a.effectResolverV41().has(ally,'shield'));
+  a.gameTime=2;a.advanceBoardTemporalV453Dev69();
   assert.notDeepEqual({x:u.x,y:u.y},old);
   assert.deepEqual({x:u.x,y:u.y},{x:ally.x,y:ally.y});
   const snap=a.snapshotV40();
