@@ -2585,6 +2585,9 @@ export class Arena {
  }
  visible(team,target,sources=null){
    if(target.m24DevouredByV453?.until>this.gameTime&&target.team!==team)return false;
+   if(target.m26LeeReveal?.[team]>this.gameTime&&
+      this.units.some(v=>v.champ==='LeeSin'&&v.team===team&&v.hp>0&&
+       this.sameCombatRealmV453Dev69(v,target)))return true;
   if(target.team===team)return true;
   const m16=this.m16StealthVisible(team,target,sources);
   if(m16!==null)return m16;
@@ -4500,7 +4503,12 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
-    if(done>0&&s.m26SyndraBarrage&&v.champ){
+    if(done>0&&s.m26KogShred&&v.champ){
+      (v.m26KogShred??={})[u.id]={until:this.gameTime+4,ratio:.18};
+     }
+     if(done>0&&s.m26LeeReveal&&v.champ)
+      (v.m26LeeReveal??={})[u.team]=this.gameTime+3;
+     if(done>0&&s.m26SyndraBarrage&&v.champ){
       const shots=Math.max(3,u.m26SyndraLastVolley?.shots||3);
       // Main bolt was charged by the shared executor; every extra sphere hits once.
       for(let shot=1;shot<shots&&v.hp>0;shot++)
@@ -5672,6 +5680,10 @@ export class Arena {
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
   for(const u of this.units){
+   if(u.m26LuluBonusHp&&u.m26LuluBonusHp.until<=this.gameTime){
+    const bonus=u.m26LuluBonusHp.amount;u.m26LuluBonusHp=null;
+    u.maxHp=Math.max(1,u.maxHp-bonus);u.hp=Math.min(u.hp,u.maxHp);
+   }
    if(u.champ==='Karthus'&&u.m26KarthusE){
     const aura=u.m26KarthusE;
     if(aura.until<=this.gameTime||u.mana<12||
@@ -9099,6 +9111,8 @@ export class Arena {
      amount*=.6;
     }
    }
+   if(target?.champ==='Alistar'&&target.m26AlistarUnbreakableUntil>this.gameTime)
+    amount*=.45;
    if(target?.m25YiAlphaUntil>this.gameTime)return 0;
    if(target?.champ==='Mel'&&target.m25MelReflectUntil>this.gameTime&&
       attacker?.champ&&attacker.team!==target.team&&sourceType==='spell'){
@@ -9219,11 +9233,18 @@ export class Arena {
    amount*=this.giantSlayerMultiplierV453Dev69(attacker,target);
  const derivedTarget=target.champ?this.elementalStatsV452d3(target):target;
  const cleaverDebuffV453Dev29=target.champ&&target.cleaverDebuffV453Dev29?.until>this.gameTime?target.cleaverDebuffV453Dev29:null;
+ const m26CorkiArmorShred=damageType==='physical'?
+   Math.min(.24,Object.values(target.m26CorkiShred||{}).filter(x=>x?.until>this.gameTime)
+    .reduce((sum,x)=>sum+(x.stacks||0)*.06,0)):0;
+ const m26KogRatio=Math.min(.36,Object.values(target.m26KogShred||{}).filter(x=>x?.until>this.gameTime)
+   .reduce((sum,x)=>sum+(x.ratio||0),0));
  const m26BraumBonus=target.m26BraumResists?.until>this.gameTime?
   (target.m26BraumResists.value||0):0;
  const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):
   (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+m26BraumBonus;
- const effectiveTargetResV453Dev29=damageType==='physical'&&cleaverDebuffV453Dev29?targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes;
+ const effectiveTargetResV453Dev29=(damageType==='physical'&&cleaverDebuffV453Dev29?
+  targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes)*
+  (1-m26CorkiArmorShred)*(1-m26KogRatio);
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
  const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
@@ -9323,6 +9344,15 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    }
   }
   this.recordChampionDamageV452d4Dev7(target,attacker,dealt,damageType);
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Quinn'&&
+    attacker.m26QuinnFlightUntil>this.gameTime&&target?.champ&&
+    attacker.team!==target.team){
+   attacker.m26QuinnFlightUntil=0;
+   for(const v of this.boardCombatEnemyPoolV453Dev69(attacker).filter(v=>
+     v.champ&&v.hp>0&&this.mapDistance(v,target)<=300))
+    this.damage(v,55+Math.max(1,attacker.skillRanks.R||1)*35,
+     attacker,'physical','m26_quinn_skystrike');
+  }
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='TahmKench'&&
     target?.champ&&target.hp>0&&attacker.team!==target.team){
    const ledger=target.m24TasteV453??={},old=ledger[attacker.id];
