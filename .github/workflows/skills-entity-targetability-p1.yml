@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/skills-entity-targetability-p1-dev69
+      - dev69/skills-batch2
   workflow_dispatch:
 permissions:
   contents: read
@@ -38,6 +39,11 @@ jobs:
         run: node tests/audit/v453_entity_projectile_matrix_m17.test.mjs
       - name: M18 four clone families, disguise, aliases, targeted, projectile and Jhin R
         run: node tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
+      - name: M20 B01 35 champion x QWER x two human PvP seats
+        run: |
+          node --check engine.mjs
+          node --check tests/audit/v453_m20_b01_pvp_matrix.test.mjs
+          node tests/audit/v453_m20_b01_pvp_matrix.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
