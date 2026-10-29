@@ -2345,6 +2345,8 @@ export class Arena {
  }
  visible(team,target,sources=null){
   if(target.team===team)return true;
+  if((target.neekoInvisibleUntilV453M15||0)>this.gameTime||
+    (target.shacoInvisibleUntilV453M15||0)>this.gameTime)return false;
   // Attacks from concealed brush temporarily disclose the aggressor to the
   // defending team. Do not reveal a hidden champion before the actual cast/hit.
   if(target.revealedUntil?.[team]>this.gameTime&&target.hp>0)return true;
@@ -3114,6 +3116,7 @@ export class Arena {
   if(s.shape==='move_point'&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
+  if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
   const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.id||null,point:q.point||null,source:'board_effect_v453_dev69'});
@@ -3576,6 +3579,67 @@ export class Arena {
    e.nextAttackAt=now+2;
   }
  }
+ // Inherent Glamour is a choice of visual identity, never a real new unit.
+ queueNeekoDisguiseV453M15(team,id,appearanceId){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Neeko'&&v.hp>0);
+  if(!u||this.ended||this.teams[team]?.ready||!['planning','preparation'].includes(this.phase))
+   return {ok:false,reason:'disfarce_indisponivel'};
+  if((u.neekoDisguiseCdV453M15||0)>this.gameTime)return {ok:false,reason:'disfarce_recarga'};
+  if(appearanceId==='self'){
+   u.neekoDisguiseV453M15=null;u.neekoDisguiseCdV453M15=this.gameTime+.5;
+  }else{
+   const ally=this.units.find(v=>v.id===appearanceId&&v.team===team&&v.hp>0);
+   const shoma=appearanceId==='shoma'?u.neekoShomaV453M15:null;
+   if(!ally&&!shoma)return {ok:false,reason:'aparencia_invalida'};
+   u.neekoDisguiseV453M15={
+    kind:ally?'champion':shoma.kind,champ:ally?.champ||null,
+    appearance:ally?.champ||shoma.appearance,
+    visualHp:ally?.hp??shoma.hp,visualMaxHp:ally?.maxHp??shoma.maxHp,
+    publicId:'appearance_'+(++this.m15PublicSeq).toString(36),
+    startedAt:this.gameTime};
+   u.neekoDisguiseCdV453M15=this.gameTime+(shoma?1:.5);
+  }
+  this.recordIntentV40(team,id,'neeko_disguise',{type:appearanceId==='self'?'self':appearanceId==='shoma'?'shoma':'champion'});
+  return {ok:true,disguised:!!u.neekoDisguiseV453M15};
+ }
+ queueNeekoShomaV453M15(team,id,sourceId){
+  const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Neeko'&&v.hp>0);
+  if(!u||this.ended||this.teams[team]?.ready||u.neekoDisguiseV453M15||
+    !['planning','preparation'].includes(this.phase))
+   return {ok:false,reason:'coleta_indisponivel'};
+  const m=this.minions.find(v=>v.id===sourceId&&v.hp>0),
+   ward=this.wards.find(v=>v.id===sourceId&&v.hp>0),
+   pet=this.boardSummonsV453Dev69.find(v=>v.id===sourceId&&v.hp>0&&v.until>this.gameTime),
+   camp=this.camps.find(v=>v.id===sourceId&&v.alive&&
+    !['baron','dragon','herald','voidgrubs'].includes(v.timerKey));
+  const src=m||ward||pet||camp;
+  if(!src||this.mapDistance(u,src)>400||!this.canSeePoint(team,src))
+   return {ok:false,reason:'shoma_fora_alcance_ou_visao'};
+  const kind=m?'minion':ward?'ward':pet?'pet':'monster';
+  u.neekoCollectV453M15={sourceId,kind,appearance:m?.kind||ward?.type||pet?.kind||camp?.timerKey,
+   hp:src.hp??src.health??1,maxHp:src.maxHp??src.maxHealth??1,
+   readyAt:this.gameTime+2};
+  this.recordIntentV40(team,id,'neeko_shoma',{kind});
+  return {ok:true,readyAt:u.neekoCollectV453M15.readyAt};
+ }
+ m15BreakDisguise(u,reason,cd=1){
+  if(!u?.neekoDisguiseV453M15)return false;
+  u.neekoDisguiseV453M15=null;u.neekoDisguiseCdV453M15=this.gameTime+cd;
+  this.event('Neeko revelou sua aparência real.',u.team,'skill_vfx',u.id,
+   {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
+  return true;
+ }
+ // Map aliases only for enemies currently visible to the requesting seat.
+ m15ResolvePublicId(team,id){
+  for(const u of this.units)if(u.team!==team&&u.hp>0&&this.visible(team,u)){
+   if(u.neekoDisguiseV453M15?.publicId===id)return u.id;
+   if(u.champ==='Shaco'&&u.shacoPublicAliasV453M15===id&&
+     this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))return u.id;
+  }
+  const e=this.boardSummonsV453Dev69.find(e=>e.publicId===id&&e.team!==team&&e.hp>0&&e.until>this.gameTime&&
+   e.stealthUntil<=this.gameTime&&this.canSeePoint(team,e));
+  return e?.id||null;
+ }
  queueBoardSummonOrderV453Dev69(team,ownerId,summonId,{point=null,targetId=null}={}){
   const owner=this.units.find(u=>u.id===ownerId&&u.team===team&&u.hp>0);
   const s=this.boardSummonsV453Dev69?.find(v=>v.id===summonId&&v.ownerId===ownerId&&
@@ -3663,7 +3727,8 @@ export class Arena {
     s.nextAttackAt=now+2;
    }
   }
-  this.boardSummonsV453Dev69=(this.boardSummonsV453Dev69||[]).filter(s=>{
+  const m15Before=[...(this.boardSummonsV453Dev69||[])];
+  const m15Survivors=m15Before.filter(s=>{
    if(s.kind==='shaco_clone'&&(s.hp<=0||s.until<=now))this.m15ExplodeShacoClone(s);
    if(s.kind==='neeko_clone'&&(s.hp<=0||s.until<=now)){
     const owner=this.units.find(u=>u.id===s.ownerId);
@@ -3671,8 +3736,24 @@ export class Arena {
    }
    return s.hp>0&&s.until>now;
   });
+  this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(e=>
+   !m15Before.includes(e)||m15Survivors.includes(e));
  }
  advanceBoardPassivesV453Dev69(){
+  for(const u of this.units){
+   const c=u.neekoCollectV453M15;
+   if(c&&this.gameTime>=c.readyAt){
+    const source=[...this.minions,...this.wards,...this.boardSummonsV453Dev69,...this.camps]
+     .find(v=>v.id===c.sourceId);
+    if(u.hp>0&&source&&this.mapDistance(u,source)<=400&&this.canSeePoint(u.team,source))
+     u.neekoShomaV453M15={kind:c.kind,appearance:c.appearance,hp:c.hp,maxHp:c.maxHp};
+    u.neekoCollectV453M15=null;
+   }
+   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&
+    (u.hp<=0||this.effectResolverV41().list(u).some(e=>e.until>this.gameTime&&
+      ['root','stun','knockup','suppression','fear','charm','sleep'].includes(e.type))))
+    this.m15BreakDisguise(u,'imobilizada',2);
+  }
   for(const u of this.units)if(u.champ==='Shyvana'&&u.hp>0){
    if(u.boardFormV453M14==='dragon'){
     if(this.gameTime>=(u.boardDragonUntilV453M14||0)){
@@ -6949,6 +7030,11 @@ export class Arena {
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
+  if(target?.champ==='Neeko'&&target.neekoDisguiseV453M15){
+   if(attacker?.type==='tower')this.m15BreakDisguise(target,'tower',2);
+   else if(Number.isFinite(amount)&&amount>=target.neekoDisguiseV453M15.visualHp)
+    this.m15BreakDisguise(target,'apparent_lethal',2);
+  }
   if(['neeko_clone','shaco_clone','shaco_minibox'].includes(target?.kind)){
    if(target.hp<=0||target.until<=this.gameTime||target.stealthUntil>this.gameTime||
       target.invulnerableUntil>this.gameTime)return 0;
