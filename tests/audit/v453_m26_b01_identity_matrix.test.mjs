@@ -36,7 +36,9 @@ function setup(champ,team){
  }
  return {a,u,e,e2,ally,team,opponent,cast,snap};
 }
-const check=(seat,name,fn)=>{fn();cases.push(seat+' '+name)};
+const failures=[];
+const check=(seat,name,fn)=>{try{fn();cases.push(seat+' '+name)}
+ catch(e){failures.push({seat,name,error:String(e?.stack||e)});}};
 for(const seat of ['blue','red']){
  check(seat,'Zilean ally-attached Q follows ally to detonation',()=>{
   const {a,u,e,e2,ally,cast,snap}=setup('Zilean',seat);
@@ -182,8 +184,10 @@ for(const seat of ['blue','red']){
   withAlly.snap();
  });
 }
-assert.equal(cases.length,28);
+for(const f of failures)console.error('M26_B01_FAIL',JSON.stringify(f));
 console.log('M26_B01_IDENTITY_QA '+JSON.stringify({
- cases:cases.length,champions:10,teamSeats:2,
+ cases:cases.length,failures:failures.length,champions:10,teamSeats:2,
  certifiedChampions:0,names:cases
 }));
+assert.equal(failures.length,0,'M26 champion-specific behavior failed');
+assert.equal(cases.length,28);
