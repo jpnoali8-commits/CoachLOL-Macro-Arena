@@ -234,13 +234,15 @@ for(const team of ['blue','red']){
   assert.ok(e.hp<hp,'Pix ray from ally must contact target');
   snapshot();
  });
- check(team,'Rell W toggles persistent mounted state',()=>{
+ check(team,'Rell W Crash Down first, then Mount Up',()=>{
   const {a,u,cast,snapshot}=setup('Rell',team);
   cast('W',{point:{x:.512,y:.5}});
-  assert.equal(u.m25RellMounted,true);
+  assert.equal(u.m25RellMounted,false);
+   assert.equal(u.m31RellLastWMode,'crash_down');
   a.gameTime=11;u.skillCds.W=0;
   cast('W',{point:{x:.522,y:.5}});
-  assert.equal(u.m25RellMounted,false);snapshot();
+  assert.equal(u.m25RellMounted,true);
+   assert.equal(u.m31RellLastWMode,'mount_up');snapshot();
  });
  check(team,'Milio W campfire heals and extends attack reach',()=>{
   const {a,u,ally,cast,snapshot}=setup('Milio',team);
