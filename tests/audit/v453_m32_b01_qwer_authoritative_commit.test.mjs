@@ -55,6 +55,9 @@ function readyMark(s,u,e,a){
  if(s.m24Devour)(e.m24TasteV453??={})[u.id]={stacks:3,until:a.gameTime+10};
  if(s.m20OrbConsume||s.m20OrbConsumeAll)
   u.m20SyndraOrbsV453=[{x:.51,y:.5,until:a.gameTime+10}];
+ // M39: the queued stun counterexample must start from a *legal* W
+ // with a server-owned pickup; denial must then be caused by the stun.
+ if(s.m24OrbThrow)u.m20SyndraOrbsV453=[{x:.507,y:.5,until:a.gameTime+10}];
  if(s.m20Rewind){u.skillCds.Q=a.gameTime+30;u.skillCds.E=a.gameTime+30;}
 }
 function test(label,fn){try{fn()}catch(err){metrics.failed++;failures.push({label,error:String(err?.stack||err)})}}
