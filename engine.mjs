@@ -5279,8 +5279,10 @@ export class Arena {
     });
     if(u.champ==='TwistedFate'&&q.slot==='Q'){
      // Wild Cards = three independent trajectories; one authoritative debit.
-     const base=(this.boardTemporalV453Dev69||[]).at(-1),
-      dx=(end.x-start.x)*this.worldWidth,
+     const base=(this.boardTemporalV453Dev69||[]).at(-1);
+     base.m44CastId=base.id;
+     u.m44WildCardsLedger={castId:base.id,hitIds:[]};
+     const dx=(end.x-start.x)*this.worldWidth,
       dy=(end.y-start.y)*this.worldHeight,heading=Math.atan2(dy,dx);
      for(const sign of [-1,1]){
       const angle=heading+sign*.22,rayEnd={
@@ -5732,6 +5734,18 @@ export class Arena {
   this.applyEffectV41(v,'dot',{source:u,duration:5,power:3+stacks*2,
    interval:1,key:'darius_bleed_'+u.id});
  }
+ // M44 B04: finite travelling Encore extends on actual ally/enemy contact.
+ m44ExtendEncoreV453Dev69(z){
+  if(z.m44ExtensionCount>=2)return false;
+  const vx=(z.point.x-z.origin.x)*this.worldWidth,
+   vy=(z.point.y-z.origin.y)*this.worldHeight,
+   len=Math.max(1,Math.hypot(vx,vy)),reach=z.range+450,
+   extra={x:z.origin.x+vx/len*reach/this.worldWidth,
+    y:z.origin.y+vy/len*reach/this.worldHeight};
+  if(extra.x<0||extra.x>1||extra.y<0||extra.y>1)return false;
+  z.point=extra;z.range=reach;z.m44ExtensionCount++;z.until++;
+  return true;
+ }
  // M44 B02: author-owned serializable impact stages.
  m44AuthoredImpactV453Dev69(z,u,point,victim,blocked,keep){
   const now=this.gameTime;
@@ -5813,12 +5827,26 @@ export class Arena {
      const from={...z.current},factor=(z.distanceDone+travel)/Math.max(1,z.range);
      const next={x:z.origin.x+(z.point.x-z.origin.x)*factor,
       y:z.origin.y+(z.point.y-z.origin.y)*factor};
-     // Varus R bypasses minions but champion-shaped decoys can intercept.
+     // Encore crosses ally champions without damage; each ally extends once.
+     if(z.champ==='Seraphine'&&z.slot==='R'&&travel>0){
+      const allies=skillshotHitsV42(from,next,this.units.filter(v=>
+       v.team===u.team&&v.id!==u.id&&v.hp>0&&
+       this.sameCombatRealmV453Dev69(u,v)&&
+       !(z.m44EncoreAllies||[]).includes(v.id)),{
+        range:travel+10,width:z.width,maxHits:Infinity,
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      for(const ally of allies){
+       if(this.obstacleLine(from,ally))continue;
+       (z.m44EncoreAllies??=[]).push(ally.id);
+       this.m44ExtendEncoreV453Dev69(z);
+      }
+     }
+     // Champion-first missiles bypass minions, without leaking hidden targets.
      const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
       this.sameCombatRealmV453Dev69(u,v)&&
       (!((z.champ==='Varus'&&z.slot==='R')||
-        z.champ==='Sejuani'||z.champ==='Ashe')||
+        z.champ==='Sejuani'||z.champ==='Ashe'||z.champ==='Warwick')||
        v.champ||this.boardCloneDamageableV453Dev69(v)));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
@@ -5826,6 +5854,15 @@ export class Arena {
      for(const victim of bodies){
       if(z.hitCount>=z.maxHits)break;
       if(this.obstacleLine(from,victim))continue;
+      if(z.champ==='TwistedFate'&&z.slot==='Q'){
+       const ledger=u.m44WildCardsLedger;
+       if(ledger?.castId===z.m44CastId){
+        if(ledger.hitIds.includes(victim.id)){
+         z.hitIds.push(victim.id);z.hitCount++;continue;
+        }
+        ledger.hitIds.push(victim.id);
+       }
+      }
       const spellShield=!!this.effectResolverV41().has(victim,'spell_shield');
       // Rell breaks existing damage shields before the lance deals damage.
       if(z.champ==='Rell'&&!spellShield&&victim.champ)
@@ -5944,16 +5981,7 @@ export class Arena {
        }else if(z.champ==='Seraphine'&&z.slot==='R'&&victim.champ){
         this.applyEffectV41(victim,'charm',{source:u,duration:1.5,
          key:'m44_seraphine_encore_'+z.id+'_'+victim.id});
-        if(z.m44ExtensionCount<2){
-         const vx=(z.point.x-z.origin.x)*this.worldWidth,
-          vy=(z.point.y-z.origin.y)*this.worldHeight,
-          len=Math.max(1,Math.hypot(vx,vy)),reach=z.range+450,
-          extra={x:z.origin.x+vx/len*reach/this.worldWidth,
-           y:z.origin.y+vy/len*reach/this.worldHeight};
-         if(extra.x>=0&&extra.x<=1&&extra.y>=0&&extra.y<=1){
-          z.point=extra;z.range=reach;z.m44ExtensionCount++;z.until++;
-         }
-        }
+        this.m44ExtendEncoreV453Dev69(z);
        }else if(z.champ==='Xerath'&&z.slot==='E'&&victim.champ){
         this.applyEffectV41(victim,'stun',{source:u,
          duration:Math.min(2.25,.75+Math.max(0,distance)/1050*1.5),
