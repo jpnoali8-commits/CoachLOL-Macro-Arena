@@ -9435,6 +9435,64 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     this.damage(v,55+Math.max(1,attacker.skillRanks.R||1)*35,
      attacker,'physical','m26_quinn_skystrike');
   }
+  // M27 real on-hit passives. Only primary basic receipts trigger these effects;
+  // nested magical/true bonus packets never recurse through this branch.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ&&target.hp>0&&
+     attacker.team!==target.team){
+   const name=attacker.champ,rank=attacker.skillRanks||{};
+   if(name==='MasterYi'&&attacker.m27YiWujuUntil>this.gameTime)
+    this.damage(target,30+Math.max(1,rank.E||1)*12,attacker,'true','m27_yi_wuju');
+   if(name==='KogMaw'&&attacker.m27KogBioArcaneUntil>this.gameTime)
+    this.damage(target,Math.min(target.champ?Infinity:85,Math.max(1,target.maxHp*.035)),
+     attacker,'magic','m27_kog_bioarcane');
+   if(name==='Kassadin'&&attacker.m27KassWRefundUntil>this.gameTime){
+    attacker.m27KassWRefundUntil=0;
+    attacker.mana=Math.min(attacker.maxMana,attacker.mana+
+     Math.max(30,attacker.maxMana*(target.champ?.12:.06)));
+   }
+   if(name==='Lucian'&&attacker.m27LucianPursuitUntil>this.gameTime&&
+      attacker.skillCds.E>this.gameTime)
+    attacker.skillCds.E=Math.max(this.gameTime,attacker.skillCds.E-2);
+   if(name==='Xerath'&&attacker.mana<attacker.maxMana&&
+      (attacker.m27ManaSurgeReadyAt||0)<=this.gameTime){
+    attacker.mana=Math.min(attacker.maxMana,attacker.mana+75);
+    attacker.m27ManaSurgeReadyAt=this.gameTime+12;
+   }
+   if(name==='JarvanIV'&&target.champ){
+    const stamps=target.m27JarvanCadence??={},ready=stamps[attacker.id]||0;
+    if(ready<=this.gameTime){
+     stamps[attacker.id]=this.gameTime+6;
+     this.damage(target,Math.max(1,target.maxHp*.045),attacker,'physical','m27_jarvan_cadence');
+    }
+   }
+   if(name==='Sett'&&target.champ){
+    const count=(attacker.m27SettPunch||0)+1;
+    attacker.m27SettPunch=count===2?0:count;
+    if(count===2)this.damage(target,Math.max(1,(attacker.ad||60)*.5),
+     attacker,'physical','m27_sett_second_punch');
+   }
+   const link=attacker.m27RellLink;
+   if(link?.armed&&link.until>this.gameTime){
+    link.armed=false;
+    const rell=this.units.find(v=>v.id===link.ownerId&&v.champ==='Rell'&&
+     v.hp>0&&v.team===attacker.team&&this.sameCombatRealmV453Dev69(v,target));
+    if(rell&&this.mapDistance(rell,attacker)<=900){
+     this.damage(target,50+Math.max(1,rell.skillRanks.E||1)*15,rell,'magic','m27_rell_full_tilt');
+     if(target.champ&&target.hp>0)this.applyEffectV41(target,'slow',{
+      source:rell,duration:1.5,power:.25,
+      key:'m27_rell_link_'+rell.id+'_'+target.id});
+    }
+   }
+   const fired=attacker.m27MilioFire;
+   if(fired?.armed&&fired.until>this.gameTime){
+    fired.armed=false;
+    const milio=this.units.find(v=>v.id===fired.ownerId&&v.champ==='Milio'&&
+     v.hp>0&&v.team===attacker.team&&this.sameCombatRealmV453Dev69(v,target));
+    if(milio)this.applyEffectV41(target,'dot',{source:milio,duration:3,
+     power:15+Math.max(1,milio.level||1)*2,interval:1,
+     key:'m27_milio_fired_up_'+milio.id+'_'+target.id});
+   }
+  }
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='TahmKench'&&
     target?.champ&&target.hp>0&&attacker.team!==target.team){
    const ledger=target.m24TasteV453??={},old=ledger[attacker.id];
