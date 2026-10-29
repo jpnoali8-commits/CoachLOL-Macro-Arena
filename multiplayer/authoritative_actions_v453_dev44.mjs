@@ -13,8 +13,19 @@ const VALID_KINDS=Object.freeze([
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
-const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo']);
-const validV47=(kind,p)=>kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
+const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo',
+ 'skill.charge.start','skill.charge.release','skill.face','skill.viktor.evolve','skill.viktor.undo']);
+// Five separate authored LoL charging identities. Shared gateway security is
+// NOT a generic spell implementation; all five retain their own engine rules.
+const M35_CHARGE_SLOTS=Object.freeze({Xerath:'Q',Varus:'Q',Vi:'Q',Zac:'E',Galio:'W'});
+const stagedOnly=(unit,slot)=>M35_CHARGE_SLOTS[unit?.champ]===slot;
+export const M35_AUTHORED_CHARGES_PVP=Object.freeze({...M35_CHARGE_SLOTS});
+const validV47=(kind,p)=>kind==='skill.charge.start'?shape(p,['slot'])&&slot(p.slot):
+ kind==='skill.charge.release'?shape(p,['slot'],['point'])&&slot(p.slot)&&(!own(p,'point')||point(p.point)):
+ kind==='skill.face'?shape(p,['point'])&&point(p.point):
+ kind==='skill.viktor.evolve'?shape(p,['slot'])&&['Q','W','E'].includes(p.slot):
+ kind==='skill.viktor.undo'?shape(p,[]):
+ kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v)&&Object.getPrototypeOf(v)===Object.prototype;
 const validId=v=>typeof v==='string'&&v.length>0&&v.length<=96&&/^[A-Za-z0-9_-]+$/.test(v);
@@ -54,10 +65,14 @@ function dispatch(arena,unit,kind,p){
  const team=unit.team,id=unit.id;
  switch(kind){
   case 'decision.duel':return arena.respondToDuel(team,id,p.response)?{ok:true}:fail('duelo_indisponivel');
-  case 'decision.reaction':{const r=arena.queueReactionCombo(team,id,p.targetId,p.steps,{response:p.response,chase:p.chase||false});if(r.ok&&p.response==='retreat')arena.requestRetreatV453Dev45(team,id);return r;}
+  case 'decision.reaction':{
+   if(p.steps.some(step=>stagedOnly(unit,step)))return fail('m35_charge_requires_staging');
+   const r=arena.queueReactionCombo(team,id,p.targetId,p.steps,{response:p.response,chase:p.chase||false});if(r.ok&&p.response==='retreat')arena.requestRetreatV453Dev45(team,id);return r;}
   case 'order.retreat':return arena.requestRetreatV453Dev45(team,id);
   case 'order.plant':return arena.requestRiftPlantV453Dev45(team,id,p.plantId,p.angle);
   case 'order.combo':{
+   // A combo may not skip the owner's actual multi-turn charge state.
+   if(p.steps.some(step=>stagedOnly(unit,step)))return fail('m35_charge_requires_staging');
    // Dev65: planned attacks use the SAME authoritative queue as reactions,
    // but cannot bypass learned skills, immutable loadout or fog.
    const target=arena.units.find(x=>x.id===p.targetId&&x.team!==team&&x.hp>0);
@@ -73,10 +88,15 @@ function dispatch(arena,unit,kind,p){
   case 'order.stop':return arena.setOrder(team,id,{kind:'stop'});
   case 'order.recall':return arena.setOrder(team,id,{kind:'recall'});
   case 'order.ward':return arena.setOrder(team,id,{kind:'ward',destination:p.point,wardType:p.wardType||'stealth'});
-  case 'skill.directional':return arena.queueDirectionalSkill(team,id,p.slot,p.point);
-  case 'skill.ground':return arena.queueKitSkillV42(team,id,p.slot,p.point);
-  case 'skill.targeted':return arena.queueTargetedSkill(team,id,p.slot,p.targetId);
-  case 'skill.self':return arena.queueKitSkillV42(team,id,p.slot,null);
+  case 'skill.directional':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueDirectionalSkill(team,id,p.slot,p.point);
+  case 'skill.ground':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueKitSkillV42(team,id,p.slot,p.point);
+  case 'skill.targeted':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueTargetedSkill(team,id,p.slot,p.targetId);
+  case 'skill.self':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueKitSkillV42(team,id,p.slot,null);
+  case 'skill.charge.start':return arena.queueBoardChargeStartV453Dev69(team,id,p.slot);
+  case 'skill.charge.release':return arena.queueBoardChargeReleaseV453Dev69(team,id,p.slot,{point:p.point??null});
+  case 'skill.face':return arena.queueBoardFacingV453Dev69(team,id,p.point);
+  case 'skill.viktor.evolve':return arena.queueBoardViktorEvolutionV453Dev69(team,id,p.slot);
+  case 'skill.viktor.undo':return arena.undoBoardViktorEvolutionV453Dev69(team,id);
   case 'skill.kalista_launch':return arena.queueKalistaLaunchV453M14(team,id,p.point);
   case 'skill.hijack':return arena.queueSylasHijackV453M14(team,id,p.targetId);
   case 'skill.neeko_disguise':return arena.queueNeekoDisguiseV453M15(team,id,p.appearanceId);

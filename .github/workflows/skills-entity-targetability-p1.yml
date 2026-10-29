@@ -106,6 +106,12 @@ jobs:
           node tests/audit/v453_m34_atomic_release_train.test.mjs
           node --check tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
           node tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tools/skills_m35_b01_cohort_work_queue.mjs
+          node --check tests/audit/v453_m35_b01_work_queue.test.mjs
+          node tests/audit/v453_m35_b01_work_queue.test.mjs
+          node --check tests/audit/v453_m35_b01_pvp_ingress_atomic.test.mjs
+          node tests/audit/v453_m35_b01_pvp_ingress_atomic.test.mjs
       - name: M19 full 173 champion macro-batch QA gates
         run: |
           node --check tools/skills_macro_batch_planner_v453_dev69.mjs
@@ -115,6 +121,7 @@ jobs:
           node tools/skills_m27_b01_completeness_audit.mjs --out docs/skills_macro_batches_dev69/M27_B01_COMPLETENESS_MANIFEST.json
           node tools/skills_m31_b01_contract_ledger.mjs --out docs/skills_macro_batches_dev69/M31_B01_35_IDENTITY_LEDGER.json
           node tools/skills_m34_atomic_release_train.mjs --out docs/skills_macro_batches_dev69/M34_ATOMIC_RELEASE_TRAIN.json
+          node tools/skills_m35_b01_cohort_work_queue.mjs --out docs/skills_macro_batches_dev69/M35_B01_35_KIT_WORK_QUEUE.json
       - name: Export five macro-batch contracts for Skills engineering
         uses: actions/upload-artifact@v4
         with:
