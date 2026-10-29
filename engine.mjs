@@ -3828,7 +3828,9 @@ export class Arena {
    nidalee_bushwhack:{arm:1,duration:120,radius:90},
    teemo_mushroom:{arm:1,duration:300,radius:145},
    shaco_box:{arm:2,duration:40,radius:150},
-   jhin_lotus:{arm:1,duration:180,radius:135}}[kind];
+   jhin_lotus:{arm:1,duration:180,radius:135},
+   maokai_sapling:{arm:1,duration:30,radius:175,visible:true},
+   zoe_bubble:{arm:1,duration:5,radius:140}}[kind];
   if(!spec)return null;
   const rank=u.skillRanks?.[kind==='teemo_mushroom'?'R':kind==='jhin_lotus'?'E':'W']||1;
   const trap={id:'m16_trap_'+(++this.m16TrapSeq),kind,ownerId:u.id,
@@ -3923,18 +3925,39 @@ export class Arena {
    return {...cast,hit:true};
   }
   if(s.m16Stealth){
+   const origin={x:u.x,y:u.y};
    this.m16BreakStealth(u,'refresh');
    if(s.m16Blink){
     const old={x:u.x,y:u.y};u.x=q.point.x;u.y=q.point.y;
     this.invalidateShopUndoOnDepartureV453Dev61(u);
     this.itemEnergizeRelocateV453Dev39(u,old,q.point,{kind:'blink'});
-    u.boardNextBasicV453Dev69={until:now+5,charges:1,total:1,
+    if(u.champ==='Shaco')u.boardNextBasicV453Dev69={until:now+5,charges:1,total:1,
      base:35+rank*15,adRatio:.4,apRatio:0,sourceSlot:'Q'};
    }
    const duration=value(s.m16Duration),delay=s.m16Delay||0;
-   u.m16StealthV453={type:s.m16Stealth,source:u.champ+':'+q.slot,
+   const evolved=!s.m16RequiresEvolved||!!u.m16KaisaEvolvedE;
+   if(evolved)u.m16StealthV453={type:s.m16Stealth,source:u.champ+':'+q.slot,
     startsAt:now+delay,until:now+delay+duration,radius:s.m16Radius||0,
-    wallExtend:!!s.m16WallExtend};
+    wallExtend:!!s.m16WallExtend,
+    zoneAnchor:s.m16ZoneRadius?origin:null,zoneRadius:s.m16ZoneRadius||0};
+   if(u.champ==='Kaisa')u.boardSpeedV453Dev69={until:now+1.5,fraction:.55+.05*(rank-1)};
+   if(u.champ==='Akali')u.m16AkaliShroud={center:origin,
+    until:now+duration,radius:s.m16ZoneRadius};
+   if(s.m16AllyMist)for(const ally of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+      v.id!==u.id&&this.mapDistance(v,u)<=400))
+     ally.m16StealthV453={type:'camouflage',source:'Senna:E',radius:400,
+      startsAt:now,until:now+duration};
+   if(s.m16Decoy){
+    const clone=this.m15Summon('wukong_clone',u,origin,{
+     until:now+3,stealthUntil:now+1,hp:u.hp,maxHp:u.maxHp,
+     moveSpeed:0,attackRange:175,power:Math.max(20,u.ad*.45),
+     appearance:{kind:'champion',champ:'MonkeyKing'}});
+    u.m16WukongCloneId=clone.id;
+   }
+   if(s.m16AreaDamage)for(const target of this.units.filter(v=>v.team!==u.team&&v.hp>0&&
+    this.mapDistance(v,u)<=550&&this.sameCombatRealmV453Dev69(u,v)))
+    this.damage(target,50+40*rank+this.elementalStatsV452d3(u).ad*.6,
+     u,'physical','spell');
    if(u.champ==='Khazix')u.m16KhazixR={remaining:u.m16KhazixEvolvedR?2:1,
     nextAt:now+2,until:now+12};
    return {...cast,stealthType:s.m16Stealth,until:now+delay+duration};
@@ -4027,6 +4050,21 @@ export class Arena {
      hp:240,maxHp:240,until:now+5,invulnerableUntil:now+.2,
      moveSpeed:0,attackRange:400,power:15+t.rank*5,
      singlePower:35+t.rank*10,nextAttackAt:now+1,armedV453M15:true});
+    t.until=now;
+   }else if(t.kind==='maokai_sapling'){
+    const brush=this.brushRegionAt(t.x,t.y)>0;
+    const aoe=candidates.filter(v=>this.mapDistance(v,t)<=(brush?320:250));
+    for(const v of aoe){
+     const base=50+25*(t.rank-1)+v.maxHp*.04+
+      this.elementalStatsV452d3(owner).ap*.25;
+     this.damage(v,base*(brush?1.5:1),owner,'magic','spell');
+     if(v.hp>0)this.applyEffectV41(v,'slow',{source:owner,duration:2,
+      power:.45,key:t.id+'_'+v.id});
+    }
+    t.until=now;
+   }else if(t.kind==='zoe_bubble'){
+    this.applyEffectV41(victim,'sleep',{source:owner,duration:2,key:t.id});
+    (victim.m16TrueSightUntil??={})[t.team]=now+2;
     t.until=now;
    }else if(t.kind==='jhin_lotus'){
     t.explodeAt=now+2;t.until=now+2.01;
