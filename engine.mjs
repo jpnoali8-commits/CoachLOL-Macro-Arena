@@ -5821,6 +5821,12 @@ export class Arena {
      aura.nextAt+=steps;
     }
    }
+   if(u.champ==='Heimerdinger'&&u.hp>0&&
+      this.boardSummonsV453Dev69.some(t=>
+       ['heimer_turret','heimer_turret_upgraded'].includes(t.kind)&&
+       t.ownerId===u.id&&t.team===u.team&&t.hp>0&&
+       t.until>this.gameTime&&this.mapDistance(u,t)<=500))
+    u.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:.15};
    if(u.champ==='Zac'&&u.hp>0&&Array.isArray(u.m25ZacGoo)){
     const keep=[];
     for(const g of u.m25ZacGoo){
@@ -9230,6 +9236,14 @@ export class Arena {
      amount*=.6;
     }
    }
+   if(target?.champ==='Fizz'&&sourceType==='basic'&&attacker?.team!==target.team)
+    amount*=.85;
+   if(target?.champ==='Sejuani'&&attacker?.team!==target.team&&
+      ['basic','spell'].includes(sourceType)&&
+      (target.m27SejuaniFrostReadyAt||0)<=this.gameTime){
+    target.m27SejuaniFrostReadyAt=this.gameTime+12;
+    amount*=.60;
+   }
    if(target?.champ==='Gragas'&&target.m26GragasDrinkUntil>this.gameTime)
     amount*=.8;
    if(target?.champ==='Alistar'&&target.m26AlistarUnbreakableUntil>this.gameTime)
@@ -9362,10 +9376,15 @@ export class Arena {
     .reduce((sum,x)=>sum+(x.stacks||0)*.06,0)):0;
  const m26KogRatio=Math.min(.36,Object.values(target.m26KogShred||{}).filter(x=>x?.until>this.gameTime)
    .reduce((sum,x)=>sum+(x.ratio||0),0));
+ const m27RellStolen=target.m27RellStolenDefenses?.until>this.gameTime?
+   (target.m27RellStolenDefenses.value||0):0;
+ const m27RellDebuff=target.m27RellArmorTheft?.until>this.gameTime?
+   (target.m27RellArmorTheft.value||0):0;
  const m26BraumBonus=target.m26BraumResists?.until>this.gameTime?
   (target.m26BraumResists.value||0):0;
  const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):
-  (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+m26BraumBonus;
+  (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+
+   m26BraumBonus+m27RellStolen-m27RellDebuff;
  const effectiveTargetResV453Dev29=(damageType==='physical'&&cleaverDebuffV453Dev29?
   targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes)*
   (1-m26CorkiArmorShred)*(1-m26KogRatio)*(1-m26JarvanShred);
