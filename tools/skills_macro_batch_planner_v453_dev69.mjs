@@ -31,6 +31,21 @@ const regroups=[
 ];
 const clean=str=>String(str||'').replace(/<[^>]*>/g,' ').replace(/&[^;]+;/g,' ').replace(/\s+/g,' ').trim();
 const complexityWeight={transform:8,terrain_realm:7,pet_clone:6,recast:5,stealth:5,stacks_marks:3,movement:2,crowd_control:2,projectile:1,defense:1};
+// Scheduling estimates only. Data Dragon tooltip text omits important mechanics
+// (e.g. Hwei's 10 forms, Aphelios weapon cycling and Sylas spell theft).
+// Do not let keyword heuristics put these high-risk kits into the "easy" batch.
+const schedulingRiskOverrides=Object.freeze({
+ Aphelios:100,Hwei:95,Sylas:90,Viego:90,Kalista:85,
+ AurelionSol:80,Kayn:80,Azir:80,Gangplank:75,Gnar:75,
+ Qiyana:75,Ekko:70,Jayce:70,Kled:70,Yuumi:70,
+ Yasuo:65,Yone:65,Akshan:65,LeBlanc:65,Leblanc:65,
+ Shaco:65,Neeko:65,Kindred:65,Samira:60,Nilah:60,
+ Singed:60,Fiora:60,Katarina:60,Fiddlesticks:60,
+ Nunu:55,Orianna:55,Zed:55,Vladimir:55,Draven:50,
+ Rakan:50,Xayah:50,Tryndamere:50,Mordekaiser:75,
+ Camille:65,Briar:70,Renata:55,Thresh:65,
+});
+
 const sourceFiles=new Map(readdirSync(championRoot).filter(f=>f.endsWith('.json'))
  .map(f=>[f.replace(/\.json$/,'').toLowerCase(),f]));
 const refFor=name=>{
@@ -65,12 +80,15 @@ export function buildMacroBatches(){
   for(const [,regex] of regroups)regex.lastIndex=0;
   const passiveHints=regroups.filter(([,regex])=>regex.test(passive.description)).map(([k])=>k);
   for(const hint of passiveHints)mechanics.add(hint);
-  const weight=[...mechanics].reduce((s,k)=>s+(complexityWeight[k]||0),0);
+  const weight=[...mechanics].reduce((s,k)=>s+(complexityWeight[k]||0),0)+(schedulingRiskOverrides[name]||0);
   return {champion:name,officialId:r.id,source:'data/riot_reference/source_16_21_1/riot/16.21.1/en_US/champion/'+r.source,
    trainingSlots:fallback,passive:{...passive,mechanicHints:passiveHints,status:'UNVERIFIED'},
    abilities,mechanicHints:[...mechanics].sort(),planningWeight:weight,
    certification:'UNVERIFIED',kitComplete:false};
  });
+ // Keep all 173 spread across 5 big packs. Group missing slots together so
+ // the Skills engineer can implement 35 complete kits in ONE batch, while
+ // scheduling unusual form/recast/steal kits after primitive groundwork.
  const sorted=[...roster].sort((a,b)=>b.trainingSlots-a.trainingSlots||
    a.planningWeight-b.planningWeight||a.champion.localeCompare(b.champion));
  const batches=[];
