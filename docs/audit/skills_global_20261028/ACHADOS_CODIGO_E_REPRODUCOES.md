@@ -40,3 +40,20 @@ No SHA, [Skills run 40796453314](https://github.com/jpnoali8-commits/CoachLOL-Ma
 - friendly-fire bloqueado e stealth verdadeiro nao selecionavel atraves de aliases.
 
 **Regra de QA:** registrar o evento e o checksum antes/depois, ambos os seats, custo/CD contabilizado uma so vez, snapshot/checkpoint, replay e assert do efeito estrategico. Nao considerar `return ok:true` uma prova de skill completa.
+
+
+---
+
+## Atualização empírica — execução GitHub Actions de 28/10/2026
+
+**O problema de seleção de clones passou de suspeita estática para P1 confirmado em execução.**
+
+- [Issue #18](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/issues/18) documenta a reprodução.
+- [CI da auditoria #40799020225](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/40799020225), Node 22, SHA de código original `b7676d57160ddbc2315e258d03f3c94dd5a81189`.
+- 24 cenários novos: **14 aprovados, 10 falhas P1 reproduzidas**, zero falhas inesperadas. Execução por dois seats, azul e vermelho.
+- Clone público Shaco/Neeko/Wukong + Teemo Q ou Annie Q retorna `{ok:false,reason:'alvo_inimigo'}`. Annie W não causa dano no clone mesmo estando na trajetória.
+- Ataque básico em clone aceita alias, aplica dano; ID interno adversário, fog, expiração, ownership e snapshot passaram nos cenários testados.
+- M15 existente **25/25**, M16 **73/73**, M9 **28/28** no mesmo CI: são regressões focais, **não** certificação global.
+- `--probe` devolve sucesso de execução da **auditoria** apesar dos P1 explicitamente identificados; não confundir esse workflow verde com game aprovado. `--strict` define comportamento correto e exige reparo.
+- Nenhuma alteração em motor, PvP, browser, Itens, branch Skills ou integração. A Issue #18 aponta uma primitiva compartilhada `targetable entity` como correção, não patches por campeão.
+
