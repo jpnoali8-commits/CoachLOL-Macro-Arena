@@ -40,6 +40,83 @@ function setup(champ,team){
 }
 function check(team,name,fn){fn();cases.push(team+' '+name);}
 for(const team of ['blue','red']){
+ check(team,'Gragas E first collision stops at nearest enemy, no double hit',()=>{
+  const {a,u,e,other,cast,snapshot}=setup('Gragas',team);
+  other.x=.522;const secondHp=other.hp;
+  const result=cast('E',{point:{x:.53,y:.5}});
+  assert.equal(result.hitCount,1,'Body Slam must collide with only nearest champion');
+  assert.ok(e.hp<7000);
+  assert.equal(other.hp,secondHp);
+  assert.ok(u.x<e.x&&u.x>.5,'Body Slam should stop in front of its first victim');
+  snapshot();
+ });
+ check(team,'Lee Sin R wall stun only on actual blocked kick',()=>{
+  const {a,u,e,cast,snapshot}=setup('LeeSin',team);
+  a.walkable=(x,y)=>x<=.52&&x>=.01&&y>=.01&&y<=.99;
+  const hit=cast('R',{targetId:e.id});
+  assert.ok(hit.ok);
+  assert.ok(e.x<=.52,'cannot knock the target into a wall');
+  assert.ok(a.effectResolverV41().has(e,'stun'),'kick colliding with wall must stun');
+  snapshot();
+ });
+ check(team,'Master Yi Q unique Alpha Strike multi target and untargetable',()=>{
+  const {a,u,e,other,cast,snapshot}=setup('MasterYi',team);
+  const second=other.hp;
+  const result=cast('Q',{targetId:e.id});
+  assert.ok(result.hitCount>=2);
+  assert.ok(other.hp<second,'Alpha Strike must hit a nearby secondary target');
+  assert.equal(a.damage(u,300,e,'physical','basic'),0);
+  a.gameTime=1.2;
+  assert.ok(a.damage(u,300,e,'physical','basic')>0);
+  snapshot();
+ });
+ check(team,'Shen W Spirit Refuge protects ally from basics only',()=>{
+  const {a,u,e,ally,cast,snapshot}=setup('Shen',team);
+  cast('W');
+  assert.equal(a.damage(ally,350,e,'physical','basic'),0);
+  const hp=ally.hp;
+  a.damage(ally,900,e,'magic','spell');
+  assert.ok(ally.hp<hp,'Spirit Refuge must not negate magic spells');
+  a.gameTime=4;assert.ok(a.damage(ally,100,e,'physical','basic')>0);
+  snapshot();
+ });
+ check(team,'Vi denting blows every third actual basic attack',()=>{
+  const {a,u,e,snapshot}=setup('Vi',team);
+  for(let i=1;i<=2;i++){
+   assert.ok(a.damage(e,100,u,'physical','basic')>0);
+   assert.equal(e.m25ViDenting[u.id].stacks,i);
+  }
+  const hp=e.hp;
+  assert.ok(a.damage(e,100,u,'physical','basic')>0);
+  assert.equal(e.m25ViDenting[u.id].stacks,0);
+  assert.ok(hp-e.hp>100,'third basic must deliver health-scaled passive');
+  assert.ok(e.m25ViShredUntil>a.gameTime);snapshot();
+ });
+ check(team,'Kassadin Riftwalk repeated R costs more mana and scales damage',()=>{
+  const {a,u,e,cast,snapshot}=setup('Kassadin',team);
+  const start=u.mana;
+  cast('R',{point:{x:.51,y:.5}});
+  const firstCost=start-u.mana,firstDamage=7000-e.hp;
+  assert.equal(u.m25KassRift.stacks,1);
+  a.gameTime=5.1;u.skillCds.R=0;const mana=u.mana,before=e.hp;
+  cast('R',{point:{x:.515,y:.5}});
+  assert.equal(u.m25KassRift.stacks,2);
+  assert.ok(mana-u.mana>firstCost);
+  assert.ok(before-e.hp>firstDamage);
+  snapshot();
+ });
+ check(team,'Kog Maw Living Artillery ramps mana cost with consecutive R',()=>{
+  const {a,u,e,cast,snapshot}=setup('KogMaw',team);
+  const start=u.mana;
+  cast('R',{point:{x:.515,y:.5}});
+  const firstCost=start-u.mana;assert.equal(u.m25KogArtillery.stacks,1);
+  a.gameTime=2.1;u.skillCds.R=0;const mana=u.mana;
+  cast('R',{point:{x:.515,y:.5}});
+  assert.equal(u.m25KogArtillery.stacks,2);
+  assert.ok(mana-u.mana>firstCost);
+  assert.ok(e.hp<7000);
+  snapshot();
+ });
  check(team,'Corki W leaves persistent damaging trail',()=>{
   const {a,e,cast,snapshot}=setup('Corki',team);
   cast('W',{point:{x:.53,y:.5}});
@@ -198,7 +275,7 @@ for(const team of ['blue','red']){
   assert.ok(a.effectResolverV41().has(e,'stun'));snapshot();
  });
 }
-assert.equal(cases.length,36);
+assert.equal(cases.length,50);
 console.log('M25_B01_IDENTITY_QA '+JSON.stringify({cases:cases.length,
- champions:18,teamSeats:2,uniqueIdentityMechanics:true,certifiedChampions:0,
+ champions:25,teamSeats:2,uniqueIdentityMechanics:true,certifiedChampions:0,
  names:cases}));
