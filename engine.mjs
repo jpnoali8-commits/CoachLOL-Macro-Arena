@@ -5809,6 +5809,14 @@ export class Arena {
   this.applyEffectV41(v,'dot',{source:u,duration:5,power:3+stacks*2,
    interval:1,key:'darius_bleed_'+u.id});
  }
+ // M44 B05 — owner-scoped feathers, six-second lifetime, stable identifiers.
+ m44XayahPlantFeatherV453Dev69(u,p){
+  if(u.champ!=='Xayah'||![p?.x,p?.y].every(Number.isFinite))return;
+  const id=(u.m44XayahFeatherSeq||0)+1;u.m44XayahFeatherSeq=id;
+  const list=(u.m44XayahFeathers||[]).filter(f=>f.until>this.gameTime);
+  list.push({id:u.id+'_feather_'+id,ownerId:u.id,x:p.x,y:p.y,until:this.gameTime+6});
+  u.m44XayahFeathers=list.slice(-12);
+ }
  // M44 B04: finite travelling Encore extends on actual ally/enemy contact.
  m44ExtendEncoreV453Dev69(z){
   if(z.m44ExtensionCount>=2)return false;
@@ -5939,6 +5947,8 @@ export class Arena {
        }
       }
       const spellShield=!!this.effectResolverV41().has(victim,'spell_shield');
+      const jhinWasMarked=z.champ==='Jhin'&&z.slot==='W'&&victim.champ&&
+       (victim.m44JhinWMarks?.[u.id]||0)>now;
       // Rell breaks existing damage shields before the lance deals damage.
       if(z.champ==='Rell'&&!spellShield&&victim.champ)
        this.effectResolverV41().remove(victim,{
@@ -5948,11 +5958,13 @@ export class Arena {
       const raw=z.champ==='Lucian'&&z.slot==='W'?0:
        z.champ==='Nidalee'&&z.slot==='Q'?
         z.power*(1+Math.min(1.5,Math.max(0,distance-450)/850)):
+       z.champ==='Jhin'&&z.slot==='W'&&!victim.champ?z.power*.75:
        z.champ==='DrMundo'&&z.slot==='Q'?
         Math.max(z.power,Math.min(victim.hp*.2,400)):z.power;
       const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
+      if(z.champ==='Jhin'&&z.slot==='W'&&victim.champ)z.maxHits=z.hitCount;
       // Valor stops at first contact; only primary gets Harrier / blindness.
       if(z.champ==='Quinn'&&z.m44SplashRadius>0)
        for(const splash of this.boardCombatEnemyPoolV453Dev69(u)
@@ -6074,6 +6086,49 @@ export class Arena {
         this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.4,
          key:'m44_xinzhao_spear_'+z.id+'_'+victim.id});
         (victim.m20MarksV453??={})['xin_spear_'+u.id]=now+3;
+       }else if(z.champ==='Jhin'&&z.slot==='W'&&victim.champ){
+        if(jhinWasMarked){
+         this.applyEffectV41(victim,'root',{source:u,
+          duration:1.25+Math.max(0,(u.skillRanks.W||1)-1)*.25,
+          key:'m44_jhin_flourish_'+z.id+'_'+victim.id});
+         u.boardSpeedV453Dev69={until:now+2,fraction:.2};
+        }
+       }else if(z.champ==='Kennen'&&z.slot==='Q'&&victim.champ){
+        const marks=victim.m44KennenStorm??={},old=marks[u.id],
+         stacks=(old?.until>now?old.stacks:0)+1;
+        if(stacks>=3){
+         delete marks[u.id];
+         this.applyEffectV41(victim,'stun',{source:u,duration:1.25,
+          key:'m44_kennen_three_marks_'+z.id+'_'+victim.id});
+        }else marks[u.id]={stacks,until:now+6};
+       }else if(z.champ==='Ezreal'&&z.slot==='Q'&&dealt>0){
+        u.skillCds.Q=Math.max(now,(u.skillCds.Q||now)-1.5);
+       }else if(z.champ==='Lux'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'root',{source:u,duration:2,
+         key:'m44_lux_binding_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Ahri'&&z.slot==='E'&&victim.champ){
+        this.applyEffectV41(victim,'charm',{source:u,duration:1.6,
+         key:'m44_ahri_charm_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Jinx'&&z.slot==='W'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.55,
+         key:'m44_jinx_zap_'+z.id+'_'+victim.id});
+        (victim.m16TrueSightUntil??={})[u.team]=now+2;
+       }else if(z.champ==='Kaisa'&&z.slot==='W'&&victim.champ){
+        const marks=victim.m44KaisaPlasma??={},old=marks[u.id];
+        marks[u.id]={stacks:Math.min(4,(old?.until>now?old.stacks:0)+2),until:now+4};
+        (victim.m16TrueSightUntil??={})[u.team]=now+4;
+       }else if(z.champ==='Caitlyn'&&z.slot==='E'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.45,
+         key:'m44_caitlyn_net_'+z.id+'_'+victim.id});
+        const start={x:u.x,y:u.y},dx=z.origin.x-z.point.x,dy=z.origin.y-z.point.y,
+         len=Math.max(1,Math.hypot(dx*this.worldWidth,dy*this.worldHeight)),
+         dest={x:u.x+dx/len*350,y:u.y+dy/len*350};
+        if(this.walkable(dest.x,dest.y)&&!this.obstacleLine(start,dest)){
+         Object.assign(u,dest);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(u);
+         this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'caitlyn_e_net'});
+        }
+        victim.m16CaitHeadshot={ownerId:u.id,until:now+3};
        }else if(z.champ==='LeeSin'){
         if(dealt>0&&(victim.champ||this.minions.includes(victim)||
           this.boardCloneDamageableV453Dev69(victim)))
@@ -6129,6 +6184,9 @@ export class Arena {
        ['Sejuani','Milio','Lucian'].includes(z.champ))
       this.m44AuthoredImpactV453Dev69(z,u,
        this.obstacleLine(from,next)?from:next,null,false,keep);
+     if(z.champ==='Xayah'&&z.slot==='Q'&&endOfTravel&&
+       !this.obstacleLine(from,next))
+      this.m44XayahPlantFeatherV453Dev69(u,{...next});
      if(z.champ==='Leona'&&z.slot==='E'&&endOfTravel&&
        z.m44LatchTargetId){
       const target=this.boardCombatEntityByIdV453Dev69(z.m44LatchTargetId);
@@ -6153,6 +6211,30 @@ export class Arena {
       keep.push({id:++this.boardTemporalIdV453Dev69,
        kind:'m44_olaf_axe_pickup',ownerId:u.id,team:u.team,
        point:{...next},nextAt:now+1,until:now+5});
+    }else if(z.kind==='m44_xayah_bladecaller'){
+     const count={};
+     for(const feather of (z.feathers||[]).filter(f=>f.until>=now-1)){
+      const origin={x:feather.x,y:feather.y},range=this.mapDistance(origin,z.point);
+      if(range<1)continue;
+      const targets=skillshotHitsV42(origin,z.point,
+       this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
+        this.sameCombatRealmV453Dev69(u,v)),{
+        range,width:140,maxHits:Infinity,
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      for(const victim of targets){
+       const shielded=!!this.effectResolverV41().has(victim,'spell_shield');
+       this.damage(victim,z.power,u,'physical','spell');
+       if(!shielded&&victim.hp>0&&victim.champ)
+        count[victim.id]=(count[victim.id]||0)+1;
+      }
+     }
+     for(const [id,stacks] of Object.entries(count)){
+      if(stacks<3)continue;
+      const victim=this.units.find(v=>v.id===id&&v.hp>0);
+      if(victim)this.applyEffectV41(victim,'root',{source:u,duration:1.25,
+       key:'m44_xayah_three_feathers_'+z.id+'_'+id});
+     }
+     ended=true;
     }else if(z.kind==='m44_olaf_axe_pickup'){
      if(u.hp<=0)ended=true;
      else if(this.mapDistance(u,z.point)<=160&&!this.obstacleLine(u,z.point)){
