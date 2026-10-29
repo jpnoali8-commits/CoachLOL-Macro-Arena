@@ -938,7 +938,7 @@ export const M15_ENTITY_KITS_V453=Object.freeze({
 export const M16_MECHANIC_KITS=Object.freeze({
  Twitch:{Q:BS('self',0,40,16,[],{m16Stealth:'camouflage',m16Delay:1,m16Radius:500,m16Duration:[10,11,12,13,14]})},
  Teemo:{Q:BS('target_enemy',680,70,[7,6.5,6,5.5,5],[80,125,170,215,260],{m16Blind:true,apRatio:.8}),
-  R:BS('move_point',900,0,1,[],{m16Trap:'teemo_mushroom',m16Charges:3,m16Max:3})},
+  R:BS('move_point',900,0,[30,25,20],[],{m16Trap:'teemo_mushroom',m16Charges:3,m16Max:3})},
  Shaco:{Q:BS('move_point',400,40,[12,11.5,11,10.5,10],[],{m16Stealth:'invisibility',m16Duration:[2.5,2.75,3,3.25,3.5],m16Blink:true,m16NextBasic:true}),
   W:BS('move_point',425,50,[16,15.5,15,14.5,14],[],{m16Trap:'shaco_box',m16Max:5})},
  Evelynn:{W:BS('target_enemy',1200,60,[15,14,13,12,11],[],{m16Charm:true})},
@@ -3186,10 +3186,12 @@ export class Arena {
   const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
   if(this.realmOfV453Dev69(u)&&aimed&&point&&!this.realmValidV453Dev69(u,point))
    return {ok:false,reason:'reino_alvo_fora_do_circulo'};
+  const m16Range=s.m16Trap==='teemo_mushroom'?
+   [400,650,900][Math.min(2,Math.max(0,(u.skillRanks.R||1)-1))]:s.range;
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
-     (['circle_enemy','vision_point','move_point'].includes(s.shape)&&this.mapDistance(u,point)>s.range)||
+     (['circle_enemy','vision_point','move_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
      (s.shape==='move_point'&&!this.walkable(point.x,point.y))))
    return {ok:false,reason:'ponto_invalido'};
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
