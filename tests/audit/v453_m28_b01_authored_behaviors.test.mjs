@@ -41,7 +41,7 @@ for(const champ of names)for(const team of seats){
    e.y=.55;
    cast(a,u,'W',{x:.55,y:.5});
    assert.ok(a.boardTemporalV453Dev69.some(z=>z.kind==='m28_karthus_wall'));
-   e.y=.5;a.gameTime+=1;a.advanceBoardTemporalV453Dev69();
+   e.x=.55;e.y=.5;a.gameTime+=1;a.advanceBoardTemporalV453Dev69();
    assert.equal(a.effectResolverV41().has(e,'slow'),true,'wall slows later entrant');
   }else if(champ==='Sejuani'){
    cast(a,u,'W',{x:.53,y:.5});
