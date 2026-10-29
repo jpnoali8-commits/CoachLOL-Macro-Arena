@@ -1119,7 +1119,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('global_enemy',25000,200,280,{mana:100,boardTemporal:'m20_requiem_channel',zoneSeconds:3.1,m20Missing:'death_defied_passive_and_postdeath_channel'})),
  Seraphine:BK20('stage_presence',
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m25SeraphineEcho:true}),
-  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m20Missing:'echo_cast'}),
+  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m32SeraphineEchoShield:true,m20Missing:'echo_cast'}),
   B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m29SeraphineBeatDrop:true,m20Missing:'cc_upgrade'}),
   B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m26EncoreExtension:true})),
  Xerath:BK20('mana_surge',
@@ -1199,11 +1199,11 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1000,120,260,{width:200,maxHits:1,m20Missing:'execute_transformation'})),
  Lucian:BK20('lightslinger',
   B20('line_enemy',850,9,95,{width:155,type:'physical',m30LucianAnchoredQ:true,m20Missing:'requires_initial_target'}),
-  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m20Missing:'star_pattern'}),
+  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m32LucianStar:true,m20Missing:'star_pattern'}),
   B20('move_point',445,16,0,{radius:0,m27LucianPursuit:true}),
   B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',boardTemporal:'m25_lucian_culling',zoneSeconds:4.1})),
  Milio:BK20('fired_up',
-  B20('line_enemy',1200,10,85,{width:175,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m20Missing:'ball_bounce'}),
+  B20('line_enemy',1200,10,85,{width:175,maxHits:1,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m32MilioBounce:true,m20Missing:'ball_bounce'}),
   B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m27MilioFiredUp:true,m20Missing:'attack_range_extension'}),
   B20('target_ally',650,.5,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true,m20Missing:'two_charges_and_speed'}),
   B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m27MilioFiredUp:true,m20Missing:'empowered_passive_followup'})),
@@ -1246,7 +1246,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',600,20,100,{dashToHit:true,m25YiAlpha:true}),
   B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m29YiMeditate:true,m20Missing:'damage_reduction_channel'}),
   B20('self',0,14,0,{nextBasic:[35,45,55,65,75],charges:3,m27YiWuju:true}),
-  B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m20Missing:'attack_speed_and_reset'})),
+  B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m32YiHighlander:true,m20Missing:'attack_speed_and_reset'})),
  Shen:BK20('ki_barrier',
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m29ShenBladePull:true,m20Missing:'blade_pull'}),
   B20('circle_ally',0,16,0,{radius:400,shield:[70,100,130,160,190],m25ShenRefuge:true}),
@@ -1256,7 +1256,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m29ViCharge:true,m20Missing:'charge'}),
   B20('self',0,1,0,{nextBasic:[35,45,55,65,75],charges:3,m25ViDenting:true}),
   B20('target_enemy',400,1,75,{m26ViShockwave:true}),
-  B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m20Missing:'knockaside_path'})),
+  B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m32ViRKnockaside:true,m20Missing:'knockaside_path'})),
  Braum:BK20('concussive_blows',
   B20('line_enemy',1000,8,90,{width:170,cc:'slow',ccSeconds:2,ccPower:.5,m20Mark:'concussive',m21BraumConcussive:true}),
   B20('target_ally',650,12,0,{shield:[70,95,120,145,170],m20JumpToAlly:true,m26BraumStand:true}),
@@ -4050,6 +4050,7 @@ export class Arena {
     target.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.2};
   }
   if(s.m29YiMeditate)u.m29YiMeditateUntil=this.gameTime+3;
+  if(s.m32YiHighlander)u.m32YiHighlanderUntil=this.gameTime+7;
   if(s.m29QuinnHeightened&&q.point){
    const candidates=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
      v.hp>0&&this.mapDistance(v,q.point)<=s.radius&&this.visible(u.team,v)&&
@@ -4540,6 +4541,15 @@ export class Arena {
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,
     s.radius*(s.m28GalioCharge&&q.m28ChargeSeconds!==undefined?
      1+.15*q.m28ChargeSeconds:1),this.worldWidth,this.worldHeight);
+  if(s.m32LucianStar&&q.point){
+   // Ardent Blaze: four crossing rays, with no anonymous radial damage.
+   hits=enemyPool.filter(v=>{
+    const dx=Math.abs((v.x-q.point.x)*this.worldWidth),
+     dy=Math.abs((v.y-q.point.y)*this.worldHeight);
+    return Math.max(dx,dy)<=275&&Math.abs(dx-dy)<=85&&
+     !this.obstacleLine(q.point,v);
+   }).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  }
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='move_point')hits=s.m31RellDualForm&&
    u.m31RellLastWMode==='mount_up'?
