@@ -66,6 +66,40 @@ for(const team of ['blue','red']){
   assert.equal(u.x,.5);
   snap(a);
  });
+ check(team+' Jarvan R2 removes arena without second cost',()=>{
+  const {a,u,e,cast}=fixture('JarvanIV',team);
+  cast('R',{targetId:e.id});
+  assert.equal(a.boardTemporalV453Dev69.filter(v=>v.kind==='m24_jarvan_arena').length,1);
+  const mana=u.mana,cd=u.skillCds.R;
+  a.gameTime=1;const second=cast('R');
+  assert.equal(second.queued.recast,true);
+  assert.equal(second.result.spentMana,0);
+  assert.equal(u.mana,mana);
+  assert.equal(u.skillCds.R,cd);
+  assert.equal(a.boardTemporalV453Dev69.filter(v=>v.kind==='m24_jarvan_arena').length,0);
+  snap(a);
+ });
+ check(team+' Sett E pulls opposite sides and stuns both',()=>{
+  const {a,u,e,opponent,cast}=fixture('Sett',team);
+  const other=a.units.find(v=>v.id===opponent+'_TOP');
+  Object.assign(other,{x:.49,y:.5,hp:5500,maxHp:5500,armor:0,mr:0});
+  const before={positive:e.x,negative:other.x};
+  cast('E',{point:{x:.52,y:.5}});
+  assert.ok(a.effectResolverV41().has(e,'stun'));
+  assert.ok(a.effectResolverV41().has(other,'stun'));
+  assert.ok(e.x<before.positive&&other.x>before.negative,'both enemies must move toward caster');
+  snap(a);
+ });
+ check(team+' Sett R slams primary and damages nearby second enemy',()=>{
+  const {a,u,e,opponent,cast}=fixture('Sett',team);
+  const other=a.units.find(v=>v.id===opponent+'_TOP');
+  Object.assign(other,{x:.543,y:.5,hp:5500,maxHp:5500,armor:0,mr:0});
+  const origin={x:u.x,y:u.y},before=other.hp;
+  cast('R',{targetId:e.id});
+  assert.ok(u.x>origin.x,'Sett must relocate with carried target');
+  assert.ok(other.hp<before,'slam needs real splash effect');
+  snap(a);
+ });
  check(team+' Syndra Q orb E scatter stun and snapshot',()=>{
   const {a,u,e,cast}=fixture('Syndra',team);
   cast('Q',{point:{x:.51,y:.5}});
@@ -145,8 +179,8 @@ for(const team of ['blue','red']){
   snap(a);
  });
 }
-assert.equal(cases.length,20);
+assert.equal(cases.length,26);
 console.log('M24_B01_SHARED_PVP_QA '+JSON.stringify({
- cases:cases.length,teamSeats:2,families:['JarvanIV','Syndra','Fizz','TahmKench'],
+ cases:cases.length,teamSeats:2,families:['JarvanIV','Syndra','Fizz','TahmKench','Sett'],
  names:cases,certifiedChampions:0
 }));
