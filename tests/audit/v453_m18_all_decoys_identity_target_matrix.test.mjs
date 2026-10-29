@@ -241,7 +241,10 @@ for(const team of teams)for(const champ of Object.keys(kinds)){
    t.a.resolveBoardSkillsV453Dev69();
    const trap=t.a.m16Traps.find(v=>v.ownerId===t.caster.id&&v.kind===spec.kind);
    assert.ok(trap,'real authored ability did not create a server-owned trap');
-   assert.equal(t.caster.mana<10000,true,'server must commit cast resource');
+   if(spec.caster==='Teemo'||spec.caster==='Jhin')
+    assert.ok((t.caster.m16StockV453?.[spec.slot]?.charges??Infinity)<
+     (spec.caster==='Teemo'?3:2),'M16 stocked spell must debit one charge');
+   else assert.ok(t.caster.mana<10000,'mana-based trap must debit resource');
    t.a.gameTime=2.35;
    t.a.advanceMechanicsV453M16();
    assert.ok(trap.triggeredAt!==null,'visible clone did not trigger authored trap');
