@@ -1104,7 +1104,7 @@ const B20=(shape,range,cd,damage=0,extra={})=>{
 const BK20=(passive,Q,W,E,R)=>Object.freeze({passive,Q,W,E,R});
 export const BOARD_M20_B01_V453=Object.freeze({
  Corki:BK20('hextech_munitions',
-  B20('circle_enemy',825,9,75,{radius:230,apRatio:.5}),B20('move_point',600,20,55,{radius:170,m25CorkiTrail:true}),
+  B20('circle_enemy',825,9,75,{radius:230,apRatio:.5,m37CorkiPhosphorus:true}),B20('move_point',600,20,55,{radius:170,m25CorkiTrail:true}),
   B20('cone_enemy',600,12,65,{arc:50,type:'physical',adRatio:.7,m26CorkiGatling:true}),
   B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m22Magazine:{max:7,reload:10,bigEvery:3},m29CorkiBigRocket:true,m20Missing:'ammo_ui'})),
  Cassiopeia:BK20('serpentine_grace',
@@ -1143,8 +1143,8 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,9,0,{speedBuff:.3,buffSeconds:3,m26YunaraDash:true}),
   B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m25YunaraTranscendent:true})),
  Alistar:BK20('triumphant_roar',
-  B20('circle_enemy',0,14,80,{originSelf:true,radius:365,cc:'knockup',ccSeconds:1}),
-  B20('target_enemy',650,14,90,{dashToHit:true,knockback:450}),
+  B20('circle_enemy',0,14,80,{originSelf:true,radius:365,cc:'knockup',ccSeconds:1,m37AlistarPulverize:true}),
+  B20('target_enemy',650,14,90,{dashToHit:true,knockback:450,m37AlistarHeadbutt:true}),
   B20('circle_enemy',0,12,40,{originSelf:true,radius:350,cc:'slow',ccSeconds:2,ccPower:.3,m25AlistarTrample:true}),
   B20('self',0,120,0,{ccImmunitySeconds:3,shield:[160,260,360],m26AlistarUnbreakable:true})),
  Gragas:BK20('happy_hour',
@@ -1194,9 +1194,9 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m25GalioEntrance:true})),
  Locke:BK20('silver_stake',
   B20('line_enemy',950,10,85,{width:160,m20Mark:'soul_nails',m26LockeNails:true}),
-  B20('self',0,18,0,{speedBuff:.3,buffSeconds:3,m20Missing:'self_damage_burst'}),
+  B20('self',0,18,0,{speedBuff:.3,buffSeconds:3,m37LockeSoulIgnition:true,m20Missing:'self_damage_burst'}),
   B20('move_point',425,10,90,{radius:200,m26LockeDash:true}),
-  B20('line_enemy',1000,120,260,{width:200,maxHits:1,m20Missing:'execute_transformation'})),
+  B20('line_enemy',1000,120,260,{width:200,maxHits:1,m37LockePurgatory:true,m20Missing:'execute_transformation'})),
  Lucian:BK20('lightslinger',
   B20('line_enemy',850,9,95,{width:155,type:'physical',m30LucianAnchoredQ:true,m20Missing:'requires_initial_target'}),
   B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m32LucianStar:true,m20Missing:'star_pattern'}),
@@ -4329,6 +4329,13 @@ export class Arena {
    u.m26BraumShield={until:this.gameTime+4,dx:dx*this.worldWidth/len,
     dy:dy*this.worldHeight/len,firstBlocked:false};
   }
+  if(s.m37CorkiPhosphorus&&q.point){
+   // The flash bomb lights its own physical area and enemy bodies struck,
+   // not unrelated enemies elsewhere in fog or invisible unhit targets.
+   (this.boardVisionV453Dev69??=[]).push({x:q.point.x,y:q.point.y,
+    team:u.team,r:(s.radius||230)/this.worldWidth,
+    until:this.gameTime+3.5});
+  }
   if(s.m26LockeDash&&q.point){
    const victim=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
     v.hp>0&&v.m26LockeNails?.[u.id]?.until>this.gameTime&&
@@ -4410,6 +4417,17 @@ export class Arena {
    if(nearby)this.applyEffectV41(u,'shield',{source:u,duration:3,
     power:nearby*(20+Math.max(1,u.skillRanks.W||1)*12),
     key:'m36_jarvan_aegis_'+u.id+'_'+this.gameTime});
+  }
+  if(s.m37LockeSoulIgnition){
+   // Soul Ignition spends HP (not mana) exactly once on committed cast;
+   // the timed recovery only counts REAL later incoming damage.
+   const cost=Math.min(Math.max(0,u.hp-1),Math.max(1,Math.floor(u.maxHp*.08)));
+   u.hp-=cost;
+   u.m37LockeIgnition={until:this.gameTime+3,damageTaken:0,healthCost:cost};
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m37_locke_ignition_end',
+    ownerId:u.id,team:u.team,point:{x:u.x,y:u.y},
+    nextAt:this.gameTime+3,until:this.gameTime+3.1});
   }
   if(s.m25ZacGoo){
    const near=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>this.mapDistance(u,v)<=350)
@@ -4711,6 +4729,19 @@ export class Arena {
    return {x:u.x+dx/len*1100/this.worldWidth,
     y:u.y+dy/len*1100/this.worldHeight};
   })():q.point||u;
+  if(s.m37AlistarPulverize){
+   // Headbutt→Pulverize retains Alistar's unique board combo window, and can
+   // interrupt his own displaced victim instead of generic area CC on all foes.
+   const state=u.m37AlistarHeadbutt;
+   const victim=state&&this.boardCombatEnemyPoolV453Dev69(u).find(v=>
+    v.id===state.targetId&&v.champ&&v.hp>0&&
+    this.mapDistance(u,v)<=550&&this.visible(u.team,v)&&
+    !this.obstacleLine(u,v));
+   if(victim&&state.until>=this.gameTime){
+    q.m37AlistarComboTarget=victim.id;
+    u.m37AlistarHeadbutt=null;
+   }
+  }
   if(['target_enemy','target_ally','target_any'].includes(s.shape))hits=[target];
    else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
@@ -4718,6 +4749,10 @@ export class Arena {
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,
     s.radius*(s.m28GalioCharge&&q.m28ChargeSeconds!==undefined?
      1+.15*q.m28ChargeSeconds:1),this.worldWidth,this.worldHeight);
+  if(s.m37AlistarPulverize&&q.m37AlistarComboTarget){
+   const victim=enemyPool.find(v=>v.id===q.m37AlistarComboTarget);
+   if(victim&&victim.hp>0&&!hits.some(v=>v.id===victim.id))hits.push(victim);
+  }
   if(s.m32LucianStar&&q.point){
    // Ardent Blaze: four crossing rays, with no anonymous radial damage.
    hits=enemyPool.filter(v=>{
@@ -5006,6 +5041,7 @@ export class Arena {
      raw+=Math.max(0,v.maxHp-v.hp)*(.075+.025*Math.max(1,u.skillRanks.W||1));
     if(s.m29KassForcePulse&&q.m29KassStacks)
      raw*=1+.15*q.m29KassStacks;
+    if(s.m37LockePurgatory)raw+=(u.m37LockeSealPower||0)*20;
     if(s.m36YunaraArcOfRuin&&q.m36YunaraArcOfRuin)raw*=1.35;
     if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined)
      raw*=1+.25*q.m28ChargeSeconds;
@@ -5028,6 +5064,23 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
+    if(done>0&&s.m37LockePurgatory&&v.champ&&v.hp>0&&
+       v.hp<=v.maxHp*.18&&!blocked){
+     // Purgatory's finishing hit is champion-only, uses the authoritative
+     // lethal-damage pipeline and never executes a spell-shielded victim.
+     const sealed=this.damage(v,v.hp,u,'true','m37_locke_execute');
+     if(sealed>0&&v.hp<=0){
+      const registry=u.m37LockeSeals??={};
+      if(!Object.hasOwn(registry,v.id)){
+       registry[v.id]=this.gameTime;
+       u.m37LockeSealPower=(u.m37LockeSealPower||0)+1;
+      }
+     }
+    }
+    if(done>0&&s.m37CorkiPhosphorus&&v.champ&&v.hp>0){
+     (v.revealedUntil??={})[u.team]=Math.max(v.revealedUntil?.[u.team]||0,
+      this.gameTime+3.5);
+    }
     if(done>0&&s.m36FizzUrchinStrike&&v.champ&&v.hp>0){
      // An explicit second ON-HIT damage packet — the audited item/on-hit
      // pipeline handles it once, unlike a second generic spell burst.
@@ -5122,6 +5175,10 @@ export class Arena {
      if(done>0&&u.champ==='Darius'&&q.slot!=='R'&&v.champ)
       this.applyBoardHemorrhageV453Dev69(u,v);
     }
+   }
+   if(enemy&&s.m37AlistarHeadbutt&&v.champ&&v.hp>0&&!blocked){
+    // A subsequent Q may catch exactly the target this W really contacted.
+    u.m37AlistarHeadbutt={targetId:v.id,until:this.gameTime+2};
    }
    if(enemy&&s.knockback&&v.champ&&v.hp>0&&!blocked){
     const kicked=this.pushChampionThroughTerrain(s.m36GragasExplosiveCask?point:u,v,s.knockback,{maxWallUnits:0});
@@ -5566,6 +5623,15 @@ export class Arena {
       }
      }
      u.m36TahmDiveUntil=0;
+     ended=true;
+    }else if(z.kind==='m37_locke_ignition_end'){
+     const state=u.m37LockeIgnition;
+     if(state&&state.until<=now){
+      if(u.hp>0&&state.damageTaken>0){
+       this.effectResolverV41().heal(u,Math.round(state.damageTaken*.5),u);
+      }
+      u.m37LockeIgnition=null;
+     }
      ended=true;
     }else if(z.kind==='m25_galio_entrance'){
      const ally=this.units.find(v=>v.id===z.anchorId&&v.hp>0&&v.team===z.team);
@@ -9726,7 +9792,8 @@ export class Arena {
   const flurry=u.champ==='LeeSin'&&u.m30LeeFlurry?.until>this.gameTime&&
    u.m30LeeFlurry.charges>0?35:0;
   const highlander=u.champ==='MasterYi'&&u.m32YiHighlanderUntil>this.gameTime?45:0;
-  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+excited+ezrealBuff+
+  const soulIgnition=u.champ==='Locke'&&u.m37LockeIgnition?.until>this.gameTime?35:0;
+  const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+soulIgnition+excited+ezrealBuff+
    ireliaBuff+revved+whimsy+banner+flurry+highlander-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
@@ -10113,6 +10180,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    final=0;
   }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+  // Locke W: only real damage that penetrates shields during the active
+  // ignition window feeds its later self-healing. The self HP cost is excluded.
+  if(dealt>0&&target.champ==='Locke'&&target.m37LockeIgnition?.until>this.gameTime&&
+     sourceType!=='m37_locke_soul_cost')
+   target.m37LockeIgnition.damageTaken=(target.m37LockeIgnition.damageTaken||0)+dealt;
   if(target.champ==='Karthus'&&target.hp<=0&&!target.m23DeathDefiedV453){
    target.m23DeathDefiedV453={until:this.gameTime+7,startedAt:this.gameTime};
    target.mana=target.maxMana;
