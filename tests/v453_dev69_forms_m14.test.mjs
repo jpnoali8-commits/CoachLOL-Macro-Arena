@@ -91,7 +91,7 @@ async function apiTest(){
    headers:{'content-type':'application/json'},body:JSON.stringify({maxSeats:2})});
   const cookie=create.headers.get('set-cookie')?.split(';')[0];
   const result=await (await fetch(root+'/api/kits',{headers:{cookie}})).json();
-  assert.equal(Object.keys(result.kits).length,30,'previous 30 remain stable');
+  assert.equal(Object.keys(result.kits).length,32,'M14 base 30 plus two M15 prototype adapters');
   for(const champ of ['Nidalee','Elise','Shyvana'])
    assert.equal(Object.keys(result.formKits[champ]).length,2);
   count++;console.log('✓ M14 FORMS authenticated client manifest exposes both QWER sets');
