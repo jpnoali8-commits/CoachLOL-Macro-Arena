@@ -178,6 +178,15 @@ function work(lane,dir,config){
  }
  if(lane.name==='integration'||lane.name==='candidate')parity(lane,dir);
  if(profile==='release'){
+  const skillsLedger='tools/skills_m35_b01_cohort_work_queue.mjs';
+  if(!existsSync(join(dir,skillsLedger)))record(lane,'Skills P+QWER certification ledger',
+   'BLOCKED','No integrated champion certification ledger');
+  else execute(lane,dir,'Skills P+QWER cohort certification','node',
+   ['--input-type=module','-e',
+    "import {buildM35B01WorkQueue} from './tools/skills_m35_b01_cohort_work_queue.mjs';"+
+    "const m=buildM35B01WorkQueue().metrics;"+
+    "console.log(JSON.stringify({champions:m.champions,certified:m.certifiedKits,debt:m.unresolvedLegacyTags}));"+
+    "if(m.certifiedKits!==m.champions||m.unresolvedLegacyTags!==0)process.exit(2)"]);
   const verify=manifest.release.assetsGate;
   if(existsSync(join(dir,verify)))execute(lane,dir,'Assets SHA-256','python3',[verify]);
   else record(lane,'Assets SHA-256','BLOCKED','Assets verifier not integrated');
