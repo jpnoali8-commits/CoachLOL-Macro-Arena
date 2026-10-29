@@ -1095,10 +1095,12 @@ export const BOARD_KITS_V453_DEV69=Object.freeze({
 
 // M20/B01 board adaptations: genuine executable shared geometry and effect paths.
 // NOT complete LoL kits; "m20Missing" identifies unique mechanics still owed.
-const B20=(shape,range,cd,damage=0,extra={})=>BS(shape,range,
- extra.mana??(shape==='self'?40:60),cd,
- damage?[damage,Math.round(damage*1.3),Math.round(damage*1.6),Math.round(damage*1.9),Math.round(damage*2.2)]:[],
- {m20Status:'partial_executable',...extra});
+const B20=(shape,range,cd,damage=0,extra={})=>{
+ const {mana:manaOverride,...effects}=extra;
+ return BS(shape,range,manaOverride??(shape==='self'?40:60),cd,
+  damage?[damage,Math.round(damage*1.3),Math.round(damage*1.6),Math.round(damage*1.9),Math.round(damage*2.2)]:[],
+  {m20Status:'partial_executable',...effects});
+};
 const BK20=(passive,Q,W,E,R)=>Object.freeze({passive,Q,W,E,R});
 export const BOARD_M20_B01_V453=Object.freeze({
  Corki:BK20('hextech_munitions',
