@@ -38,7 +38,8 @@ const summary={schema:'coachlol.qa.report.v2',profile,
  certification:'NOT_CERTIFIED',manifest:'tools/qa/qa_manifest_dev69.json',
  branchIsolation:true,mergesPerformed:0,actionsUsed:false,lanes:[]};
 const chosen=(profile==='browser'||profile==='release')?
- manifest.lanes.filter(z=>z.name==='integration'):manifest.lanes;
+ manifest.lanes.filter(z=>z.name==='integration'):
+ manifest.lanes.filter(z=>profile==='full'||!z.fullOnly);
 if(args.has('--with-candidate'))chosen.push({name:'candidate',branch:'dev69/qa-candidate',
  quickScripts:['test:v453:dev69:integration'],fullScripts:['test'],requiredFiles:['engine.mjs','engine.browser.js']});
 if(args.has('--with-main'))chosen.push({name:'main',branch:'main',
@@ -169,6 +170,12 @@ function work(lane,dir,config){
  }
  npmScripts(lane,dir,profile==='quick'?config.quickScripts:config.fullScripts);
  if(lane.name==='skills')audits(lane,dir,config);
+ if(Array.isArray(config.auditFiles)){
+  for(const file of config.auditFiles){
+   if(!existsSync(join(dir,file)))record(lane,'Required Items audit '+file,'FAIL','Audit file missing');
+   else execute(lane,dir,'Items full audit '+file,'node',[file]);
+  }
+ }
  if(lane.name==='integration'||lane.name==='candidate')parity(lane,dir);
  if(profile==='release'){
   const verify=manifest.release.assetsGate;
