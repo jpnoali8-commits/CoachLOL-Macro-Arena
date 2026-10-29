@@ -1422,7 +1422,11 @@ export class EffectResolverV41 {
   return count;
  }
  advanceTick(){
-  for(const target of this.a.units){
+  // Damageable decoys share the same server-owned DoT clock as champions.
+  // Do not include arbitrary pets/wards or inflate the ten champion roster.
+  const activeClones=(this.a.boardSummonsV453Dev69||[]).filter(e=>
+   this.a.boardCloneDamageableV453Dev69(e));
+  for(const target of [...this.a.units,...activeClones]){
    const all=target.statusEffectsV41||[];
    for(const e of all.slice().sort((a,b)=>a.id-b.id)){
     if(e.until<this.a.gameTime||target.hp<=0)continue;
