@@ -51,6 +51,9 @@ function make(team,champ,source='Annie'){
  const clone=a.boardSummonsV453Dev69.find(v=>v.ownerId===owner.id&&v.kind===kinds[champ]);
  assert.ok(clone,champ+' should have one real summon in server state');
  clone.x=.528;clone.y=.5; // normalized collision corridor; do not forge the entity itself
+ // A Jhin R single-hit line must not depend on a tied collision depth when
+ // champion and clone stand at the exact same position. Keep the owner behind.
+ owner.x=.68;owner.y=.5;
  a.gameTime=1.25;
  assert.ok(clone.hp>0&&clone.stealthUntil<=a.gameTime&&clone.until>a.gameTime);
  const view=a.perspective(team);
