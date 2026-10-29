@@ -16,6 +16,17 @@ import {abilityRule,CHAMPION_BASE_ROSTER_V453_DEV69} from '../engine.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const championRoot=join(root,'data/riot_reference/source_16_21_1/riot/16.21.1/en_US/champion');
 const batchSize=35;
+// M20: release package identities are immutable after M19 planning. Rebalancing
+// from new training counts could silently move unfinished champions between
+// B01-B05, erasing the milestone's reproducible QA scope.
+const MACRO_B01_B05_FIXED_V453=Object.freeze([
+ 'Corki,Cassiopeia,Karthus,Seraphine,Xerath,Zac,Zilean,Yunara,Alistar,Gragas,LeeSin,Lulu,Mel,Rell,Sejuani,Sett,TahmKench,Galio,Locke,Lucian,Milio,Quinn,Syndra,Urgot,Varus,Viktor,Fizz,JarvanIV,MasterYi,Shen,Vi,Braum,Heimerdinger,Kassadin,KogMaw'.split(','),
+ 'Lissandra,Pantheon,RekSai,Riven,Trundle,Diana,Naafiri,Nautilus,Rumble,Udyr,Velkoz,Hecarim,Karma,Kennen,Sion,Swain,Taliyah,Zyra,Aatrox,Ambessa,Lillia,Nocturne,Zaahen,Skarner,Smolder,Graves,Gwen,Volibear,Zeri,Anivia,Illaoi,Malzahar,Poppy,Bard,Ivern'.split(','),
+ 'Kayle,Ryze,Yorick,Belveth,Aurora,Ornn,KSante,Tryndamere,Rakan,Xayah,Draven,Nunu,Orianna,Vladimir,Fiddlesticks,Katarina,Nilah,Singed,Fiora,Samira,Renata,Zed,Kindred,Yone,Ekko,Gangplank,Thresh,Kled,Leblanc,Qiyana,Yasuo,Camille,Yuumi,Mordekaiser,Jayce'.split(','),
+ 'Briar,Kalista,Kayn,Gnar,Hwei,Azir,Sylas,AurelionSol,Aphelios,Caitlyn,Evelynn,Twitch,Senna,Pyke,Kaisa,Zoe,Akali,Maokai,MonkeyKing,Talon,Rengar,Khazix,Akshan,Neeko,Viego,Jhin,Teemo,Shaco,Nasus,Sivir,Rammus,Amumu,Annie,Chogath,Morgana'.split(','),
+ 'Soraka,TwistedFate,Jinx,Sona,Leona,Olaf,Warwick,Brand,Ezreal,Garen,Lux,MissFortune,Taric,Tristana,XinZhao,Blitzcrank,Jax,Malphite,Veigar,Darius,Ahri,DrMundo,Nami,Ziggs,Janna,Ashe,Irelia,Vayne,Nidalee,Vex,Renekton,Shyvana,Elise'.split(',')
+]);
+
 const slots=['Q','W','E','R'];
 const regroups=[
  ['recast',/\brecast\b|cast again|cast a second|cast a third|three times|reactivat|reset (?:its|the|this)/i],
@@ -89,15 +100,17 @@ export function buildMacroBatches(){
  // Keep all 173 spread across 5 big packs. Group missing slots together so
  // the Skills engineer can implement 35 complete kits in ONE batch, while
  // scheduling unusual form/recast/steal kits after primitive groundwork.
- const sorted=[...roster].sort((a,b)=>b.trainingSlots-a.trainingSlots||
-   a.planningWeight-b.planningWeight||a.champion.localeCompare(b.champion));
- const batches=[];
- for(let i=0;i<sorted.length;i+=batchSize){
-  const champions=sorted.slice(i,i+batchSize);
-  batches.push({id:'B'+String(batches.length+1).padStart(2,'0'),champions:champions.map(c=>c.champion),
-   count:champions.length,trainingSlots:champions.reduce((s,c)=>s+c.trainingSlots,0),
-   mechanicHints:[...new Set(champions.flatMap(c=>c.mechanicHints))].sort()});
- }
+ const byName=new Map(roster.map(c=>[c.champion,c]));
+ const scheduled=MACRO_B01_B05_FIXED_V453.flat();
+ assert.equal(scheduled.length,173,'Fixed M19 schedule count');
+ assert.equal(new Set(scheduled).size,173,'Fixed M19 schedule duplicates');
+ assert.deepEqual([...scheduled].sort(),[...byName.keys()].sort(),'Fixed M19 roster drift');
+ const batches=MACRO_B01_B05_FIXED_V453.map((names,index)=>{
+  const champions=names.map(name=>byName.get(name));
+  return {id:'B'+String(index+1).padStart(2,'0'),champions:names,
+   count:names.length,trainingSlots:champions.reduce((s,c)=>s+c.trainingSlots,0),
+   mechanicHints:[...new Set(champions.flatMap(c=>c.mechanicHints))].sort()};
+ });
  const totals={champions:roster.length,passives:roster.length,qwerSlots:roster.length*4,
   fallback:roster.reduce((s,c)=>s+c.trainingSlots,0),
   routedUnverified:roster.reduce((s,c)=>s+4-c.trainingSlots,0),
