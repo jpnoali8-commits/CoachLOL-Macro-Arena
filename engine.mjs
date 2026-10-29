@@ -3832,7 +3832,7 @@ export class Arena {
     this.elementalStatsV452d3(u).ap*(s.apRatio||0);
    for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
      this.mapDistance(v,point)<=s.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id))))
-    if(this.damage(v,power,u,'magic','spell')>0)damaged++;
+    if(this.damage(v,power*(s.m26XerathArtilleryCenter&&this.mapDistance(v,point)<=100?1.35:1),u,'magic','spell')>0)damaged++;
    state.remaining--;state.nextAt=this.gameTime+1;
    if(state.remaining<=0){u.m22ArtilleryV453=null;
     u.boardChannelUntilV453Dev69=0;
