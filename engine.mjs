@@ -9448,7 +9448,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    if(name==='Kassadin'&&attacker.m27KassWRefundUntil>this.gameTime){
     attacker.m27KassWRefundUntil=0;
     attacker.mana=Math.min(attacker.maxMana,attacker.mana+
-     Math.max(30,attacker.maxMana*(target.champ?.12:.06)));
+     Math.max(30,attacker.maxMana*(target.champ?0.12:0.06)));
    }
    if(name==='Lucian'&&attacker.m27LucianPursuitUntil>this.gameTime&&
       attacker.skillCds.E>this.gameTime)
