@@ -40,6 +40,50 @@ const failures=[];
 const check=(seat,name,fn)=>{try{fn();cases.push(seat+' '+name)}
  catch(e){failures.push({seat,name,error:String(e?.stack||e)});}};
 for(const seat of ['blue','red']){
+ check(seat,'Jarvan Q shreds physical armor on actual hit',()=>{
+  const a1=setup('JarvanIV',seat),base=setup('JarvanIV',seat);
+  a1.cast('Q',{point:{x:.53,y:.5}});
+  assert.ok(a1.e.m26JarvanArmorShred?.until>0);
+  a1.e.armor=120;base.e.armor=120;
+  const withShred=a1.a.damage(a1.e,200,a1.u,'physical','basic');
+  const normal=base.a.damage(base.e,200,base.u,'physical','basic');
+  assert.ok(withShred>normal);a1.snap();
+ });
+ check(seat,'Vi E Shockwave reaches champion behind primary victim',()=>{
+  const {e,e2,cast,snap}=setup('Vi',seat);
+  e2.x=.535;const hp=e2.hp;
+  cast('E',{targetId:e.id});
+  assert.ok(e2.hp<hp,'Vi E must propagate behind chosen target');
+  snap();
+ });
+ check(seat,'Varus E maintains antiheal zone for entrants',()=>{
+  const {a,e2,cast,snap}=setup('Varus',seat);
+  e2.x=.08;cast('E',{point:{x:.53,y:.5}});
+  assert.ok(a.boardTemporalV453Dev69.some(v=>v.kind==='m26_varus_hail'));
+  e2.x=.53;a.gameTime=1;a.advanceBoardTemporalV453Dev69();
+  assert.ok(a.effectResolverV41().has(e2,'grievous_wounds'));
+  snap();
+ });
+ check(seat,'Gragas W reduces actual incoming spell damage',()=>{
+  const buffed=setup('Gragas',seat),plain=setup('Gragas',seat);
+  buffed.cast('W');assert.ok(buffed.u.m26GragasDrinkUntil>0);
+  buffed.a.effectResolverV41().remove(buffed.u,
+   {types:['shield','magic_shield','physical_shield']});
+  const reduced=buffed.a.damage(buffed.u,320,buffed.e,'magic','spell');
+  const normal=plain.a.damage(plain.u,320,plain.e,'magic','spell');
+  assert.ok(reduced<normal);buffed.snap();
+ });
+ check(seat,'Shen R shields first and arrives after interruptible channel',()=>{
+  const {a,u,ally,cast,snap}=setup('Shen',seat);
+  ally.x=.54;const origin=u.x;
+  cast('R',{targetId:ally.id});
+  assert.ok(a.effectResolverV41().has(ally,'shield'));
+  assert.equal(u.x,origin);
+  assert.ok(a.boardTemporalV453Dev69.some(z=>z.kind==='m26_shen_arrival'));
+  a.gameTime=2;a.advanceBoardTemporalV453Dev69();
+  assert.equal(u.x,ally.x);
+  snap();
+ });
  check(seat,'Corki E Gatling stacks armor shred through three pulses',()=>{
   const {a,u,e,cast,snap}=setup('Corki',seat);
   cast('E',{point:{x:.53,y:.5}});
@@ -281,8 +325,8 @@ for(const seat of ['blue','red']){
 }
 for(const f of failures)console.error('M26_B01_FAIL',JSON.stringify(f));
 console.log('M26_B01_IDENTITY_QA '+JSON.stringify({
- cases:cases.length,failures:failures.length,champions:20,teamSeats:2,
+ cases:cases.length,failures:failures.length,champions:25,teamSeats:2,
  certifiedChampions:0,names:cases
 }));
 assert.equal(failures.length,0,'M26 champion-specific behavior failed');
-assert.equal(cases.length,48);
+assert.equal(cases.length,58);
