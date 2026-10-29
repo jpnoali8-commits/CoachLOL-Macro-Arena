@@ -5220,7 +5220,10 @@ export class Arena {
    (u.champ==='Quinn'&&q.slot==='Q'&&s.m27QuinnBlind)||
    (u.champ==='Rell'&&q.slot==='Q'&&s.m26RellShieldBreak)||
    (u.champ==='Locke'&&q.slot==='Q'&&s.m26LockeNails)||
-   (u.champ==='Varus'&&q.slot==='R'&&s.m25VarusChain));
+   (u.champ==='Varus'&&q.slot==='R'&&s.m25VarusChain)||
+   (u.champ==='Sejuani'&&q.slot==='R'&&s.m25SejStorm)||
+   (u.champ==='Milio'&&q.slot==='Q'&&s.m32MilioBounce)||
+   (u.champ==='Lucian'&&q.slot==='W'&&s.m32LucianStar));
   if(m44Flight&&!q.stolenCast&&q.point){
    const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
    if(distance>=1){
@@ -5233,7 +5236,8 @@ export class Arena {
      ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
      origin:start,current:{...start},point:end,
      range:reach,width:s.width||160,power:power(s.damage),
-     damageType:s.type||'magic',maxHits:s.maxHits??9999,
+     damageType:s.type||'magic',
+     maxHits:['Sejuani','Milio','Lucian'].includes(u.champ)?1:(s.maxHits??9999),
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
      nextAt:this.gameTime+1,until:this.gameTime+flightTicks+1,
      m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0
@@ -5678,6 +5682,44 @@ export class Arena {
   this.applyEffectV41(v,'dot',{source:u,duration:5,power:3+stacks*2,
    interval:1,key:'darius_bleed_'+u.id});
  }
+ // M44 B02: author-owned serializable impact stages.
+ m44AuthoredImpactV453Dev69(z,u,point,victim,blocked,keep){
+  const now=this.gameTime;
+  if(z.champ==='Sejuani'&&z.slot==='R'){
+   keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m44_sejuani_storm',
+    ownerId:u.id,team:u.team,point:{...point},radius:350,
+    power:z.power*.55,primaryId:victim?.id||null,nextAt:now+1,until:now+1.1});
+  }else if(z.champ==='Milio'&&z.slot==='Q'){
+   if(victim?.champ&&victim.hp>0&&!blocked)
+    this.pushChampionThroughTerrain(u,victim,240,{maxWallUnits:0});
+   const dx=(z.point.x-z.origin.x)*this.worldWidth,
+    dy=(z.point.y-z.origin.y)*this.worldHeight,
+    len=Math.max(1,Math.hypot(dx,dy)),
+    base=victim?{x:victim.x,y:victim.y}:point,
+    forward={x:base.x+dx/len*180/this.worldWidth,
+     y:base.y+dy/len*180/this.worldHeight};
+   const landed=forward.x>=0&&forward.x<=1&&forward.y>=0&&forward.y<=1&&
+    this.walkable(forward.x,forward.y)&&!this.obstacleLine(base,forward)?
+    forward:base;
+   keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m44_milio_bounce',
+    ownerId:u.id,team:u.team,point:{...landed},radius:280,
+    power:z.power*.55,primaryId:victim?.id||null,nextAt:now+1,until:now+1.1});
+  }else if(z.champ==='Lucian'&&z.slot==='W'){
+   z.m44StarHitIds=[];
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>{
+    if(v.hp<=0||!this.sameCombatRealmV453Dev69(u,v)||
+      this.obstacleLine(point,v))return false;
+    const dx=Math.abs((v.x-point.x)*this.worldWidth),
+     dy=Math.abs((v.y-point.y)*this.worldHeight);
+    return Math.max(dx,dy)<=275&&Math.abs(dx-dy)<=85;
+   }).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    this.damage(v,z.power,u,'magic','spell');
+    z.m44StarHitIds.push(v.id);
+    if(v.hp>0&&!this.effectResolverV41().has(v,'spell_shield')&&v.champ)
+     (v.m20MarksV453??={})['ardent_'+u.id]=now+6;
+   }
+  }
+ }
  // Simulated-second scheduler for delayed zones, a stationary Tibbers proxy,
  // and channels. Every effect is serializable and keyed by stable sequence ID.
  advanceBoardTemporalV453Dev69(){
@@ -5712,7 +5754,8 @@ export class Arena {
      const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
       this.sameCombatRealmV453Dev69(u,v)&&
-      (z.champ!=='Varus'||v.champ||this.boardCloneDamageableV453Dev69(v)));
+      (!['Varus','Sejuani'].includes(z.champ)||
+       v.champ||this.boardCloneDamageableV453Dev69(v)));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
       worldWidth:this.worldWidth,worldHeight:this.worldHeight}):[];
@@ -5724,7 +5767,10 @@ export class Arena {
       if(z.champ==='Rell'&&!spellShield&&victim.champ)
        this.effectResolverV41().remove(victim,{
         types:['shield','magic_shield','physical_shield']});
-      const dealt=this.damage(victim,z.power,u,z.damageType,'spell');
+      // Lucian W deals damage only in its authored star at impact.
+      const dealt=z.champ==='Lucian'&&z.slot==='W'?0:
+       this.damage(victim,z.power,u,z.damageType,'spell');
+      if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
       // Valor stops at first contact; only primary gets Harrier / blindness.
       if(z.champ==='Quinn'&&z.m44SplashRadius>0)
@@ -5761,6 +5807,13 @@ export class Arena {
         const ledger=victim.m26LockeNails??={},prior=ledger[u.id];
         ledger[u.id]={stacks:Math.min(3,
          (prior?.until>now?prior.stacks:0)+1),until:now+6};
+       }else if(z.champ==='Sejuani'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,
+         duration:this.mapDistance(z.origin,victim)>=400?1.5:1,
+         key:'m44_sejuani_prison_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Milio'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:1.5,
+         power:.3,key:'m44_milio_first_'+z.id+'_'+victim.id});
        }else if(z.champ==='Varus'&&victim.champ){
         this.applyEffectV41(victim,'root',{source:u,duration:2,
          key:'m44_varus_r_root_'+z.id+'_'+victim.id});
@@ -5773,10 +5826,36 @@ export class Arena {
        }
       }
      }
+     if(z.hitCount===1&&['Sejuani','Milio','Lucian'].includes(z.champ)){
+      const first=[...this.units,...this.minions,...this.boardSummonsV453Dev69]
+       .find(v=>v.id===z.hitIds[0]);
+      if(first)this.m44AuthoredImpactV453Dev69(z,u,
+       {x:first.x,y:first.y},first,!!z.m44ImpactBlocked,keep);
+     }
      z.current=next;z.distanceDone+=travel;
      z.nextAt=now+1;
-     if(z.hitCount>=z.maxHits||z.distanceDone>=z.range-1e-6||
-        this.obstacleLine(from,next))ended=true;
+     const endOfTravel=z.distanceDone>=z.range-1e-6||
+      this.obstacleLine(from,next);
+     if(endOfTravel&&z.hitCount===0&&
+       ['Sejuani','Milio','Lucian'].includes(z.champ))
+      this.m44AuthoredImpactV453Dev69(z,u,
+       this.obstacleLine(from,next)?from:next,null,false,keep);
+     if(z.hitCount>=z.maxHits||endOfTravel)ended=true;
+    }else if(['m44_sejuani_storm','m44_milio_bounce'].includes(z.kind)){
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+      this.mapDistance(v,z.point)<=z.radius&&
+      !this.obstacleLine(z.point,v)&&
+      !(z.kind==='m44_milio_bounce'&&v.id===z.primaryId))
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      this.damage(v,z.power,u,'magic','spell');
+      if(v.hp>0&&v.champ&&!this.effectResolverV41().has(v,'spell_shield'))
+       this.applyEffectV41(v,'slow',{source:u,
+        duration:z.kind==='m44_sejuani_storm'?2:1.5,
+        power:z.kind==='m44_sejuani_storm'?.45:.35,
+        key:z.kind+'_'+z.id+'_'+v.id});
+     }
+     ended=true;
     }else if(z.kind==='m40_sett_haymaker'){
      const state=u.m40AuthoredChannelV453;
      if(!state||state.kind!=='sett_haymaker'||
