@@ -1139,7 +1139,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',900,120,0,{mana:125,m21Chronoshift:true,m20Missing:'death_phase_revival_animation'})),
  Yunara:BK20('vow_of_the_first_lands',
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m29YunaraQSpread:true,m20Missing:'attack_resource_and_spread'}),
-  B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Missing:'transcendent_variant'}),
+  B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m36YunaraArcOfRuin:true,m20Missing:'transcendent_variant'}),
   B20('self',0,9,0,{speedBuff:.3,buffSeconds:3,m26YunaraDash:true}),
   B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m25YunaraTranscendent:true})),
  Alistar:BK20('triumphant_roar',
@@ -1190,7 +1190,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Galio:BK20('colossal_smash',
   B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m28GalioConverge:true,m20Missing:'converging_windblasts'}),
   B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m28GalioCharge:true,m20Missing:'charge'}),
-  B20('move_point',650,11,95,{radius:210,cc:'knockup',ccSeconds:.8}),
+  B20('move_point',650,11,95,{radius:210,cc:'knockup',ccSeconds:.8,m36GalioJusticePunch:true}),
   B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m25GalioEntrance:true})),
  Locke:BK20('silver_stake',
   B20('line_enemy',950,10,85,{width:160,m20Mark:'soul_nails',m26LockeNails:true}),
@@ -1233,7 +1233,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1050,12,105,{width:165,m26ViktorAftershock:true,m28ViktorLaser:true}),
   B20('circle_enemy',700,120,155,{radius:300,boardTemporal:'damage_pool',zoneSeconds:3,m28ViktorStorm:true,m20Missing:'moving_storm_interrupt'})),
  Fizz:BK20('nimble_fighter',
-  B20('target_enemy',550,8,90,{dashToHit:true}),
+  B20('target_enemy',550,8,90,{dashToHit:true,m36FizzUrchinStrike:true}),
   B20('self',0,7,0,{nextBasic:[50,75,100,125,150],charges:1,m26FizzBleed:true}),
   B20('move_point',400,16,105,{radius:260,cc:'slow',ccSeconds:2,ccPower:.3,m24FizzLeap:true}),
   B20('line_enemy',1300,120,230,{width:160,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m24_fizz_shark',zoneSeconds:2,m24Shark:true})),
@@ -4688,6 +4688,20 @@ export class Arena {
     return {...committed,scheduled:true};
    }
   }
+  if(s.m36GalioJusticePunch&&q.point){
+   // Justice Punch steps backwards before the actual forward collision.
+   const dx=(q.point.x-u.x)*this.worldWidth,
+    dy=(q.point.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy));
+   const back={x:u.x-dx/len*100/this.worldWidth,
+    y:u.y-dy/len*100/this.worldHeight};
+   const origin={x:u.x,y:u.y};
+   if(this.walkable(back.x,back.y)&&!this.obstacleLine(u,back)){
+    Object.assign(u,back);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,origin,back,{kind:'justice_punch_backstep'});
+    u.m36GalioJusticeBackstep={at:this.gameTime,origin,back};
+   }
+  }
   const enemyPool=this.boardCombatEnemyPoolV453Dev69(u);
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
   let hits=[];
@@ -4718,11 +4732,15 @@ export class Arena {
    u.m31RellLastWMode==='mount_up'?
     areaHitsV42(point,enemyPool,180,this.worldWidth,this.worldHeight).slice(0,1):
     areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
-  else if(s.shape==='line_enemy')hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
+  else if(s.shape==='line_enemy'){
+   const arcOfRuin=!!(s.m36YunaraArcOfRuin&&u.m25YunaraTranscendentUntil>this.gameTime);
+   if(arcOfRuin)q.m36YunaraArcOfRuin=true;
+   hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
     range:s.m30LucianAnchoredQ?1100:(s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined?
      900+(s.range-900)*q.m28ChargeSeconds/2:s.range,
-    width:s.width||180,maxHits:s.maxHits??Infinity,
+    width:q.m36YunaraArcOfRuin?105:s.width||180,maxHits:s.maxHits??Infinity,
     worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+  }
   else if(s.shape==='cone_enemy'){
    const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
     len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,spread=Math.tan((s.arc||60)*Math.PI/360);
@@ -4847,7 +4865,7 @@ export class Arena {
      }).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
     hits=[target,...more];
    }
-   if(s.m36SejuaniArcticAssault&&q.point){
+   if((s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)&&q.point){
     // Sejuani Q stops at the FIRST enemy champion intersecting her dash,
     // not every enemy near the originally clicked destination.
     const path=skillshotHitsV42(u,q.point,enemyPool,{
@@ -4855,7 +4873,7 @@ export class Arena {
      worldHeight:this.worldHeight}).filter(v=>v.champ&&v.hp>0);
     if(path.length)hits=[path[0]];
    }
-   if((s.m25GragasFirstCollision||s.m36SejuaniArcticAssault)&&hits.length)
+   if((s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)&&hits.length)
    hits=hits.filter(v=>v.champ).sort((a,b)=>
     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id))).slice(0,1);
   if(s.m25YiAlpha&&target?.champ){
@@ -4887,7 +4905,7 @@ export class Arena {
    }
   }else if(s.shape==='move_point'){
    const start={x:u.x,y:u.y};
-   const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault)?hits[0]:null;
+   const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
     y:first.y-(first.y-u.y)*.1}:point;
    if(this.walkable(destination.x,destination.y)){
@@ -4988,6 +5006,7 @@ export class Arena {
      raw+=Math.max(0,v.maxHp-v.hp)*(.075+.025*Math.max(1,u.skillRanks.W||1));
     if(s.m29KassForcePulse&&q.m29KassStacks)
      raw*=1+.15*q.m29KassStacks;
+    if(s.m36YunaraArcOfRuin&&q.m36YunaraArcOfRuin)raw*=1.35;
     if(s.m29ZacSlingshot&&q.m28ChargeSeconds!==undefined)
      raw*=1+.25*q.m28ChargeSeconds;
     if(s.m29ViCharge&&q.m28ChargeSeconds!==undefined)
@@ -5009,6 +5028,13 @@ export class Arena {
       const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
       return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
     const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
+    if(done>0&&s.m36FizzUrchinStrike&&v.champ&&v.hp>0){
+     // An explicit second ON-HIT damage packet — the audited item/on-hit
+     // pipeline handles it once, unlike a second generic spell burst.
+     const onhit=this.damage(v,Math.max(1,stats.ad||65),u,'physical',
+      'ability_onhit_v453_dev40');
+     if(onhit>0)v.m36FizzUrchinOnHit={ownerId:u.id,at:this.gameTime,damage:onhit};
+    }
     if(done>0&&s.m29CorkiBigRocket&&
        u.m22MagazineV453?.shots%s.m22Magazine.bigEvery===0){
      for(const other of this.boardCombatEnemyPoolV453Dev69(u).filter(x=>
