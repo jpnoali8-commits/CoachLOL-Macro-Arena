@@ -3653,8 +3653,11 @@ export class Arena {
   if(!v?.champ||v.hp<=0)return false;
   const cancellable=['cone_channel','m20_requiem_channel','m22_artillery_channel'];
   const old=(this.boardTemporalV453Dev69||[]).length;
+  for(const zone of this.boardTemporalV453Dev69||[])
+   if(zone.ownerId===v.id&&cancellable.includes(zone.kind))
+    zone.m43InterruptedAt=this.gameTime;
   this.boardTemporalV453Dev69=(this.boardTemporalV453Dev69||[])
-   .filter(z=>!(z.ownerId===v.id&&cancellable.includes(z.kind)));
+   .filter(z=>z.m43InterruptedAt===undefined);
   let interrupted=this.boardTemporalV453Dev69.length<old;
   if(v.m40AuthoredChannelV453){
    const state=v.m40AuthoredChannelV453;
@@ -4373,12 +4376,19 @@ export class Arena {
   if(s.m32YiHighlander)u.m32YiHighlanderUntil=this.gameTime+7;
   if(s.m29QuinnHeightened&&q.point){
    const candidates=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
-     v.hp>0&&this.mapDistance(v,q.point)<=s.radius&&this.visible(u.team,v)&&
-     !this.obstacleLine(u,v))
-     .sort((a,b)=>this.mapDistance(q.point,a)-this.mapDistance(q.point,b)||
-       String(a.id).localeCompare(String(b.id)));
-   if(candidates.length)
-    (candidates[0].m20MarksV453??={})['harrier_'+u.id]=this.gameTime+6;
+    v.hp>0&&this.mapDistance(v,q.point)<=s.radius&&this.visible(u.team,v)&&
+    !this.obstacleLine(q.point,v))
+    .sort((a,b)=>this.mapDistance(q.point,a)-this.mapDistance(q.point,b)||
+      String(a.id).localeCompare(String(b.id)));
+   const first=candidates[0]||null;
+   if(first)(first.m20MarksV453??={})['harrier_'+u.id]=this.gameTime+6;
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m43_quinn_heightened',
+    ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},
+    point:{...q.point},radius:s.radius||1200,
+    nextAt:this.gameTime+1,until:this.gameTime+(s.visionSeconds||3)+.1,
+    hitIds:first?[first.id]:[],ticksLeft:Math.max(1,s.visionSeconds||3)
+   });
   }
   if(s.m28ViktorShield){
    const rank=Math.max(1,u.skillRanks.Q||1);
@@ -5640,6 +5650,7 @@ export class Arena {
  advanceBoardTemporalV453Dev69(){
   const now=this.gameTime,keep=[];
   for(const z of this.boardTemporalV453Dev69||[]){
+   if(z.m43InterruptedAt!==undefined)continue;
    const u=this.units.find(v=>v.id===z.ownerId);
    if(!u){continue;}
    let ended=false;
@@ -5739,7 +5750,21 @@ export class Arena {
        z.nextAt=now+1;
        if(z.m41VortexTicks>=2)ended=true;
       }else ended=true;
-     }else if(z.kind==='m28_mel_volley'){
+     }else if(z.kind==='m43_quinn_heightened'){
+     const candidates=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.champ&&v.hp>0&&!z.hitIds.includes(v.id)&&
+      this.mapDistance(v,z.point)<=z.radius&&this.visible(u.team,v)&&
+      this.canSeePoint(u.team,v)&&!this.obstacleLine(z.point,v))
+      .sort((a,b)=>this.mapDistance(z.point,a)-this.mapDistance(z.point,b)||
+       String(a.id).localeCompare(String(b.id)));
+     const target=candidates[0];
+     if(target){
+      (target.m20MarksV453??={})['harrier_'+u.id]=now+6;
+      z.hitIds.push(target.id);
+     }
+     z.ticksLeft--;z.nextAt=now+1;
+     if(z.ticksLeft<=0)ended=true;
+    }else if(z.kind==='m28_mel_volley'){
      // Three separately tracked board projectiles per wave, one collision
      // receipt per shot: no anonymous full-circle damage on future ticks.
      const vx=(z.point.x-z.origin.x)*this.worldWidth,
@@ -5753,11 +5778,12 @@ export class Arena {
        y:z.origin.y+ny*offset/this.worldHeight},
        end={x:z.point.x+nx*offset/this.worldWidth,
         y:z.point.y+ny*offset/this.worldHeight};
-      const victim=skillshotHitsV42(origin,end,this.boardCombatEnemyPoolV453Dev69(u),
+      const ray=skillshotHitsV42(origin,end,this.boardCombatEnemyPoolV453Dev69(u),
        {range:length,width:130,maxHits:1,
-        worldWidth:this.worldWidth,worldHeight:this.worldHeight})
-       .find(v=>v.hp>0&&!this.obstacleLine(origin,v))||null;
-      z.m30ProjectileReceipts.push({volley,shot,targetId:victim?.id||null});
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+      const blocked=!!ray[0]&&this.obstacleLine(origin,ray[0]);
+      const victim=blocked?null:ray[0]||null;
+      z.m30ProjectileReceipts.push({volley,shot,targetId:victim?.id||null,blocked});
       if(victim){
        const dealt=this.damage(victim,z.power/2,u,'magic','spell');
        if(dealt>0&&victim.hp>0)
@@ -6029,11 +6055,19 @@ export class Arena {
       x:z.point.x+x/this.worldWidth,y:z.point.y+y/this.worldHeight}));
      for(const victim of this.boardCombatEnemyPoolV453Dev69(u)
       .filter(v=>v.champ&&v.hp>0).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
-      if(z.hitIds.includes(victim.id)||!centers.some(p=>this.mapDistance(p,victim)<=155))continue;
-      const hit=this.damage(victim,z.power,u,'magic','spell');
+      if(z.hitIds.includes(victim.id))continue;
+      const distances=centers.filter(p=>!this.obstacleLine(p,victim))
+       .map(p=>this.mapDistance(p,victim));
+      if(!distances.length||Math.min(...distances)>155)continue;
+      const blocked=this.effectResolverV41().has(victim,'spell_shield');
+      const dealt=this.damage(victim,z.power,u,'magic','spell');
       z.hitIds.push(victim.id);
-      if(hit>0&&victim.hp>0)this.applyEffectV41(victim,'stun',{
-       source:u,duration:1.25,key:'m24_heimer_grenade_'+z.id+'_'+victim.id});
+      if(dealt>0&&victim.hp>0&&!blocked){
+       const central=distances.some(d=>d<=95);
+       this.applyEffectV41(victim,central?'stun':'slow',{
+        source:u,duration:central?1.25:2,power:central?0:.45,
+        key:'m43_heimer_upgrade_e_'+z.id+'_'+victim.id});
+      }
      }
      ended=true;
     }else if(z.kind==='m24_fizz_shark'){
@@ -6104,7 +6138,7 @@ export class Arena {
      if(z.ticksLeft<=0){u.boardChannelUntilV453Dev69=0;ended=true;}
     }
    }
-   if(!ended&&now<z.until)keep.push(z);
+   if(!ended&&z.m43InterruptedAt===undefined&&now<z.until)keep.push(z);
    else if(['cone_channel','m20_requiem_channel','m22_artillery_channel'].includes(z.kind)){
     u.boardChannelUntilV453Dev69=0;
     if(z.kind==='m22_artillery_channel')u.m22ArtilleryV453=null;
