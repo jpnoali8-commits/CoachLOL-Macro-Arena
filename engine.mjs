@@ -3763,16 +3763,18 @@ export class Arena {
   }
   if(s.m20DeployTurret&&q.point){
    const active=this.boardSummonsV453Dev69.filter(v=>v.ownerId===u.id&&
-    v.kind==='heimer_turret'&&v.hp>0&&v.until>this.gameTime)
+    ['heimer_turret','heimer_turret_upgraded'].includes(v.kind)&&v.hp>0&&v.until>this.gameTime)
     .sort((a,b)=>a.createdAt-b.createdAt||a.id.localeCompare(b.id));
    if(active.length>=3)active[0].hp=0;
    const rank=Math.max(1,u.skillRanks[q.slot]||1),hp=180+rank*45;
    this.boardSummonsV453Dev69.push({
-    id:'heimer_turret_'+(++this.boardSummonIdV453Dev69),kind:'heimer_turret',
-    team:u.team,ownerId:u.id,x:q.point.x,y:q.point.y,hp,maxHp:hp,
+    id:'heimer_turret_'+(++this.boardSummonIdV453Dev69),
+    kind:empower?'heimer_turret_upgraded':'heimer_turret',
+    team:u.team,ownerId:u.id,x:q.point.x,y:q.point.y,
+    hp:hp*(empower?2:1),maxHp:hp*(empower?2:1),
     armor:30,mr:30,createdAt:this.gameTime,
-    until:this.gameTime+45,lastTick:this.gameTime,nextAttackAt:this.gameTime+1,
-    attackRange:525,power:25+rank*12+this.elementalStatsV452d3(u).ap*.2
+    until:this.gameTime+(empower?60:45),lastTick:this.gameTime,nextAttackAt:this.gameTime+1,
+    attackRange:525,power:(25+rank*12+this.elementalStatsV452d3(u).ap*.2)*(empower?2:1)
    });
   }
   if(s.m20OrbSpawn&&q.point){
@@ -3930,6 +3932,8 @@ export class Arena {
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
+  if(s.m23UseGrit&&spentGrit>0)this.applyEffectV41(u,'shield',{
+   source:u,duration:3,power:spentGrit,key:'m23_grit_'+instance});
   let damaged=0;
   const annieReady=u.champ==='Annie'&&(u.boardSpellCountV453Dev69||0)>=3;
   const m21ShieldedOnCast=!!s.m21HealIfShielded&&
@@ -3961,7 +3965,8 @@ export class Arena {
     const markedBonus=s.m20BonusAgainst&&
      v.m20MarksV453?.[s.m20BonusAgainst+'_'+u.id]>this.gameTime?
      (s.m20BonusDamage||0):0;
-    const raw=(power(s.damage)*(s.m22Magazine&&
+    const raw=((power(s.damage)+(s.m23UseGrit?spentGrit*.25:0))*
+     (empower?1.75:1)*(s.m22Magazine&&
        (u.m22MagazineV453?.shots||0)%s.m22Magazine.bigEvery===0?1.5:1)+
       markedBonus+(s.maxHpRatio||0)*v.maxHp+
      (s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp)+
@@ -3975,7 +3980,13 @@ export class Arena {
      if(dot.ok&&u.champ==='Cassiopeia'&&s.m20Mark==='poison'&&v.champ)
       u.boardSpeedV453Dev69={until:this.gameTime+3,fraction:.15};
     }else{
-     const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
+     const center=s.m23UseGrit&&q.point&&(()=>{
+      const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight;
+      const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
+      return Math.abs(x*dy-y*dx)/Math.max(1,Math.hypot(dx,dy))<=70;})();
+    const done=this.damage(v,raw,u,center?'true':s.type||'magic','spell');if(done>0)damaged++;
+    if(done>0&&s.m23ExecuteThreshold&&v.champ&&v.hp>0)
+     u.m23ExecuteMarkV453={targetId:v.id,until:this.gameTime+4};
      // M21 passives reuse real skill hit registration; failed hits never
      // detonate Blight or award Cassiopeia the poison-triggered speed bonus.
      if(done>0&&s.m22SecondStage&&v.hp>0){
@@ -4843,7 +4854,7 @@ export class Arena {
    const owner=this.units.find(v=>v.id===s.ownerId);
    if(!owner){s.hp=0;continue;}
    s.lastTick=now;
-   if(s.kind==='heimer_turret'){
+   if(['heimer_turret','heimer_turret_upgraded'].includes(s.kind)){
     const target=this.units.filter(v=>v.hp>0&&v.team!==s.team&&
      this.sameCombatRealmV453Dev69(owner,v)&&this.visible(s.team,v)&&
      this.mapDistance(s,v)<=s.attackRange)
@@ -4932,8 +4943,10 @@ export class Arena {
    const mark=u.m23ExecuteMarkV453;
    if(mark&&this.gameTime>=mark.until){
     const victim=this.boardCombatEntityByIdV453Dev69(mark.targetId);
-    if(victim?.champ&&victim.hp<=victim.maxHp*.25&&u.hp>0)
+    if(victim?.champ&&victim.hp<=victim.maxHp*.25&&u.hp>0){
+     mark.until=this.gameTime+.001;
      this.m23UrgotExecuteV453(u,victim.id,.25);
+    }
     u.m23ExecuteMarkV453=null;
    }
    if(u.m23ZacDivisionV453?.active&&this.gameTime>=u.m23ZacDivisionV453.until)
