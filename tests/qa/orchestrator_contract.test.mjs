@@ -8,17 +8,20 @@ const read=p=>readFileSync(new URL(p,root),'utf8');
 const manifest=JSON.parse(read('tools/qa/qa_manifest_dev69.json'));
 const devcontainer=JSON.parse(read('.devcontainer/devcontainer.json'));
 assert.equal(manifest.schema,'coachlol.qa.manifest.v1');
-assert.deepEqual(manifest.lanes.map(x=>x.name),['integration','skills','items']);
-assert.equal(new Set(manifest.lanes.map(x=>x.branch)).size,3);
+assert.deepEqual(manifest.lanes.map(x=>x.name),['integration','skills','items','items-audit']);
+assert.equal(new Set(manifest.lanes.map(x=>x.branch)).size,4);
 const skills=manifest.lanes.find(l=>l.name==='skills');
 assert.ok(skills.quickRecentMilestones>=3);
 assert.ok(skills.fullMinAuditFiles>=49);
 const items=manifest.lanes.find(l=>l.name==='items');
 for(const id of ['test:v453:dev69:items-bulk','test:v453:dev69:items-batch7'])
  assert.ok(items.fullScripts.includes(id),'Missing item scope '+id);
-assert.equal(manifest.release.requiredIntegratedBranches.length,3);
-for(const id of ['dev69/skills-batch2','dev69/items-batch7','dev69/assets-import'])
+assert.equal(manifest.release.requiredIntegratedBranches.length,4);
+for(const id of ['dev69/skills-batch2','dev69/items-batch7','dev69/assets-import','dev69/items-full-audit'])
  assert.ok(manifest.release.requiredIntegratedBranches.includes(id));
+const audit=manifest.lanes.find(x=>x.name==='items-audit');
+assert.equal(audit.fullOnly,true);
+assert.equal(audit.auditFiles.length,6);
 assert.equal(devcontainer.containerEnv.COACHLOL_QA_AUTO_PUBLISH,'1');
 assert.match(devcontainer.postStartCommand,/codespaces_on_start\.sh/);
 const src=read('tools/qa/offline_full_project.mjs');
