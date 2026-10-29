@@ -967,6 +967,31 @@ export const M16_MECHANIC_KITS=Object.freeze({
  Jhin:{E:BS('move_point',750,30,[24,21.5,19,16.5,14],[],{m16Trap:'jhin_lotus',m16Charges:2,m16Max:2}),
   R:BS('self',3500,100,[120,105,90],[],{m16FourShots:true})}
 });
+// M44 B07: authored, individually flagged identities; partial P+QWER.
+export const M44_B07_KITS_V453=Object.freeze({
+ Thresh:{Q:BS('line_enemy',1100,70,[19,16.5,14,11.5,9],[100,140,180,220,260],
+  {apRatio:.9,width:140,m44B07Flight:true,m44B07First:true})},
+ Nautilus:{Q:BS('line_enemy',1120,60,[14,13,12,11,10],[70,115,160,205,250],
+  {apRatio:.9,width:140,m44B07Flight:true,m44B07First:true})},
+ Pyke:{Q:BS('line_enemy',1100,70,[12,11,10,9,8],[100,150,200,250,300],
+  {type:'physical',adRatio:.6,width:125,m44B07Flight:true,m44B07First:true})},
+ Zyra:{E:BS('line_enemy',1100,70,[12,11,10,9,8],[60,95,130,165,200],
+  {apRatio:.6,width:160,m44B07Flight:true})},
+ Senna:{W:BS('line_enemy',1300,[50,55,60,65,70],11,[70,110,150,190,230],
+  {type:'physical',adRatio:.9,width:140,m44B07Flight:true,m44B07First:true})},
+ Karma:{Q:BS('line_enemy',950,45,[9,8,7,6,5],[70,120,170,220,270],
+  {apRatio:.7,width:130,m44B07Flight:true,m44B07First:true})},
+ Draven:{R:BS('line_enemy',3500,100,[100,90,80],[200,300,400],
+  {type:'physical',adRatio:1.1,width:280,m44B07Flight:true,m44B07Return:true})},
+ Gnar:{Q:BS('line_enemy',1100,0,[20,17.5,15,12.5,10],[5,45,85,125,165],
+  {type:'physical',adRatio:1.1,width:135,m44B07Flight:true,m44B07Return:true})},
+ Renata:{Q:BS('line_enemy',900,80,[16,15,14,13,12],[80,125,170,215,260],
+  {apRatio:.8,width:150,m44B07Flight:true,m44B07First:true})},
+ Orianna:{Q:BS('line_enemy',825,[30,35,40,45,50],6,[60,90,120,150,180],
+  {apRatio:.5,width:180,m44B07Flight:true}),
+  W:BS('self',0,70,[7,6.5,6,5.5,5],[60,105,150,195,240],
+  {apRatio:.7,m44B07Pulse:true})}
+});
 // B05: champion-specific contracts, never a fallback for unfinished slots.
 export const M44_B05_KITS_V453=Object.freeze({
  Jhin:{W:BS('line_enemy',2520,[50,55,60,65,70],12,[70,105,140,175,210],
@@ -1325,7 +1350,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -3788,6 +3813,23 @@ export class Arena {
     return {ok:true,queued:true,recast:true};
    }
   }
+  // M44 B07: second-stage Thresh hook dash / Renata Handshake shove.
+  if(slot==='Q'&&['Thresh','Renata'].includes(u.champ)&&
+     u.m44B07Hook?.until>this.gameTime){
+   const state=u.m44B07Hook,enemy=this.boardCombatEntityByIdV453Dev69(state.targetId);
+   if(!enemy||enemy.team===team||!this.sameCombatRealmV453Dev69(u,enemy)||
+      (u.champ==='Thresh'&&this.mapDistance(u,enemy)>3000)||
+      !this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m44_b07_recast_invalid'};
+   if(u.champ==='Renata'&&(!point||![point.x,point.y].every(Number.isFinite)||
+      point.x<0||point.x>1||point.y<0||point.y>1||
+      this.mapDistance(enemy,point)>300))
+    return {ok:false,reason:'m44_b07_shove_point'};
+   u.pendingBoardV453Dev69={slot,m44B07Recast:true,targetId:enemy.id,
+    ...(u.champ==='Renata'?{point:{...point}}:{})};
+   this.recordIntentV40(team,id,'m44_b07_recast',{slot,targetId:enemy.id});
+   return {ok:true,queued:true,recast:true};
+  }
   // M16 reactivation: no second mana/CD charge.
   if(s.m16FourShots&&u.m16JhinChannel?.remaining>0&&u.m16JhinChannel.until>this.gameTime){
    if(!point||![point.x,point.y].every(Number.isFinite)||
@@ -4033,7 +4075,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -4112,6 +4154,33 @@ export class Arena {
   if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
    return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
+  if(q?.m44B07Recast&&['Thresh','Renata'].includes(u.champ)){
+   const hook=u.m44B07Hook,v=this.boardCombatEntityByIdV453Dev69(q.targetId);
+   if(!hook||hook.targetId!==q.targetId||hook.until<=this.gameTime||
+      !v||v.team===u.team||!this.sameCombatRealmV453Dev69(u,v)||
+      !this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m44_b07_hook_expired'};
+   let from,to;
+   if(u.champ==='Thresh'){
+    const len=Math.max(1,this.mapDistance(u,v));from={x:u.x,y:u.y};
+    to={x:v.x-(v.x-u.x)*110/len,y:v.y-(v.y-u.y)*110/len};
+    if(!this.walkable(to.x,to.y)||this.obstacleLine(from,to))
+     return {ok:false,reason:'m44_b07_dash_blocked'};
+    Object.assign(u,to);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'thresh_q2'});
+   }else{
+    from={x:v.x,y:v.y};to=q.point;
+    if(!to||this.mapDistance(from,to)>300||!this.walkable(to.x,to.y)||
+       this.obstacleLine(from,to))
+     return {ok:false,reason:'m44_b07_shove_blocked'};
+    Object.assign(v,to);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+    if(v.champ)this.invalidateShopUndoOnDepartureV453Dev61(v);
+   }
+   u.m44B07Hook=null;
+   return {ok:true,recast:true,spentMana:0,targetId:v.id,
+    displacement:u.champ==='Thresh'?'dash':'shove'};
+  }
   if(q?.m21Recast==='sonic_dash'&&s.m21SonicRecast){
    const state=u.m21SonicRecastV453, victim=this.boardCombatEntityByIdV453Dev69(q.targetId)||
     this.minions.find(v=>v.id===q.targetId&&v.hp>0);
@@ -5249,6 +5318,22 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  if(u.champ==='Orianna'&&q.slot==='W'&&s.m44B07Pulse){
+   const ball=u.m44B07Ball?.until>this.gameTime?u.m44B07Ball:u;
+   let hitCount=0;
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    this.mapDistance(v,ball)<=250&&!this.obstacleLine(ball,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    const blocked=!!this.effectResolverV41().has(v,'spell_shield');
+    if(this.damage(v,power(s.damage),u,'magic','spell')>0)hitCount++;
+    if(!blocked&&v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{
+     source:u,duration:2,power:.35,key:'m44_b07_orianna_'+instance+'_'+v.id});
+   }
+   for(const a of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+      this.mapDistance(v,ball)<=250))
+    a.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.3};
+   return {...committed,pulse:true,hitCount};
+  }
   if(u.champ==='Xayah'&&q.slot==='W'&&s.m44XayahPlumage)
    u.m44XayahPlumageUntil=this.gameTime+4;
   if(u.champ==='Xayah'&&q.slot==='R'&&s.m44XayahFeatherstorm){
@@ -5315,9 +5400,11 @@ export class Arena {
    (u.champ==='Ahri'&&q.slot==='E'&&s.m44AhriCharm)||
    (u.champ==='Jinx'&&q.slot==='W'&&s.m44JinxZap)||
    (u.champ==='Kaisa'&&q.slot==='W'&&s.m44KaisaVoidSeeker)||
-   (u.champ==='Caitlyn'&&q.slot==='E'&&s.m44CaitlynNet));
+   (u.champ==='Caitlyn'&&q.slot==='E'&&s.m44CaitlynNet)||!!s.m44B07Flight);
   if(m44Flight&&!q.stolenCast&&q.point){
-   const start={x:u.x,y:u.y},distance=this.mapDistance(start,q.point);
+   const start=u.champ==='Orianna'&&q.slot==='Q'&&u.m44B07Ball?.until>this.gameTime?
+    {x:u.m44B07Ball.x,y:u.m44B07Ball.y}:{x:u.x,y:u.y},
+    distance=this.mapDistance(start,q.point);
    if(distance>=1){
     const reach=Math.min(distance,s.range),ratio=reach/distance;
     const end={x:start.x+(q.point.x-start.x)*ratio,
@@ -5337,11 +5424,11 @@ export class Arena {
       (1+.25*m44Charge)*(q.m30VarusEmpowered?1.15:1):1),
      damageType:s.type||'magic',
      maxHits:['Sejuani','Milio','Lucian'].includes(u.champ)||
-      m44FirstBody.includes(u.champ)?1:(s.maxHits??9999),
+      m44FirstBody.includes(u.champ)||s.m44B07First?1:(s.maxHits??9999),
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
      nextAt:this.gameTime+1,
-     until:this.gameTime+flightTicks*(u.champ==='Sivir'?2:1)+1,
-     m44ReturnOrigin:u.champ==='Sivir'?{...start}:null,
+     until:this.gameTime+flightTicks*(u.champ==='Sivir'||s.m44B07Return?2:1)+2,
+     m44ReturnOrigin:u.champ==='Sivir'||s.m44B07Return?{...start}:null,
      m44ReturnLeg:false,m44ChargeSeconds:m44Charge,
      m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0,
      m44LatchTargetId:null,m44ExtensionCount:0,m44Ray:0
@@ -5978,6 +6065,7 @@ export class Arena {
       const raw=z.champ==='Lucian'&&z.slot==='W'?0:
        z.champ==='Nidalee'&&z.slot==='Q'?
         z.power*(1+Math.min(1.5,Math.max(0,distance-450)/850)):
+       z.champ==='Draven'&&z.slot==='R'?z.power*Math.max(.5,1-.08*z.hitCount):
        z.champ==='Jhin'&&z.slot==='R'?
         z.power*(1+Math.min(3,3*(1-victim.hp/Math.max(1,victim.maxHp))))*
          (z.m44CurtainCallShot===4?2.3:1):
@@ -5988,6 +6076,13 @@ export class Arena {
       const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
+      if(z.champ==='Senna'&&z.slot==='W'&&!spellShield)
+       keep.push({id:++this.boardTemporalIdV453Dev69,kind:'m44_b07_senna_root',
+        ownerId:u.id,team:u.team,targetId:victim.id,
+        point:{x:victim.x,y:victim.y},radius:280,
+        nextAt:now+1,until:now+1.1,rank:u.skillRanks.W||1});
+      if(['Draven','Gnar'].includes(z.champ)&&victim.champ&&!z.m44ReturnLeg)
+       z.m44B07ReverseNow=true;
       if(z.champ==='Jhin'&&z.slot==='W'&&
        (victim.champ||(victim.kind!=='zac_blob'&&
         this.boardCloneDamageableV453Dev69(victim)&&
@@ -6006,7 +6101,55 @@ export class Arena {
       // shield-break are contact effects unless the spell shield blocks them.
       if(victim.hp>0&&!spellShield){
        if(z.m44Mark)(victim.m20MarksV453??={})[z.m44Mark+'_'+u.id]=now+6;
-       if(z.champ==='Ashe'&&z.slot==='R'&&victim.champ){
+       if(z.champ==='Thresh'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'stun',{source:u,duration:1.5,
+         key:'m44_b07_thresh_'+z.id+'_'+victim.id});
+        (victim.m16TrueSightUntil??={})[u.team]=now+2;
+        u.m44B07Hook={targetId:victim.id,until:now+1.5,kind:'thresh'};
+        u.skillCds.Q=Math.max(now,(u.skillCds.Q||now)-2);
+       }else if(z.champ==='Nautilus'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'root',{source:u,duration:1,
+         key:'m44_b07_nautilus_'+z.id+'_'+victim.id});
+        const from={x:victim.x,y:victim.y},len=this.mapDistance(u,victim),
+         pull=Math.min(180,len*.3)/Math.max(1,len),
+         to={x:victim.x+(u.x-victim.x)*pull,y:victim.y+(u.y-victim.y)*pull};
+        if(this.walkable(to.x,to.y)&&!this.obstacleLine(from,to)){
+         Object.assign(victim,to);victim.path=[];victim.laneFollowPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(victim);
+        }
+       }else if(z.champ==='Pyke'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.9,
+         key:'m44_b07_pyke_'+z.id+'_'+victim.id});
+        const from={x:victim.x,y:victim.y},len=this.mapDistance(u,victim),
+         pull=Math.min(250,len*.65)/Math.max(1,len),
+         to={x:victim.x+(u.x-victim.x)*pull,y:victim.y+(u.y-victim.y)*pull};
+        if(this.walkable(to.x,to.y)&&!this.obstacleLine(from,to)){
+         Object.assign(victim,to);victim.path=[];victim.laneFollowPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(victim);
+        }
+       }else if(z.champ==='Zyra'&&z.slot==='E'&&victim.champ){
+        this.applyEffectV41(victim,'root',{source:u,duration:1.25,
+         key:'m44_b07_zyra_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Karma'&&z.slot==='Q'){
+        if(victim.champ)this.applyEffectV41(victim,'slow',{
+         source:u,duration:1.5,power:.35,key:'m44_b07_karma_'+z.id+'_'+victim.id});
+        for(const splash of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+         v.id!==victim.id&&v.hp>0&&this.mapDistance(v,victim)<=200&&
+         !this.obstacleLine(victim,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+         const blocked=!!this.effectResolverV41().has(splash,'spell_shield');
+         this.damage(splash,z.power*.5,u,'magic','spell');
+         if(!blocked&&splash.champ&&splash.hp>0)
+          this.applyEffectV41(splash,'slow',{source:u,duration:1.5,power:.35,
+           key:'m44_b07_karma_splash_'+z.id+'_'+splash.id});
+        }
+       }else if(z.champ==='Gnar'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.3,
+         key:'m44_b07_gnar_'+z.id+'_'+victim.id});
+       }else if(z.champ==='Renata'&&z.slot==='Q'&&victim.champ){
+        this.applyEffectV41(victim,'root',{source:u,duration:1.25,
+         key:'m44_b07_renata_'+z.id+'_'+victim.id});
+        u.m44B07Hook={targetId:victim.id,until:now+1.25,kind:'renata'};
+       }else if(z.champ==='Ashe'&&z.slot==='R'&&victim.champ){
         this.applyEffectV41(victim,'stun',{source:u,
          duration:Math.min(3.5,1+Math.max(0,distance-300)/2800*2.5),
          key:'m44_ashe_stun_'+z.id+'_'+victim.id});
@@ -6223,19 +6366,42 @@ export class Arena {
        }
       }
      }
-     if(z.champ==='Sivir'&&z.slot==='Q'&&endOfTravel&&!z.m44ReturnLeg){
+     if(z.champ==='Orianna'&&z.slot==='Q'&&endOfTravel&&
+       !this.obstacleLine(from,next))
+      u.m44B07Ball={x:next.x,y:next.y,until:now+30};
+     if(((z.champ==='Sivir'&&z.slot==='Q')||
+         ['Draven','Gnar'].includes(z.champ))&&
+        (endOfTravel||z.m44B07ReverseNow)&&!z.m44ReturnLeg){
       // Boomerang Blade traverses both legs. The same body can be hit once
       // per leg, never repeatedly by overlapping travel segments.
       z.m44ReturnLeg=true;z.m44OutboundHitIds=[...z.hitIds];
       z.origin={...next};z.current={...next};
-      z.point={...z.m44ReturnOrigin};z.distanceDone=0;
+      z.point=['Draven','Gnar'].includes(z.champ)?{x:u.x,y:u.y}:
+       {...z.m44ReturnOrigin};
+      z.distanceDone=0;z.m44B07ReverseNow=false;
       z.range=this.mapDistance(z.origin,z.point);z.hitIds=[];z.hitCount=0;
-     }else if(z.hitCount>=z.maxHits||endOfTravel)ended=true;
+     }else if(z.hitCount>=z.maxHits||endOfTravel){
+      ended=true;
+      if(z.champ==='Gnar'&&z.m44ReturnLeg&&this.mapDistance(next,u)<=180)
+       u.skillCds.Q=Math.max(now,(u.skillCds.Q||now)-2);
+     }
      if(z.champ==='Olaf'&&z.slot==='Q'&&endOfTravel)
       keep.push({id:++this.boardTemporalIdV453Dev69,
        kind:'m44_olaf_axe_pickup',ownerId:u.id,team:u.team,
        point:{...next},nextAt:now+1,until:now+5});
-    }else if(z.kind==='m44_xayah_bladecaller'){
+    }else if(z.kind==='m44_b07_senna_root'){
+      const victim=this.boardCombatEntityByIdV453Dev69(z.targetId);
+      const at=victim?{x:victim.x,y:victim.y}:z.point;
+      for(const target of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       v.champ&&v.hp>0&&this.mapDistance(at,v)<=z.radius&&
+       !this.obstacleLine(at,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       if(this.effectResolverV41().has(target,'spell_shield'))continue;
+       this.applyEffectV41(target,'root',{source:u,
+        duration:1.25+Math.max(0,Math.min(4,z.rank-1))*.25,
+        key:'m44_b07_senna_'+z.id+'_'+target.id});
+      }
+      ended=true;
+     }else if(z.kind==='m44_xayah_bladecaller'){
      const count={};
      for(const feather of (z.feathers||[]).filter(f=>f.until>=now-1)){
       const origin={x:feather.x,y:feather.y},
