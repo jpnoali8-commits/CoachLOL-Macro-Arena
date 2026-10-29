@@ -2404,14 +2404,18 @@ export class Arena {
    .map(u=>{
     if(u.team===team)return u;
     const disguise=u.neekoDisguiseV453M15,cloneActive=!!u.shacoCloneIdV453M15&&
-     this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime);
-    return {id:disguise?.publicId||(cloneActive?u.shacoPublicAliasV453M15:u.id),
+     this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime),
+     decoyActive=!!(u.m16WukongCloneId||u.m16LeblancCloneId)&&
+     this.boardSummonsV453Dev69.some(e=>e.id===(u.m16WukongCloneId||u.m16LeblancCloneId)&&
+      e.hp>0&&e.until>this.gameTime);
+    return {id:disguise?.publicId||(cloneActive?u.shacoPublicAliasV453M15:
+      decoyActive?u.m16DecoyPublicAlias:u.id),
      team:u.team,role:disguise?'unknown':u.role,champ:disguise?.champ||u.champ,
      klass:disguise?'unknown':u.klass,x:u.x,y:u.y,
      hp:disguise?.visualHp??u.hp,maxHp:disguise?.visualMaxHp??u.maxHp,
      mana:disguise?0:u.mana,maxMana:disguise?0:u.maxMana,level:disguise?1:u.level};
    }).concat(this.boardSummonsV453Dev69.filter(s=>s.team!==team&&
-     ['neeko_clone','shaco_clone','wukong_clone'].includes(s.kind)&&s.hp>0&&s.until>this.gameTime&&
+     ['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(s.kind)&&s.hp>0&&s.until>this.gameTime&&
      s.stealthUntil<=this.gameTime&&canSee(s)&&
      (!s.appearance||s.appearance.kind==='champion')).map(s=>({
       id:s.publicId,team:s.team,role:'unknown',
@@ -2441,7 +2445,7 @@ export class Arena {
     armed:t.armedAt<=this.gameTime}),
   boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
    s.until>this.gameTime&&(s.team===team||canSee(s))&&
-   (s.team===team||!['neeko_clone','shaco_clone','wukong_clone'].includes(s.kind)))
+   (s.team===team||!['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(s.kind)))
    .map(s=>s.team===team?{id:s.id,kind:s.kind,team:s.team,ownerId:s.ownerId,
     x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp,until:s.until,targetId:s.targetId}:
     {id:s.id,kind:s.kind,team:s.team,x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}),
@@ -3785,6 +3789,9 @@ export class Arena {
    if(u.shacoCloneIdV453M15&&u.shacoPublicAliasV453M15===id&&
      this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))return u.id;
   }
+  for(const u of this.units)if(u.team!==team&&u.hp>0&&u.m16DecoyPublicAlias===id&&
+   this.boardSummonsV453Dev69.some(e=>e.id===(u.m16WukongCloneId||u.m16LeblancCloneId)&&
+    e.hp>0&&e.until>this.gameTime)&&this.visible(team,u))return u.id;
   const e=this.boardSummonsV453Dev69.find(e=>e.publicId===id&&e.team!==team&&e.hp>0&&e.until>this.gameTime&&
    e.stealthUntil<=this.gameTime&&this.canSeePoint(team,e));
   return e?.id||null;
@@ -3964,6 +3971,7 @@ export class Arena {
      moveSpeed:0,attackRange:175,power:Math.max(20,u.ad*.45),
      appearance:{kind:'champion',champ:'MonkeyKing'}});
     u.m16WukongCloneId=clone.id;
+    u.m16DecoyPublicAlias='appearance_'+(++this.m15PublicSeq).toString(36);
    }
    if(s.m16AreaDamage)for(const target of this.units.filter(v=>v.team!==u.team&&v.hp>0&&
     this.mapDistance(v,u)<=550&&this.sameCombatRealmV453Dev69(u,v)))
@@ -4123,7 +4131,7 @@ export class Arena {
  advanceBoardSummonsV453Dev69(){
   const now=this.gameTime;
   for(const s of [...(this.boardSummonsV453Dev69||[])]){
-   if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone'].includes(s.kind)){
+   if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone','leblanc_clone'].includes(s.kind)){
     this.m15AdvanceEntity(s);continue;
    }
    if(s.hp<=0||s.until<=now||s.lastTick>=now)continue;
@@ -7529,7 +7537,7 @@ export class Arena {
    else if(Number.isFinite(amount)&&amount>=target.neekoDisguiseV453M15.visualHp)
     this.m15BreakDisguise(target,'apparent_lethal',2);
   }
-  if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone'].includes(target?.kind)){
+  if(['neeko_clone','shaco_clone','shaco_minibox','wukong_clone','leblanc_clone'].includes(target?.kind)){
    if(target.hp<=0||target.until<=this.gameTime||target.stealthUntil>this.gameTime||
       target.invulnerableUntil>this.gameTime)return 0;
    const hit=Math.min(target.hp,Math.max(0,Math.round(amount*(target.damageTakenMultiplier||1))));
