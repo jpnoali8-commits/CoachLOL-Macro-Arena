@@ -68,9 +68,16 @@ for(const team of ['blue','red']){
   assert.equal(turrets[0].x,pos.x,'turret wandered');
   const snap=a.snapshotV40();
   assert.equal(checksumV40(Arena.fromSnapshotV40(map,mask,snap).snapshotV40()),checksumV40(snap));
-  for(let n=0;n<3;n++){
+  // M28: only three stored turret charges; fourth is denied at queue time.
+  for(let n=0;n<2;n++){
    a.gameTime+=1.2;u.skillCds.Q=0;cast('Q',{point:{x:.51+n*.001,y:.5}});
   }
+  assert.equal(u.m28HeimerStock?.charges,0);
+  const mana=u.mana,cd={...u.skillCds};
+  const noStock=a.queueBoardSkillV453Dev69(team,u.id,'Q',{point:{x:.515,y:.5}});
+  assert.equal(noStock.ok,false,'fourth turret ignores charge stock');
+  assert.equal(noStock.reason,'m28_turret_stock');
+  assert.equal(u.mana,mana);assert.deepEqual(u.skillCds,cd);
   turrets=a.boardSummonsV453Dev69.filter(x=>x.kind==='heimer_turret'&&x.hp>0);
   assert.ok(turrets.length<=3,'turret cap broken');
   passed++;
