@@ -153,10 +153,57 @@ for(const team of ['blue','red']){
   negative++;snapshot();
  });
 }
+for(const team of ['blue','red']){
+ check('Sett',team,'frozen strike survives snapshot before delayed hit',({a,u,e,cast,snapshot})=>{
+  a.damage(u,140,e,'physical','basic');
+  cast('W',{point:{x:.54,y:.5}});
+  const state=a.snapshotV40();
+  const replay=Arena.fromSnapshotV40(map,mask,state);
+  assert.equal(checksumV40(state),checksumV40(replay.snapshotV40()));
+  replay.visible=()=>true;replay.canSeePoint=()=>true;
+  replay.walkable=()=>true;replay.obstacleLine=()=>false;
+  const victim=replay.units.find(v=>v.id===e.id),before=victim.hp;
+  replay.gameTime=1;replay.advanceBoardPassivesV453Dev69();
+  assert.ok(victim.hp<before,'restored authoritative timed impact must execute');
+  const after=victim.hp;replay.advanceBoardPassivesV453Dev69();
+  assert.equal(victim.hp,after,'restored hit is once only');
+  snapshot();
+ });
+ check('Sett',team,'terrain intersection denies delayed cone hit',({a,u,e,cast,advance,snapshot})=>{
+  a.damage(u,130,e,'physical','basic');
+  cast('W',{point:{x:.54,y:.5}});
+  const hp=e.hp;
+  a.obstacleLine=(from,to)=>to?.id===e.id;
+  advance(1);
+  assert.equal(e.hp,hp,'Haymaker cannot strike through collision wall');
+  negative++;snapshot();
+ });
+ check('Galio',team,'hard CC during server charge aborts and spends no release cost',({a,u,e,team:seat,resolve,advance,snapshot})=>{
+  assert.equal(a.queueBoardChargeStartV453Dev69(seat,u.id,'W').ok,true);
+  resolve();const mana=u.mana,cd=u.skillCds.W;
+  a.applyEffectV41(u,'stun',{source:e,duration:2,key:'m40_galio_stun'});
+  advance(.5);
+  assert.equal(u.m40AuthoredChannelV453,null);
+  assert.equal(u.m34ChargeStateV453,null);
+  assert.equal(a.queueBoardChargeReleaseV453Dev69(seat,u.id,'W').ok,false);
+  assert.equal(u.mana,mana);assert.equal(u.skillCds.W,cd);
+  negative++;snapshot();
+ });
+ check('MasterYi',team,'movement ends remaining Meditate pulses',({a,u,cast,advance,snapshot})=>{
+  u.hp=1600;cast('W');advance(.5);
+  const hp=u.hp,spent=u.mana;
+  u.x=.53;advance(.5);
+  assert.equal(u.m40AuthoredChannelV453,null);
+  assert.equal(u.m29YiMeditateUntil,0);
+  assert.equal(u.hp,hp,'no healing after displacement');
+  assert.equal(u.mana,spent,'no mana channel after displacement');
+  negative++;snapshot();
+ });
+}
 for(const f of failures)console.error('M40_CHANNEL_FAIL',JSON.stringify(f));
-console.log('M40_B01_THREE_CHANNELS '+JSON.stringify({scenarios,expected:12,
+console.log('M40_B01_THREE_CHANNELS '+JSON.stringify({scenarios,expected:20,
  snapshots,negative,impacts,certifiedKits:0,failures:failures.length,
  legacyDebt:buildM35B01WorkQueue().metrics.unresolvedLegacyTags}));
 assert.equal(failures.length,0);
-assert.equal(scenarios,12);
-assert.equal(snapshots,12);
+assert.equal(scenarios,20);
+assert.equal(snapshots,20);
