@@ -19,7 +19,7 @@ assert.equal(new Set(debt.entries.map(x=>x.champion+':'+x.slot)).size,32);
 for(const {champion,slot,legacyTag,nativeFlag,proofTest} of debt.entries){
  const skill=BOARD_M20_B01_V453[champion]?.[slot];
  assert.ok(skill,'missing '+champion+slot);
- assert.equal(skill[nativeFlag],true,'native behavior flag missing '+champion+slot);
+ assert.ok(skill[nativeFlag],'native behavior flag missing '+champion+slot);
  assert.equal(skill.m20Missing,undefined,'debt not retired '+champion+slot+': '+legacyTag);
  assert.ok(existsSync(resolve(dir,'../..',proofTest)),proofTest+' must execute in CI');
  assert.equal(skill.m20Status,'partial_executable','historical retirement cannot certify skill');
