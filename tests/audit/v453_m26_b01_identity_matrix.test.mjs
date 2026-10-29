@@ -62,6 +62,7 @@ for(const seat of ['blue','red']){
  check(seat,'Braum E negates first frontal skill and not behind attacker',()=>{
   const {a,u,e,e2,cast,snap}=setup('Braum',seat);
   e2.x=.49;cast('E');a.effectResolverV41().remove(u,{types:['shield','magic_shield','physical_shield']});
+  console.log('M26_BRAUM_DEBUG',JSON.stringify({champ:u.champ,shield:u.m26BraumShield,e:{x:e.x,y:e.y,team:e.team},u:{x:u.x,y:u.y,team:u.team},time:a.gameTime}));
   assert.equal(a.damage(u,300,e,'magic','spell'),0);
   const frontal=a.damage(u,300,e,'magic','spell');
   assert.ok(frontal>0);
