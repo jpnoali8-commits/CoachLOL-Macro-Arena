@@ -40,6 +40,101 @@ const failures=[];
 const check=(seat,name,fn)=>{try{fn();cases.push(seat+' '+name)}
  catch(e){failures.push({seat,name,error:String(e?.stack||e)});}};
 for(const seat of ['blue','red']){
+ check(seat,'Corki E Gatling stacks armor shred through three pulses',()=>{
+  const {a,u,e,cast,snap}=setup('Corki',seat);
+  cast('E',{point:{x:.53,y:.5}});
+  const z=a.boardTemporalV453Dev69.find(x=>x.kind==='m26_corki_gatling');assert.ok(z);
+  for(let t=1;t<=3;t++){a.gameTime=t;a.advanceBoardTemporalV453Dev69();}
+  assert.equal(e.m26CorkiShred[u.id].stacks,3);
+  const original=setup('Corki',seat);
+  e.armor=120;original.e.armor=120;
+  const enhanced=a.damage(e,150,u,'physical','basic');
+  const normal=original.a.damage(original.e,150,original.u,'physical','basic');
+  assert.ok(enhanced>normal);
+  snap();
+ });
+ check(seat,'Xerath R bullseye has greater damage than outer artillery zone',()=>{
+  const direct=setup('Xerath',seat),outer=setup('Xerath',seat);
+  direct.cast('R',{point:{x:.53,y:.5}});
+  outer.cast('R',{point:{x:.53,y:.5}});
+  outer.e.x=.529;
+  direct.a.gameTime=1;outer.a.gameTime=1;
+  const center={x:.515,y:.5};
+  direct.cast('R',{point:center});outer.cast('R',{point:center});
+  assert.ok(direct.e.hp<outer.e.hp);
+  direct.snap();
+ });
+ check(seat,'Yunara transcendent E dashes toward enemy if R state is active',()=>{
+  const {a,u,cast,snap}=setup('Yunara',seat);
+  cast('R');a.gameTime=1;const x=u.x;
+  cast('E');assert.ok(u.x>x,'transcendent E must relocate caster');
+  snap();
+ });
+ check(seat,'Alistar R reduction changes actual incoming damage',()=>{
+  const actual=setup('Alistar',seat),baseline=setup('Alistar',seat);
+  const {a,u,e,cast,snap}=actual;
+  cast('R');a.effectResolverV41().remove(u,{types:['shield','magic_shield','physical_shield']});
+  assert.ok(u.m26AlistarUnbreakableUntil>a.gameTime);
+  const reduced=a.damage(u,300,e,'magic','spell');
+  const normal=baseline.a.damage(baseline.u,300,baseline.e,'magic','spell');
+  assert.ok(reduced<normal);
+  snap();
+ });
+ check(seat,'Lee Sin E reveals enemies hit by Tempest',()=>{
+  const {a,u,e,cast,snap}=setup('LeeSin',seat);
+  cast('E');assert.ok(e.m26LeeReveal?.[seat]>a.gameTime);
+  snap();
+ });
+ check(seat,'Lulu R increases allied max HP and launches adjacent enemy',()=>{
+  const {a,e,ally,cast,snap}=setup('Lulu',seat);
+  const before=ally.maxHp;cast('R',{targetId:ally.id});
+  assert.ok(ally.maxHp>before&&a.effectResolverV41().has(e,'knockup'));
+  a.gameTime=7;a.advanceBoardPassivesV453Dev69();
+  assert.equal(ally.maxHp,before);
+  snap();
+ });
+ check(seat,'Quinn R next basic attack creates Skystrike near primary target',()=>{
+  const {a,u,e,e2,cast,snap}=setup('Quinn',seat);
+  e2.x=.519;
+  cast('R');assert.ok(u.m26QuinnFlightUntil>0);
+  const hp=e2.hp;
+  a.damage(e,180,u,'physical','basic');
+  assert.ok(e2.hp<hp,'Skystrike should strike second nearby champion');
+  assert.equal(u.m26QuinnFlightUntil,0);
+  snap();
+ });
+ check(seat,'Viktor E laser aftershock strikes once next turn',()=>{
+  const {a,e,cast,snap}=setup('Viktor',seat);
+  cast('E',{point:{x:.53,y:.5}});
+  assert.ok(a.boardTemporalV453Dev69.some(v=>v.kind==='m26_viktor_aftershock'));
+  const hp=e.hp;
+  a.gameTime=1;a.advanceBoardTemporalV453Dev69();
+  assert.ok(e.hp<hp);
+  const newHp=e.hp;a.advanceBoardTemporalV453Dev69();
+  assert.equal(e.hp,newHp);
+  snap();
+ });
+ check(seat,'Kog Maw Q shreds enemy armor and magic resist',()=>{
+  const enhanced=setup('KogMaw',seat),base=setup('KogMaw',seat);
+  enhanced.cast('Q',{point:{x:.53,y:.5}});
+  assert.ok(enhanced.e.m26KogShred?.[enhanced.u.id]?.until>0);
+  enhanced.e.armor=110;base.e.armor=110;
+  const hit=enhanced.a.damage(enhanced.e,150,enhanced.u,'physical','basic');
+  const comparison=base.a.damage(base.e,150,base.u,'physical','basic');
+  assert.ok(hit>comparison);
+  enhanced.snap();
+ });
+ check(seat,'Zac R creates three subsequent bounce pulses without repeat cast',()=>{
+  const {a,e,cast,snap}=setup('Zac',seat);
+  cast('R');
+  const z=a.boardTemporalV453Dev69.find(v=>v.kind==='m26_zac_bounce');assert.ok(z);
+  const hp=e.hp;
+  for(let t=1;t<=3;t++){a.gameTime=t;a.advanceBoardTemporalV453Dev69();}
+  assert.equal(z.ticksLeft,0);
+  assert.ok(e.hp<hp);
+  assert.ok(z.hitIds.includes(e.id));
+  snap();
+ });
  check(seat,'Zilean ally-attached Q follows ally to detonation',()=>{
   const {a,u,e,e2,ally,cast,snap}=setup('Zilean',seat);
   // Isolate the allied bomb anchor from the enemy TOP at the same coordinates.
@@ -186,8 +281,8 @@ for(const seat of ['blue','red']){
 }
 for(const f of failures)console.error('M26_B01_FAIL',JSON.stringify(f));
 console.log('M26_B01_IDENTITY_QA '+JSON.stringify({
- cases:cases.length,failures:failures.length,champions:10,teamSeats:2,
+ cases:cases.length,failures:failures.length,champions:20,teamSeats:2,
  certifiedChampions:0,names:cases
 }));
 assert.equal(failures.length,0,'M26 champion-specific behavior failed');
-assert.equal(cases.length,28);
+assert.equal(cases.length,48);
