@@ -3630,6 +3630,11 @@ export class Arena {
    this.itemEnergizeRelocateV453Dev39(u,start,point,{kind:'dash'});
    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
   }
+  const orbCount=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime).length;
+  if(s.m20OrbConsume||s.m20OrbConsumeAll){
+   const live=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime);
+   u.m20SyndraOrbsV453=s.m20OrbConsumeAll?[]:live.slice(1);
+  }
   const rank=Math.max(1,u.skillRanks[q.slot]||1),stats=this.elementalStatsV452d3(u),
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
@@ -3660,7 +3665,12 @@ export class Arena {
     const stacks=u.champ==='Darius'&&q.slot==='R'&&v.champ&&
      v.boardHemorrhageV453Dev69?.[u.id]?.until>this.gameTime?
       v.boardHemorrhageV453Dev69[u.id].stacks:0;
-    const raw=(power(s.damage)+(s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp))*
+    const markedBonus=s.m20BonusAgainst&&
+     v.m20MarksV453?.[s.m20BonusAgainst+'_'+u.id]>this.gameTime?
+     (s.m20BonusDamage||0):0;
+    const raw=(power(s.damage)+markedBonus+(s.maxHpRatio||0)*v.maxHp+
+     (s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp)+
+     (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
     const stunnedAblaze=s.stunIfAblaze&&v.champ&&
      (v.boardBrandAblazeV453Dev69?.[u.id]||0)>this.gameTime;
@@ -3710,6 +3720,8 @@ export class Arena {
     this.applyEffectV41(v,s.cc,{
      source:u,duration:scaled,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
    }
+   if(enemy&&s.m20Mark&&!blocked&&v.hp>0)
+    (v.m20MarksV453??={})[s.m20Mark+'_'+u.id]=this.gameTime+6;
    if(enemy&&s.impactSplash&&v.champ){
     const extra=enemyPool.filter(t=>t.id!==v.id&&t.hp>0&&
      this.mapDistance(v,t)<=s.impactSplash.radius);
@@ -3732,6 +3744,10 @@ export class Arena {
      duration:s.spellShieldSeconds,key:'board_spellshield_'+instance+'_'+v.id});
    }
   }
+  if(s.shield&&s.m20Status&&
+   ['target_enemy','line_enemy','circle_enemy','cone_enemy','move_point'].includes(s.shape))
+   this.applyEffectV41(u,'shield',{source:u,duration:3,
+    power:power(s.shield),key:'m20_selfshield_'+instance});
   if(s.selfHeal&&damaged>0)this.effectResolverV41().heal(u,power(s.selfHeal,0,0),u);
   if(s.selfHealthCost&&u.hp>0)u.hp=Math.max(1,u.hp-s.selfHealthCost);
   this.event(u.champ+' '+q.slot+' tabuleiro: '+damaged+' impactos.',u.team,
@@ -4419,6 +4435,17 @@ export class Arena {
    const owner=this.units.find(v=>v.id===s.ownerId);
    if(!owner){s.hp=0;continue;}
    s.lastTick=now;
+   if(s.kind==='heimer_turret'){
+    const target=this.units.filter(v=>v.hp>0&&v.team!==s.team&&
+     this.sameCombatRealmV453Dev69(owner,v)&&this.visible(s.team,v)&&
+     this.mapDistance(s,v)<=s.attackRange)
+     .sort((a,b)=>this.mapDistance(s,a)-this.mapDistance(s,b)||a.id.localeCompare(b.id))[0];
+    if(target&&now>=s.nextAttackAt){
+     this.damage(target,s.power,owner,'magic','summon_pet');
+     s.nextAttackAt=now+2;
+    }
+    continue;
+   }
    // Leash is server-owned, deterministic and does not grant vision.
    // Teleport close to Annie when she moves away or Tibbers crosses the
    // tether. Clear stale orders so the pet cannot repeatedly snap out/back.
