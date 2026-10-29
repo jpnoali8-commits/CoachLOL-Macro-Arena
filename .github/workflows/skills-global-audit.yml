@@ -26,8 +26,11 @@ jobs:
           node --check multiplayer/authoritative_actions_v453_dev44.mjs
           node --check multiplayer/authoritative_actions_v453_dev47.mjs
           node --check tests/audit/v453_clone_targetability_audit.test.mjs
+          node --check tests/audit/v453_global_contract_execution_audit.test.mjs
       - name: P1 probe — log failures without certifying a broken kit
         run: node tests/audit/v453_clone_targetability_audit.test.mjs --probe
+      - name: Broad runtime inventory — 173 champions and all authored M9-M16 board slots
+        run: node tests/audit/v453_global_contract_execution_audit.test.mjs
       - name: M15 clone and dissimulation regressions
         run: node tests/v453_dev69_clones_m15.test.mjs
       - name: M16 stealth, traps and counters regressions
