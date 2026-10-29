@@ -4489,7 +4489,7 @@ export class Arena {
   else if(s.shape==='circle_ally')hits=areaHitsV42(u,allyPool,s.radius,this.worldWidth,this.worldHeight);
   else if(s.shape==='move_point')hits=areaHitsV42(point,enemyPool,s.radius||240,this.worldWidth,this.worldHeight);
   else if(s.shape==='line_enemy')hits=skillshotHitsV42(q.m28LaserOrigin||u,point,enemyPool,{
-    range:(s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined?
+    range:s.m30LucianAnchoredQ?1100:(s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined?
      900+(s.range-900)*q.m28ChargeSeconds/2:s.range,
     width:s.width||180,maxHits:s.maxHits??Infinity,
     worldWidth:this.worldWidth,worldHeight:this.worldHeight});
@@ -5064,9 +5064,30 @@ export class Arena {
        power:z.power,interval:1,key:'m28_galio_winds_'+z.id+'_'+v.id});
      ended=true;
     }else if(z.kind==='m28_mel_volley'){
-     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
-      v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius))
-      this.damage(v,z.power,u,'magic','spell');
+     // Three separately tracked board projectiles per wave, one collision
+     // receipt per shot: no anonymous full-circle damage on future ticks.
+     const vx=(z.point.x-z.origin.x)*this.worldWidth,
+      vy=(z.point.y-z.origin.y)*this.worldHeight,
+      length=Math.max(1,Math.hypot(vx,vy)),nx=-vy/length,ny=vx/length;
+     const volley=2-z.ticksLeft,offsets=[-75,0,75];
+     z.m30ProjectileReceipts??=[];
+     for(let shot=0;shot<offsets.length;shot++){
+      const offset=offsets[shot],origin={
+       x:z.origin.x+nx*offset/this.worldWidth,
+       y:z.origin.y+ny*offset/this.worldHeight},
+       end={x:z.point.x+nx*offset/this.worldWidth,
+        y:z.point.y+ny*offset/this.worldHeight};
+      const victim=skillshotHitsV42(origin,end,this.boardCombatEnemyPoolV453Dev69(u),
+       {range:length,width:130,maxHits:1,
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight})
+       .find(v=>v.hp>0&&!this.obstacleLine(origin,v))||null;
+      z.m30ProjectileReceipts.push({volley,shot,targetId:victim?.id||null});
+      if(victim){
+       const dealt=this.damage(victim,z.power/2,u,'magic','spell');
+       if(dealt>0&&victim.hp>0)
+        (victim.m20MarksV453??={})['overwhelm_'+u.id]=now+6;
+      }
+     }
      z.ticksLeft--;z.nextAt=now+1;if(z.ticksLeft<=0)ended=true;
     }else if(z.kind==='m28_sej_second'){
      const victims=skillshotHitsV42(z.origin,z.point,this.boardCombatEnemyPoolV453Dev69(u),
