@@ -1106,7 +1106,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Corki:BK20('hextech_munitions',
   B20('circle_enemy',825,9,75,{radius:230,apRatio:.5}),B20('move_point',600,20,55,{radius:170,m20Missing:'burning_trail'}),
   B20('cone_enemy',600,12,65,{arc:50,type:'physical',adRatio:.7,m20Missing:'armor_shred_ticks'}),
-  B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m20Missing:'ammunition_and_big_one'})),
+  B20('line_enemy',1225,2,100,{width:200,maxHits:1,adRatio:.7,m22Magazine:{max:7,reload:10,bigEvery:3},m20Missing:'ammo_ui'})),
  Cassiopeia:BK20('serpentine_grace',
   B20('circle_enemy',850,3.5,80,{radius:210,dotSeconds:3,m20Mark:'poison'}),
   B20('circle_enemy',700,24,60,{radius:300,dotSeconds:3,cc:'slow',ccSeconds:2,ccPower:.35,m20Mark:'poison',m20Missing:'grounding'}),
@@ -1126,14 +1126,14 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',1450,9,85,{width:155,m20Missing:'charge_range'}),
   B20('circle_enemy',1000,14,90,{radius:260,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'center_bonus'}),
   B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5}),
-  B20('circle_enemy',5000,130,190,{radius:240,m20Missing:'multi_shot_channel'})),
+  B20('circle_enemy',5000,130,190,{radius:240,boardTemporal:'m22_artillery_channel',zoneSeconds:10,m22ArtilleryShots:[3,4,5],m20Missing:'ritual_charge_and_inner_center_multiplier'})),
  Zac:BK20('cell_division',
   B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m20Missing:'second_grab'}),
   B20('circle_enemy',0,5,60,{mana:0,originSelf:true,radius:350,maxHpRatio:.03}),
   B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m20Missing:'charge_range'}),
   B20('circle_enemy',0,120,180,{mana:0,originSelf:true,radius:390,cc:'knockup',ccSeconds:1,m20Missing:'four_bounces'})),
  Zilean:BK20('time_in_a_bottle',
-  B20('circle_enemy',900,10,95,{radius:250,m20Missing:'bomb_attachment_fuse_double_stun'}),
+  B20('circle_enemy',900,10,95,{radius:250,boardTemporal:'m22_zilean_bomb',zoneSeconds:3,m22Bomb:true,m20Missing:'bomb_ally_attachment'}),
   B20('self',0,14,0,{mana:35,m20Rewind:10}),
   B20('target_any',550,15,0,{cc:'slow',ccSeconds:3,ccPower:.6,m21AllySpeed:.45,buffSeconds:3}),
   B20('target_ally',900,120,0,{mana:125,m21Chronoshift:true,m20Missing:'death_phase_revival_animation'})),
@@ -3369,6 +3369,16 @@ export class Arena {
    this.recordIntentV40(team,id,'akshan_w_cancel',{});
    return {ok:true,queued:true,recast:true};
   }
+  if(s.m22Magazine&&slot==='R'){
+   const state=u.m22MagazineV453||{charges:s.m22Magazine.max,nextAt:0,shots:0};
+   if(state.charges<s.m22Magazine.max&&state.nextAt>0&&this.gameTime>=state.nextAt){
+    const count=Math.floor((this.gameTime-state.nextAt)/s.m22Magazine.reload)+1;
+    state.charges=Math.min(s.m22Magazine.max,state.charges+count);
+    state.nextAt=state.charges===s.m22Magazine.max?0:
+     state.nextAt+count*s.m22Magazine.reload;
+   }
+   if(state.charges<1)return {ok:false,reason:'municao_insuficiente'};
+  }
   if(s.m16Trap&&s.m16Charges&&this.m16Stock(u,slot,s).state.charges<1)
    return {ok:false,reason:'armadilha_sem_cargas'};
   // A second cast reactivates an existing charge without mana or cooldown.
@@ -3392,6 +3402,21 @@ export class Arena {
       this.mapDistance(u,victim)>1300)return {ok:false,reason:'recast_alvo_invalido'};
    u.pendingBoardV453Dev69={slot,m21Recast:'sonic_dash',targetId:victim.id};
    this.recordIntentV40(team,id,'m21_recast',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
+  if(s.m22ArtilleryShots&&slot==='R'&&u.m22ArtilleryV453?.until>this.gameTime&&
+     u.m22ArtilleryV453.remaining>0){
+   const state=u.m22ArtilleryV453;
+   if(state.nextAt>this.gameTime)return {ok:false,reason:'artilharia_aguarde'};
+   if(!point||![point.x,point.y].every(Number.isFinite)||point.x<0||
+      point.x>1||point.y<0||point.y>1||this.mapDistance(u,point)>s.range)
+    return {ok:false,reason:'artilharia_ponto'};
+   if(this.mapDistance(u,state.origin)>60||!this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'artilharia_interrompida'};
+   if(this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,point))
+    return {ok:false,reason:'artilharia_reino'};
+   u.pendingBoardV453Dev69={slot,m22Recast:'artillery_shot',point:{x:point.x,y:point.y}};
+   this.recordIntentV40(team,id,'m22_artillery_shot',{slot,number:state.total-state.remaining+1});
    return {ok:true,queued:true,recast:true};
   }
   if(satchel){
@@ -3484,6 +3509,28 @@ export class Arena {
    this.event('Lee Sin Q2: Resonating Strike.',u.team,'skill_vfx',u.id);
    return {ok:true,recast:true,spentMana:0,hitCount:dealt>0?1:0};
   }
+  if(q?.m22Recast==='artillery_shot'&&s.m22ArtilleryShots){
+   const state=u.m22ArtilleryV453,point=q.point;
+   if(!state||state.until<=this.gameTime||state.remaining<1||
+      state.nextAt>this.gameTime||!point||![point.x,point.y].every(Number.isFinite)||
+      this.mapDistance(u,point)>s.range||point.x<0||point.x>1||point.y<0||point.y>1||
+      this.mapDistance(u,state.origin)>60||!this.effectResolverV41().canAct(u,'skill').ok||
+      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,point)))
+    return {ok:false,reason:'artilharia_recast_expirado'};
+   let damaged=0;
+   const power=Number(s.damage[Math.max(0,Math.min(s.damage.length-1,(u.skillRanks.R||1)-1))]||0)+
+    this.elementalStatsV452d3(u).ap*(s.apRatio||0);
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+     this.mapDistance(v,point)<=s.radius).sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+    if(this.damage(v,power,u,'magic','spell')>0)damaged++;
+   state.remaining--;state.nextAt=this.gameTime+1;
+   if(state.remaining<=0){u.m22ArtilleryV453=null;
+    u.boardChannelUntilV453Dev69=0;
+    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
+      !(z.kind==='m22_artillery_channel'&&z.ownerId===u.id));}
+   this.event('Xerath R: disparo de artilharia.',u.team,'skill_vfx',u.id);
+   return {ok:true,recast:true,spentMana:0,hitCount:damaged};
+  }
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
    if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
@@ -3532,6 +3579,12 @@ export class Arena {
     source:'board_effect_v453_dev69'});
   if(!committed.ok)return committed;
   if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(s.m22Magazine&&q.slot==='R'){
+   const state=u.m22MagazineV453??={charges:s.m22Magazine.max,nextAt:0,shots:0};
+   if(state.charges<=0)return {ok:false,reason:'municao_insuficiente'};
+   if(state.charges===s.m22Magazine.max)state.nextAt=this.gameTime+s.m22Magazine.reload;
+   state.charges--;state.shots++;
+  }
   if(u.champ==='Lucian')u.m21LightslingerV453={charges:1,until:this.gameTime+5};
   if(s.m21FrostRequired&&target?.m21FrostV453?.sourceId===u.id)
    target.m21FrostV453=null;
@@ -3727,7 +3780,9 @@ export class Arena {
     const markedBonus=s.m20BonusAgainst&&
      v.m20MarksV453?.[s.m20BonusAgainst+'_'+u.id]>this.gameTime?
      (s.m20BonusDamage||0):0;
-    const raw=(power(s.damage)+markedBonus+(s.maxHpRatio||0)*v.maxHp+
+    const raw=(power(s.damage)*(s.m22Magazine&&
+       (u.m22MagazineV453?.shots||0)%s.m22Magazine.bigEvery===0?1.5:1)+
+      markedBonus+(s.maxHpRatio||0)*v.maxHp+
      (s.missingHpRatio||0)*Math.max(0,v.maxHp-v.hp)+
      (s.m20OrbConsumeAll?Math.min(6,orbCount)*45:0))*
      (1+(s.dariusExecutionScale||0)*stacks);
