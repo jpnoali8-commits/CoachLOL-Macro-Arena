@@ -24,7 +24,7 @@ for(const c of q.champions){
  }
 }
 assert.equal(seen.size,140);
-assert.equal(q.metrics.unresolvedLegacyTags,52);
+assert.equal(q.metrics.unresolvedLegacyTags,20); // M38: 32 previously-proven debts retired
 console.log('M35_B01_COHORT_QUEUE_QA '+JSON.stringify({
  champions:35,qwer:140,dimensions:17,workFamilies:q.groups.length,
  legacyTags:q.metrics.unresolvedLegacyTags,certifiedKits:0}));

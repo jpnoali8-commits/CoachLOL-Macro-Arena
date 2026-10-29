@@ -1111,7 +1111,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',850,3.5,80,{radius:210,dotSeconds:3,m20Mark:'poison'}),
   B20('circle_enemy',700,24,60,{radius:300,dotSeconds:3,cc:'slow',ccSeconds:2,ccPower:.35,m20Mark:'poison',m25CassGrounded:true}),
   B20('target_enemy',700,.75,75,{apRatio:.6,m20BonusAgainst:'poison',m20BonusDamage:50,healFromDamage:.2}),
-  B20('cone_enemy',825,120,210,{arc:65,cc:'slow',ccSeconds:2,ccPower:.6,m28CassPetrify:true,m20Missing:'directional_stun'})),
+  B20('cone_enemy',825,120,210,{arc:65,cc:'slow',ccSeconds:2,ccPower:.6,m28CassPetrify:true})),
  Karthus:BK20('death_defied',
   B20('circle_enemy',875,1,55,{radius:160,boardTemporal:'m25_karthus_q',zoneSeconds:1.1}),
   B20('line_enemy',1000,15,0,{width:250,cc:'slow',ccSeconds:3,ccPower:.5,m28KarthusWall:true,m20Missing:'persistent_wall'}),
@@ -1119,18 +1119,18 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('global_enemy',25000,200,280,{mana:100,boardTemporal:'m20_requiem_channel',zoneSeconds:3.1,m20Missing:'death_defied_passive_and_postdeath_channel'})),
  Seraphine:BK20('stage_presence',
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m25SeraphineEcho:true}),
-  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m32SeraphineEchoShield:true,m20Missing:'echo_cast'}),
-  B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m29SeraphineBeatDrop:true,m20Missing:'cc_upgrade'}),
+  B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m32SeraphineEchoShield:true}),
+  B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m29SeraphineBeatDrop:true}),
   B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m26EncoreExtension:true})),
  Xerath:BK20('mana_surge',
-  B20('line_enemy',1450,9,85,{width:155,m28XerathCharge:true,m20Missing:'charge_range'}),
+  B20('line_enemy',1450,9,85,{width:155,m28XerathCharge:true}),
   B20('circle_enemy',1000,14,90,{radius:260,cc:'slow',ccSeconds:2,ccPower:.4,m25XerathCenter:true}),
   B20('line_enemy',1050,13,80,{width:140,maxHits:1,cc:'stun',ccSeconds:1.5,distanceStun:{min:.75,max:2.25,at:1050},m36XerathShockingOrb:true}),
   B20('circle_enemy',5000,130,190,{radius:240,boardTemporal:'m22_artillery_channel',zoneSeconds:10,m22ArtilleryShots:[3,4,5],m26XerathArtilleryCenter:true})),
  Zac:BK20('cell_division',
   B20('target_enemy',800,14,60,{mana:0,cc:'slow',ccSeconds:1,ccPower:.3,m22SecondStage:'grab',m20Missing:'Q2_basic_grab_animation'}),
   B20('circle_enemy',0,5,60,{mana:0,originSelf:true,radius:350,maxHpRatio:.03,m25ZacGoo:true}),
-  B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m29ZacSlingshot:true,m20Missing:'charge_range'}),
+  B20('move_point',1100,21,85,{mana:0,radius:250,cc:'knockup',ccSeconds:.75,m29ZacSlingshot:true}),
   B20('circle_enemy',0,120,180,{mana:0,originSelf:true,radius:390,cc:'knockup',ccSeconds:1,m26ZacBounces:true})),
  Zilean:BK20('time_in_a_bottle',
   B20('circle_enemy',900,10,95,{radius:250,boardTemporal:'m22_zilean_bomb',zoneSeconds:3,m22Bomb:true,m26ZileanAllyAnchor:true}),
@@ -1139,7 +1139,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',900,120,0,{mana:125,m21Chronoshift:true,m20Missing:'death_phase_revival_animation'})),
  Yunara:BK20('vow_of_the_first_lands',
   B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,speedBuff:.2,buffSeconds:3,m29YunaraQSpread:true,m20Missing:'attack_resource_and_spread'}),
-  B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m36YunaraArcOfRuin:true,m20Missing:'transcendent_variant'}),
+  B20('line_enemy',1150,10,80,{width:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m36YunaraArcOfRuin:true}),
   B20('self',0,9,0,{speedBuff:.3,buffSeconds:3,m26YunaraDash:true}),
   B20('self',0,100,0,{shield:[90,140,190],speedBuff:.25,buffSeconds:5,m25YunaraTranscendent:true})),
  Alistar:BK20('triumphant_roar',
@@ -1148,7 +1148,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',0,12,40,{originSelf:true,radius:350,cc:'slow',ccSeconds:2,ccPower:.3,m25AlistarTrample:true}),
   B20('self',0,120,0,{ccImmunitySeconds:3,shield:[160,260,360],m26AlistarUnbreakable:true})),
  Gragas:BK20('happy_hour',
-  B20('circle_enemy',850,10,85,{radius:285,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m21_gragas_barrel',zoneSeconds:4.2,m21Barrel:true,m20Missing:'barrel_charge_damage_growth'}),
+  B20('circle_enemy',850,10,85,{radius:285,cc:'slow',ccSeconds:2,ccPower:.4,boardTemporal:'m21_gragas_barrel',zoneSeconds:4.2,m21Barrel:true}),
   B20('self',0,5,0,{shield:[75,105,135,165,195],nextBasic:[45,65,85,105,125],charges:1,m26GragasDrink:true}),
   B20('move_point',600,14,90,{radius:245,cc:'stun',ccSeconds:1,m25GragasFirstCollision:true}),
   B20('circle_enemy',1000,100,245,{radius:330,knockback:550,m36GragasExplosiveCask:true})),
@@ -1159,13 +1159,13 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',375,110,230,{mana:0,knockback:650,type:'physical',m25LeeWallCollision:true})),
  Lulu:BK20('pix_faerie_companion',
   B20('line_enemy',925,7,80,{width:160,cc:'slow',ccSeconds:2,ccPower:.6,m25LuluPixBolt:true}),
-  B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m29LuluWhimsy:true,m20Missing:'ally_attack_speed'}),
+  B20('target_any',650,18,0,{cc:'polymorph',ccSeconds:1.5,m21AllySpeed:.3,buffSeconds:3,m29LuluWhimsy:true}),
   B20('target_any',650,10,65,{shield:[85,115,145,175,205],apRatio:.4,m25LuluPixAttach:true}),
   B20('target_ally',900,120,0,{shield:[240,360,480],m26LuluWildGrowth:true})),
  Mel:BK20('searing_brilliance',
   B20('circle_enemy',950,10,85,{radius:310,m20Mark:'overwhelm',m28MelVolley:true,m20Missing:'multi_projectiles'}),
   B20('self',0,38,0,{shield:[100,145,190,235,280],spellShieldSeconds:2,m25MelReflect:true}),
-  B20('line_enemy',1000,11,75,{width:220,cc:'root',ccSeconds:1.4,m20Mark:'overwhelm',m28MelOuterSlow:true,m20Missing:'outer_slow'}),
+  B20('line_enemy',1000,11,75,{width:220,cc:'root',ccSeconds:1.4,m20Mark:'overwhelm',m28MelOuterSlow:true}),
   B20('global_enemy',25000,120,210,{mana:100,m20MarkRequired:'overwhelm'})),
  Rell:BK20('break_the_mold',
   B20('line_enemy',600,11,80,{width:200,cc:'stun',ccSeconds:.75,m26RellShieldBreak:true}),
@@ -1174,11 +1174,11 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',0,120,175,{originSelf:true,radius:450,pull:275,m26RellMagnet:true})),
  Sejuani:BK20('fury_of_the_north',
   B20('move_point',650,18,85,{radius:220,cc:'knockup',ccSeconds:.7,m36SejuaniArcticAssault:true}),
-  B20('cone_enemy',600,9,70,{arc:55,cc:'slow',ccSeconds:2,ccPower:.3,m20Mark:'frost',m28SejTwoSwings:true,m20Missing:'two_swings'}),
-  B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true,m20Missing:'frost_from_other_melee_allies'}),
+  B20('cone_enemy',600,9,70,{arc:55,cc:'slow',ccSeconds:2,ccPower:.3,m20Mark:'frost',m28SejTwoSwings:true}),
+  B20('target_enemy',560,1.5,0,{cc:'stun',ccSeconds:1,m20MarkRequired:'frost',m21FrostRequired:true}),
   B20('line_enemy',1300,120,200,{width:175,maxHits:1,cc:'stun',ccSeconds:1.5,m25SejStorm:true})),
  Sett:BK20('pit_grit',
-  B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m30SettKnuckle:true,m20Missing:'max_hp_bonus'}),
+  B20('self',0,9,0,{mana:0,nextBasic:[40,60,80,100,120],charges:2,speedBuff:.2,buffSeconds:2,m30SettKnuckle:true}),
   B20('cone_enemy',800,18,130,{mana:0,arc:50,type:'physical',m23UseGrit:true,m20Missing:'cast_time_and_grit_decay'}),
   B20('cone_enemy',490,16,80,{mana:0,arc:105,cc:'slow',ccSeconds:1.5,ccPower:.4,m24OppositePull:true}),
   B20('target_enemy',400,120,280,{mana:0,m24Slam:true,type:'physical'})),
@@ -1186,7 +1186,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste',m29TahmQStun:true}),
   B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1,m36TahmAbyssalDive:true}),
   B20('self',0,3,0,{shield:[85,125,165,205,245],m27TahmGreyHealth:true}),
-  B20('target_any',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
+  B20('target_any',250,120,230,{mana:100,m24Devour:true})),
  Galio:BK20('colossal_smash',
   B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m28GalioConverge:true,m20Missing:'converging_windblasts'}),
   B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m28GalioCharge:true,m20Missing:'charge'}),
@@ -1194,18 +1194,18 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',4000,180,0,{mana:100,shield:[175,250,325],m25GalioEntrance:true})),
  Locke:BK20('silver_stake',
   B20('line_enemy',950,10,85,{width:160,m20Mark:'soul_nails',m26LockeNails:true}),
-  B20('self',0,18,0,{speedBuff:.3,buffSeconds:3,m37LockeSoulIgnition:true,m20Missing:'self_damage_burst'}),
+  B20('self',0,18,0,{speedBuff:.3,buffSeconds:3,m37LockeSoulIgnition:true}),
   B20('move_point',425,10,90,{radius:200,m26LockeDash:true}),
   B20('line_enemy',1000,120,260,{width:200,maxHits:1,m37LockePurgatory:true,m20Missing:'execute_transformation'})),
  Lucian:BK20('lightslinger',
-  B20('line_enemy',850,9,95,{width:155,type:'physical',m30LucianAnchoredQ:true,m20Missing:'requires_initial_target'}),
-  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m32LucianStar:true,m20Missing:'star_pattern'}),
+  B20('line_enemy',850,9,95,{width:155,type:'physical',m30LucianAnchoredQ:true}),
+  B20('circle_enemy',900,14,75,{radius:230,m20Mark:'ardent',m28LucianArdent:true,m32LucianStar:true}),
   B20('move_point',445,16,0,{radius:0,m27LucianPursuit:true}),
   B20('line_enemy',1400,110,260,{width:200,maxHits:1,type:'physical',boardTemporal:'m25_lucian_culling',zoneSeconds:4.1})),
  Milio:BK20('fired_up',
-  B20('line_enemy',1200,10,85,{width:175,maxHits:1,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m32MilioBounce:true,m20Missing:'ball_bounce'}),
-  B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m27MilioFiredUp:true,m20Missing:'attack_range_extension'}),
-  B20('target_ally',650,0,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true,m20Missing:'two_charges_and_speed'}),
+  B20('line_enemy',1200,10,85,{width:175,maxHits:1,knockback:240,cc:'slow',ccSeconds:1.5,ccPower:.3,m32MilioBounce:true}),
+  B20('circle_ally',0,29,0,{radius:350,heal:[50,70,90,110,130],m25MilioCampfire:true,m27MilioFiredUp:true}),
+  B20('target_ally',650,0,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true}),
   B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m27MilioFiredUp:true,m20Missing:'empowered_passive_followup'})),
  Quinn:BK20('harrier',
   B20('line_enemy',1025,11,95,{width:180,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m27QuinnBlind:true}),
@@ -1220,15 +1220,15 @@ export const BOARD_M20_B01_V453=Object.freeze({
  Urgot:BK20('echoing_flames',
   B20('circle_enemy',800,10,85,{radius:250,type:'physical',cc:'slow',ccSeconds:2,ccPower:.3,m36UrgotCorrosiveCharge:true}),
   B20('target_enemy',490,12,100,{type:'physical',m27UrgotPurge:true}),
-  B20('move_point',475,16,90,{radius:230,cc:'stun',ccSeconds:.75,shield:[85,120,155,190,225],m28UrgotFlip:true,m20Missing:'flip'}),
-  B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25,m20Missing:'chains_channel_and_suppression'})),
+  B20('move_point',475,16,90,{radius:230,cc:'stun',ccSeconds:.75,shield:[85,120,155,190,225],m28UrgotFlip:true}),
+  B20('line_enemy',2500,100,210,{width:145,maxHits:1,type:'physical',m23ExecuteThreshold:.25})),
  Varus:BK20('living_vengeance',
-  B20('line_enemy',1500,16,100,{width:155,type:'physical',m28VarusCharge:true,m20Missing:'charge_damage_and_range'}),
-  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m30VarusEmpowerQ:true,m20Missing:'blight_charge_empowered_q'}),
+  B20('line_enemy',1500,16,100,{width:155,type:'physical',m28VarusCharge:true}),
+  B20('self',0,40,0,{nextBasic:[25,35,45,55,65],charges:3,m30VarusEmpowerQ:true}),
   B20('circle_enemy',925,18,100,{radius:310,cc:'slow',ccSeconds:2.5,ccPower:.4,m26VarusHail:true}),
   B20('line_enemy',1300,100,200,{width:185,maxHits:1,cc:'root',ccSeconds:2,m25VarusChain:true})),
  Viktor:BK20('glorious_evolution',
-  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m28ViktorShield:true,m30ViktorEvolution:true,m20Missing:'self_shield_and_evolution'}),
+  B20('target_enemy',600,9,85,{shield:[60,90,120,150,180],nextBasic:[45,65,85,105,125],charges:1,m28ViktorShield:true,m30ViktorEvolution:true}),
   B20('circle_enemy',800,17,0,{radius:285,cc:'slow',ccSeconds:2,ccPower:.45,m25ViktorGravity:true}),
   B20('line_enemy',1050,12,105,{width:165,m26ViktorAftershock:true,m28ViktorLaser:true}),
   B20('circle_enemy',700,120,155,{radius:300,boardTemporal:'damage_pool',zoneSeconds:3,m28ViktorStorm:true,m20Missing:'moving_storm_interrupt'})),
@@ -1246,36 +1246,36 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',600,20,100,{dashToHit:true,m25YiAlpha:true}),
   B20('self',0,10,0,{heal:[90,130,170,210,250],shield:[50,75,100,125,150],m29YiMeditate:true,m20Missing:'damage_reduction_channel'}),
   B20('self',0,14,0,{nextBasic:[35,45,55,65,75],charges:3,m27YiWuju:true}),
-  B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m32YiHighlander:true,m20Missing:'attack_speed_and_reset'})),
+  B20('self',0,85,0,{speedBuff:.4,buffSeconds:7,ccImmunitySeconds:3,m32YiHighlander:true})),
  Shen:BK20('ki_barrier',
-  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m29ShenBladePull:true,m20Missing:'blade_pull'}),
+  B20('self',0,8,0,{nextBasic:[40,55,70,85,100],charges:3,m29ShenBladePull:true}),
   B20('circle_ally',0,16,0,{radius:400,shield:[70,100,130,160,190],m25ShenRefuge:true}),
   B20('move_point',600,18,80,{radius:200,cc:'taunt',ccSeconds:1.5,m29ShenBladeDash:true}),
   B20('target_ally',25000,200,0,{mana:0,shield:[175,325,475],m26ShenChannel:true})),
  Vi:BK20('blast_shield',
-  B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m29ViCharge:true,m20Missing:'charge'}),
+  B20('move_point',725,12,90,{radius:205,cc:'knockup',ccSeconds:.7,m29ViCharge:true}),
   B20('self',0,1,0,{nextBasic:[35,45,55,65,75],charges:3,m25ViDenting:true}),
   B20('target_enemy',400,1,75,{m26ViShockwave:true}),
-  B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m32ViRKnockaside:true,m20Missing:'knockaside_path'})),
+  B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m32ViRKnockaside:true})),
  Braum:BK20('concussive_blows',
   B20('line_enemy',1000,8,90,{width:170,cc:'slow',ccSeconds:2,ccPower:.5,m20Mark:'concussive',m21BraumConcussive:true}),
   B20('target_ally',650,12,0,{shield:[70,95,120,145,170],m20JumpToAlly:true,m26BraumStand:true}),
   B20('self',0,16,0,{shield:[90,130,170,210,250],m26BraumDirection:true}),
   B20('line_enemy',1250,130,250,{width:275,cc:'knockup',ccSeconds:1,m26BraumFissure:true})),
  Heimerdinger:BK20('hextech_affinity',
-  B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m28HeimerStock:true,m20Missing:'turret_ai_and_charge_stock'}),
+  B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m28HeimerStock:true}),
   B20('line_enemy',1325,11,95,{width:270,m24UpgradePattern:'rocket_fan'}),
   B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m24UpgradePattern:'grenade_cluster',m28HeimerGrenadeOuter:true,m20Missing:'outer_slow'}),
   B20('self',0,100,0,{m23EmpowerNext:true,m20Missing:'upgraded_ability_visuals_and_R_cancel'})),
  Kassadin:BK20('void_stone',
-  B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m30KassInterrupt:true,m20Missing:'interrupt'}),
+  B20('target_enemy',650,9,95,{shield:[55,75,95,115,135],m30KassInterrupt:true}),
   B20('self',0,7,0,{nextBasic:[55,75,95,115,135],charges:1,m27KassWRefund:true}),
-  B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m29KassForcePulse:true,m20Missing:'spell_stacks'}),
+  B20('cone_enemy',600,21,110,{arc:65,cc:'slow',ccSeconds:2,ccPower:.35,m29KassForcePulse:true}),
   B20('move_point',500,5,75,{radius:240,m25KassRift:true})),
  KogMaw:BK20('icathian_surprise',
   B20('line_enemy',1175,7,100,{width:165,maxHits:1,m26KogShred:true}),
   B20('self',0,17,0,{nextBasic:[40,50,60,70,80],charges:4,m27KogBioArcane:true}),
-  B20('line_enemy',1200,12,95,{width:280,cc:'slow',ccSeconds:2,ccPower:.35,m28KogOoze:true,m20Missing:'ooze_trail'}),
+  B20('line_enemy',1200,12,95,{width:280,cc:'slow',ccSeconds:2,ccPower:.35,m28KogOoze:true}),
   B20('circle_enemy',1800,2,150,{radius:255,missingHpRatio:.1,m25KogArtillery:true}))
 });
 // No "certified" entries: complex recasts, pets and bespoke passives have
@@ -4520,7 +4520,27 @@ export class Arena {
    const orbs=(u.m20SyndraOrbsV453||[]).filter(o=>o.until>this.gameTime);
    const orb=orbs.filter(o=>this.mapDistance(u,o)<=925&&
     !this.obstacleLine(u,o)).sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
-   if(orb){orb.x=q.point.x;orb.y=q.point.y;orb.until=Math.max(orb.until,this.gameTime+3);}
+   if(orb){
+    orb.x=q.point.x;orb.y=q.point.y;orb.until=Math.max(orb.until,this.gameTime+3);
+    u.m38SyndraLastThrow={kind:'sphere',at:this.gameTime,point:{...q.point}};
+   }else{
+    // Force of Will can hurl a REAL visible enemy minion when no sphere is
+    // within reach. Stable distance/ID ordering makes both human seats and
+    // snapshot replay independent of entity-array insertion order.
+    const minion=(this.minions||[]).filter(m=>m.hp>0&&m.team!==u.team&&
+     this.mapDistance(u,m)<=s.range&&this.canSeePoint(u.team,m)&&
+     !this.obstacleLine(u,m)).sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+      String(a.id).localeCompare(String(b.id)))[0];
+    if(minion&&this.walkable(q.point.x,q.point.y)&&
+       !this.obstacleLine(minion,q.point)){
+     const from={x:minion.x,y:minion.y};
+     minion.x=q.point.x;minion.y=q.point.y;
+     if(Array.isArray(minion.path))minion.path=[];
+     minion.m38SyndraThrown={ownerId:u.id,at:this.gameTime,from};
+     u.m38SyndraLastThrow={kind:'minion',id:minion.id,at:this.gameTime,
+      point:{...q.point}};
+    }
+   }
    u.m20SyndraOrbsV453=orbs;
   }
   if(s.m24OrbScatter&&q.point)this.m24SyndraScatterV453(u);
@@ -6515,6 +6535,16 @@ export class Arena {
        t.ownerId===u.id&&t.team===u.team&&t.hp>0&&
        t.until>this.gameTime&&this.mapDistance(u,t)<=500))
     u.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:.15};
+   if(u.champ==='Sett'&&u.m23GritV453&&u.m23GritV453.value>0&&
+      this.gameTime>=u.m23GritV453.nextDecayAt){
+    // Grit decays only after five simulated seconds without real incoming
+    // damage. Batched advancement gives the same state as one-second ticks.
+    const state=u.m23GritV453;
+    const steps=Math.min(60,1+Math.floor(this.gameTime-state.nextDecayAt));
+    state.value=Math.max(0,state.value*Math.pow(.8,steps));
+    state.nextDecayAt+=steps;
+    if(state.value<1)state.value=0;
+   }
    if(u.champ==='Milio'&&u.m29MilioEStock&&
       u.m29MilioEStock.charges<2&&this.gameTime>=u.m29MilioEStock.nextAt){
     const stock=u.m29MilioEStock,steps=Math.min(2-stock.charges,
