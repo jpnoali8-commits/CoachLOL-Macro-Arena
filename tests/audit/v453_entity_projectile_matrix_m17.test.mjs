@@ -43,7 +43,9 @@ for(const team of ['blue','red'])for(const entry of projects){
   assert.equal(cast.ok,true,entry.kind+': '+cast.reason);
   assert.ok(u.mana<mp||u.skillCds[entry.slot]>a.gameTime,'cast must pay once');
   const snap=a.snapshotV40();
-  assert.equal(checksumV40(snap),checksumV40(Arena.fromSnapshotV40(map,mask,snap).snapshotV40()));
+  const replay=Arena.fromSnapshotV40(map,mask,snap);
+  assert.equal(checksumV40(snap),checksumV40(replay.snapshotV40()));
+  replay.canSeePoint=()=>true;replay.visible=()=>true;
   if(entry.kind==='ezreal_r'){
    a.gameTime=Math.max(a.gameTime+1,a.ezrealBarrageWindsV453Dev69M7[0].dueAt+.1);
    a.advanceEzrealBarrageV453Dev69M7();
@@ -51,6 +53,16 @@ for(const team of ['blue','red'])for(const entry of projects){
    a.gameTime+=1;
   }else a.gameTime=2.5;
   a.advanceChampionProjectilesV453Dev42();
+  // Both original and restored games must see exactly the same geometry and
+  // damage from the same serialized projectile + clone entity state.
+  replay.gameTime=a.gameTime;
+  if(entry.kind==='ezreal_r')replay.advanceEzrealBarrageV453Dev69M7();
+  replay.advanceChampionProjectilesV453Dev42();
+  const shadow=replay.boardSummonsV453Dev69.find(e=>e.id===clone.id);
+  assert.ok(shadow,'checkpoint must preserve the independent decoy entity');
+  assert.equal(shadow.hp,clone.hp,'clone missile collision diverged after replay');
+  assert.deepEqual(replay.championProjectilesV453Dev42,a.championProjectilesV453Dev42,
+   'projectile collision state diverged on restore');
   assert.ok(clone.hp<before,'missile did not collide with visible clone');
   assert.equal(owner.hp,champHP,'owner behind this shot should not get free damage');
   assert.equal(a.units.length,10);
