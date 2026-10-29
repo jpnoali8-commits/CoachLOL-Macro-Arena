@@ -1261,7 +1261,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('self',0,16,0,{shield:[90,130,170,210,250],m20Missing:'directional_projectile_block'}),
   B20('line_enemy',1250,130,250,{width:275,cc:'knockup',ccSeconds:1,m20Missing:'fissure_zone'})),
  Heimerdinger:BK20('hextech_affinity',
-  B20('move_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m20Missing:'turret_ai_and_charge_stock'}),
+  B20('deploy_point',350,1,0,{mana:20,radius:0,m20DeployTurret:true,m20Missing:'turret_ai_and_charge_stock'}),
   B20('line_enemy',1325,11,95,{width:270,m20Missing:'five_converging_rockets'}),
   B20('circle_enemy',970,11,95,{radius:250,cc:'stun',ccSeconds:1,m20Missing:'center_stun_outer_slow'}),
   B20('self',0,100,0,{shield:[95,145,195],m20UpgradeNext:true,m20Missing:'three_upgraded_spells'})),
@@ -3385,6 +3385,13 @@ export class Arena {
    return {ok:true,queued:true,recast:true};
   }
   const target=this.boardCombatEntityByIdV453Dev69(targetId);
+  if(s.m20MarkRequired&&s.shape==='target_enemy'&&
+   !(target?.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
+   return {ok:false,reason:'requer_marca'};
+  if(s.m20MarkRequired&&s.shape==='global_enemy'&&
+   !this.units.some(v=>v.hp>0&&v.team!==team&&
+    v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime))
+   return {ok:false,reason:'requer_marca'};
   if(s.shape==='target_enemy'&&(!target||target.team===team))return {ok:false,reason:'alvo_inimigo'};
   if(s.shape==='target_ally'&&(!target||target.team!==team||!target.champ))return {ok:false,reason:'alvo_aliado'};
   // Charm is a champion-only mark. Damage/blind spells can target decoys.
@@ -3395,7 +3402,7 @@ export class Arena {
     !this.sameCombatRealmV453Dev69(u,target)))
    return {ok:false,reason:'alvo_oculto_ou_reino'};
   if(target&&this.mapDistance(u,target)>s.range)return {ok:false,reason:'fora_alcance'};
-  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&!s.originSelf;
+  const aimed=['circle_enemy','line_enemy','cone_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&!s.originSelf;
   if(this.realmOfV453Dev69(u)&&aimed&&point&&!this.realmValidV453Dev69(u,point))
    return {ok:false,reason:'reino_alvo_fora_do_circulo'};
   const m16Range=s.m16Trap==='teemo_mushroom'?
@@ -3403,8 +3410,8 @@ export class Arena {
   if(aimed&&(!point||![point.x,point.y].every(Number.isFinite)||
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
-     (['circle_enemy','vision_point','move_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
-     (s.shape==='move_point'&&!this.walkable(point.x,point.y))))
+     (['circle_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
+     (['move_point','deploy_point'].includes(s.shape)&&!this.walkable(point.x,point.y))))
    return {ok:false,reason:'ponto_invalido'};
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
@@ -3466,12 +3473,12 @@ export class Arena {
     (target.team!==u.team&&!(target.champ?this.visible(u.team,target):
       (target.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,target)))))
    return {ok:false,reason:'alvo_invalido'};
-  if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point'].includes(s.shape)&&
+  if(['circle_enemy','line_enemy','cone_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&
     !s.originSelf&&(!q.point||![q.point.x,q.point.y].every(Number.isFinite)))
    return {ok:false,reason:'ponto'};
-  if(['circle_enemy','move_point','vision_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
+  if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
-  if(s.shape==='move_point'&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
+  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
   if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='Neeko'&&u.neekoDisguiseV453M15&&q.slot!=='W')this.m15BreakDisguise(u,'skill_dano');
@@ -3545,6 +3552,7 @@ export class Arena {
   const allyPool=this.units.filter(v=>v.team===u.team&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
   let hits=[];const point=q.point||u;
   if(s.shape==='target_enemy'||s.shape==='target_ally')hits=[target];
+   else if(s.shape==='global_enemy')hits=enemyPool.filter(v=>v.champ&&(!s.m20MarkRequired||v.m20MarksV453?.[s.m20MarkRequired+'_'+u.id]>this.gameTime));
   else if(s.shape==='self')hits=[u];
   else if(s.shape==='global_ally')hits=allyPool;
   else if(s.shape==='circle_enemy')hits=areaHitsV42(s.originSelf?u:point,enemyPool,s.radius,this.worldWidth,this.worldHeight);
