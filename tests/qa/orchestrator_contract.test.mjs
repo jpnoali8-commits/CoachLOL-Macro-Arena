@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 const root=new URL('../../',import.meta.url);
 const read=p=>readFileSync(new URL(p,root),'utf8');
 const manifest=JSON.parse(read('tools/qa/qa_manifest_dev69.json'));
@@ -29,7 +29,8 @@ for(const phrase of ['--release','--browser','PASS_RELEASE','PASS_LANES',
  assert.ok(src.includes(phrase),'Missing release/QA mechanism '+phrase);
 assert.match(src,/if\(profile==='release'&&!releaseProvenance/);
 assert.match(src,/this\.gameTime|manifest\.release|manifest\.lanes/);
-assert.match(publisher,/HEAD:refs\/heads\/ops\/qa-evidence-dev69/);
+assert.match(publisher,/const target='ops\/qa-evidence-dev69'/);
+assert.match(publisher,/HEAD:refs\/heads\//);
 assert.match(publisher,/COACHLOL_QA_AUTO_PUBLISH/);
 assert.match(startup,/flock -n 9/);
 assert.match(startup,/last-passed-heads/);
@@ -42,7 +43,7 @@ const checks=[
 ];
 for(const [bin,file] of checks){
  const args=bin==='node'?['--check',file]:['-n',file];
- const result=spawnSync(bin,args,{cwd:new URL('.',root),encoding:'utf8'});
+ const result=spawnSync(bin,args,{cwd:fileURLToPath(root),encoding:'utf8'});
  assert.equal(result.status,0,file+' syntax '+(result.stderr||result.stdout));
 }
 console.log('QA_INFRA_CONTRACT PASS: manifest, safety, publisher, Codespaces and source syntax');
