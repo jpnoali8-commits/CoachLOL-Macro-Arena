@@ -3323,7 +3323,28 @@ export class Arena {
      !u||u.hp<=0||!victim?.champ||victim.hp>victim.maxHp*threshold||
      victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
      !this.visible(u.team,victim))return {ok:false,reason:'execucao_invalida'};
+  // First reactivation starts a suppressible one-second chain, not a frame animation.
   u.m23ExecuteMarkV453=null;
+  const until=this.gameTime+1;
+  u.m26UrgotReel={targetId:victim.id,threshold,until,startedAt:this.gameTime};
+  victim.m26UrgotSuppressed={ownerId:u.id,until};
+  this.applyEffectV41(victim,'suppression',{source:u,duration:1,
+   key:'m26_urgot_reel_'+u.id});
+  return {ok:true,channel:true,executed:false,spentMana:0};
+ }
+ m26UrgotFinishV453(u){
+  const state=u?.m26UrgotReel;if(!state)return {ok:false,reason:'sem_corrente'};
+  u.m26UrgotReel=null;
+  const victim=this.units.find(v=>v.id===state.targetId);
+  if(victim?.m26UrgotSuppressed?.ownerId===u.id){
+   victim.m26UrgotSuppressed=null;
+   this.effectResolverV41().remove(victim,{types:['suppression']});
+  }
+  if(!u||u.hp<=0||!victim?.champ||victim.hp<=0||
+     victim.hp>victim.maxHp*state.threshold||
+     !this.sameCombatRealmV453Dev69(u,victim)||
+     !this.effectResolverV41().canAct(u,'skill').ok)
+   return {ok:false,reason:'corrente_interrompida'};
   const dealt=this.damage(victim,victim.hp+100000,u,'true','spell');
   if(victim.hp<=0){
    for(const enemy of this.units.filter(v=>v.team!==u.team&&v.hp>0&&
@@ -5571,6 +5592,19 @@ export class Arena {
      (u.m24FizzLeapV453.until<=this.gameTime||u.hp<=0))
     this.m24FizzLandV453(u,u.m24FizzLeapV453.point);
    if(u.m23DeathDefiedV453?.until<=this.gameTime)u.m23DeathDefiedV453=null;
+   if(u.m26UrgotReel){
+    const reel=u.m26UrgotReel;
+    if(u.hp<=0||!this.effectResolverV41().canAct(u,'skill').ok||
+       !this.units.some(v=>v.id===reel.targetId&&v.hp>0&&
+        this.sameCombatRealmV453Dev69(u,v))){
+     const victim=this.units.find(v=>v.id===reel.targetId);
+     if(victim?.m26UrgotSuppressed?.ownerId===u.id){
+      victim.m26UrgotSuppressed=null;
+      this.effectResolverV41().remove(victim,{types:['suppression']});
+     }
+     u.m26UrgotReel=null;
+    }else if(reel.until<=this.gameTime)this.m26UrgotFinishV453(u);
+   }
    const grit=u.m23GritV453;
    if(grit?.value>0&&this.gameTime>=grit.nextDecayAt){
     const steps=Math.floor(this.gameTime-grit.nextDecayAt)+1;
