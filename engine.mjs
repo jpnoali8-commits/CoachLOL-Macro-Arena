@@ -929,10 +929,12 @@ export const FORM_KITS_V453_M14=Object.freeze({
 });
 export const DEFAULT_FORM_V453_M14=Object.freeze({Nidalee:'human',Elise:'human',Shyvana:'human'});
 
+// M15 partial adapters are separate from the 30 M9 full P/QWER descriptors.
+export const M15_ENTITY_KITS_V453=Object.freeze({
+ Neeko:{W:BS('move_point',900,0,[16,15,14,13,12],[],{m15Entity:'neeko_clone',missing:'P_Q_E_R_not_integrated'})},
+ Shaco:{R:BS('move_point',500,100,[100,90,80],[],{m15Entity:'shaco_clone',missing:'P_Q_W_E_not_integrated'})}
+});
 export const BOARD_KITS_V453_DEV69=Object.freeze({
- // M15 entity adapters use the shared board engine; incomplete kits remain PARTIAL.
- Neeko:{passive:'inherent_glamour',W:BS('move_point',900,0,[16,15,14,13,12],[],{m15Entity:'neeko_clone',missing:'P_Q_E_R_not_integrated'})},
- Shaco:{passive:'backstab',R:BS('move_point',500,100,[100,90,80],[],{m15Entity:'shaco_clone',missing:'P_Q_W_E_not_integrated'})},
  Garen:{passive:'perseverance',Q:BS('target_enemy',450,0,8,[40,60,80,100,120],{type:'physical',adRatio:.5,cc:'silence',ccSeconds:1.5}),
   W:BS('self',0,0,23,[],{shield:[80,105,130,155,180]}),
   E:BS('circle_enemy',0,0,9,[60,95,130,165,200],{originSelf:true,radius:325,type:'physical',adRatio:.7}),
@@ -1075,7 +1077,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
 export function abilityRule(u,slot){
- const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+ const board=BOARD_KITS_V453_DEV69[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -3107,7 +3109,7 @@ export class Arena {
  boardKitForV453Dev69(champ,slot,u=null){
   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
    return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||null;
-  return BOARD_KITS_V453_DEV69[champ]?.[slot]||
+  return BOARD_KITS_V453_DEV69[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -3822,7 +3824,7 @@ export class Arena {
   if(!this.visible(team,target)||this.mapDistance(u,target)>950||
    !this.sameCombatRealmV453Dev69(u,target))
    return {ok:false,reason:'hijack_sem_visao_ou_alcance'};
-  const stolen=BOARD_KITS_V453_DEV69[target.champ]?.R;
+  const stolen=BOARD_KITS_V453_DEV69[target.champ]?.R||M15_ENTITY_KITS_V453[target.champ]?.R;
   if(!stolen||stolen.passiveOnly)
    return {ok:false,reason:'ultimate_sem_adaptador_hijack'};
   const rank=Math.max(1,u.skillRanks.R),cd=[80,55,30][Math.min(2,rank-1)];
@@ -3839,7 +3841,7 @@ export class Arena {
    const target=this.units.find(v=>v.id===request.targetId&&v.team!==u.team&&v.hp>0);
    if(!u.hp||!target||!this.visible(u.team,target)||
     this.mapDistance(u,target)>950||!this.sameCombatRealmV453Dev69(u,target))continue;
-   const rule=BOARD_KITS_V453_DEV69[target.champ]?.R;
+   const rule=BOARD_KITS_V453_DEV69[target.champ]?.R||M15_ENTITY_KITS_V453[target.champ]?.R;
    if(!rule||rule.passiveOnly)continue;
    const spent=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
     targetId:target.id,costOverride:75,cooldownOverride:request.cd,
@@ -3859,7 +3861,7 @@ export class Arena {
      (this.units.some(v=>v.team===team&&v.id===unitId&&v.champ==='Ahri')&&slot==='E'))
    return this.queueDirectionalSkill(team,unitId,slot,point);
   const bu=this.units.find(v=>v.team===team&&v.id===unitId);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.team===team&&v.id===unitId),rule=u&&kitSpellV42(u.champ,slot);
   if(u?.champ==='Jinx'&&slot==='Q'){
    if(u.hp<=0||this.ended||this.teams[team].ready||!['planning','preparation'].includes(this.phase))
@@ -3991,7 +3993,7 @@ export class Arena {
  // Resolution follows the same gate+commit contract; never trusts the client for hits.
  queueDirectionalSkill(team,unitId,slot,point){
   const bu=this.units.find(v=>v.id===unitId&&v.team===team);
-  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
+  if(bu&&(BOARD_KITS_V453_DEV69[bu.champ]||M15_ENTITY_KITS_V453[bu.champ]||FORM_KITS_V453_M14[bu.champ]||(bu.champ==='Sylas'&&bu.sylasStolenV453M14)))return this.queueBoardSkillV453Dev69(team,unitId,slot,{point});
   const u=this.units.find(v=>v.id===unitId&&v.team===team),rule=u&&abilityRule(u,slot);
   if(!u||u.hp<=0||this.ended||!['planning','preparation'].includes(this.phase)||this.teams[team].ready||u.queuedDirectional||!rule||!['line','line_recast','two_blade_line','line_shield','line_return','line_projectile','dash_recast','line_global','line_mark','channel_line'].includes(rule.kind))return {ok:false,reason:'Ação direcional indisponível.'};
   if(!point||![point.x,point.y].every(Number.isFinite)||this.mapDistance(u,point)<1)return {ok:false,reason:'Selecione uma direção no mapa.'};
