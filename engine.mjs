@@ -5821,6 +5821,12 @@ export class Arena {
      aura.nextAt+=steps;
     }
    }
+   if(u.champ==='Cassiopeia'&&u.hp>0){
+    const grace=.045+Math.max(0,(u.level||1)-1)*.006;
+    const old=u.boardSpeedV453Dev69;
+    if(!old||old.until<=this.gameTime||(old.fraction||0)<grace)
+     u.boardSpeedV453Dev69={until:this.gameTime+1.5,fraction:grace};
+   }
    if(u.champ==='Heimerdinger'&&u.hp>0&&
       this.boardSummonsV453Dev69.some(t=>
        ['heimer_turret','heimer_turret_upgraded'].includes(t.kind)&&
