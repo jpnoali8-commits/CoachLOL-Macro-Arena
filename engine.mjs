@@ -2356,12 +2356,41 @@ export class Arena {
  // once, not separately for every champion, minion, ward and jungle camp.
  // No persistent cache: same-tick mutations (wards, fog, bushes) remain visible.
  perspective(team){const sources=this.visionSources(team);const canSee=point=>this.canSeePoint(team,point,sources);return {round:this.round,time:this.gameTime,
-  units:this.units.filter(u=>u.team===team||(!this.realmOfV453Dev69(u)&&u.hp>0&&this.visible(team,u,sources))).map(u=>u.team===team?u:
-    ({id:u.id,team:u.team,role:u.role,champ:u.champ,klass:u.klass,x:u.x,y:u.y,hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,level:u.level})),
+  units:this.units.filter(u=>u.team===team||(!this.realmOfV453Dev69(u)&&u.hp>0&&
+    this.visible(team,u,sources)&&(!u.neekoDisguiseV453M15||u.neekoDisguiseV453M15.kind==='champion')))
+   .map(u=>{
+    if(u.team===team)return u;
+    const disguise=u.neekoDisguiseV453M15,cloneActive=u.champ==='Shaco'&&
+     this.boardSummonsV453Dev69.some(e=>e.id===u.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime);
+    return {id:disguise?.publicId||(cloneActive?u.shacoPublicAliasV453M15:u.id),
+     team:u.team,role:disguise?'unknown':u.role,champ:disguise?.champ||u.champ,
+     klass:disguise?'unknown':u.klass,x:u.x,y:u.y,
+     hp:disguise?.visualHp??u.hp,maxHp:disguise?.visualMaxHp??u.maxHp,
+     mana:disguise?0:u.mana,maxMana:disguise?0:u.maxMana,level:disguise?1:u.level};
+   }).concat(this.boardSummonsV453Dev69.filter(s=>s.team!==team&&
+     ['neeko_clone','shaco_clone'].includes(s.kind)&&s.hp>0&&s.until>this.gameTime&&
+     s.stealthUntil<=this.gameTime&&canSee(s)&&
+     (!s.appearance||s.appearance.kind==='champion')).map(s=>({
+      id:s.publicId,team:s.team,role:'unknown',
+      champ:s.appearance?.champ||'Shaco',klass:'unknown',
+      x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp,mana:0,maxMana:0,level:1}))),
+
    realm:this.realmViewV453Dev69(team),
-  minions:this.minions.filter(m=>m.team===team||this.visible(team,m,sources)),
+  minions:this.minions.filter(m=>m.team===team||this.visible(team,m,sources))
+   .concat(this.units.filter(u=>u.team!==team&&u.hp>0&&
+     u.neekoDisguiseV453M15&&u.neekoDisguiseV453M15.kind!=='champion'&&
+     u.neekoDisguiseV453M15.kind!=='ward'&&this.visible(team,u,sources))
+    .map(u=>({id:u.neekoDisguiseV453M15.publicId,team:u.team,
+     kind:u.neekoDisguiseV453M15.appearance,x:u.x,y:u.y,
+     hp:u.neekoDisguiseV453M15.visualHp,maxHp:u.neekoDisguiseV453M15.visualMaxHp})))
+   .concat(this.boardSummonsV453Dev69.filter(s=>s.team!==team&&s.kind==='neeko_clone'&&
+     s.appearance?.kind!=='champion'&&s.appearance?.kind!=='ward'&&
+     s.hp>0&&s.until>this.gameTime&&s.stealthUntil<=this.gameTime&&canSee(s))
+    .map(s=>({id:s.publicId,team:s.team,kind:s.appearance.appearance,
+      x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}))),
   boardSummons:(this.boardSummonsV453Dev69||[]).filter(s=>s.hp>0&&
-   s.until>this.gameTime&&(s.team===team||canSee(s)))
+   s.until>this.gameTime&&(s.team===team||canSee(s))&&
+   (s.team===team||!['neeko_clone','shaco_clone'].includes(s.kind)))
    .map(s=>s.team===team?{id:s.id,kind:s.kind,team:s.team,ownerId:s.ownerId,
     x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp,until:s.until,targetId:s.targetId}:
     {id:s.id,kind:s.kind,team:s.team,x:s.x,y:s.y,hp:s.hp,maxHp:s.maxHp}),
@@ -2382,7 +2411,13 @@ export class Arena {
     publicObjective:epicPublic,
     knownRespawnAt:publicRespawn||(known?.respawnAt>this.gameTime?known.respawnAt:null)};
   }),
-  wards:this.wards.filter(w=>w.team===team||this.wardKnownTo(team,w,sources)).map(w=>w.team===team?{...w}:{id:w.id,team:w.team,type:w.type,x:w.x,y:w.y,hp:w.hp,maxHp:w.maxHp}),
+  wards:this.wards.filter(w=>w.team===team||this.wardKnownTo(team,w,sources))
+   .map(w=>w.team===team?{...w}:{id:w.id,team:w.team,type:w.type,x:w.x,y:w.y,hp:w.hp,maxHp:w.maxHp})
+   .concat(this.units.filter(u=>u.team!==team&&u.hp>0&&
+     u.neekoDisguiseV453M15?.kind==='ward'&&this.visible(team,u,sources))
+    .map(u=>({id:u.neekoDisguiseV453M15.publicId,team:u.team,
+     type:u.neekoDisguiseV453M15.appearance,x:u.x,y:u.y,
+     hp:u.neekoDisguiseV453M15.visualHp,maxHp:u.neekoDisguiseV453M15.visualMaxHp}))),
   team:{kills:this.teams[team].kills,dragons:[...this.teams[team].dragons],baronUntil:this.teams[team].baronUntil,elderUntil:this.teams[team].elderUntil,
    voidgrubs:this.teams[team].voidgrubs||0,heralds:this.teams[team].heralds||0,
    heraldEye:this.units.filter(u=>u.team===team&&u.trinket==='herald_eye').map(u=>({id:u.id,expiresAt:u.heraldEyeExpiresAtV45})),
