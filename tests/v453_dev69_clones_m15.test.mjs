@@ -62,6 +62,14 @@ for(const team of ['blue','red']){
   assert.ok(enemyView.units.some(v=>v.id===d.u.neekoDisguiseV453M15.publicId&&v.champ===ally.champ));
   assert.ok(!enemyView.units.some(v=>v.id===d.u.id));
  });
+ check(team+' disguised Neeko never leaks her stable ID in enemy events',()=>{
+  d.a.event('Neeko usou habilidade oculta.',team,'skill_vfx',d.u.id,{observedBy:['blue','red']});
+  const view=d.a.perspective(d.other);
+  const mask=view.events.find(x=>x.kind==='skill_vfx'&&x.unitId===d.u.neekoDisguiseV453M15.publicId);
+  assert.ok(mask);
+  assert.equal(mask.text,'Ação de uma unidade visível.');
+  assert.ok(!view.events.some(x=>x.unitId===d.u.id));
+ });
  check(team+' Neeko false real ID fails before enemy team action',()=>{
   const seats=[
    {seatId:'seatB',unitId:'blue_MID',unitIds:['blue_TOP','blue_JG','blue_MID','blue_ADC','blue_SUP']},
