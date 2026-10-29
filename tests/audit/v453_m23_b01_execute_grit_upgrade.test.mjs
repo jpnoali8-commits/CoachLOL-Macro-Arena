@@ -97,7 +97,9 @@ for(const team of ['blue','red']){
   assert.ok(u.m23GritV453?.value>0);
   const grit=u.m23GritV453.value,before=e.hp;
   a.gameTime=1;cast('W',{point});
-  assert.ok(e.hp<before,'Haymaker damage missing');
+  assert.equal(e.hp,before,'M40 Haymaker must honor its 0.75s cast time');
+  a.gameTime=2;a.advanceBoardPassivesV453Dev69();
+  assert.ok(e.hp<before,'Haymaker delayed damage missing');
   assert.equal(u.m23GritV453.value,0);
   assert.ok(a.effectResolverV41().list(u).some(z=>z.type==='shield'&&z.power>=grit),
    'Haymaker Grit shield missing');
