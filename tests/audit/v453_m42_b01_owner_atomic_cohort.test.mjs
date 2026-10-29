@@ -88,7 +88,7 @@ for(const seat of seats){
   a.visible=(t,v)=>v.id!==e.id;
   let result=commit();
   assert.equal(result.ok,false);
-  assert.equal(result.reason,'m42_mel_mark_hidden_before_commit');
+  assert.equal(result.reason,'m32_global_mark_expired_before_commit');
   assert.equal(u.mana,originalMana);assert.equal(u.skillCds.R,0);
   negatives++;
   e2.m20MarksV453={[token]:a.gameTime+6};
