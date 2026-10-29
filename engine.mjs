@@ -3378,9 +3378,22 @@ export class Arena {
    this.recordIntentV40(team,id,'board_recast',{slot,kind:'card_pick'});
    return {ok:true,queued:true,recast:true};
   }
-  const satchel=s.boardTemporal==='satchel_charge'&&
-   this.boardTemporalV453Dev69?.find(z=>z.kind==='satchel_charge'&&
+  const satchel=['satchel_charge','m21_gragas_barrel'].includes(s.boardTemporal)&&
+   this.boardTemporalV453Dev69?.find(z=>z.kind===s.boardTemporal&&
     z.ownerId===u.id&&z.until>=this.gameTime);
+  // A second Sonic Wave may select only its original, visible victim.
+  // Reactivation never spends resources or resets the first cast's cooldown.
+  const sonic=s.m21SonicRecast&&slot==='Q'&&u.m21SonicRecastV453;
+  if(sonic&&sonic.until>this.gameTime){
+   const victim=this.boardCombatEntityByIdV453Dev69(sonic.targetId);
+   if(targetId&&targetId!==sonic.targetId)return {ok:false,reason:'recast_alvo_divergente'};
+   if(!victim||victim.team===team||!this.sameCombatRealmV453Dev69(u,victim)||
+      !(victim.champ?this.visible(team,victim):this.canSeePoint(team,victim))||
+      this.mapDistance(u,victim)>1300)return {ok:false,reason:'recast_alvo_invalido'};
+   u.pendingBoardV453Dev69={slot,m21Recast:'sonic_dash',targetId:victim.id};
+   this.recordIntentV40(team,id,'m21_recast',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   if(satchel){
    u.pendingBoardV453Dev69={slot,recast:true,temporalId:satchel.id};
    this.recordIntentV40(team,id,'board_recast',{slot,temporalId:satchel.id});
@@ -3445,6 +3458,26 @@ export class Arena {
   if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
    return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
+  if(q?.m21Recast==='sonic_dash'&&s.m21SonicRecast){
+   const state=u.m21SonicRecastV453, victim=this.boardCombatEntityByIdV453Dev69(q.targetId);
+   if(!state||state.targetId!==q.targetId||state.until<=this.gameTime||
+     !victim||victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
+     !(victim.champ?this.visible(u.team,victim):this.canSeePoint(u.team,victim))||
+     this.mapDistance(u,victim)>1300)return {ok:false,reason:'recast_expirado_ou_oculto'};
+   const old={x:u.x,y:u.y},end={
+    x:victim.x-(victim.x-u.x)*.10,y:victim.y-(victim.y-u.y)*.10};
+   if(!this.walkable(end.x,end.y)||this.obstacleLine(old,end))
+    return {ok:false,reason:'recast_rota_bloqueada'};
+   u.m21SonicRecastV453=null;
+   Object.assign(u,end);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,old,end,{kind:'dash'});
+   const rank=Math.max(1,u.skillRanks.Q||1),raw=40+rank*22+
+    Math.max(0,(victim.maxHp||0)-victim.hp)*.12;
+   const dealt=this.damage(victim,raw,u,'physical','spell');
+   this.event('Lee Sin Q2: Resonating Strike.',u.team,'skill_vfx',u.id);
+   return {ok:true,recast:true,spentMana:0,hitCount:dealt>0?1:0};
+  }
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
    if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
@@ -3460,12 +3493,13 @@ export class Arena {
     {observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,u))});
    return {ok:true,recast:true,card:choice,spentMana:0};
   }
-  if(q?.recast&&s.boardTemporal==='satchel_charge'){
+  if(q?.recast&&['satchel_charge','m21_gragas_barrel'].includes(s.boardTemporal)){
    const index=(this.boardTemporalV453Dev69||[]).findIndex(z=>z.id===q.temporalId&&
-    z.kind==='satchel_charge'&&z.ownerId===u.id);
+    z.kind===s.boardTemporal&&z.ownerId===u.id&&z.until>=this.gameTime);
    if(index<0)return {ok:false,reason:'recast_expirado'};
    const [charge]=this.boardTemporalV453Dev69.splice(index,1);
-   this.detonateBoardSatchelV453Dev69(charge);
+   if(charge.kind==='m21_gragas_barrel')this.detonateM21BarrelV453(charge);
+   else this.detonateBoardSatchelV453Dev69(charge);
    return {ok:true,recast:true,spentMana:0};
   }
   const target=this.boardCombatEntityByIdV453Dev69(q.targetId);
@@ -3562,6 +3596,8 @@ export class Arena {
     temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt;
    }else if(s.boardTemporal==='delayed_radiance'){
     temporal.nextAt=this.gameTime+2.5;temporal.until=temporal.nextAt+.01;
+   }else if(s.boardTemporal==='m21_gragas_barrel'){
+    temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt+.1;
    }else if(s.boardTemporal==='m20_requiem_channel'){
     temporal.nextAt=this.gameTime+3;temporal.until=temporal.nextAt+.1;
     u.boardChannelUntilV453Dev69=temporal.until;
@@ -3684,6 +3720,9 @@ export class Arena {
       power:raw/s.dotSeconds,interval:1,key:'board_dot_'+instance+'_'+v.id});
     }else{
      const done=this.damage(v,raw,u,s.type||'magic','spell');if(done>0)damaged++;
+     if(done>0&&s.m21SonicRecast&&v.hp>0&&
+        (v.champ||this.boardCloneDamageableV453Dev69(v)))
+      u.m21SonicRecastV453={targetId:v.id,until:this.gameTime+3};
      if(done>0&&s.healFromDamage)this.effectResolverV41().heal(u,done*s.healFromDamage,u);
      if(done>0&&s.feastStackHp&&v.hp<=0&&v.champ){
       u.boardFeastStacksV453Dev69=(u.boardFeastStacksV453Dev69||0)+1;
@@ -3725,6 +3764,13 @@ export class Arena {
     this.applyEffectV41(v,s.cc,{
      source:u,duration:scaled,power:s.ccPower||0,key:'board_'+instance+'_'+v.id});
    }
+   if(enemy&&s.m21BraumConcussive&&v.champ&&!blocked&&v.hp>0&&
+      !this.effectResolverV41().has(v,'invulnerable')){
+    const previous=v.m21BraumConcussiveV453;
+    if(!(previous?.lockUntil>this.gameTime))
+     v.m21BraumConcussiveV453={sourceId:u.id,team:u.team,stacks:1,
+      until:this.gameTime+8,lockUntil:0};
+   }
    if(enemy&&s.m20Mark&&!blocked&&v.hp>0)
     (v.m20MarksV453??={})[s.m20Mark+'_'+u.id]=this.gameTime+6;
    if(enemy&&s.impactSplash&&v.champ){
@@ -3762,6 +3808,23 @@ export class Arena {
  resolveBoardSkillsV453Dev69(){
   for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
    u.pendingBoardV453Dev69=null;this.executeBoardSkillV453Dev69(u,q);}
+ }
+ // Shared timed barrel explosion. No target IDs outside the server or bypass
+ // of Realm/visibility/collision; the same routine handles recast and fuse.
+ detonateM21BarrelV453(z){
+  const u=this.units.find(v=>v.id===z.ownerId);
+  if(!u)return;
+  const victims=this.boardCombatEnemyPoolV453Dev69(u)
+   .filter(v=>this.mapDistance(v,z.point)<=z.radius)
+   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  for(const v of victims){
+   const blocked=this.effectResolverV41().has(v,'spell_shield');
+   const dealt=this.damage(v,z.power,u,'magic','spell');
+   if(dealt>0&&v.champ&&!blocked&&v.hp>0)
+    this.applyEffectV41(v,'slow',{source:u,duration:2,
+     power:z.slowPower||.4,key:'m21_barrel_'+z.id+'_'+v.id});
+  }
+  this.event('Gragas Q: Barril detonado.',u.team,'skill_vfx',u.id);
  }
  detonateBoardSatchelV453Dev69(z){
   const u=this.units.find(v=>v.id===z.ownerId);
@@ -3804,10 +3867,12 @@ export class Arena {
      this.mapDistance(u,z.origin)>60)){
     u.boardChannelUntilV453Dev69=0;ended=true;
    }
-   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel'].includes(z.kind))){
+   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='satchel_charge'){
+    if(z.kind==='m21_gragas_barrel'){
+     this.detonateM21BarrelV453(z);ended=true;
+    }else if(z.kind==='satchel_charge'){
      this.detonateBoardSatchelV453Dev69(z);ended=true;
     }else if(z.kind==='m20_requiem_channel'){
      for(const enemy of this.units.filter(v=>v.team!==z.team&&v.hp>0&&
