@@ -1186,7 +1186,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('line_enemy',900,7,95,{width:155,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.4,healFromDamage:.2,m20Mark:'taste'}),
   B20('move_point',1000,21,120,{radius:280,cc:'knockup',ccSeconds:1}),
   B20('self',0,3,0,{shield:[85,125,165,205,245],m20Missing:'grey_health'}),
-  B20('target_enemy',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
+  B20('target_any',250,120,230,{mana:100,m24Devour:true,m20Missing:'enemy_stacks_from_auto_attacks'})),
  Galio:BK20('colossal_smash',
   B20('circle_enemy',825,11,105,{radius:280,dotSeconds:2,m20Missing:'converging_windblasts'}),
   B20('circle_enemy',0,18,75,{originSelf:true,radius:300,cc:'taunt',ccSeconds:1.5,shield:[85,115,145,175,205],m20Missing:'charge'}),
