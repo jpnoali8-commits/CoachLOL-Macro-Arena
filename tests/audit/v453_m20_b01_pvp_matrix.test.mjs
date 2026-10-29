@@ -58,9 +58,18 @@ for(const champ of expected)for(const slot of slots)for(const team of ['blue','r
   const queued=a.queueBoardSkillV453Dev69(team,u.id,slot,opts);
   assert.equal(queued.ok,true,'queue '+champ+' '+slot+' '+team+': '+queued.reason);
   assert.equal(u.mana,before.mana,'queue must not charge mana early');
+  let execution;
+  const originalExecute=a.executeBoardSkillV453Dev69.bind(a);
+  a.executeBoardSkillV453Dev69=(actor,payload)=>{
+   execution=originalExecute(actor,payload);
+   return execution;
+  };
   a.resolveBoardSkillsV453Dev69();
+  assert.equal(execution?.ok,true,
+   'executor rejected '+champ+slot+' '+team+': '+JSON.stringify(execution));
   assert.ok(u.skillCds[slot]>a.gameTime||u.mana<before.mana,
-   'commit did not charge cooldown or resource');
+   'commit did not charge cooldown or resource: '+JSON.stringify({
+    execution,slot,now:a.gameTime,cd:u.skillCds[slot],mana:u.mana,previous:before.mana}));
   const changed=e.hp!==before.enemyHp||
    (e.statusEffectsV41?.length||0)>before.enemyFx||
    ally.hp!==before.allyHp||(ally.statusEffectsV41?.length||0)>before.allyFx||
