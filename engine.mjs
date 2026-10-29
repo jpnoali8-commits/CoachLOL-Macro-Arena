@@ -1121,7 +1121,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m25SeraphineEcho:true}),
   B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m21HealIfShielded:[25,40,55,70,85],m20Missing:'echo_cast'}),
   B20('line_enemy',1300,11,70,{width:185,cc:'slow',ccSeconds:2,ccPower:.4,m20Missing:'cc_upgrade'}),
-  B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m20Missing:'range_extension'})),
+  B20('line_enemy',1700,160,190,{width:270,cc:'charm',ccSeconds:1.5,m26EncoreExtension:true})),
  Xerath:BK20('mana_surge',
   B20('line_enemy',1450,9,85,{width:155,m20Missing:'charge_range'}),
   B20('circle_enemy',1000,14,90,{radius:260,cc:'slow',ccSeconds:2,ccPower:.4,m25XerathCenter:true}),
@@ -4310,7 +4310,24 @@ export class Arena {
      source:u,duration:1.5,power:.65,key:'m24_slam_'+u.id+'_'+other.id});
    }
   }
-  if(s.m25GragasFirstCollision&&hits.length)
+  if(s.m26EncoreExtension&&q.point){
+    const dirX=(q.point.x-u.x)*this.worldWidth,dirY=(q.point.y-u.y)*this.worldHeight;
+    const len=Math.hypot(dirX,dirY)||1;
+    const allies=allyPool.filter(v=>v.champ&&v.id!==u.id&&v.hp>0&&
+     this.sameCombatRealmV453Dev69(u,v)).some(v=>{
+      const dx=(v.x-u.x)*this.worldWidth,dy=(v.y-u.y)*this.worldHeight;
+      const along=(dx*dirX+dy*dirY)/len,off=Math.abs(dx*dirY-dy*dirX)/len;
+      return along>0&&along<=s.range&&off<=s.width*.5;
+     });
+    if(allies){
+     const range=s.range+700;
+     const end={x:u.x+dirX/len*range/this.worldWidth,
+      y:u.y+dirY/len*range/this.worldHeight};
+     hits=skillshotHitsV42(u,end,enemyPool,{range,width:s.width,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    }
+   }
+   if(s.m25GragasFirstCollision&&hits.length)
    hits=hits.filter(v=>v.champ).sort((a,b)=>
     this.mapDistance(u,a)-this.mapDistance(u,b)||String(a.id).localeCompare(String(b.id))).slice(0,1);
   if(s.m25YiAlpha&&target?.champ){
