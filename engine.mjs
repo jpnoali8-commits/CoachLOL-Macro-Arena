@@ -3598,6 +3598,10 @@ export class Arena {
    return {ok:false,reason:'m34_no_live_charge'};
   if(!this.effectResolverV41().canAct(u,'skill').ok)
    return {ok:false,reason:'m34_charge_interrupted'};
+  if(u.champ==='Galio'&&slot==='W'&&
+   (this.m40InterruptChannelV453Dev69(u)||
+    u.m40AuthoredChannelV453?.kind!=='galio_durand'))
+   return {ok:false,reason:'m40_galio_charge_interrupted'};
   const chargeSeconds=Math.min(2,Math.max(0,this.gameTime-state.startedAt));
   const queued=this.queueBoardSkillV453Dev69(team,id,slot,
    {point,targetId,chargeSeconds});
@@ -3606,6 +3610,22 @@ export class Arena {
    u.pendingBoardV453Dev69.m34ChargeReleaseOrigin={...state.origin};
   }
   return {...queued,...(queued.ok?{trustedChargeSeconds:chargeSeconds}:{})};
+ }
+ m40InterruptChannelV453Dev69(u){
+  const state=u?.m40AuthoredChannelV453;
+  if(!state)return false;
+  const blocked=u.hp<=0||!this.effectResolverV41().canAct(u,'skill').ok||
+   this.mapDistance(u,state.origin)>60;
+  if(!blocked)return false;
+  if(state.kind==='master_yi_meditate')u.m29YiMeditateUntil=0;
+  if(state.kind==='sett_haymaker')
+   this.boardTemporalV453Dev69=(this.boardTemporalV453Dev69||[])
+    .filter(z=>!(z.kind==='m40_sett_haymaker'&&z.ownerId===u.id&&
+      z.token===state.startedAt));
+  if(state.kind==='galio_durand')u.m34ChargeStateV453=null;
+  u.m40AuthoredChannelV453=null;
+  u.boardChannelUntilV453Dev69=0;
+  return true;
  }
  m39SyndraPickupV453Dev69(u,point){
   // Sphere has priority; only living, exposed enemy minions are fallback
@@ -3632,6 +3652,13 @@ export class Arena {
      u.m23ZacDivisionV453?.active||this.ended||this.teams[team]?.ready||
     !['preparation','planning'].includes(this.phase)||u.pendingBoardV453Dev69)
    return {ok:false,reason:'board_indisponivel'};
+  if(u.m40AuthoredChannelV453?.until>this.gameTime&&
+     !(u.champ==='Galio'&&slot==='W'&&chargeSeconds!==null&&
+       u.m34ChargeStateV453?.slot==='W')){
+   if(this.m40InterruptChannelV453Dev69(u))
+    return {ok:false,reason:'m40_channel_interrupted'};
+   return {ok:false,reason:'m40_channel_active'};
+  }
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   if(s.m23EmpowerNext&&u.champ==='Heimerdinger'&&
      u.m23HeimerEmpowerV453?.until>this.gameTime){
@@ -3920,9 +3947,18 @@ export class Arena {
     return {ok:false,reason:'m34_charge_interrupted_before_commit'};
    u.m34ChargeStateV453={slot:q.slot,startedAt:this.gameTime,
     expiresAt:this.gameTime+3,origin:{x:u.x,y:u.y}};
+   if(s.m28GalioCharge&&u.champ==='Galio'){
+    u.m40AuthoredChannelV453={kind:'galio_durand',slot:'W',
+     startedAt:this.gameTime,until:this.gameTime+3,origin:{x:u.x,y:u.y}};
+    u.boardChannelUntilV453Dev69=this.gameTime+2;
+   }
    return {ok:true,chargeStarted:true,spentMana:0};
   }
   if(q?.m34ChargeReleaseToken!==undefined){
+   if(u.champ==='Galio'&&q.slot==='W'&&
+      (this.m40InterruptChannelV453Dev69(u)||
+       u.m40AuthoredChannelV453?.kind!=='galio_durand'))
+    return {ok:false,reason:'m40_galio_interrupted_before_release'};
    const state=u.m34ChargeStateV453;
    if(!state||state.slot!==q.slot||state.startedAt!==q.m34ChargeReleaseToken||
       state.expiresAt<this.gameTime||this.gameTime<state.startedAt||
@@ -4226,7 +4262,19 @@ export class Arena {
    if(target?.team===u.team&&target.champ)
     target.boardSpeedV453Dev69={until:this.gameTime+2,fraction:.2};
   }
-  if(s.m29YiMeditate)u.m29YiMeditateUntil=this.gameTime+3;
+  if(s.m29YiMeditate){
+    const until=this.gameTime+4;
+    u.m40AuthoredChannelV453={kind:'master_yi_meditate',slot:'W',
+     origin:{x:u.x,y:u.y},startedAt:this.gameTime,until,
+     nextAt:this.gameTime+.5,ticks:0};
+    u.m29YiMeditateUntil=until;
+    u.boardChannelUntilV453Dev69=until;
+   }
+   if(s.m28GalioCharge&&u.champ==='Galio'){
+    u.m40GalioWDefenseUntil=this.gameTime+2;
+    u.m40AuthoredChannelV453=null;
+    u.boardChannelUntilV453Dev69=0;
+   }
   if(s.m32YiHighlander)u.m32YiHighlanderUntil=this.gameTime+7;
   if(s.m29QuinnHeightened&&q.point){
    const candidates=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.champ&&
@@ -5041,6 +5089,20 @@ export class Arena {
    }
   if(s.m23UseGrit&&spentGrit>0)this.applyEffectV41(u,'shield',{
    source:u,duration:3,power:spentGrit,key:'m23_grit_'+instance});
+  if(s.m23UseGrit&&u.champ==='Sett'){
+   // The Grit shield is immediate; the actual cone lands after 0.75s.
+   const until=this.gameTime+.75,token=this.gameTime;
+   u.m40AuthoredChannelV453={kind:'sett_haymaker',slot:'W',
+    startedAt:token,until,origin:{x:u.x,y:u.y}};
+   u.boardChannelUntilV453Dev69=until;
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m40_sett_haymaker',
+    token,ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},
+    point:{...q.point},range:s.range,arc:s.arc||50,
+    power:power(s.damage)+spentGrit*.25,
+    nextAt:until,until:until+4,hitIds:[]});
+   return {...committed,scheduled:true,hitCount:0};
+  }
   let damaged=0;
   const annieReady=u.champ==='Annie'&&(u.boardSpellCountV453Dev69||0)>=3;
   const m21ShieldedOnCast=!!s.m21HealIfShielded&&
@@ -5354,7 +5416,7 @@ export class Arena {
     if(s.m21AllySpeed)
      v.boardSpeedV453Dev69={until:this.gameTime+(s.buffSeconds||3),fraction:s.m21AllySpeed};
     if(m21ShieldedOnCast)this.effectResolverV41().heal(v,power(s.m21HealIfShielded),u);
-    if(s.heal)this.effectResolverV41().heal(v,power(s.heal),u);
+    if(s.heal&&!s.m29YiMeditate)this.effectResolverV41().heal(v,power(s.heal),u);
     if(s.shield)this.applyEffectV41(v,s.shieldType||'shield',{source:u,duration:3,
      power:power(s.shield),key:'board_shield_'+instance+'_'+v.id});
     if(s.m32SeraphineEchoShield&&m25SeraphineEcho&&v.champ)
