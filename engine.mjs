@@ -1116,7 +1116,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('circle_enemy',875,1,55,{radius:160,m20Missing:'isolated_bonus_and_fuse'}),
   B20('line_enemy',1000,15,0,{width:250,cc:'slow',ccSeconds:3,ccPower:.5,m20Missing:'persistent_wall'}),
   B20('circle_enemy',0,.5,45,{originSelf:true,radius:550,dotSeconds:2,m20Missing:'toggle_and_mana_refund'}),
-  B20('global_enemy',25000,200,280,{mana:100,m20Missing:'interruptible_three_second_channel'})),
+  B20('global_enemy',25000,200,280,{mana:100,boardTemporal:'m20_requiem_channel',zoneSeconds:3.1,m20Missing:'death_defied_passive_and_postdeath_channel'})),
  Seraphine:BK20('stage_presence',
   B20('circle_enemy',900,8,75,{radius:260,missingHpRatio:.1,m20Missing:'echo'}),
   B20('circle_ally',0,22,0,{shield:[70,105,140,175,210],radius:800,allySpeedBuff:.15,buffSeconds:2,m20Missing:'shielded_healing'}),
@@ -3562,6 +3562,9 @@ export class Arena {
     temporal.nextAt=this.gameTime+4;temporal.until=temporal.nextAt;
    }else if(s.boardTemporal==='delayed_radiance'){
     temporal.nextAt=this.gameTime+2.5;temporal.until=temporal.nextAt+.01;
+   }else if(s.boardTemporal==='m20_requiem_channel'){
+    temporal.nextAt=this.gameTime+3;temporal.until=temporal.nextAt+.1;
+    u.boardChannelUntilV453Dev69=temporal.until;
    }else if(s.boardTemporal==='cone_channel'){
     temporal.ticksLeft=3;temporal.until=this.gameTime+3.2;
     u.boardChannelUntilV453Dev69=temporal.until;
@@ -3796,15 +3799,23 @@ export class Arena {
    const u=this.units.find(v=>v.id===z.ownerId);
    if(!u){continue;}
    let ended=false;
-   if(z.kind==='cone_channel'&&(!u.hp||!this.effectResolverV41().canAct(u,'skill').ok||
-    this.mapDistance(u,z.origin)>60)){
+   if(['cone_channel','m20_requiem_channel'].includes(z.kind)&&
+    (!u.hp||!this.effectResolverV41().canAct(u,'skill').ok||
+     this.mapDistance(u,z.origin)>60)){
     u.boardChannelUntilV453Dev69=0;ended=true;
    }
-   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge'].includes(z.kind))){
+   if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
     if(z.kind==='satchel_charge'){
      this.detonateBoardSatchelV453Dev69(z);ended=true;
+    }else if(z.kind==='m20_requiem_channel'){
+     for(const enemy of this.units.filter(v=>v.team!==z.team&&v.hp>0&&
+      this.sameCombatRealmV453Dev69(u,v)).sort((a,b)=>a.id.localeCompare(b.id)))
+      this.damage(enemy,z.power,u,'magic','spell');
+     u.boardChannelUntilV453Dev69=0;
+     this.event('Karthus R: Réquiem concluído.',u.team,'skill_vfx',u.id);
+     ended=true;
     }else if(z.kind==='delayed_radiance'){
      if(u.hp>0){
       for(const ally of this.units.filter(v=>v.team===z.team&&v.hp>0&&
@@ -3854,7 +3865,7 @@ export class Arena {
     }
    }
    if(!ended&&now<z.until)keep.push(z);
-   else if(z.kind==='cone_channel')u.boardChannelUntilV453Dev69=0;
+   else if(['cone_channel','m20_requiem_channel'].includes(z.kind))u.boardChannelUntilV453Dev69=0;
   }
   this.boardTemporalV453Dev69=keep;
  }
