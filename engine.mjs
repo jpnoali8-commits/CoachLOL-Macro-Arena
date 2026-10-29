@@ -10419,8 +10419,13 @@ export class Arena {
    (target.m27RellArmorTheft.value||0):0;
  const m26BraumBonus=target.m26BraumResists?.until>this.gameTime?
   (target.m26BraumResists.value||0):0;
+ const m41KarthusShred=target.champ&&damageType==='magic'&&
+  attacker?.team!==target.team&&
+  target.m41KarthusWallMR?.until>this.gameTime?
+  Math.min(.3,Math.max(0,target.m41KarthusWallMR.ratio||0)):0;
  const targetRes=target.type==='tower'?this.structureResistanceV452d4Dev23(target,damageType):
-  (damageType==='magic'?(derivedTarget.mr||0):(derivedTarget.armor||0))+
+  (damageType==='magic'?(derivedTarget.mr||0)*(1-m41KarthusShred):
+   (derivedTarget.armor||0))+
    m26BraumBonus+m27RellStolen-m27RellDebuff;
  const effectiveTargetResV453Dev29=(damageType==='physical'&&cleaverDebuffV453Dev29?
   targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes)*
