@@ -1208,7 +1208,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_ally',650,0,0,{shield:[75,105,135,165,195],m27MilioFiredUp:true,m29MilioTwoE:true}),
   B20('circle_ally',0,160,0,{radius:700,heal:[150,250,350],m21CleanseAllies:true,m27MilioFiredUp:true,m20Missing:'empowered_passive_followup'})),
  Quinn:BK20('harrier',
-  B20('line_enemy',1025,11,95,{width:180,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m27QuinnBlind:true}),
+  B20('line_enemy',1025,11,95,{width:180,maxHits:1,type:'physical',m44SplashRadius:210,cc:'slow',ccSeconds:1.5,ccPower:.35,m20Mark:'harrier',m27QuinnBlind:true}),
   B20('vision_point',2100,50,0,{mana:0,radius:1200,visionSeconds:3,m29QuinnHeightened:true,m20Missing:'passive_heightened_senses'}),
   B20('target_enemy',675,12,80,{dashToHit:true,cc:'slow',ccSeconds:1.5,ccPower:.4,m25QuinnVault:true}),
   B20('self',0,90,0,{speedBuff:.45,buffSeconds:7,m26QuinnFlight:true})),
@@ -1258,7 +1258,7 @@ export const BOARD_M20_B01_V453=Object.freeze({
   B20('target_enemy',400,1,75,{m26ViShockwave:true}),
   B20('target_enemy',800,140,230,{dashToHit:true,cc:'knockup',ccSeconds:1.3,m32ViRKnockaside:true})),
  Braum:BK20('concussive_blows',
-  B20('line_enemy',1000,8,90,{width:170,cc:'slow',ccSeconds:2,ccPower:.5,m20Mark:'concussive',m21BraumConcussive:true}),
+  B20('line_enemy',1000,8,90,{width:170,maxHits:1,cc:'slow',ccSeconds:2,ccPower:.5,m20Mark:'concussive',m21BraumConcussive:true}),
   B20('target_ally',650,12,0,{shield:[70,95,120,145,170],m20JumpToAlly:true,m26BraumStand:true}),
   B20('self',0,16,0,{shield:[90,130,170,210,250],m26BraumDirection:true}),
   B20('line_enemy',1250,130,250,{width:275,cc:'knockup',ccSeconds:1,m26BraumFissure:true})),
@@ -3846,7 +3846,8 @@ export class Arena {
   // Reactivation never spends resources or resets the first cast's cooldown.
   const sonic=s.m21SonicRecast&&slot==='Q'&&u.m21SonicRecastV453;
   if(sonic&&sonic.until>this.gameTime){
-   const victim=this.boardCombatEntityByIdV453Dev69(sonic.targetId);
+   const victim=this.boardCombatEntityByIdV453Dev69(sonic.targetId)||
+    this.minions.find(v=>v.id===sonic.targetId&&v.hp>0);
    if(targetId&&targetId!==sonic.targetId)return {ok:false,reason:'recast_alvo_divergente'};
    if(!victim||victim.team===team||!this.sameCombatRealmV453Dev69(u,victim)||
       !(victim.champ?this.visible(team,victim):this.canSeePoint(team,victim))||
@@ -4084,7 +4085,8 @@ export class Arena {
    return this.executeMechanicV453M16(u,q,s);
   if(s.m15Entity)return this.executeCloneSkillV453M15(u,q,s);
   if(q?.m21Recast==='sonic_dash'&&s.m21SonicRecast){
-   const state=u.m21SonicRecastV453, victim=this.boardCombatEntityByIdV453Dev69(q.targetId);
+   const state=u.m21SonicRecastV453, victim=this.boardCombatEntityByIdV453Dev69(q.targetId)||
+    this.minions.find(v=>v.id===q.targetId&&v.hp>0);
    if(!state||state.targetId!==q.targetId||state.until<=this.gameTime||
      !victim||victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
      !(victim.champ?this.visible(u.team,victim):this.canSeePoint(u.team,victim))||
@@ -5234,7 +5236,7 @@ export class Arena {
      damageType:s.type||'magic',maxHits:s.maxHits??9999,
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
      nextAt:this.gameTime+1,until:this.gameTime+flightTicks+1,
-     m44Mark:s.m20Mark||null
+     m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0
     });
     if(u.champ==='LeeSin')u.m21SonicRecastV453=null;
     return {...committed,scheduled:true,hitCount:0,m44Projectile:true};
@@ -5706,9 +5708,11 @@ export class Arena {
      const from={...z.current},factor=(z.distanceDone+travel)/Math.max(1,z.range);
      const next={x:z.origin.x+(z.point.x-z.origin.x)*factor,
       y:z.origin.y+(z.point.y-z.origin.y)*factor};
+     // Varus R bypasses minions but champion-shaped decoys can intercept.
      const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
-      this.sameCombatRealmV453Dev69(u,v));
+      this.sameCombatRealmV453Dev69(u,v)&&
+      (z.champ!=='Varus'||v.champ||this.boardCloneDamageableV453Dev69(v)));
      const bodies=travel>0?skillshotHitsV42(from,next,pool,{
       range:travel+10,width:z.width,maxHits:Infinity,
       worldWidth:this.worldWidth,worldHeight:this.worldHeight}):[];
@@ -5716,8 +5720,21 @@ export class Arena {
       if(z.hitCount>=z.maxHits)break;
       if(this.obstacleLine(from,victim))continue;
       const spellShield=!!this.effectResolverV41().has(victim,'spell_shield');
+      // Rell breaks existing damage shields before the lance deals damage.
+      if(z.champ==='Rell'&&!spellShield&&victim.champ)
+       this.effectResolverV41().remove(victim,{
+        types:['shield','magic_shield','physical_shield']});
       const dealt=this.damage(victim,z.power,u,z.damageType,'spell');
       z.hitIds.push(victim.id);z.hitCount++;
+      // Valor stops at first contact; only primary gets Harrier / blindness.
+      if(z.champ==='Quinn'&&z.m44SplashRadius>0)
+       for(const splash of this.boardCombatEnemyPoolV453Dev69(u)
+        .filter(v=>v.id!==victim.id&&v.hp>0&&
+         this.sameCombatRealmV453Dev69(u,v)&&
+         this.mapDistance(v,victim)<=z.m44SplashRadius&&
+         !this.obstacleLine(victim,v))
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+        this.damage(splash,z.power,u,'physical','spell');
       // Shield absorb may reduce HP damage to zero; authored CC, mark and
       // shield-break are contact effects unless the spell shield blocks them.
       if(victim.hp>0&&!spellShield){
@@ -5738,8 +5755,6 @@ export class Arena {
         this.applyEffectV41(victim,'blind',{source:u,duration:1.5,
          key:'m44_quinn_q_blind_'+z.id+'_'+victim.id});
        }else if(z.champ==='Rell'&&victim.champ){
-        this.effectResolverV41().remove(victim,{
-         types:['shield','magic_shield','physical_shield']});
         this.applyEffectV41(victim,'stun',{source:u,duration:.75,
          key:'m44_rell_q_stun_'+z.id+'_'+victim.id});
        }else if(z.champ==='Locke'&&victim.champ){
