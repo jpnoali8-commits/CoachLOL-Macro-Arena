@@ -7836,7 +7836,14 @@ export class Arena {
   }
   x.charges=Math.min(x.charges,max);return {state:x,max,refill};
  }
- m16TrapCreate(u,kind,point,{free=false}={}){
+ m44B10TrapSplashTargetsV453Dev69(owner,trap,radius){
+   return this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+    v.hp>0&&(v.spawnAt===undefined||v.spawnAt<=this.gameTime)&&
+    this.sameCombatRealmV453Dev69(owner,v)&&
+    this.mapDistance(v,trap)<=radius)
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  }
+  m16TrapCreate(u,kind,point,{free=false}={}){
   const spec={caitlyn_snap:{arm:1,duration:40,radius:85,visible:true},
    nidalee_bushwhack:{arm:1,duration:120,radius:90},
    teemo_mushroom:{arm:1,duration:300,radius:145},
@@ -8083,7 +8090,7 @@ export class Arena {
     }
     t.until=now;
    }else if(t.kind==='teemo_mushroom'){
-    const near=candidates.filter(v=>this.mapDistance(v,t)<=250);
+    const near=this.m44B10TrapSplashTargetsV453Dev69(owner,t,250);
     for(const v of near){
      if(v.champ)this.applyEffectV41(v,'slow',{source:owner,duration:4,power:.3,key:t.id+'_slow_'+v.id});
      this.applyEffectV41(v,'dot',{source:owner,duration:4,interval:1,
@@ -8092,7 +8099,10 @@ export class Arena {
     }
     t.until=now;
    }else if(t.kind==='shaco_box'){
-    this.applyEffectV41(victim,'fear',{source:owner,duration:1.5,key:t.id});
+    for(const foe of this.m44B10TrapSplashTargetsV453Dev69(owner,t,270)
+      .filter(v=>!!v.champ))
+      this.applyEffectV41(foe,'fear',{source:owner,duration:1.5,
+       key:t.id+'_'+foe.id});
     this.m15Summon('shaco_minibox',owner,{x:t.x,y:t.y},{
      hp:240,maxHp:240,until:now+5,invulnerableUntil:now+.2,
      moveSpeed:0,attackRange:400,power:15+t.rank*5,
@@ -8100,7 +8110,7 @@ export class Arena {
     t.until=now;
    }else if(t.kind==='maokai_sapling'){
     const brush=this.brushRegionAt(t.x,t.y)>0;
-    const aoe=candidates.filter(v=>this.mapDistance(v,t)<=(brush?320:250));
+    const aoe=this.m44B10TrapSplashTargetsV453Dev69(owner,t,brush?320:250);
     for(const v of aoe){
      const base=50+25*(t.rank-1)+v.maxHp*.04+
       this.elementalStatsV452d3(owner).ap*.25;
@@ -8115,7 +8125,7 @@ export class Arena {
     t.until=now;
    }else if(t.kind==='jhin_lotus'){
     t.explodeAt=now+2;t.until=now+2.01;
-    for(const v of candidates.filter(v=>this.mapDistance(v,t)<=180)){
+    for(const v of this.m44B10TrapSplashTargetsV453Dev69(owner,t,180)){
      if(v.champ){
       this.applyEffectV41(v,'slow',{source:owner,duration:2,power:.35,key:t.id+'_slow'});
       (v.m16TrueSightUntil??={})[t.team]=now+2;
