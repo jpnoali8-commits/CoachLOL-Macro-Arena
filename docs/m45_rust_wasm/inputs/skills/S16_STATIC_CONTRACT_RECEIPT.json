@@ -1,0 +1,44 @@
+{
+  "schema": "coachlol.m45.skills.s16.static-crosspin.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "results": {
+    "V8_static_checks_passed": 63,
+    "V8_static_checks_attempted": 63,
+    "status": "PASS_SOURCE_CONTRACT_ONLY",
+    "test_path": "docs/m45_rust_wasm/inputs/skills/s16_validate_alias_temporal.mjs",
+    "validator_blob_sha": "7e4beacecc9ae71caaa8a28726ed1298a57d0490",
+    "dynamic_s16": {
+      "test": "docs/m45_rust_wasm/inputs/skills/s16_multi_alias_temporal_clone_pvp.test.mjs",
+      "source_blob": "6446595bf421c367eb26eed9f868ebca473b8daf",
+      "cases": 18,
+      "assertions": 295,
+      "snapshot_roundtrip_checks": 38
+    },
+    "source_receipt_blob_sha": "913f154764bfeac315f648f990062751793dafd5",
+    "rust_reference_blob_sha": "5321e3e5c1e3ea5d54510411adb4f468036e4085",
+    "rust_data_tests_prepared": 3,
+    "rust_data_tests_executed": 0
+  },
+  "method": "Loaded exact authored files from GitHub and evaluated saved S16 pure verify() test body under isolated V8 with Node assert import shims. No Rust compilation, Node ESM complete execution or network.",
+  "not_run": [
+    "full Node test loader",
+    "rustc/cargo",
+    "WASM build/runtime",
+    "real authenticated two-seat HTTP",
+    "fog/physics without synthetic visibility",
+    "full champion skill parity"
+  ],
+  "interpretation": "Legacy V8 source fixture passed; hidden clone missile collision remains risk/decision, not automatically Rust desired parity; snapshot roundtrip only, not long-horizon replay.",
+  "prior_s10": {
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "full_original_node": 0
+  },
+  "gates": {
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true
+}
