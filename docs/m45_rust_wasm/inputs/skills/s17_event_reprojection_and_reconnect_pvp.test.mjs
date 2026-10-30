@@ -102,9 +102,9 @@ function evolve(f){
  maskedEvent(eventFor(a,other,eventNeekoId),newAlias);
  assert.notEqual(eventFor(a,other,eventNeekoId).unitId,f.aliasNeeko,
   'old event is retroactively rewritten to new appearance');
- assert.equal(enemyCommand(f,3,f.aliasNeeko).ok,false,
+ assert.equal(enemyCommand(f,2,f.aliasNeeko).ok,false,
   'stale former disguise alias must not be accepted');
- assert.equal(enemyCommand(f,3,newAlias).ok,true,
+ assert.equal(enemyCommand(f,2,newAlias).ok,true,
   'fresh disguise alias resolves to same real actor');
  snapshotEqual(a);
  return {oldAlias:f.aliasNeeko,newAlias,oldShacoAlias:f.aliasShaco,
