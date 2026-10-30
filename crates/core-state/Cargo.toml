@@ -1,0 +1,14 @@
+[package]
+name = "coachlol-core-state"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+description = "M45 deterministic contract prototype (JS remains authoritative)"
+
+[lib]
+name = "coachlol_core_state"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+# Intentionally dependency-free: builds offline with installed Rust toolchain.
