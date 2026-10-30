@@ -1,0 +1,298 @@
+{
+  "schema": "coachlol.m45.platform.a09.oracle-manifest.v1",
+  "date": "2026-10-30",
+  "status": "SOURCE_PINNED_LEGACY_BASELINE_ONLY",
+  "sources": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "rust_head_consulted": "0dda9398cb9e37b3a54d74cea8ab9b698a752fee",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "gateway_dev44_blob": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "gateway_dev47_blob": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "room_dev47_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "commands_mjs_blob": "671df897b0b9b18b75b3a996fb2b2294edc63c39",
+    "map_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "manifest_blob": "698f86922a5bf8c8699a306bab097cd2ca3743e5"
+  },
+  "execution": {
+    "runtime": "V8 isolated model functions, full unmodified Arena + gateway + room source, command parser source; ES module import/export adapted for isolate; JSON clone substitution for structuredClone in gateway",
+    "status": "EXECUTED",
+    "gateway": {
+      "passed": 20,
+      "total": 20
+    },
+    "parser": {
+      "passed": 15,
+      "total": 15
+    },
+    "total": {
+      "passed": 35,
+      "total": 35
+    },
+    "node_checkout": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "rust_core_protocol": "NOT_IMPLEMENTED",
+    "rust_game_server": "NOT_IMPLEMENTED",
+    "rust_equivalence": "NOT_RUN",
+    "wasm_platform": "NOT_RUN",
+    "legacy_security": "KNOWN_G3_UNCLASSIFIED_EVENT_LEAK"
+  },
+  "contracts": {
+    "seat_auth": "one human controls five champions, seat id derived from server auth, never payload",
+    "action_shape": "exact object keys sequence/unitId/kind/payload; no spoof team/seatId; sequence safe integer >0",
+    "payload_validation": "point in [0,1] and finite, slot Q/W/E/R, allowed kind/payload whitelists; deny unknown fields",
+    "receipt": "canonical packet idempotence by seat and sequence, receipt preserved across ready seal/checkpoint restore; reject different canonical command with same sequence",
+    "fog": "target enemy only when server detects visible, no client-provided fog override",
+    "projection": "only filtered per-seat snapshot; event payload must be default-deny and explicit kind whitelist, NOT replicate unsafe anonymous legacy events",
+    "text_parser": "legacy commands.mjs is deterministic offline compiler; it does not directly implement authenticated PVP transport; Rust must validate resulting actions authoritatively and preserve semantic PTBR/giria",
+    "status_logic": "one ready does not execute turn, second ready starts; ready receipts need new idempotency design from A04/A05",
+    "server_vs_browser": "G1 core-state native WASM baseline passed as cited by canonical ledger; full G3/G4/G8 not certified"
+  },
+  "vectors": [
+    {
+      "id": "A09-GW-01",
+      "name": "01 exactly two humans, five controlled units per team",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-02",
+      "name": "02 accepted commands and independent per-seat sequences",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-03",
+      "name": "03 identical packet retry returns identical immutable ACK",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-04",
+      "name": "04 same sequence but different command is rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-05",
+      "name": "05 both seats cannot order the opposing champions",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-06",
+      "name": "06 unknown authenticated seat rejected at gateway",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-07",
+      "name": "07 spoof team and arbitrary top-level fields rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-08",
+      "name": "08 nonpositive, fractional or non-number sequence rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-09",
+      "name": "09 skipped sequence is rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-10",
+      "name": "10 invalid order.stop payload rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-11",
+      "name": "11 unsupported kinds and malformed abilities rejected without cast",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-12",
+      "name": "12 out-of-bounds movement/ward rejected; boundary positions valid schema",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-13",
+      "name": "13 invisible enemy targeting denied by authoritative fog",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-14",
+      "name": "14 proper per-side filtered view hides enemy when out of vision",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-15",
+      "name": "15 visible enemy unit is serialized through constrained fields",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-16",
+      "name": "16 first ready seals only owner; cannot add new packet",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-17",
+      "name": "17 second ready begins one deterministic engine execution",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-18",
+      "name": "18 accepted command receipt survives seal and restart",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-19",
+      "name": "19 invalid packet cannot mutate Arena checksum",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_SAFE_BEHAVIOR",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-GW-20",
+      "name": "20 known legacy event leak remains a G3 failure not a passing privacy test",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "FAIL_CLOSED_PRIVATE_EVENT_BY_DEFAULT",
+      "source": "tests/m45_platform_a09_gateway_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-01",
+      "name": "01 empty orders explicitly rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-02",
+      "name": "02 excessive input length rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-03",
+      "name": "03 unknown role or champion rejected",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-04",
+      "name": "04 team blue MID farm safe compiled",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-05",
+      "name": "05 red TOP freeze and MID safe compile independently",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-06",
+      "name": "06 JG hold Smite and ADC kite each receive authored action",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-07",
+      "name": "07 jungle red then krugs produces path plan",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-08",
+      "name": "08 recall and item purchase remain different actions",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-09",
+      "name": "09 red SUP peel and ADC farm are scoped to red team",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-10",
+      "name": "10 opponent champion alias does not confer ownership",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-11",
+      "name": "11 unknown authenticated team has no valid champions",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-12",
+      "name": "12 applying red team plan mutates no blue champion",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-13",
+      "name": "13 applying blue MID plan mutates no red champion",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-14",
+      "name": "14 player ready prevents late edit of text commands",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    },
+    {
+      "id": "A09-PTBR-15",
+      "name": "15 preview cannot be executed if it is invalid",
+      "legacy_observed": "PASS_ISOLATED_V8",
+      "rust_required": "PRESERVE_DETERMINISTIC_OFFLINE_PARSER_BEHAVIOR_WITH_AUTHENTICATED_ACTION_BOUNDARY",
+      "source": "tests/m45_platform_a09_ptbr_parser_contract.test.mjs"
+    }
+  ]
+}
