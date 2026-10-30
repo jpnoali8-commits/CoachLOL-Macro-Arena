@@ -1,0 +1,156 @@
+{
+  "schema": "coachlol.m45.platform.a11.authenticated-text-intent-contract.v1",
+  "date": "2026-10-30",
+  "status": "PROPOSED_RUST_CORE_PROTOCOL_GAME_SERVER_CONTRACT_NOT_IMPLEMENTED",
+  "scope": "Two authenticated human seats, each controls five champions; text and local voice produce untrusted natural language, never trusted packets.",
+  "source": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "platform_parent": "550ce27ec7d60826914ee62b40901680f9de3d11",
+    "rust_head_seen": "73cade4632598fbe62bb3cf5034f61cf91dd403a",
+    "rust_crates_at_head": [
+      "crates/core-state"
+    ],
+    "rust_missing": [
+      "crates/core-protocol",
+      "crates/game-server"
+    ]
+  },
+  "wire_contract": {
+    "preflight": {
+      "input": {
+        "protocol_version": "m45.v1",
+        "text": "ADC recall",
+        "match_id": "opaque-match-id",
+        "expected_round": 1,
+        "expected_revision": 0
+      },
+      "do_not_trust": [
+        "client_seat",
+        "client_team",
+        "client_unit_permissions",
+        "client_compiled_preview",
+        "voice_provider_claim"
+      ],
+      "auth": "server validates session token; resolves seatID/team/unitIds from private room state; 5 units/seat; rejects if already ready",
+      "compile": "server-side PTBR compiler or verified authoritative server mapper; use only public/own-team permitted data for any client-visible summary",
+      "output": [
+        "draft_id",
+        "round",
+        "revision",
+        "command_types",
+        "own_unit_ids",
+        "human_readable_summary",
+        "warnings"
+      ],
+      "privacy": "never return full enemy Arena or map knowledge, hidden target IDs, raw private snapshots or RNG"
+    },
+    "commit": {
+      "input": {
+        "protocol_version": "m45.v1",
+        "draft_id": "opaque-cryptorandom",
+        "request_id": "uuid-or-equivalent"
+      },
+      "auth": "same authenticated session and seat as the server-held draft",
+      "barriers": [
+        "match_id/epoch same",
+        "seat same",
+        "round equals preview round",
+        "revision equals preview revision or explicit compatible conflict policy",
+        "seat not ready",
+        "world not paused at pendingDecision unless authorized reaction",
+        "all commands validated and own five units only"
+      ],
+      "atomicity": "all-or-nothing apply compiled multiple actions, or refuse entire plan; never silently drop unsupported action",
+      "idempotence": "persist typed receipt and canonical intent by (match,seat,round,request_id) before ACK; exact replay returns same receipt after seal/reconnect; conflict rejected",
+      "server_side_draft": {
+        "store": "opaque draft ID, unforgeable, bound to seat+epoch+round+revision, finite TTL; never accept client-authored command array",
+        "reference_limitation": "QA reference currently uses sequential IDs and in-memory Map; NOT suitable for production"
+      },
+      "receipt_fields": [
+        "request_id",
+        "room_id",
+        "round",
+        "seat_id",
+        "accepted",
+        "revision",
+        "action_count",
+        "receipt_hash",
+        "server_timestamp"
+      ],
+      "redactions": [
+        "private enemy orders",
+        "hidden units/wards",
+        "RNG",
+        "full checkpoint",
+        "raw transcript unless explicitly permitted to save"
+      ]
+    },
+    "voice": {
+      "consent": "manual opt-in; processLocally true; no fallback to remote speech recognition",
+      "text": "only final transcript enters preview; never auto-commit",
+      "feature_gap": "legacy app.js local voice/commands; legacy multiplayer/pvp_client_v453_dev47.js does not wire voice or text"
+    }
+  },
+  "qa": {
+    "a11_reference": "20/20 PASS executed V8 with actual legacy Arena+Room+Gateway",
+    "coverage": "44 parser probes (22 Portuguese phrases x blue/red) executed V8 source",
+    "legacy_security_gap": "room.ready set while arena.teams[team].ready remains false; direct offline applyCommands can mutate, but no HTTP text endpoint exists",
+    "rust_protocol": "NOT_IMPLEMENTED",
+    "node_checkout": "NOT_RUN",
+    "http_browser": "NOT_RUN",
+    "rust_equivalence": "NOT_RUN",
+    "golden_event_privacy": "FAIL_ON_LEGACY_ANONYMOUS_EVENT"
+  },
+  "requirements": [
+    {
+      "id": "A11-C01",
+      "gate": "session_auth",
+      "expected": "derive seat/team from cookie; no client-supplied seat authority"
+    },
+    {
+      "id": "A11-C02",
+      "gate": "ready",
+      "expected": "once a seat confirms, absolutely no new text or voice commits to that seat until next round"
+    },
+    {
+      "id": "A11-C03",
+      "gate": "atomicity",
+      "expected": "reject entire intent if one action unsupported or disallowed; no prefix side effects"
+    },
+    {
+      "id": "A11-C04",
+      "gate": "revision",
+      "expected": "reject stale preview by match+round+revision/epoch; require fresh preview after external state change"
+    },
+    {
+      "id": "A11-C05",
+      "gate": "intent_privacy",
+      "expected": "previews and receipts only contain own-team/public-visible information"
+    },
+    {
+      "id": "A11-C06",
+      "gate": "receipt",
+      "expected": "canonical immutable command and idempotent requestId recoverable after lost ACK and server restore"
+    },
+    {
+      "id": "A11-C07",
+      "gate": "multi_unit",
+      "expected": "one human may command all five owned units; cannot impersonate opponent"
+    },
+    {
+      "id": "A11-C08",
+      "gate": "local_voice",
+      "expected": "opt-in local-only pt-BR, no silent remote fallback or auto-apply"
+    },
+    {
+      "id": "A11-C09",
+      "gate": "persist",
+      "expected": "preserve plans/policies through ready, turn, and checkpoint; no accidental follow-lane overwrite"
+    },
+    {
+      "id": "A11-C10",
+      "gate": "fog",
+      "expected": "server-only snapshots, typed VisibleEventDTO default-deny, privacy in SSE/resync"
+    }
+  ]
+}

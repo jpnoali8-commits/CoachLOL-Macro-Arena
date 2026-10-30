@@ -1,0 +1,662 @@
+{
+  "schema": "coachlol.m45.platform.a11.legacy-intent-wire-coverage.v1",
+  "date": "2026-10-30",
+  "provenance": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "compiler_blob": "671df897b0b9b18b75b3a996fb2b2294edc63c39",
+    "run": "REAL_SOURCE_V8_ISOLATED_22_PHRASES_X_2_TEAMS"
+  },
+  "rules": {
+    "no_partial_lowering": true,
+    "restricted_preview_bridge": "One operation exactly; mapped only recall and skill-upgrade",
+    "unsupported_intents": "Must be implemented with typed Rust server commands/atomic batch. Do not silently drop"
+  },
+  "stats": {
+    "phrases": 22,
+    "cases": 44,
+    "by_class": {
+      "REQUIRES_ATOMIC_BATCH": 14,
+      "UNMAPPED_INTENT_TYPE": 22,
+      "SINGLE_MAPPABLE_RECALL": 2,
+      "SINGLE_MAPPABLE_UPGRADE": 2,
+      "PARSE_REJECTED": 4
+    }
+  },
+  "cases": [
+    {
+      "text": "MID farmar safe, sem trocar",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "policy",
+        "tactics",
+        "automation",
+        "order"
+      ],
+      "action_count": 4,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "MID farmar safe, sem trocar",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "policy",
+        "tactics",
+        "automation",
+        "order"
+      ],
+      "action_count": 4,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "JG guardar smite",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "smitePolicy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG guardar smite",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "smitePolicy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG red de baixo depois krugs de baixo",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "plan"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG red de baixo depois krugs de baixo",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "plan"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "TOP freezar wave",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "TOP"
+      ],
+      "action_types": [
+        "tactics",
+        "automation"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "TOP freezar wave",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "TOP"
+      ],
+      "action_types": [
+        "tactics",
+        "automation"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "ADC kite com AA",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "combatStyle",
+        "automation"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "ADC kite com AA",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "combatStyle",
+        "automation"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "SUP dar peel no ADC",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "SUP"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "SUP dar peel no ADC",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "SUP"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC recall",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "SINGLE_MAPPABLE_RECALL",
+      "reason": null
+    },
+    {
+      "text": "ADC recall",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "SINGLE_MAPPABLE_RECALL",
+      "reason": null
+    },
+    {
+      "text": "MID upar Q",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "upgradeSkill"
+      ],
+      "action_count": 1,
+      "classification": "SINGLE_MAPPABLE_UPGRADE",
+      "reason": null
+    },
+    {
+      "text": "MID upar Q",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "upgradeSkill"
+      ],
+      "action_count": 1,
+      "classification": "SINGLE_MAPPABLE_UPGRADE",
+      "reason": null
+    },
+    {
+      "text": "TOP parar",
+      "team": "blue",
+      "parse_ok": false,
+      "roles": [
+        null
+      ],
+      "action_types": [],
+      "action_count": 0,
+      "classification": "PARSE_REJECTED",
+      "reason": "Trecho 1: Campeão não pertence à sua equipe ou função não identificada: top. Selecione um integrante do time."
+    },
+    {
+      "text": "TOP parar",
+      "team": "red",
+      "parse_ok": false,
+      "roles": [
+        null
+      ],
+      "action_types": [],
+      "action_count": 0,
+      "classification": "PARSE_REJECTED",
+      "reason": "Trecho 1: Campeão não pertence à sua equipe ou função não identificada: top. Selecione um integrante do time."
+    },
+    {
+      "text": "MID atacar o inimigo",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "MID atacar o inimigo",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC farmar",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "automation",
+        "order"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "ADC farmar",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "automation",
+        "order"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "TOP push",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "TOP"
+      ],
+      "action_types": [
+        "tactics",
+        "order"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "TOP push",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "TOP"
+      ],
+      "action_types": [
+        "tactics",
+        "order"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "JG comprar pet verde",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "buy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG comprar pet verde",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "buy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "MID comprar anel de doran",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "buy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "MID comprar anel de doran",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "buy"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG smite apenas no dragao com 1200 de vida",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "smitePolicy",
+        "plan"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "JG smite apenas no dragao com 1200 de vida",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "smitePolicy",
+        "plan"
+      ],
+      "action_count": 2,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "SUP ward galinhas inimigas",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "SUP"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "SUP ward galinhas inimigas",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "SUP"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG gankar bot quando tiver visão",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "plan"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "JG gankar bot quando tiver visão",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "JG"
+      ],
+      "action_types": [
+        "plan"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "MID se curar",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "MID se curar",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "MID"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC recuar",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC recuar",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "reaction"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC recall; MID farmar safe",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC",
+        "MID"
+      ],
+      "action_types": [
+        "order",
+        "policy",
+        "tactics",
+        "automation",
+        "order"
+      ],
+      "action_count": 5,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "ADC recall; MID farmar safe",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC",
+        "MID"
+      ],
+      "action_types": [
+        "order",
+        "policy",
+        "tactics",
+        "automation",
+        "order"
+      ],
+      "action_count": 5,
+      "classification": "REQUIRES_ATOMIC_BATCH",
+      "reason": null
+    },
+    {
+      "text": "MID usar flash",
+      "team": "blue",
+      "parse_ok": false,
+      "roles": [
+        null
+      ],
+      "action_types": [],
+      "action_count": 0,
+      "classification": "PARSE_REJECTED",
+      "reason": "Trecho 1: Campeão não pertence à sua equipe ou função não identificada: mid. Selecione um integrante do time."
+    },
+    {
+      "text": "MID usar flash",
+      "team": "red",
+      "parse_ok": false,
+      "roles": [
+        null
+      ],
+      "action_types": [],
+      "action_count": 0,
+      "classification": "PARSE_REJECTED",
+      "reason": "Trecho 1: Campeão não pertence à sua equipe ou função não identificada: mid. Selecione um integrante do time."
+    },
+    {
+      "text": "ADC focar Jinx",
+      "team": "blue",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    },
+    {
+      "text": "ADC focar Jinx",
+      "team": "red",
+      "parse_ok": true,
+      "roles": [
+        "ADC"
+      ],
+      "action_types": [
+        "order"
+      ],
+      "action_count": 1,
+      "classification": "UNMAPPED_INTENT_TYPE",
+      "reason": null
+    }
+  ]
+}
