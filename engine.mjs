@@ -4358,9 +4358,10 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
     !m44B14CSylasUltimateRuleV453(stolen.sourceChamp))
     return {ok:false,reason:'hijack_expirado'};
    let result;u.champ=stolen.sourceChamp;
+   u.m44B14DBorrowedBaseChamp='Sylas';
    try{result=this.executeBoardSkillV453Dev69(u,{
     ...q,m44B14DOriginalCast:stolen.sourceChamp});}
-   finally{u.champ='Sylas';}
+   finally{u.champ='Sylas';delete u.m44B14DBorrowedBaseChamp;}
    if(result?.ok)u.sylasStolenV453M14=null;
    return result;
   }
@@ -13182,6 +13183,15 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   return eligible[0]?.champ||null;
  }
  damage(target,amount,attacker=null,damageType='physical',sourceType='other'){
+   // Keep passive and kill-credit identity from the actual caster (Sylas)
+   // while executing the original R dispatch of another champion.
+   if(attacker?.m44B14DBorrowedBaseChamp&&
+      attacker.champ!==attacker.m44B14DBorrowedBaseChamp){
+    const borrowed=attacker.champ;
+    attacker.champ=attacker.m44B14DBorrowedBaseChamp;
+    try{return this.damage(target,amount,attacker,damageType,sourceType);}
+    finally{attacker.champ=borrowed;}
+   }
    // B06: Featherstorm is untargetability, not DoT immunity.
    if(target?.m44XayahUntargetableUntil>this.gameTime&&
       attacker?.team!==target.team&&
