@@ -1,0 +1,61 @@
+{
+  "schema": "coachlol.m45.items.pvp_replay_rust_contract.b11.v1",
+  "status": "HANDOFF_PROPOSAL_ONLY",
+  "date": "2026-10-30",
+  "source_evidence": "QA_V8_PVP_REPLAY_BOUNDARY_B11.json",
+  "source_test_count": 38,
+  "authority_rules": [
+    "Two authenticated seats; each controls exactly five owned champions; team cannot come from command body",
+    "Per-seat sequence is a positive safe integer, with previous receipt saved and rebound after room restore",
+    "Idempotency canonical key includes selected unitId, kind and payload; replayed packet reuses the original ACK",
+    "Changed payload or selected unit using an existing sequence must reject without mutation",
+    "Out-of-order packet rejection does not consume sequence or alter snapshot",
+    "Only server can mutate gold, inventory and shop eligibility; client-provided team/gold rejected",
+    "Once seat is ready, new purchases are denied; previously committed retry still returns old ACK",
+    "Room authoritative snapshot stores RNG, tokens hashes and receipts; transport never sends those fields to either seat",
+    "Both teams have separate command sequence spaces, while global order of commits determines journal and full digest",
+    "Opponent inventory, gold, effect internals and private intents never leak via seat projection",
+    "Defender-only pending decision is included only in defender view; untrusted projection mutations never alter server state"
+  ],
+  "rust_owners": {
+    "core-protocol": [
+      "seat auth and five owned units",
+      "validated command schemas",
+      "sequence and canonical ACK cache"
+    ],
+    "core-replay": [
+      "persist arena snapshot + gateway receipt session atomically",
+      "globally ordered actions and deterministic restore",
+      "private/public projections"
+    ],
+    "core-economy": [
+      "server-authoritative buy/sell/undo/queues",
+      "replay duplicates cannot duplicate gold"
+    ],
+    "core-items": [
+      "item state remains server-owned and private",
+      "P1 legacy trinket route repair as explicitly declared deviation"
+    ],
+    "core-state": [
+      "absolute simulation clocks, RNG, hidden world state, ordered journal"
+    ],
+    "game-server": [
+      "authenticated HTTP/session and reconnect",
+      "strict separation between internal checkpoint and public SSE"
+    ]
+  },
+  "acceptance_gates": [
+    "Rust native tests for blue/red and all five champions",
+    "Post-restore original ACK identical, state hash unchanged",
+    "Transport-level HTTP/SSE and cookie-origin tests REQUIRED separately",
+    "Durable checkpoint test REQUIRED separately (not certified by B11 V8)",
+    "Never certify G8 based on source V8-only tests"
+  ],
+  "limitations": {
+    "node": "NOT_RUN",
+    "http": "NOT_RUN",
+    "rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  }
+}

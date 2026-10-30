@@ -175,3 +175,9 @@ B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Da
 [Recibo B10](RECEIPT_B02B_ITEMS_10.md) · [fixture snapshot/replay](snapshot_replay_b10_cases.mjs) · [runner Node](golden_b10_snapshot_replay.test.mjs) · [QA V8](QA_V8_SNAPSHOT_REPLAY_B10.json) · [contrato Rust](SNAPSHOT_REPLAY_RUST_CONTRACT_B10.json).
 
 **B10:** 12 tipos x 2 equipes = **24/24 PASS V8**; **24/24 repetições idênticas** com restauração da fonte. Testes de projétil, escudo, Liandry, Energizado, cooldown e ticks. Runner cumulativo **543 cenários preparados para Node** (não executados). **Rust, HTTP, WASM e G8 permanecem pendentes**. Origem JS e crates centrais preservados.
+
+## B02B-ITEMS Lote 11 — 2026-10-30
+
+[Recibo B11](RECEIPT_B02B_ITEMS_11.md) · [fixture PvP real](pvp_replay_boundary_b11_cases.mjs) · [runner Node](golden_b11_pvp_replay_boundary.test.mjs) · [QA V8](QA_V8_PVP_REPLAY_BOUNDARY_B11.json) · [contrato Rust](PVP_REPLAY_RUST_CONTRACT_B11.json).
+
+**B11:** 19 tipos x 2 equipes = **38/38 PASS JS/V8** e **38/38 replays equivalentes** no código original do gateway e sala, com shims Node determinísticos apenas no executor V8. NÃO certifica transporte HTTP/SSE, autenticação criptográfica, escrita durável em disco, Rust/WASM ou G8. Runner Node acumulado B01–B11: **581 candidatos não executados**. Engine original preservada.

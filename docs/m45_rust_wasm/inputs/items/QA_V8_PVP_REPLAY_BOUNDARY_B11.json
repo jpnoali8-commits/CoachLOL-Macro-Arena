@@ -1,0 +1,517 @@
+{
+  "schema": "coachlol.m45.items.qa_v8_pvp_replay_boundary.b11.v1",
+  "date": "2026-10-30",
+  "execution": "SOURCE_JS_V8_EXECUTED",
+  "boundary": "Actual legacy Arena + authoritative_actions dev44/dev47 + PvPRoom dev47 class methods, using deterministic V8 stand-ins for Node-only crypto/filesystem dependencies",
+  "source_blobs": {
+    "engine.mjs": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "data/coachlol_map_v6.json": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "data/masks_128.json": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "multiplayer/authoritative_actions_v453_dev44.mjs": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "multiplayer/authoritative_actions_v453_dev47.mjs": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "multiplayer/room_v453_dev47.mjs": "3bdb8cd3b737d20e3700e994a8872943e53366ae"
+  },
+  "summary": {
+    "scenarios": 19,
+    "planned": 38,
+    "passed": 38,
+    "failed": 0,
+    "gateway_cases": 24,
+    "room_cases": 14,
+    "status": "PASS"
+  },
+  "deterministic_repeat": true,
+  "repeated_identical": 38,
+  "limits": {
+    "node_esm": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "cryptographic_security": "NOT_TESTED_SHIM",
+    "filesystem_persistence": "NOT_TESTED_SHIM",
+    "rust_native": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED",
+    "legacy_trinket_pvp": "P1_OPEN"
+  },
+  "cases": [
+    {
+      "case_id": "M45-B11-OWN_FIVE_SHOP_DISPATCH-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451100,
+      "status": "PASS",
+      "before_checksum_v40": "a2145ea2",
+      "observed": {
+        "champions": 5,
+        "committed": 6,
+        "petPrecondition": "jungle_gustwalker"
+      },
+      "after_checksum_v40": "d6ff0489"
+    },
+    {
+      "case_id": "M45-B11-OWN_FIVE_SHOP_DISPATCH-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451101,
+      "status": "PASS",
+      "before_checksum_v40": "7c2b9323",
+      "observed": {
+        "champions": 5,
+        "committed": 6,
+        "petPrecondition": "jungle_gustwalker"
+      },
+      "after_checksum_v40": "c4b2a17a"
+    },
+    {
+      "case_id": "M45-B11-CROSS_SEAT_OWNERSHIP_DENIED-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451102,
+      "status": "PASS",
+      "before_checksum_v40": "ce08f338",
+      "observed": {
+        "reason": "unidade_nao_autorizada"
+      },
+      "after_checksum_v40": "ce08f338"
+    },
+    {
+      "case_id": "M45-B11-CROSS_SEAT_OWNERSHIP_DENIED-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451103,
+      "status": "PASS",
+      "before_checksum_v40": "a9c12721",
+      "observed": {
+        "reason": "unidade_nao_autorizada"
+      },
+      "after_checksum_v40": "a9c12721"
+    },
+    {
+      "case_id": "M45-B11-ACK_RETRY_AFTER_GATEWAY_RESTORE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451104,
+      "status": "PASS",
+      "before_checksum_v40": "359c73f6",
+      "observed": {
+        "sameReceipt": true,
+        "gold": 4700
+      },
+      "after_checksum_v40": "cfc1fc77"
+    },
+    {
+      "case_id": "M45-B11-ACK_RETRY_AFTER_GATEWAY_RESTORE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451105,
+      "status": "PASS",
+      "before_checksum_v40": "17673227",
+      "observed": {
+        "sameReceipt": true,
+        "gold": 4700
+      },
+      "after_checksum_v40": "208a7684"
+    },
+    {
+      "case_id": "M45-B11-CONFLICTING_ITEM_AFTER_RESTORE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451106,
+      "status": "PASS",
+      "before_checksum_v40": "fb96a34c",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes"
+      },
+      "after_checksum_v40": "fba0b579"
+    },
+    {
+      "case_id": "M45-B11-CONFLICTING_ITEM_AFTER_RESTORE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451107,
+      "status": "PASS",
+      "before_checksum_v40": "f0d8aea5",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes"
+      },
+      "after_checksum_v40": "dedd014a"
+    },
+    {
+      "case_id": "M45-B11-CONFLICTING_UNIT_AFTER_RESTORE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451108,
+      "status": "PASS",
+      "before_checksum_v40": "abe5803a",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes"
+      },
+      "after_checksum_v40": "de195fb3"
+    },
+    {
+      "case_id": "M45-B11-CONFLICTING_UNIT_AFTER_RESTORE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451109,
+      "status": "PASS",
+      "before_checksum_v40": "0030523b",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes"
+      },
+      "after_checksum_v40": "5eb0ea48"
+    },
+    {
+      "case_id": "M45-B11-SEQUENCE_GAP_AFTER_RESTORE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451110,
+      "status": "PASS",
+      "before_checksum_v40": "e2e99dd5",
+      "observed": {
+        "gapRejected": true,
+        "sequence": 2
+      },
+      "after_checksum_v40": "aa276ee2"
+    },
+    {
+      "case_id": "M45-B11-SEQUENCE_GAP_AFTER_RESTORE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451111,
+      "status": "PASS",
+      "before_checksum_v40": "83827fa0",
+      "observed": {
+        "gapRejected": true,
+        "sequence": 2
+      },
+      "after_checksum_v40": "c0ee602d"
+    },
+    {
+      "case_id": "M45-B11-PACKET_TEAM_SPOOF_REJECTED-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451112,
+      "status": "PASS",
+      "before_checksum_v40": "8bdf9fe3",
+      "observed": {
+        "reason": "comando_invalido"
+      },
+      "after_checksum_v40": "8bdf9fe3"
+    },
+    {
+      "case_id": "M45-B11-PACKET_TEAM_SPOOF_REJECTED-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451113,
+      "status": "PASS",
+      "before_checksum_v40": "fe4e5906",
+      "observed": {
+        "reason": "comando_invalido"
+      },
+      "after_checksum_v40": "fe4e5906"
+    },
+    {
+      "case_id": "M45-B11-PAYLOAD_GOLD_SPOOF_REJECTED-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451114,
+      "status": "PASS",
+      "before_checksum_v40": "f2898d51",
+      "observed": {
+        "reason": "comando_invalido"
+      },
+      "after_checksum_v40": "f2898d51"
+    },
+    {
+      "case_id": "M45-B11-PAYLOAD_GOLD_SPOOF_REJECTED-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451115,
+      "status": "PASS",
+      "before_checksum_v40": "086373ec",
+      "observed": {
+        "reason": "comando_invalido"
+      },
+      "after_checksum_v40": "086373ec"
+    },
+    {
+      "case_id": "M45-B11-TWO_SEATS_INDEPENDENT_ACK_RESTORE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451116,
+      "status": "PASS",
+      "before_checksum_v40": "e8c97c7f",
+      "observed": {
+        "revision": 2,
+        "independent": true
+      },
+      "after_checksum_v40": "7663f498"
+    },
+    {
+      "case_id": "M45-B11-TWO_SEATS_INDEPENDENT_ACK_RESTORE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451117,
+      "status": "PASS",
+      "before_checksum_v40": "359f0592",
+      "observed": {
+        "revision": 2,
+        "independent": true
+      },
+      "after_checksum_v40": "51275e61"
+    },
+    {
+      "case_id": "M45-B11-REJECTED_REQUEST_DOES_NOT_SPEND_SEQUENCE-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451118,
+      "status": "PASS",
+      "before_checksum_v40": "cf00f88d",
+      "observed": {
+        "rejected": "unidade_nao_autorizada",
+        "accepted": 1
+      },
+      "after_checksum_v40": "9167fcea"
+    },
+    {
+      "case_id": "M45-B11-REJECTED_REQUEST_DOES_NOT_SPEND_SEQUENCE-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451119,
+      "status": "PASS",
+      "before_checksum_v40": "2afd1518",
+      "observed": {
+        "rejected": "unidade_nao_autorizada",
+        "accepted": 1
+      },
+      "after_checksum_v40": "c5003b45"
+    },
+    {
+      "case_id": "M45-B11-GATEWAY_FOG_LIMITED_VIEW-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451120,
+      "status": "PASS",
+      "before_checksum_v40": "8416a764",
+      "observed": {
+        "ownerCount": 5,
+        "visibleEnemies": 0
+      },
+      "after_checksum_v40": "c9a81e17"
+    },
+    {
+      "case_id": "M45-B11-GATEWAY_FOG_LIMITED_VIEW-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451121,
+      "status": "PASS",
+      "before_checksum_v40": "5d634a61",
+      "observed": {
+        "ownerCount": 5,
+        "visibleEnemies": 0
+      },
+      "after_checksum_v40": "c550a306"
+    },
+    {
+      "case_id": "M45-B11-PRIVATE_INTENT_REPLAY_REDACTED-blue",
+      "team": "blue",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451122,
+      "status": "PASS",
+      "before_checksum_v40": "783d217e",
+      "observed": {
+        "ownerOnly": true
+      },
+      "after_checksum_v40": "afabe7a6"
+    },
+    {
+      "case_id": "M45-B11-PRIVATE_INTENT_REPLAY_REDACTED-red",
+      "team": "red",
+      "category": "GATEWAY_SOURCE",
+      "seed": 451123,
+      "status": "PASS",
+      "before_checksum_v40": "1837a56b",
+      "observed": {
+        "ownerOnly": true
+      },
+      "after_checksum_v40": "8e8c76b1"
+    },
+    {
+      "case_id": "M45-B11-ROOM_VIEW_OWNER_FIELDS_ONLY-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451124,
+      "status": "PASS",
+      "before_checksum_v40": "2ef93730",
+      "observed": {
+        "ownCount": 5,
+        "privateShopKeys": 5
+      },
+      "after_checksum_v40": "ff637af0"
+    },
+    {
+      "case_id": "M45-B11-ROOM_VIEW_OWNER_FIELDS_ONLY-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451125,
+      "status": "PASS",
+      "before_checksum_v40": "f29e00ad",
+      "observed": {
+        "ownCount": 5,
+        "privateShopKeys": 5
+      },
+      "after_checksum_v40": "051d7153"
+    },
+    {
+      "case_id": "M45-B11-ROOM_DUPLICATE_RETRY_WHEN_READY-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451126,
+      "status": "PASS",
+      "before_checksum_v40": "eb414c3a",
+      "observed": {
+        "ready": true,
+        "retry": true,
+        "blocked": "turno_bloqueado"
+      },
+      "after_checksum_v40": "1a2aea1f"
+    },
+    {
+      "case_id": "M45-B11-ROOM_DUPLICATE_RETRY_WHEN_READY-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451127,
+      "status": "PASS",
+      "before_checksum_v40": "9202e207",
+      "observed": {
+        "ready": true,
+        "retry": true,
+        "blocked": "turno_bloqueado"
+      },
+      "after_checksum_v40": "3ab79308"
+    },
+    {
+      "case_id": "M45-B11-ROOM_READY_PERSISTS_RECONNECT-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451128,
+      "status": "PASS",
+      "before_checksum_v40": "711940bc",
+      "observed": {
+        "readyPersisted": true
+      },
+      "after_checksum_v40": "711940bc"
+    },
+    {
+      "case_id": "M45-B11-ROOM_READY_PERSISTS_RECONNECT-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451129,
+      "status": "PASS",
+      "before_checksum_v40": "f5bb38a9",
+      "observed": {
+        "readyPersisted": true
+      },
+      "after_checksum_v40": "f5bb38a9"
+    },
+    {
+      "case_id": "M45-B11-ROOM_CHECKPOINT_ACK_SURVIVES-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451130,
+      "status": "PASS",
+      "before_checksum_v40": "30fbb107",
+      "observed": {
+        "ackSurvives": true
+      },
+      "after_checksum_v40": "9526ac14"
+    },
+    {
+      "case_id": "M45-B11-ROOM_CHECKPOINT_ACK_SURVIVES-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451131,
+      "status": "PASS",
+      "before_checksum_v40": "dcdd246e",
+      "observed": {
+        "ackSurvives": true
+      },
+      "after_checksum_v40": "ca564abf"
+    },
+    {
+      "case_id": "M45-B11-ROOM_DECISION_PRIVATE_TO_DEFENDER-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451132,
+      "status": "PASS",
+      "before_checksum_v40": "04f60f69",
+      "observed": {
+        "defender": "blue_ADC",
+        "filtered": true
+      },
+      "after_checksum_v40": "70d7d89e"
+    },
+    {
+      "case_id": "M45-B11-ROOM_DECISION_PRIVATE_TO_DEFENDER-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451133,
+      "status": "PASS",
+      "before_checksum_v40": "80459ab0",
+      "observed": {
+        "defender": "red_ADC",
+        "filtered": true
+      },
+      "after_checksum_v40": "68434bad"
+    },
+    {
+      "case_id": "M45-B11-ROOM_PRIVATE_CHECKPOINT_NOT_PUBLIC-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451134,
+      "status": "PASS",
+      "before_checksum_v40": "d262364b",
+      "observed": {
+        "internalPrivate": true,
+        "externalPrivateFiltered": true
+      },
+      "after_checksum_v40": "d19479d8"
+    },
+    {
+      "case_id": "M45-B11-ROOM_PRIVATE_CHECKPOINT_NOT_PUBLIC-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451135,
+      "status": "PASS",
+      "before_checksum_v40": "a8e40202",
+      "observed": {
+        "internalPrivate": true,
+        "externalPrivateFiltered": true
+      },
+      "after_checksum_v40": "0d0f4763"
+    },
+    {
+      "case_id": "M45-B11-ROOM_PROJECTION_MUTATION_ISOLATED-blue",
+      "team": "blue",
+      "category": "ROOM_SOURCE",
+      "seed": 451136,
+      "status": "PASS",
+      "before_checksum_v40": "6c14bd8d",
+      "observed": {
+        "detached": true
+      },
+      "after_checksum_v40": "b9bafe61"
+    },
+    {
+      "case_id": "M45-B11-ROOM_PROJECTION_MUTATION_ISOLATED-red",
+      "team": "red",
+      "category": "ROOM_SOURCE",
+      "seed": 451137,
+      "status": "PASS",
+      "before_checksum_v40": "21862084",
+      "observed": {
+        "detached": true
+      },
+      "after_checksum_v40": "83e16c24"
+    }
+  ]
+}
