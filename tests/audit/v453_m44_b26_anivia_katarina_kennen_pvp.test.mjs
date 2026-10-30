@@ -87,9 +87,12 @@ test('Anivia R existing storm primes the new source-owned chill','Anivia',({a,u,
 test('Katarina Q hits up to three distinct victims and schedules a dagger','Katarina',({a,u,v,opp,cast})=>{
  const others=a.units.filter(z=>z.team===opp&&z.id!==v.id).slice(0,2);
  for(let i=0;i<others.length;i++)Object.assign(others[i],{x:v.x+(i+1)*.01,y:v.y});
- const r=cast('Q',{targetId:v.id});
- assert.equal(r.hitIds.length,3);assert.equal(new Set(r.hitIds).size,3);
- a.gameTime=1.03;a.advanceBoardTemporalV453Dev69();
+ const hp=v.hp,r=cast('Q',{targetId:v.id});
+ assert.equal(r.pending,true);assert.equal(r.hitIds.length,0);
+ assert.equal(v.hp,hp);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
+ assert.ok(v.hp<hp);
+ for(const at of [.39,.54,1.28]){a.gameTime=at;a.advanceBoardTemporalV453Dev69();}
  assert.ok(u.m44B26Daggers?.length>0);
 });
 test('Katarina W grants movement buff and delayed dagger at old location','Katarina',({a,u,cast})=>{

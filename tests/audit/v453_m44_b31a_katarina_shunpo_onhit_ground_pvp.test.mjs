@@ -83,29 +83,36 @@ test('Q terrain fallback finds a legal position near preferred drop',({a,u,v,cas
  a.walkable=(x,y,actor)=>Math.hypot((x-desired.x)*a.worldWidth,
   (y-desired.y)*a.worldHeight)<15?false:walk(x,y,actor);
  const hp=v.hp,r=cast('Q',{targetId:v.id});
+ assert.equal(r.pending,true);assert.equal(v.hp,hp);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
  assert.ok(v.hp<hp);
- assert.equal(r.bouncingBlade,true);assert.equal(r.groundBlocked,undefined);
- assert.ok(r.daggerPoint);
- assert.equal(a.walkable(r.daggerPoint.x,r.daggerPoint.y,u),true);
- assert.ok(a.mapDistance(r.daggerPoint,desired)<=100);
- a.gameTime=1.03;a.advanceBoardTemporalV453Dev69();
+ const drop=a.boardTemporalV453Dev69.find(z=>z.kind==='m44_b26_katarina_drop');
+ assert.ok(drop);
+ assert.equal(a.walkable(drop.point.x,drop.point.y,u),true);
+ assert.ok(a.mapDistance(drop.point,desired)<=100);
+ a.gameTime=1.28;a.advanceBoardTemporalV453Dev69();
  assert.ok(u.m44B26Daggers?.length);
 });
 test('Q no legal terrain emits no fake ground dagger',({a,u,v,cast})=>{
  const walk=a.walkable.bind(a);
  a.walkable=(x,y,actor)=>a.mapDistance({x,y},u)>65?false:walk(x,y,actor);
  const r=cast('Q',{targetId:v.id});
- assert.equal(r.bouncingBlade,true);assert.equal(r.groundBlocked,true);
- assert.equal(r.daggerPoint,null);
- a.gameTime=1.03;a.advanceBoardTemporalV453Dev69();
+ assert.equal(r.pending,true);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
+ assert.equal(a.boardTemporalV453Dev69.filter(z=>
+  z.kind==='m44_b26_katarina_drop').length,0);
+ a.gameTime=1.28;a.advanceBoardTemporalV453Dev69();
  assert.equal((u.m44B26Daggers||[]).length,0);
 });
-test('Q bounce can hit a secondary without requiring secondary visibility',({a,u,v,foe,cast})=>{
+test('Q bounce cannot acquire fogged secondary at impact time',({a,u,v,foe,cast})=>{
  const second=a.units.find(x=>x.team===foe&&x.id!==v.id);
  Object.assign(second,{x:.54,y:.5});
  a.visible=(team,target)=>target.id!==second.id;
  const hp=second.hp,r=cast('Q',{targetId:v.id});
- assert.equal(r.hitIds.includes(second.id),true);assert.ok(second.hp<hp);
+ assert.equal(r.pending,true);assert.equal(second.hp,hp);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
+ a.gameTime=.39;a.advanceBoardTemporalV453Dev69();
+ assert.equal(second.hp,hp);
 });
 let passed=0,failures=[];
 for(const side of ['blue','red'])for(const scenario of cases){

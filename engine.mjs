@@ -1027,8 +1027,8 @@ export const M44_B26_KITS_V453=Object.freeze({
    {apRatio:.6,m44B26Id:'Anivia.E'})
  },
  Katarina:{
-  Q:BS('target_enemy',625,0,[11,10,9,8,7],[80,110,140,170,200],
-   {apRatio:.45,m44B26Id:'Katarina.Q'}),
+  Q:BS('target_enemy',625,0,[11,10,9,8,7],[80,115,150,185,220],
+   {apRatio:.4,m44B26Id:'Katarina.Q'}),
   W:BS('self',0,0,[15,14,13,12,11],[],{m44B26Id:'Katarina.W'}),
   R:BS('self',0,0,[90,60,45],[25,37.5,50],
    {apRatio:.2,adRatio:.2,m44B26Id:'Katarina.R'})
@@ -4293,7 +4293,7 @@ export class Arena {
  // B22: explicit delivery taxonomy, no generic skill fallback.
  m44B22DeliveryKindV453(kind){
   if(['cone_channel','m20_requiem_channel','m22_artillery_channel','jhin_r_channel','m44_b24_caitlyn_ace','m44_b26_katarina_lotus'].includes(kind))return 'channel';
-  if(['m44_authored_projectile','ahri_q_out','ahri_q_back','ahri_e','lux_q','lux_w_out','lux_w_back','jinx_w','nami_r','vex_q','vex_r','ezreal_q','ezreal_w','irelia_r'].includes(kind))return 'projectile';
+  if(['m44_authored_projectile','ahri_q_out','ahri_q_back','ahri_e','lux_q','lux_w_out','lux_w_back','jinx_w','nami_r','vex_q','vex_r','ezreal_q','ezreal_w','irelia_r','m44_b31_katarina_q_flight'].includes(kind))return 'projectile';
   if(['lux_final_spark','lux_final_spark_pending'].includes(kind))return 'beam';
   if(kind==='m40_sett_haymaker')return 'windup';
   if(kind==='irelia_w_dance')return 'defensive_channel';
@@ -6465,48 +6465,18 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      return {...committed,frostbite:true,chilled,doubleDamage:chilled,dealt};
     }
     if(id==='Katarina.Q'){
-     let victim=target,previous=origin;
-     const hitIds=[],used=new Set();
-     for(let i=0;i<3&&victim;i++){
-      if(used.has(victim.id)||this.obstacleLine(previous,victim))break;
-      hit(victim,power(s.damage));hitIds.push(victim.id);
-      used.add(victim.id);previous={x:victim.x,y:victim.y};
-      victim=pool().filter(v=>!used.has(v.id)&&this.mapDistance(previous,v)<=350&&
-       !this.obstacleLine(previous,v)).sort((a,b)=>
-       this.mapDistance(previous,a)-this.mapDistance(previous,b)||
-       String(a.id).localeCompare(String(b.id)))[0];
-     }
-     // Q dagger lands opposite the FIRST hit target, regardless of bounces.
-     const first=target,distance=Math.max(1,this.mapDistance(origin,first));
-     const desired={x:first.x+(first.x-origin.x)*350/distance,
-      y:first.y+(first.y-origin.y)*350/distance};
-     const clamped={x:Math.min(.975,Math.max(.025,desired.x)),
-      y:Math.min(.975,Math.max(.025,desired.y))};
-     // B31A: find the closest legal landing around the FIRST victim.
-     // Stable rings/angles preserve seed determinism and respect realm bounds.
-     let dag=null;
-     for(const radius of [0,25,50,75,100,125,175,225,300]){
-      const n=radius===0?1:16;
-      for(let k=0;k<n;k++){
-       const angle=k*Math.PI*2/n;
-       const p={x:Math.min(.975,Math.max(.025,clamped.x+
-        radius*Math.cos(angle)/this.worldWidth)),
-        y:Math.min(.975,Math.max(.025,clamped.y+
-        radius*Math.sin(angle)/this.worldHeight))};
-       if(!this.walkable(p.x,p.y,u)||
-          this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,p))continue;
-       dag=p;break;
-      }
-      if(dag)break;
-     }
-     if(!dag){ // No legal ground dagger: the hits remain valid, but cannot blink.
-      return {...committed,bouncingBlade:true,hitIds,daggerAt:null,
-       daggerPoint:null,groundBlocked:true};
-     }
-     schedule('m44_b26_katarina_drop',now+1.02,{
-      point:dag,power:50+20*rank+stats.ap*.65,daggerUntil:now+5.02});
-     return {...committed,bouncingBlade:true,hitIds,daggerAt:now+1.02,
-      daggerPoint:dag};
+     // B31B: source-owned homing projectile; no target damage or drop at cast.
+     // First contact travels at 1600 world units/s. Later hops cost .15s each.
+     const flight=Math.max(.001,this.mapDistance(origin,target)/1600);
+     const z=schedule('m44_b31_katarina_q_flight',now+flight,{
+      from:{...origin},targetId:target.id,stage:0,hitIds:[],
+      power:power(s.damage),dropPower:50+20*rank+stats.ap*.65,
+      launchedAt:now,startedAt:now,until:now+5,
+      firstHitAt:null,daggerPoint:null,daggerAt:null,
+      m44B31FirstArrivalAt:now+flight});
+     return {...committed,bouncingBlade:true,projectileId:z.id,
+      nextHitAt:z.nextAt,hitIds:[],daggerAt:null,daggerPoint:null,
+      pending:true};
     }
     if(id==='Katarina.W'){
      u.boardSpeedV453Dev69={until:now+1.25,fraction:.5};
@@ -9374,7 +9344,86 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-     if(z.kind==='m44_b26_anivia_frost'){
+     if(z.kind==='m44_b31_katarina_q_flight'){
+       // Stage 0 homes to the original unit; subsequent stages bounce in
+       // .15-second legs. Every target is selected at the previous impact.
+       // A launched Q survives a first target dying in flight; keep its
+       // recorded world position, but never resurrect it as an eligible hit.
+       const v=this.boardCombatEntityByIdV453Dev69(z.targetId)||
+        this.units.find(t=>t.id===z.targetId&&t.hp<=0),
+        launchRealm=z.m44B23LaunchRealmId;
+       const realm=v?(this.realmOfV453Dev69(v)?.id||null):null,
+        inRealm=!!v&&realm===launchRealm;
+       if(!inRealm){ended=true;}
+       else{
+        const arrival=z.stage===0?
+         z.startedAt+this.mapDistance(z.from,v)/1600:z.nextAt;
+        // A moving initial target requires the full real world distance.
+        if(z.stage===0&&now+1e-7<arrival){
+         z.nextAt=arrival;z.m44B31FirstArrivalAt=arrival;
+        }else if((v.projectileGuardUntil||0)>now||
+          this.obstacleLine(z.from,v)){ended=true;}
+        else{
+         const point={x:v.x,y:v.y};
+         const hadHealth=v.hp>0;
+         if(hadHealth)this.damage(v,z.power,u,'magic','spell');
+         z.hitIds.push(v.id);
+         if(z.stage===0){
+          z.firstHitAt=now;z.firstPoint={...point};
+          // Source Q drops behind the FIRST impact, never behind last bounce.
+          const dx=(point.x-z.origin.x)*this.worldWidth,
+           dy=(point.y-z.origin.y)*this.worldHeight,
+           distance=Math.max(1,Math.hypot(dx,dy)),
+           desired={x:point.x+dx/distance*350/this.worldWidth,
+            y:point.y+dy/distance*350/this.worldHeight},
+           clamped={x:Math.min(.975,Math.max(.025,desired.x)),
+            y:Math.min(.975,Math.max(.025,desired.y))};
+          let landing=null;
+          for(const radius of [0,25,50,75,100,125,175,225,300]){
+           const n=radius===0?1:16;
+           for(let k=0;k<n;k++){
+            const angle=k*2*Math.PI/n;
+            const p={x:Math.min(.975,Math.max(.025,clamped.x+
+             radius*Math.cos(angle)/this.worldWidth)),
+             y:Math.min(.975,Math.max(.025,clamped.y+
+             radius*Math.sin(angle)/this.worldHeight))};
+            if(!this.walkable(p.x,p.y,u)||
+               this.realmOfV453Dev69(u)&&
+                !this.realmValidV453Dev69(u,p))continue;
+            landing=p;break;
+           }
+           if(landing)break;
+          }
+          if(landing){
+           z.daggerPoint=landing;z.daggerAt=now+1.023;
+           (this.boardTemporalV453Dev69??=[]).push({
+            id:++this.boardTemporalIdV453Dev69,
+            kind:'m44_b26_katarina_drop',ownerId:z.ownerId,team:z.team,
+            origin:{...z.origin},point:landing,dropSourceId:z.id,
+            m44B23LaunchRealmId:launchRealm,
+            power:z.dropPower,nextAt:now+1.023,until:now+1.173,
+            daggerUntil:now+5.023});
+          }else z.groundBlocked=true;
+         }
+         z.from=point;
+         // B31B: each newly selected secondary must be visible NOW. Fog is
+         // never read from opponents' queues/intents or frozen at cast time.
+         const used=new Set(z.hitIds);
+         const eligible=this.boardCombatEnemyPoolV453Dev69(u).filter(t=>
+          t.hp>0&&t.team!==z.team&&!used.has(t.id)&&
+          (this.realmOfV453Dev69(t)?.id||null)===launchRealm&&
+          this.mapDistance(point,t)<=450&&!this.obstacleLine(point,t)&&
+          (t.champ?this.visible(z.team,t):
+           (t.stealthUntil||0)<=now&&this.canSeePoint(z.team,t)))
+          .sort((a,b)=>this.mapDistance(point,a)-this.mapDistance(point,b)||
+           String(a.id).localeCompare(String(b.id)));
+         const next=z.hitIds.length<3?eligible[0]:null;
+         if(next){z.targetId=next.id;z.stage++;z.startedAt=now;
+          z.nextAt=now+.15;}
+         else ended=true;
+        }
+       }
+      }else if(z.kind==='m44_b26_anivia_frost'){
        // B30B: swept 950 units/s with separate one-time passage and burst.
        const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
         (this.realmOfV453Dev69(v)?.id||null)===z.m44B23LaunchRealmId);
@@ -9422,7 +9471,10 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
         ended=true;
        }else z.nextAt=now+.1;
       }else if(z.kind==='m44_b26_katarina_drop'){
-       if(u.hp>0&&(this.realmOfV453Dev69(u)?.id||null)===z.m44B23LaunchRealmId&&
+       // A Q dagger already in flight still lands after caster death/realm shift.
+       // W drops remain owner-presence gated. Pickup is always owner/realm gated.
+       if((z.dropSourceId||u.hp>0&&
+          (this.realmOfV453Dev69(u)?.id||null)===z.m44B23LaunchRealmId)&&
          z.point.x>=.019&&z.point.x<=.978&&z.point.y>=.019&&z.point.y<=.978){
         (u.m44B26Daggers??=[]).push({id:z.id,x:z.point.x,y:z.point.y,
          until:z.daggerUntil,power:z.power,

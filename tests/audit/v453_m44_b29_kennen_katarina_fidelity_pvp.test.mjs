@@ -102,24 +102,33 @@ test('Katarina Q dagger lands opposite first target at 350 units','Katarina',({a
  const other=a.units.filter(x=>x.team===foe&&x.id!==v.id);
  Object.assign(other[0],{x:.54,y:.5,hp:1000,maxHp:1000});
  const r=cast('Q',{targetId:v.id});
- assert.equal(r.hitIds.length>=2,true);
- const distance=a.mapDistance(v,r.daggerPoint);
+ assert.equal(r.pending,true);assert.equal(r.hitIds.length,0);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
+ const z=a.boardTemporalV453Dev69.find(x=>x.kind==='m44_b26_katarina_drop');
+ assert.ok(z);
+ const distance=a.mapDistance(v,z.point);
  assert.ok(Math.abs(distance-350)<1);
- assert.ok(r.daggerPoint.x>v.x);
- assert.equal(r.daggerAt,1.02);
+ assert.ok(z.point.x>v.x);
+ assert.ok(Math.abs(z.nextAt-1.263)<.0001);
 });
 test('Katarina Q waits 1.02 seconds before placing dagger','Katarina',({a,u,v,cast})=>{
- cast('Q',{targetId:v.id});a.gameTime=1;
- a.advanceBoardTemporalV453Dev69();assert.equal(u.m44B26Daggers?.length||0,0);
- a.gameTime=1.03;a.advanceBoardTemporalV453Dev69();
+ const hp=v.hp;cast('Q',{targetId:v.id});
+ assert.equal(v.hp,hp);
+ a.gameTime=.24;a.advanceBoardTemporalV453Dev69();
+ assert.ok(v.hp<hp);
+ a.gameTime=1.25;a.advanceBoardTemporalV453Dev69();
+ assert.equal(u.m44B26Daggers?.length||0,0);
+ a.gameTime=1.28;a.advanceBoardTemporalV453Dev69();
  assert.equal(u.m44B26Daggers?.length,1);
 });
 test('Katarina Q bounce strikes three victims at full spell damage','Katarina',({a,u,v,foe,cast})=>{
  const others=a.units.filter(x=>x.team===foe&&x.id!==v.id).slice(0,2);
  for(let i=0;i<others.length;i++)Object.assign(others[i],{x:.525+(i+1)*.01,y:.5,hp:1000,maxHp:1000,armor:0,mr:0});
  const hp=[v.hp,...others.map(x=>x.hp)];const r=cast('Q',{targetId:v.id});
- assert.equal(r.hitIds.length,3);
+ assert.equal(r.pending,true);assert.equal(v.hp,hp[0]);
+ for(const at of [.24,.39,.54]){a.gameTime=at;a.advanceBoardTemporalV453Dev69();}
  const deltas=[hp[0]-v.hp,...others.map((x,i)=>hp[i+1]-x.hp)];
+ assert.ok(deltas.every(x=>x>0));
  assert.ok(Math.max(...deltas)-Math.min(...deltas)<=1);
 });
 test('Katarina dagger pickup E refund derives from rank/level','Katarina',({a,u})=>{
