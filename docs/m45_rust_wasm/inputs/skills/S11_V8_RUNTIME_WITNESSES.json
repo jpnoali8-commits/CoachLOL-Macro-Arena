@@ -81,9 +81,17 @@
     "full_node_pass": 0
   },
   "supplemental_test_path": "docs/m45_rust_wasm/inputs/skills/s11_ahri_ashe_temporal.test.mjs",
-  "supplemental_test_status": "NEW_SOURCE_CREATED_NODE_NOT_RUN; direct equivalent Arena witnesses V8 executed",
+  "supplemental_test_status": "V8_SOURCE_TEST_BODY_PASS_66_ASSERTIONS; FULL_NODE_NOT_RUN",
   "rust_native": "NOT_RUN",
   "wasm": "NOT_RUN",
   "http_real": "NOT_RUN",
-  "risk": "Vision is mocked; manually set positions/ticks; full Node imports/HTTP unavailable here; no claim of all-time temporal fidelity."
+  "risk": "Vision is mocked; manually set positions/ticks; full Node imports/HTTP unavailable here; no claim of all-time temporal fidelity.",
+  "supplemental_test_blob_sha": "76b2025086e3447bd5fde29120bffef07ca121dc",
+  "supplemental_test_execution": {
+    "status": "V8_PASS",
+    "assertions": 66,
+    "reported": "M45_S11_AHRI_ASHE seats=2 cases=6 impacts=4 PASS (legacy source only)",
+    "mode": "saved original S11 test function bodies executed in isolated V8 with original Arena and minimal Node assert/files shims",
+    "original_node_status": "NOT_RUN"
+  }
 }
