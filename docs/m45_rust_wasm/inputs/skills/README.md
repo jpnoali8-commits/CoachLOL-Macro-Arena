@@ -95,3 +95,12 @@ S09 adicionou a suíte bilaterial `s09_nami_w_stale.test.mjs` (azul/vermelho × 
 ## M45 S10 — Execução V8 real do oráculo legado
 
 O conector GitHub carregou a engine original e map/masks em um executor V8 isolado. Foram tentados **24/26** testes fonte, com **22 PASS, 2 FAIL e 2 dependentes de módulos servidor/HTTP não executados**. Isto NÃO é o runner Node integral: **0/26 suites Node**, Rust native/WASM **NOT_RUN**. Nami W **ghost cast pós-cooldown confirmado em quatro cenários** (azul/vermelho, duas ordens); Ahri E (M2) e Ashe R (global M14) falharam e ficaram bloqueados. Consulte `S10_V8_EXECUTION_RECEIPT.json`, `S10_RUNTIME_FIDELITY_FINDINGS.json`, `M45_B02_S10_HANDOFF.md`.
+
+
+## M45 B02 S11 e S12 — V8 realmente executado (2026-10-30)
+
+**S11:** `s11_ahri_ashe_temporal.test.mjs` executou 66/66 assertivas em V8 com engine original e adapters de import/assert. Ahri E tem atalho legado de direcionamento que rejeita a habilidade; executor de tabuleiro produz projétil temporal. Ashe R exige impacto posterior; posição distante antiga (.65,.5) cruza parede.
+
+**S12:** `s12_projectile_fidelity_pvp.test.mjs` executou **438/438 assertivas em 34/34 cenários e 8/8 restaurações de voo** (azul/vermelho), usando o Git blob de engine congelado. Cobertura Ahri E e Ashe R: travessia, alcance, minion/champion-first, spell shield, barreira, parede, impacto, splash e hash replay. Arquivos: `S12_AUTHORIAL_PROJECTILE_RUST_FIXTURES.json`, `S12_V8_RUNTIME_RECEIPT.json`, `M45_B02_S12_HANDOFF.md`.
+
+O S10 continua com sua matriz congelada das 26 suítes originais: **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**. Os 66+438 testes *suplementares* **não** mudam essa contagem. `node` integral, Rust native, WASM e HTTP/privacidade seguem **NOT_RUN**. A branch Rust observada `5afd330f260c7a0b1984521732e117dfcd81396f` ainda contém somente `core-state` e não contém `core-combat` nem `core-champions`; produção Rust de habilidade permanece bloqueada até que os contratos existam.
