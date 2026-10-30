@@ -79,4 +79,4 @@ node docs/m45_rust_wasm/inputs/skills/run_golden.mjs --verify-only
 node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
 ~~~
 
-**Observação:** `verify_precedence_source.mjs` foi escrito na S04 e ainda espera `27` entradas multivariantes; com o enriquecimento S05 da matriz há `50` linhas multi-evidência. É necessário atualizar esse verificador para separar `registry_multivariants` de `handler_evidence_multivariants` antes da execução, ou ele falhará por expectativa obsoleta. Não considerar seu resultado como PASS até ser atualizado.
+**Verificador S05 corrigido:** `verify_precedence_source.mjs` agora espera 27 entradas multivariantes de registro do S04, 50 linhas multi-evidência atuais, 35 descritores V42, 25 handlers e 19 fontes golden. O arquivo foi atualizado na branch; sua execução Node completa ainda está `NOT_RUN` neste ambiente sem checkout local.
