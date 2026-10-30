@@ -1,0 +1,879 @@
+{
+  "schema": "coachlol.m45.skills.s05.v42-handler.v1",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "scope": "Reconcile 7 V42 champions × P/Q/W/E/R, and executable source hooks that S03 marked reference-only/absent.",
+  "verified_against_source": true,
+  "source_lines_are_static": true,
+  "gameplay_test_status": "NOT_RUN",
+  "rust_test_status": "NOT_RUN",
+  "corrected_v42_registry": {
+    "count": 35,
+    "entries": [
+      {
+        "feature_id": "champion.Ezreal.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.P",
+        "source_line": 703,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "absent"
+      },
+      {
+        "feature_id": "champion.Ezreal.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.Q",
+        "source_line": 704,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "implemented"
+      },
+      {
+        "feature_id": "champion.Ezreal.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.W",
+        "source_line": 706,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "absent"
+      },
+      {
+        "feature_id": "champion.Ezreal.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.E",
+        "source_line": 708,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "absent"
+      },
+      {
+        "feature_id": "champion.Ezreal.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.R",
+        "source_line": 710,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Irelia.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Irelia.P",
+        "source_line": 714,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Irelia.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Irelia.Q",
+        "source_line": 715,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Irelia.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Irelia.W",
+        "source_line": 717,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Irelia.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Irelia.E",
+        "source_line": 720,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Irelia.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Irelia.R",
+        "source_line": 722,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Nami.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Nami.P",
+        "source_line": 725,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Nami.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Nami.Q",
+        "source_line": 726,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Nami.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Nami.W",
+        "source_line": 727,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "implemented"
+      },
+      {
+        "feature_id": "champion.Nami.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Nami.E",
+        "source_line": 728,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Nami.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Nami.R",
+        "source_line": 729,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Lux.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Lux.P",
+        "source_line": 731,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Lux.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Lux.Q",
+        "source_line": 732,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "implemented"
+      },
+      {
+        "feature_id": "champion.Lux.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Lux.W",
+        "source_line": 733,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Lux.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Lux.E",
+        "source_line": 734,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Lux.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Lux.R",
+        "source_line": 735,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Vex.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Vex.P",
+        "source_line": 737,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Vex.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Vex.Q",
+        "source_line": 738,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Vex.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Vex.W",
+        "source_line": 740,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Vex.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Vex.E",
+        "source_line": 742,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Vex.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Vex.R",
+        "source_line": 745,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Jinx.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Jinx.P",
+        "source_line": 747,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Jinx.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Jinx.Q",
+        "source_line": 748,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Jinx.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Jinx.W",
+        "source_line": 751,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "implemented"
+      },
+      {
+        "feature_id": "champion.Jinx.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Jinx.E",
+        "source_line": 749,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Jinx.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Jinx.R",
+        "source_line": 750,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "partial"
+      },
+      {
+        "feature_id": "champion.Ahri.P",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ahri.P",
+        "source_line": 754,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Ahri.Q",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ahri.Q",
+        "source_line": 755,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Ahri.W",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ahri.W",
+        "source_line": 759,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      },
+      {
+        "feature_id": "champion.Ahri.E",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ahri.E",
+        "source_line": 757,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "implemented"
+      },
+      {
+        "feature_id": "champion.Ahri.R",
+        "catalog_symbol": "CHAMPION_KITS_V42.Ahri.R",
+        "source_line": 761,
+        "was_missing_from_matrix": false,
+        "previous_legacy_status": "reference-only"
+      }
+    ]
+  },
+  "handler_candidates": {
+    "count": 25,
+    "entries": [
+      {
+        "feature_id": "champion.Ezreal.P",
+        "source_symbols": [
+          "ezrealRisingSpellForceV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "ezrealRisingSpellForceV453Dev69M7",
+            "source_line": 12885,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ezreal.W",
+        "source_symbols": [
+          "castEzrealEssenceFluxV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "castEzrealEssenceFluxV453Dev69M7",
+            "source_line": 12899,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ezreal.E",
+        "source_symbols": [
+          "castEzrealArcaneShiftV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "castEzrealArcaneShiftV453Dev69M7",
+            "source_line": 12713,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ezreal.R",
+        "source_symbols": [
+          "castEzrealBarrageV453Dev69M7",
+          "advanceEzrealBarrageV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "castEzrealBarrageV453Dev69M7",
+            "source_line": 12945,
+            "source_path": "engine.mjs"
+          },
+          {
+            "name": "advanceEzrealBarrageV453Dev69M7",
+            "source_line": 12962,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "partial",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Irelia.P",
+        "source_symbols": [
+          "ireliaFervorV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "ireliaFervorV453Dev69M7",
+            "source_line": 12778,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Irelia.W",
+        "source_symbols": [
+          "castIreliaDanceV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "castIreliaDanceV453Dev69M7",
+            "source_line": 12784,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Irelia.R",
+        "source_symbols": [
+          "castIreliaVanguardV453Dev69M7"
+        ],
+        "source_lines": [
+          {
+            "name": "castIreliaVanguardV453Dev69M7",
+            "source_line": 12850,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Nami.P",
+        "source_symbols": [
+          "grantNamiSurgingV453Dev69B2"
+        ],
+        "source_lines": [
+          {
+            "name": "grantNamiSurgingV453Dev69B2",
+            "source_line": 13349,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_skills_batch2.test.mjs",
+          "git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Nami.E",
+        "source_symbols": [
+          "procNamiTidecallerV453Dev69M1"
+        ],
+        "source_lines": [
+          {
+            "name": "procNamiTidecallerV453Dev69M1",
+            "source_line": 16759,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_skills_batch2.test.mjs",
+          "git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Lux.P",
+        "source_symbols": [
+          "luxMarkIlluminationV453Dev69M2",
+          "luxConsumeIlluminationV453Dev69M2"
+        ],
+        "source_lines": [
+          {
+            "name": "luxMarkIlluminationV453Dev69M2",
+            "source_line": 12680,
+            "source_path": "engine.mjs"
+          },
+          {
+            "name": "luxConsumeIlluminationV453Dev69M2",
+            "source_line": 13209,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Lux.W",
+        "source_symbols": [
+          "luxPrismaticShieldV453Dev69M2",
+          "advanceLuxWReturnV453Dev69M3"
+        ],
+        "source_lines": [
+          {
+            "name": "luxPrismaticShieldV453Dev69M2",
+            "source_line": 13284,
+            "source_path": "engine.mjs"
+          },
+          {
+            "name": "advanceLuxWReturnV453Dev69M3",
+            "source_line": 13271,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Lux.E",
+        "source_symbols": [
+          "resolveKitSkillsV42"
+        ],
+        "source_lines": [
+          {
+            "name": "resolveKitSkillsV42",
+            "source_line": 12669,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Vex.P",
+        "source_symbols": [
+          "vexApplyFearV453Dev69M1",
+          "vexMarkGloomV453Dev69M1"
+        ],
+        "source_lines": [
+          {
+            "name": "vexApplyFearV453Dev69M1",
+            "source_line": 13372,
+            "source_path": "engine.mjs"
+          },
+          {
+            "name": "vexMarkGloomV453Dev69M1",
+            "source_line": 13378,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Vex.Q",
+        "source_symbols": [
+          "castVexBasicV453Dev69M1"
+        ],
+        "source_lines": [
+          {
+            "name": "castVexBasicV453Dev69M1",
+            "source_line": 12723,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Vex.W",
+        "source_symbols": [
+          "castVexBasicV453Dev69M1"
+        ],
+        "source_lines": [
+          {
+            "name": "castVexBasicV453Dev69M1",
+            "source_line": 12723,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Vex.E",
+        "source_symbols": [
+          "castVexBasicV453Dev69M1"
+        ],
+        "source_lines": [
+          {
+            "name": "castVexBasicV453Dev69M1",
+            "source_line": 12723,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Vex.R",
+        "source_symbols": [
+          "launchWaveShadowV453Dev69",
+          "queueVexRecast"
+        ],
+        "source_lines": [
+          {
+            "name": "launchWaveShadowV453Dev69",
+            "source_line": 13544,
+            "source_path": "engine.mjs"
+          },
+          {
+            "name": "queueVexRecast",
+            "source_line": 13334,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        "previous_status": "partial",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Jinx.P",
+        "source_symbols": [
+          "jinxExcitedV453Dev69M5"
+        ],
+        "source_lines": [
+          {
+            "name": "jinxExcitedV453Dev69M5",
+            "source_line": 12974,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Jinx.Q",
+        "source_symbols": [
+          "castJinxSwitchV453Dev69M5"
+        ],
+        "source_lines": [
+          {
+            "name": "castJinxSwitchV453Dev69M5",
+            "source_line": 12693,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Jinx.E",
+        "source_symbols": [
+          "castJinxChompersV453Dev69M5"
+        ],
+        "source_lines": [
+          {
+            "name": "castJinxChompersV453Dev69M5",
+            "source_line": 12718,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Jinx.R",
+        "source_symbols": [
+          "launchJinxRocketV453Dev69M5"
+        ],
+        "source_lines": [
+          {
+            "name": "launchJinxRocketV453Dev69M5",
+            "source_line": 13045,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        },
+        "previous_status": "partial",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ahri.P",
+        "source_symbols": [
+          "ahriEssenceDeathV453Dev69M4"
+        ],
+        "source_lines": [
+          {
+            "name": "ahriEssenceDeathV453Dev69M4",
+            "source_line": 13187,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ahri.Q",
+        "source_symbols": [
+          "launchChampionDirectionalV453Dev69M2"
+        ],
+        "source_lines": [
+          {
+            "name": "launchChampionDirectionalV453Dev69M2",
+            "source_line": 13298,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ahri.W",
+        "source_symbols": [
+          "castAhriFoxFireV453Dev69M4"
+        ],
+        "source_lines": [
+          {
+            "name": "castAhriFoxFireV453Dev69M4",
+            "source_line": 12697,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      },
+      {
+        "feature_id": "champion.Ahri.R",
+        "source_symbols": [
+          "castAhriSpiritRushV453Dev69M4"
+        ],
+        "source_lines": [
+          {
+            "name": "castAhriSpiritRushV453Dev69M4",
+            "source_line": 13150,
+            "source_path": "engine.mjs"
+          }
+        ],
+        "source_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+        "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+        "candidate_test": {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        },
+        "previous_status": "reference-only",
+        "revised_status": "partial",
+        "runtime_executed": false
+      }
+    ]
+  },
+  "status_changes": {
+    "count": 22,
+    "feature_ids": [
+      "Ezreal.P",
+      "Ezreal.W",
+      "Ezreal.E",
+      "Irelia.P",
+      "Irelia.W",
+      "Irelia.R",
+      "Nami.P",
+      "Nami.E",
+      "Lux.P",
+      "Lux.W",
+      "Lux.E",
+      "Vex.P",
+      "Vex.Q",
+      "Vex.W",
+      "Vex.E",
+      "Jinx.P",
+      "Jinx.Q",
+      "Jinx.E",
+      "Ahri.P",
+      "Ahri.Q",
+      "Ahri.W",
+      "Ahri.R"
+    ]
+  },
+  "stats_after": {
+    "absent": 265,
+    "partial": 365,
+    "implemented": 234,
+    "reference-only": 1
+  },
+  "warning": "A dedicated method's presence does not certify LoL parity or prove the route is reachable under every queue/commit path. No Node golden was run."
+}
