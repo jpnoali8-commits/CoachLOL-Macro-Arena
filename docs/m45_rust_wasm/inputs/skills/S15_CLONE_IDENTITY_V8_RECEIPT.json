@@ -13,7 +13,7 @@
     "original_m15_test": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
     "original_clone_targetability_audit": "1094fb6b475b1331f28a887978e522f6b2b8d677",
     "s15_supplemental_test": "556ddbed60b4254c1c3c3eea9d202da0bf6415cf",
-    "rust_typed_acceptance": "TO_VERIFY"
+    "rust_typed_acceptance": "795ff430ab133a1d3de3f2e6d70b07a348ae2722"
   },
   "modes": {
     "original_m15": "REAL_ORIGINAL_SYNC_TEST_BODY_ISOLATED_V8_NODE_ESM_IMPORTS_FS_ASSERT_AND_STRUCTUREDCLONE_SHIMS",
