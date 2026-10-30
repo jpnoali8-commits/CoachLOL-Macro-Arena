@@ -1,6 +1,6 @@
 {
   "meta": {
-    "schema": "coachlol.m45.skills.static-audit.v3",
+    "schema": "coachlol.m45.skills.static-audit.v4",
     "branch": "dev69/skills-batch2",
     "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
     "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
@@ -11,15 +11,16 @@
     "interpretation": "Static evidence is not a successful native JS golden or Rust parity test.",
     "override_method": "Direct source scan of explicit M14/M15/M44 executor paths; no JS gameplay execution",
     "per_slot_expected_status": "NOT_CAPTURED",
-    "precedence_receipt": "precedence_overlaps.json"
+    "precedence_receipt": "precedence_overlaps.json",
+    "handler_audit_receipt": "S05_V42_HANDLER_RECONCILIATION.json"
   },
   "stats": {
     "slots": 865,
     "by_status": {
-      "absent": 268,
-      "reference-only": 20,
+      "absent": 265,
+      "partial": 365,
       "implemented": 234,
-      "partial": 343
+      "reference-only": 1
     },
     "registry_stats": {
       "M16_MECHANIC_KITS": 22,
@@ -53,7 +54,7 @@
       "BOARD_M20_B01_V453": 175,
       "M44_B09_GNAR_MEGA_V453": 4
     },
-    "duplicate_slots": 27,
+    "duplicate_slots": 50,
     "mechanic_symbols": 63,
     "unmapped_registrations": 0,
     "executor_only_overrides": 7,
@@ -61,7 +62,12 @@
     "rows_with_spec_links": 16,
     "duplicate_slots_before_dedup": 56,
     "synthetic_scan_duplicates_removed": 29,
-    "precedence_risk_flags": 11
+    "precedence_risk_flags": 11,
+    "s05_v42_slots": 35,
+    "s05_new_v42_entries": 5,
+    "s05_routing_handlers": 25,
+    "s05_promoted_from_reference_or_absent": 22,
+    "registry_duplicate_slots_s04": 27
   },
   "unmapped": [],
   "rows": [
@@ -234,13 +240,32 @@
       "feature_id": "champion.Ahri.P",
       "champion": "Ahri",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Ahri.P",
+      "source_symbol": "Arena.ahriEssenceDeathV453Dev69M4",
       "variants": [
+        {
+          "symbol": "Arena.ahriEssenceDeathV453Dev69M4",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "ahriEssenceDeathV453Dev69M4"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13187,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Ahri.P",
           "status": "reference-only",
@@ -252,7 +277,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -264,9 +294,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method ahriEssenceDeathV453Dev69M4; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -277,13 +307,32 @@
       "feature_id": "champion.Ahri.Q",
       "champion": "Ahri",
       "slot": "Q",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Ahri.Q",
+      "source_symbol": "Arena.launchChampionDirectionalV453Dev69M2",
       "variants": [
+        {
+          "symbol": "Arena.launchChampionDirectionalV453Dev69M2",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "launchChampionDirectionalV453Dev69M2"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13298,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Ahri.Q",
           "status": "reference-only",
@@ -295,7 +344,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -307,9 +361,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method launchChampionDirectionalV453Dev69M2; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -320,13 +374,32 @@
       "feature_id": "champion.Ahri.W",
       "champion": "Ahri",
       "slot": "W",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Ahri.W",
+      "source_symbol": "Arena.castAhriFoxFireV453Dev69M4",
       "variants": [
+        {
+          "symbol": "Arena.castAhriFoxFireV453Dev69M4",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castAhriFoxFireV453Dev69M4"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12697,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Ahri.W",
           "status": "reference-only",
@@ -340,7 +413,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -352,9 +430,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castAhriFoxFireV453Dev69M4; authorial completeness requires golden.",
       "dependencies": [
         "persistent_effects"
       ],
@@ -440,13 +518,32 @@
       "feature_id": "champion.Ahri.R",
       "champion": "Ahri",
       "slot": "R",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Ahri.R",
+      "source_symbol": "Arena.castAhriSpiritRushV453Dev69M4",
       "variants": [
+        {
+          "symbol": "Arena.castAhriSpiritRushV453Dev69M4",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castAhriSpiritRushV453Dev69M4"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13150,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Ahri.R",
           "status": "reference-only",
@@ -460,7 +557,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+          "git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -472,9 +574,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castAhriSpiritRushV453Dev69M4; authorial completeness requires golden.",
       "dependencies": [
         "recast"
       ],
@@ -7840,15 +7942,53 @@
       "feature_id": "champion.Ezreal.P",
       "champion": "Ezreal",
       "slot": "P",
-      "legacy_status": "absent",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.ezrealRisingSpellForceV453Dev69M7",
+      "variants": [
+        {
+          "symbol": "Arena.ezrealRisingSpellForceV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "ezrealRisingSpellForceV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12885,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
+        {
+          "symbol": "CHAMPION_KITS_V42.Ezreal.P",
+          "status": "reference-only",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "source_line": 703,
+          "reference_catalog_only": true,
+          "marker_keys": [],
+          "marker_references": [],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_v42"
+          ]
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -7860,9 +8000,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method ezrealRisingSpellForceV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "No authored P/QWER registration in the scanned registries; generic training fallback or non-registry handler may still exist (unverified).",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -7905,6 +8045,19 @@
             "projectile"
           ],
           "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f"
+        },
+        {
+          "symbol": "CHAMPION_KITS_V42.Ezreal.Q",
+          "status": "reference-only",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "source_line": 704,
+          "reference_catalog_only": true,
+          "marker_keys": [],
+          "marker_references": [],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_v42"
+          ]
         }
       ],
       "source_test_ids": [],
@@ -7941,15 +8094,53 @@
       "feature_id": "champion.Ezreal.W",
       "champion": "Ezreal",
       "slot": "W",
-      "legacy_status": "absent",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.castEzrealEssenceFluxV453Dev69M7",
+      "variants": [
+        {
+          "symbol": "Arena.castEzrealEssenceFluxV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castEzrealEssenceFluxV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12899,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
+        {
+          "symbol": "CHAMPION_KITS_V42.Ezreal.W",
+          "status": "reference-only",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "source_line": 706,
+          "reference_catalog_only": true,
+          "marker_keys": [],
+          "marker_references": [],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_v42"
+          ]
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -7961,9 +8152,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castEzrealEssenceFluxV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "No authored P/QWER registration in the scanned registries; generic training fallback or non-registry handler may still exist (unverified).",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -7974,15 +8165,53 @@
       "feature_id": "champion.Ezreal.E",
       "champion": "Ezreal",
       "slot": "E",
-      "legacy_status": "absent",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.castEzrealArcaneShiftV453Dev69M7",
+      "variants": [
+        {
+          "symbol": "Arena.castEzrealArcaneShiftV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castEzrealArcaneShiftV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12713,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
+        {
+          "symbol": "CHAMPION_KITS_V42.Ezreal.E",
+          "status": "reference-only",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "source_line": 708,
+          "reference_catalog_only": true,
+          "marker_keys": [],
+          "marker_references": [],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_v42"
+          ]
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -7994,9 +8223,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castEzrealArcaneShiftV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "No authored P/QWER registration in the scanned registries; generic training fallback or non-registry handler may still exist (unverified).",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -8015,6 +8244,26 @@
       "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
       "variants": [
         {
+          "symbol": "Arena.castEzrealBarrageV453Dev69M7 -> Arena.advanceEzrealBarrageV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castEzrealBarrageV453Dev69M7",
+            "advanceEzrealBarrageV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12945,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
+        {
           "symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
           "status": "partial",
           "marker_keys": [],
@@ -8030,10 +8279,27 @@
           ],
           "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
           "not_in_common_registry": true
+        },
+        {
+          "symbol": "CHAMPION_KITS_V42.Ezreal.R",
+          "status": "reference-only",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "source_line": 710,
+          "reference_catalog_only": true,
+          "marker_keys": [],
+          "marker_references": [],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_v42"
+          ]
         }
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
         {
           "path": "tests/v453_dev69_global_ult_m14.test.mjs",
           "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
@@ -8050,9 +8316,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Explicit executor-only reconciliation: R com projétil global de resolução temporal especial, sem paridade de frames. Source line references required for next B02-S02.",
+      "notes": "Explicit executor-only reconciliation: R com projétil global de resolução temporal especial, sem paridade de frames. Source line references required for next B02-S02. S05: dedicated runtime method castEzrealBarrageV453Dev69M7, advanceEzrealBarrageV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [
         "special_executor",
         "ownership",
@@ -11195,13 +11461,32 @@
       "feature_id": "champion.Irelia.P",
       "champion": "Irelia",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Irelia.P",
+      "source_symbol": "Arena.ireliaFervorV453Dev69M7",
       "variants": [
+        {
+          "symbol": "Arena.ireliaFervorV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "ireliaFervorV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12778,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Irelia.P",
           "status": "reference-only",
@@ -11214,6 +11499,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
         {
           "path": "tests/v453_dev43_projectiles_irelia_e.test.mjs",
           "git_blob_sha": "570620a47c401a80eb7e62c90e30bd7cb869aa46"
@@ -11230,9 +11519,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method ireliaFervorV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -11305,13 +11594,32 @@
       "feature_id": "champion.Irelia.W",
       "champion": "Irelia",
       "slot": "W",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Irelia.W",
+      "source_symbol": "Arena.castIreliaDanceV453Dev69M7",
       "variants": [
+        {
+          "symbol": "Arena.castIreliaDanceV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castIreliaDanceV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12784,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Irelia.W",
           "status": "reference-only",
@@ -11324,6 +11632,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
         {
           "path": "tests/v453_dev43_projectiles_irelia_e.test.mjs",
           "git_blob_sha": "570620a47c401a80eb7e62c90e30bd7cb869aa46"
@@ -11340,9 +11652,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castIreliaDanceV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -11415,13 +11727,32 @@
       "feature_id": "champion.Irelia.R",
       "champion": "Irelia",
       "slot": "R",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Irelia.R",
+      "source_symbol": "Arena.castIreliaVanguardV453Dev69M7",
       "variants": [
+        {
+          "symbol": "Arena.castIreliaVanguardV453Dev69M7",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castIreliaVanguardV453Dev69M7"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12850,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Irelia.R",
           "status": "reference-only",
@@ -11439,6 +11770,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+          "git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852"
+        },
+        {
           "path": "tests/v453_dev43_projectiles_irelia_e.test.mjs",
           "git_blob_sha": "570620a47c401a80eb7e62c90e30bd7cb869aa46"
         }
@@ -11454,9 +11789,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castIreliaVanguardV453Dev69M7; authorial completeness requires golden.",
       "dependencies": [
         "projectile",
         "crowd_control",
@@ -12913,13 +13248,32 @@
       "feature_id": "champion.Jinx.P",
       "champion": "Jinx",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Jinx.P",
+      "source_symbol": "Arena.jinxExcitedV453Dev69M5",
       "variants": [
+        {
+          "symbol": "Arena.jinxExcitedV453Dev69M5",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "jinxExcitedV453Dev69M5"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12974,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Jinx.P",
           "status": "reference-only",
@@ -12931,7 +13285,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -12943,9 +13302,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method jinxExcitedV453Dev69M5; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -12956,13 +13315,32 @@
       "feature_id": "champion.Jinx.Q",
       "champion": "Jinx",
       "slot": "Q",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Jinx.Q",
+      "source_symbol": "Arena.castJinxSwitchV453Dev69M5",
       "variants": [
+        {
+          "symbol": "Arena.castJinxSwitchV453Dev69M5",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castJinxSwitchV453Dev69M5"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12693,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Jinx.Q",
           "status": "reference-only",
@@ -12974,7 +13352,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -12986,9 +13369,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castJinxSwitchV453Dev69M5; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -13069,13 +13452,32 @@
       "feature_id": "champion.Jinx.E",
       "champion": "Jinx",
       "slot": "E",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Jinx.E",
+      "source_symbol": "Arena.castJinxChompersV453Dev69M5",
       "variants": [
+        {
+          "symbol": "Arena.castJinxChompersV453Dev69M5",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castJinxChompersV453Dev69M5"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12718,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Jinx.E",
           "status": "reference-only",
@@ -13090,7 +13492,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -13102,9 +13509,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castJinxChompersV453Dev69M5; authorial completeness requires golden.",
       "dependencies": [
         "summons",
         "crowd_control"
@@ -13125,6 +13532,25 @@
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
       "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
       "variants": [
+        {
+          "symbol": "Arena.launchJinxRocketV453Dev69M5",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "launchJinxRocketV453Dev69M5"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13045,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
           "status": "partial",
@@ -13155,6 +13581,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+          "git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996"
+        },
+        {
           "path": "tests/v453_dev69_global_ult_m14.test.mjs",
           "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
         }
@@ -13170,9 +13600,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Explicit executor-only reconciliation: R global custom supera metadata V42 reference-only; tempo de turno diferente de LoL. Source line references required for next B02-S02.",
+      "notes": "Explicit executor-only reconciliation: R global custom supera metadata V42 reference-only; tempo de turno diferente de LoL. Source line references required for next B02-S02. S05: dedicated runtime method launchJinxRocketV453Dev69M5; authorial completeness requires golden.",
       "dependencies": [
         "special_executor",
         "ownership",
@@ -18592,13 +19022,33 @@
       "feature_id": "champion.Lux.P",
       "champion": "Lux",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Lux.P",
+      "source_symbol": "Arena.luxMarkIlluminationV453Dev69M2 -> Arena.luxConsumeIlluminationV453Dev69M2",
       "variants": [
+        {
+          "symbol": "Arena.luxMarkIlluminationV453Dev69M2 -> Arena.luxConsumeIlluminationV453Dev69M2",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "luxMarkIlluminationV453Dev69M2",
+            "luxConsumeIlluminationV453Dev69M2"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12680,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Lux.P",
           "status": "reference-only",
@@ -18611,6 +19061,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
         {
           "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
           "git_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557"
@@ -18627,9 +19081,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method luxMarkIlluminationV453Dev69M2, luxConsumeIlluminationV453Dev69M2; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -18714,13 +19168,33 @@
       "feature_id": "champion.Lux.W",
       "champion": "Lux",
       "slot": "W",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Lux.W",
+      "source_symbol": "Arena.luxPrismaticShieldV453Dev69M2 -> Arena.advanceLuxWReturnV453Dev69M3",
       "variants": [
+        {
+          "symbol": "Arena.luxPrismaticShieldV453Dev69M2 -> Arena.advanceLuxWReturnV453Dev69M3",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "luxPrismaticShieldV453Dev69M2",
+            "advanceLuxWReturnV453Dev69M3"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13284,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Lux.W",
           "status": "reference-only",
@@ -18735,6 +19209,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
         {
           "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
           "git_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557"
@@ -18751,9 +19229,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method luxPrismaticShieldV453Dev69M2, advanceLuxWReturnV453Dev69M3; authorial completeness requires golden.",
       "dependencies": [
         "collision"
       ],
@@ -18766,13 +19244,32 @@
       "feature_id": "champion.Lux.E",
       "champion": "Lux",
       "slot": "E",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Lux.E",
+      "source_symbol": "Arena.resolveKitSkillsV42",
       "variants": [
+        {
+          "symbol": "Arena.resolveKitSkillsV42",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "resolveKitSkillsV42"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12669,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Lux.E",
           "status": "reference-only",
@@ -18789,6 +19286,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+          "git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921"
+        },
+        {
           "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
           "git_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557"
         }
@@ -18804,9 +19305,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method resolveKitSkillsV42; authorial completeness requires golden.",
       "dependencies": [
         "crowd_control",
         "persistent_effects"
@@ -21427,13 +21928,32 @@
       "feature_id": "champion.Nami.P",
       "champion": "Nami",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Nami.P",
+      "source_symbol": "Arena.grantNamiSurgingV453Dev69B2",
       "variants": [
+        {
+          "symbol": "Arena.grantNamiSurgingV453Dev69B2",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "grantNamiSurgingV453Dev69B2"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13349,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Nami.P",
           "status": "reference-only",
@@ -21446,6 +21966,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_skills_batch2.test.mjs",
+          "git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a"
+        },
         {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
@@ -21462,9 +21986,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method grantNamiSurgingV453Dev69B2; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -21614,13 +22138,32 @@
       "feature_id": "champion.Nami.E",
       "champion": "Nami",
       "slot": "E",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Nami.E",
+      "source_symbol": "Arena.procNamiTidecallerV453Dev69M1",
       "variants": [
+        {
+          "symbol": "Arena.procNamiTidecallerV453Dev69M1",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "procNamiTidecallerV453Dev69M1"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 16759,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Nami.E",
           "status": "reference-only",
@@ -21638,6 +22181,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_skills_batch2.test.mjs",
+          "git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a"
+        },
+        {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
         }
@@ -21653,9 +22200,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method procNamiTidecallerV453Dev69M1; authorial completeness requires golden.",
       "dependencies": [
         "recast",
         "crowd_control",
@@ -36186,13 +36733,33 @@
       "feature_id": "champion.Vex.P",
       "champion": "Vex",
       "slot": "P",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Vex.P",
+      "source_symbol": "Arena.vexApplyFearV453Dev69M1 -> Arena.vexMarkGloomV453Dev69M1",
       "variants": [
+        {
+          "symbol": "Arena.vexApplyFearV453Dev69M1 -> Arena.vexMarkGloomV453Dev69M1",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "vexApplyFearV453Dev69M1",
+            "vexMarkGloomV453Dev69M1"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13372,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Vex.P",
           "status": "reference-only",
@@ -36205,6 +36772,10 @@
       ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
         {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
@@ -36221,9 +36792,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method vexApplyFearV453Dev69M1, vexMarkGloomV453Dev69M1; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -36234,13 +36805,32 @@
       "feature_id": "champion.Vex.Q",
       "champion": "Vex",
       "slot": "Q",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Vex.Q",
+      "source_symbol": "Arena.castVexBasicV453Dev69M1",
       "variants": [
+        {
+          "symbol": "Arena.castVexBasicV453Dev69M1",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castVexBasicV453Dev69M1"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12723,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Vex.Q",
           "status": "reference-only",
@@ -36256,6 +36846,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
         }
@@ -36271,9 +36865,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castVexBasicV453Dev69M1; authorial completeness requires golden.",
       "dependencies": [
         "projectile"
       ],
@@ -36286,13 +36880,32 @@
       "feature_id": "champion.Vex.W",
       "champion": "Vex",
       "slot": "W",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Vex.W",
+      "source_symbol": "Arena.castVexBasicV453Dev69M1",
       "variants": [
+        {
+          "symbol": "Arena.castVexBasicV453Dev69M1",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castVexBasicV453Dev69M1"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12723,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Vex.W",
           "status": "reference-only",
@@ -36306,6 +36919,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
         }
@@ -36321,9 +36938,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castVexBasicV453Dev69M1; authorial completeness requires golden.",
       "dependencies": [],
       "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
@@ -36334,13 +36951,32 @@
       "feature_id": "champion.Vex.E",
       "champion": "Vex",
       "slot": "E",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Vex.E",
+      "source_symbol": "Arena.castVexBasicV453Dev69M1",
       "variants": [
+        {
+          "symbol": "Arena.castVexBasicV453Dev69M1",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "castVexBasicV453Dev69M1"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12723,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Vex.E",
           "status": "reference-only",
@@ -36357,6 +36993,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
         }
@@ -36372,9 +37012,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S05: dedicated runtime method castVexBasicV453Dev69M1; authorial completeness requires golden.",
       "dependencies": [
         "projectile",
         "crowd_control"
@@ -36395,6 +37035,26 @@
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
       "source_symbol": "CHAMPION_SPELL_RULES_V382.Vex.R",
       "variants": [
+        {
+          "symbol": "Arena.launchWaveShadowV453Dev69 -> Arena.queueVexRecast",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "launchWaveShadowV453Dev69",
+            "queueVexRecast"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "snapshot",
+            "combat_effects"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 13544,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_SPELL_RULES_V382.Vex.R",
           "status": "partial",
@@ -36423,6 +37083,10 @@
       "source_test_ids": [],
       "candidate_test_files": [
         {
+          "path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+          "git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1"
+        },
+        {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
         }
@@ -36438,9 +37102,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "runtime handler source found; gameplay Node NOT_RUN",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority.",
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S05: dedicated runtime method launchWaveShadowV453Dev69, queueVexRecast; authorial completeness requires golden.",
       "dependencies": [
         "projectile",
         "recast"
