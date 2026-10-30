@@ -1,0 +1,123 @@
+{
+  "id": "M45_PLATFORM_A02",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "source": {
+    "branch": "dev69/integration",
+    "sha": "374d87d5f49b52514ec68bbe666df086363c1ec5"
+  },
+  "rust_core_observed": "a1e4b37c8ed32675ebe22859d26d072bf52b3750",
+  "transport": "HTTP+SSE",
+  "human_seats": 2,
+  "units_per_seat": 5,
+  "observed_http_routes": [
+    [
+      "GET",
+      "/api/health",
+      false
+    ],
+    [
+      "POST",
+      "/api/create",
+      false
+    ],
+    [
+      "POST",
+      "/api/join",
+      false
+    ],
+    [
+      "GET",
+      "/api/session",
+      true
+    ],
+    [
+      "GET",
+      "/api/stream",
+      true
+    ],
+    [
+      "POST",
+      "/api/action",
+      true
+    ],
+    [
+      "POST",
+      "/api/ready",
+      true
+    ],
+    [
+      "GET",
+      "/api/shop",
+      true
+    ],
+    [
+      "GET",
+      "/api/shop/quote",
+      true
+    ]
+  ],
+  "legacy_input": {
+    "fields": [
+      "sequence",
+      "kind",
+      "payload",
+      "unitId?"
+    ],
+    "server_derived": [
+      "seatId",
+      "team"
+    ],
+    "idempotency": "per seat and canonical sequence"
+  },
+  "target_intent": {
+    "fields": [
+      "protocol_version",
+      "patch_version",
+      "schema_version",
+      "request_id",
+      "match_id",
+      "champion_id",
+      "kind",
+      "payload",
+      "expected_round",
+      "client_sequence"
+    ],
+    "seat_from_connection_only": true
+  },
+  "target_receipt": {
+    "fields": [
+      "request_id",
+      "accepted",
+      "reason",
+      "accepted_sequence",
+      "round",
+      "state_revision"
+    ],
+    "idempotent": true
+  },
+  "target_visibility": {
+    "default": "DENY",
+    "allow": [
+      "explicit public",
+      "own team",
+      "observedBy includes team"
+    ],
+    "whitelist_fields_by_event_kind": true,
+    "never_export": [
+      "rngState",
+      "checkpoint",
+      "session token hashes",
+      "enemy hidden units/orders",
+      "private shop states"
+    ]
+  },
+  "target_sse": {
+    "sequence": "monotonic visible revision",
+    "cursor": "Last-Event-ID",
+    "bounded_journal": true,
+    "gap": "full filtered snapshot",
+    "backpressure": "bounded"
+  },
+  "draft_postgame": "not yet provided as network endpoints in legacy PvP",
+  "assets": "ISSUE_1_G7_BLOCKED"
+}
