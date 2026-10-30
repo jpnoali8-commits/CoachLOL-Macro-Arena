@@ -89,3 +89,15 @@ Se algum teste falhar, registrar stdout/stderr, SHA, falha e *não* promover fix
 Recibo canônico do segundo lote: [RECEIPT_B02B_ITEMS_02.md](RECEIPT_B02B_ITEMS_02.md). Artefatos: [SOURCE_METHOD_DIFF_B02.json](SOURCE_METHOD_DIFF_B02.json), [TEST_PROVENANCE_INDEX_B02.json](TEST_PROVENANCE_INDEX_B02.json), [STATIC_QA_B02.json](STATIC_QA_B02.json), [ECONOMY_INTERFACES_B02.json](ECONOMY_INTERFACES_B02.json) e [golden_b02_catalog.test.mjs](golden_b02_catalog.test.mjs).
 
 Este lote conferiu 122 preços e revendas + 89 receitas com o arquivo Riot arquivado e identificou 8 métodos Arena exclusivos e 8 compartilhados alterados. Catalogou 43 arquivos/458 labels de teste, mapeou 14 interfaces e preparou 244 golden cases azul/vermelho. **QA runtime permanece NOT_RUN**; não confundir comparação estática com execução do JS, PvP ou Rust.
+
+## B02B-ITEMS Lote 03 — 2026-10-30
+
+[Recibo completo L03](RECEIPT_B02B_ITEMS_03.md). Acesso aos artefatos:
+[oracle_source_lock_b03.mjs](oracle_source_lock_b03.mjs),
+[golden_b03_effects.test.mjs](golden_b03_effects.test.mjs),
+[golden_b03_effects_extra.test.mjs](golden_b03_effects_extra.test.mjs),
+[EFFECT_FAMILY_QUEUE_B03.json](EFFECT_FAMILY_QUEUE_B03.json),
+[UNDO_SPATIAL_AUDIT_B03.json](UNDO_SPATIAL_AUDIT_B03.json) e
+[STATIC_QA_B03.json](STATIC_QA_B03.json).
+
+**Estado:** 8/8 blobs de origem verificados estaticamente, 15/15 famílias com fixture azul/vermelho preparada, mais 3 itens Anular (total 36 casos de efeito). As 11 fixtures B01 e 244 B02 continuam preparadas e **NOT_RUN**, assim como as 36 do B03. **Nenhuma migração Rust e nenhum golden dinâmico certificado.**
