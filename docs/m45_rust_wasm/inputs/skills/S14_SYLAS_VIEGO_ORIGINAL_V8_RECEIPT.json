@@ -1,0 +1,115 @@
+{
+  "schema": "coachlol.m45.skills.s14.sylas-viego-original-suites-v8.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "map_git_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "mask_git_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "runtime": "ISOLATED_V8_ORIGINAL_SUITE_BODY_AND_ORIGINAL_ARENA_WITH_ESM_IMPORT_ASSERT_FS_SHIMS",
+  "provenance": "Four existing unmodified original test bodies fetched by exact GitHub blobs. Only Node imports/map-loader/assert/console bootstrap replaced for V8; gameplay logic and each original test scenario retained. No authored new JS gameplay; original legacy source unchanged.",
+  "summary": {
+    "suites_total": 4,
+    "suites_pass": 4,
+    "source_scenarios": 154,
+    "source_scenarios_pass": 154,
+    "assertions": 1894,
+    "assertions_pass": 1894,
+    "snapshots_checked": 154,
+    "source_code_roundtrip": "V8_DYNAMIC_PASS"
+  },
+  "suites": [
+    {
+      "id": "M44_B14C_SYLAS",
+      "path": "tests/audit/v453_m44_b14c_sylas_hijack_authored_r_pvp.test.mjs",
+      "blob_sha": "122014a5690277ab1ee3ea88054545d63569901d",
+      "cases": 22,
+      "checks": 266,
+      "snapshots": 22,
+      "status": "V8_PASS",
+      "original_log": "M44_B14C_SYLAS {\"ultimates\":11,\"passed\":22,\"snapshots\":22,\"failures\":0,\"certifiedKits\":0}",
+      "s10": "NOT_IN_S10_26_SUITE_MATRIX"
+    },
+    {
+      "id": "M44_B14C_VIEGO",
+      "path": "tests/audit/v453_m44_b14c_viego_owner_possession_pvp.test.mjs",
+      "blob_sha": "df33700bb71565d10665f8be763e3dce41429366",
+      "cases": 22,
+      "checks": 192,
+      "snapshots": 22,
+      "status": "V8_PASS",
+      "original_log": "M44_B14C_VIEGO {\"copiedSources\":3,\"passed\":22,\"snapshots\":22,\"failures\":0,\"certifiedKits\":0}",
+      "s10": "NOT_IN_S10_26_SUITE_MATRIX"
+    },
+    {
+      "id": "M44_B14D_COPY",
+      "path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
+      "blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+      "cases": 78,
+      "checks": 974,
+      "snapshots": 78,
+      "status": "V8_PASS",
+      "original_log": "M44_B14D_COPY {\"passed\":78,\"snapshots\":78,\"failures\":0,\"sylasOriginalUltimates\":15,\"viegoSourceChampions\":12,\"completePqwerKitsCertified\":0}",
+      "s10": "ALREADY_PASS_IN_S10_SUITE_sylas_viego_original_REEXECUTION_NOT_ADDITIONAL_UNIQUE"
+    },
+    {
+      "id": "M44_B17_COPY",
+      "path": "tests/audit/v453_m44_b17_shared_sylas_viego_pvp.test.mjs",
+      "blob_sha": "f84512a69664f46beaf4949fb57d6269138269ce",
+      "cases": 32,
+      "checks": 462,
+      "snapshots": 32,
+      "status": "V8_PASS",
+      "original_log": "M44_B17_COPY {\"sylasR\":4,\"viegoSources\":4,\"slotsPerSource\":3,\"seats\":2,\"passed\":32,\"snapshots\":32,\"failures\":0,\"certifiedFullKits\":0}",
+      "s10": "NOT_IN_S10_26_SUITE_MATRIX"
+    }
+  ],
+  "s10_matrix_unchanged": {
+    "planned": 26,
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "full_node": 0
+  },
+  "uncoupled_evidence": {
+    "three_original_suites_outside_s10_cases": 76,
+    "three_original_suites_outside_s10_assertions": 920
+  },
+  "rust_coordinator": {
+    "head": "ddbdf8e9ee4345646c70162c1637e5b08670708a",
+    "available_crates": [
+      "core-state"
+    ],
+    "missing": [
+      "core-champions",
+      "core-combat",
+      "core-protocol",
+      "core-replay",
+      "core-map",
+      "core-clock"
+    ]
+  },
+  "not_run": {
+    "actual_node_esmodule_loader": true,
+    "rust_native": true,
+    "wasm": true,
+    "server_session_http": true,
+    "real_multiuser_match": true
+  },
+  "limitations": [
+    "Original tests themselves override visibility/canSeePoint/walkable/obstacleLine and use manually positioned units and high HP; validates executor identity and ownership in synthetic conditions only.",
+    "Source suite with 78 cases was previously V8_PASS under S10; this is an independent repeat, not 78 newly covered unique cases.",
+    "All four test logs report 0 certified complete kits; do not count champion coverage from passing source regression.",
+    "Native Rust projectile or borrow architecture is still unimplemented. Both source and target original branches remain read-only."
+  ],
+  "core_fidelity_rules": [
+    "Sylas R hijacks original champion ultimate executor, does not transfer donor passive, preserves actual Sylas actor ID, team and attack credit, and never charges second cast cost.",
+    "Sylas steals the unpossessed identity of Viego even if visible donor has borrowed Hwei appearance; stolen R is original Viego R.",
+    "Viego earns corpse/soul on actual kill; soul bounds/expiry/ownership/fog checked before possession; forged or stale souls denied.",
+    "During possession, Viego retains immutable team/owner and actor ID, changes displayed champion and borrows donor passive plus Q/W/E, while R stays native Viego.",
+    "Borrowed abilities such as Azir W spawn owner-bound soldier, Bard W creates authored shrine, Hwei QQ uses authored receipt, Teemo and Twitch apply correct passive on-hit.",
+    "Viego native R and death or expiry clear possession, restore original form and preserved cooldown; no generic unsupported fallback.",
+    "Snapshots round-trip at each source scenario endpoint; source tests do not demonstrate authoritative server private ACL or rust replay."
+  ]
+}
