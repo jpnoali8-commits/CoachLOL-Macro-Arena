@@ -1,0 +1,291 @@
+{
+  "schema": "coachlol.m45.platform.a12.atomic-batch-gate.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-platform",
+  "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+  "rust_head_consulted": "73cade4632598fbe62bb3cf5034f61cf91dd403a",
+  "sha": {
+    "engine": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "compiler": "671df897b0b9b18b75b3a996fb2b2294edc63c39",
+    "room": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "gateway_dev44": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "gateway_dev47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "tests/m45_platform_a12_legacy_rollback_golden.test.mjs": "0f6d9c48806279e1c8229633151299f68572c0b2",
+    "tests/m45_platform_a12_atomic_text_batch_reference.mjs": "2eecfd9c6b241b2ed24bdcb9aed6f94dfb66ffc3",
+    "tests/m45_platform_a12_atomic_batch.test.mjs": "882da17e53d6e92ec99158936fc1c31b7d2f39c3"
+  },
+  "qa": {
+    "legacy_diagnostic": "3/3_PASS_V8_LEGACY_DEFECTS_REPRODUCED",
+    "staged_reference": "20/20_PASS_V8_TEST_ONLY",
+    "node_full_checkout": "NOT_RUN",
+    "rust_core_protocol": "NOT_IMPLEMENTED",
+    "rust_game_server": "NOT_IMPLEMENTED",
+    "rust_native": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "live_http_sse": "NOT_RUN",
+    "disk_fault_injection": "NOT_RUN",
+    "two_browsers": "NOT_RUN",
+    "github_actions": "NOT_USED_BY_THIS_AUDIT"
+  },
+  "rollback_scope": {
+    "must_commit_or_restore": [
+      "all champion states own and enemy",
+      "inventory and gold/economy ledger",
+      "orderHistory and nextId",
+      "events and eventCounter",
+      "shop purchase and undo history",
+      "teams, fog knowledge, map object state",
+      "phase, round, ready seats",
+      "revision, command receipts, pending decisions",
+      "RNG/checkpoint and event journal cursor"
+    ],
+    "commit_rule": "validate all commands and apply on staging snapshot; persist state + receipt + revision atomically, then emit filtered SSE; no mid-commit partial broadcast",
+    "no_legacy_clone": "Legacy applyCommands snapshots only team units; residual global history/events/IDs remain after rejected batch. Rust must NOT copy this behavior.",
+    "reference_limits": [
+      "in-memory shadow Arena and swap only",
+      "no durable transaction/rollback on persistence error",
+      "no actual authenticated HTTP cookies or cryptographic draft tokens",
+      "parser and full game engine remain legacy JS",
+      "pre-existing anonymous event privacy gap not repaired",
+      "draft IDs and receipt persistence not production-safe"
+    ]
+  },
+  "vectors": [
+    {
+      "id": "A12-LEGACY-01",
+      "name": "rollback retains ghost history and nextId after ADC recall",
+      "class": "KNOWN_LEGACY_ROLLBACK_DEFECT",
+      "expected_reference": "no global ghost state",
+      "status": "REPRODUCED_V8_SOURCE",
+      "test": "tests/m45_platform_a12_legacy_rollback_golden.test.mjs"
+    },
+    {
+      "id": "A12-LEGACY-02",
+      "name": "rollback retains smite announcement after JG policy",
+      "class": "KNOWN_LEGACY_ROLLBACK_DEFECT",
+      "expected_reference": "no global ghost state",
+      "status": "REPRODUCED_V8_SOURCE",
+      "test": "tests/m45_platform_a12_legacy_rollback_golden.test.mjs"
+    },
+    {
+      "id": "A12-LEGACY-03",
+      "name": "rollback retains purchase announcement after ADC buy",
+      "class": "KNOWN_LEGACY_ROLLBACK_DEFECT",
+      "expected_reference": "no global ghost state",
+      "status": "REPRODUCED_V8_SOURCE",
+      "test": "tests/m45_platform_a12_legacy_rollback_golden.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-01",
+      "name": "01 preview two champions is pure and reports four or more actions",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-02",
+      "name": "02 successful blue batch commits both champions in one revision",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-03",
+      "name": "03 red can atomically commit own freeze/kite distinct from blue",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-04",
+      "name": "04 exactly one network broadcast per multi-action batch",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-05",
+      "name": "05 no blue text plan event exposed to red after successful batch",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-06",
+      "name": "06 failed second MID policy leaves complete world byte-identical",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-07",
+      "name": "07 failed Smite then MID policy has zero ghost event",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-08",
+      "name": "08 failed shop purchase then MID policy has zero ghost purchase",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-09",
+      "name": "09 failed batch cannot broadcast speculative event or mutate either team",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-10",
+      "name": "10 after own ready preview is rejected",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-11",
+      "name": "11 ready after preview prevents commit",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-12",
+      "name": "12 a foreign seat cannot use the other player draft",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-13",
+      "name": "13 forged seat/team context rejected",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-14",
+      "name": "14 stale revision from other seat command cancels batch",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-15",
+      "name": "15 successful duplicate commit replays stored in-memory receipt only",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-16",
+      "name": "16 pending second draft from same original revision cannot overwrite first",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-17",
+      "name": "17 authenticated action receipts remain valid after staged swap",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-18",
+      "name": "18 after successful batch server checkpoint can restore typed intent state",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-19",
+      "name": "19 no silently accepted unknown text command",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    },
+    {
+      "id": "A12-ATOMIC-20",
+      "name": "20 untrusted client never directly selects opponent team",
+      "class": "TARGET_TRANSACTIONAL_REFERENCE",
+      "expected_reference": "as asserted by source-pinned V8 test",
+      "status": "PASS_V8_REFERENCE_ONLY",
+      "test": "tests/m45_platform_a12_atomic_batch.test.mjs"
+    }
+  ],
+  "rust_requirements": [
+    {
+      "id": "A12-R01",
+      "title": "authenticated batch begin",
+      "rule": "server seat/team from auth; each seat owns exactly 5 units; expected match epoch, round and revision"
+    },
+    {
+      "id": "A12-R02",
+      "title": "full plan preflight",
+      "rule": "validate every policy, tactics, automation, plan, skill, item, Smite, ward, reaction; no silently ignored actions"
+    },
+    {
+      "id": "A12-R03",
+      "title": "full state rollback",
+      "rule": "rejected batch must leave canonical state hash, event log, order history, RNG and revision exactly unchanged"
+    },
+    {
+      "id": "A12-R04",
+      "title": "persist before publish",
+      "rule": "atomic persisted checkpoint + receipt + revision before HTTP ack/SSE; storage fault must not release speculative state"
+    },
+    {
+      "id": "A12-R05",
+      "title": "dual ready fence",
+      "rule": "once one seat is ready, its plans are locked; other seat may plan; second ready executes turn exactly once"
+    },
+    {
+      "id": "A12-R06",
+      "title": "owner-only projection",
+      "rule": "SSE snapshots, replay, resync, events and receipts are per authenticated seat with default-deny event DTO"
+    },
+    {
+      "id": "A12-R07",
+      "title": "request idempotence",
+      "rule": "retry identical requestId+canonical payload returns previous ACK even after ready, restore; changed payload is rejected"
+    },
+    {
+      "id": "A12-R08",
+      "title": "versioned intent protocol",
+      "rule": "typed server-side ParsedIntent schema; client sends only untrusted text/voice and opaque draftId; durable user command receipt"
+    },
+    {
+      "id": "A12-R09",
+      "title": "speculative side effects",
+      "rule": "no preliminary event, purchase or ID allocation may reach global log during a failed batch"
+    },
+    {
+      "id": "A12-R10",
+      "title": "QA parity",
+      "rule": "Rust native/WASM with two sessions must execute A12 vectors; keep intentional privacy/atomicity fixes as deliberate divergences"
+    }
+  ]
+}
