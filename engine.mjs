@@ -3980,14 +3980,16 @@ export class Arena {
    !(v.m44XayahUntargetableUntil>this.gameTime))||
    this.boardSummonsV453Dev69.find(v=>v.id===id&&this.boardCloneDamageableV453Dev69(v))||null;
  }
- boardCombatEnemyPoolV453Dev69(u){
+ boardCombatEnemyPoolV453Dev69(u,projectile=null){
   return [...this.units,...this.minions,...this.boardSummonsV453Dev69.filter(v=>
    this.boardCloneDamageableV453Dev69(v)&&v.team!==u.team&&
    (v.stealthUntil||0)<=this.gameTime&&this.canSeePoint(u.team,v))]
    .filter(v=>v.team!==u.team&&v.hp>0&&!(v.m24FizzLeapV453?.until>this.gameTime)&&
     !(v.m24DevouredByV453?.until>this.gameTime)&&
     !(v.m44XayahUntargetableUntil>this.gameTime)&&
-    this.sameCombatRealmV453Dev69(u,v)&&
+    (projectile?.kind==='m44_authored_projectile'?
+     this.m44B23ProjectileRealmMatchV453(projectile,u,v):
+     this.sameCombatRealmV453Dev69(u,v))&&
     (v.spawnAt===undefined||v.spawnAt<=this.gameTime));
  }
  // Authoritative, reusable board-effect runtime. Queueing records intent;
@@ -4099,21 +4101,43 @@ export class Arena {
   }
   return {...queued,...(queued.ok?{trustedChargeSeconds:chargeSeconds}:{})};
  }
- m40InterruptChannelV453Dev69(u){
+ // B23: authored interruption policies, shared bookkeeping and realm checks.
+ m44B23HoldInterruptReasonV453(u,state,{ignoreCC=false,ignoreMovement=false}={}){
+  if(!u||!state)return null;
+  if(u.hp<=0)return 'death';
+  if(Object.hasOwn(state,'m44B23CastRealmId')&&
+     state.m44B23CastRealmId!==(this.realmOfV453Dev69(u)?.id||null))
+   return 'realm_change';
+  if(!ignoreCC&&!this.effectResolverV41().canAct(u,'skill').ok)return 'cc';
+  if(!ignoreMovement&&this.mapDistance(u,state.origin||u)>60)return 'movement';
+  return null;
+ }
+ m44B23InterruptAuthoredHoldV453(u,reason,sourceId=null){
   const state=u?.m40AuthoredChannelV453;
-  if(!state)return false;
-  const blocked=u.hp<=0||!this.effectResolverV41().canAct(u,'skill').ok||
-   this.mapDistance(u,state.origin)>60;
-  if(!blocked)return false;
-  if(state.kind==='master_yi_meditate')u.m29YiMeditateUntil=0;
+  if(!state||!['sett_haymaker','galio_durand','master_yi_meditate'].includes(state.kind))
+   return false;
   if(state.kind==='sett_haymaker')
    this.boardTemporalV453Dev69=(this.boardTemporalV453Dev69||[])
     .filter(z=>!(z.kind==='m40_sett_haymaker'&&z.ownerId===u.id&&
       z.token===state.startedAt));
   if(state.kind==='galio_durand')u.m34ChargeStateV453=null;
+  if(state.kind==='master_yi_meditate')u.m29YiMeditateUntil=0;
+  this.m44B22ChannelInterruptRecordV453(u,
+   state.kind==='sett_haymaker'?'m40_sett_haymaker':state.kind,
+   reason,sourceId,state.startedAt);
   u.m40AuthoredChannelV453=null;
   u.boardChannelUntilV453Dev69=0;
   return true;
+ }
+ m40InterruptChannelV453Dev69(u){
+  const reason=this.m44B23HoldInterruptReasonV453(u,u?.m40AuthoredChannelV453);
+  return reason?this.m44B23InterruptAuthoredHoldV453(u,reason):false;
+ }
+ // Authored missiles retain their realm at release, even if owner dies or relocates.
+ m44B23ProjectileRealmMatchV453(z,u,v){
+  const launched=Object.hasOwn(z,'m44B23LaunchRealmId')?
+   z.m44B23LaunchRealmId:(this.realmOfV453Dev69(u)?.id||null);
+  return launched===(this.realmOfV453Dev69(v)?.id||null);
  }
  // M41: Karthus W is a perpendicular magic wall, never a solid collider.
  m41KarthusWallContactV453Dev69(z,v){
@@ -4142,7 +4166,9 @@ export class Arena {
   if(['cone_channel','m20_requiem_channel','m22_artillery_channel','jhin_r_channel'].includes(kind))return 'channel';
   if(['m44_authored_projectile','ahri_q_out','ahri_q_back','ahri_e','lux_q','lux_w_out','lux_w_back','jinx_w','nami_r','vex_q','vex_r','ezreal_q','ezreal_w','irelia_r'].includes(kind))return 'projectile';
   if(['lux_final_spark','lux_final_spark_pending'].includes(kind))return 'beam';
-  if(['m40_sett_haymaker','irelia_w_dance'].includes(kind))return 'windup';
+  if(kind==='m40_sett_haymaker')return 'windup';
+  if(kind==='irelia_w_dance')return 'defensive_channel';
+  if(kind==='galio_durand')return 'charge';
   if(['m44_b08_karma_burst','m44_sejuani_storm'].includes(kind))return 'delayed_impact';
   return 'unknown';
  }
@@ -4183,15 +4209,8 @@ export class Arena {
  m41ViktorStormDisruptV453Dev69(u,v){
   if(!v?.champ||v.hp<=0)return false;
   let interrupted=this.m44B22CancelChannelsV453(v,'viktor_r',u.id)>0;
-  if(v.m40AuthoredChannelV453){
-   const state=v.m40AuthoredChannelV453;
-   if(state.kind==='sett_haymaker')
-    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
-     !(z.ownerId===v.id&&z.kind==='m40_sett_haymaker'));
-   if(state.kind==='galio_durand')v.m34ChargeStateV453=null;
-   if(state.kind==='master_yi_meditate')v.m29YiMeditateUntil=0;
-   v.m40AuthoredChannelV453=null;interrupted=true;
-  }
+  if(this.m44B23InterruptAuthoredHoldV453(v,'viktor_r',u.id))
+   interrupted=true;
   if(interrupted){
    v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
    this.event('Viktor R: interrompeu canalização.',u.team,'skill_vfx',u.id);
@@ -4688,7 +4707,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
     expiresAt:this.gameTime+3,origin:{x:u.x,y:u.y}};
    if(s.m28GalioCharge&&u.champ==='Galio'){
     u.m40AuthoredChannelV453={kind:'galio_durand',slot:'W',
-     startedAt:this.gameTime,until:this.gameTime+3,origin:{x:u.x,y:u.y}};
+     startedAt:this.gameTime,until:this.gameTime+3,origin:{x:u.x,y:u.y},
+     m44B23CastRealmId:this.realmOfV453Dev69(u)?.id||null};
     u.boardChannelUntilV453Dev69=this.gameTime+2;
    }
    return {ok:true,chargeStarted:true,spentMana:0};
@@ -8075,6 +8095,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     (this.boardTemporalV453Dev69??=[]).push({
      id:++this.boardTemporalIdV453Dev69,kind:'m44_authored_projectile',
      ownerId:u.id,team:u.team,champ:u.champ,slot:q.slot,
+     m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null,
      origin:start,current:{...start},point:end,
      range:reach,width:s.width||160,
      m44B08Mantra:!!mantra,m44B09Boulder:!!s.m44B09Boulder,
@@ -8154,7 +8175,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    // The Grit shield is immediate; the actual cone lands after 0.75s.
    const until=this.gameTime+.75,token=this.gameTime;
    u.m40AuthoredChannelV453={kind:'sett_haymaker',slot:'W',
-    startedAt:token,until,origin:{x:u.x,y:u.y}};
+    startedAt:token,until,origin:{x:u.x,y:u.y},
+    m44B23CastRealmId:this.realmOfV453Dev69(u)?.id||null};
    u.boardChannelUntilV453Dev69=until;
    (this.boardTemporalV453Dev69??=[]).push({
     id:++this.boardTemporalIdV453Dev69,kind:'m40_sett_haymaker',
@@ -8265,7 +8287,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       this.damage(other,raw*.4,u,'magic','m29_corki_big_one');
     }
     if(done>0&&s.m30KassInterrupt&&v.champ){
-     if(this.m44B22CancelChannelsV453(v,'kassadin_q',u.id)>0)
+     const channels=this.m44B22CancelChannelsV453(v,'kassadin_q',u.id);
+     const hold=this.m44B23InterruptAuthoredHoldV453(v,'kassadin_q',u.id);
+     if(channels||hold)
       this.event('Kassadin Q: canalização interrompida.',u.team,'skill_vfx',u.id);
     }
     if(done>0&&s.m32MilioBounce&&v.champ&&v.hp>0){
@@ -9061,7 +9085,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      if(z.champ==='Seraphine'&&z.slot==='R'&&travel>0){
       const allies=skillshotHitsV42(from,next,this.units.filter(v=>
        v.team===u.team&&v.id!==u.id&&v.hp>0&&
-       this.sameCombatRealmV453Dev69(u,v)&&
+       this.m44B23ProjectileRealmMatchV453(z,u,v)&&
        !(z.m44EncoreAllies||[]).includes(v.id)),{
         range:travel+10,width:z.width,maxHits:Infinity,
         worldWidth:this.worldWidth,worldHeight:this.worldHeight});
@@ -9072,9 +9096,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       }
      }
      // Champion-first missiles bypass minions, without leaking hidden targets.
-     const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+     const pool=this.boardCombatEnemyPoolV453Dev69(u,z).filter(v=>
       v.hp>0&&!z.hitIds.includes(v.id)&&
-      this.sameCombatRealmV453Dev69(u,v)&&
+      this.m44B23ProjectileRealmMatchV453(z,u,v)&&
       (!((z.champ==='Varus'&&z.slot==='R')||
         z.champ==='Sejuani'||z.champ==='Ashe'||z.champ==='Warwick'||
         (z.champ==='Jhin'&&z.slot==='R'))||
@@ -9138,7 +9162,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
        }
       }
       if(z.champ==='Khazix'&&z.slot==='W'&&dealt>0){
-       for(const splash of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       for(const splash of this.boardCombatEnemyPoolV453Dev69(u,z).filter(v=>
         v.id!==victim.id&&v.hp>0&&this.mapDistance(v,victim)<=230&&
         !this.obstacleLine(victim,v))
         .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
@@ -10411,6 +10435,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     (this.boardTemporalV453Dev69??=[]).push({
      id:++this.boardTemporalIdV453Dev69,kind:'m44_authored_projectile',
      ownerId:u.id,team:u.team,champ:'Jhin',slot:'R',
+     m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null,
      origin,current:{...origin},point:{...q.point},range,width:160,
      power:64*(u.skillRanks.R||1)+this.elementalStatsV452d3(u).ad*.25,
      damageType:'physical',maxHits:1,hitIds:[],distanceDone:0,hitCount:0,
@@ -11618,6 +11643,15 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,len=Math.hypot(dx,dy);
   if(len<1)return {ok:false,reason:'direção_zero'};
   const prior=u.ireliaDanceV453Dev69M7;
+  if(prior&&!prior.released){
+   const reason=this.m44B23HoldInterruptReasonV453(u,prior,{ignoreCC:true});
+   if(reason){
+    this.m44B22ChannelInterruptRecordV453(u,'irelia_w_dance',
+     reason,null,prior.startedAt);
+    u.ireliaDanceV453Dev69M7=null;
+    return {ok:false,reason:'irelia_w_'+reason};
+   }
+  }
   if(prior&&!prior.released&&this.gameTime<prior.releaseAt){
    prior.unit={x:dx/len,y:dy/len};
    prior.releaseAt=this.gameTime;
@@ -11631,6 +11665,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   u.ireliaDanceV453Dev69M7={
    origin:{x:u.x,y:u.y},unit:{x:dx/len,y:dy/len},rank,
    startedAt:this.gameTime,releaseAt:this.gameTime+rule.channelSeconds,
+   m44B23CastRealmId:this.realmOfV453Dev69(u)?.id||null,
    physicalReduction:.40+.30*Math.min(1,(u.level-1)/17)+.0008*Math.max(0,u.ap||0),
    magicReduction:.20+.15*Math.min(1,(u.level-1)/17)+.0004*Math.max(0,u.ap||0),
    endAt:this.gameTime+rule.channelSeconds+.5
@@ -11640,7 +11675,13 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
  advanceIreliaDanceV453Dev69M7(){
   for(const u of this.units){
    const p=u.ireliaDanceV453Dev69M7;if(!p)continue;
-   if(u.hp<=0){u.ireliaDanceV453Dev69M7=null;continue;}
+   const reason=this.m44B23HoldInterruptReasonV453(u,p,{
+    ignoreCC:true,ignoreMovement:!!p.released});
+   if(reason){
+    this.m44B22ChannelInterruptRecordV453(u,'irelia_w_dance',
+     reason,null,p.startedAt);
+    u.ireliaDanceV453Dev69M7=null;continue;
+   }
    if(!p.released&&this.gameTime>=p.releaseAt){
     const rule=kitSpellV42('Irelia','W'),rank=p.rank,stats=this.elementalStatsV452d3(u);
     const charge=Math.max(0,Math.min(1,(this.gameTime-p.startedAt)/.75));
@@ -14882,7 +14923,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     }
    }
    if(target?.champ==='Irelia'&&damageType!=='true'&&
-    target.ireliaDanceV453Dev69M7?.endAt>this.gameTime){
+    target.ireliaDanceV453Dev69M7?.endAt>this.gameTime&&
+    !this.m44B23HoldInterruptReasonV453(target,target.ireliaDanceV453Dev69M7,{
+     ignoreCC:true,ignoreMovement:!!target.ireliaDanceV453Dev69M7.released})){
    const stance=target.ireliaDanceV453Dev69M7;
    amount*=1-Math.min(.85,Math.max(0,damageType==='magic'?stance.magicReduction:stance.physicalReduction));
   }
