@@ -1,6 +1,6 @@
 {
   "meta": {
-    "schema": "coachlol.m45.skills.static-audit.v6",
+    "schema": "coachlol.m45.skills.static-audit.v7",
     "branch": "dev69/skills-batch2",
     "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
     "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
@@ -15,7 +15,9 @@
     "handler_audit_receipt": "S05_V42_HANDLER_RECONCILIATION.json",
     "s06_receipt": "S06_STATIC_QA_RECEIPT.json",
     "s07_receipt": "S07_STATIC_QA_RECEIPT.json",
-    "s07_route_reconciliation": "S07_NAMI_ROUTE_DIFF.json"
+    "s07_route_reconciliation": "S07_NAMI_ROUTE_DIFF.json",
+    "s08_receipt": "S08_STATIC_QA_RECEIPT.json",
+    "s08_contract": "S08_NAMI_W_RUST_CONTRACT.json"
   },
   "stats": {
     "slots": 865,
@@ -72,7 +74,8 @@
     "s05_promoted_from_reference_or_absent": 22,
     "registry_duplicate_slots_s04": 27,
     "s06_nami_q_promoted_static": 1,
-    "s07_nami_routes_explicit": 3
+    "s07_nami_routes_explicit": 3,
+    "s08_nami_w_critical_route_risks": 2
   },
   "unmapped": [],
   "rows": [
@@ -22158,6 +22161,12 @@
           "path": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
           "git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
           "origin": "audit_branch_s07"
+        },
+        {
+          "path": "docs/m45_rust_wasm/inputs/skills/s08_nami_w_routes.test.mjs",
+          "git_blob_sha": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+          "origin": "audit_branch_s08",
+          "runtime": "NOT_RUN"
         }
       ],
       "golden_fixture_ids": [],
@@ -22171,19 +22180,24 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "S07: multiple reachable JS W routes + missing bounceRange on M44-precedence targeted path. Source static only; Node/PvP/Rust NOT_RUN.",
+      "blocker": "S08 P0 fidelity: multi-path W; targeted bounceRange undefined; potential co-queued W stale pending; chosen Rust policy & actual source oracle incomplete. Source-only; Node gameplay and native Rust NOT_RUN.",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: W dual codepaths; targeted V42 downstream bounceRange read resolves to higher-priority M44 descriptor lacking bounceRange. Board/combos use separate M44 authored hop logic. Do not map to a single certified executor.",
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: W dual codepaths; targeted V42 downstream bounceRange read resolves to higher-priority M44 descriptor lacking bounceRange. Board/combos use separate M44 authored hop logic. Do not map to a single certified executor. S08: in targeted W after authored M44 precedence, abilityRule(u,'W').bounceRange is undefined, so next-hop comparison is false; other concurrent board queue may leave targeted pending after cooldown gate rejection. Real runtime reproducer s08_nami_w_routes.test.mjs NOT_RUN.",
       "dependencies": [
         "dispatch_precedence",
         "bounce_range",
         "owner_context",
-        "snapshot"
+        "snapshot",
+        "one_cast_per_actor_slot",
+        "intent_idempotence",
+        "legacy_m44_vs_v42_dispatch",
+        "stale_pending_cancellation"
       ],
       "expected_legacy_behavior": "Source-specific executor/marker found; preserve its actual cast/event/state changes; exact before/after/events NOT_CAPTURED.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
       "golden_spec_ids": [
-        "s07_nami_routes"
+        "s07_nami_routes",
+        "s08_nami_w_coqueued"
       ],
       "precedence_audit_category": "V42_OVERLAP",
       "precedence_conditional_routes": {

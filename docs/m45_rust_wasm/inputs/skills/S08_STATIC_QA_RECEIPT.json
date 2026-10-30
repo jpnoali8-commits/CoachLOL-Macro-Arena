@@ -1,0 +1,106 @@
+{
+  "schema": "coachlol.m45.skills.s08.static-qa.v1",
+  "date": "2026-10-30",
+  "audited_branch_head": "b3945d015617b5548348879ef04d67192dfacb45",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "static_checks": [
+    {
+      "id": "m44_W_descriptor",
+      "status": "PASS"
+    },
+    {
+      "id": "v42_W_descriptor",
+      "status": "PASS"
+    },
+    {
+      "id": "board_first",
+      "status": "PASS"
+    },
+    {
+      "id": "targeted_no_m44_adapter",
+      "status": "PASS"
+    },
+    {
+      "id": "bug_undefined_property",
+      "status": "PASS"
+    },
+    {
+      "id": "targeted_failed_gate_retains_pending",
+      "status": "PASS"
+    },
+    {
+      "id": "board_vs_targeted_bounce",
+      "status": "PASS"
+    },
+    {
+      "id": "board_heal",
+      "status": "PASS"
+    },
+    {
+      "id": "targeted_heal",
+      "status": "PASS"
+    },
+    {
+      "id": "targeted_heal_passive",
+      "status": "PASS"
+    },
+    {
+      "id": "board_one_commit",
+      "status": "PASS"
+    },
+    {
+      "id": "board_exec_before_targeted",
+      "status": "PASS"
+    },
+    {
+      "id": "inventory_size",
+      "status": "PASS"
+    },
+    {
+      "id": "plan_size",
+      "status": "PASS"
+    },
+    {
+      "id": "new_test_script_sha_pinned",
+      "status": "PASS"
+    }
+  ],
+  "static_checks_passed": 15,
+  "static_checks_total": 15,
+  "node_syntax": {
+    "status": "PASS",
+    "command": "node --check /mnt/data/s08_nami_w_routes.test.mjs",
+    "node_version": "v22.16.0",
+    "source_exact_git_blob_sha": "3f6e443c13d2ef710c44ef9fecce126a1688d190"
+  },
+  "isolated_js_semantics": {
+    "status": "PASS",
+    "experiment": "725<=undefined and 0<=undefined are both false in Node v22.16.0; NOT an engine execution"
+  },
+  "node_checkout": {
+    "result": "BLOCKED_DNS",
+    "command": "curl -I https://github.com",
+    "error": "Could not resolve host: github.com"
+  },
+  "golden": {
+    "planned": 25,
+    "actually_executed": 0,
+    "result": "NOT_RUN"
+  },
+  "rust_native": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "browser_2_seats": "NOT_RUN",
+  "matrix_counts": {
+    "absent": 265,
+    "partial": 366,
+    "implemented": 234,
+    "reference-only": 0
+  },
+  "flags": [
+    "Undefined bounceRange in targeted W",
+    "Possible same-slot co-queue leaves stale pending after cooldown failure",
+    "Authored M44 W heal does not call Nami passive while V42 targeted heal does"
+  ],
+  "no_code_or_rust_promotion": true
+}

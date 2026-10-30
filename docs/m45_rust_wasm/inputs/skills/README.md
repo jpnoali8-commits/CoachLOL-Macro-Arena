@@ -80,3 +80,10 @@ node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
 ~~~
 
 **Verificador S05 corrigido:** `verify_precedence_source.mjs` agora espera 27 entradas multivariantes de registro do S04, 50 linhas multi-evidência atuais, 35 descritores V42, 25 handlers e 19 fontes golden. O arquivo foi atualizado na branch; sua execução Node completa ainda está `NOT_RUN` neste ambiente sem checkout local.
+
+## M45 S08 — conflito Nami W e especificação Rust
+
+- Duas rotas legadas para Nami W: `M44_B13A` tabuleiro (bounces 725) e V42 targeted (depende de `abilityRule(u,'W').bounceRange` indefinido na regra M44). Há também risco de duas intenções simultâneas no mesmo slot e de pending stale após gate de cooldown: hipótese estática aguardando Node real.
+- Teste bilateral novo `s08_nami_w_routes.test.mjs` (6 casos, histórico de mana/HP, hashes/eventos e ownership); sintaxe Node 22 PASS e blob exato conferido; **gameplay NOT_RUN**.
+- `S08_NAMI_W_RUST_CONTRACT.json` descreve a reconciliação e política intencional Rust, não implementação. `golden_plan.json` agora tem **25 suítes NOT_RUN**. Nenhuma skill Rust portada/certificada.
+- Consulte `M45_B02_S08_HANDOFF.md` antes de migrar o slot W. O script real exige checkout fixado; o ambiente atual segue sem resolver DNS do GitHub.

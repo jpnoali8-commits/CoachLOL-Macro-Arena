@@ -5,7 +5,7 @@
   "engine_path": "engine.mjs",
   "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
   "result_status": "NOT_RUN",
-  "note": "S07 added pinned audit-branch route capture test, 24 planned total. Node only syntax-checked for new capture in separate local tool, gameplay zero. Route fidelity is source-only and must be proven dynamically.",
+  "note": "S08: 25 pinned test source candidates (including Nami W competing queues); all Node gameplay NOT_RUN, only local script syntax + isolated JS <=undefined demonstration executed. No Rust native or WASM parity.",
   "suites": [
     {
       "id": "realm_mordekaiser",
@@ -492,6 +492,27 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "actual Node execution and captured receipts; Nami W bounce bug and Rust native/WASM parity"
+    },
+    {
+      "id": "s08_nami_w_coqueued",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s08_nami_w_routes.test.mjs",
+      "test_git_blob_sha": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450208
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami W V42 targeted vs M44 board + two concurrent queue channels; prove one debit and record stale pending/ricochet differences in original JS; both seats.",
+      "expected_output_marker": "M45_S08_NAMI_W",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Node full engine execution, captured W six-case receipt, true fog and network, Rust native/WASM comparator"
     }
   ]
 }
