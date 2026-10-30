@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, registro inicial do plano de migração completa.
+**Atualizado:** 2026-10-30, M45 B02A/B02B inventário de árvores e probe de toolchain; PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02.
+**Próxima prioridade:** M45 B02A (desbloquear compilação Rust/WASM); B02B símbolos/goldens pendentes.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,9 +23,9 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | READY | nenhum commit de execução B02 |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | árvores Git auditadas por SHA; scripts QA adicionados, native/WASM NOT_RUN e símbolos/goldens pendentes |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
-| G0 inventário fontes | PARTIAL | caminho/branch/arquivos conhecidos; símbolos não inventariados |
+| G0 inventário fontes | PARTIAL | três Git trees pinadas/diff completo em inputs/core/B02_GIT_TREE_INDEX.json; símbolos e semântica NOT_RUN |
 | G1 native WASM | NOT_RUN | toolchain cargo/rustc não encontrado neste ambiente |
 | G2 replay/estado | NOT_RUN | nenhuma equivalência match Rust completa |
 | G3 ACL/server | NOT_RUN | Rust server ainda não implementado |
@@ -37,7 +37,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 
 ## Bloqueadores e riscos registrados
 
-- BLOCK-001: Rust native/cargo/wasm32 toolchain não encontrado neste ambiente de execução. Não usar Actions ou Codespaces salvo necessário e registrado.
+- BLOCK-001: rustc/cargo/rustup não instalados no executor; npm/node disponíveis. DNS externo indisponível para baixar toolchain; probe local executado com EXIT 42. Rust native, clippy, rustfmt, WASM build e WASM runtime NOT_RUN. Script tools/m45_qa_native_wasm.sh e rust-toolchain.toml preparados. Sem Actions/Codespaces.
 - BLOCK-002: 78 assets runtime binários faltando no GitHub remoto (Issue #1). É bloqueio de release/browser completo, não de core Rust.
 - BLOCK-003: legado de skills e itens divergiu da integração; auditoria de union baseline ainda NÃO realizada (B02).
 - BLOCK-004: B33B era candidato não commitado; não afirmar que está no git.
@@ -59,3 +59,15 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 **M45 B02C:** reconciliar diffs, reunir proveniência e checar rollback; fechar G0 e G1 conforme evidências, então liberar B03.
 
 Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, mas não altera regras de produto nem ADRs existentes.
+
+## M45 B02A/B02B — execução parcial rastreada (2026-10-30)
+
+- SHA da branch Rust antes da edição: `40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf`. Git tree das três fontes lida com `recursive=1`, `truncated=false` em todos os casos.
+- **integration**: 1653 blobs, 165 arquivos de teste (121 JS/TS); engine.mjs 459085 bytes.
+- **skills**: 1858 blobs, 290 testes (246 JS/TS); engine.mjs 1117512 bytes. Em relação à integration: +205, ~8, -0 arquivos.
+- **items**: 1657 blobs, 167 testes (123 JS/TS); engine.mjs 477933 bytes. Em relação à integration: +4, ~7, -0 arquivos.
+- Índice machine-readable das diferenças, blobs e fontes: `docs/m45_rust_wasm/inputs/core/B02_GIT_TREE_INDEX.json`. Este é inventário **de árvores e arquivos**, NÃO prova que AST, skills/itens, efeitos, testes golden por branch ou cobertura funcional já tenham sido inventariados.
+- Handoffs Chat 2/3/4: branches `dev69/m45-audit-skills`, `dev69/m45-audit-items`, `dev69/m45-audit-platform` não localizadas nesta verificação: **PENDING**, não bloquear o levantamento central.
+- Ferramentas: `rustc`, `cargo`, `rustup` ausentes; tentativa de DNS para static.rust-lang.org e github.com falhou. `node --check` do teste WASM e `bash -n` do QA script: **PASS sintático**, NÃO compilação. `bash tools/m45_qa_native_wasm.sh`: **EXIT 42, BLOCKED_TOOLCHAIN**, build/test native e WASM **NOT_RUN**.
+- O novo teste de WASM exige binário Rust de verdade e confere ABI pública, 18 vetores TSV e UTF-16; até executado, registrar NOT_RUN.
+- **Status:** B02 IN_PROGRESS_BLOCKED, G0 PARTIAL, G1 NOT_RUN, G8 NOT_RUN. Próxima execução: resolver toolchain e rodar testes de verdade; continuar inventário de símbolos e golden por SHA, sem promover B03.

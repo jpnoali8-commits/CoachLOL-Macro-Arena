@@ -3,7 +3,7 @@
   "updated_at": "2026-10-30",
   "migration_mode": "MIGRATION_ONLY",
   "certification": "NOT_CERTIFIED",
-  "next_priority": "B02",
+  "next_priority": "B02A",
   "ledger": "docs/m45_rust_wasm/STATUS_LEDGER.md",
   "base_refs": {
     "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -38,7 +38,7 @@
     },
     {
       "id": "B02",
-      "status": "READY",
+      "status": "IN_PROGRESS_BLOCKED",
       "requires": [
         "B01"
       ],
@@ -310,5 +310,52 @@
       ],
       "scope": "G0-G8 migration certification"
     }
-  ]
+  ],
+  "b02": {
+    "phase": "B02A_BLOCKED_B02B_TREE_INDEXED",
+    "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
+    "source_refs": {
+      "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "skills": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "items": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d"
+    },
+    "inventory_path": "docs/m45_rust_wasm/inputs/core/B02_GIT_TREE_INDEX.json",
+    "tree_stats": {
+      "integration": {
+        "files": 1653,
+        "tests": 165
+      },
+      "skills": {
+        "files": 1858,
+        "tests": 290
+      },
+      "items": {
+        "files": 1657,
+        "tests": 167
+      }
+    },
+    "diff_vs_integration": {
+      "skills": {
+        "added": 205,
+        "modified": 8,
+        "deleted": 0
+      },
+      "items": {
+        "added": 4,
+        "modified": 7,
+        "deleted": 0
+      }
+    },
+    "native_test": "NOT_RUN",
+    "wasm_build": "NOT_RUN",
+    "wasm_binary_test": "NOT_RUN",
+    "wasm_target": "NOT_VERIFIED",
+    "toolchain_probe": "EXIT_42_MISSING_RUSTC",
+    "syntax_bash": "PASS",
+    "syntax_node": "PASS",
+    "symbol_inventory": "PENDING",
+    "golden_per_source": "PENDING",
+    "handoffs": "NOT_PUBLISHED_AT_INSPECTION",
+    "next": "B02A"
+  }
 }

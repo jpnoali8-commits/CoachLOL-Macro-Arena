@@ -5,7 +5,7 @@
 | ID | Status inicial | Pré-requisito | Ação concreta e critério de conclusão |
 |---|---|---|---|
 | B01 | IMPLEMENTED_UNVERIFIED | integration | Criar Rust core-state + WASM interface pública + fixtures JS. 21/21 JS; falta G1 |
-| **B02** | **READY** | B01 | Verificar cargo/rustc/wasm target; compilar/testar B01 nativo/WASM; inventariar três árvores/AST, exports, efeitos, comandos, testes; congelar goldens por SHA sem perder conteúdo |
+| **B02** | **IN_PROGRESS_BLOCKED** | B01 | Verificar cargo/rustc/wasm target; compilar/testar B01 nativo/WASM; inventariar três árvores/AST, exports, efeitos, comandos, testes; congelar goldens por SHA sem perder conteúdo |
 | B03 | QUEUED | B02 G0 parcial, G1 base | Formalizar schema JSON/serde/version, numeric/time/rng policy; gerar golden test harness de replay e matriz máquina legível |
 | B04 | QUEUED | B03 | Implementar core-protocol + core-clock: canonical action, team seat, simultaneous seal, tick, ACK e recibo Rust |
 | B05 | QUEUED | B04 | core-replay: replay hashes, restore/migrations, event log, seeded deterministic streams, golden multi-turn |
@@ -46,3 +46,10 @@
 - Testes que exigem renderer, Chromium, rede ou assets binários são NOT_RUN se não executados, ainda que Node tenha passado.
 - Para transição parcial, servidor JS permanece autoridade; novo server Rust só é promovido quando cobertura do match completo for certificada.
 - A expansão de novas skills/itens Rust é **M46+**, somente após B33 G8.
+
+### B02 — registro de sublotes (2026-10-30)
+
+- **B02A — BLOCKED_TOOLCHAIN:** Rust/Cargo/rustup ausentes; faltou DNS externo. `rust-toolchain.toml` (1.85.1, wasm32 target), `tools/m45_qa_native_wasm.sh` e `tests/audit/m45_wasm_binary_smoke.test.mjs` publicados. Compilação nativa/WASM continua NOT_RUN; retomar esta etapa antes de G1.
+- **B02B — TREE_INDEXED_ONLY:** comparação exata de três Git trees por SHA concluída e publicada em `inputs/core/B02_GIT_TREE_INDEX.json`. Símbolos/AST, efeitos, testes por comportamento e golden das branches ainda PENDING.
+- **B02C — QUEUED:** reconciliar identidade de cada executor/efeito, golden com source SHA, resultados de Chat 2/3/4 e rollback; não fechar G0 ou G1 sem isso.
+- **PR #19** permanece Draft, sem merge. **B03 NÃO elegível** enquanto B02 estiver incompleto.
