@@ -1016,6 +1016,22 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B24: six formerly unregistered Q/W/E/R identities. Partial kits only.
+export const M44_B24_KITS_V453=Object.freeze({
+ Jhin:{Q:BS('target_enemy',550,40,[7,6.5,6,5.5,5],[45,70,95,120,145],
+  {type:'physical',adRatio:.45,m44B24Id:'Jhin.Q'})},
+ Nautilus:{
+  W:BS('self',0,60,[12,11,10,9,8],[],{m44B24Id:'Nautilus.W'}),
+  E:BS('self',0,50,[7,6.5,6,5.5,5],[45,70,95,120,145],
+   {apRatio:.5,m44B24Id:'Nautilus.E'})},
+ Thresh:{E:BS('cone_enemy',500,60,[13,12.25,11.5,10.75,10],[65,85,105,125,145],
+  {apRatio:.4,arc:100,m44B24Id:'Thresh.E'})},
+ Senna:{R:BS('line_enemy',25000,100,[140,120,100],[250,375,500],
+  {type:'physical',adRatio:.9,apRatio:.5,width:180,m44B24Id:'Senna.R'})},
+ Caitlyn:{R:BS('target_enemy',3500,100,[90,80,70],[300,525,750],
+  {type:'physical',adRatio:1.8,m44B24Id:'Caitlyn.R'})}
+});
+
 // M44 B17B: original tactical identities, including Kindred sanctuary and Poppy anti-dash.
 export const M44_B17B_KITS_V453=Object.freeze({
  Volibear:{E:BS('circle_enemy',1200,60,[15,14,13,12,11],[80,120,160,200,240],{apRatio:.8,radius:380,m44B17BId:'Volibear.E'})},
@@ -1635,7 +1651,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4163,7 +4179,7 @@ export class Arena {
  }
  // B22: explicit delivery taxonomy, no generic skill fallback.
  m44B22DeliveryKindV453(kind){
-  if(['cone_channel','m20_requiem_channel','m22_artillery_channel','jhin_r_channel'].includes(kind))return 'channel';
+  if(['cone_channel','m20_requiem_channel','m22_artillery_channel','jhin_r_channel','m44_b24_caitlyn_ace'].includes(kind))return 'channel';
   if(['m44_authored_projectile','ahri_q_out','ahri_q_back','ahri_e','lux_q','lux_w_out','lux_w_back','jinx_w','nami_r','vex_q','vex_r','ezreal_q','ezreal_w','irelia_r'].includes(kind))return 'projectile';
   if(['lux_final_spark','lux_final_spark_pending'].includes(kind))return 'beam';
   if(kind==='m40_sett_haymaker')return 'windup';
@@ -4179,7 +4195,7 @@ export class Arena {
  // Only cancel channels; missiles already in flight and fixed effects survive.
  m44B22CancelChannelsV453(v,reason,sourceId=null){
   if(!v)return 0;
-  const channelKinds=['cone_channel','m20_requiem_channel','m22_artillery_channel'];
+  const channelKinds=['cone_channel','m20_requiem_channel','m22_artillery_channel','m44_b24_caitlyn_ace'];
   const stopped=(this.boardTemporalV453Dev69||[]).filter(z=>z.ownerId===v.id&&channelKinds.includes(z.kind));
   if(stopped.length){
    this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>!stopped.includes(z));
@@ -5120,6 +5136,17 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    const gun=u.m44B14Aphelios?.primary||'calibrum';
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
    if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
+  }
+  // B24 reject malformed authored intent BEFORE paying any skill cost.
+  if(s.m44B24Id){
+   if(!['Jhin.Q','Nautilus.W','Nautilus.E','Thresh.E','Senna.R','Caitlyn.R']
+       .includes(s.m44B24Id))
+    return {ok:false,reason:'m44_b24_unknown_identity'};
+   if(s.m44B24Id==='Caitlyn.R'&&!target?.champ)
+    return {ok:false,reason:'m44_b24_caitlyn_requires_champion'};
+   if(['Thresh.E','Senna.R'].includes(s.m44B24Id)&&
+      (!q.point||this.mapDistance(u,q.point)<30))
+    return {ok:false,reason:'m44_b24_direction_required'};
   }
 const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m23KarthusCanActV453(u,q.slot)?this.m23KarthusCommitV453(u,q.slot):
@@ -6071,6 +6098,111 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
     
+  // B24: source-authored paths are executed only after the authoritative
+  // one-time mana/CD receipt. No generic geometry or second damage pass.
+  if(s.m44B24Id){
+   const now=this.gameTime,id=s.m44B24Id,origin={x:u.x,y:u.y};
+   const foePool=()=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v));
+   const damage=(v,m=1)=>this.damage(v,power(s.damage)*m,u,s.type||'magic','spell');
+   if(id==='Jhin.Q'){
+    if(!target)return {...committed,dancingGrenade:false};
+    let current=target,previous=origin,bonus=1;
+    const hitIds=[],damages=[];
+    for(let bounce=0;bounce<4&&current?.hp>0;bounce++){
+     if(hitIds.includes(current.id)||!this.sameCombatRealmV453Dev69(u,current))break;
+     if(bounce&&this.obstacleLine(previous,current))break;
+     const hp=current.hp,dealt=damage(current,bonus);
+     hitIds.push(current.id);damages.push(dealt);
+     if(current.hp<=0&&hp>0)bonus=Math.min(2.5,bonus+.35);
+     previous={x:current.x,y:current.y};
+     current=foePool().filter(v=>!hitIds.includes(v.id)&&
+       this.mapDistance(previous,v)<=400&&!this.obstacleLine(previous,v))
+      .sort((a,b)=>this.mapDistance(previous,a)-this.mapDistance(previous,b)||
+       String(a.id).localeCompare(String(b.id)))[0];
+    }
+    return {...committed,dancingGrenade:true,hitIds,damages};
+   }
+   if(id==='Nautilus.W'){
+    const shield=55+35*rank+Math.max(0,u.maxHp)*.09;
+    this.applyEffectV41(u,'shield',{source:u,duration:6,power:shield,
+     key:'m44_b24_nautilus_titans_wrath_'+u.id});
+    u.m44B24TitansWrath={until:now+6,shield,origin};
+    return {...committed,titansWrath:true,shield};
+   }
+   if(id==='Nautilus.E'){
+    (this.boardTemporalV453Dev69??=[]).push({
+     id:++this.boardTemporalIdV453Dev69,kind:'m44_b24_nautilus_riptide',
+     ownerId:u.id,team:u.team,point:{...origin},origin:{...origin},
+     nextAt:now,until:now+1.2,wave:0,power:power(s.damage),hitCounts:{},
+     m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null});
+    return {...committed,riptide:true,waves:3};
+   }
+   if(id==='Thresh.E'){
+    const aim=q.point||origin,dx=(aim.x-u.x)*this.worldWidth,
+     dy=(aim.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy)),
+     ux=dx/len,uy=dy/len;
+    const hitIds=[];
+    for(const v of foePool().filter(v=>v.champ&&this.mapDistance(u,v)<=500)
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+     const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+      projected=x*ux+y*uy,side=Math.abs(x*uy-y*ux);
+     if(projected<0||projected>500||side>185||this.obstacleLine(u,v))continue;
+     const blocked=!!this.effectResolverV41().has(v,'spell_shield');
+     damage(v);hitIds.push(v.id);
+     if(v.hp>0&&!blocked){
+      this.applyEffectV41(v,'slow',{source:u,duration:1.5,power:.4,
+       key:'m44_b24_thresh_flay_'+instance+'_'+v.id});
+      const dest={x:v.x+ux*130/this.worldWidth,y:v.y+uy*130/this.worldHeight};
+      if(dest.x>=0&&dest.x<=1&&dest.y>=0&&dest.y<=1&&
+        this.walkable(dest.x,dest.y,v)&&!this.obstacleLine(v,dest)&&
+        (!this.realmOfV453Dev69(v)||this.realmValidV453Dev69(v,dest))){
+       const from={x:v.x,y:v.y};Object.assign(v,dest);
+       v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+       this.invalidateShopUndoOnDepartureV453Dev61(v);
+       this.itemEnergizeRelocateV453Dev39(v,from,dest,{kind:'thresh_flay'});
+      }
+     }
+    }
+    return {...committed,flay:true,hitIds};
+   }
+   if(id==='Senna.R'){
+    const aim=q.point||origin,dx=(aim.x-u.x)*this.worldWidth,
+     dy=(aim.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy)),
+     ux=dx/len,uy=dy/len;
+    const inside=(v,halfWidth)=>{
+     const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+      forward=x*ux+y*uy,side=Math.abs(x*uy-y*ux);
+     return forward>=0&&forward<=s.range&&side<=halfWidth;
+    };
+    const shielded=[],struck=[];
+    for(const v of this.units.filter(v=>v.team===u.team&&v.hp>0&&
+      this.sameCombatRealmV453Dev69(u,v)&&inside(v,550))
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+     this.applyEffectV41(v,'shield',{source:u,duration:3,
+      power:110+40*rank+stats.ap*.3,key:'m44_b24_senna_dawning_'+instance+'_'+v.id});
+     shielded.push(v.id);
+    }
+    for(const v of foePool().filter(v=>v.champ&&inside(v,90))
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+     damage(v);struck.push(v.id);
+    }
+    return {...committed,dawningShadow:true,shielded,struck};
+   }
+   if(id==='Caitlyn.R'){
+    if(!target?.champ)return {...committed,aceInTheHole:false};
+    (this.boardTemporalV453Dev69??=[]).push({
+     id:++this.boardTemporalIdV453Dev69,kind:'m44_b24_caitlyn_ace',
+     ownerId:u.id,team:u.team,targetId:target.id,origin:{...origin},
+     point:{x:target.x,y:target.y},power:power(s.damage),
+     nextAt:now+.8,until:now+1.01,
+     m44B22CastRealmId:u.realmIdV453Dev69||null});
+    u.boardChannelUntilV453Dev69=now+.8;
+    return {...committed,aceInTheHole:true,lockedTarget:target.id,impactAt:now+.8};
+   }
+   throw new Error('M44 B24 missing authored executor: '+id);
+  }
+
   // M44 B17B source-authored combat, no copies/fallbacks for Sylas or Viego.
   if(s.m44B17BId){
    const id=s.m44B17BId,now=this.gameTime,aim=q.point||target||u;
@@ -8699,7 +8831,49 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-         if(z.kind==='m44_b14b_zone'){
+     if(z.kind==='m44_b24_nautilus_riptide'){
+      // No future wave may migrate into a realm entered after casting.
+      if((this.realmOfV453Dev69(u)?.id||null)!==z.m44B23LaunchRealmId)
+       ended=true;
+      else if(z.wave>=3){ended=true;}else{
+       const radius=[260,440,620][z.wave];
+       for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+        v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+        this.mapDistance(z.origin,v)<=radius&&!this.obstacleLine(z.origin,v))
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+        const prior=z.hitCounts[v.id]||0;
+        if(prior>=3)continue;
+        this.damage(v,z.power*Math.pow(.65,prior),u,'magic','spell');
+        z.hitCounts[v.id]=prior+1;
+        if(v.champ&&v.hp>0&&!this.effectResolverV41().has(v,'spell_shield'))
+         this.applyEffectV41(v,'slow',{source:u,duration:1.3,power:.3,
+          key:'m44_b24_nautilus_e_'+z.id+'_'+v.id});
+       }
+       z.wave++;z.nextAt=now+.35;
+       if(z.wave>=3)ended=true;
+      }
+     }else if(z.kind==='m44_b24_caitlyn_ace'){
+      const target=this.boardCombatEntityByIdV453Dev69(z.targetId);
+      if(target?.champ&&target.hp>0&&target.team!==u.team&&
+        this.sameCombatRealmV453Dev69(u,target)){
+       const dx=(target.x-z.origin.x)*this.worldWidth,
+        dy=(target.y-z.origin.y)*this.worldHeight,segment=dx*dx+dy*dy;
+       const interceptors=this.boardCombatEnemyPoolV453Dev69(u)
+        .filter(v=>v.champ&&v.hp>0&&v.id!==target.id&&
+          this.sameCombatRealmV453Dev69(u,v))
+        .map(v=>{
+         const x=(v.x-z.origin.x)*this.worldWidth,
+          y=(v.y-z.origin.y)*this.worldHeight,
+          t=segment>1?(x*dx+y*dy)/segment:-1;
+         return {v,t,side:Math.abs(x*dy-y*dx)/Math.sqrt(Math.max(1,segment))};
+        }).filter(x=>x.t>0&&x.t<1&&x.side<=85)
+        .sort((a,b)=>a.t-b.t||String(a.v.id).localeCompare(String(b.v.id)));
+       const victim=interceptors[0]?.v||target;
+       this.damage(victim,z.power,u,'physical','spell');
+       z.m44B24HitId=victim.id;
+      }
+      u.boardChannelUntilV453Dev69=0;ended=true;
+     }else if(z.kind==='m44_b14b_zone'){
       if(z.variant==='bard_w'){
        const ally=this.units.find(v=>v.id===z.allyId&&v.hp>0&&v.team===u.team);
        if(ally&&this.sameCombatRealmV453Dev69(u,ally)&&
@@ -15829,6 +16003,19 @@ target.damageContributors={};
     this.damage(splash,amount*1.1,attacker,'physical','jinx_rocket_splash_v453_dev69_m5');
   }
   if(basic&&landed){
+   // B24 Titan's Wrath: empowered basic hit and nearby splash while shield is active.
+   // Using damage() rather than attack() avoids recursively triggering on-hit effects.
+   if(attacker.champ==='Nautilus'&&attacker.m44B24TitansWrath?.until>this.gameTime&&
+      target.hp>0&&attacker.team!==target.team){
+    const power=15+12*Math.max(1,attacker.skillRanks?.W||1)+
+      Math.max(0,this.elementalStatsV452d3(attacker).ap)*.2;
+    this.damage(target,power,attacker,'magic','m44_b24_titans_wrath');
+    for(const nearby of this.boardCombatEnemyPoolV453Dev69(attacker).filter(v=>
+      v.hp>0&&v.id!==target.id&&this.sameCombatRealmV453Dev69(attacker,v)&&
+      this.mapDistance(v,target)<=210&&!this.obstacleLine(target,v))
+      .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+     this.damage(nearby,power*.65,attacker,'magic','m44_b24_titans_wrath_splash');
+   }
    if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
    if(target.hp>0&&attacker.champ==='Lux')this.luxConsumeIlluminationV453Dev69M2(attacker,target);
    if(attacker.champ==='Irelia'&&attacker.ireliaFervorV453Dev69M7?.until>this.gameTime){
