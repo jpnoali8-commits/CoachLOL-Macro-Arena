@@ -1,0 +1,194 @@
+{
+  "schema": "coachlol.m45.items.qa.b03.static.v1",
+  "date": "2026-10-30",
+  "origin": {
+    "branch": "dev69/items-batch2",
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d"
+  },
+  "execution_environment": {
+    "node_version": "22.16.0",
+    "git_remote": "DNS_FAILED",
+    "full_checkout": "UNAVAILABLE",
+    "rust_toolchain": "MISSING",
+    "local_git_blob_smoke": {
+      "command": "printf 'CoachLOL M45 fixture' | git hash-object --stdin; compare to Node crypto sha1 git blob encoding",
+      "observed_sha1": "0661fed18a4b59c55101843c4a152506eefa5f5d",
+      "status": "PASS",
+      "scope": "isolated SHA calculation, not a gameplay test"
+    }
+  },
+  "source_lock_sources": [
+    {
+      "path": "engine.mjs",
+      "sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "gitTreeSHA": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "matches": true
+    },
+    {
+      "path": "data/coachlol_map_v6.json",
+      "sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+      "gitTreeSHA": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+      "matches": true
+    },
+    {
+      "path": "data/masks_128.json",
+      "sha": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+      "gitTreeSHA": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+      "matches": true
+    },
+    {
+      "path": "data/riot_reference/sr_shop_26_21_dev49.json",
+      "sha": "3779aee3f9981a043a917824c0ddfbf3fbefaecb",
+      "gitTreeSHA": "3779aee3f9981a043a917824c0ddfbf3fbefaecb",
+      "matches": true
+    },
+    {
+      "path": "data/rift_user_manifest_v452d4.json",
+      "sha": "698f86922a5bf8c8699a306bab097cd2ca3743e5",
+      "gitTreeSHA": "698f86922a5bf8c8699a306bab097cd2ca3743e5",
+      "matches": true
+    },
+    {
+      "path": "multiplayer/room_v453_dev47.mjs",
+      "sha": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+      "gitTreeSHA": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+      "matches": true
+    },
+    {
+      "path": "multiplayer/authoritative_actions_v453_dev47.mjs",
+      "sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+      "gitTreeSHA": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+      "matches": true
+    }
+  ],
+  "source_item_test_links": [
+    {
+      "id": "shadowflame",
+      "rule": "magic_execute_amplifier",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "the_collector",
+      "rule": "one_kill_one_reward",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "liandrys_torment",
+      "rule": "ability_burn_only",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "kaenic_rookern",
+      "rule": "magic_shield_recharge",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "maw_of_malmortius",
+      "rule": "magic_lifeline",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "force_of_nature",
+      "rule": "stacked_magic_resistance",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b"
+        }
+      ]
+    },
+    {
+      "id": "verdant_barrier",
+      "rule": "single_spell_annul_60s",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_batch2.test.mjs",
+          "blob_sha": "2a52b2189062405e896cf2dbed7925db801e0c10"
+        }
+      ]
+    },
+    {
+      "id": "banshees_veil",
+      "rule": "single_cc_annul_40s",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_batch2.test.mjs",
+          "blob_sha": "2a52b2189062405e896cf2dbed7925db801e0c10"
+        }
+      ]
+    },
+    {
+      "id": "edge_of_night",
+      "rule": "single_spell_annul_40s",
+      "sourceTestFileRefs": [
+        {
+          "path": "tests/v453_dev69_items_batch2.test.mjs",
+          "blob_sha": "2a52b2189062405e896cf2dbed7925db801e0c10"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "source_blobs_all_match": true,
+    "source_blobs_checked": 7,
+    "b01_lock_call": true,
+    "b02_lock_call": true,
+    "b03_lock_call": true,
+    "b02_output_after_assert": true,
+    "b03_capture_limit": true,
+    "b03_family_count": 9,
+    "b03_team_loop": true,
+    "b03_source_test_candidates": 9,
+    "b03_shadowflame_real_sale": true,
+    "source_lock_blob_sha": "23d2ec259862e6151e402ac709028e7727fd61ed",
+    "b01_blob_sha": "436b4d58c9db36ce192d46819e3e99f88e5d7efd",
+    "b02_blob_sha": "0cbd55739aba81c3b4ede71eb4df860e556006a1",
+    "b03_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c"
+  },
+  "errors": [],
+  "result": "PASS",
+  "result_scope": "static source provenance + isolated git blob algorithm only",
+  "golden_runtime": {
+    "B01": "NOT_RUN",
+    "B02": "NOT_RUN",
+    "B03": "NOT_RUN",
+    "planned_cases": {
+      "B01": 11,
+      "B02": 244,
+      "B03": 18
+    }
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G8": "NOT_RUN"
+  },
+  "note": "No golden outcomes or snapshot hashes were fabricated. The absence of a fetched full checkout blocks JS execution."
+}
