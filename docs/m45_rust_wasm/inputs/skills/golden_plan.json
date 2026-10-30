@@ -5,7 +5,7 @@
   "engine_path": "engine.mjs",
   "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
   "result_status": "NOT_RUN",
-  "note": "Test source and expected assertions are genuine. No gameplay suite has been run by this audit. This is a reproducible run plan, not captured golden outputs.",
+  "note": "S06: 23 planned, 0 gameplay runs. Nami Q candidate belongs to audit branch, engine remains source pinned.",
   "suites": [
     {
       "id": "realm_mordekaiser",
@@ -387,6 +387,90 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "s06_nami_q",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s06_nami_q_pvp.test.mjs",
+      "test_git_blob_sha": "6afedff84107a7595f8d94600fe491984a196ac8",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450206
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami Q queue, damage, stun mismatch, shield, snapshot, both owners",
+      "expected_output_marker": "M45_S06_NAMI_Q",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b20_mobile_barrier",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b20_mobile_barriers_dash_interception_pvp.test.mjs",
+      "test_git_blob_sha": "0832fcfa45c0b64bc0bad1a918c6e4eb26af8275",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Mobile barrier and dash interception PvP",
+      "expected_output_marker": "M44_B20",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b21_projectile_interception",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b21_shared_projectile_interception_pvp.test.mjs",
+      "test_git_blob_sha": "f9caf7fe9bcc79a8d11c6fd5c72d760a137cfaea",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Shared projectile interception PvP",
+      "expected_output_marker": "M44_B21",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b23_charge_realm",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b23_authored_charge_windup_realm_pvp.test.mjs",
+      "test_git_blob_sha": "b4ac517c332dd531bff0ff0fadbf8a64e59fd156",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20230
+      ],
+      "bilateral_in_source": true,
+      "contract": "Charged windups and realm ownership PvP",
+      "expected_output_marker": "M44_B23",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
     }
   ]
 }

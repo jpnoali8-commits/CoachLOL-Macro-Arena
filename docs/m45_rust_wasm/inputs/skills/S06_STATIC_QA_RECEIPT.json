@@ -1,0 +1,114 @@
+{
+  "schema": "coachlol.m45.skills.s06.static-qa.v1",
+  "date": "2026-10-30",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "static_result": "PASS",
+  "static_method": "GitHub connector pinned-blobs text/invariant analysis (not Node execution)",
+  "checks": [
+    {
+      "id": "descriptor",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "queue_acl",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "queue_wait",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "resolver",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "one_charge",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "area_hit",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "actual_stun_not_suspension",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "runtime_entry",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "fixture_two_seats",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "fixture_owner_and_cost",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "fixture_snapshot_replay",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "fixture_spell_shield",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "M44_20_source",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "M44_21_source",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    },
+    {
+      "id": "M44_23_source",
+      "passed": true,
+      "kind": "SOURCE_STATIC_ONLY"
+    }
+  ],
+  "checks_passed": 15,
+  "checks_total": 15,
+  "inventory": {
+    "implemented": 234,
+    "partial": 366,
+    "reference_only": 0,
+    "absent": 265,
+    "total": 865
+  },
+  "golden": {
+    "planned": 23,
+    "added": 4,
+    "executed": 0,
+    "result": "NOT_RUN"
+  },
+  "native_rust": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "browser_network": "NOT_RUN",
+  "environment": {
+    "node_local": "v22.16.0",
+    "cargo_local": "NOT_INSTALLED",
+    "clone_local": "FAILED_DNS"
+  },
+  "fidelity_gaps": [
+    "Nami Q descriptor suspension vs resolver stun",
+    "Nami Q instant ground_circle application; no projectile travel in V42 resolver",
+    "Nami W multiple registries and route precedence still needs runtime QA"
+  ],
+  "no_certification_promoted": true
+}

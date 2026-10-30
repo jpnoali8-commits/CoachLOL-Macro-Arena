@@ -1,0 +1,49 @@
+{
+  "schema": "coachlol.m45.skills.s06.nami-q-route.v1",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "feature_id": "champion.Nami.Q",
+  "status": "partial",
+  "source_evidence": [
+    {
+      "line": 726,
+      "symbol": "CHAMPION_KITS_V42.Nami.Q",
+      "expected_cc": "suspension",
+      "implementation": "prototype"
+    },
+    {
+      "line": 12624,
+      "symbol": "Arena.queueKitSkillV42",
+      "role": "authoritative owner-scoped intent"
+    },
+    {
+      "line": 12727,
+      "symbol": "Arena.resolveKitSkillsV42",
+      "role": "one-time charge"
+    },
+    {
+      "line": 12733,
+      "symbol": "areaHitsV42",
+      "role": "ground area hit"
+    },
+    {
+      "line": 12737,
+      "symbol": "fx.apply stun",
+      "role": "actual cc != descriptor"
+    },
+    {
+      "line": 17875,
+      "symbol": "Arena.resolveCombat",
+      "role": "runtime caller"
+    }
+  ],
+  "golden_test_sha": "6afedff84107a7595f8d94600fe491984a196ac8",
+  "test_status": "NOT_RUN",
+  "rust_status": "SOURCE_ONLY",
+  "remaining": [
+    "runtime_pvp_blue_red",
+    "event_and_snapshot_receipts",
+    "fidelity_decision_for_stun_suspension",
+    "combat_champion_rust_contracts"
+  ]
+}

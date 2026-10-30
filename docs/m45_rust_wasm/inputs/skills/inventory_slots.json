@@ -1,6 +1,6 @@
 {
   "meta": {
-    "schema": "coachlol.m45.skills.static-audit.v4",
+    "schema": "coachlol.m45.skills.static-audit.v5",
     "branch": "dev69/skills-batch2",
     "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
     "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
@@ -12,15 +12,16 @@
     "override_method": "Direct source scan of explicit M14/M15/M44 executor paths; no JS gameplay execution",
     "per_slot_expected_status": "NOT_CAPTURED",
     "precedence_receipt": "precedence_overlaps.json",
-    "handler_audit_receipt": "S05_V42_HANDLER_RECONCILIATION.json"
+    "handler_audit_receipt": "S05_V42_HANDLER_RECONCILIATION.json",
+    "s06_receipt": "S06_STATIC_QA_RECEIPT.json"
   },
   "stats": {
     "slots": 865,
     "by_status": {
       "absent": 265,
-      "partial": 365,
+      "partial": 366,
       "implemented": 234,
-      "reference-only": 1
+      "reference-only": 0
     },
     "registry_stats": {
       "M16_MECHANIC_KITS": 22,
@@ -54,7 +55,7 @@
       "BOARD_M20_B01_V453": 175,
       "M44_B09_GNAR_MEGA_V453": 4
     },
-    "duplicate_slots": 50,
+    "duplicate_slots": 51,
     "mechanic_symbols": 63,
     "unmapped_registrations": 0,
     "executor_only_overrides": 7,
@@ -67,7 +68,8 @@
     "s05_new_v42_entries": 5,
     "s05_routing_handlers": 25,
     "s05_promoted_from_reference_or_absent": 22,
-    "registry_duplicate_slots_s04": 27
+    "registry_duplicate_slots_s04": 27,
+    "s06_nami_q_promoted_static": 1
   },
   "unmapped": [],
   "rows": [
@@ -21999,13 +22001,40 @@
       "feature_id": "champion.Nami.Q",
       "champion": "Nami",
       "slot": "Q",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Nami.Q",
+      "source_symbol": "Arena.queueKitSkillV42 -> Arena.resolveKitSkillsV42",
       "variants": [
+        {
+          "symbol": "Arena.queueKitSkillV42 -> Arena.resolveKitSkillsV42 [Nami.Q]",
+          "status": "partial",
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "marker_keys": [],
+          "marker_references": [
+            "queueKitSkillV42",
+            "resolveKitSkillsV42",
+            "areaHitsV42",
+            "performActionV40"
+          ],
+          "declared_missing": [
+            "suspension_cc_delivery",
+            "temporal_projectile_impact"
+          ],
+          "dependencies": [
+            "legacy_runtime",
+            "owner_context",
+            "crowd_control",
+            "snapshot",
+            "spell_shield"
+          ],
+          "not_in_common_registry": true,
+          "source_line": 12624,
+          "resolution_line": 12732,
+          "witness": "SOURCE_SCANNED_NOT_EXECUTED"
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Nami.Q",
           "status": "reference-only",
@@ -22023,6 +22052,11 @@
         {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
+        },
+        {
+          "path": "docs/m45_rust_wasm/inputs/skills/s06_nami_q_pvp.test.mjs",
+          "git_blob_sha": "6afedff84107a7595f8d94600fe491984a196ac8",
+          "origin": "audit_branch_s06"
         }
       ],
       "golden_fixture_ids": [],
@@ -22036,15 +22070,20 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "S06 Node goldens NOT_RUN; stun-vs-suspension; Rust shared combat/champion contracts pending",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "S06: Nami Q route discovered; partial due to legacy stun vs suspension, temporal impact unverified. Node/WASM NOT_RUN.",
       "dependencies": [
-        "crowd_control"
+        "crowd_control",
+        "owner_context",
+        "combat_effects",
+        "snapshot"
       ],
-      "expected_legacy_behavior": "Reference descriptor only; must not become a Rust executable without independent JS evidence.",
+      "expected_legacy_behavior": "V42 queue point; execute once via performActionV40, damage enemy circle, apply stun. Descriptor says suspension; timing is instant in handler. Source witness only.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
-      "golden_spec_ids": [],
+      "golden_spec_ids": [
+        "s06_nami_q"
+      ],
       "precedence_audit_category": null
     },
     {
