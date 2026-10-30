@@ -20,8 +20,9 @@ Este diretório é o protocolo canônico para a migração de todo o GAMEPLAY LE
 5. [INVENTARIO_FONTES_E_MATRIZ.md](INVENTARIO_FONTES_E_MATRIZ.md) — 3 árvores, origem de feats e risco de perda.
 6. [GATES_QA_E_CERTIFICACAO.md](GATES_QA_E_CERTIFICACAO.md) — evidência, certificação e veto à regressão.
 7. [PROTOCOLO_PROXIMA_PRIORIDADE.md](PROTOCOLO_PROXIMA_PRIORIDADE.md) — como executar e handoff.
-8. [COORDENACAO_CHATS_E_GIT.md](COORDENACAO_CHATS_E_GIT.md) — mensagens para congelar outros chats e não fazer merge destrutivo.
-9. [manifest.json](manifest.json) — estado máquina legível da fila; sincronizar com ledger.
+8. [PROMPTS_4_CHATS.md](PROMPTS_4_CHATS.md) — quatro chats novos, branches exclusivas e prompts prontos para copiar.
+9. [COORDENACAO_CHATS_E_GIT.md](COORDENACAO_CHATS_E_GIT.md) — mensagens históricas de freeze, complementadas pelos quatro prompts novos.
+10. [manifest.json](manifest.json) — estado máquina legível da fila; sincronizar com ledger.
 
 ## Política definitiva de produção
 

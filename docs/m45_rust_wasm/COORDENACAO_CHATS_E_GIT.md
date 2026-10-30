@@ -1,3 +1,7 @@
+> **ATUALIZAÇÃO 2026-10-30 — ORGANIZAÇÃO ATUAL: QUATRO CHATS.** Consulte [PROMPTS_4_CHATS.md](PROMPTS_4_CHATS.md) para prompts completos, branches exclusivas e prioridades. As mensagens de três chats abaixo são material anterior de congelamento; o Chat 1 agora é o coordenador Rust, Chat 2 skills, Chat 3 itens, Chat 4 integração. Não misturar edições de branches.
+
+---
+
 # M45 — Coordenação de chats, branches e freeze de desenvolvimento
 
 ## Objetivo: não perder produção e evitar engines divergentes
