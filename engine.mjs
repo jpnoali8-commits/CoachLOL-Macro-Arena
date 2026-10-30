@@ -2859,7 +2859,7 @@ export class Arena {
     return {id:disguise?.publicId||(cloneActive?u.shacoPublicAliasV453M15:
       decoyActive?u.m16DecoyPublicAlias:u.id),
      team:u.team,role:disguise?'unknown':u.role,champ:disguise?.champ||u.champ,
-     ...(u.m44B14DAppearanceV453?{visualEffect:'viego_possession'}:{}),
+     ...(u.m44B14DAppearanceV453&&!disguise?{visualEffect:'viego_possession'}:{}),
      klass:disguise?'unknown':u.klass,x:u.x,y:u.y,
      hp:disguise?.visualHp??u.hp,maxHp:disguise?.visualMaxHp??u.maxHp,
      mana:disguise?0:u.mana,maxMana:disguise?0:u.maxMana,level:disguise?1:u.level};
@@ -9897,16 +9897,17 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   if(!this.visible(team,target)||this.mapDistance(u,target)>950||
    !this.sameCombatRealmV453Dev69(u,target))
    return {ok:false,reason:'hijack_sem_visao_ou_alcance'};
-  const stolen=m44B14CSylasUltimateRuleV453(target.champ);
+  const realChamp=target.m44B14CPossession?.originalChamp||target.champ;
+  const stolen=m44B14CSylasUltimateRuleV453(realChamp);
   if(!stolen||stolen.passiveOnly)
    return {ok:false,reason:'ultimate_sem_adaptador_hijack'};
   const rank=Math.max(1,u.skillRanks.R),cd=[80,55,30][Math.min(2,rank-1)];
   if((u.skillCds?.R||0)>this.gameTime||u.mana<75)
    return {ok:false,reason:'hijack_recarga_ou_mana'};
-  u.pendingSylasHijackV453M14={targetId:target.id,sourceChamp:target.champ,
+  u.pendingSylasHijackV453M14={targetId:target.id,sourceChamp:realChamp,
    issuedAt:this.gameTime,cd};
   this.recordIntentV40(team,id,'hijack_request',{targetId});
-  return {ok:true,queued:true,sourceChamp:target.champ};
+  return {ok:true,queued:true,sourceChamp:realChamp};
  }
  resolveSylasHijacksV453M14(){
   for(const u of this.units.filter(v=>v.pendingSylasHijackV453M14)){
@@ -9914,16 +9915,17 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    const target=this.units.find(v=>v.id===request.targetId&&v.team!==u.team&&v.hp>0);
    if(!u.hp||!target||!this.visible(u.team,target)||
     this.mapDistance(u,target)>950||!this.sameCombatRealmV453Dev69(u,target))continue;
-   const rule=m44B14CSylasUltimateRuleV453(target.champ);
-   if(request.sourceChamp!==target.champ)continue;
+   const realChamp=target.m44B14CPossession?.originalChamp||target.champ;
+   const rule=m44B14CSylasUltimateRuleV453(realChamp);
+   if(request.sourceChamp!==realChamp)continue;
    if(!rule||rule.passiveOnly)continue;
    const spent=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
     targetId:target.id,costOverride:75,cooldownOverride:request.cd,
     rangeOverride:950,source:'sylas_hijack'});
    if(!spent.ok)continue;
-   u.sylasStolenV453M14={sourceChamp:target.champ,
+   u.sylasStolenV453M14={sourceChamp:realChamp,
     stolenAt:this.gameTime,expiresAt:this.gameTime+90};
-   this.event('Sylas roubou ultimate de '+target.champ+'.',u.team,
+   this.event('Sylas roubou ultimate de '+realChamp+'.',u.team,
     'skill_hijack',u.id);
   }
  }
