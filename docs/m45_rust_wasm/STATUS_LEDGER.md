@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, M45 B02A/B02B inventário de árvores e probe de toolchain; PARCIAL.
+**Atualizado:** 2026-10-30, B02B reconciliação estática dos 3 handoffs; PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A (desbloquear compilação Rust/WASM); B02B símbolos/goldens pendentes.
+**Próxima prioridade:** M45 B02A (compilar/testar Rust/WASM); B02B goldens dinâmicos e conflitos semânticos pendentes.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,9 +23,9 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | árvores Git auditadas por SHA; scripts QA adicionados, native/WASM NOT_RUN e símbolos/goldens pendentes |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | 3 handoffs consolidados, matriz estática com 1178 IDs e 891 referências test SHA; G0 PARTIAL, Rust/WASM NOT_RUN |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
-| G0 inventário fontes | PARTIAL | três Git trees pinadas/diff completo em inputs/core/B02_GIT_TREE_INDEX.json; símbolos e semântica NOT_RUN |
+| G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | NOT_RUN | toolchain cargo/rustc não encontrado neste ambiente |
 | G2 replay/estado | NOT_RUN | nenhuma equivalência match Rust completa |
 | G3 ACL/server | NOT_RUN | Rust server ainda não implementado |
@@ -71,3 +71,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Ferramentas: `rustc`, `cargo`, `rustup` ausentes; tentativa de DNS para static.rust-lang.org e github.com falhou. `node --check` do teste WASM e `bash -n` do QA script: **PASS sintático**, NÃO compilação. `bash tools/m45_qa_native_wasm.sh`: **EXIT 42, BLOCKED_TOOLCHAIN**, build/test native e WASM **NOT_RUN**.
 - O novo teste de WASM exige binário Rust de verdade e confere ABI pública, 18 vetores TSV e UTF-16; até executado, registrar NOT_RUN.
 - **Status:** B02 IN_PROGRESS_BLOCKED, G0 PARTIAL, G1 NOT_RUN, G8 NOT_RUN. Próxima execução: resolver toolchain e rodar testes de verdade; continuar inventário de símbolos e golden por SHA, sem promover B03.
+
+## M45 B02B — handoffs consolidados (2026-10-30)
+
+- Chat 2 skills `6b8de5ec2906e9cab25c3b0205ed7572d370854a`: 865 slots, 63 símbolos mecânicos, 55 slots com múltiplos registros; golden runtime NOT_RUN.
+- Chat 3 items `134b6260173d3b2d4e3a6ffa6317a40c361b8bfc`: 210 entradas, 3 locais, 8 métodos diferenciais; oráculo de 11 casos publicado mas **NOT_RUN**.
+- Chat 4 platform `b7b8baf02d4a5dfacb15cd8679a94f2fe2841a06`: 29 contratos com paths verificados; golden duas sessões **NOT_RUN**.
+- União com 1178 IDs únicos e proveniência por blob: `docs/m45_rust_wasm/inputs/core/B02_UNION_MATRIX.json`. **QA estático PASS** para 891 test SHA refs e 29 paths/blobs plataforma, 0 divergências conferidas. NÃO declarar runtime PASS.
+- **Bloqueio revalidado neste ciclo:** `rustc`, `cargo`, `rustup` ausentes; `bash -n` e `node --check` PASS, probe QA EXIT 42, DNS `static.rust-lang.org` indisponível. Native e WASM NOT_RUN.
+- **Próxima prioridade:** B02A e B02B goldens; B03 inelegível. G0 PARTIAL, G1 NOT_RUN, G8 NOT_RUN.

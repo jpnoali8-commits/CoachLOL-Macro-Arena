@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A_BLOCKED_B02B_TREE_INDEXED",
+    "phase": "B02A_BLOCKED_B02B_STATIC_HANDOFFS",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -353,9 +353,18 @@
     "toolchain_probe": "EXIT_42_MISSING_RUSTC",
     "syntax_bash": "PASS",
     "syntax_node": "PASS",
-    "symbol_inventory": "PENDING",
-    "golden_per_source": "PENDING",
-    "handoffs": "NOT_PUBLISHED_AT_INSPECTION",
-    "next": "B02A"
+    "symbol_inventory": "STATIC_PARTIAL",
+    "golden_per_source": "NOT_RUN",
+    "handoffs": "STATIC_RECEIVED_RUNTIME_NOT_RUN",
+    "next": "B02A",
+    "handoff_refs": {
+      "skills": "6b8de5ec2906e9cab25c3b0205ed7572d370854a",
+      "items": "134b6260173d3b2d4e3a6ffa6317a40c361b8bfc",
+      "platform": "b7b8baf02d4a5dfacb15cd8679a94f2fe2841a06"
+    },
+    "union_matrix_path": "docs/m45_rust_wasm/inputs/core/B02_UNION_MATRIX.json",
+    "union_matrix_rows": 1178,
+    "static_test_sha_refs_verified": 891,
+    "platform_source_paths_verified": 29
   }
 }

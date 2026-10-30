@@ -50,6 +50,10 @@
 ### B02 — registro de sublotes (2026-10-30)
 
 - **B02A — BLOCKED_TOOLCHAIN:** Rust/Cargo/rustup ausentes; faltou DNS externo. `rust-toolchain.toml` (1.85.1, wasm32 target), `tools/m45_qa_native_wasm.sh` e `tests/audit/m45_wasm_binary_smoke.test.mjs` publicados. Compilação nativa/WASM continua NOT_RUN; retomar esta etapa antes de G1.
-- **B02B — TREE_INDEXED_ONLY:** comparação exata de três Git trees por SHA concluída e publicada em `inputs/core/B02_GIT_TREE_INDEX.json`. Símbolos/AST, efeitos, testes por comportamento e golden das branches ainda PENDING.
+- **B02B — STATIC_HANDOFFS_RECONCILED:** três árvores e três handoffs pinados; `inputs/core/B02_UNION_MATRIX.json` reúne 1178 registros de auditoria, 891 refs de testes com SHA e 29 paths plataforma. Testes golden dinâmicos e cobertura semântica continuam PENDING; G0 PARTIAL.
 - **B02C — QUEUED:** reconciliar identidade de cada executor/efeito, golden com source SHA, resultados de Chat 2/3/4 e rollback; não fechar G0 ou G1 sem isso.
 - **PR #19** permanece Draft, sem merge. **B03 NÃO elegível** enquanto B02 estiver incompleto.
+
+### B02B: handoffs consumidos (2026-10-30)
+
+Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d370854a`, `dev69/m45-audit-items` @ `134b6260173d3b2d4e3a6ffa6317a40c361b8bfc` e `dev69/m45-audit-platform` @ `b7b8baf02d4a5dfacb15cd8679a94f2fe2841a06`. Integração no núcleo realizada SOMENTE via matriz estática e recibo, sem merge das engines. **B02A permanece primeiro bloqueio elegível; B03 ainda QUEUED.**
