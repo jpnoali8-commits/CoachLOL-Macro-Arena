@@ -16532,7 +16532,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    this.applyEffectV41(target,'dot',{source:attacker,duration:4,interval:1,
     power:10+6*(attacker.skillRanks.E||1)+this.elementalStatsV452d3(attacker).ap*.1,
     key:'teemo_e_'+attacker.id});
-  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Twitch'&&
+  if(dealt>0&&['basic','m44_b32b_twitch_secondary'].includes(sourceType)&&attacker?.champ==='Twitch'&&
     target.hp>0&&attacker.team!==target.team){
    const old=target.m16TwitchPoison?.[attacker.id]||{stacks:0,until:0};
    (target.m16TwitchPoison??={})[attacker.id]={
@@ -16736,7 +16736,7 @@ target.damageContributors={};
   // DEV40: a landed hit still triggers on-hit when protection absorbs all HP
   // damage. Non-on-hit spells/DoT/reflect cannot trigger; explicit opted-in
   // abilities can, but their damage never grants basic-only life steal/charge.
-  const landedOnHitV453Dev40=Number.isFinite(amount)&&amount>0&&amount2>0&&['basic','ability_onhit_v453_dev40'].includes(sourceType)&&
+  const landedOnHitV453Dev40=Number.isFinite(amount)&&amount>0&&amount2>0&&['basic','ability_onhit_v453_dev40','m44_b32b_twitch_secondary'].includes(sourceType)&&
      attacker?.champ&&target.team!==attacker.team&&!['tower','inhibitor','nexus'].includes(target.type);
   if(landedOnHitV453Dev40){
    // Reap heals on each genuinely landed basic/on-hit attack, even if a shield
@@ -16846,9 +16846,8 @@ target.damageContributors={};
    attacker.jinxPowPowUntilV453Dev69M5=this.gameTime+2.5;
   }
   const energized=basic&&landed&&attacker.items?.includes('rapid_firecannon')&&(attacker.energizeStacksV453Dev38||0)>=100;
-  const twitchSpray=basic&&landed&&attacker.champ==='Twitch'&&
-    attacker.m44B32ATwitchSpray?.until>this.gameTime?
-    attacker.m44B32ATwitchSpray:null;
+  const twitchSpray=basic&&landed&&attacker?.m44B32ATwitchSpray?.until>this.gameTime&&
+    !attacker.m44B14CPossession?attacker.m44B32ATwitchSpray:null;
    const twitchAmount=amount+(twitchSpray?.bonusAD||0);
    const dealt=this.damage(target,twitchAmount+(jinxRocket?Math.max(0,(attacker.ad||0)*.10):0),attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
   // One source-owned piercing ray; secondary spell-like damage does not
@@ -16865,7 +16864,7 @@ target.damageContributors={};
     for(const v of victims){
      const factor=Math.max(.6,1-.2*i++);
      if(v.id!==target.id)this.damage(v,twitchAmount*factor,
-      attacker,'physical','m44_b32a_twitch_pierce');
+      attacker,'physical','m44_b32b_twitch_secondary');
     }
    }
    if(jinxRocket&&dealt>0){
