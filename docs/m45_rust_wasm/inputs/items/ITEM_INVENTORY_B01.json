@@ -101,18 +101,6 @@
     "item_family_rule_count": 15,
     "source_only_methods_not_in_integration": [
       {
-        "name": "return",
-        "line": 2025
-      },
-      {
-        "name": "return",
-        "line": 2033
-      },
-      {
-        "name": "return",
-        "line": 2184
-      },
-      {
         "name": "derivedItemStatsV453Dev69",
         "line": 2907
       },
@@ -152,7 +140,7 @@
         "engine_cost": 400
       }
     ],
-    "method_extraction": "Static class method boundaries; textual ID references in method body only, no runtime invocation."
+    "method_extraction": "Arena methods detected with exactly one indent space at class level; textual IDs are candidates not coverage proof."
   },
   "items": [
     {
@@ -200,17 +188,17 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2865,
+            "symbol": "Arena.queuePurchase",
+            "source_line": 2855,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3022,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -406,12 +394,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -569,12 +557,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -712,12 +700,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -1023,12 +1011,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -1124,12 +1112,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -1195,12 +1183,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -1334,8 +1322,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.for",
-            "source_line": 5158,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -1415,12 +1403,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -1495,12 +1483,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -1554,8 +1542,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3607,
+            "symbol": "Arena.botPlan",
+            "source_line": 3599,
             "from_items_branch_only": false
           }
         ],
@@ -1613,13 +1601,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3267,
+            "symbol": "Arena.equipStarterDefaults",
+            "source_line": 3264,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3607,
+            "symbol": "Arena.botPlan",
+            "source_line": 3599,
             "from_items_branch_only": false
           }
         ],
@@ -1682,33 +1670,33 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3253,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3607,
+            "symbol": "Arena.botPlan",
+            "source_line": 3599,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4530,
+            "symbol": "Arena.basicAttackPowerV452c",
+            "source_line": 4524,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4610,
+            "symbol": "Arena.itemProcStatusV453Dev39",
+            "source_line": 4595,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4682,
+            "symbol": "Arena.advanceItemRegenV453Dev38",
+            "source_line": 4668,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5032,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -1923,13 +1911,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3020,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3063,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
@@ -1943,13 +1931,13 @@
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3251,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5088,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -2018,23 +2006,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3044,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3224,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5088,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 5144,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -2210,8 +2193,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3267,
+            "symbol": "Arena.equipStarterDefaults",
+            "source_line": 3264,
             "from_items_branch_only": false
           }
         ],
@@ -2269,8 +2252,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3607,
+            "symbol": "Arena.botPlan",
+            "source_line": 3599,
             "from_items_branch_only": false
           }
         ],
@@ -2328,8 +2311,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4531,
+            "symbol": "Arena.basicAttackPowerV452c",
+            "source_line": 4524,
             "from_items_branch_only": false
           }
         ],
@@ -2398,18 +2381,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3005,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3006,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3756,
+            "symbol": "Arena.usePotionV453Dev32",
+            "source_line": 3754,
             "from_items_branch_only": false
           }
         ],
@@ -2751,38 +2729,33 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2886,
+            "symbol": "Arena.processPurchaseQueues",
+            "source_line": 2880,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3006,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3065,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3221,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3741,
+            "symbol": "Arena.advancePotionHealingV453Dev32",
+            "source_line": 3739,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3756,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3761,
+            "symbol": "Arena.usePotionV453Dev32",
+            "source_line": 3754,
             "from_items_branch_only": false
           }
         ],
@@ -2846,82 +2819,57 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1675,
+            "symbol": "Arena.addWard",
+            "source_line": 1666,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 1689,
+            "symbol": "Arena.visionSources",
+            "source_line": 1741,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.for",
-            "source_line": 1747,
+            "symbol": "Arena.setPlan",
+            "source_line": 2225,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2227,
+            "symbol": "Arena.setOrder",
+            "source_line": 2245,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2255,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2261,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3009,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3017,
+            "symbol": "Arena.autoStartJungle",
+            "source_line": 4108,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3068,
+            "symbol": "Arena.autoAdvanceLane",
+            "source_line": 4124,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3220,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4109,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4125,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4303,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4306,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4322,
+            "symbol": "Arena.reviveAndMove",
+            "source_line": 4252,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -3211,48 +3159,28 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1398,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 1399,
+            "symbol": "Arena.activateStasis",
+            "source_line": 2336,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2338,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2342,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2347,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3066,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3067,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3222,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4614,
+            "symbol": "Arena.itemProcStatusV453Dev39",
+            "source_line": 4595,
             "from_items_branch_only": false
           }
         ],
@@ -3375,9 +3303,9 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2911,
-            "from_items_branch_only": false
+            "symbol": "Arena.derivedItemStatsV453Dev69",
+            "source_line": 2907,
+            "from_items_branch_only": true
           }
         ],
         "explicit_executor": true
@@ -3562,23 +3490,23 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2936,
+            "symbol": "Arena.refreshKaenicShieldV453Dev69",
+            "source_line": 2935,
+            "from_items_branch_only": true
+          },
+          {
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3045,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3226,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4972,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -3657,8 +3585,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 5042,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -4719,12 +4647,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -4848,8 +4776,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4924,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -4923,12 +4851,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -5004,8 +4932,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4550,
+            "symbol": "Arena.basicAttackPowerV452c",
+            "source_line": 4524,
             "from_items_branch_only": false
           }
         ],
@@ -5083,13 +5011,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3020,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3063,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
@@ -5103,13 +5031,13 @@
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3251,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5088,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -5189,8 +5117,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4931,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -5261,8 +5189,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4079,
+            "symbol": "Arena.resolveChampionMinionBlockV453Dev48",
+            "source_line": 4076,
             "from_items_branch_only": false
           }
         ],
@@ -5333,8 +5261,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4917,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -5522,18 +5450,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2916,
-            "from_items_branch_only": false
+            "symbol": "Arena.derivedItemStatsV453Dev69",
+            "source_line": 2907,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2946,
-            "from_items_branch_only": false
+            "symbol": "Arena.procLifelineV453Dev69",
+            "source_line": 2945,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3227,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           }
         ],
@@ -5615,28 +5543,28 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1436,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2862,
+            "symbol": "Arena.queuePurchase",
+            "source_line": 2855,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3016,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3256,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4860,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -5861,12 +5789,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -5993,23 +5921,23 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3057,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3242,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4625,
+            "symbol": "Arena.procTearManaV453Dev56",
+            "source_line": 4624,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4878,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6080,8 +6008,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4936,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6323,8 +6251,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 5020,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6396,8 +6324,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 5020,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6529,33 +6457,28 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1436,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2862,
+            "symbol": "Arena.queuePurchase",
+            "source_line": 2855,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3016,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3256,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4860,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4931,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6628,8 +6551,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4953,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -6990,18 +6913,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3078,
+            "symbol": "Arena.removeRabadonV43",
+            "source_line": 3077,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3085,
+            "symbol": "Arena.reapplyRabadonV43",
+            "source_line": 3084,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
@@ -7078,8 +7001,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.for",
-            "source_line": 5158,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -7148,38 +7071,38 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3051,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3236,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4566,
+            "symbol": "Arena.itemAttackRangeV453Dev38",
+            "source_line": 4564,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4571,
+            "symbol": "Arena.itemEnergizeMoveV453Dev38",
+            "source_line": 4570,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4591,
+            "symbol": "Arena.itemAttackChargeV453Dev38",
+            "source_line": 4589,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4598,
+            "symbol": "Arena.itemProcStatusV453Dev39",
+            "source_line": 4595,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5220,
+            "symbol": "Arena.attack",
+            "source_line": 5219,
             "from_items_branch_only": false
           }
         ],
@@ -7696,12 +7619,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -7916,8 +7839,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.for",
-            "source_line": 5158,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -7988,8 +7911,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4925,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -8172,8 +8095,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4927,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -8250,13 +8173,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3053,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3238,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
@@ -8265,13 +8188,8 @@
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5150,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.for",
-            "source_line": 5158,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -8353,12 +8271,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [
         {
@@ -8510,12 +8428,12 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -8639,18 +8557,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2843,
+            "symbol": "Arena.activateItemV453Dev59",
+            "source_line": 2840,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2851,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3249,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
@@ -8724,8 +8637,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2843,
+            "symbol": "Arena.activateItemV453Dev59",
+            "source_line": 2840,
             "from_items_branch_only": false
           }
         ],
@@ -8796,18 +8709,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1398,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2367,
+            "symbol": "Arena.activateYoumuusV453Dev29",
+            "source_line": 2364,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3255,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
@@ -8881,23 +8794,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1398,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 1399,
+            "symbol": "Arena.activateRanduinsV453Dev31",
+            "source_line": 2353,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2356,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3254,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           }
         ],
@@ -8973,28 +8881,28 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3043,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3223,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4592,
+            "symbol": "Arena.itemAttackChargeV453Dev38",
+            "source_line": 4589,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4602,
+            "symbol": "Arena.itemProcStatusV453Dev39",
+            "source_line": 4595,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5034,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -9070,18 +8978,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3060,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3247,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5189,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -9217,18 +9125,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3056,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3241,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4883,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -9421,18 +9329,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3062,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3250,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4955,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -9502,28 +9410,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2946,
+            "symbol": "Arena.procLifelineV453Dev69",
+            "source_line": 2945,
+            "from_items_branch_only": true
+          },
+          {
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2949,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 2958,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3227,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4996,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -9596,37 +9494,27 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1398,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 1399,
+            "symbol": "Arena.activateStasis",
+            "source_line": 2336,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2338,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2342,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3067,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3551,
+            "symbol": "Arena.botBuyUpgradeV452d4Dev23",
+            "source_line": 3550,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -9811,8 +9699,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4923,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -10661,8 +10549,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2901,
+            "symbol": "Arena.purchaseOrPlan",
+            "source_line": 2898,
             "from_items_branch_only": false
           }
         ],
@@ -10773,8 +10661,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2901,
+            "symbol": "Arena.purchaseOrPlan",
+            "source_line": 2898,
             "from_items_branch_only": false
           }
         ],
@@ -11253,13 +11141,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4221,
+            "symbol": "Arena.gainXP",
+            "source_line": 4210,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4673,
+            "symbol": "Arena.advanceItemRegenV453Dev38",
+            "source_line": 4668,
             "from_items_branch_only": false
           }
         ],
@@ -11333,13 +11221,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 1425,
+            "symbol": "Arena.performActionV40",
+            "source_line": 1344,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4984,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -11473,37 +11361,32 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.for",
-            "source_line": 913,
+            "symbol": "Arena.constructor",
+            "source_line": 866,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2867,
+            "symbol": "Arena.queuePurchase",
+            "source_line": 2855,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3019,
+            "symbol": "Arena.canBuy",
+            "source_line": 3000,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3426,
+            "symbol": "Arena.progressSupport",
+            "source_line": 3425,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3429,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3607,
+            "symbol": "Arena.botPlan",
+            "source_line": 3599,
             "from_items_branch_only": false
           }
         ],
-        "explicit_executor": false
+        "explicit_executor": true
       },
       "source_test_ids": [],
       "golden_fixture_ids": [],
@@ -11844,8 +11727,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4926,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -11968,13 +11851,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2921,
-            "from_items_branch_only": false
+            "symbol": "Arena.derivedItemStatsV453Dev69",
+            "source_line": 2907,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3228,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
@@ -11983,8 +11866,8 @@
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5004,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -12116,13 +11999,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2971,
-            "from_items_branch_only": false
+            "symbol": "Arena.onBulkItemChampionHitV453Dev69",
+            "source_line": 2960,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3229,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
@@ -12345,23 +12228,18 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2920,
-            "from_items_branch_only": false
+            "symbol": "Arena.derivedItemStatsV453Dev69",
+            "source_line": 2907,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2926,
-            "from_items_branch_only": false
+            "symbol": "Arena.itemBattleRampV453Dev69",
+            "source_line": 2925,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4900,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 5001,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -12504,8 +12382,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4898,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -12693,9 +12571,9 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2963,
-            "from_items_branch_only": false
+            "symbol": "Arena.onBulkItemChampionHitV453Dev69",
+            "source_line": 2960,
+            "from_items_branch_only": true
           }
         ],
         "explicit_executor": true
@@ -13105,13 +12983,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2972,
-            "from_items_branch_only": false
+            "symbol": "Arena.onBulkItemChampionHitV453Dev69",
+            "source_line": 2960,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4901,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -13304,28 +13182,23 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3061,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3248,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4649,
+            "symbol": "Arena.advanceBamiAuraV453Dev57",
+            "source_line": 4646,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4874,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 4875,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -13650,23 +13523,23 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 3052,
+            "symbol": "Arena.buy",
+            "source_line": 3029,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 3237,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 4606,
+            "symbol": "Arena.itemProcStatusV453Dev39",
+            "source_line": 4595,
             "from_items_branch_only": false
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 5168,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -13730,18 +13603,13 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2946,
-            "from_items_branch_only": false
+            "symbol": "Arena.procLifelineV453Dev69",
+            "source_line": 2945,
+            "from_items_branch_only": true
           },
           {
-            "symbol": "Arena.if",
-            "source_line": 2949,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 3227,
+            "symbol": "Arena.sellItemV43",
+            "source_line": 3212,
             "from_items_branch_only": false
           }
         ],
@@ -13821,8 +13689,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 5180,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -13888,13 +13756,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 5014,
-            "from_items_branch_only": false
-          },
-          {
-            "symbol": "Arena.if",
-            "source_line": 5088,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
@@ -14084,9 +13947,9 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2965,
-            "from_items_branch_only": false
+            "symbol": "Arena.onBulkItemChampionHitV453Dev69",
+            "source_line": 2960,
+            "from_items_branch_only": true
           }
         ],
         "explicit_executor": true
@@ -14439,9 +14302,9 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 2967,
-            "from_items_branch_only": false
+            "symbol": "Arena.onBulkItemChampionHitV453Dev69",
+            "source_line": 2960,
+            "from_items_branch_only": true
           }
         ],
         "explicit_executor": true
@@ -14513,8 +14376,8 @@
         "note": "Static literal occurrence is NOT proof of full proc/active parity",
         "source_methods_with_literal_id": [
           {
-            "symbol": "Arena.if",
-            "source_line": 4904,
+            "symbol": "Arena.damage",
+            "source_line": 4830,
             "from_items_branch_only": false
           }
         ],
