@@ -5748,6 +5748,154 @@ export class Arena {
     default:return {ok:false,reason:'m44_b13_unknown_owner_slot'};
    }
   }
+  // B13B: 14 distinct named effects, never a generic damage fallback.
+  if(s.m44B13BId){
+   const now=this.gameTime,p=q.point||u,identity=s.m44B13BId;
+   const enemies=(at,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.mapDistance(at,v)<=r&&!this.obstacleLine(at,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const move=(v,to,reason)=>{
+    if(!to||to.x<0||to.x>1||to.y<0||to.y>1||!this.walkable(to.x,to.y)||
+       (this.realmOfV453Dev69(v)&&!this.realmValidV453Dev69(v,to)))return false;
+    const from={x:v.x,y:v.y};Object.assign(v,to);
+    v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(v);
+    this.itemEnergizeRelocateV453Dev39(v,from,to,{kind:'m44_b13_'+reason});
+    return true;
+   };
+   const zone=(variant,at,r,duration,damage,extra={})=>{
+    const z={id:++this.boardTemporalIdV453Dev69,kind:'m44_b13_zone',
+     variant,ownerId:u.id,team:u.team,point:{x:at.x,y:at.y},radius:r,
+     power:damage,nextAt:now+1,until:now+duration+.1,...extra};
+    (this.boardTemporalV453Dev69??=[]).push(z);return z.id;
+   };
+   switch(identity){
+    case 'Malzahar.R':{
+     if(!target)return {...committed,netherGrasp:false};
+     const blocked=this.effectResolverV41().has(target,'spell_shield');
+     if(!blocked&&target.champ)this.applyEffectV41(target,'suppression',
+      {source:u,duration:2.5,key:'m44_b13_malz_'+instance});
+     zone('malzahar_r',target,210,3,power(s.damage),
+      {targetId:target.id,origin:{x:u.x,y:u.y}});
+     return {...committed,netherGrasp:true,suppressed:!blocked};
+    }
+    case 'Fiddlesticks.R':{
+     if(!move(u,p,'fiddlesticks_crowstorm'))return {...committed,crowstorm:false};
+     return {...committed,crowstorm:true,
+      zoneId:zone('fiddle_r',u,550,4,power(s.damage))};
+    }
+    case 'Volibear.R':{
+     if(!move(u,p,'volibear_stormbringer'))return {...committed,stormbringer:false};
+     let hits=0;
+     for(const v of enemies(u,340))
+      if(this.damage(v,power(s.damage),u,'physical','spell')>0)hits++;
+     let towers=0;
+     for(const t of this.structures.filter(v=>v.type==='tower'&&v.team!==u.team&&
+      v.alive&&this.mapDistance(v,u)<=550)){
+      t.m44B13VoliDisabledUntil=now+3;towers++;
+     }
+     return {...committed,stormbringer:true,hits,towers};
+    }
+    case 'Samira.W':{
+     u.m44B13SamiraWhirlUntil=now+2;
+     let hits=0;
+     for(const v of enemies(u,360))
+      if(this.damage(v,power(s.damage),u,'physical','spell')>0)hits++;
+     return {...committed,bladeWhirl:true,hits};
+    }
+    case 'Yorick.R':{
+     // The server-controlled Maiden is a genuine pet, not another PvP player.
+     const maiden=this.m15Summon('yorick_maiden',u,{x:u.x,y:u.y},{
+      until:now+20,hp:1400+rank*250,maxHp:1400+rank*250,
+      power:40+rank*35,attackRange:480,moveSpeed:240,
+      leashRange:1500,nextAttackAt:now+1});
+     return {...committed,maiden:true,entityId:maiden.id};
+    }
+    case 'Ryze.R':{
+     const origin={x:u.x,y:u.y};
+     return {...committed,realmWarp:true,
+      zoneId:zone('ryze_r',p,350,2,0,{origin,castAt:now})};
+    }
+    case 'Skarner.R':{
+     let victims=0;
+     const aimed={x:(p.x-u.x)*this.worldWidth,y:(p.y-u.y)*this.worldHeight},
+      len=Math.max(1,Math.hypot(aimed.x,aimed.y));
+     for(const v of enemies(u,600).filter(v=>v.champ).filter(v=>{
+      const dx=(v.x-u.x)*this.worldWidth,dy=(v.y-u.y)*this.worldHeight,
+       norm=Math.max(1,Math.hypot(dx,dy));
+      return (dx*aimed.x+dy*aimed.y)/(len*norm)>.72;
+     }).slice(0,3)){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');
+      this.damage(v,power(s.damage),u,'physical','spell');
+      if(!blocked&&v.hp>0){
+       this.applyEffectV41(v,'suppression',{source:u,duration:2,
+        key:'m44_b13_skarner_'+instance+'_'+v.id});
+       v.m44B13SkarnerImpaled={ownerId:u.id,until:now+2};
+       victims++;
+      }
+     }
+     return {...committed,impale:true,victims};
+    }
+    case 'Nocturne.R':{
+     if(!target)return {...committed,paranoia:false};
+     const from={x:u.x,y:u.y},range=this.mapDistance(u,target),
+      landing={x:target.x-(target.x-u.x)*Math.min(.14,100/Math.max(1,range)),
+       y:target.y-(target.y-u.y)*Math.min(.14,100/Math.max(1,range))};
+     if(!move(u,landing,'nocturne_paranoia'))return {...committed,paranoia:false};
+     this.teams[target.team].m44B13ParanoiaUntil=now+3;
+     const hit=this.damage(target,power(s.damage),u,'physical','spell');
+     if(hit>0&&target.champ&&target.hp>0)
+      this.applyEffectV41(target,'blind',{source:u,duration:2,
+       key:'m44_b13_paranoia_'+instance});
+     return {...committed,paranoia:true,hit:hit>0};
+    }
+    case 'Briar.W':
+     u.m44B13Frenzy={until:now+4,nextAt:now+1};
+     u.boardSpeedV453Dev69={until:now+4,fraction:.35};
+     return {...committed,bloodFrenzy:true};
+    case 'Belveth.E':
+     u.m44B13Maelstrom={until:now+3,nextAt:now+1,damage:power(s.damage)};
+     return {...committed,royalMaelstrom:true};
+    case 'Rakan.W':{
+     if(!move(u,p,'rakan_grand_entrance'))return {...committed,grandEntrance:false};
+     return {...committed,grandEntrance:true,
+      zoneId:zone('rakan_w',u,255,1,power(s.damage))};
+    }
+    case 'Pantheon.E':
+     u.m44B13Aegis={until:now+3,origin:{x:u.x,y:u.y},
+      facing:u.m28FacingV453||{x:1,y:0}};
+     return {...committed,aegisAssault:true};
+    case 'Diana.R':{
+     let pulled=0;
+     for(const v of enemies(u,450).filter(v=>v.champ)){
+      const dx=(u.x-v.x)*this.worldWidth,dy=(u.y-v.y)*this.worldHeight,
+       distance=Math.max(1,Math.hypot(dx,dy)),
+       to={x:v.x+dx/distance*130/this.worldWidth,
+        y:v.y+dy/distance*130/this.worldHeight};
+      if(!this.obstacleLine(v,to)&&move(v,to,'diana_moonfall'))pulled++;
+     }
+     return {...committed,moonfall:true,pulled,
+      zoneId:zone('diana_r',u,450,1,power(s.damage),{pulled})};
+    }
+    case 'Shyvana.E':{
+     const dragon=(u.boardFormV453M14||'human')==='dragon',
+      victims=skillshotHitsV42(u,p,
+       this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0),{
+        range:s.range,width:dragon?320:210,maxHits:dragon?Infinity:1,
+        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     let hits=0;
+     for(const v of victims.filter(v=>!this.obstacleLine(u,v))){
+      if(this.damage(v,power(s.damage)+(dragon?v.maxHp*.04:0),
+        u,'magic','spell')>0){
+       hits++;if(v.hp>0)(v.m44B13ShyvanaScorch??={})[u.id]=now+4;
+      }
+     }
+     if(dragon)zone('shyvana_e',p,260,3,power(s.damage)*.4);
+     return {...committed,flameBreath:true,dragon,hits};
+    }
+    default:return {ok:false,reason:'m44_b13b_unknown_champion_identity'};
+   }
+  }
   // B12B champion-authored skill branches; only a successful V40 debit reaches here.
   if(s.m44B12NoxianDiplomacy&&u.champ==='Talon'&&target){
    const start={x:u.x,y:u.y},dist=this.mapDistance(u,target),melee=dist<=190;
