@@ -1016,6 +1016,42 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B17B: original tactical identities, including Kindred sanctuary and Poppy anti-dash.
+export const M44_B17B_KITS_V453=Object.freeze({
+ Volibear:{E:BS('circle_enemy',1200,60,[15,14,13,12,11],[80,120,160,200,240],{apRatio:.8,radius:380,m44B17BId:'Volibear.E'})},
+ Kindred:{
+  Q:BS('move_point',500,35,[9,8,7,6,5],[40,65,90,115,140],{type:'physical',adRatio:.65,m44B17BId:'Kindred.Q'}),
+  W:BS('circle_enemy',500,40,[18,17,16,15,14],[30,40,50,60,70],{type:'physical',adRatio:.4,radius:420,m44B17BId:'Kindred.W'}),
+  E:BS('target_enemy',500,50,[16,15,14,13,12],[60,80,100,120,140],{type:'physical',adRatio:.6,m44B17BId:'Kindred.E'}),
+  R:BS('circle_enemy',500,100,[180,150,120],[],{radius:500,m44B17BId:'Kindred.R'})},
+ Poppy:{
+  Q:BS('circle_enemy',430,35,[8,7,6,5,4],[50,75,100,125,150],{type:'physical',adRatio:.8,radius:280,m44B17BId:'Poppy.Q'}),
+  W:BS('self',0,50,[20,19,18,17,16],[],{m44B17BId:'Poppy.W'}),
+  E:BS('target_enemy',475,70,[14,13,12,11,10],[60,90,120,150,180],{type:'physical',adRatio:.5,m44B17BId:'Poppy.E'}),
+  R:BS('cone_enemy',1200,100,[140,120,100],[160,240,320],{type:'physical',adRatio:.9,arc:100,m44B17BId:'Poppy.R'})},
+ Samira:{
+  E:BS('target_enemy',650,40,[20,18,16,14,12],[50,65,80,95,110],{type:'magic',adRatio:.2,m44B17BId:'Samira.E'}),
+  R:BS('self',0,0,[5,5,5],[35,45,55],{type:'physical',adRatio:.5,m44B17BId:'Samira.R'})},
+ Taliyah:{R:BS('move_point',3000,100,[180,150,120],[],{m44B17BId:'Taliyah.R'})}
+});
+
+// M44 B17A: twelve source-authorial board abilities. Partial kits; no generic substitutes.
+export const M44_B17A_KITS_V453=Object.freeze({
+ Lissandra:{E:BS('move_point',1050,80,[24,21,18,15,12],[70,100,130,160,190],{apRatio:.6,m44B17AId:'Lissandra.E'})},
+ Malzahar:{W:BS('self',0,40,[8,8,8,8,8],[],{m44B17AId:'Malzahar.W'})},
+ Rakan:{R:BS('self',0,100,[130,110,90],[],{m44B17AId:'Rakan.R'})},
+ Sylas:{Q:BS('circle_enemy',775,55,[10,9,8,7,6],[60,90,120,150,180],{apRatio:.5,radius:260,m44B17AId:'Sylas.Q'})},
+ Briar:{R:BS('target_enemy',2300,100,[120,100,80],[150,250,350],{type:'physical',adRatio:.9,m44B17AId:'Briar.R'})},
+ Kalista:{W:BS('self',0,0,[30,27.5,25,22.5,20],[],{m44B17AId:'Kalista.W'})},
+ Jayce:{E:BS('target_enemy',240,40,[20,18,16,14,12],[40,70,100,130,160],{type:'physical',adRatio:.45,m44B17AId:'Jayce.E'})},
+ Hwei:{R:BS('circle_enemy',1300,100,[140,115,90],[180,280,380],{apRatio:.65,radius:400,m44B17AId:'Hwei.R'})},
+ Samira:{Q:BS('line_enemy',950,30,[6,5,4,3,2],[10,20,30,40,50],{type:'physical',adRatio:.9,width:160,m44B17AId:'Samira.Q'})},
+ Volibear:{
+  Q:BS('target_enemy',430,50,[14,13,12,11,10],[10,20,30,40,50],{type:'physical',adRatio:1.0,m44B17AId:'Volibear.Q'}),
+  W:BS('target_enemy',325,50,[5,5,5,5,5],[80,105,130,155,180],{type:'physical',adRatio:.9,m44B17AId:'Volibear.W'})},
+ Yorick:{W:BS('circle_enemy',600,70,[20,18,16,14,12],[],{radius:220,m44B17AId:'Yorick.W'})}
+});
+
 // M44 B16B — 12 more source-authored slots, incomplete parity explicitly tracked.
 export const M44_B16B_KITS_V453=Object.freeze({
  Azir:{R:BS('cone_enemy',750,100,[120,105,90],[150,225,300],{apRatio:.6,arc:100,m44B16BId:'Azir.R'})},
@@ -1599,7 +1635,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4365,6 +4401,8 @@ const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViC
   if(s.m44B14Id==='Leblanc.R'&&u.m44B14LastBasicSlot!=='W')
    return {ok:false,reason:'m44_b14_mimic_requires_w'};
   // B14: reject Oathsworn mismatches and empty ammo BEFORE the one-time debit.
+  if(s.m44B17BId==='Samira.R'&&(u.m44B17SamiraStyle||0)<6)
+   return {ok:false,reason:'m44_b17_samira_style_required'};
   if(s.m44B16BId==='Bard.E'&&(!point||!this.obstacleLine(u,point)))
    return {ok:false,reason:'m44_b16_bard_needs_wall'};
   if(s.m44B15AId==='Azir.E'&&
@@ -4830,6 +4868,21 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.shape==='move_point'&&this.units.some(enemy=>
+    enemy.team!==u.team&&enemy.hp>0&&
+    enemy.m44B17Steadfast?.until>this.gameTime&&
+    this.sameCombatRealmV453Dev69(u,enemy)&&
+    this.mapDistance(u,enemy)<=400)){
+    const blocker=this.units.find(enemy=>enemy.team!==u.team&&enemy.hp>0&&
+     enemy.m44B17Steadfast?.until>this.gameTime&&
+     this.sameCombatRealmV453Dev69(u,enemy)&&
+     this.mapDistance(u,enemy)<=400);
+    blocker.m44B17Steadfast.blocked++;
+    return {ok:false,reason:'m44_b17_poppy_anti_dash'};
+   }
+  if(s.m44B17BId==='Samira.R'&&(u.m44B17SamiraStyle||0)<6)
+   return {ok:false,reason:'m44_b17_samira_style_required'};
+
   if(s.m44B16BId==='Bard.E'&&(!q.point||!this.obstacleLine(u,q.point)))
    return {ok:false,reason:'m44_b16_bard_wall_lost_before_commit'};
   if(s.m44B15AId==='Azir.E'&&
@@ -5751,7 +5804,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
     !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker&&
     !s.m44B13Id&&!s.m44B13BId&&!s.m44B14Id&&
-     !s.m44B15AId&&!s.m44B15BId&&!s.m44B16BId){
+     !s.m44B15AId&&!s.m44B15BId&&!s.m44B16BId&&!s.m44B17AId&&!s.m44B17BId){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
@@ -5799,7 +5852,289 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-      // B16B — original source effects; copied Sylas/Viego invocations share this.
+    
+  // M44 B17B source-authored combat, no copies/fallbacks for Sylas or Viego.
+  if(s.m44B17BId){
+   const id=s.m44B17BId,now=this.gameTime,aim=q.point||target||u;
+   const enemies=(p,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(p,v)<=r&&!this.obstacleLine(p,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const harm=(v,m=1,t=s.type||'physical')=>
+    this.damage(v,power(s.damage)*m,u,t,'spell');
+   const shift=(v,p,type)=>{
+    if(!p||p.x<0||p.x>1||p.y<0||p.y>1||
+     !this.walkable(p.x,p.y)||this.obstacleLine(v,p)||
+     (this.realmOfV453Dev69(v)&&!this.realmValidV453Dev69(v,p)))return false;
+    const start={x:v.x,y:v.y};Object.assign(v,{x:p.x,y:p.y});
+    v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(v);
+    this.itemEnergizeRelocateV453Dev39(v,start,p,{kind:type});
+    return true;
+   };
+   const cone=(angle,range)=>enemies(u,range).filter(v=>{
+    const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight,
+     x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight;
+    return dx*x+dy*y>0&&(dx*x+dy*y)/Math.max(1,Math.hypot(dx,dy)*Math.hypot(x,y))>=
+     Math.cos(angle*Math.PI/360);
+   });
+   switch(id){
+    case 'Volibear.E':{
+     u.m44B17SkySplitter={at:now+1,point:{x:aim.x,y:aim.y},
+      radius:380,power:power(s.damage)};
+     return {...committed,skySplitter:true,impactAt:now+1};
+    }
+    case 'Kindred.Q':{
+     if(!shift(u,aim,'kindred_dance'))return {...committed,danceOfArrows:false};
+     let hits=0;for(const v of enemies(u,400).slice(0,3))
+      if(harm(v,1,'physical')>0)hits++;
+     const wolf=u.m44B17WolfFrenzy;
+     if(wolf&&wolf.until>now&&this.mapDistance(u,wolf.center)<=wolf.radius)
+      u.skillCds.Q=Math.min(u.skillCds.Q||Infinity,now+2);
+     return {...committed,danceOfArrows:true,arrows:hits,
+      wolfRefresh:!!(wolf&&wolf.until>now)};
+    }
+    case 'Kindred.W':{
+     u.m44B17WolfFrenzy={until:now+7,nextAt:now+1,
+      center:{x:aim.x,y:aim.y},radius:420,power:power(s.damage)};
+     return {...committed,wolfsFrenzy:true,until:now+7};
+    }
+    case 'Kindred.E':{
+     if(!target)return {...committed,mountingDread:false};
+     harm(target,.4,'physical');
+     if(target.hp>0)(target.m44B17MountingDread??={})[u.id]={
+      until:now+4,stacks:0,detonate:power(s.damage)+target.maxHp*.06};
+     return {...committed,mountingDread:true,markedId:target.id};
+    }
+    case 'Kindred.R':{
+     u.m44B17LambsRespite={until:now+4,center:{x:aim.x,y:aim.y},radius:500};
+     return {...committed,lambsRespite:true,protectBothTeams:true};
+    }
+    case 'Poppy.Q':{
+     let struck=0;for(const v of enemies(aim,280))
+      if(harm(v,1,'physical')>0)struck++;
+     u.m44B17HammerShock={at:now+1,point:{x:aim.x,y:aim.y},
+      power:power(s.damage),radius:280};
+     return {...committed,hammerShock:true,struck,secondAt:now+1};
+    }
+    case 'Poppy.W':{
+     u.m44B17Steadfast={until:now+2,blocked:0};
+     u.boardSpeedV453Dev69={until:now+2,fraction:.4};
+     return {...committed,steadfastPresence:true,antiDashRadius:400};
+    }
+    case 'Poppy.E':{
+     if(!target)return {...committed,heroicCharge:false};
+     const len=Math.max(1,this.mapDistance(u,target));
+     const landing={x:target.x-(target.x-u.x)*.1,
+      y:target.y-(target.y-u.y)*.1};
+     if(!shift(u,landing,'poppy_heroic_charge'))
+      return {...committed,heroicCharge:false};
+     const behind={x:target.x+(target.x-u.x)*220/len,
+      y:target.y+(target.y-u.y)*220/len};
+     const wallHit=!this.walkable(behind.x,behind.y)||this.obstacleLine(target,behind);
+     harm(target,wallHit?2:1,'physical');
+     if(wallHit&&target.champ&&target.hp>0)this.applyEffectV41(target,'stun',{
+      source:u,duration:1.5,key:'m44_b17_poppy_wall_'+instance});
+     else shift(target,behind,'poppy_knockback');
+     return {...committed,heroicCharge:true,wallStun:wallHit};
+    }
+    case 'Poppy.R':{
+     let knocked=0;
+     for(const v of cone(100,1200).filter(x=>x.champ)){
+      harm(v,1,'physical');
+      const len=Math.max(1,this.mapDistance(u,v));
+      const out={x:v.x+(v.x-u.x)*500/len,y:v.y+(v.y-u.y)*500/len};
+      if(v.hp>0&&shift(v,out,'poppy_verdict'))knocked++;
+     }
+     return {...committed,keepersVerdict:true,knocked,
+      chargeDistanceCertified:false};
+    }
+    case 'Samira.E':{
+     if(!target)return {...committed,wildRush:false};
+     const spot={x:target.x-(target.x-u.x)*.06,
+      y:target.y-(target.y-u.y)*.06};
+     if(!shift(u,spot,'samira_wild_rush'))
+      return {...committed,wildRush:false};
+     harm(target,1,'magic');
+     u.m44B17SamiraStyle=Math.min(6,(u.m44B17SamiraStyle||0)+1);
+     return {...committed,wildRush:true,style:u.m44B17SamiraStyle};
+    }
+    case 'Samira.R':{
+     const style=u.m44B17SamiraStyle||0;u.m44B17SamiraStyle=0;
+     u.m44B17InfernoTrigger={until:now+2,nextAt:now+.5,
+      power:power(s.damage)*.55};
+     return {...committed,infernoTrigger:true,spentStyle:style};
+    }
+    case 'Taliyah.R':{
+     u.m44B17WeaversWall={until:now+5,origin:{x:u.x,y:u.y},
+      destination:{x:aim.x,y:aim.y},wallCollisionCertified:false};
+     const shifted=shift(u,aim,'taliyah_wall_surf');
+     return {...committed,weaversWall:true,rode:shifted,
+      wallCollisionCertified:false};
+    }
+    default:return {ok:false,reason:'m44_b17b_unhandled'};
+   }
+  }
+
+  // M44 B17A: original champion effects, same descriptor and executor for Sylas/Viego.
+  if(s.m44B17AId){
+   const id=s.m44B17AId,now=this.gameTime,center=q.point||target||u;
+   const foes=(p,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(p,v)<=r&&!this.obstacleLine(p,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const harm=(v,m=1,t=s.type||'magic')=>
+    this.damage(v,power(s.damage)*m,u,t,'spell');
+   const shift=(p,mode)=>{
+    if(!p||!this.walkable(p.x,p.y)||this.obstacleLine(u,p))return false;
+    const from={x:u.x,y:u.y};
+    Object.assign(u,{x:p.x,y:p.y});
+    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,p,{kind:mode});
+    return true;
+   };
+   switch(id){
+    case 'Lissandra.E':{
+     const hits=skillshotHitsV42(u,center,foes(u,1050),{
+      range:1050,width:180,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     let damaged=0;for(const v of hits)if(harm(v)>0)damaged++;
+     const origin={x:u.x,y:u.y},arrivesAt=now+1;
+     u.m44B17GlacialPath={origin,point:{x:center.x,y:center.y},
+      arrivesAt,until:now+4};
+     return {...committed,glacialPath:true,damaged,arrivesAt,clawRecastNotCertified:true};
+    }
+    case 'Malzahar.W':{
+     const active=(this.boardSummonsV453Dev69||[]).filter(v=>
+      v.ownerId===u.id&&v.kind==='malz_voidling'&&v.hp>0&&v.until>now);
+     const spawned=Math.max(1,Math.min(3,3-active.length));
+     for(let i=0;i<spawned;i++){
+      const p={x:u.x+(i-1)*.001,y:u.y+.001};
+      this.boardSummonsV453Dev69.push({
+       id:'malz_voidling_'+(++this.boardSummonIdV453Dev69),
+       kind:'malz_voidling',ownerId:u.id,team:u.team,x:p.x,y:p.y,
+       hp:100+rank*25,maxHp:100+rank*25,armor:0,mr:0,
+       createdAt:now,until:now+8,lastTick:now,nextAttackAt:now+1,
+       moveSpeed:360,attackRange:150,power:15+rank*8+stats.ap*.15});
+     }
+     return {...committed,voidSwarm:true,spawned};
+    }
+    case 'Rakan.R':{
+     u.m44B17Quickness={until:now+4,tagged:{},power:power(s.damage)};
+     u.boardSpeedV453Dev69={until:now+4,fraction:.5};
+     let charmed=0;
+     for(const v of foes(u,260).filter(v=>v.champ)){
+      if(!this.effectResolverV41().has(v,'spell_shield')){
+       this.applyEffectV41(v,'charm',{source:u,duration:1,
+        key:'m44_b17_rakan_'+instance+'_'+v.id});charmed++;}
+      harm(v);u.m44B17Quickness.tagged[v.id]=true;
+     }
+     return {...committed,quickness:true,charmed};
+    }
+    case 'Sylas.Q':{
+     let struck=0;
+     for(const v of foes(center,260))if(harm(v)>0)struck++;
+     u.m44B17ChainBurst={at:now+1,point:{x:center.x,y:center.y},
+      power:power(s.damage)*1.25,radius:220};
+     return {...committed,chainLash:true,struck,detonatesAt:now+1};
+    }
+    case 'Briar.R':{
+     const landing=target?{x:target.x-(target.x-u.x)*.09,
+      y:target.y-(target.y-u.y)*.09}:null;
+     if(!landing||!shift(landing,'briar_r_impact'))
+      return {...committed,certainDeath:false};
+     harm(target,1,'physical');
+     if(target.hp>0&&!this.effectResolverV41().has(target,'spell_shield'))
+      this.applyEffectV41(target,'fear',{source:u,duration:.8,
+       key:'m44_b17_briar_'+instance});
+     u.m44B13Frenzy={until:now+5,nextAt:now+1};
+     u.m44B17BriarHunt={targetId:target.id,until:now+5};
+     return {...committed,certainDeath:true,huntedId:target.id};
+    }
+    case 'Kalista.W':{
+     const p={x:Math.min(.99,u.x+.018),y:u.y};
+     const existing=(this.boardSummonsV453Dev69||[]).filter(e=>
+      e.kind==='kalista_sentinel'&&e.ownerId===u.id&&e.until>now&&e.hp>0);
+     if(existing.length>=2)existing.sort((a,b)=>a.createdAt-b.createdAt||
+      String(a.id).localeCompare(String(b.id)))[0].hp=0;
+     const sentinel={id:'kalista_sentinel_'+(++this.boardSummonIdV453Dev69),
+      kind:'kalista_sentinel',team:u.team,ownerId:u.id,x:p.x,y:p.y,
+      hp:1,maxHp:1,until:now+20,lastTick:now,createdAt:now,
+      attackRange:0,moveSpeed:325};
+     this.boardSummonsV453Dev69.push(sentinel);
+     return {...committed,sentinel:true,entityId:sentinel.id,
+      oathswornId:u.m44B14OathswornId||null};
+    }
+    case 'Jayce.E':{
+     const hammer=u.m44B13JayceMode==='hammer';
+     if(hammer){
+      const len=Math.max(1,this.mapDistance(u,target)),p={
+       x:target.x+(target.x-u.x)*300/len,y:target.y+(target.y-u.y)*300/len};
+      harm(target,1,'magic');
+      if(this.walkable(p.x,p.y)&&!this.obstacleLine(target,p)){
+       const from={x:target.x,y:target.y};Object.assign(target,p);
+       target.path=[];target.laneFollowPath=[];target.retreatPath=[];
+       this.invalidateShopUndoOnDepartureV453Dev61(target);
+       this.itemEnergizeRelocateV453Dev39(target,from,p,{kind:'jayce_thundering_blow'});
+      }
+      return {...committed,thunderingBlow:true,knockedTarget:target.id};
+     }
+     u.boardSpeedV453Dev69={until:now+4,fraction:.35};
+     u.m44B17AccelerationGate={until:now+4,x:u.x,y:u.y};
+     return {...committed,accelerationGate:true,knockback:false};
+    }
+    case 'Hwei.R':{
+     let tagged=0;for(const v of foes(center,400)){
+      if(harm(v,.35)>0)tagged++;
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:2,power:.4,key:'m44_b17_hwei_r_'+instance+'_'+v.id});
+     }
+     u.m44B17SpiralingDespair={at:now+2,point:{x:center.x,y:center.y},
+      radius:400,power:power(s.damage)};
+     return {...committed,spiralingDespair:true,tagged,explodesAt:now+2};
+    }
+    case 'Samira.Q':{
+     const melee=foes(u,325).some(v=>v.champ);
+     const hits=melee?foes(u,325):skillshotHitsV42(u,center,foes(u,950),{
+      range:950,width:160,maxHits:1,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     let struck=0;for(const v of hits)if(harm(v,1,'physical')>0)struck++;
+     u.m44B17SamiraStyle=Math.min(6,(u.m44B17SamiraStyle||0)+(struck?1:0));
+     return {...committed,flair:true,melee,struck,style:u.m44B17SamiraStyle};
+    }
+    case 'Volibear.Q':{
+     if(!target)return {...committed,thunderingSmash:false};
+     harm(target,1,'physical');
+     const blocked=this.effectResolverV41().has(target,'spell_shield');
+     if(target.champ&&target.hp>0&&!blocked)this.applyEffectV41(target,'stun',{
+      source:u,duration:1,key:'m44_b17_voli_q_'+instance});
+     u.boardSpeedV453Dev69={until:now+2,fraction:.2};
+     return {...committed,thunderingSmash:true,stunned:!blocked};
+    }
+    case 'Volibear.W':{
+     if(!target)return {...committed,frenziedMaul:false};
+     const repeated=target.m44B17VolibearWound?.[u.id]>now;
+     harm(target,repeated?1.5:1,'physical');
+     if(target.hp>0)(target.m44B17VolibearWound??={})[u.id]=now+8;
+     if(repeated)this.effectResolverV41().heal(u,60+rank*18+stats.ap*.2,u);
+     return {...committed,frenziedMaul:true,repeatBite:repeated};
+    }
+    case 'Yorick.W':{
+     u.m44B17DarkProcession={at:now,until:now+4,
+      center:{x:center.x,y:center.y},radius:220,wallCollisionCertified:false};
+     let trapped=0;
+     for(const v of foes(center,220).filter(v=>v.champ)){
+      this.applyEffectV41(v,'slow',{source:u,duration:1,power:.3,
+       key:'m44_b17_yorick_cage_'+instance});trapped++;
+     }
+     return {...committed,darkProcession:true,trapped,wallCollisionCertified:false};
+    }
+    default:return {ok:false,reason:'m44_b17a_unhandled'};
+   }
+  }
+
+  // B16B — original source effects; copied Sylas/Viego invocations share this.
   if(s.m44B16BId){
    const key=s.m44B16BId,now=this.gameTime,aim=q.point||target||u;
    const foes=(origin,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
@@ -10307,6 +10642,109 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      }
     }
    }
+  // B17B timed source effects; no real-time callbacks or client-only damage.
+  for(const owner of this.units.filter(v=>v.hp>0)){
+   const sky=owner.m44B17SkySplitter;
+   if(sky&&sky.at<=this.gameTime){
+    owner.m44B17SkySplitter=null;
+    for(const v of [...this.units,...this.minions].filter(t=>
+     t.hp>0&&this.sameCombatRealmV453Dev69(owner,t)&&
+     this.mapDistance(sky.point,t)<=sky.radius&&!this.obstacleLine(sky.point,t))){
+     if(v.team!==owner.team)this.damage(v,sky.power,owner,'magic','spell');
+     else if(v.id===owner.id)v.shield=(v.shield||0)+Math.max(70,sky.power*.55);
+    }
+   }
+   const wolf=owner.m44B17WolfFrenzy;
+   if(wolf&&wolf.until>this.gameTime&&wolf.nextAt<=this.gameTime){
+    wolf.nextAt=this.gameTime+1;
+    const target=this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+     v.hp>0&&this.sameCombatRealmV453Dev69(owner,v)&&
+     this.mapDistance(wolf.center,v)<=wolf.radius&&!this.obstacleLine(wolf.center,v))
+     .sort((a,b)=>this.mapDistance(a,wolf.center)-this.mapDistance(b,wolf.center)||
+      String(a.id).localeCompare(String(b.id)))[0];
+    if(target)this.damage(target,wolf.power,owner,'physical','spell');
+   }
+   const hammer=owner.m44B17HammerShock;
+   if(hammer&&hammer.at<=this.gameTime){
+    owner.m44B17HammerShock=null;
+    for(const v of this.boardCombatEnemyPoolV453Dev69(owner).filter(e=>
+     e.hp>0&&this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(hammer.point,e)<=hammer.radius&&!this.obstacleLine(hammer.point,e)))
+     this.damage(v,hammer.power,owner,'physical','spell');
+   }
+   const inferno=owner.m44B17InfernoTrigger;
+   if(inferno&&inferno.until>=this.gameTime&&inferno.nextAt<=this.gameTime){
+    inferno.nextAt=this.gameTime+.5;
+    for(const v of this.boardCombatEnemyPoolV453Dev69(owner).filter(e=>
+     e.hp>0&&this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(owner,e)<=600&&!this.obstacleLine(owner,e)))
+     this.damage(v,inferno.power,owner,'physical','spell');
+   }
+   const sanctuary=owner.m44B17LambsRespite;
+   if(sanctuary&&sanctuary.until<=this.gameTime&&!sanctuary.healed){
+    sanctuary.healed=true;
+    for(const v of this.units.filter(e=>e.hp>0&&
+     this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(sanctuary.center,e)<=sanctuary.radius))
+     this.effectResolverV41().heal(v,Math.max(140,v.maxHp*.12),owner);
+    owner.m44B17LambsRespite=null;
+   }
+  }
+
+  // B17 Malzahar W: actual timed Voidling attacks, owner-linked with
+  // preferential priority for the owner's Malefic Visions mark.
+  for(const pet of (this.boardSummonsV453Dev69||[]).filter(e=>
+   e.kind==='malz_voidling'&&e.hp>0&&e.until>this.gameTime&&
+   e.nextAttackAt<=this.gameTime)){
+   const owner=this.units.find(v=>v.id===pet.ownerId&&v.team===pet.team&&v.hp>0);
+   pet.nextAttackAt=this.gameTime+1;
+   if(!owner)continue;
+   const victim=this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(owner,v)&&
+    this.mapDistance(pet,v)<=575&&!this.obstacleLine(pet,v))
+    .sort((a,b)=>{
+     const am=a.m44B16Malefic?.[owner.id]?.until>this.gameTime?1:0;
+     const bm=b.m44B16Malefic?.[owner.id]?.until>this.gameTime?1:0;
+     return bm-am||this.mapDistance(pet,a)-this.mapDistance(pet,b)||
+      String(a.id).localeCompare(String(b.id));
+    })[0];
+   if(victim)this.damage(victim,pet.power*(victim.m44B16Malefic?.[owner.id]?.until>
+    this.gameTime?1.5:1),owner,'magic','summon_pet');
+  }
+
+  // M44 B17A owner-timed effects; state is serialized in Arena checkpoints.
+  for(const owner of this.units.filter(v=>v.hp>0)){
+   const chain=owner.m44B17ChainBurst;
+   if(chain&&chain.at<=this.gameTime){
+    owner.m44B17ChainBurst=null;
+    for(const v of this.boardCombatEnemyPoolV453Dev69(owner).filter(e=>
+     e.hp>0&&this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(chain.point,e)<=chain.radius&&!this.obstacleLine(chain.point,e)))
+     this.damage(v,chain.power,owner,'magic','spell');
+   }
+   const hwei=owner.m44B17SpiralingDespair;
+   if(hwei&&hwei.at<=this.gameTime){
+    owner.m44B17SpiralingDespair=null;
+    for(const v of this.boardCombatEnemyPoolV453Dev69(owner).filter(e=>
+     e.hp>0&&this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(hwei.point,e)<=hwei.radius&&!this.obstacleLine(hwei.point,e)))
+     this.damage(v,hwei.power,owner,'magic','spell');
+   }
+   const rak=owner.m44B17Quickness;
+   if(rak&&rak.until>this.gameTime){
+    for(const v of this.boardCombatEnemyPoolV453Dev69(owner).filter(e=>
+     e.champ&&e.hp>0&&!rak.tagged[e.id]&&
+     this.sameCombatRealmV453Dev69(owner,e)&&
+     this.mapDistance(owner,e)<=260&&!this.obstacleLine(owner,e))){
+     rak.tagged[v.id]=true;
+     const blocked=this.effectResolverV41().has(v,'spell_shield');
+     this.damage(v,rak.power,owner,'magic','spell');
+     if(!blocked&&v.hp>0)this.applyEffectV41(v,'charm',{source:owner,
+      duration:1,key:'m44_b17_rakan_follow_'+owner.id+'_'+v.id});
+    }
+   }
+  }
+
   // B16A owner-timed states are serialized with the Arena, no untracked timers.
   for(const owner of this.units.filter(v=>v.hp>0)){
    for(const [field,radius,type] of [
@@ -14378,7 +14816,27 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
    target.m44B09Bailout.until=Math.min(target.m44B09Bailout.until,
     this.gameTime+3);
   }
+  // B17 Kindred R: sanctuary prevents HP crossing 10% for BOTH teams
+  // in its owner-relative realm. Apply after shields, before lethal triggers.
+  if(target.hp>0&&target.champ&&this.units.some(owner=>
+   owner.hp>0&&owner.m44B17LambsRespite?.until>this.gameTime&&
+   this.sameCombatRealmV453Dev69(owner,target)&&
+   this.mapDistance(owner.m44B17LambsRespite.center,target)<=
+    owner.m44B17LambsRespite.radius)){
+   final=Math.min(final,Math.max(0,target.hp-Math.max(1,target.maxHp*.1)));
+  }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+  // B17 Kindred E: precisely three real owner basic hits detonate the dread.
+  if(dealt>0&&sourceType==='basic'&&attacker?.team!==target.team&&
+   target.m44B17MountingDread?.[attacker.id]?.until>this.gameTime){
+   const mark=target.m44B17MountingDread[attacker.id];
+   mark.stacks++;
+   if(mark.stacks>=3){
+    delete target.m44B17MountingDread[attacker.id];
+    if(target.hp>0)this.damage(target,mark.detonate,attacker,'physical',
+     'm44_b17_kindred_dread_proc');
+   }
+  }
   if(dealt>0&&target.champ==='Rengar'){
    const prior=target.m44B12RecentDamage?.until>this.gameTime?
     target.m44B12RecentDamage.amount:0;
