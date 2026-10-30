@@ -5776,7 +5776,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      !this.walkable(to.x,to.y)||this.obstacleLine(u,to)||
      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,to)))
      return false;
-    const from={x:u.x,y:u.y};Object.assign(u,to);
+    const from={x:u.x,y:u.y};Object.assign(u,{x:to.x,y:to.y});
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
     this.invalidateShopUndoOnDepartureV453Dev61(u);
     this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'m44_b15_'+key});
@@ -5933,7 +5933,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      !this.walkable(to.x,to.y)||this.obstacleLine(u,to)||
      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,to)))
      return false;
-    const from={x:u.x,y:u.y};Object.assign(u,to);
+    const from={x:u.x,y:u.y};Object.assign(u,{x:to.x,y:to.y});
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
     this.invalidateShopUndoOnDepartureV453Dev61(u);
     this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'m44_b15_'+reason});
@@ -6032,7 +6032,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       v.kind==='azir_soldier'&&v.ownerId===u.id&&v.hp>0&&v.until>now&&
       this.mapDistance(v,aim)<=200&&this.mapDistance(u,v)<=1100)
       .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
-     if(!soldier||!relocate(soldier,'azir_shift'))return {...committed,shiftingSands:false};
+     if(!soldier||!relocate({x:soldier.x,y:soldier.y},'azir_shift'))return {...committed,shiftingSands:false};
      u.shield=(u.shield||0)+60+25*rank;
      let hits=0;for(const v of enemies(u,210))if(hit(v)>0)hits++;
      return {...committed,shiftingSands:true,hits};
