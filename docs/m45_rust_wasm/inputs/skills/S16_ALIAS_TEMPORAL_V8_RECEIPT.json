@@ -17,7 +17,7 @@
   },
   "rust_reference": {
     "path": "docs/m45_rust_wasm/inputs/skills/s16_visibility_collision_rust_acceptance.rs",
-    "git_blob_sha": "3f9ed69cdee33ebcef1a8207953365ee2c99f09c",
+    "git_blob_sha": "5321e3e5c1e3ea5d54510411adb4f468036e4085",
     "source_only": true,
     "unit_tests_prepared": 3,
     "unit_tests_executed": 0
