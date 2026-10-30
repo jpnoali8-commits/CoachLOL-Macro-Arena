@@ -129,3 +129,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - Removido descarte incondicional de pending na passagem de turnos do protótipo SkillAdmission. Bloqueia avanço com intenção não comprometida e preserva committed in-flight até evento terminal; testes Rust 5→7 definidos, ainda NOT_RUN.
 - A fase B02B continua não certificada: compilar/fmt/testar com Cargo em checkpoint final permitido, executar goldens ESM e segurança HTTP/SSE quando ambiente disponível, reconciliar cliente/autorais. Não promover B03. Proibido gastar runners de CI em cada sublote.
+
+### M45 B02B-I07 — corrigir ciclo de in-flight e registrar lacunas de catalogo (2026-10-30)
+
+- Separado pending (slot/turno) de in_flight (cast_id) em Rust; 9 testes escritos, NOT_RUN; 14 autorais source pinned e Ahri/Nami diagnosticados sem promover PASS.
+- B02B segue IN_PROGRESS, B03 QUEUED. Reservar CI para checkpoint final; nenhum Actions manual disparado.

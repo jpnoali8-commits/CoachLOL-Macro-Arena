@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I06 avanço de turno fail-closed e retenção de projéteis in-flight (Rust escrito, não compilado).
+**Atualizado:** 2026-10-30, B02B-I07 pending vs in-flight separados, matriz de gaps de skills, Rust não compilado.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -188,3 +188,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Adicionados 2 testes Rust (total 7 definidos): ambos os seats com Ahri E temporal cruzando turno, e duas habilidades Blue/Red em estados distintos, incluindo ACK cacheado e necessidade de retire. Teste anterior in-memory clone atualizado para realizar commit + retire antes de avançar. A recepção da Ahri E continua separada da execução autoral do projétil.
 - Contratos legados Nami W target_any e Ahri E board_effect reconferidos pelo JSON source-pinned; 14 autorais M44 permanecem fora de BOARD_KITS.kits, sem afirmar invisibilidade total na UI. VERIFICAÇÃO ESTÁTICA local dos trechos/fixtures PASS; Cargo/rustfmt/clippy/WASM/26 Node/HTTP/SSE ainda NOT_RUN. Nenhum runner Actions manual; B02B IN_PROGRESS, G0/G1 PARTIAL, G3/G6/G8 NOT_RUN.
 - Pendência de design para B04: separar duravelmente Queued/Sealed/Committed/InFlight/Terminal e tratar timers/recats de forma autoral. Este protótipo não implementa relógio, autenticação, efeito, cooldown ou replay persistido.
+
+## M45 B02B-I07 — separacao de admissao vs projeteis em voo (2026-10-30)
+
+- Corrigida limitacao I06: casts committed em voo nao devem bloquear admissao de slot QWER no proximo turno. Agora o registro pending tem escopo de turno; next_turn transfere casts confirmados para in_flight por cast_id, com retire verificado por assento/ator/slot. Cooldown e validação de alcance continuam sendo responsabilidade do futuro servidor Rust, e NAO foram implementados aqui.
+- Atualizados 2 testes anteriores e adicionados 2 testes Rust (total 9 definidos; 0 executados): cast antigo em voo e novo primario coexistem; retire antigo nao apaga novo; seat/ator/slot nao podem retirar cast alheio.
+- Nova matriz B02B_I07_WIRE_GAPS.json source-pinned: 14 autorais M44 fora da propriedade antiga kits, mas possivelmente em colecoes alternativas; Ahri E 6 negativas gateway, Nami W 2 targeted aceitos mas target_any indisponivel no botao antigo. Isso registra lacunas, NAO alega conserto.
+- QA feito: revisao estatica de invariantes e dados do legado. Rust cargo/fmt/clippy/wasm e Node 26 suites, HTTP/SSE nao executados. Zero Actions solicitadas. G0/G1 PARTIAL, G3/G6/G8 NOT_RUN. B02B permanece em andamento.

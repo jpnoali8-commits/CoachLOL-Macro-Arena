@@ -1,0 +1,132 @@
+{
+  "schema": "coachlol.m45.b02b.i07.wire-gap-matrix.v1",
+  "date": "2026-10-30",
+  "status": "AUDIT_GAPS_NOT_FIXED",
+  "source": {
+    "skills_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "client_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_blob": "61f9d941852b6378bccccf8956aa699e8761836d",
+    "gateway_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de"
+  },
+  "legacy_board_champions": 30,
+  "authored_outside_old_kits": [
+    {
+      "champion": "Bard",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "AurelionSol",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Anivia",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Kalista",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Leblanc",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Jayce",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Rumble",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Taliyah",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Lissandra",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Ekko",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Zed",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Katarina",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Nami",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    },
+    {
+      "champion": "Azir",
+      "scope": "ABSENT_ONLY_FROM_KITS_PROPERTY",
+      "other_api_collections": "MAY_APPEAR",
+      "full_ui_reachability": "NOT_PROVEN",
+      "rust_certs": "NOT_RUN"
+    }
+  ],
+  "Ahri_E": {
+    "kind": "board_effect",
+    "gateway_denied_two_sides": 6,
+    "normal_gateway_status": "NOT_REACHABLE",
+    "rust_executor": "NOT_IMPLEMENTED"
+  },
+  "Nami_W": {
+    "shape": "target_any",
+    "gateway_targeted_ok_two_sides": 2,
+    "ui_target_any": "NOT_SUPPORTED_BY_OLD_TARGET_BUTTON",
+    "rust_executor": "NOT_IMPLEMENTED"
+  },
+  "qa": {
+    "original_node_suite": "0/26",
+    "http_sse": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "actions_manually_started": 0
+  }
+}

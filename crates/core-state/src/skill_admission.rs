@@ -69,15 +69,17 @@ pub struct SkillAdmission {
     next_id: u64,
     receipts: HashMap<(Team, String), CachedRequest>,
     pending: HashMap<(Team, String, SkillSlot), PendingPrimary>,
+    in_flight: HashMap<u64, (Team, String, SkillSlot)>,
 }
 impl SkillAdmission {
     pub fn new(turn: u32) -> Self {
         Self { turn, sealed: false, next_id: 0, receipts: HashMap::new(),
-            pending: HashMap::new() }
+            pending: HashMap::new(), in_flight: HashMap::new() }
     }
     pub fn turn(&self) -> u32 { self.turn }
     pub fn is_sealed(&self) -> bool { self.sealed }
     pub fn pending_count(&self) -> usize { self.pending.len() }
+    pub fn in_flight_count(&self) -> usize { self.in_flight.len() }
     pub fn receipt_count(&self) -> usize { self.receipts.len() }
     fn valid_aim(r: &SkillRequest) -> bool {
         match (&r.shape, &r.aim) {
@@ -163,8 +165,14 @@ impl SkillAdmission {
     ) -> bool {
         let key = (seat, actor_id.to_owned(), slot);
         if self.pending.get(&key).is_some_and(|p| p.cast_id == cast_id) {
-            self.pending.remove(&key); true
-        } else { false }
+            self.pending.remove(&key);
+            return true;
+        }
+        if self.in_flight.get(&cast_id).is_some_and(|saved| saved == &key) {
+            self.in_flight.remove(&cast_id);
+            return true;
+        }
+        false
     }
     /// Request receipts retained across turns for reconnect/retry in memory.
     /// Persistent serialization and receipt eviction belong to later packages.
@@ -177,6 +185,11 @@ impl SkillAdmission {
             return None;
         }
         let next = self.turn.checked_add(1)?;
+        // All pending primaries are committed. Preserve their cast instances
+        // independently of next turn admission, until terminal resolution.
+        for (key, cast) in std::mem::take(&mut self.pending) {
+            self.in_flight.insert(cast.cast_id, key);
+        }
         self.turn = next;
         self.sealed = false;
         Some(next)
@@ -304,18 +317,20 @@ mod tests {
             assert!(a.mark_committed_once(seat, "ahri", SkillSlot::E, cast_id));
             // A committed temporal cast continues across the next turn.
             assert_eq!(a.next_turn(), Some(9));
-            assert_eq!(a.pending_count(), 1);
+            assert_eq!(a.pending_count(), 0);
+            assert_eq!(a.in_flight_count(), 1);
             assert_eq!(a.admit(seat, seat, e), ack);
             let second = req(9, "ahri-e-next", "ahri", SkillSlot::E,
                 TargetShape::LineEnemy, SkillAim::Direction { x: 500, y: 0 });
-            assert_eq!(a.admit(seat, seat, second.clone()).decision,
-                AdmissionDecision::SlotAlreadyPending);
-            assert!(a.retire(seat, "ahri", SkillSlot::E, cast_id));
-            assert_eq!(a.pending_count(), 0);
-            // A fresh request (and subsequent server cooldown check) is required.
-            assert_eq!(a.admit(seat, seat, req(9, "fresh", "ahri", SkillSlot::E,
+            let fresh = a.admit(seat, seat, second.clone());
+            assert_eq!(fresh.decision, AdmissionDecision::Queued);
+            assert_ne!(fresh.cast_instance_id, Some(cast_id));
+            assert_eq!(a.admit(seat, seat, req(9, "third", "ahri", SkillSlot::E,
                 TargetShape::LineEnemy, SkillAim::Direction { x: 400, y: 0 }))
-                .decision, AdmissionDecision::Queued);
+                .decision, AdmissionDecision::SlotAlreadyPending);
+            assert!(a.retire(seat, "ahri", SkillSlot::E, cast_id));
+            assert_eq!(a.in_flight_count(), 0);
+            assert_eq!(a.pending_count(), 1);
         }
     }
 
@@ -335,11 +350,52 @@ mod tests {
         assert!(a.mark_committed_once(Team::Red, "ahri", SkillSlot::E,
             ahri.cast_instance_id.unwrap()));
         assert_eq!(a.next_turn(), Some(13));
-        assert_eq!(a.pending_count(), 2);
+        assert_eq!(a.pending_count(), 0);
+        assert_eq!(a.in_flight_count(), 2);
         assert!(a.retire(Team::Blue, "nami", SkillSlot::W,
             nami.cast_instance_id.unwrap()));
         assert!(a.retire(Team::Red, "ahri", SkillSlot::E,
             ahri.cast_instance_id.unwrap()));
         assert_eq!(a.pending_count(), 0);
+        assert_eq!(a.in_flight_count(), 0);
+    }
+
+    #[test]
+    fn terminal_old_projectile_never_removes_new_pending_cast() {
+        for seat in [Team::Blue, Team::Red] {
+            let mut a = SkillAdmission::new(4);
+            let old = a.admit(seat, seat, req(4, "old", "ahri", SkillSlot::E,
+                TargetShape::LineEnemy, SkillAim::Direction { x: 10, y: 0 }));
+            a.seal();
+            let old_id = old.cast_instance_id.unwrap();
+            assert!(a.mark_committed_once(seat, "ahri", SkillSlot::E, old_id));
+            assert_eq!(a.next_turn(), Some(5));
+            let fresh = a.admit(seat, seat, req(5, "fresh", "ahri", SkillSlot::E,
+                TargetShape::LineEnemy, SkillAim::Direction { x: 10, y: 1 }));
+            assert_eq!(fresh.decision, AdmissionDecision::Queued);
+            assert_ne!(fresh.cast_instance_id, Some(old_id));
+            assert!(a.retire(seat, "ahri", SkillSlot::E, old_id));
+            assert_eq!(a.pending_count(), 1);
+            assert_eq!(a.in_flight_count(), 0);
+            assert!(!a.retire(seat, "ahri", SkillSlot::E, old_id));
+            assert_eq!(a.pending_count(), 1);
+        }
+    }
+
+    #[test]
+    fn in_flight_terminal_requires_matching_seat_actor_and_slot() {
+        let mut a = SkillAdmission::new(1);
+        let ack = a.admit(Team::Blue, Team::Blue, req(1, "id", "ahri",
+            SkillSlot::E, TargetShape::LineEnemy, SkillAim::Direction { x: 2, y: 0 }));
+        a.seal();
+        let id = ack.cast_instance_id.unwrap();
+        assert!(a.mark_committed_once(Team::Blue, "ahri", SkillSlot::E, id));
+        assert_eq!(a.next_turn(), Some(2));
+        assert!(!a.retire(Team::Red, "ahri", SkillSlot::E, id));
+        assert!(!a.retire(Team::Blue, "nami", SkillSlot::E, id));
+        assert!(!a.retire(Team::Blue, "ahri", SkillSlot::W, id));
+        assert_eq!(a.in_flight_count(), 1);
+        assert!(a.retire(Team::Blue, "ahri", SkillSlot::E, id));
+        assert_eq!(a.in_flight_count(), 0);
     }
 }

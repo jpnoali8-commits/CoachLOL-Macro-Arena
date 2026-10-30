@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I06_PRESERVE_INFLIGHT_CROSS_TURN_UNCOMPILED",
+    "phase": "B02B_I07_PENDING_VS_INFLIGHT_AND_WIRE_GAP_MATRIX",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -699,6 +699,20 @@
       "g0": "PARTIAL",
       "g1": "PARTIAL_PREVIOUS_B01_ONLY",
       "g8": "NOT_RUN"
+    },
+    "i07": {
+      "status": "RUST_WRITTEN_NOT_COMPILED",
+      "base": "056191eff45aa48167a79a36ffe3929b6e56eb48",
+      "rust_unit_tests_defined": 9,
+      "rust_unit_tests_run": 0,
+      "legacy_source_static_audit": "PASS",
+      "matrix": "docs/m45_rust_wasm/inputs/core/b02b/B02B_I07_WIRE_GAPS.json",
+      "rust_native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "original_node_skills": "0/26",
+      "actual_http_sse": "NOT_RUN",
+      "actions_manually_requested": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }
 }
