@@ -1,0 +1,151 @@
+{
+  "schema": "coachlol.m45.platform-a08.protocol-epoch-sequence.v1",
+  "document_status": "PROPOSED_CONTRACT_NOT_IMPLEMENTED_RUST",
+  "date": "2026-10-30",
+  "provenance": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "source_blobs": {
+      "engine": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+      "client": "43f42ef9e9022db8aa3cb96a299e8ed69d8522f3",
+      "gateway": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+      "gateway47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+      "room": "3bdb8cd3b737d20e3700e994a8872943e53366ae"
+    }
+  },
+  "evidence": {
+    "legacy_runtime": "8/8_PASS isolated V8 with source-pinned exact client send/render/connect + real Arena, gateway and Room",
+    "reconciliation_reference": "8/8_PASS Node 22.16.0 on exact Git blobs eacc5005/f770e5d3",
+    "original_http": "NOT_RUN",
+    "native_rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "two_browsers": "NOT_RUN"
+  },
+  "command": {
+    "required": [
+      "room_id",
+      "session_epoch",
+      "authenticated_seat",
+      "request_id",
+      "client_sequence",
+      "unit_id",
+      "kind",
+      "payload",
+      "expected_round",
+      "protocol_version"
+    ],
+    "seatRule": "authenticated_seat is derived from cookie/session by authoritative server; never trust payload seat or team",
+    "pendingRule": "one immutable in-flight command per authenticated human seat; retry the identical canonical packet after ACK loss",
+    "receiptRule": "commit once, persist receipt before sending success ACK; duplicate identical request returns byte-compatible ACK across seal/restart; changed request rejected",
+    "orderingRule": "neither SSE nor HTTP ACK independently increments client_sequence twice; reconcile to max(serverNext, ackSeq+1) exactly once after receipt",
+    "epochRule": "room change or reauth resets sequence/revision state; late response from old epoch ignored",
+    "readyRule": "ready is a distinct idempotent request with same epoch/round/seat key; no simulation until both humans confirm"
+  },
+  "server_state": {
+    "snapshot_whitelist": [
+      "roomId",
+      "seatId",
+      "team",
+      "revision",
+      "round",
+      "nextSequence",
+      "ready",
+      "phase",
+      "projection"
+    ],
+    "forbidden": [
+      "rngState",
+      "tokenHash",
+      "private_enemy_order",
+      "hidden_enemy_position",
+      "unfiltered_events",
+      "full_checkpoint"
+    ],
+    "cursorRule": "SSE event ids, monotonic per seat/room epoch. Gaps -> fresh authorized filtered snapshot; do not reuse numeric revision across rooms without epoch"
+  },
+  "vectors": [
+    {
+      "id": "A08-01",
+      "scenario": "ACK before SSE; next action sequence monotonic",
+      "legacy_observed": "LEGACY_PASS",
+      "rust_required": "RUST_PASS",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-02",
+      "scenario": "Parallel send calls serialized by networkLock",
+      "legacy_observed": "LEGACY_PASS",
+      "rust_required": "RUST_PASS",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-03",
+      "scenario": "SSE arrives between accepted command and HTTP ACK",
+      "legacy_observed": "LEGACY_FAIL_SEQUENCE_GAP",
+      "rust_required": "RUST_MUST_NOT_SKIP_SEQ",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-04",
+      "scenario": "Server commits command; client loses ACK; then sends different payload with same seq",
+      "legacy_observed": "LEGACY_FAIL_RECEIPT_CONFLICT",
+      "rust_required": "RUST_HOLD_PENDING_AND_RETRY_IDENTICAL",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-05",
+      "scenario": "Replay identical packet after lost ACK",
+      "legacy_observed": "LEGACY_SERVER_PASS_MANUAL_RETRY",
+      "rust_required": "RUST_PASS_IDEMPOTENT_AUTO_RECOVERY",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-06",
+      "scenario": "Same browser tab changes room, fresh server nextSequence 1",
+      "legacy_observed": "LEGACY_FAIL_STALE_SEQUENCE",
+      "rust_required": "RUST_RESET_ON_ROOM_EPOCH",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-07",
+      "scenario": "Same browser tab changes room, new room revision lower than lastRevision",
+      "legacy_observed": "LEGACY_FAIL_DROPPED_SSE_BOOT",
+      "rust_required": "RUST_RESET_REVISION_PER_ROOM_EPOCH",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-08",
+      "scenario": "Older same-room state revision received after newer",
+      "legacy_observed": "LEGACY_PASS_FILTERS_OLDER",
+      "rust_required": "RUST_PASS_FILTERS_OLDER",
+      "evidence": "8/8_FULL_LEGACY_V8"
+    },
+    {
+      "id": "A08-09",
+      "scenario": "ACK arrives after room epoch changed",
+      "legacy_observed": "LEGACY_UNSPECIFIED",
+      "rust_required": "RUST_IGNORE_STALE_ACK",
+      "evidence": "8/8_REFERENCE_NODE22"
+    },
+    {
+      "id": "A08-10",
+      "scenario": "SSE for foreign seat or room",
+      "legacy_observed": "LEGACY_UNSPECIFIED",
+      "rust_required": "RUST_IGNORE_FOREIGN_SSE",
+      "evidence": "8/8_REFERENCE_NODE22"
+    },
+    {
+      "id": "A08-11",
+      "scenario": "Server sends success ACK for different unit ID",
+      "legacy_observed": "LEGACY_UNSPECIFIED",
+      "rust_required": "RUST_REJECT_WRONG_RECEIPT",
+      "evidence": "8/8_REFERENCE_NODE22"
+    },
+    {
+      "id": "A08-12",
+      "scenario": "Server snapshot ahead while action still pending",
+      "legacy_observed": "LEGACY_DOUBLE_ADVANCE_RISK",
+      "rust_required": "RUST_REQUIRE_ACK_BEFORE_RELEASING_PENDING",
+      "evidence": "8/8_REFERENCE_NODE22"
+    }
+  ]
+}
