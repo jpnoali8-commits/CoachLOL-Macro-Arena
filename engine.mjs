@@ -4330,9 +4330,39 @@ const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViC
   if(s.m44B14Id==='Leblanc.R'&&u.m44B14LastBasicSlot!=='W')
    return {ok:false,reason:'m44_b14_mimic_requires_w'};
   // B14: reject Oathsworn mismatches and empty ammo BEFORE the one-time debit.
+  if(s.m44B15AId==='Azir.E'&&
+    !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
+     e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&point&&
+     this.mapDistance(e,point)<=200&&this.mapDistance(u,e)<=1100))
+    return {ok:false,reason:'m44_b15_azir_no_soldier'};
+   if(s.m44B15AId==='Akshan.E'&&
+    (!point||this.mapDistance(u,point)<60))
+    return {ok:false,reason:'m44_b15_akshan_no_swing_anchor'};
+   if(s.m44B15BId==='Belveth.Q'&&point){
+    const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
+     direction=Math.abs(dx)>Math.abs(dy)?(dx>=0?'E':'W'):(dy>=0?'S':'N');
+    if(u.m44B15BelvethDash?.until>this.gameTime&&
+     u.m44B15BelvethDash.used.includes(direction))
+     return {ok:false,reason:'m44_b15_belveth_direction_spent'};
+   }
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.m44B15AId==='Azir.E'&&
+    !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
+     e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&q.point&&
+     this.mapDistance(e,q.point)<=200&&this.mapDistance(u,e)<=1100))
+    return {ok:false,reason:'m44_b15_azir_no_soldier'};
+   if(s.m44B15AId==='Akshan.E'&&
+    (!q.point||this.mapDistance(u,q.point)<60))
+    return {ok:false,reason:'m44_b15_akshan_no_swing_anchor'};
+   if(s.m44B15BId==='Belveth.Q'&&q.point){
+    const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight,
+     direction=Math.abs(dx)>Math.abs(dy)?(dx>=0?'E':'W'):(dy>=0?'S':'N');
+    if(u.m44B15BelvethDash?.until>this.gameTime&&
+     u.m44B15BelvethDash.used.includes(direction))
+     return {ok:false,reason:'m44_b15_belveth_direction_spent'};
+   }
   if(s.m44B14Id==='Aphelios.Q'){
    const gun=u.m44B14Aphelios?.primary||'calibrum';
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
@@ -5807,7 +5837,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       if(dealt>0){hits++;total+=dealt;}
      }
      if(total>0)this.effectResolverV41().heal(u,total*.4,u);
-     u.m44B15FiddleDrain={until:now+2,sourceId:u.id,anchor:{x:u.x,y:u.y}};
+     u.m44B15FiddleDrain={until:now+2,nextAt:now+1,sourceId:u.id,anchor:{x:u.x,y:u.y},power:power(s.damage)};
      return {...committed,bountifulHarvest:true,hits,healed:total*.4};
     }
     case 'Nocturne.Q':{
@@ -5844,7 +5874,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      if(state.until<=now){state.used=[];state.until=now+14;}
      if(state.used.includes(axis))return {...committed,voidSurge:false,axis};
      if(!move(aim))return {...committed,voidSurge:false,axis};
-     state.used.push(axis);let hits=0;
+     state.used.push(axis);
+     if(state.used.length<4)u.skillCds.Q=now;
+     let hits=0;
      for(const v of enemies(u,260))if(hurt(v,1,'physical')>0)hits++;
      return {...committed,voidSurge:true,axis,hits};
     }
@@ -5964,7 +5996,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      const hammer=u.m44B13JayceMode==='hammer';let hits=0;
      if(hammer){
       for(const v of enemies(u,350).slice(0,8))if(hit(v)>0)hits++;
-      u.m44B15JayceField={until:now+3,power:power(s.damage)};
+      u.m44B15JayceField={until:now+3,nextAt:now+1,power:power(s.damage)};
      }else u.boardNextBasicV453Dev69={until:now+5,charges:3,total:3,
       base:power(s.damage),adRatio:.18,sourceSlot:'W'};
      return {...committed,lightningField:hammer,hyperCharge:!hammer,hits};
@@ -6044,7 +6076,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
        duration:2,power:.3,key:'m44_b15_ekko_'+instance});
      }
-     u.m44B15EkkoQReturn={at:now+1,point:{x:u.x,y:u.y},hitIds:victims.map(v=>v.id)};
+     u.m44B15EkkoQReturn={at:now+1,point:{x:u.x,y:u.y},hitIds:victims.map(v=>v.id),power:power(s.damage)*.6};
      return {...committed,timewinder:true,hits};
     }
     default:return {ok:false,reason:'m44_b15a_unhandled'};
@@ -9882,6 +9914,40 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      v.hp<=0?'death':'duration');
    }
   }
+  for(const u of this.units){
+    if(u.hp>0&&u.m44B15EkkoQReturn?.at<=this.gameTime){
+     const state=u.m44B15EkkoQReturn;u.m44B15EkkoQReturn=null;
+     for(const id of state.hitIds){
+      const target=this.units.find(x=>x.id===id&&x.hp>0&&x.team!==u.team);
+      if(target&&this.mapDistance(u,target)<=1050&&
+       this.sameCombatRealmV453Dev69(u,target)&&this.visible(u.team,target)&&
+       !this.obstacleLine(u,target))
+       this.damage(target,state.power,u,'magic','spell');
+     }
+    }
+    if(u.hp>0&&u.m44B15JayceField?.until>this.gameTime&&
+     u.m44B15JayceField.nextAt<=this.gameTime){
+     const state=u.m44B15JayceField;state.nextAt=this.gameTime+1;
+     for(const target of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.hp>0&&this.mapDistance(u,v)<=350&&
+      this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(u,v)))
+      this.damage(target,state.power*.6,u,'magic','spell');
+    }
+    if(u.hp>0&&u.m44B15FiddleDrain?.until>=this.gameTime&&
+     u.m44B15FiddleDrain.nextAt<=this.gameTime){
+     const state=u.m44B15FiddleDrain;
+     if(this.mapDistance(u,state.anchor)>60||
+      !this.effectResolverV41().canAct(u,'skill').ok)u.m44B15FiddleDrain=null;
+     else{
+      state.nextAt=this.gameTime+1;let healed=0;
+      for(const target of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       v.hp>0&&this.mapDistance(u,v)<=575&&
+       this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(u,v)).slice(0,5))
+       healed+=this.damage(target,state.power,u,'magic','spell')*.4;
+      if(healed>0)this.effectResolverV41().heal(u,healed,u);
+     }
+    }
+   }
   for(const ekko of this.units.filter(u=>u.champ==='Ekko'&&u.hp>0)){
    const history=ekko.m44B13History??=[];
    if(!history.length||history[history.length-1].at<this.gameTime)
@@ -13763,7 +13829,14 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   (1-m26CorkiArmorShred)*(1-m26KogRatio)*(1-m26JarvanShred);
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
  const resistance=damageType==='physical'&&target?.m44B12WukongArmorShred?.until>this.gameTime?
-  penetrable-target.m44B12WukongArmorShred.amount:penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
+  penetrable-target.m44B12WukongArmorShred.amount:penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;// B15 LeBlanc Q sigil: next owner spell adds stored damage once.
+  if(sourceType==='spell'&&attacker?.champ==='Leblanc'&&
+   attacker.team!==target.team&&target.hp>0&&
+   target.m44B15LeblancSigil?.[attacker.id]?.until>this.gameTime){
+   final+=target.m44B15LeblancSigil[attacker.id].stored;
+   delete target.m44B15LeblancSigil[attacker.id];
+  }
+  if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
  // separately: deliberately scoped to the primary basic hit.
  if(sourceType==='basic'&&target.champ&&target.items?.includes('plated_steelcaps'))final=Math.max(1,Math.round(final*.90));
