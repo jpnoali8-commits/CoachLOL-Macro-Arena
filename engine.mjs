@@ -2714,9 +2714,9 @@ export class Arena {
   const walls=[],now=this.gameTime;
   for(const owner of this.units.filter(v=>v.hp>0)){
    const y=owner.m44B17DarkProcession,t=owner.m44B17WeaversWall,a=owner.m44B16AzirWall;
-   if(y?.until>now)walls.push({shape:'ring',center:y.center,radius:y.radius,thickness:40,ownerId:owner.id});
-   if(t?.until>now)walls.push({shape:'segment',from:t.origin,to:t.destination,thickness:55,ownerId:owner.id});
-   if(a?.until>now&&a.from&&a.to)walls.push({shape:'segment',from:a.from,to:a.to,thickness:65,ownerId:owner.id});
+   if(y?.until>now)walls.push({shape:'ring',center:y.center,radius:y.radius,thickness:40,ownerId:owner.id,team:owner.team,movement:'enemy',projectile:'pass'});
+   if(t?.until>now)walls.push({shape:'segment',from:t.origin,to:t.destination,thickness:55,ownerId:owner.id,team:owner.team,movement:'all',projectile:'pass'});
+   if(a?.until>now&&a.from&&a.to)walls.push({shape:'segment',from:a.from,to:a.to,thickness:65,ownerId:owner.id,team:owner.team,movement:'enemy',projectile:'pass'});
   }
   return walls;
  }
@@ -2728,15 +2728,16 @@ export class Arena {
    t=den?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/den)):0;
   return Math.hypot(x-ax-dx*t,y-ay-dy*t);
  }
- m44B18SkillWallPointV453(p,walls=this.m44B18SkillWallsV453()){
-  if(!p||![p.x,p.y].every(Number.isFinite))return false;
-  return walls.some(w=>w.shape==='ring'?
-   Math.abs(this.mapDistance(p,w.center)-w.radius)<=w.thickness:
-   this.m44B18SegmentDistanceV453(p,w.from,w.to)<=w.thickness);
+ m44B18SkillWallPointV453(p,walls=this.m44B18SkillWallsV453(),actor=null){
+   if(!p||![p.x,p.y].every(Number.isFinite))return false;
+   return walls.some(w=>(!actor?.team||w.movement!=='enemy'||actor.team!==w.team)&&
+    (w.shape==='ring'?Math.abs(this.mapDistance(p,w.center)-w.radius)<=w.thickness:
+    this.m44B18SegmentDistanceV453(p,w.from,w.to)<=w.thickness));
  }
- m44B18SkillWallLineV453(a,b,walls=this.m44B18SkillWallsV453()){
-  if(!a||!b||!walls.length)return false;
-  for(const w of walls){
+ m44B18SkillWallLineV453(a,b,walls=this.m44B18SkillWallsV453(),actor=null){
+   if(!a||!b||!walls.length)return false;
+   for(const w of walls){
+    if(actor?.team&&w.movement==='enemy'&&actor.team===w.team)continue;
    if(w.shape==='ring'){
     if(this.m44B18SegmentDistanceV453(w.center,a,b)<=w.radius+w.thickness&&
      Math.max(this.mapDistance(a,w.center),this.mapDistance(b,w.center))>=w.radius-w.thickness)return true;
@@ -2771,17 +2772,28 @@ export class Arena {
   return (this.boardTemporalV453Dev69||[]).some(z=>z.kind==='m24_jarvan_arena'&&
    z.until>this.gameTime&&Math.abs(this.mapDistance(p,z.point)-z.radius)<=40);
  }
- walkable(x,y){return x>=.019&&x<=.978&&y>=.019&&y<=.978&&
+ // B19: null actor retains B18 conservative obstacle behavior.
+ walkable(x,y,actor=null){return x>=.019&&x<=.978&&y>=.019&&y<=.978&&
    !this.maskAt('wall',x,y)&&!this.m24ArenaWallBlocksV453({x,y})&&
-   !this.m44B18SkillWallPointV453({x,y})}
- obstacleLine(a,b){
-  if(this.m44B18SkillWallLineV453(a,b))return true;
-  const steps=Math.max(2,Math.ceil(dist(a,b)*130));
-  for(let i=1;i<steps;i++){
-   const t=i/steps;
-   if(!this.walkable(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t))return true;
-  }
-  return false;
+   !this.m44B18SkillWallPointV453({x,y},this.m44B18SkillWallsV453(),actor)}
+ obstacleLine(a,b,actor=a?.team?a:null){
+   if(this.m44B18SkillWallLineV453(a,b,this.m44B18SkillWallsV453(),actor))return true;
+   const steps=Math.max(2,Math.ceil(dist(a,b)*130));
+   for(let i=1;i<steps;i++){const t=i/steps;
+    if(!this.walkable(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t,actor))return true;}
+   return false;
+ }
+ m44B19ProjectileWalkableV453(p){
+   return !!p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&
+    p.x>=.019&&p.x<=.978&&p.y>=.019&&p.y<=.978&&!this.maskAt('wall',p.x,p.y);
+ }
+ m44B19IsAuthoredDashV453(s){
+   if(!s||s.m44B16BId==='Bard.E'||s.m44B17BId==='Taliyah.R'||
+    s.m44B17AId==='Lissandra.E')return false;
+   return s.shape==='move_point'||['Poppy.E','Samira.E'].includes(s.m44B17BId)||
+    s.m44B17AId==='Briar.R'||s.m44B16BId==='Diana.E'||
+    s.m44B15BId==='Briar.Q'||s.m44B16AId==='Pantheon.W'||
+    s.m44B13BId==='Rakan.W'||!!s.m44B12KillerInstinct;
  }
  lineOfSight(a,b){
   const steps=Math.max(2,Math.ceil(dist(a,b)*155));
@@ -2802,11 +2814,11 @@ export class Arena {
   return true;
  }
  // A* 128x128 cost grid derived from supplied wall mask; diagonal corner-cutting is forbidden.
- findPath(from,to){let N=this.mask.size,c=(v)=>clamp(Math.floor(v*N),0,N-1), sx=c(from.x),sy=c(from.y),ex=c(to.x),ey=c(to.y);
-  const idx=(x,y)=>y*N+x;const goal=idx(ex,ey);if(!this.walkable(to.x,to.y))return null;
+ findPath(from,to,actor=from?.team?from:null){let N=this.mask.size,c=(v)=>clamp(Math.floor(v*N),0,N-1), sx=c(from.x),sy=c(from.y),ex=c(to.x),ey=c(to.y);
+  const idx=(x,y)=>y*N+x;const goal=idx(ex,ey);if(!this.walkable(to.x,to.y,actor))return null;
   const skillWalls=this.m44B18SkillWallsV453(),
-   wallPoint=(p)=>this.m44B18SkillWallPointV453(p,skillWalls),
-   wallLine=(a,b)=>this.m44B18SkillWallLineV453(a,b,skillWalls),
+   wallPoint=(p)=>this.m44B18SkillWallPointV453(p,skillWalls,actor),
+   wallLine=(a,b)=>this.m44B18SkillWallLineV453(a,b,skillWalls,actor),
    center=(x,y)=>({x:(x+.5)/N,y:(y+.5)/N});
   const effectiveWall=this.riftMaskV452d4('wall');let blocked=(x,y)=>x<1||x>=N-1||y<1||y>=N-1||effectiveWall[idx(x,y)]==='1'||this.m24ArenaWallBlocksV453({x:(x+.5)/N,y:(y+.5)/N})||
    wallPoint(center(x,y));
@@ -4471,7 +4483,7 @@ const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViC
      point.x<0||point.x>1||point.y<0||point.y>1||
      this.mapDistance(u,point)<1||
      (['circle_enemy','vision_point','move_point','deploy_point'].includes(s.shape)&&this.mapDistance(u,point)>m16Range)||
-     (['move_point','deploy_point'].includes(s.shape)&&!this.walkable(point.x,point.y))))
+     (['move_point','deploy_point'].includes(s.shape)&&!this.walkable(point.x,point.y,u))))
    return {ok:false,reason:'ponto_invalido'};
   if(s.m24OrbThrow&&!this.m39SyndraPickupV453Dev69(u,point))
    return {ok:false,reason:'m39_syndra_no_valid_pickup'};
@@ -4654,7 +4666,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
     return {ok:false,reason:'m44_b18_claw_expired'};
    if(!this.effectResolverV41().canAct(u,'skill').ok)
     return {ok:false,reason:'m44_b18_claw_incapacitated'};
-   if(!this.walkable(state.point.x,state.point.y)||
+   if(!this.walkable(state.point.x,state.point.y,u)||
     (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,state.point)))
     return {ok:false,reason:'m44_b18_claw_destination_blocked'};
    const origin={x:u.x,y:u.y},landing={...state.point};
@@ -4885,7 +4897,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    return {ok:false,reason:'ponto'};
   if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
-  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||
+  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y,u)||
     (s.m44B16BId!=='Bard.E'&&this.obstacleLine(u,q.point))))return {ok:false,reason:'destino_bloqueado'};
   // M32: the second PvP player's order may consume a mark or remove an entity
   // before this spell resolves. Validate owner ledger before debit/cooldown.
@@ -4970,10 +4982,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
   // B18 shared anti-dash veto is validated prior to debit and includes targeted dashes.
-  const m44B18Dash=(s.shape==='move_point'&&s.m44B16BId!=='Bard.E'&&
-   s.m44B17BId!=='Taliyah.R'&&s.m44B17AId!=='Lissandra.E')||
-   ['Poppy.E','Samira.E'].includes(s.m44B17BId)||
-   s.m44B17AId==='Briar.R'||s.m44B16BId==='Diana.E';
+  const m44B18Dash=this.m44B19IsAuthoredDashV453(s);
   const m44B18Blocker=m44B18Dash?
    this.m44B18DashBlockerV453(u,q.point||target):null;
   if(m44B18Blocker){
@@ -5964,7 +5973,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     this.damage(v,power(s.damage)*m,u,t,'spell');
    const shift=(v,p,type)=>{
     if(!p||p.x<0||p.x>1||p.y<0||p.y>1||
-     !this.walkable(p.x,p.y)||this.obstacleLine(v,p)||
+     !this.walkable(p.x,p.y,v)||this.obstacleLine(v,p)||
      (this.realmOfV453Dev69(v)&&!this.realmValidV453Dev69(v,p)))return false;
     const start={x:v.x,y:v.y};Object.assign(v,{x:p.x,y:p.y});
     v.path=[];v.laneFollowPath=[];v.retreatPath=[];
@@ -6087,7 +6096,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    const harm=(v,m=1,t=s.type||'magic')=>
     this.damage(v,power(s.damage)*m,u,t,'spell');
    const shift=(p,mode)=>{
-    if(!p||!this.walkable(p.x,p.y)||this.obstacleLine(u,p))return false;
+    if(!p||!this.walkable(p.x,p.y,u)||this.obstacleLine(u,p))return false;
     const from={x:u.x,y:u.y};
     Object.assign(u,{x:p.x,y:p.y});
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
@@ -6246,7 +6255,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     this.damage(v,power(s.damage)*ratio,u,type,'spell');
    const shift=(to,throughWall=false)=>{
     if(!to||to.x<0||to.x>1||to.y<0||to.y>1||
-     !this.walkable(to.x,to.y)||(!throughWall&&this.obstacleLine(u,to))||
+     !this.walkable(to.x,to.y,u)||(!throughWall&&this.obstacleLine(u,to))||
      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,to)))return false;
     const start={x:u.x,y:u.y};u.x=to.x;u.y=to.y;
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
@@ -7322,7 +7331,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      return {...committed,stormbringer:true,hits,towers};
     }
     case 'Samira.W':{
-     u.m44B13SamiraWhirlUntil=now+2;
+      u.m44B13SamiraWhirlUntil=now+2;
+      (this.projectileBarriersV453Dev43??=[]).push({
+       id:'m44_b19_samira_'+u.id+'_'+(++this.championProjectileSeqV453Dev42),
+       kind:'samira_blade_whirl',ownerId:u.id,team:u.team,
+       x:u.x,y:u.y,radius:360,until:now+2});
      let hits=0;
      for(const v of enemies(u,360))
       if(this.damage(v,power(s.damage),u,'physical','spell')>0)hits++;
@@ -15850,11 +15863,11 @@ target.damageContributors={};
     .sort((a,b)=>a.depth-b.depth||String(a.v.id).localeCompare(String(b.v.id)));
    let terrainDepth=Infinity;
    for(let d=from+Math.min(10,(to-from));d<=to+1e-7;d+=10){
-    if(!this.walkable(position(Math.min(d,to)).x,position(Math.min(d,to)).y)){
+    if(!this.m44B19ProjectileWalkableV453(position(Math.min(d,to)))){
      terrainDepth=Math.min(d,to);break;
     }
    }
-   if(!Number.isFinite(terrainDepth)&&!this.walkable(end.x,end.y))terrainDepth=to;
+   if(!Number.isFinite(terrainDepth)&&!this.m44B19ProjectileWalkableV453(end))terrainDepth=to;
    // Positional barriers are explicit geometry in world-space; no global
    // projectile immunity. Barrier owners/allies never intercept friendly fire.
    let barrierDepth=Infinity;
