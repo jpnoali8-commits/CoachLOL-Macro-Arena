@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, M45 B02A7 diagnóstico Cargo real (3/3 PASS), rustfmt FAIL e correção Rustfmt solicitada; PARCIAL.
+**Atualizado:** 2026-10-30, B02A7 Rustfmt corrigido, Cargo/Clippy/WASM compilados e binário executado em GitHub Actions; baseline G1 aprovado, migração total NÃO certificada.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A7 (conferir commit rustfmt-only, resultado Cargo/WASM e artefato de um job GitHub restrito); B02B goldens por SHA pendentes.
+**Próxima prioridade:** M45 B02B — executar e reconciliar golden JS dos HEADs congelados de skills, itens e plataforma, resultados por assento; depois B02C. G1 somente baseline do crate core-state.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,10 +23,10 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | GitHub Actions #41137201572: Rust test 3/3 PASS, clippy PASS, Node golden 21/21 PASS, fmt FAIL, WASM NOT_RUN; B02A7 corretivo rustfmt-only disparado |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_B02B | GitHub Actions #41137516144: Cargo 3/3 PASS, fmt/Clippy PASS, WASM build + smoke PASS, binário SHA256 pinado; G1 baseline B01 aprovado, G0 e B02B goldens pendentes |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
-| G1 native WASM | FAIL | primeira execução real na GitHub Actions: Rust native PASS, Clippy PASS, rustfmt FAIL; WASM ainda NOT_RUN; correção em andamento B02A7 |
+| G1 native WASM | PARTIAL | baseline real do único crate B01 core-state **PASS_BASELINE_ONLY** via Actions #41137516144; crates futuros e equivalência total ainda não implementados |
 | G2 replay/estado | NOT_RUN | nenhuma equivalência match Rust completa |
 | G3 ACL/server | NOT_RUN | Rust server ainda não implementado |
 | G4 parser/cliente | NOT_RUN | parser atual JS |
@@ -125,3 +125,11 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Na única correção proposta **B02A7**, o workflow restrito ao gatilho `docs/m45_rust_wasm/qa/trigger_b02a5.txt` formata `crates/core-state/src/lib.rs` com **rustfmt real 1.85.1**, verifica que não há outros arquivos rastreados alterados, cria um commit normal somente nesse arquivo e faz `git push` sem force para a mesma branch Rust; aborta se outro escritor avançou o HEAD. **A permissão contents:write está restrita a este job**, não a todos workflows; nenhum arquivo de gameplay JavaScript nem outra branch pode ser escrito pelo script. O segundo passo executa `node tools/m45_qa_evidence.mjs` para Cargo, fmt, Clippy, compilação WASM e smoke do WASM verdadeiro; artifact registra SHA exato e recibo.
 - Uma solicitação/push de B02A7 **não comprova o sucesso do job até verificar run ID, conclusão e artifacts.** Nenhum merge, rebase ou force-push. Se o CI negar escrita, manter G1 FAIL e registrar bloqueio real.
 - **G0 PARTIAL; G1 FAIL (fmt, aguardando reexecução); G2–G6 NOT_RUN; G7 BLOCKED; G8 NOT_RUN.** B02 continua primeiro bloqueio elegível.
+
+## M45 B02A7 — QA Rust nativo e WASM real aprovado (evidência final 2026-10-30)
+
+- Run GitHub Actions #41137516144, job **124343505135**: **SUCCESS** no workflow restrito de B02A7. Origem do job `4f73eceb4cfe07ffa36ea696d1944556d87f00e6`; ação `cargo fmt --all` gerou commit **`c8e8f182b87d720619fe5747076b8221413acde7`** em `dev69/rust-core-m45`, autor `github-actions[bot]`. API GitHub confirmou **somente um arquivo modificado**: `crates/core-state/src/lib.rs`, pai `4f73ece...`, sem force, sem merge e PR #19 continua Draft.
+- Artifact `m45-b02a7-rust-wasm-qa` ID **13016623674**, `m45-qa.json` lido integralmente; `verified_commit_sha.txt` corresponde a `c8e8f182b87d720619fe5747076b8221413acde7`. Versões: `rustc/cargo 1.85.1` e Node **v22.23.4**, Ubuntu x64.
+- Recibo real: `native PASS` (**3/3 Rust tests**), `fmt PASS`, `clippy PASS` com `-D warnings`, `target PASS`, `wasmBuild PASS` (release crate core-state), `wasmSmoke PASS` (binário WebAssembly compilado, não mock). `adapter PASS` (JS simulação), `sourceSnapshot PASS` (com SHA de engine full verificada, 23 casos), `jsGolden PASS` (**21/21**). Cada etapa tem exit_code 0.
+- **WASM SHA-256:** `ffc019a55a2799202e2511d7fe1a4304932479f48b739ed01ca7715dd4f48f63`. `G1` no recibo: **PASS_BASELINE_ONLY**. Isso conclui B02A baseline B01; **G1 do programa registrado PARTIAL** porque somente um crate core-state foi migrado/compilado (faltam engine completa, platform, champions, economy e testes cruzados). G8 **NOT_RUN**; nenhuma autoridade de partida transferida para Rust.
+- **Próxima elegível: B02B** (goldens full e fonte sem perda nos três SHAs de origem). Não acionar novamente o gatilho de CI B02A7, preservando quota. B02 IN_PROGRESS_B02B, G0 PARTIAL, G1 PARTIAL, G3 NOT_RUN, G7 BLOCKED, G8 NOT_RUN.

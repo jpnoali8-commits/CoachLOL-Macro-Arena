@@ -86,3 +86,9 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 - B02A6 gerou `run #41137201572`: `cargo test` 3/3 PASS, `cargo clippy -D warnings` PASS e `cargo fmt --check` FAIL. WASM build/smoke NOT_RUN. G1 está **FAIL**, não NOT_RUN; requer correção real.
 - Único workflow do gatilho `qa/trigger_b02a5.txt` atualizado para executar `cargo fmt --all`, validar diff com escopo **apenas crates/core-state/src/lib.rs**, publicar commit **fast-forward** somente nesta branch e reexecutar QA, com artefato `m45-b02a7-rust-wasm-qa` e SHA verificado. Em caso de push concorrente ou permissão negada, abortar sem marcar PASS.
 - Próxima prioridade: obter log/artefato do B02A7, atualizar status G1 conforme execução e só então B02B goldens. Não atualizar Rustfmt PASS pelo código criado, apenas após execução GitHub.
+
+### M45 B02A7 — G1 baseline core-state concluído (2026-10-30)
+
+- GitHub Actions [run #41137516144](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/41137516144) **SUCCESS**. Rustfmt 1.85.1 publicou commit `c8e8f182b87d720619fe5747076b8221413acde7` (somente `crates/core-state/src/lib.rs`), sem merge/force. `cargo test` 3/3, fmt, clippy, target wasm, build release wasm e smoke binário **PASS**. JS golden 21/21 PASS. Artifact #13016623674 inclui commit exato e SHA-256 do binário.
+- **B02A: COMPLETED_BASELINE**. G1 programa = PARTIAL (só um crate); `G1=PASS_BASELINE_ONLY` no recibo executor.
+- **Próxima etapa efetiva B02B:** suites bilaterais skills (11), shop item 122 × 2 planos (244), contratos HTTP/SSE plataforma e falha legada de perspective/owner; preservar SHA de integração/skills/items, guardar output golden real. B03 continua QUEUED até G0/B02C.

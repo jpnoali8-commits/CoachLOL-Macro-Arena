@@ -25,3 +25,11 @@
 
 **GATES:** G0 PARTIAL; G1 FAIL (fmt) até revalidação; G2–G6 NOT_RUN; G7 BLOCKED; G8 NOT_RUN.
 **ROLLBACK:** git revert de commits da branch Rust, nunca force-push ou merge. **NEXT:** consultar run B02A7, SHA de formatação e G1; se FAIL corrigir erro concreto sem pular prioridade.
+
+## Evidência de conclusão B02A7 — verificada depois do run
+
+- GitHub Actions [#41137516144](https://github.com/jpnoali8-commits/CoachLOL-Macro-Arena/actions/runs/41137516144), job `124343505135`: **SUCCESS**.
+- `github-actions[bot]` publicou commit normal `c8e8f182b87d720619fe5747076b8221413acde7`, pai `4f73ece...`; a REST API de commit confirmou **exatamente `crates/core-state/src/lib.rs` modificado**, sem outro caminho.
+- Artefato #13016623674 baixado e inspecionado: `verified_commit_sha.txt` coincide com o commit acima; `m45-qa.json` contém `G1=PASS_BASELINE_ONLY`, `native=PASS` (3/3 Rust), `fmt=PASS`, `clippy=PASS`, `target=PASS`, `wasmBuild=PASS`, `wasmSmoke=PASS`, todos exit_code=0; `jsGolden=PASS` (21/21), `sourceSnapshot=PASS` (23/23 com engine original disponível), `adapter=PASS` (4/4 mock).
+- SHA256 `coachlol_core_state.wasm` real: `ffc019a55a2799202e2511d7fe1a4304932479f48b739ed01ca7715dd4f48f63`.
+- **B02A baseline completa**, mas isso é apenas o primeiro crate; **G1 programa PARTIAL**, G0 PARTIAL, G8 NOT_RUN. O próximo trabalho é B02B (goldens originais skills/items/platform).
