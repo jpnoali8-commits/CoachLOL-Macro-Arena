@@ -1016,7 +1016,17 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
-// M44 B14B: tactical verse selection and owner-timed zones. Partial kits only.
+// M44 B14C — explicit stealable R, no anonymous fallback.
+export const M44_B14C_STEALABLE_R_V453=Object.freeze([
+ 'Bard','Malzahar','Volibear','Nocturne','Diana','Lissandra',
+ 'Fiddlesticks','Ryze','Skarner','Ekko','Yorick'
+]);
+export function m44B14CSylasUltimateRuleV453(champ){
+ if(M44_B14C_STEALABLE_R_V453.includes(champ))
+  return M44_B13B_KITS_V453[champ]?.R||M44_B13A_KITS_V453[champ]?.R||null;
+ return BOARD_KITS_V453_DEV69[champ]?.R||M15_ENTITY_KITS_V453[champ]?.R||null;
+}
+ // M44 B14B: tactical verse selection and owner-timed zones. Partial kits only.
 export const M44_B14B_KITS_V453=Object.freeze({
  Hwei:{
   Q:BS('line_enemy',1650,80,[9,8,7,6,5],[70,100,130,160,190],{m44B14BId:'Hwei.Q',width:210}),
@@ -4306,8 +4316,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
  }
  boardKitForV453Dev69(champ,slot,u=null){
   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
-   return BOARD_KITS_V453_DEV69[u.sylasStolenV453M14.sourceChamp]?.R||
-    M15_ENTITY_KITS_V453[u.sylasStolenV453M14.sourceChamp]?.R||null;
+   return m44B14CSylasUltimateRuleV453(u.sylasStolenV453M14.sourceChamp);
   if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
    e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
    return M15_ENTITY_KITS_V453.Shaco.R;
@@ -9767,7 +9776,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   if(!this.visible(team,target)||this.mapDistance(u,target)>950||
    !this.sameCombatRealmV453Dev69(u,target))
    return {ok:false,reason:'hijack_sem_visao_ou_alcance'};
-  const stolen=BOARD_KITS_V453_DEV69[target.champ]?.R||M15_ENTITY_KITS_V453[target.champ]?.R;
+  const stolen=m44B14CSylasUltimateRuleV453(target.champ);
   if(!stolen||stolen.passiveOnly)
    return {ok:false,reason:'ultimate_sem_adaptador_hijack'};
   const rank=Math.max(1,u.skillRanks.R),cd=[80,55,30][Math.min(2,rank-1)];
@@ -9784,7 +9793,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    const target=this.units.find(v=>v.id===request.targetId&&v.team!==u.team&&v.hp>0);
    if(!u.hp||!target||!this.visible(u.team,target)||
     this.mapDistance(u,target)>950||!this.sameCombatRealmV453Dev69(u,target))continue;
-   const rule=BOARD_KITS_V453_DEV69[target.champ]?.R||M15_ENTITY_KITS_V453[target.champ]?.R;
+   const rule=m44B14CSylasUltimateRuleV453(target.champ);
+   if(request.sourceChamp!==target.champ)continue;
    if(!rule||rule.passiveOnly)continue;
    const spent=this.performActionV40({actorId:u.id,kind:'skill',slot:'R',
     targetId:target.id,costOverride:75,cooldownOverride:request.cd,
