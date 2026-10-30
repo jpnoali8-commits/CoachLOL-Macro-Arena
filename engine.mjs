@@ -1016,6 +1016,27 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B33A: six original authorial abilities for three champions with no prior board slots.
+export const M44_B33A_KITS_V453=Object.freeze({
+ Sion:{
+  Q:BS('line_enemy',750,45,[10,9,8,7,6],[40,60,80,100,120],
+   {type:'physical',adRatio:.8,width:250,m44B33Id:'Sion.Q'}),
+  W:BS('self',0,[65,70,75,80,85],[15,14,13,12,11],[],
+   {m44B33Id:'Sion.W'})
+ },
+ Ornn:{
+  Q:BS('line_enemy',750,45,[9,8.5,8,7.5,7],[20,45,70,95,120],
+   {type:'physical',adRatio:1.1,width:130,m44B33Id:'Ornn.Q'}),
+  W:BS('cone_enemy',500,45,[12,11.5,11,10.5,10],[40,60,80,100,120],
+   {apRatio:.45,arc:65,m44B33Id:'Ornn.W'})
+ },
+ Yasuo:{
+  Q:BS('line_enemy',1100,0,[6,5.5,5,4.5,4],[25,50,75,100,125],
+   {type:'physical',adRatio:1,width:180,m44B33Id:'Yasuo.Q'}),
+  W:BS('move_point',400,0,[25,23,21,19,17],[],
+   {m44B33Id:'Yasuo.W'})
+ }
+});
 // M44 B32A: source-authored Talon wall vault and Twitch piercing attacks.
 export const M44_B32A_KITS_V453=Object.freeze({
  Talon:{E:BS('move_point',800,0,[2,2,2,2,2],[],{m44B32AId:'Talon.E'})},
@@ -1691,7 +1712,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B32A_KITS_V453[champ]?.[slot]||M44_B26_KITS_V453[champ]?.[slot]||M44_B25_KITS_V453[champ]?.[slot]||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B33A_KITS_V453[champ]?.[slot]||M44_B32A_KITS_V453[champ]?.[slot]||M44_B26_KITS_V453[champ]?.[slot]||M44_B25_KITS_V453[champ]?.[slot]||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -2780,6 +2801,8 @@ export class Arena {
   for(const owner of this.units.filter(v=>v.hp>0)){
    const y=owner.m44B17DarkProcession,t=owner.m44B17WeaversWall,a=owner.m44B16AzirWall;
    const ice=owner.m44B26AniviaWall;
+   const ornn=owner.m44B33OrnnPillar;
+   if(ornn?.activatesAt<=now&&ornn.until>now)walls.push({shape:'ring',center:ornn.point,radius:0,thickness:65,ownerId:owner.id,team:owner.team,movement:'all',projectile:'pass'});
    if(ice?.until>now)walls.push({shape:'segment',from:ice.from,to:ice.to,thickness:55,ownerId:owner.id,team:owner.team,movement:'all',projectile:'pass'});
    if(y?.until>now)walls.push({shape:'ring',center:y.center,radius:y.radius,thickness:40,ownerId:owner.id,team:owner.team,movement:'enemy',projectile:'pass'});
    if(t?.until>now)walls.push({shape:'segment',from:t.origin,to:t.destination,thickness:55,ownerId:owner.id,team:owner.team,movement:'all',projectile:'pass'});
@@ -4428,7 +4451,21 @@ export class Arena {
   if(u.m44B14CPossession?.until>this.gameTime&&slot!=='R'&&
     !m44B14DOriginalBoardRuleV453(u.m44B14CPossession.sourceChamp,slot,u))
     return {ok:false,reason:'m44_b14c_slot_unsupported'};
-if(s.m44B32AId==='Talon.E'){
+if(s.m44B33Id==='Sion.W'&&u.m44B33SionFurnace?.until>this.gameTime){
+    const furnace=u.m44B33SionFurnace;
+    if(furnace.armedAt>this.gameTime)return {ok:false,reason:'m44_b33_sion_furnace_unarmed'};
+    if(!(u.statusEffectsV41||[]).some(e=>e.key==='m44_b33_sion_furnace_'+u.id&&e.power>0&&e.until>this.gameTime))
+     return {ok:false,reason:'m44_b33_sion_furnace_broken'};
+    if(!this.effectResolverV41().canAct(u,'skill').ok)return {ok:false,reason:'m44_b33_sion_furnace_cc'};
+    u.pendingBoardV453Dev69={slot,m44B33SionRecast:true};
+    this.recordIntentV40(team,id,'m44_b33_sion_furnace_recast',{slot});
+    return {ok:true,queued:true,recast:true};
+   }
+   if(s.m44B33Id==='Sion.Q'&&chargeSeconds===null)chargeSeconds=.5;
+   if(s.m44B33Id==='Yasuo.Q'&&point&&this.mapDistance(u,point)>
+     ((u.m44B33YasuoTempest?.until>this.gameTime&&u.m44B33YasuoTempest.stacks===2)?1100:450))
+    return {ok:false,reason:'m44_b33_yasuo_q_range'};
+   if(s.m44B32AId==='Talon.E'){
     const result=this.m44B32ATalonVaultGateV453(u,point);
     if(!result.ok)return result;
    }
@@ -4753,7 +4790,7 @@ if(s.m44B14BId==='Hwei.W'&&!['WQ','WW','WE'].includes(m44B14Variant||'WW'))
    !['Hwei.Q','Hwei.W'].includes(s.m44B14BId))
    return {ok:false,reason:'m44_b14_variant_not_allowed'};
 
-const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot||s.m44B08PykeCharge;
+const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot||s.m44B08PykeCharge||s.m44B33Id==='Sion.Q';
   if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
      chargeSeconds<0||chargeSeconds>2))
    return {ok:false,reason:'m28_charge_invalid'};
@@ -5291,6 +5328,22 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    this.event('Xerath R: disparo de artilharia.',u.team,'skill_vfx',u.id);
    return {ok:true,recast:true,spentMana:0,hitCount:damaged};
   }
+  if(q?.m44B33SionRecast&&s.m44B33Id==='Sion.W'){
+   const f=u.m44B33SionFurnace;
+   if(!f||f.until<=this.gameTime||f.armedAt>this.gameTime||
+    !(u.statusEffectsV41||[]).some(e=>e.key==='m44_b33_sion_furnace_'+u.id&&e.power>0&&e.until>this.gameTime)||
+    !this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m44_b33_sion_recast_expired'};
+   u.m44B33SionFurnace=null;
+   u.statusEffectsV41=(u.statusEffectsV41||[]).filter(e=>e.key!=='m44_b33_sion_furnace_'+u.id);
+   let hits=0;
+   for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&v.team!==u.team&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(u,v)<=400).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+    if(this.damage(v,f.power,u,'magic','spell')>0)hits++;
+   }
+   return {ok:true,spentMana:0,recast:true,soulFurnace:true,hitCount:hits};
+  }
   if(q?.cardPick&&s.boardCardCycle){
    const cycle=u.boardCardCycleV453Dev69;
    if(!cycle||cycle.until<=this.gameTime)return {ok:false,reason:'carta_expirada'};
@@ -5454,7 +5507,13 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
    if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
   }
-  if(s.m44B32AId==='Talon.E'){
+  if(s.m44B33Id==='Yasuo.Q'&&q.point&&this.mapDistance(u,q.point)>
+    ((u.m44B33YasuoTempest?.until>this.gameTime&&u.m44B33YasuoTempest.stacks===2)?1100:450))
+    return {ok:false,reason:'m44_b33_yasuo_q_expired'};
+   if(s.m44B33Id==='Sion.Q'&&(!Number.isFinite(q.m28ChargeSeconds)||
+      q.m28ChargeSeconds<.5||q.m28ChargeSeconds>2))
+    return {ok:false,reason:'m44_b33_sion_invalid_charge'};
+   if(s.m44B32AId==='Talon.E'){
     const gate=this.m44B32ATalonVaultGateV453(u,q.point);
     if(!gate.ok)return gate;
    }
@@ -5520,7 +5579,97 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m33LeeEnergySpendV453Dev69(u,50);
   if(u.champ==='Xayah'&&!q.stolenCast)
    u.m44XayahCleanCuts=Math.min(5,(u.m44XayahCleanCuts||0)+3);
-  if(s.m44B32AId==='Talon.E'){
+  if(s.m44B33Id){
+    const now=this.gameTime,rank=Math.max(1,Math.min(5,u.skillRanks?.[q.slot]||1)),
+     stats=this.elementalStatsV452d3(u);
+    const hostile=()=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+     v.hp>0&&v.team!==u.team&&this.sameCombatRealmV453Dev69(u,v)&&
+     (v.spawnAt==null||v.spawnAt<=now));
+    const ray=(range,width)=>skillshotHitsV42(u,q.point,hostile(),{
+     range,width,maxHits:Infinity,worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    const raw=(s.damage?.[Math.min((s.damage?.length||1)-1,rank-1)]||0)+
+     stats.ap*(s.apRatio||0)+stats.ad*(s.adRatio||0);
+    if(s.m44B33Id==='Sion.Q'){
+     const seconds=Math.max(.5,Math.min(2,q.m28ChargeSeconds)),
+      multiplier=seconds>=1?1+(seconds-1)*.8:.5+seconds*.5;
+     let hits=0;
+     for(const v of ray(750,250)){
+      if(this.obstacleLine(u,v))continue;
+      const shield=!!this.effectResolverV41().has(v,'spell_shield');
+      if(this.damage(v,raw*multiplier,u,'physical','spell')>0){
+       hits++;if(v.champ&&!shield&&seconds>=1&&v.hp>0)
+        this.applyEffectV41(v,seconds>=1.5?'knockup':'stun',{source:u,
+         duration:seconds>=1.5?1:.75,
+         key:'m44_b33_sion_smash_'+u.id+'_'+v.id+'_'+now});
+      }
+     }
+     return {...committed,decimatingSmash:true,chargeSeconds:seconds,hitCount:hits};
+    }
+    if(s.m44B33Id==='Sion.W'){
+     this.applyEffectV41(u,'shield',{source:u,duration:6,
+      power:90+rank*35+stats.ap*.4,key:'m44_b33_sion_furnace_'+u.id});
+     u.m44B33SionFurnace={armedAt:now+1,until:now+6,
+      power:70+rank*25+stats.ap*.4};
+     return {...committed,soulFurnace:true,armedAt:now+1};
+    }
+    if(s.m44B33Id==='Ornn.Q'){
+     let hits=0;
+     for(const v of ray(750,130)){
+      if(this.obstacleLine(u,v))continue;
+      const shield=!!this.effectResolverV41().has(v,'spell_shield');
+      if(this.damage(v,raw,u,'physical','spell')>0){
+       hits++;if(v.champ&&v.hp>0&&!shield)
+        this.applyEffectV41(v,'slow',{source:u,duration:2,power:.4,
+         key:'m44_b33_ornn_fissure_'+u.id+'_'+v.id+'_'+now});
+      }
+     }
+     u.m44B33OrnnPillar={point:{...q.point},activatesAt:now+1.125,until:now+5.125};
+     return {...committed,volcanicRupture:true,hitCount:hits,pillarAt:now+1.125};
+    }
+    if(s.m44B33Id==='Ornn.W'){
+     const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy)),ux=dx/len,uy=dy/len;
+     let hits=0;
+     for(const v of hostile().filter(v=>v.champ&&v.hp>0)){
+      const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+       d=Math.hypot(x,y);
+      if(d>500||d<1||(x*ux+y*uy)/d<Math.cos(65*Math.PI/360)||
+       this.obstacleLine(u,v))continue;
+      const shield=!!this.effectResolverV41().has(v,'spell_shield');
+      if(this.damage(v,raw+v.maxHp*.08,u,'magic','spell')>0){
+       hits++;if(v.hp>0&&!shield)(v.m44B33OrnnBrittle??={})[u.id]=now+3;
+      }
+     }
+     return {...committed,bellowsBreath:true,hitCount:hits};
+    }
+    if(s.m44B33Id==='Yasuo.Q'){
+     const old=u.m44B33YasuoTempest,
+      stacks=old?.until>now?old.stacks:0,
+      tornado=stacks===2,range=tornado?1100:450;
+     let hits=0;
+     for(const v of ray(range,tornado?180:140)){
+      if(this.obstacleLine(u,v))continue;
+      const shield=!!this.effectResolverV41().has(v,'spell_shield');
+      if(this.damage(v,raw,u,'physical','spell')>0){
+       hits++;if(tornado&&v.hp>0&&v.champ&&!shield)
+        this.applyEffectV41(v,'knockup',{source:u,duration:1,
+         key:'m44_b33_yasuo_tornado_'+u.id+'_'+v.id+'_'+now});
+      }
+     }
+     u.m44B33YasuoTempest={stacks:tornado?0:stacks+1,until:now+6};
+     return {...committed,steelTempest:true,tornado,hitCount:hits};
+    }
+    if(s.m44B33Id==='Yasuo.W'){
+     this.projectileBarriersV453Dev43=(this.projectileBarriersV453Dev43||[])
+      .filter(b=>b.kind!=='m44_b33_yasuo_windwall'||b.ownerId!==u.id);
+     const id='m44_b33_yasuo_wall_'+(++this.boardTemporalIdV453Dev69);
+     this.projectileBarriersV453Dev43.push({
+      id,kind:'m44_b33_yasuo_windwall',ownerId:u.id,team:u.team,
+      x:q.point.x,y:q.point.y,radius:120+rank*40,until:now+4});
+     return {...committed,windWall:true,barrierId:id};
+    }
+   }
+   if(s.m44B32AId==='Talon.E'){
     const gate=this.m44B32ATalonVaultGateV453(u,q.point),
      from={x:u.x,y:u.y},to={x:q.point.x,y:q.point.y};
     u.x=to.x;u.y=to.y;u.path=[];u.laneFollowPath=[];u.retreatPath=[];
@@ -16903,6 +17052,16 @@ target.damageContributors={};
    }
    if(target.hp>0&&attacker.champ)this.procNamiTidecallerV453Dev69M1(attacker,target);
    if(target.hp>0&&attacker.champ==='Lux')this.luxConsumeIlluminationV453Dev69M2(attacker,target);
+   if(attacker.champ==='Ornn'&&target.hp>0&&target.champ){
+    const brittle=target.m44B33OrnnBrittle?.[attacker.id];
+    if(brittle>this.gameTime){
+     delete target.m44B33OrnnBrittle[attacker.id];
+     this.damage(target,Math.min(250,Math.max(20,target.maxHp*.07)),
+      attacker,'magic','m44_b33_ornn_brittle');
+     if(target.hp>0)this.applyEffectV41(target,'knockup',{source:attacker,
+      duration:.25,key:'m44_b33_ornn_brittle_'+attacker.id+'_'+this.gameTime});
+    }
+   }
    if(attacker.champ==='Irelia'&&attacker.ireliaFervorV453Dev69M7?.until>this.gameTime){
     attacker.ireliaFervorV453Dev69M7.until=this.gameTime+6;
     if(attacker.ireliaFervorV453Dev69M7.stacks>=4&&target.hp>0)
