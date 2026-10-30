@@ -35,7 +35,7 @@ pub struct WorldObservation {
     pub stale_alias_action_accepted: bool,
     pub enemy_attack_fog_hidden_alias_accepted: bool,
     pub request_replay_double_committed: bool,
-    pub snapshot_continuation_deterministic: bool,
+    pub snapshot_roundtrip_equivalent: bool,
     pub champion_behind_decoy_hp: i32,
     pub clone_hp: i32,
     pub projectile_terminated: bool,
@@ -84,7 +84,7 @@ pub fn check_uncontested_properties<R:ActualAuthoritativeRustMatchRunner>(
             observed.stale_alias_action_accepted ||
             observed.enemy_attack_fog_hidden_alias_accepted ||
             observed.request_replay_double_committed ||
-            !observed.snapshot_continuation_deterministic {
+            !observed.snapshot_roundtrip_equivalent {
             return Err(format!("privacy/ownership/replay mismatch {:?}: {:?}",case,observed));
         }
         if case.identity == Identity::ConcurrentNeekoShacoAliases {
