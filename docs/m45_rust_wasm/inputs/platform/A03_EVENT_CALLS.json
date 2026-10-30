@@ -1,0 +1,1554 @@
+{
+  "artifact": "M45_A03_EVENT_CALLS",
+  "source_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+  "source_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+  "method": "lexical scanner, NOT full AST",
+  "summary": {
+    "total": 132,
+    "unowned": 20,
+    "no_team": 13,
+    "team_null": 7,
+    "public_true_unowned": 2
+  },
+  "calls": [
+    {
+      "line": 858,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "'Preparação de 60 segundos: compre itens e planeje rotas; o mapa está pausado.'"
+      ]
+    },
+    {
+      "line": 1022,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} ativou ${plant.kind}.`",
+        "u.team",
+        "'rift_plant'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1042,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} recebeu ordem de retirada.`",
+        "team",
+        "'retreat'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1060,
+      "arity": 5,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": true,
+      "args": [
+        "'Fruta explosiva ativada.'",
+        "null",
+        "'rift_plant'",
+        "null",
+        "{public:true,plantId:plant.id}"
+      ]
+    },
+    {
+      "line": 1091,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Planta elemental ativada.'",
+        "team",
+        "'rift_plant'",
+        "actorId"
+      ]
+    },
+    {
+      "line": 1133,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Florividente ativada.'",
+        "team",
+        "'scryer_bloom'",
+        "actorId"
+      ]
+    },
+    {
+      "line": 1233,
+      "arity": 5,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": true,
+      "args": [
+        "'Rift Elemental transformado: '+element+'.'",
+        "null",
+        "'objective'",
+        "null",
+        "{riftElement:element,riftRevision:state.revision,public:true}"
+      ]
+    },
+    {
+      "line": 1273,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Alma do Dragão conquistada por ${team}; Ancião em 6 minutos.`"
+      ]
+    },
+    {
+      "line": 1497,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Preparação concluída. Comece a executar as ordens em janelas táticas.'",
+        "'blue'",
+        "'phase'"
+      ]
+    },
+    {
+      "line": 1632,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} colocou ${type==='control'?'sentinela de controle':'sentinela'} (${duration===null?'permanente':duration+'s'}).`",
+        "team",
+        "'ward'",
+        "owner"
+      ]
+    },
+    {
+      "line": 1641,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} destruiu sentinela inimiga.`",
+        "team",
+        "'ward_destroy'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1655,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} trocou trinket para ${type==='oracle'?'Lente Reveladora':type==='farsight'?'Sentinela Azul':'Ward Amarela'}.`",
+        "team",
+        "'purchase'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1664,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} ativou Lente Reveladora.`",
+        "team",
+        "'oracle'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1671,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${target.champ}: ${kind} até ${Math.ceil(result.until)}s.`",
+        "source?.team||null",
+        "'cc'",
+        "target.id"
+      ]
+    },
+    {
+      "line": 1772,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${slot} nível ${u.skillRanks[slot]}.`",
+        "team",
+        "'skill_up'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1802,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: auto-up ${choice} ${u.skillRanks[choice]}.`",
+        "u.team",
+        "'skill_up'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 1867,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${victim.champ} foi atingido por ${attacker.champ}. Escolha sua reação e combo.`",
+        "victim.team",
+        "'danger'",
+        "victim.id"
+      ]
+    },
+    {
+      "line": 1886,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} respondeu ao duelo: ${response}.`",
+        "team",
+        "'duel_ready'",
+        "unitId"
+      ]
+    },
+    {
+      "line": 1913,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} preparou ${steps.length} etapa(s) de reação.`",
+        "team",
+        "'reaction'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2048,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Dragão Ancião: execução de '+victim.champ+'.'",
+        "source.team",
+        "'elder_execute'",
+        "source.id"
+      ]
+    },
+    {
+      "line": 2067,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Dragão Ancião: execução de '+victim.champ+'.'",
+        "source.team",
+        "'elder_execute'",
+        "source.id"
+      ]
+    },
+    {
+      "line": 2146,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: cura automática em ${a.champ}.`",
+        "u.team",
+        "'reaction'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2152,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: proteção de ${carry.champ}.`",
+        "u.team",
+        "'reaction'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2180,
+      "arity": 2,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: plano de ${steps.length} etapa(s) preparado.`",
+        "team"
+      ]
+    },
+    {
+      "line": 2240,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+': ordem removida; posição mantida.'",
+        "team",
+        "'order_change'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2271,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' usou '+(type==='flash'?'Flash':u.champ+' '+type)+' para reposicionar.'",
+        "team",
+        "'escape'",
+        "unitId"
+      ]
+    },
+    {
+      "line": 2287,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' ativou '+(zhonya?'a Ampulheta':'a Armaguarda')+' (estase).'",
+        "team",
+        "'stasis'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2299,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} ativou Randuin em ${victims.length} adversários.`",
+        "u.team",
+        "'item_active'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2311,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} ativou Youmuu para acelerar.`",
+        "u.team",
+        "'item_active'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2392,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: E detonada (${hits.length} alvo(s)).`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:['blue','red'].filter(t=>t===u.team||this.canSeePoint(t,zone.point)),vfx:{type:'lucent_singularity_explode',at:zone.point,radius:rule.radius,expiresAt:this.gameTime+1}}"
+      ]
+    },
+    {
+      "line": 2424,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Aqua Prison (${hits.length} atingidos).`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:observers,vfx:{type:rule.effect,at:q.point,radius:rule.radius,expiresAt:this.gameTime+2}}"
+      ]
+    },
+    {
+      "line": 2434,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Light Binding (${hits.length} colisões).`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:observers,vfx:{type:rule.effect,from:{x:u.x,y:u.y},to:q.point,width:rule.width,expiresAt:this.gameTime+2}}"
+      ]
+    },
+    {
+      "line": 2438,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Lucent Singularity posicionada.`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:observers,vfx:{type:rule.effect,at:q.point,radius:rule.radius,expiresAt:this.gameTime+rule.duration}}"
+      ]
+    },
+    {
+      "line": 2454,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${slot} direcional programado.`",
+        "team",
+        "'skill_order'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2489,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Vex iniciou a segunda ativação de Rajada Sombria.'",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{\n   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u)),\n   vfx:{type:'shadow_surge_recast',from:{x:u.x,y:u.y},to:{x:t.x,y:t.y},\n    width:100,expiresAt:now+2}}"
+      ]
+    },
+    {
+      "line": 2525,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Vex concluiu a segunda ativação de Rajada Sombria.'",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{\n    observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u)),\n    vfx:{type:'shadow_surge_arrival',at:{x:u.x,y:u.y},expiresAt:now+1}}"
+      ]
+    },
+    {
+      "line": 2574,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} lançou ${q.slot} direcional: ${hits.length} alvo(s) na linha.`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:spectators,vfx:{type:gate.rule.effect,from:{x:u.x,y:u.y},to:endpoint,width:gate.rule.width,expiresAt:this.gameTime+2}}"
+      ]
+    },
+    {
+      "line": 2614,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`K’Sante R: ${target.champ} foi empurrado ${Math.round(push.travelled)} unidades${push.crossedWall?' através de terreno':''}${push.blocked?' (bloqueio no limite/terreno)':''}.`",
+        "u.team",
+        "'displacement'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2623,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Soraka: Desejo curou aliados globalmente.'",
+        "u.team",
+        "'ultimate'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2624,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' iniciou '+(effect.kind==='zed_mark'?'Marca Fatal':effect.kind==='karthus_channel'?'Réquiem':'projétil global')+'; resolução anunciada para o próximo turno.'",
+        "u.team",
+        "'ultimate_cast'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2636,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Marca Fatal anulada por estase.'",
+        "target.team",
+        "'stasis'",
+        "target.id"
+      ]
+    },
+    {
+      "line": 2644,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Réquiem: canalização concluída.'",
+        "effect.team",
+        "'ultimate'",
+        "source.id"
+      ]
+    },
+    {
+      "line": 2645,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Réquiem interrompido.'",
+        "effect.team",
+        "'ultimate'",
+        "effect.owner"
+      ]
+    },
+    {
+      "line": 2651,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "effect.champ+' R: '+hits.length+' alvo(s) atingido(s) pela trajetória.'",
+        "effect.team",
+        "'ultimate'",
+        "effect.owner"
+      ]
+    },
+    {
+      "line": 2669,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} usou Purificar.`",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2713,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' ativou Fantasma (+velocidade por 15 segundos simulados).'",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2715,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' usou Barreira.'",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2716,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' usou Curar.'",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2717,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' usou Teleporte para uma torre aliada.'",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2723,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' usou '+(q.type==='ignite'?'Incendiar':'Exaustão')+' em '+foe.champ+'.'",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2737,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: W direcionado a ${target.champ}.`",
+        "team",
+        "'target_skill'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2765,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`Nami W: curou ${current.champ} em ${Math.round(healed)}.`",
+        "u.team",
+        "'heal'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2766,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`Nami W: atingiu ${current.champ}.`",
+        "u.team",
+        "'skill'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2790,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} ativou Mercúrio.`",
+        "team",
+        "'item_active'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2808,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} programou ${item.name} para uma visita à fonte.`",
+        "team",
+        "'purchase_plan'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 2907,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} comprou ${item.name}.`",
+        "team",
+        "'purchase'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3029,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} desfez ${last.kind==='purchase'?'a compra':'a venda'} de ${catalog.find(i=>i.id===last.itemId)?.name||last.itemId}.`",
+        "team",
+        "'shop_undo'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3084,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} vendeu ${item.name}.`",
+        "team",
+        "'sale'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3113,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Golpear — ${summary}.`",
+        "team",
+        "'smite_plan'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3184,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${actor.champ} usou Golpear competitivo: ${hit} dano verdadeiro.`",
+        "actor.team",
+        "'smite_cast'",
+        "actor.id"
+      ]
+    },
+    {
+      "line": 3231,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} Golpear ${c.timerKey} ao chegar em ${Math.ceil(c.health)} HP: ${damage} de dano verdadeiro.`",
+        "u.team",
+        "'smite_cast'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3242,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: companheiro evoluiu! Smite Primal (1400), efeito ${u.jungleBuff}.`",
+        "u.team",
+        "'jungle_evolve'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3244,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Smite Desencadeado (1000).`",
+        "u.team",
+        "'jungle_evolve'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3253,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Atlas → Bússola Rúnica. 3 wards disponíveis.`",
+        "u.team",
+        "'support_evolve'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3255,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: Recompensa dos Mundos. 4 wards disponíveis.`",
+        "u.team",
+        "'support_evolve'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3281,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} saiu da fonte por decisão do jogador.`",
+        "team",
+        "'shop_leave'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3323,
+      "arity": 3,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": false,
+      "args": [
+        "`Turno ${frame.round}: ${frame.seconds}s simulados após as duas confirmações.`",
+        "null",
+        "'round'"
+      ]
+    },
+    {
+      "line": 3366,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${team==='blue'?'Azul':'Vermelho'} planejou reconhecimento de ${epic.kind} com ${assigned.length} campeão(ões).`",
+        "team",
+        "'bot_objective_plan'"
+      ]
+    },
+    {
+      "line": 3507,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Rodada ${this.round-1} resolvida: ${this.lastResolvedSeconds}s de jogo simultâneos.`"
+      ]
+    },
+    {
+      "line": 3515,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "'Modo legado ao vivo iniciado.'"
+      ]
+    },
+    {
+      "line": 3549,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Janela ${frame.round}: ${frame.seconds}s vividos durante o planejamento; o mundo não foi reexecutado.`"
+      ]
+    },
+    {
+      "line": 3591,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' consumiu '+catalog.find(x=>x.id===itemId).name+'.'",
+        "team",
+        "'item'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 3595,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Nexus destruído. Vitória do ${this.winner}.`"
+      ]
+    },
+    {
+      "line": 3603,
+      "arity": 3,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": false,
+      "args": [
+        "`${s.name||s.id} destruído.`",
+        "null",
+        "'structure'"
+      ]
+    },
+    {
+      "line": 3611,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${s.name||s.id} regenerado.`",
+        "s.team",
+        "'objective'"
+      ]
+    },
+    {
+      "line": 3844,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Leva ${this.waveIndex}: minions saíram das três rotas.`"
+      ]
+    },
+    {
+      "line": 3921,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: destino sem passagem.`"
+      ]
+    },
+    {
+      "line": 4049,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} alcançou nível ${u.level}.`",
+        "u.team",
+        "'level'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4054,
+      "arity": 2,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${stage.action} (etapa ${u.plan.index+1}).`",
+        "u.team"
+      ]
+    },
+    {
+      "line": 4067,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ciclo jungle concluído; rota segue ativa até nova ordem.`",
+        "u.team",
+        "'jungle_plan'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4068,
+      "arity": 2,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: rota concluída; mantendo posição até nova ordem.`",
+        "u.team"
+      ]
+    },
+    {
+      "line": 4076,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} renasceu na fonte. Loja disponível.`",
+        "u.team",
+        "'respawn'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4112,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} completou recall. Loja disponível na fonte.`",
+        "u.team",
+        "'recall_complete'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4132,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} colocou sentinela na posição escolhida.`",
+        "u.team",
+        "'ward'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4140,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} colocou sentinela na posição escolhida.`",
+        "u.team",
+        "'ward'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4147,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} usou Flash.`"
+      ]
+    },
+    {
+      "line": 4157,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+': sem aproximação para habilidade '+kitPending.slot",
+        "u.team",
+        "'skill_order'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 4730,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${target.champ} sofreu ataque de ${attacker.champ||attacker.name||attacker.id}: postura ${target.policy}, reação automática ativada.`",
+        "target.team",
+        "'danger'",
+        "target.id"
+      ]
+    },
+    {
+      "line": 4848,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${attacker.champ} atingiu ${target.champ}: impacto real, reação posterior.`",
+        "attacker.team",
+        "req.concealedOpener?'pickoff':'combat'",
+        "attacker.id"
+      ]
+    },
+    {
+      "line": 4883,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${hero.champ}: ${hero.cs} CS.`",
+        "hero.team",
+        "'farm'",
+        "hero.id"
+      ]
+    },
+    {
+      "line": 4904,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${sourceName} eliminou ${target.champ}${creditText} (${Math.ceil(target.deadUntil-this.gameTime)}s).`",
+        "target.team",
+        "'death'",
+        "target.id"
+      ]
+    },
+    {
+      "line": 5010,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`${turret.name}: aggro de dive em ${attacker.champ}.`"
+      ]
+    },
+    {
+      "line": 5038,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Ezreal lançou Disparo Místico.'",
+        "u.team",
+        "'champion_projectile_launch_v453_dev42'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5065,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Lux lançou Ligação da Luz.'",
+        "u.team",
+        "'champion_projectile_launch_v453_dev68'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5093,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "u.champ+' lançou sua ultimate direcional.'",
+        "u.team",
+        "'champion_projectile_launch_v453_dev69'",
+        "u.id",
+        "{\n   observedBy:['blue','red'].filter(team=>team===u.team||this.canSeePoint(team,u))}"
+      ]
+    },
+    {
+      "line": 5175,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "(p.kind==='nami_r'?'Onda Violenta: ':'Rajada Sombria: ')+reason",
+        "p.team",
+        "'champion_projectile_impact_v453_dev69'",
+        "p.ownerId",
+        "{\n      observedBy:['blue','red'].filter(team=>team===p.team||this.canSeePoint(team,position(lastDepth)))}"
+      ]
+    },
+    {
+      "line": 5207,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Ligação da Luz: '+reason",
+        "p.team",
+        "'champion_projectile_impact_v453_dev68'",
+        "p.ownerId"
+      ]
+    },
+    {
+      "line": 5233,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Disparo Místico: '+reason+(hitId?' ('+hitId+')':'')",
+        "p.team",
+        "'champion_projectile_impact_v453_dev42'",
+        "p.ownerId"
+      ]
+    },
+    {
+      "line": 5255,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Irelia posicionou a segunda lâmina.'",
+        "u.team",
+        "'irelia_e_second_v453_dev43'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5266,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Irelia posicionou a primeira lâmina.'",
+        "u.team",
+        "'irelia_e_first_v453_dev43'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5278,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Irelia: segunda lâmina automática.'",
+        "owner.team",
+        "'irelia_e_auto_v453_dev43'",
+        "ownerId"
+      ]
+    },
+    {
+      "line": 5307,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Irelia E: convergência de lâminas.'",
+        "owner.team",
+        "'irelia_e_hit_v453_dev43'",
+        "ownerId"
+      ]
+    },
+    {
+      "line": 5392,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} Q: ${hit?'atingiu '+(hit.champ||hit.kind||hit.id):'não atingiu'}${blocked?' ('+blocked+')':''}.`",
+        "u.team",
+        "'champion_onhit_v453_dev41'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5465,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} usou ${slot} no combo.`",
+        "u.team",
+        "'combo'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5551,
+      "arity": 5,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} conjurou ${slot}: ${hits.length} alvo(s) atingido(s).`",
+        "u.team",
+        "'skill_vfx'",
+        "u.id",
+        "{observedBy:spectators,vfx:{type:special.effect,from:{x:u.x,y:u.y},to:endpoint,width:special.width,expiresAt:this.gameTime+2}}"
+      ]
+    },
+    {
+      "line": 5554,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${slot} defensivo para bloquear projéteis e proteger a linha de frente.`",
+        "u.team",
+        "'block'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5556,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${target.champ} bloqueou o projétil de ${u.champ} (abstração defensiva).`",
+        "target.team",
+        "'block'",
+        "target.id"
+      ]
+    },
+    {
+      "line": 5560,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${slot} ${o.comboIndex}/${sequence.length} ${defensiveSkill?'(defesa pessoal)':'em '+(target?.champ||'alvo')}.`",
+        "u.team",
+        "'combo'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5658,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: ${cast} não aprendida; etapa ignorada.`",
+        "u.team",
+        "'combo_skip'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5678,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ}: combo ${o.comboIndex}/${combo.length} executado.`",
+        "u.team",
+        "'combo'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5679,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} usou ${cast} em sequência tática.`",
+        "u.team",
+        "'skill'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5682,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} usou Exaustão em ${candidate.champ}.`",
+        "u.team",
+        "'summoner'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5738,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${t.name||t.id} atingiu o Arauto (${victim.hp} HP).`",
+        "t.team",
+        "'herald_tower_hit'"
+      ]
+    },
+    {
+      "line": 5740,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Torre ${t.id} eliminou ${victim.champ}.`"
+      ]
+    },
+    {
+      "line": 5808,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${c.timerKey}: monstro perdeu paciência e começou a retornar.`",
+        "actor.team",
+        "'jungle_reset'",
+        "actor.id"
+      ]
+    },
+    {
+      "line": 5894,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${credited.champ} abateu Vastilarva (${this.teams[credited.team].voidgrubs}/3 para ${credited.team}).`",
+        "credited.team",
+        "'voidgrub'",
+        "credited.id"
+      ]
+    },
+    {
+      "line": 5913,
+      "arity": 3,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": false,
+      "args": [
+        "`Vastilarvas derrotadas: Azul ${blue}/3 · Vermelho ${red}/3.`",
+        "null",
+        "'objective'"
+      ]
+    },
+    {
+      "line": 5926,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${attacker.champ}: Voidmite invocado para pressionar estrutura.`",
+        "attacker.team",
+        "'voidmite'",
+        "attacker.id"
+      ]
+    },
+    {
+      "line": 5937,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} coletou o Olho do Arauto.`",
+        "u.team",
+        "'herald_eye'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 5965,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`Olho nas costas do Arauto atingido por ${attacker.champ}!`",
+        "attacker.team",
+        "'herald_eye_hit'",
+        "attacker.id"
+      ]
+    },
+    {
+      "line": 5969,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${attacker.champ} destruiu o Arauto inimigo.`",
+        "attacker.team",
+        "'herald_mercenary_destroyed'",
+        "attacker.id"
+      ]
+    },
+    {
+      "line": 5995,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} levará o Arauto até a rota ${lane}.`",
+        "team",
+        "'herald_deploy_order'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 6026,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} invocou o Arauto para destruir estruturas.`",
+        "u.team",
+        "'herald_summon'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 6043,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`Olho do Arauto de ${u.champ} expirou.`",
+        "u.team",
+        "'herald_eye'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 6097,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`Arauto acertou ${target.name||target.id} (${Math.round(dealt)} de dano).`",
+        "merc.team",
+        "'herald_charge'"
+      ]
+    },
+    {
+      "line": 6226,
+      "arity": 3,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": false,
+      "args": [
+        "`Disputa sem Golpear: ${noSmitePitVerdict.blue} Azul × ${noSmitePitVerdict.red} Vermelho; sorteio ponderado (${Math.round(noSmitePitVerdict.blueProbability*100)}% Azul).`",
+        "null",
+        "'objective'"
+      ]
+    },
+    {
+      "line": 6230,
+      "arity": 3,
+      "scope": "EXPLICIT_NULL_TEAM",
+      "public_literal": false,
+      "args": [
+        "`${owner==='blue'?'Azul':'Vermelho'} derrotou ${timer==='dragon'?'Dragão':timer==='baron'?'Barão Na’Shor':timer==='herald'?'Arauto':'Vastilarvas'}.`",
+        "null",
+        "'objective'"
+      ]
+    },
+    {
+      "line": 6231,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${owner==='blue'?'Azul':'Vermelho'} limpou ${original.name||original.id} (+ouro/XP; campo em recarga).`",
+        "owner",
+        "'jungle'"
+      ]
+    },
+    {
+      "line": 6240,
+      "arity": 4,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "`${u.champ} limpou ${timer}: +${count} CS e XP.`",
+        "u.team",
+        "'jungle_cs'",
+        "u.id"
+      ]
+    },
+    {
+      "line": 6254,
+      "arity": 3,
+      "scope": "TEAM_ARG_PRESENT",
+      "public_literal": false,
+      "args": [
+        "'Olho do Arauto disponível para coleta da equipe vencedora.'",
+        "owner",
+        "'herald_eye'"
+      ]
+    },
+    {
+      "line": 6259,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Dragão Ancião: execução ativa para ${owner} (modelo simplificado).`"
+      ]
+    },
+    {
+      "line": 6261,
+      "arity": 1,
+      "scope": "NO_TEAM_ARGUMENT",
+      "public_literal": false,
+      "args": [
+        "`Dragão elemental: ${el} para ${owner}.`"
+      ]
+    }
+  ]
+}
