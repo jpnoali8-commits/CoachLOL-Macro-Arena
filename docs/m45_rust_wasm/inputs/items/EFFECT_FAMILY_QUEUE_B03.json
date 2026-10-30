@@ -3,20 +3,12 @@
   "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
   "summary": {
     "family_rule_entries": 15,
-    "with_blue_red_golden_prepared": 6,
-    "remaining_without_b03_fixture": 9,
-    "remaining": [
-      "overlords_bloodmail",
-      "steraks_gage",
-      "cosmic_drive",
-      "riftmaker",
-      "chempunk_chainsword",
-      "immortal_shieldbow",
-      "seryldas_grudge",
-      "bloodletters_curse",
-      "abyssal_mask"
-    ],
-    "status": "AUDIT_ONLY_NO_RUST_CRATES"
+    "with_blue_red_golden_prepared": 15,
+    "remaining_without_b03_fixture": 0,
+    "remaining": [],
+    "status": "AUDIT_ONLY_NO_RUST_CRATES",
+    "planned_cases_family": 30,
+    "planned_cases_annul": 6
   },
   "entries": [
     {
@@ -37,10 +29,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 1,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -101,10 +97,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 2,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -193,10 +193,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 1,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -223,10 +227,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 2,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -281,10 +289,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 1,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -339,10 +351,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 2,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -397,10 +413,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 1,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -433,10 +453,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 3,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     },
     {
@@ -457,10 +481,14 @@
       ],
       "legacy_test_candidates": 1,
       "case_count": 1,
-      "prepared_golden": null,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects_extra.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
       "rust_target": "core-items + core-combat",
       "rust_status": "BLOCKED_NO_CRATE",
-      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "migration_priority": "PREPARED_GOLDEN",
       "warning": "Partial legacy source; test literals and rule params not full effect certification"
     }
   ],
