@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {assertFrozenSourcesB03} from './oracle_source_lock_b03.mjs';
 import {Arena,catalog,checksumV40,officialSaleValueV453Dev60} from '../../../../engine.mjs';
 
 const read=name=>JSON.parse(readFileSync(new URL('../../../../data/'+name,import.meta.url),'utf8'));
@@ -12,6 +13,7 @@ const shop=read('riot_reference/sr_shop_26_21_dev49.json');
 const SOURCE_COMMIT='182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d';
 const SOURCE_ENGINE_BLOB_SHA='e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d';
 const SOURCE_SHOP_BLOB_SHA='3779aee3f9981a043a917824c0ddfbf3fbefaecb';
+const sourceLock=assertFrozenSourcesB03({shop:true});
 const entries=Object.values(shop.rows).filter(r=>r.status==='engine_playable');
 assert.equal(shop.counts.normalPlayable,122);
 assert.equal(entries.length,122);
@@ -84,14 +86,15 @@ for(const entry of entries){
 }
 const result={schema:'coachlol.m45.items.golden.catalog.b02.v1',
   source_commit:SOURCE_COMMIT,source_engine_blob_sha:SOURCE_ENGINE_BLOB_SHA,
-  source_shop_blob_sha:SOURCE_SHOP_BLOB_SHA,seed_rule:'400000 + RiotItemID*2 + red(1)',
+  source_shop_blob_sha:SOURCE_SHOP_BLOB_SHA,source_lock:sourceLock,seed_rule:'400000 + RiotItemID*2 + red(1)',
   case_count:results.length,pass_count:results.filter(x=>x.outcome==='EXECUTED_PASS').length,
   blocked_count:errors.length,errors,cases:results,execution:'EXECUTED'};
-if(process.argv.includes('--write')){
-  writeFileSync(new URL('./GOLDEN_B02_CATALOG_EXECUTED.json',import.meta.url),
-    JSON.stringify(result,null,2)+'\n');
-}
 console.log(JSON.stringify({cases:results.length,pass:result.pass_count,blocked:result.blocked_count,
   status:errors.length?'FAIL':'PASS',digest:hash(result)},null,2));
 assert.equal(errors.length,0,'Catalog preconditions need reconciliation before Rust golden promotion');
 assert.equal(result.pass_count,244,'Expected 122 SR items on both teams');
+if(process.argv.includes('--write')){
+  writeFileSync(new URL('./GOLDEN_B02_CATALOG_EXECUTED.json',import.meta.url),
+    JSON.stringify(result,null,2)+'\n');
+}
+
