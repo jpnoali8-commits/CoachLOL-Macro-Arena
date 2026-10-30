@@ -1,0 +1,193 @@
+{
+  "schema": "coachlol.m45.skills.s16.concurrent-alias-temporal-fog.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "original_source": {
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "map_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "gateway_dev44_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "gateway_dev47_blob": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f"
+  },
+  "supplementary_source": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s16_multi_alias_temporal_clone_pvp.test.mjs",
+    "git_blob_sha": "6446595bf421c367eb26eed9f868ebca473b8daf"
+  },
+  "rust_reference": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s16_visibility_collision_rust_acceptance.rs",
+    "git_blob_sha": "3f9ed69cdee33ebcef1a8207953365ee2c99f09c",
+    "source_only": true,
+    "unit_tests_prepared": 3,
+    "unit_tests_executed": 0
+  },
+  "execution": {
+    "status": "V8_PASS_LEGACY_CHARACTERIZATION",
+    "runtime": "SAVED_SUPPLEMENTAL_TEST_BODY_IN_ISOLATED_V8_WITH_ORIGINAL_ARENA_AND_ORIGINAL_DEV44_PLUS_DEV47_AUTH_ACTION_GATEWAY_NODE_IMPORT_ASSERT_STRUCTUREDCLONE_SHIMS",
+    "assertions_attempted": 295,
+    "assertions_pass": 295,
+    "cases_attempted": 18,
+    "cases_pass": 18,
+    "bilateral_seats": 2,
+    "simultaneous_alias_cases": 2,
+    "temporal_clone_projectile_cases": 16,
+    "visible_decoy_impact_cases": 8,
+    "visibility_removed_at_impact_cases": 8,
+    "source_snapshot_restore_equivalence_checks": 38,
+    "actual_node_esm": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "real_authenticated_http": "NOT_RUN"
+  },
+  "alias_witness": {
+    "owner_team_compositions": [
+      "Neeko TOP disguised as allied Shaco MID",
+      "Shaco MID clone R",
+      "other team Ahri MID attacks"
+    ],
+    "blue": {
+      "alias_neeko": "appearance_1",
+      "alias_shaco_owner": "appearance_3",
+      "alias_clone": "appearance_2",
+      "source_end_revision": 5
+    },
+    "red": {
+      "alias_neeko": "appearance_1",
+      "alias_shaco_owner": "appearance_3",
+      "alias_clone": "appearance_2",
+      "source_end_revision": 5
+    },
+    "accepted": "all three distinct public IDs while source visibility is mocked true",
+    "denied": "stable Neeko/Shaco IDs, internal clone id, fake sequence replay payload, fog-hidden aliases, old clone/real-owner aliases after clone expiry, Neeko alias after cancel",
+    "snapshots": "38 source V40 snapshot->restore checks across alias and temporal cases",
+    "game_roster": "exactly 10 real champions, never 11"
+  },
+  "temporal_witness": {
+    "cast_at": 0,
+    "clock_ticks": "t=1..4",
+    "source_seed": 6916,
+    "positions": {
+      "caster": {
+        "x": 0.48,
+        "y": 0.5
+      },
+      "clone_neeko": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clone_shaco": {
+        "x": 0.5133422281521014,
+        "y": 0.5
+      },
+      "real_owner_post_cast": {
+        "x": 0.58,
+        "y": 0.5
+      }
+    },
+    "casting_champions": [
+      "Ahri E",
+      "Ashe R"
+    ],
+    "target_clone_types": [
+      "Neeko W",
+      "Shaco R"
+    ],
+    "visible_first_collision_results_per_seat": [
+      {
+        "cast": "Ahri E",
+        "clone": "Neeko W",
+        "clone_hp": 1420,
+        "real_owner_hp": 1500
+      },
+      {
+        "cast": "Ahri E",
+        "clone": "Shaco R",
+        "clone_hp": 1380,
+        "real_owner_hp": 1500
+      },
+      {
+        "cast": "Ashe R",
+        "clone": "Neeko W",
+        "clone_hp": 1300,
+        "real_owner_hp": 1500
+      },
+      {
+        "cast": "Ashe R",
+        "clone": "Shaco R",
+        "clone_hp": 1200,
+        "real_owner_hp": 1500
+      }
+    ],
+    "clone_damage_multiplier_shaco": 1.5,
+    "hidden_before_impact_results_per_seat": [
+      {
+        "cast": "Ahri E",
+        "clone": "Neeko W",
+        "clone_hp": 1500,
+        "real_owner_hp": 1500
+      },
+      {
+        "cast": "Ahri E",
+        "clone": "Shaco R",
+        "clone_hp": 1500,
+        "real_owner_hp": 1500
+      },
+      {
+        "cast": "Ashe R",
+        "clone": "Neeko W",
+        "clone_hp": 1500,
+        "real_owner_hp": 1346
+      },
+      {
+        "cast": "Ashe R",
+        "clone": "Shaco R",
+        "clone_hp": 1500,
+        "real_owner_hp": 1348
+      }
+    ]
+  },
+  "risk": {
+    "id": "S16_VISIBILITY_DEPENDENT_PROJECTILE_CLONE_COLLISION",
+    "status": "POTENTIAL_FIDELITY_RISK_NOT_YET_CLASSIFIED_AS_GAMEPLAY_BUG",
+    "source_cause": "boardCombatEnemyPoolV453Dev69 filters clone entities with this.canSeePoint(u.team,v) at engine source line 4076; authored projectile body sweep line ~10235 uses this filtered combat pool; owned enemy champions still included without same canSeePoint filter.",
+    "significance": "Same spawned decoy intercepts Ahri/Ashe missile when visible but is skipped when attacker loses visibility. In the Ashe setup, the missile continues to damage the real champion behind. Need authoritative hidden-body missile physics ruling and two-seat fog integration before deciding Rust policy.",
+    "fix_status": "UNDECIDED_NEEDS_AUTHORED_RULES_AND_REAL_SERVER_TESTS",
+    "rust_design": "Separate physical collision candidate pool from enemy-visible selection/targeting authority; never leak unseen clone identity via public projections. Test hidden physical bodies and authorized actions independently."
+  },
+  "coordinator": {
+    "rust_branch": "dev69/rust-core-m45",
+    "head_at_start": "94e22180623ca20477165221e9e9251ff508c1e8",
+    "present_crates": [
+      "core-state"
+    ],
+    "absent": [
+      "core-combat",
+      "core-champions"
+    ]
+  },
+  "original_s10_fixed_matrix": {
+    "planned": 26,
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "full_original_node_pass": 0
+  },
+  "previous_s15": {
+    "original_m15": "20_SOURCE_CHECKS_PASS_CHECK_21_FAIL",
+    "strict_clone_targetability": "24/24_V8_PASS",
+    "supplemental": "88/88_ASSERTIONS_PASS_WITH_2_KNOWN_WRONG_SYLAS_CLONE_APPEARANCES"
+  },
+  "gate_status": {
+    "G0": "PARTIAL",
+    "G1": "SOURCE_ONLY",
+    "G2": "LEGACY_ORACLE_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merges": true,
+  "no_original_engine_edit": true
+}
