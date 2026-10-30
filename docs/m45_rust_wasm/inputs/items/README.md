@@ -148,3 +148,14 @@ Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real ten
 [contrato de ordem do combate Rust](ITEM_COMBAT_ORDER_CONTRACT_B07.json).
 
 **JS source/V8:** 23 interações × blue/red = **46/46 casos PASS**, com **46/46 registros repetidos identicamente** em nova execução; **34 IDs distintos de regras** referenciados pela matriz. Catálogo de fonte: 51 `ITEM_EFFECTS` e 15 `ITEM_FAMILY_RULES`; 22 entradas sem aparecimento nas matrizes B03/B07, não necessariamente sem testes legados. Runner cumulativo B01–B07: **437 casos planejados para Node**, mas Node ESM, HTTP, Cargo e WASM permanecem **NOT_RUN**. **G8 NOT_CERTIFIED**. Nenhuma mudança de regra em JS ou crate Rust publicada por este chat.
+
+## B02B-ITEMS Lote 08 — 2026-10-30
+
+[Recibo técnico B08](RECEIPT_B02B_ITEMS_08.md) ·
+[22 testes de efeitos legados (puro JS)](legacy_effect_gaps_b08_cases.mjs) ·
+[4 testes de gate skill/item (puro JS)](skill_item_action_gate_b08_cases.mjs) ·
+[runner Node ESM B08](golden_b08_effects_and_actions.test.mjs) ·
+[QA V8 executado B08](QA_V8_EFFECT_GAPS_B08.json) ·
+[matriz atualizada dos 66 registros](REGISTRY_COVERAGE_B08.json).
+
+**B08 em V8:** 22 efeitos previamente fora dos casos B03/B07, testados azul/vermelho (**44/44 PASS**), mais 4 cenários gate de habilidades Q/W × efeitos de itens azul/vermelho (**8/8 PASS**), **52/52 casos reprodutíveis**. As 66 entradas conhecidas do registro legadas estão agora ligadas a **alguma** evidência das matrizes B03/B07/B08, NÃO a paridade integral. O runner Node ESM soma **489 cenários preparados**, mas sua execução literal continua **NOT_RUN**, assim como HTTP, Rust nativo e WASM; G8 **NOT_CERTIFIED**. O primeiro preflight do B08 teve 4 falhas por precondições equivocadas nos testes de Dominik e Ídolo, posteriormente corrigidas e reexecutadas. Nenhuma mudança de gameplay em JavaScript.
