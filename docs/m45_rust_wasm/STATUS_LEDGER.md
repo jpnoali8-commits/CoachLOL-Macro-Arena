@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, M45 B02A3 runtime Node ABI smoke (4/4 PASS) + toolchain probe (EXIT 42); PARCIAL.
+**Atualizado:** 2026-10-30, M45 B02A4 runner de evidência + correções G0 dos handoffs; PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A (toolchain Rust nativo + target WASM real); B02B goldens de origem pendentes.
+**Próxima prioridade:** M45 B02A (executar native/WASM em toolchain real via tools/m45_qa_evidence.mjs); B02B executar goldens das fontes e auditoria P0 da plataforma.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,7 +23,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | matriz estática 1178; mock ABI JS test 4/4 PASS; toolchain EXIT 42; Cargo/WASM NOT_RUN; novos handoffs recebidos |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | executor de evidências M45 B02A4 publicado; Node policy 4/4 + adapter 4/4 PASS; Rust/WASM NOT_RUN; deltas dos especialistas S04/I02/A03 incorporados |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | NOT_RUN | toolchain cargo/rustc não encontrado neste ambiente |
@@ -42,7 +42,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 - BLOCK-003: três handoffs de inventário estático incorporados, mas golden de runtime por source SHA, resolução semântica e identidade de executores ainda NÃO realizados (B02).
 - BLOCK-004: B33B era candidato não commitado; não afirmar que está no git.
 - BLOCK-005: JS legado em engine.browser.js gerado por script; mudar sistema de bundling sem gate quebra o browser.
-- BLOCK-006 / PLATFORM-016 (P0 segurança, suspeita estática): projection legado em `engine.mjs perspective(team)` aceita eventos sem `team` e sem `unitId` como gerais; payload privado sem rótulos pode atravessar filtro. NÃO declarar leak reproduzido sem teste; no Rust exigir default deny e allowlist tipo+campos/owner/observedBy. Handoff platform A02.
+- BLOCK-006 / PLATFORM-016 (P0 segurança): Chat 4 **reproduziu em V8 isolado usando `Arena.event` e `Arena.perspective` da fonte legada** exposição de evento sem team/unitId e `public:false`, detalhes arbitrários e string `public:'false'`. Não é prova de ocorrência em jogo completo. Rust `VisibleEventDTO` deve negar por padrão e utilizar allowlist por tipo/campo/owner/observedBy; G3 Rust NOT_RUN. Handoff platform A03.
 
 ## Transição entre tarefas
 
@@ -90,3 +90,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Handoff skills atualizado `dev69/m45-audit-skills@135d01adc29f7135323176cff6fc5e3f972dfacb`: 10 suites bilaterais pinadas e runner; goldens NODE **NOT_RUN**. Handoff items `dev69/m45-audit-items@654f8e1f7afc65d97fb38f234aaf39c7227d15a3`: 43 suites/458 âncoras documentadas, golden 122 itens × 2 lados previsto mas **NOT_RUN**. Handoff platform `dev69/m45-audit-platform@540c950f5b9a94be9a47c9a6d5c3bc56e5bb0927`: alerta PLATFORM-016 e contratos de rede, 16/16 padrões em estática, runtime redteam NOT_RUN.
 - Matrizes centrais anteriores continuam congeladas nos SHAs originais até revisão semântica; estes novos handoffs estão **RECEIVED_UNVERIFIED**, sem merge/cherry-pick.
 - **Próxima prioridade continua B02A**, obter toolchain nativo WASM de ambiente autorizado; em paralelo executar oráculos JS de origem e red-team da projeção. **G0 PARTIAL, G1 NOT_RUN, G3 NOT_RUN, G7 BLOCKED, G8 NOT_RUN.**
+
+## M45 B02A4 — runner de evidência e reconciliação S04/I02/A03 (2026-10-30)
+
+- HEAD inicial revalidado: `e7cf151af869421d307af58ae26e38449c11f954` PR #19 Draft, fontes integration/skills/items originais imutáveis. `tools/m45_qa_evidence.mjs` (Node, sem dependências externas) executa de verdade adaptação JS, golden B01 se existir checkout, probes `rustc/cargo/rustup`, `cargo test/fmt/clippy`, target wasm32, build e smoke do **binário Rust gerado**; gera recibo com status por etapa, SHA256 binário somente se produzido e `G1=PASS_BASELINE_ONLY` apenas após 6 checks reais PASS.
+- `tests/audit/m45_qa_evidence_policy.test.mjs`: **4/4 PASS** para fail-closed de G1 (mock ABI não aprova Rust/WASM, execução ausente não promove gate). Reexecutado juntamente com `m45_b02_public_adapter_contract.test.mjs`: **8/8 PASS** em Node v22.16.0. `node --check` ambos: PASS.
+- `node tools/m45_qa_evidence.mjs --receipt <arquivo_local>` executado: `adapter=PASS`, `jsGolden=NOT_RUN` (não há checkout full), `native=BLOCKED`, fmt/clippy/wasm target/build/smoke `NOT_RUN`, `rustc=false cargo=false rustup=false`, `G1=NOT_RUN`, **EXIT 42**. `git ls-remote` também falha DNS. Sem GitHub Actions/Codespaces.
+- Delta de handoffs machine-readable: `docs/m45_rust_wasm/inputs/core/B02_HANDOFF_DELTA_A4.json`. Skills `2184c906...`: **56 overlaps aparentes = 29 duplicatas do scanner + 27 slots multivariantes reais**, 11 suites bilaterais planejadas, zero runtime executado. Itens `0ae7cbff...`: 286 métodos Arena na branch de itens vs 278 na integração, 8 métodos exclusivos + 8 compartilhados modificados; 14 domínios de interfaces/62 símbolos, 43 arquivos/458 âncoras de testes, 244 golden candidatos NÃO executados. Plataforma `e98c9353...`: 132 chamadas `this.event`, 20 sem time, 2 com literal `public:true`; falha de projeção legado comprovada em V8 isolado (NÃO E2E).
+- Atualiza leitura histórica de 55 overlaps preliminares: **27 permanecem multivariantes distintos após corrigir artefato de varredura**. Preservar as anotações históricas anteriores e a matriz central até regenerar com as novas fontes, sem confundir a correção estática com prova de runtime.
+- **G0 PARTIAL, G1 NOT_RUN, G3 Rust NOT_RUN, G7 BLOCKED, G8 NOT_RUN**. B02 ainda IN_PROGRESS_BLOCKED. Próxima prioridade: executar Cargo/WASM num runner que tenha Rust e validar fonte SHA golden full/segurança, sem liberar B03.

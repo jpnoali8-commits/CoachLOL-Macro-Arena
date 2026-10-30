@@ -1,0 +1,90 @@
+{
+  "schema": "coachlol.m45.b02.latest-handoff-delta.v1",
+  "captured_date": "2026-10-30",
+  "rust_parent": "e7cf151af869421d307af58ae26e38449c11f954",
+  "original_sources": {
+    "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "skills": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "items": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d"
+  },
+  "handoffs": {
+    "skills": {
+      "branch": "dev69/m45-audit-skills",
+      "head": "2184c906d0363e639c201ded5f63aad8cdfe9350",
+      "paths": {
+        "precedence_overlaps.json": "9c3de2c167dcb35af96d5c293b8a1708804acecb",
+        "golden_plan.json": "d1fccd70a38f3c4b43332ac94c24450f911a5e0c"
+      },
+      "static": {
+        "slot_count": 865,
+        "champions": 173,
+        "source_overlap_slots": 56,
+        "synthetic_double_scan_duplicates": 29,
+        "distinct_multivariant_slots": 27,
+        "form_conditional": 16,
+        "v42_overlap": 10,
+        "v382_overlap": 1,
+        "executor_overrides": 7,
+        "planned_bilateral_golden_suites": 11
+      },
+      "runtime_goldens": "NOT_RUN"
+    },
+    "items": {
+      "branch": "dev69/m45-audit-items",
+      "head": "0ae7cbff0b39866d09fb862a421af0b81db1997d",
+      "paths": {
+        "SOURCE_METHOD_DIFF_B02.json": "d5cf495da5dd075d12869376a0d8fb0e6f8d81df",
+        "ECONOMY_INTERFACES_B02.json": "346840be1fbdafd43c24b486ce70b1ac4b2d0cbf"
+      },
+      "static": {
+        "engine_methods_items": 286,
+        "engine_methods_integration": 278,
+        "exclusive_items_methods": 8,
+        "shared_changed_methods": 8,
+        "shared_same_methods": 270,
+        "interface_domains": 14,
+        "interface_source_symbol_refs": 62,
+        "legacy_test_suites_indexed": 43,
+        "case_anchors_indexed": 458,
+        "planned_catalog_golden_scenarios": 244
+      },
+      "runtime_goldens": "NOT_RUN"
+    },
+    "platform": {
+      "branch": "dev69/m45-audit-platform",
+      "head": "e98c9353a3d9343c5874c5787fbbb7c52ab5fcf7",
+      "paths": {
+        "A03_EVENT_CALLS.json": "4e68558371e28040bcda6cd21592fb7232955f05"
+      },
+      "static": {
+        "event_calls_total": 132,
+        "unowned_events": 20,
+        "no_team_arg": 13,
+        "explicit_null_team": 7,
+        "public_true_in_unowned": 2
+      },
+      "isolated_legacy_v8": "GAP_REPRODUCED",
+      "legacy_full_match": "NOT_RUN",
+      "rust_acl": "NOT_RUN",
+      "risk": "PLATFORM-016",
+      "risk_note": "event with private:false/unowned ambiguity, private:true injected without team or unit and details.internal can cross legacy projection; does not prove naturally produced sensitive event in a complete match"
+    }
+  },
+  "QA": {
+    "node_policy_tests": "4/4_PASS",
+    "node_adapter_contract_tests": "4/4_PASS",
+    "native_rust": "NOT_RUN",
+    "wasm_real": "NOT_RUN",
+    "B02": "IN_PROGRESS_BLOCKED",
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "G7": "BLOCKED",
+    "G8": "NOT_RUN"
+  },
+  "notes": [
+    "Snapshot reconciles specialist handoff descriptions; source origins remain immutable.",
+    "No code from branches merged; full source SHA/semantics require runtime golden execution.",
+    "The local runner emits receipts with actual command results and never treats simulated ABI as native WASM."
+  ]
+}

@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A3_NODE_ADAPTER_PASS_RUST_BLOCKED",
+    "phase": "B02A4_EVIDENCE_RUNNER_NODE_PASS_RUST_BLOCKED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -384,11 +384,27 @@
       ]
     },
     "latest_handoff_refs": {
-      "skills": "135d01adc29f7135323176cff6fc5e3f972dfacb",
-      "items": "654f8e1f7afc65d97fb38f234aaf39c7227d15a3",
-      "platform": "540c950f5b9a94be9a47c9a6d5c3bc56e5bb0927"
+      "skills": "2184c906d0363e639c201ded5f63aad8cdfe9350",
+      "items": "0ae7cbff0b39866d09fb862a421af0b81db1997d",
+      "platform": "e98c9353a3d9343c5874c5787fbbb7c52ab5fcf7"
     },
-    "latest_handoff_status": "RECEIVED_STATIC_ONLY",
-    "security_risk_platform_016": "P0_STATIC_SUSPECTED_PROJECTION_LEAK_NOT_RUNTIME_VERIFIED"
+    "latest_handoff_status": "S04_I02_A03_STATIC_RECONCILED_RUNTIME_GOLDENS_NOT_RUN",
+    "security_risk_platform_016": "P0_STATIC_SUSPECTED_PROJECTION_LEAK_NOT_RUNTIME_VERIFIED",
+    "evidence_runner": {
+      "path": "tools/m45_qa_evidence.mjs",
+      "status": "EXECUTED_LOCAL_EXIT_42",
+      "native": "BLOCKED_MISSING_RUSTC_CARGO",
+      "wasm": "NOT_RUN",
+      "adapter": "PASS",
+      "legacy_js": "NOT_RUN",
+      "policy_tests": "4/4_PASS",
+      "adapter_contract_tests": "4/4_PASS",
+      "G1": "NOT_RUN",
+      "wasm_sha256": null,
+      "receipt_schema": "coachlol.m45.b02a.evidence.v1"
+    },
+    "handoff_delta_path": "docs/m45_rust_wasm/inputs/core/B02_HANDOFF_DELTA_A4.json",
+    "latest_overlap_slots_active": 27,
+    "platform_016": "REPRODUCED_V8_ISOLATED_NOT_E2E"
   }
 }
