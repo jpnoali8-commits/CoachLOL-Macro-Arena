@@ -11,7 +11,8 @@ export const SOURCE_BLOBS_B03=Object.freeze({
  'data/riot_reference/sr_shop_26_21_dev49.json':'3779aee3f9981a043a917824c0ddfbf3fbefaecb',
  'data/rift_user_manifest_v452d4.json':'698f86922a5bf8c8699a306bab097cd2ca3743e5',
  'multiplayer/room_v453_dev47.mjs':'3bdb8cd3b737d20e3700e994a8872943e53366ae',
- 'multiplayer/authoritative_actions_v453_dev47.mjs':'adf6900a20b1b2c162ec9769b18bf1cc2c23867f'
+ 'multiplayer/authoritative_actions_v453_dev47.mjs':'adf6900a20b1b2c162ec9769b18bf1cc2c23867f',
+ 'multiplayer/authoritative_actions_v453_dev44.mjs':'b2ebb58248c8aec9aee0a64c354150757cd71a4a'
 });
 
 export function gitBlobSha1(bytes){
@@ -23,7 +24,8 @@ export function assertFrozenSourcesB03({shop=false,server=false}={}){
  const files=['engine.mjs','data/coachlol_map_v6.json','data/masks_128.json'];
  if(shop)files.push('data/riot_reference/sr_shop_26_21_dev49.json');
  if(server)files.push('data/rift_user_manifest_v452d4.json',
-  'multiplayer/room_v453_dev47.mjs','multiplayer/authoritative_actions_v453_dev47.mjs');
+  'multiplayer/room_v453_dev47.mjs','multiplayer/authoritative_actions_v453_dev47.mjs',
+  'multiplayer/authoritative_actions_v453_dev44.mjs');
  const hashes={};
  for(const file of files){
   const raw=readFileSync(new URL('../../../../'+file,import.meta.url));
