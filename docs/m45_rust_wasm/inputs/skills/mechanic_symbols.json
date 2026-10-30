@@ -1,0 +1,645 @@
+{
+  "meta": {
+    "schema": "coachlol.m45.skills.static-audit.v1",
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "source_bytes": 1116423,
+    "roster_champions": 173,
+    "test_files_seen": 244,
+    "regression_status": "NOT_RUN",
+    "interpretation": "Static evidence is not a successful native JS golden or Rust parity test."
+  },
+  "mechanics": [
+    {
+      "symbol": "m44B14DOriginalBoardRuleV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 1206,
+      "source_occurrences": 7,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B14CSylasUltimateRuleV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 1205,
+      "source_occurrences": 5,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueSylasHijackV453M14",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 12580,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "resolveSylasHijacksV453M14",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 12603,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueViegoPossessV453M44B14C",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 12523,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B18SkillWallPointV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2821,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B21ProjectileBarrierHitV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2885,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B22CancelChannelsV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4337,
+      "source_occurrences": 6,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "boardKitForV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4157,
+      "source_occurrences": 6,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "executeBoardSkillV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4961,
+      "source_occurrences": 5,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "resolveBoardSkillsV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 9372,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueNeekoDisguiseV453M15",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11414,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B18SkillWallsV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2799,
+      "source_occurrences": 6,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B18SegmentDistanceV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2813,
+      "source_occurrences": 8,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B18DashBlockerV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2851,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B20ProjectileBarrierCenterV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2876,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B21AuthoredProjectileBarrierHitV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2918,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B19ProjectileWalkableV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2927,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B19IsAuthoredDashV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2931,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "boardCloneDamageableV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2038,
+      "source_occurrences": 11,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "boardCombatEntityByIdV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 3900,
+      "source_occurrences": 28,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "boardCombatEnemyPoolV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4028,
+      "source_occurrences": 144,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardFacingV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4100,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardViktorEvolutionV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4117,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "undoBoardViktorEvolutionV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4135,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardChargeStartV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4155,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardChargeReleaseV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4173,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B23HoldInterruptReasonV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4195,
+      "source_occurrences": 5,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B23InterruptAuthoredHoldV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4205,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B23ProjectileRealmMatchV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4081,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B27KatarinaTakedownV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4255,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B26KennenMarkV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4264,
+      "source_occurrences": 6,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B26KatarinaPickupV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4295,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B22DeliveryKindV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4322,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B22ChannelInterruptRecordV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4215,
+      "source_occurrences": 7,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B22ChannelInterruptReasonV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4358,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B32ATalonVaultGateV453",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4410,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardSkillV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4186,
+      "source_occurrences": 5,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B09GnarMegaEligibleV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4942,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "detonateBoardSatchelV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 5368,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "applyBoardHemorrhageV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 9211,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B08OriannaPointV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 8749,
+      "source_occurrences": 6,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44XayahPlantFeatherV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 8868,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44ExtendEncoreV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 9469,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44AuthoredImpactV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 9481,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "advanceBoardTemporalV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 9533,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "executeCloneSkillV453M15",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 5167,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueNeekoShomaV453M15",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11436,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B10TrapSplashTargetsV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11522,
+      "source_occurrences": 5,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "executeMechanicV453M16",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 5166,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "advanceMechanicsV453M16",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11691,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "queueBoardSummonOrderV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11837,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "advanceBoardSummonsV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11861,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "m44B11TwitchTargetsV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 4886,
+      "source_occurrences": 4,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "advanceBoardPassivesV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 11975,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "realmOfV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 3180,
+      "source_occurrences": 51,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "sameCombatRealmV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 2855,
+      "source_occurrences": 157,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "realmValidV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 3731,
+      "source_occurrences": 30,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "realmPathValidV453M14",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 3687,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "startRealmV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 13633,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "endRealmV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 13634,
+      "source_occurrences": 1,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "advanceRealmV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 13635,
+      "source_occurrences": 3,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    },
+    {
+      "symbol": "realmViewV453Dev69",
+      "source_path": "engine.mjs",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "first_source_line": 3204,
+      "source_occurrences": 2,
+      "status": "present_unverified",
+      "rust_status": "SOURCE_ONLY"
+    }
+  ]
+}
