@@ -1,0 +1,73 @@
+{
+  "schema": "coachlol.m45.skills.s14.rust-acceptance-static-receipt.v1",
+  "date": "2026-10-30",
+  "source": {
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_git_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f"
+  },
+  "rust_coordinator": {
+    "head": "ddbdf8e9ee4345646c70162c1637e5b08670708a",
+    "present": [
+      "core-state"
+    ],
+    "absent": [
+      "core-combat",
+      "core-champions"
+    ],
+    "read_only": true
+  },
+  "legacy_execution": {
+    "receipt_path": "docs/m45_rust_wasm/inputs/skills/S14_SYLAS_VIEGO_ORIGINAL_V8_RECEIPT.json",
+    "mode": "ORIGINAL_SOURCE_BODY_EVAL_ISOLATED_V8_WITH_NODE_BOOTSTRAP_SHIMS",
+    "source_suites": 4,
+    "passed_suites": 4,
+    "assertions": 1894,
+    "passed_assertions": 1894,
+    "scenarios": 154,
+    "passed_scenarios": 154,
+    "source_endpoint_snapshot_roundtrips": 154,
+    "prior_s10_overlap_scenarios": 78,
+    "original_suite_scenarios_outside_s10": 76,
+    "assertions_of_extra_three_suites": 920
+  },
+  "actual_static_validation": {
+    "result": "V8_PASS",
+    "assertions": 79,
+    "passed": 79,
+    "test_path": "docs/m45_rust_wasm/inputs/skills/s14_validate_sylas_viego.mjs",
+    "validator_blob_sha": "66c15b724b719abbb654a3e29c1fe40fae7235b1",
+    "source_receipt_blob_sha": "9beae0010cecdcf87c79384677e9f28bb35343c2",
+    "s10_plan_blob_sha": "88b2aa5f353d3715f00ef7467843db0f190837a1",
+    "rust_acceptance_blob_sha": "6e428e80409d8cde4407896ac44d637d7e5d502d",
+    "mode": "saved pure validateInputs function executed under isolated V8 with minimal assert.deepEqual/ok shims"
+  },
+  "rust_specification": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s14_sylas_viego_rust_acceptance.rs",
+    "kind": "NON_AUTHORITATIVE_RUST_ACCEPTANCE_INTERFACE",
+    "original_r_donors": 15,
+    "pqwe_possession_donors": 12,
+    "planned_future_native_positive_two_seat_runs": 54,
+    "planned_explicit_negative_requirements": 10,
+    "rust_data_unit_tests_prepared": 4,
+    "rust_data_unit_tests_executed": 0,
+    "production_integration": "NOT_IN_WORKSPACE"
+  },
+  "gates": {
+    "legacy_source": "V8_PASS_NOT_FULL_NODE",
+    "native_rust": "NOT_RUN",
+    "cargo": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "real_http_two_seats": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "actions_used": 0,
+  "no_production_engine_changes": true,
+  "no_merge": true,
+  "notes": [
+    "Four original source suites explicitly report zero certified complete kits; source V8 result is not a migration completion metric.",
+    "The original S10 26-suite matrix remains 22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN.",
+    "S14 only expanded legacy coverage; no authored skills have been promoted to Rust authoritative.",
+    "Original tests include visibility, walkability, obstacleLine mocks; private fog, ACL and server state remain unverified."
+  ]
+}
