@@ -22,6 +22,8 @@ const digestUnit=u=>({id:u.id,team:u.team,role:u.role,gold:u.gold,items:[...u.it
   hp:u.hp,maxHp:u.maxHp,mana:u.mana,maxMana:u.maxMana,ap:u.ap,ad:u.ad,
   armor:u.armor,mr:u.mr,attackSpeedPct:u.attackSpeedPct,
   flatMoveSpeed:u.flatMoveSpeed,percentMoveSpeed:u.percentMoveSpeed,
+  trinket:u.trinket??'stealth',wardCharges:u.wardCharges??0,
+  trinketNextChargeAt:u.trinketNextChargeAt??0,
   undoRevoked:u.shopUndoRevokedV453Dev61??false,
   undoDepth:u.shopUndoV453Dev61?.length??0});
 const results=[],errors=[];
@@ -43,8 +45,37 @@ for(const entry of entries){
     // These are test-only reset conditions, NOT an allowed gameplay action.
     if(role==='JG'){unit.junglePet=null;unit.junglePetStage=0;}
     if(role==='SUP'){unit.supportQuestStage=0;}
-    const before=digestUnit(unit),pre=arena.canBuy(team,unit.id,item.id);
+    const before=digestUnit(unit);
     const id='M45-B02-SR'+entry.id+'-'+team;
+    // Trinkets are engine_playable catalog entries, NOT six-slot purchases.
+    // canBuy() deliberately rejects them; only setTrinket() is authoritative.
+    if(item.tags.includes('trinket')){
+      assert.equal(item.cost,0,id+' trinket price');
+      assert.equal(arena.canBuy(team,unit.id,item.id).ok,false,id+' regular purchase must reject trinket');
+      const first=unit.trinket??'stealth';
+      const target=item.id==='trinket_oracle'?'oracle':'stealth';
+      const actions=[];
+      if(target===first){
+        const swap=arena.setTrinket(team,unit.id,'oracle');
+        assert.equal(swap.ok,true,id+' toggle to oracle');
+        actions.push({kind:'trinket.switch',trinket:'oracle',ok:swap.ok});
+      }
+      const receipt=arena.setTrinket(team,unit.id,target);
+      assert.equal(receipt.ok,true,id+' switch to '+target);
+      actions.push({kind:'trinket.switch',trinket:target,ok:receipt.ok});
+      assert.equal(unit.trinket,target,id+' trinket state');
+      assert.equal(unit.gold,before.gold,id+' no trinket gold debit');
+      assert.deepEqual(unit.items,before.items,id+' no inventory consumption');
+      const record={id,seed,team,actor:unit.id,item_id:item.id,riot_id:entry.id,
+        source_commit:SOURCE_COMMIT,source_engine_blob_sha:SOURCE_ENGINE_BLOB_SHA,
+        source_shop_blob_sha:SOURCE_SHOP_BLOB_SHA,action_sequence:actions,
+        before,official_sell_value:officialSaleValueV453Dev60(item.id),
+        after_switch:digestUnit(unit),after_switch_hash_v40:checksumV40(arena.snapshotV40()),
+        outcome:'EXECUTED_PASS',subdomain:'trinket_not_shop_item',receipt};
+      results.push({...record,fixture_sha256:hash(record)});
+      continue;
+    }
+    const pre=arena.canBuy(team,unit.id,item.id);
     if(!pre.ok){
       errors.push({id,reason:pre.reason,category:'PRECONDITION_REJECTED'});
       results.push({id,seed,team,actor:unit.id,item_id:item.id,riot_id:entry.id,
@@ -88,11 +119,15 @@ const result={schema:'coachlol.m45.items.golden.catalog.b02.v1',
   source_commit:SOURCE_COMMIT,source_engine_blob_sha:SOURCE_ENGINE_BLOB_SHA,
   source_shop_blob_sha:SOURCE_SHOP_BLOB_SHA,source_lock:sourceLock,seed_rule:'400000 + RiotItemID*2 + red(1)',
   case_count:results.length,pass_count:results.filter(x=>x.outcome==='EXECUTED_PASS').length,
+  ordinary_purchase_cases:results.filter(x=>x.subdomain!=='trinket_not_shop_item').length,
+  trinket_switch_cases:results.filter(x=>x.subdomain==='trinket_not_shop_item').length,
   blocked_count:errors.length,errors,cases:results,execution:'EXECUTED'};
 console.log(JSON.stringify({cases:results.length,pass:result.pass_count,blocked:result.blocked_count,
   status:errors.length?'FAIL':'PASS',digest:hash(result)},null,2));
 assert.equal(errors.length,0,'Catalog preconditions need reconciliation before Rust golden promotion');
-assert.equal(result.pass_count,244,'Expected 122 SR items on both teams');
+assert.equal(result.pass_count,244,'Expected 122 SR entries x 2 teams');
+assert.equal(result.ordinary_purchase_cases,240,'Expected 120 actual purchases x 2 teams');
+assert.equal(result.trinket_switch_cases,4,'Expected 2 zero-cost trinket exchanges x 2 teams');
 if(process.argv.includes('--write')){
   writeFileSync(new URL('./GOLDEN_B02_CATALOG_EXECUTED.json',import.meta.url),
     JSON.stringify(result,null,2)+'\n');
