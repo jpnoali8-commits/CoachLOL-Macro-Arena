@@ -89,8 +89,13 @@ function exercise(a,u,v,id){
   // Test-only placement, identical to the frozen source audit scenario.
   s.x=v.x;s.y=v.y;v.mr=0;v.armor=0;v.hp=v.maxHp;
   const boosted=a.damage(v,100,u,'magic','spell');
-  assert.ok(boosted>100);
-  return {boosted,holder:s.id,rule:'ally support aura amplifies magic damage'};
+  // True paired control: same attacker/target, aura holder moved out of range.
+  // Position assignment is test-only fixture setup (not an item action).
+  const shop=a.map.objects.find(o=>o.id===s.team+'_spawn_shop');
+  assert.ok(shop);s.x=shop.x;s.y=shop.y;v.hp=v.maxHp;
+  const plain=a.damage(v,100,u,'magic','spell');
+  assert.ok(boosted>plain,{boosted,plain});
+  return {boosted,plain,holder:s.id,rule:'ally support aura amplifies magic vs no-aura control'};
  }
  throw Error('unexpected item '+id);
 }
