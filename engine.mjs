@@ -6891,7 +6891,45 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m44_b12_wukong_cyclone'){
+    if(z.kind==='m44_b13_zone'){
+     // Every zone resolves independently at board-clock time from its owner,
+     // never from a preselected enemy list or leaked fog coordinates.
+     if(z.variant==='rumble_q')z.point={x:u.x,y:u.y};
+     for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+      v.hp>0&&this.mapDistance(v,z.point)<=z.radius&&
+      !this.obstacleLine(z.point,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+      if(z.variant==='aurelion_e'){
+       const distance=this.mapDistance(v,z.point);
+       if(distance>35){
+        const dx=(z.point.x-v.x)*this.worldWidth,
+         dy=(z.point.y-v.y)*this.worldHeight,
+         len=Math.max(1,Math.hypot(dx,dy)),
+         to={x:v.x+dx/len*115/this.worldWidth,
+          y:v.y+dy/len*115/this.worldHeight};
+        if(to.x>=0&&to.x<=1&&to.y>=0&&to.y<=1&&
+           this.walkable(to.x,to.y)&&!this.obstacleLine(v,to)){
+         const from={x:v.x,y:v.y};
+         Object.assign(v,to);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(v);
+         this.itemEnergizeRelocateV453Dev39(v,from,to,{kind:'aurelion_singularity'});
+        }
+       }
+       this.damage(v,z.power,u,'magic','spell');
+      }else if(z.variant==='anivia_r'||z.variant==='lissandra_r'){
+       const shield=this.effectResolverV41().has(v,'spell_shield');
+       this.damage(v,z.power,u,'magic','spell');
+       if(!shield&&v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{
+        source:u,duration:1.2,power:z.variant==='anivia_r'?.4:.25,
+        key:'m44_b13_frost_'+z.id+'_'+v.id});
+      }else if(z.variant==='rumble_q'){
+       const dx=(v.x-u.x)*this.worldWidth,dy=(v.y-u.y)*this.worldHeight,
+        len=Math.max(1,Math.hypot(dx,dy)),f=z.direction;
+       if((dx*f.x+dy*f.y)/len>=.65)
+        this.damage(v,z.power,u,'magic','spell');
+      }
+     }
+     z.nextAt=now+1;if(z.nextAt>z.until)ended=true;
+    }else if(z.kind==='m44_b12_wukong_cyclone'){
      if(u.hp<=0)ended=true;
      else {
       z.point={x:u.x,y:u.y};
