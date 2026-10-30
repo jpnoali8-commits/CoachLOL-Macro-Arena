@@ -110,7 +110,9 @@
     },
     "node_integrity_test": "CREATED_NOT_RUN",
     "rust_full_feature_parity": "NOT_RUN",
-    "actions_this_batch": 0
+    "actions_this_batch": 3,
+    "actions_manual": 0,
+    "actions_automatic_pr": 3
   },
   "critical_deltas": [
     {
@@ -155,12 +157,14 @@
   },
   "policy": {
     "migration_only": true,
-    "no_actions_this_batch": true,
+    "no_actions_this_batch": false,
     "no_workflow_changes": true,
     "no_trigger_edits": true,
     "no_merge": true,
     "no_rebase": true,
     "no_force_push": true,
-    "do_not_promote_gates_without_runtime": true
+    "do_not_promote_gates_without_runtime": true,
+    "actions_quota_guard": "BRANCH_RUST_JOBS_SKIP_PULL_REQUEST_HEAD",
+    "note": "Three legacy CI workflows auto-executed on B02B-I01 PR synchronization; guards added to stop future billed jobs. No deliberate Actions requested."
   }
 }

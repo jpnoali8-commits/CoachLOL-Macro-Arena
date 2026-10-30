@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I01_STATIC_INTEGRITY_PASS_DYNAMIC_GAPS",
+    "phase": "B02B_I02_QUOTA_GUARD_PUBLISHED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -531,6 +531,40 @@
       "M45-READY-ACK"
     ],
     "actions_policy": "ZERO_BY_DEFAULT_UNLESS_MAJOR_GATE_AND_UNBLOCKABLE_OTHERWISE",
-    "actions_this_batch": 0
+    "actions_this_batch": 3,
+    "actions_manually_triggered": 0,
+    "actions_autotriggered_by_pr": 3,
+    "legacy_ci_runs": [
+      {
+        "id": 41138435112,
+        "kind": "skills",
+        "conclusion": "success",
+        "event": "pull_request"
+      },
+      {
+        "id": 41138434758,
+        "kind": "integration",
+        "conclusion": "success",
+        "event": "pull_request"
+      },
+      {
+        "id": 41138434699,
+        "kind": "qa",
+        "conclusion": "success",
+        "event": "pull_request"
+      }
+    ],
+    "actions_quota_guard": {
+      "status": "GUARDS_PUBLISHED_PENDING_SKIPPED_VERIFICATION",
+      "ref": "dev69/rust-core-m45",
+      "blocked_head_ref": "dev69/rust-core-m45",
+      "jobs": [
+        "nami-vex",
+        "integration",
+        "smoke"
+      ],
+      "source_origins_unchanged": true,
+      "new_rust_trigger": false
+    }
   }
 }

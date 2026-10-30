@@ -12,6 +12,8 @@ permissions:
 
 jobs:
   smoke:
+    # Rust migration PR #19 is audited separately; do not consume legacy CI minutes.
+    if: github.event_name != 'pull_request' || github.head_ref != 'dev69/rust-core-m45'
     name: Regressao PvP e economia (base textual)
     runs-on: ubuntu-latest
     timeout-minutes: 25

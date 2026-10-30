@@ -98,3 +98,8 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 - Importados **8 blobs originais** dos handoffs skills S08 / items B05 / platform A07 na branch Rust, sem merge de código e sem alteração de workflows. `B02B_HANDOFF_INDEX.json` documenta 25 suítes skills (NOT_RUN), 299 cenários items V8 (297 positivos + 2 negativas P1 esperadas), replay exato 244/244 e 12 contratos de rede. QA V8 de consistência de artefatos executado `PASS`/0 divergências; teste Node integrado criado mas ainda NOT_RUN.
 - **Bugs bloqueadores:** P0 `PLATFORM-016` projeta eventos anônimos falsamente públicos; P1 `item.trinket` não tem rota PvP; P0 candidato `Nami W` board/targeted com divergência e hipótese de intenção pendente; P1 `ready` sem ACK idempotente. Preservar comportamento legado como golden antes de corrigir explicitamente no Rust.
 - **Próxima B02B:** obter goldens dinâmicos das 25 suítes skills e testes HTTP/SSE sem gastar Actions, por V8/Node em ambiente com fontes, reconciliar semanticamente; depois B02C. G0 PARTIAL, G1 PARTIAL, G8 NOT_RUN. **B03 NÃO elegível.**
+
+### B02B-I02 — defesa de quota em PR #19 (2026-10-30)
+
+- Três runs automáticos antigos foram detectados após B02B-I01 (todos SUCCESS), apesar de nenhum Actions ter sido pedido manualmente. Adicionada guarda para `github.head_ref != 'dev69/rust-core-m45'` em três workflows legados **na branch Rust somente**, preservando os especialistas.
+- Não mexer no gatilho `qa/trigger_b02a5.txt`; inspecionar checks `skipped` após este commit e registrar corretamente qualquer minuto consumido. Se ainda houver execução automática, escolher saída conservadora sem abrir novos jobs.
