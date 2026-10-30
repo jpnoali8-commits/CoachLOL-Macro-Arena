@@ -555,7 +555,7 @@
       }
     ],
     "actions_quota_guard": {
-      "status": "GUARDS_PUBLISHED_PENDING_SKIPPED_VERIFICATION",
+      "status": "VERIFIED_THREE_LEGACY_CI_JOBS_SKIPPED",
       "ref": "dev69/rust-core-m45",
       "blocked_head_ref": "dev69/rust-core-m45",
       "jobs": [
@@ -564,7 +564,26 @@
         "smoke"
       ],
       "source_origins_unchanged": true,
-      "new_rust_trigger": false
+      "new_rust_trigger": false,
+      "verified_head": "83a2a8b8dd403f8cf38567a47821d9ea427ab387",
+      "verification_runs": [
+        {
+          "id": 41138667106,
+          "name": "skills",
+          "conclusion": "skipped"
+        },
+        {
+          "id": 41138667069,
+          "name": "integration",
+          "conclusion": "skipped"
+        },
+        {
+          "id": 41138667088,
+          "name": "qa",
+          "conclusion": "skipped"
+        }
+      ],
+      "runners_allocated_after_guard": 0
     }
   }
 }

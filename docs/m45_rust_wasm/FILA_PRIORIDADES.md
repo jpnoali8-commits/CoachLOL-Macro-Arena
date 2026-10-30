@@ -103,3 +103,7 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 
 - Três runs automáticos antigos foram detectados após B02B-I01 (todos SUCCESS), apesar de nenhum Actions ter sido pedido manualmente. Adicionada guarda para `github.head_ref != 'dev69/rust-core-m45'` em três workflows legados **na branch Rust somente**, preservando os especialistas.
 - Não mexer no gatilho `qa/trigger_b02a5.txt`; inspecionar checks `skipped` após este commit e registrar corretamente qualquer minuto consumido. Se ainda houver execução automática, escolher saída conservadora sem abrir novos jobs.
+
+### B02B-I02 — guard CI validado: skip 3/3 (2026-10-30)
+
+GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusion=skipped`: #41138667106, #41138667069, #41138667088. O guard efetivamente impediu alocação de runner para a branch Rust; preservar o filtro. Próxima prioridade continua B02B (25 goldens de skills ainda NOT_RUN, HTTP/SSE original NOT_RUN), sem iniciar Actions.

@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B integridade V8 PASS e proteção dos 3 workflows legados do PR #19 para economizar Actions.
+**Atualizado:** 2026-10-30, B02B integridade V8 PASS e 3 workflows legados do PR #19 verificados SKIPPED (sem runners).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -149,3 +149,8 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Escopo corretivo **apenas** na `dev69/rust-core-m45`: os jobs `nami-vex`, `integration` e `smoke` passam a ter `if: github.event_name != 'pull_request' || github.head_ref != 'dev69/rust-core-m45'`. Isto conserva PRs de outras branches, dispatch manual e o push original de integração; evita alocar runner para PR #19 quando o job receber o novo arquivo de workflow. O job full-regression já tinha filtro próprio.
 - Proteção de quota: não editar o gatilho Rust de one-shot, não iniciar QA redundante, verificar `skipped` nos runs do commit corretivo. Se GitHub usar YAML do base e ainda rodar os jobs, registrar o bloqueio e não repetir commits só para testar CI.
 - **Nenhuma autoridade PvP Rust promovida**: B02B IN_PROGRESS, G0 PARTIAL, G1 PARTIAL (apenas core-state real), G8 NOT_RUN. Sem merge/force/rebase.
+
+### Verificação B02B-I02 do bloqueio de quota — realizada
+
+- Após o commit `83a2a8b8dd403f8cf38567a47821d9ea427ab387`, consulta REST `/actions/runs?head_sha=...` retornou **3/3 conclusões `skipped`** (nenhum job com executor). IDs: skills #41138667106, integração #41138667069, QA logic #41138667088. **Proteção de jobs validada.** Eventos workflow aparecerão como `skipped`, mas sem runner consumindo minutos.
+- A primeira atualização B02B-I01 disparou 3 jobs legados de verdade (SUCCESS); esta dívida de quota está reconhecida no ledger. A partir do guard, novos commits do PR #19 não devem alocar jobs dessas três rotas, a menos que workflows sejam alterados novamente; se aparecer FAIL/runner, interromper e auditar. Nenhum workflow Rust e nenhum arquivo-gatilho one-shot foram alterados no corretivo.
