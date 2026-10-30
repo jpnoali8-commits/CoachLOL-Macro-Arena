@@ -183,6 +183,8 @@ test('Sylas steals Katarina R source channel and it can be cancelled','Sylas',({
 },'Katarina');
 function possess(a,u,donor){
  donor.hp=100;a.damage(donor,500,u,'true','spell');
+ // Anivia Rebirth: Viego needs a genuine kill, not merely an egg trigger.
+ if(donor.m44B27Egg?.active)a.damage(donor,donor.hp+100,u,'true','spell');
  const soul=u.m44B14CSouls?.[0];assert.ok(soul);
  assert.equal(a.queueViegoPossessV453M44B14C(u.team,u.id,soul.id).ok,true);
  a.resolveBoardSkillsV453Dev69();assert.equal(u.champ,donor.champ);

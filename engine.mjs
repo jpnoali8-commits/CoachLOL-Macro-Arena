@@ -1921,6 +1921,8 @@ export class EffectResolverV41 {
  slowFraction(target){const slow=Math.max(0,...this.list(target).filter(e=>e.type==='slow').map(e=>e.power<=1?e.power:e.power/100));const resistance=target?.champ?this.a.elementalStatsV452d3(target).slowResist:target?.slowResist||0;return Math.min(.95,slow*(1-Math.min(1,Math.max(0,resistance/100))));}
  canAct(target,action){
   if(!target||target.hp<=0)return {ok:false,reason:'morto'};
+  if(target.m44B27Egg?.active&&target.m44B27Egg.until>this.a.gameTime)
+   return {ok:false,reason:'m44_b27_anivia_egg'};
   if((target.stasisUntil||0)>this.a.gameTime)return {ok:false,reason:'stasis'};
   for(const e of this.list(target))if(EFFECT_TYPES_V41[e.type]?.block.includes(action))return {ok:false,reason:'cc_'+e.type,effectId:e.id};
   return {ok:true};
@@ -2483,7 +2485,12 @@ export class Arena {
  elementalStatsV452d3(u){
   const bonus=this.baronChampionBonusV452d4Dev14(u);
   const source=bonus?{...u,ad:(Number(u.ad)||0)+bonus.ad,ap:(Number(u.ap)||0)+bonus.ap}:u;
-  return elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
+  const stats=elementalDragonStatsV452d3(source,u?.champ?this.teams[u.team]?.dragons:[]);
+  // B27: live R protection is derived, never persisted in base armor/MR.
+  const storm=u?.m44B26KennenStorm;
+  const stormBonus=u?.hp>0&&storm?.until>this.gameTime?
+   Math.max(0,Number(storm.bonusResist)||0):0;
+  return stormBonus?{...stats,armor:(stats.armor||0)+stormBonus,mr:(stats.mr||0)+stormBonus}:stats;
  }
  abilityCooldownV452d3(u,slot){return abilityCooldown(u,slot,this.elementalStatsV452d3(u).counts.hextech*ELEMENTAL_DRAKE_RULES_V452D3.hextech.abilityHaste);}
  // Idempotent objective ledger: a single camp spawn can grant one stack only.
@@ -4214,6 +4221,15 @@ export class Arena {
     until:Math.min(z.until+1,this.gameTime+2),ratio:.15};
   return applied.ok;
  }
+ // B27: authentic takedown cooldown reduction, shared by kill and assist.
+ m44B27KatarinaTakedownV453(u){
+  if(!u||u.champ!=='Katarina'||u.hp<=0)return false;
+  u.skillCds??={};
+  for(const slot of ['Q','W','E','R'])
+   if(Number.isFinite(u.skillCds[slot]))
+    u.skillCds[slot]=Math.max(this.gameTime,u.skillCds[slot]-15);
+  return true;
+ }
  // B26: one mark processor for Kennen Q/W/E/R, source-owner scoped.
  m44B26KennenMarkV453(owner,v,receipt='b26'){
   if(!v?.champ||v.hp<=0||v.team===owner.team||
@@ -4336,6 +4352,8 @@ export class Arena {
  }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null,m44B14Variant=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
+  if(u?.m44B27Egg?.active&&u.m44B27Egg.until>this.gameTime)
+   return {ok:false,reason:'m44_b27_anivia_egg'};
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
      (u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
      (u.hp<=0&&!this.m23KarthusCanActV453(u,slot))||
@@ -10755,6 +10773,13 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    }
   }
   this.boardTemporalV453Dev69=keep;
+  // B27: the authoritative game-time scheduler revives only surviving eggs.
+  for(const egg of this.units.filter(v=>v.champ==='Anivia'&&
+   v.m44B27Egg?.active&&v.hp>0&&v.m44B27Egg.until<=now)){
+   egg.hp=Math.max(1,Math.min(egg.maxHp,egg.m44B27Egg.reviveHp));
+   egg.m44B27Egg.active=false;
+   this.event('Anivia: Rebirth concluído.',egg.team,'skill_vfx',egg.id);
+  }
   for(const owner of this.units.filter(v=>v.champ==='Katarina'&&v.hp>0))
    this.m44B26KatarinaPickupV453(owner);
  }
@@ -15714,6 +15739,18 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     owner.m44B17LambsRespite.radius)){
    final=Math.min(final,Math.max(0,target.hp-Math.max(1,target.maxHp*.1)));
   }
+  // B27 Anivia P: the first lethal hit becomes a six-second combat egg.
+  // This is a source-authored board approximation, not certified patch parity.
+  if(target.champ==='Anivia'&&target.hp>0&&final>=target.hp&&
+     !target.m44B27Egg?.active&&
+     (target.m44B27Egg?.readyAt||0)<=this.gameTime){
+   target.m44B27Egg={active:true,until:this.gameTime+6,
+    readyAt:this.gameTime+240,reviveHp:Math.max(1,Math.round(target.maxHp*.35))};
+   target.hp=Math.max(1,Math.round(target.maxHp*.6));
+   target.plan=null;target.path=[];target.laneFollowPath=[];target.retreatPath=[];
+   this.event('Anivia: Rebirth ativado.',target.team,'skill_vfx',target.id);
+   final=0;
+  }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
   // B17 Kindred E: precisely three real owner basic hits detonate the dread.
   if(dealt>0&&sourceType==='basic'&&attacker?.team!==target.team&&
@@ -16295,6 +16332,7 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
       }
       if(hero.cs%5===0)this.event(`${hero.champ}: ${hero.cs} CS.`,hero.team,'farm',hero.id);}
    }else if(target.id?.includes('_')&&target.champ){
+    if(target.m44B27Egg?.active)target.m44B27Egg.active=false;
     if(target.m44B14CPossession)this.endViegoPossessionV453M44B14D(target,'death');
     target.deaths=(target.deaths||0)+1;
     target.baronBuffUntilV452=0;target.baronCapturedAtV452d4Dev14=null;target.elderBuffUntilV452=0;target.elderPendingV452=null;target.elderBurnV452d=null;
@@ -16355,6 +16393,8 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
 target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
+    for(const participant of [credited,...assistingChampions])
+     this.m44B27KatarinaTakedownV453(participant);
     if(credited){this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});this.jinxExcitedV453Dev69M5(credited,{champion:true});}
     for(const helper of assistingChampions)this.ahriEssenceDeathV453Dev69M4(helper,{champion:true});
     const gloryItem=target.items?.includes('mejais_soulstealer')?'mejais_soulstealer':target.items?.includes('dark_seal')?'dark_seal':null;
@@ -16484,6 +16524,20 @@ target.damageContributors={};
     this.damage(splash,amount*1.1,attacker,'physical','jinx_rocket_splash_v453_dev69_m5');
   }
   if(basic&&landed){
+   // B27 Kennen W passive: fifth landed AA uses shared source-owned mark logic.
+   if(attacker.champ==='Kennen'&&dealt>0&&attacker.team!==target.team&&
+      (target.champ||target.kind)&&(attacker.skillRanks?.W||0)>0){
+    const count=(Math.max(0,attacker.m44B27KennenBasicCount||0)+1)%5;
+    attacker.m44B27KennenBasicCount=count;
+    if(count===0&&target.hp>0){
+     const rank=Math.min(5,Math.max(1,attacker.skillRanks.W));
+     const bonus=[35,45,55,65,75][rank-1]+
+      Math.max(0,this.elementalStatsV452d3(attacker).ap||0)*.2;
+     this.damage(target,bonus,attacker,'magic','m44_b27_kennen_w_onhit');
+     if(target.champ&&target.hp>0)
+      this.m44B26KennenMarkV453(attacker,target,'basic_'+this.round+'_'+this.gameTime);
+    }
+   }
    // B24 Titan's Wrath: empowered basic hit and nearby splash while shield is active.
    // Using damage() rather than attack() avoids recursively triggering on-hit effects.
    if(attacker.champ==='Nautilus'&&attacker.m44B24TitansWrath?.until>this.gameTime&&
