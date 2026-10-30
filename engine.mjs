@@ -2791,6 +2791,49 @@ export class Arena {
    }
    return Number.isFinite(b.x)&&Number.isFinite(b.y)?{x:b.x,y:b.y}:null;
  }
+ // B21: stable finite segment intersection shared by every authored missile executor.
+ m44B21ProjectileBarrierHitV453(from,to,team,source=null,now=this.gameTime){
+   if(!from||!to||![from.x,from.y,to.x,to.y].every(Number.isFinite))return null;
+   const dx=(to.x-from.x)*this.worldWidth,dy=(to.y-from.y)*this.worldHeight,
+    a=dx*dx+dy*dy;
+   let best=null;
+   for(const b of this.projectileBarriersV453Dev43||[]){
+    if(!b||b.team===team)continue;
+    const center=this.m44B20ProjectileBarrierCenterV453(b,now);
+    if(!center)continue;
+    const keeper=this.units.find(v=>v.id===b.ownerId&&v.team===b.team);
+    if(source&&keeper&&!this.sameCombatRealmV453Dev69(source,keeper))continue;
+    const r=Math.max(0,Number(b.radius)||0);
+    if(r<=0)continue;
+    const px=(from.x-center.x)*this.worldWidth,
+     py=(from.y-center.y)*this.worldHeight,
+     c=px*px+py*py-r*r;
+    let fraction=null;
+    if(c<=0)fraction=0;
+    else if(a>1e-9){
+     const cross=px*dx+py*dy,disc=cross*cross-a*c;
+     if(disc>=0){
+      const root=(-cross-Math.sqrt(disc))/a;
+      if(root>=0&&root<=1)fraction=root;
+     }
+    }
+    if(fraction===null)continue;
+    if(!best||fraction<best.fraction-1e-9||
+       (Math.abs(fraction-best.fraction)<=1e-9&&String(b.id).localeCompare(String(best.barrierId))<0))
+     best={barrierId:b.id,kind:b.kind||'projectile_barrier',fraction,
+      point:{x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction}};
+   }
+   return best;
+ }
+ m44B21AuthoredProjectileBarrierHitV453(z,owner,now=this.gameTime){
+   if(!z||z.kind!=='m44_authored_projectile'||!z.current||!z.origin)return null;
+   const range=Math.max(1,z.range||0),
+    travel=Math.min(Math.max(0,z.speed||0),Math.max(0,range-(z.distanceDone||0))),
+    part=Math.min(1,((z.distanceDone||0)+travel)/range),
+    to={x:z.origin.x+(z.point.x-z.origin.x)*part,
+        y:z.origin.y+(z.point.y-z.origin.y)*part};
+   return this.m44B21ProjectileBarrierHitV453(z.current,to,z.team,owner,now);
+ }
  m44B19ProjectileWalkableV453(p){
    return !!p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&
     p.x>=.019&&p.x<=.978&&p.y>=.019&&p.y<=.978&&!this.maskAt('wall',p.x,p.y);
@@ -8970,19 +9013,12 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       }
       ended=true;
      }else if(z.kind==='m44_authored_projectile'&&
-      this.units.some(v=>v.champ==='Samira'&&v.team!==z.team&&v.hp>0&&
-       v.m44B13SamiraWhirlUntil>now&&
-       this.sameCombatRealmV453Dev69(v,u)&&
-       (()=>{
-        const from=z.current||z.origin,to=z.point,
-         dx=(to.x-from.x)*this.worldWidth,dy=(to.y-from.y)*this.worldHeight,
-         len=Math.max(1,Math.hypot(dx,dy)),
-         step=Math.min(1,(z.speed||550)/len),sx=dx*step,sy=dy*step,
-         px=(v.x-from.x)*this.worldWidth,py=(v.y-from.y)*this.worldHeight,
-         t=Math.max(0,Math.min(1,(px*sx+py*sy)/Math.max(1,sx*sx+sy*sy)));
-        return Math.hypot(px-t*sx,py-t*sy)<=360;
-       })())){
-     // Blade Whirl destroys a nearby opposing projectile before impact.
+      (z.m44B21Intercept=this.m44B21AuthoredProjectileBarrierHitV453(z,u,now))){
+     (this.m44B21ProjectileInterceptHistory??=[]).push({
+      projectileId:z.id,ownerId:z.ownerId,champ:z.champ,slot:z.slot,
+      barrierId:z.m44B21Intercept.barrierId,team:z.team,at:now,
+      point:z.m44B21Intercept.point});
+     this.m44B21ProjectileInterceptHistory=this.m44B21ProjectileInterceptHistory.slice(-100);
      ended=true;
     }else if(z.kind==='m44_authored_projectile'){
      // Each discrete movement segment is swept for actual intervening
@@ -11809,17 +11845,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   const length=Math.hypot(dx,dy),speed=Math.max(1,p.speed);
   const duration=Math.max(0,now-(p.lastReturnAtV453Dev69M6??p.createdAt));
   const travel=Math.min(length,speed*duration),vx=length>0?dx/length:0,vy=length>0?dy/length:0;
-  let blockedAt=Infinity;
-  for(const wall of this.projectileBarriersV453Dev43||[]){
-   if(wall.team===p.team||!(wall.until>now))continue;
-   const c=this.m44B20ProjectileBarrierCenterV453(wall,now);
-   if(!c)continue;
-   const rx=(c.x-from.x)*this.worldWidth,ry=(c.y-from.y)*this.worldHeight;
-   const depth=rx*vx+ry*vy,side=Math.abs(rx*vy-ry*vx),radius=Math.max(0,wall.radius||0);
-   if(side<=radius&&depth+radius>=0&&depth-radius<=travel)
-    blockedAt=Math.min(blockedAt,Math.max(0,depth-Math.sqrt(Math.max(0,radius*radius-side*side))));
-  }
-  const distance=Math.min(travel,blockedAt),width=p.width/2;
+  const barrier=this.m44B21ProjectileBarrierHitV453(from,{
+    x:from.x+vx*travel/this.worldWidth,y:from.y+vy*travel/this.worldHeight
+   },p.team,owner,now);
+   let blockedAt=barrier?travel*barrier.fraction:Infinity;
+   const distance=Math.min(travel,blockedAt),width=p.width/2;
   const hits=[...this.units,...this.minions].filter(v=>v.team!==p.team&&v.hp>0&&
     (v.spawnAt==null||v.spawnAt<=now)).map(v=>{
      const x=(v.x-from.x)*this.worldWidth,y=(v.y-from.y)*this.worldHeight;
@@ -15880,19 +15910,9 @@ target.damageContributors={};
    if(!Number.isFinite(terrainDepth)&&!this.m44B19ProjectileWalkableV453(end))terrainDepth=to;
    // Positional barriers are explicit geometry in world-space; no global
    // projectile immunity. Barrier owners/allies never intercept friendly fire.
-   let barrierDepth=Infinity;
-   for(const b of (this.projectileBarriersV453Dev43||[])){
-    if(!b||b.team===p.team||!(b.until>now))continue;
-    const c=this.m44B20ProjectileBarrierCenterV453(b,now);
-    if(!c)continue;
-    const x=(c.x-origin.x)*this.worldWidth,y=(c.y-origin.y)*this.worldHeight;
-    const depth=x*p.unit.x+y*p.unit.y,side=Math.abs(x*p.unit.y-y*p.unit.x),radius=Math.max(0,Number(b.radius)||0);
-    if(side<=radius&&depth+radius>=from&&depth-radius<=to){
-     const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
-     barrierDepth=Math.min(barrierDepth,crossing);
-    }
-   }
-   if(p.kind==='irelia_r'){
+   const impactBarrier=this.m44B21ProjectileBarrierHitV453(position(from),position(to),p.team,owner,now);
+    const barrierDepth=impactBarrier?from+(to-from)*impactBarrier.fraction:Infinity;
+    if(p.kind==='irelia_r'){
     const champs=line.filter(x=>x.v.champ&&x.depth<barrierDepth-1e-7);
     for(const {v,depth} of champs){
      if(p.hitIds.includes(v.id))continue;
