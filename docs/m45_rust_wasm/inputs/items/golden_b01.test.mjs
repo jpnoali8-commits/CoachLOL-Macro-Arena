@@ -59,15 +59,16 @@ for (const team of ['blue','red']){
  assert.equal(loaded.canUndoShopV453Dev61('blue',u.id).ok,false);
  capture('M45-B01-RECONNECT-blue',seed,'blue',loaded,restored,view(u),{kind:'restore.fromSnapshotV40'},
     {restored_checksum_matches:checksumV40(loaded.snapshotV40())===checksumV40(snap)});
+ const newVisitBefore=view(u);
  assert.equal(a.buy('blue',u.id,'long_sword'),true);
  assert.equal(a.undoShopV453Dev61('blue',u.id).ok,true);
  assert.deepEqual(u.items,['boots']);assert.equal(u.gold,900);
- capture('M45-B01-NEW-VISIT-blue',seed,'blue',a,u,before,{kind:'item.buyThenUndoNewVisit',itemId:'long_sword'});
+ capture('M45-B01-NEW-VISIT-blue',seed,'blue',a,u,newVisitBefore,{kind:'item.buyThenUndoNewVisit',itemId:'long_sword'});
 }
 {
- const seed=45005;
  const reg=new PvPRoomRegistryV453Dev47({map,mask:masks,manifest});
  const blue=reg.create(),room=blue.room,red=room.join();
+ const seed=room.arena.seed??null;
  for(const [player,team,role] of [[blue.player,'blue','TOP'],[red.player,'red','SUP']]){
   const u=prep(hero(room.arena,team,role),1200),before=view(u);
   assert.equal(room.command(player,{sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'}}).ok,true);
