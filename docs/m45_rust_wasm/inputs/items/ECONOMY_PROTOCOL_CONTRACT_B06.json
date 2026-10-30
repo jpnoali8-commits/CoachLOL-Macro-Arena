@@ -1,0 +1,168 @@
+{
+  "schema": "coachlol.m45.items.economy_pvp_contract.b06.v1",
+  "created": "2026-10-30",
+  "stage": "PROPOSED_CONTRACT_NOT_RUST_IMPLEMENTATION",
+  "provenance": {
+    "items_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "engine_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "gateway_sha": "b2ebb58248c8aec9aee0a64c354150757cd71a4a"
+  },
+  "domain_prerequisites": [
+    "B04 core-protocol",
+    "B05 replay",
+    "B06 game-server",
+    "B12/B13 core-economy",
+    "B16 core-combat",
+    "B23 core-items"
+  ],
+  "operation_envelope": {
+    "seat": "authenticated by authoritative server, never from packet",
+    "unitId": "one of five team-controlled champion IDs",
+    "sequence": "per-seat positive safe integer; identical already-acknowledged retry returns same receipt without side effect",
+    "canonical": "include selected unitId, kind, exact payload and seat scope in replay key; conflicting payload with same sequence rejected",
+    "payload": "all keys allowlisted; no client-supplied team, gold, inventory or snapshots",
+    "phase": "item operations only during planning/preparation with unready team; reaction exception separate",
+    "operations": [
+      {
+        "kind": "item.buy",
+        "payload": [
+          "itemId"
+        ],
+        "legacy": "Arena.buy",
+        "supported": true,
+        "checks": [
+          "owner",
+          "phase",
+          "shopDistance",
+          "roleLock",
+          "gold",
+          "slots",
+          "recipeComponentsUnique",
+          "oneUndoEntry"
+        ]
+      },
+      {
+        "kind": "item.sell",
+        "payload": [
+          "index"
+        ],
+        "legacy": "Arena.sellItemV43",
+        "supported": true,
+        "checks": [
+          "owner",
+          "shopDistance",
+          "integerSlot",
+          "officialSaleValue",
+          "oneRefund",
+          "questPetProtected"
+        ]
+      },
+      {
+        "kind": "item.undo",
+        "payload": [],
+        "legacy": "Arena.undoShopV453Dev61",
+        "supported": true,
+        "checks": [
+          "shopVisitGeneration",
+          "sameGameTime",
+          "exactUnitState",
+          "atomicRestore",
+          "irreversibleDeparture"
+        ]
+      },
+      {
+        "kind": "item.queue",
+        "payload": [
+          "itemId"
+        ],
+        "legacy": "Arena.queuePurchase",
+        "supported": true,
+        "checks": [
+          "owner",
+          "planning",
+          "12Maximum",
+          "noPaymentUntilFountain",
+          "noDuplicateRetry"
+        ]
+      },
+      {
+        "kind": "item.cancelQueue",
+        "payload": [
+          "index"
+        ],
+        "legacy": "Arena.cancelQueuedPurchase",
+        "supported": true,
+        "checks": [
+          "owner",
+          "boundedIndex",
+          "oneCancellation",
+          "noGoldChange"
+        ]
+      },
+      {
+        "kind": "item.trinket",
+        "payload": [
+          "itemId"
+        ],
+        "legacy": "MISSING_PVP_DISPATCH; Arena.purchaseOrPlan -> setTrinket only internally",
+        "supported": false,
+        "deviation": "REQUIRED_FUNCTIONAL_REPAIR",
+        "risk": "PVP_TRINKET_GAP_B04",
+        "checks": [
+          "owner",
+          "fountain",
+          "zeroGold",
+          "noItemSlot",
+          "preserveChargeCooldown",
+          "stealthOracleFarsight"
+        ]
+      }
+    ]
+  },
+  "invariants": {
+    "gold": "integer bounded and server owned; no duplicate sale/refund/credit; per-item official gold.sell",
+    "recipes": "every component instance consumed no more than once; completed item cost net of owned components",
+    "inventory": "six regular item slots; trinkets excluded; max five health potions; normal starter/unique restrictions",
+    "fountain": "authoritative physical map distance; no browser-provided shop flag; respawn/dead exception documented",
+    "undo": "history bound 16, departed shop visit irrevocably invalidated, returning does not restore; after new purchase new history allowed",
+    "jungle_support": "jungle pet required and role-locked, support quest item protected against sale",
+    "privacy": "no enemy inventory, gold, Undo receipts or RNG in own seat public projection"
+  },
+  "replay_order": {
+    "case_id": "M45-B06-SHOP_COMMAND_ORDER_AND_REPLAY_HASH-blue",
+    "same_seed": 460699,
+    "blue_first": {
+      "gold_blue": 1700,
+      "gold_red": 1650,
+      "snapshot_checksum": "a7eb3c8e",
+      "purchase_events": [
+        "red",
+        "blue"
+      ]
+    },
+    "red_first": {
+      "gold_blue": 1700,
+      "gold_red": 1650,
+      "snapshot_checksum": "0c00bfae",
+      "purchase_events": [
+        "blue",
+        "red"
+      ]
+    },
+    "finding": "per-team economy commutes, full snapshot digest does not, due to ordered global event history",
+    "severity": "P2_REPLAY_CONTRACT_NOT_AUTOMATIC_BUG",
+    "required_action": "persist globally ordered authoritative command receipts before replay; do not independently sort per-seat packets"
+  },
+  "qa": {
+    "evidence": "QA_V8_ADVERSARIAL_B06.json",
+    "v8_expected": 92,
+    "v8_repeats": 92,
+    "node_esm": "NOT_RUN",
+    "http": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "write_scope": "Specialist branch only, no direct writes to coordinator, PR19 or legacy integration"
+}
