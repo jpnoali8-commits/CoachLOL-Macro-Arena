@@ -114,3 +114,12 @@ O S10 continua com sua matriz congelada das 26 suítes originais: **22 V8_PASS, 
 - `s13_validate_acceptance.mjs`: **48/48 verificações V8 PASS**, apenas coerência estática de arquivos/pins/contagens. `S13_STATIC_CONTRACT_RECEIPT.json` e `M45_B02_S13_HANDOFF.md` registram as limitações.
 
 Branch Rust central verificada em `5afd330f260c7a0b1984521732e117dfcd81396f` ainda não possui `core-combat`/`core-champions`. `rustc` e `cargo` estão ausentes no executor local; **native Rust/WASM/Node originais/HTTP NOT_RUN**. Ledger S10 inalterado: **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**; não promover nenhuma skill a MIGRATED.
+
+
+## M45 B02 Skills S14 — Sylas/Viego: 4 original legacy suites executed
+
+- `S14_SYLAS_VIEGO_ORIGINAL_V8_RECEIPT.json`: **4/4 original source test bodies V8_PASS; 154/154 scenarios, 1.894/1.894 assertivas, 154 snapshots roundtripped**. Original four Git SHA pins and each suite's actual output recorded. **78** of those cases belong to S10's already-passing B14D suite; **76** are from three original suites outside the 26-suite S10 selection. No double-counting.
+- `s14_sylas_viego_rust_acceptance.rs`: Rust-only **typed interface (not implementation)** covering 15 Sylas original-R donors and 12 Viego P/QWE donors, both sides → 54 **future** native runs; 10 explicit negative acceptance requirements and 4 Rust unit tests **prepared but NOT_RUN**. No fallback generic.
+- `s14_validate_sylas_viego.mjs` ran **79/79 static checks in V8 PASS** against saved exact GitHub files, including S10 prior overlap. `S14_STATIC_CONTRACT_RECEIPT.json` and `M45_B02_S14_HANDOFF.md` contain precise evidence and blockers.
+
+Latest Rust coordinator HEAD observed `ddbdf8e9ee4345646c70162c1637e5b08670708a`, still only `core-state`. No Rust compiler locally, `core-combat`/`core-champions` absent; Rust native/WASM/real HTTP, complete champion kits all NOT_RUN/NOT_CERTIFIED. Original full Node 0/26; S10 remains 22 PASS, 2 FAIL, 2 NOT_RUN.
