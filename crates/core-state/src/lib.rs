@@ -4,6 +4,7 @@
 //! public standalone hash primitive, never the hidden objective arbitration.
 
 pub mod skill_admission;
+pub mod skill_wire;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Team {

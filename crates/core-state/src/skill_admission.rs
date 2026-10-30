@@ -81,6 +81,9 @@ impl SkillAdmission {
     pub fn pending_count(&self) -> usize { self.pending.len() }
     pub fn in_flight_count(&self) -> usize { self.in_flight.len() }
     pub fn receipt_count(&self) -> usize { self.receipts.len() }
+    pub(crate) fn has_receipt(&self, seat: Team, id: &str) -> bool {
+        self.receipts.contains_key(&(seat, id.to_owned()))
+    }
     fn valid_aim(r: &SkillRequest) -> bool {
         match (&r.shape, &r.aim) {
             (TargetShape::TargetAny | TargetShape::TargetEnemy | TargetShape::TargetAlly,
@@ -99,7 +102,7 @@ impl SkillAdmission {
 
     /// owner_from_server MUST come from trusted match state, not the client.
     /// Receipt admission NEVER charges mana or spawns a projectile.
-    pub fn admit(
+    pub(crate) fn admit(
         &mut self, authenticated_seat: Team, owner_from_server: Team,
         request: SkillRequest
     ) -> AdmissionReceipt {

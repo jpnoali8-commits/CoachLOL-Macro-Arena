@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I07_PENDING_VS_INFLIGHT_AND_WIRE_GAP_MATRIX",
+    "phase": "B02B_I08_PRIVATE_AUTHORIAL_WIRE_REGISTRY_NOT_COMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -713,6 +713,25 @@
       "actual_http_sse": "NOT_RUN",
       "actions_manually_requested": 0,
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i08": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "94e22180623ca20477165221e9e9251ff508c1e8",
+      "src_module": "crates/core-state/src/skill_wire.rs",
+      "contract": "docs/m45_rust_wasm/inputs/core/b02b/B02B_I08_AUTHORIAL_WIRE_REGISTRY.json",
+      "implemented_shapes": [
+        "Nami/W/target_any",
+        "Ahri/E/line_enemy"
+      ],
+      "rust_unit_tests_defined": 15,
+      "rust_unit_tests_executed": 0,
+      "original_node_suites": "0/26",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "actual_server_authentication": "NOT_IMPLEMENTED",
+      "gameplay_executor": "NOT_IMPLEMENTED",
+      "actions_manually_started": 0,
+      "gates": "G0_PARTIAL_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }
 }

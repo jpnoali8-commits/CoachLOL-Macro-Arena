@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I07 pending vs in-flight separados, matriz de gaps de skills, Rust não compilado.
+**Atualizado:** 2026-10-30, B02B-I08 roteamento autoral Rust fail-closed para Nami W e Ahri E; compilação pendente.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -195,3 +195,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Atualizados 2 testes anteriores e adicionados 2 testes Rust (total 9 definidos; 0 executados): cast antigo em voo e novo primario coexistem; retire antigo nao apaga novo; seat/ator/slot nao podem retirar cast alheio.
 - Nova matriz B02B_I07_WIRE_GAPS.json source-pinned: 14 autorais M44 fora da propriedade antiga kits, mas possivelmente em colecoes alternativas; Ahri E 6 negativas gateway, Nami W 2 targeted aceitos mas target_any indisponivel no botao antigo. Isso registra lacunas, NAO alega conserto.
 - QA feito: revisao estatica de invariantes e dados do legado. Rust cargo/fmt/clippy/wasm e Node 26 suites, HTTP/SSE nao executados. Zero Actions solicitadas. G0/G1 PARTIAL, G3/G6/G8 NOT_RUN. B02B permanece em andamento.
+
+## M45 B02B-I08 — typed authorial wire entrypoint, source-pinned (2026-10-30)
+
+- Adicionado módulo Rust privado core-state::skill_wire: cliente informa actor/slot/aim, formato da habilidade é resolvido pelo registro confiável do servidor. Só Nami W target_any e Ahri E line_enemy foram mapeados a partir de evidências congeladas; demais kits/slots rejeitados sem fallback.
+- ServerCastFacts representa dados internos autoritativos (owner, target team, fog, rank, range, cooldown e recursos). Este protótipo recebe fatos do chamador; NÃO calcula fog, recursos ou autenticação nem aplica habilidades. Source engine JS permanece autoridade.
+- SkillAdmission::admit deixou de ser API externa pública (pub(crate)); admit_authorial permite replay de ACK previamente admitido, mas não um segundo cast. Foram adicionados 6 testes Rust (total 15 definidos), 0 executados, e manifesto source-pinned.
+- Camada JS/servidor real, 14 kits M44, habilidades e efeitos, 26 suites Node completas e HTTP/SSE continuam pendentes. Gate G0 PARTIAL, G1 PARTIAL (somente baseline B01), G3/G6/G8 NOT_RUN. Nenhum GitHub Actions manual.

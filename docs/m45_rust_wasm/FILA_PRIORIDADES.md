@@ -134,3 +134,7 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - Separado pending (slot/turno) de in_flight (cast_id) em Rust; 9 testes escritos, NOT_RUN; 14 autorais source pinned e Ahri/Nami diagnosticados sem promover PASS.
 - B02B segue IN_PROGRESS, B03 QUEUED. Reservar CI para checkpoint final; nenhum Actions manual disparado.
+
+### M45 B02B-I08 — registro tipado privado para rotas PvP (2026-10-30)
+
+- Entrada Rust fail-closed de habilidades: server-owned champion+slot -> shape. Nami W e Ahri E mapeadas apenas no protocolo, sem efeitos. 6 testes Rust novos (15 totais) escritos NOT_RUN, 14 kits autorais restantes sem cobertura de registro; Node/HTTP não executados. B02B continua IN_PROGRESS, B03 QUEUED. CI somente no gate final.
