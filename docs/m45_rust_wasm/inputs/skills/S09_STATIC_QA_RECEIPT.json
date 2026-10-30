@@ -1,0 +1,66 @@
+{
+  "schema": "coachlol.m45.skills.s09.static-qa.v1",
+  "date": "2026-10-30",
+  "branch_base_head": "165f51bf1e50d3816484ce8c8ed715cf81c3ec0f",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "qa": [
+    {
+      "kind": "legacy_source_static",
+      "result": "PASS",
+      "assertions": 15,
+      "provenance": "Pinned original engine git blob fetched via GitHub"
+    },
+    {
+      "kind": "node_check",
+      "result": "PASS",
+      "node": "v22.16.0",
+      "command": "node --check /mnt/data/m45_s09/s09_nami_w_stale.test.mjs",
+      "script_git_blob_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+      "repository_git_blob_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2"
+    },
+    {
+      "kind": "isolated_numeric",
+      "result": "PASS",
+      "expression": "725 <= undefined",
+      "value": false,
+      "scope": "Node runtime arithmetic only"
+    },
+    {
+      "kind": "fetch_original_engine",
+      "result": "BLOCKED",
+      "command": "curl -IL --max-time 8 https://raw.githubusercontent.com/jpnoali8-commits/CoachLOL-Macro-Arena/f0b1147ac46e585a1d5374a178b1ea462f5dc278/engine.mjs",
+      "error": "Could not resolve host: raw.githubusercontent.com"
+    },
+    {
+      "kind": "node_full_gameplay",
+      "result": "NOT_RUN",
+      "executed": 0,
+      "planned": 26
+    },
+    {
+      "kind": "rust_native",
+      "result": "NOT_RUN"
+    },
+    {
+      "kind": "wasm",
+      "result": "NOT_RUN"
+    },
+    {
+      "kind": "two_sessions_browser",
+      "result": "NOT_RUN"
+    }
+  ],
+  "manifest": {
+    "planned": 26,
+    "previous": 25,
+    "executed": 0
+  },
+  "matrix": {
+    "absent": 265,
+    "partial": 366,
+    "implemented": 234,
+    "reference-only": 0
+  },
+  "no_gameplay_engine_touched": true,
+  "conclusion": "S09 documented source-coded potential stale intent across cooldown. Actual gameplay not reproduced; no PASS claims, no certification."
+}

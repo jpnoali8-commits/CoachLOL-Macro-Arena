@@ -87,3 +87,7 @@ node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
 - Teste bilateral novo `s08_nami_w_routes.test.mjs` (6 casos, histórico de mana/HP, hashes/eventos e ownership); sintaxe Node 22 PASS e blob exato conferido; **gameplay NOT_RUN**.
 - `S08_NAMI_W_RUST_CONTRACT.json` descreve a reconciliação e política intencional Rust, não implementação. `golden_plan.json` agora tem **25 suítes NOT_RUN**. Nenhuma skill Rust portada/certificada.
 - Consulte `M45_B02_S08_HANDOFF.md` antes de migrar o slot W. O script real exige checkout fixado; o ambiente atual segue sem resolver DNS do GitHub.
+
+## M45 S09 — conflito de ordens W em dois instantes
+
+S09 adicionou a suíte bilaterial `s09_nami_w_stale.test.mjs` (azul/vermelho × targeted/board order) e evidência de código-fonte de que a fila direcionada de Nami W pode permanecer pendente após consumir cooldown de uma ordem board. O segundo cast permanece **hipótese de source**, não PASS de gameplay. `golden_plan.json` tem **26 candidatos, 0 executados**; QA estático 15/15 PASS e sintaxe do teste Node PASS. Consulte `M45_B02_S09_HANDOFF.md` e `S09_NAMI_W_RUST_CONTRACT.json`.

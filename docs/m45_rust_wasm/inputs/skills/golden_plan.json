@@ -5,7 +5,7 @@
   "engine_path": "engine.mjs",
   "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
   "result_status": "NOT_RUN",
-  "note": "S08: 25 pinned test source candidates (including Nami W competing queues); all Node gameplay NOT_RUN, only local script syntax + isolated JS <=undefined demonstration executed. No Rust native or WASM parity.",
+  "note": "S09 26 planned/0 run. New characterization golden expects suspected stale-W legacy bug and must never certify desired Rust behavior. Node script syntax verified locally; complete engine checkout blocked by container DNS.",
   "suites": [
     {
       "id": "realm_mordekaiser",
@@ -513,6 +513,27 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "Node full engine execution, captured W six-case receipt, true fog and network, Rust native/WASM comparator"
+    },
+    {
+      "id": "s09_nami_w_stale_intent",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s09_nami_w_stale.test.mjs",
+      "test_git_blob_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450209
+      ],
+      "bilateral_in_source": true,
+      "contract": "Legacy characterization only: conflicting Nami W queues issued targeted-first/board-first by blue/red; assert no same-tick double mana debit, source-predicted stale targeted intent remains through CD and recasts at later simulated tick; do not accept as Rust behavior.",
+      "expected_output_marker": "M45_S09_NAMI_W_STALE",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Full Node engine run; failure must be recorded as FAIL/observed divergence, not golden PASS; Rust intentional-fix, native/WASM and PvP network tests."
     }
   ]
 }
