@@ -4344,6 +4344,19 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u));
  }
  executeBoardSkillV453Dev69(u,q){
+  // Sylas executes the source champion's ORIGINAL R branch with his actor ID.
+  if(u?.champ==='Sylas'&&q?.stolenCast&&!q?.m44B14DOriginalCast){
+   const stolen=u.sylasStolenV453M14;
+   if(!stolen||stolen.expiresAt<=this.gameTime||
+    !m44B14CSylasUltimateRuleV453(stolen.sourceChamp))
+    return {ok:false,reason:'hijack_expirado'};
+   let result;u.champ=stolen.sourceChamp;
+   try{result=this.executeBoardSkillV453Dev69(u,{
+    ...q,m44B14DOriginalCast:stolen.sourceChamp});}
+   finally{u.champ='Sylas';}
+   if(result?.ok)u.sylasStolenV453M14=null;
+   return result;
+  }
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
   if(!s||!u||(u.hp<=0&&!this.m23KarthusCanActV453(u,q?.slot))||
       s.passiveOnly||u.m23ZacDivisionV453?.active)
@@ -4679,7 +4692,9 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if((s.m28XerathCharge||s.m28VarusCharge)&&q.m28ChargeSeconds!==undefined&&
      this.mapDistance(u,q.point)>900+(s.range-900)*q.m28ChargeSeconds/2)
    return {ok:false,reason:'m32_charge_release_range'};
-  if(q.stolenCast&&!(u.champ==='Sylas'&&u.sylasStolenV453M14?.expiresAt>this.gameTime))
+  if(q.stolenCast&&!(q.m44B14DOriginalCast===u.champ&&
+   u.sylasStolenV453M14?.sourceChamp===u.champ&&
+   u.sylasStolenV453M14?.expiresAt>this.gameTime))
    return {ok:false,reason:'hijack_expirado'};
   if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot)&&
      this.m33LeeEnergyAvailableV453Dev69(u)<50)
@@ -4741,7 +4756,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    const len=Math.hypot(dx,dy);
    if(len>=1)u.m28FacingV453={x:dx/len,y:dy/len};
   }
-  if(q.stolenCast)u.sylasStolenV453M14=null;
+  if(q.stolenCast&&!q.m44B14DOriginalCast)u.sylasStolenV453M14=null;
   // Once-per-receipt Force Pulse spell observations, capped for deterministic turns.
   if(s.m29KassForcePulse){
    q.m29KassStacks=Math.min(6,u.m29KassPulseStacks||0);
@@ -8813,7 +8828,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     this.obstacleLine(u,q.point))return {ok:false,reason:'clone_destino_invalido'};
   const rank=Math.max(1,u.skillRanks[q.slot]||1),
    cd=kind==='neeko_clone'?[16,15,14,13,12][Math.min(4,rank-1)]:[100,90,80][Math.min(2,rank-1)];
-  const stolen=q.stolenCast&&u.champ==='Sylas'&&
+  const stolen=q.stolenCast&&(u.champ==='Sylas'||q.m44B14DOriginalCast==='Shaco')&&
    u.sylasStolenV453M14?.sourceChamp==='Shaco'&&u.sylasStolenV453M14.expiresAt>this.gameTime;
   const committed=stolen?{ok:true,spentMana:0,hijacked:true}:
    this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
@@ -9138,7 +9153,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    stock=this.m16Stock(u,q.slot,s);
    if(stock.state.charges<1)return {ok:false,reason:'armadilha_sem_cargas'};
   }
-  const cast=this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
+  const cast=q.m44B14DOriginalCast===u.champ&&q.stolenCast?
+   {ok:true,spentMana:0,hijacked:true}:this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
    targetId:this.boardCombatEntityByIdV453Dev69(q.targetId)?.champ?q.targetId:null,
    point:this.boardCombatEntityByIdV453Dev69(q.targetId)?.kind?
     {x:this.boardCombatEntityByIdV453Dev69(q.targetId).x,
