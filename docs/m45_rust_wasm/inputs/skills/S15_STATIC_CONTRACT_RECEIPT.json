@@ -1,0 +1,50 @@
+{
+  "schema": "coachlol.m45.skills.s15.static-validation-receipt.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "v8_static_checks": {
+    "attempted": 53,
+    "passed": 53,
+    "status": "PASS",
+    "actual_saved_source": "docs/m45_rust_wasm/inputs/skills/s15_validate_clone_receipt.mjs",
+    "source_git_blob_sha": "4efc755f18b3d2614404b310ccdc21924746e1b6",
+    "mode": "saved validateInputs pure test body executed inside isolated V8 with assert shims"
+  },
+  "cross_pinned": {
+    "clone_source_receipt_blob": "52c58c051d197cc1c47abe5767cff71f6c2b2ffe",
+    "rust_contract_blob": "795ff430ab133a1d3de3f2e6d70b07a348ae2722",
+    "supplemental_js_test_blob": "556ddbed60b4254c1c3c3eea9d202da0bf6415cf",
+    "original_s10_goldens_blob": "88b2aa5f353d3715f00ef7467843db0f190837a1"
+  },
+  "execution_rollup": {
+    "original_m15_sync": "20_PASS_THEN_1_REPRODUCED_FAIL_EXPECTED_SYLAS_GOT_SHACO",
+    "original_m15_http": "NOT_RUN",
+    "original_strict_clone_targetability": "24/24_PASS_0_REPRODUCED",
+    "s15_supplemental": "88/88_ASSERTIONS_8_CASES_2_BILATERAL_WRONG_APPEARANCES",
+    "rust_reference_tests": "3_PREPARED_0_EXECUTED",
+    "native_rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "node_esm_full": "NOT_RUN",
+    "server_http": "NOT_RUN",
+    "rust_coordinator_head": "4bf98495e32dffb67cde32542f76af11d85a66f8",
+    "crates_available": [
+      "core-state"
+    ],
+    "crates_missing": [
+      "core-combat",
+      "core-champions"
+    ]
+  },
+  "intentional_fix": "SYLAS_STOLEN_SHACO_R_CLONE_VISUAL_MUST_BE_SYLAS_OWNER_NOT_SHACO_EXECUTOR",
+  "gates": {
+    "legacy_source": "V8_PARTIAL_FAILURE_PINNED",
+    "source_targetability": "V8_PASS_STRICT",
+    "source_supplemental": "V8_PASS_BUG_CHARACTERIZED",
+    "rust": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merge": true,
+  "no_engine_modifications": true
+}
