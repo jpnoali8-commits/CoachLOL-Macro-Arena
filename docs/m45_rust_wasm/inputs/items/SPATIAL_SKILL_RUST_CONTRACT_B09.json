@@ -1,0 +1,97 @@
+{
+  "schema": "coachlol.m45.items.spatial_skill_rust_contract.b09.v1",
+  "status": "HANDOFF_PROPOSAL_ONLY",
+  "date": "2026-10-30",
+  "authority": {
+    "source_branch": "dev69/items-batch2",
+    "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_git_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "fixture_evidence": "QA_V8_SPATIAL_SKILLS_B09.json",
+    "cases_executed_V8": 30,
+    "cases_repeated_identical_V8": 30
+  },
+  "rust_dependencies": [
+    "core-state canonical map and actors",
+    "core-clock authoritative world units + time",
+    "core-protocol single owner for five champions",
+    "core-pathing body collision and terrain",
+    "core-combat timed damage and on-hit",
+    "core-skills actual projectile state and targeting",
+    "core-items onhit/spellshield/regen",
+    "core-replay deterministic source log"
+  ],
+  "sections": [
+    {
+      "domain": "MINION_BODY_COLLISION",
+      "canonical_source": "Arena.minionBodyCollisionAlongV453Dev52, Arena.resolveChampionMinionBlockV453Dev48, Arena.moveAlong",
+      "required": [
+        "Spawned minion body collision uses world-unit swept-segment vs circular radius + 17",
+        "Live allied and enemy minion bodies block direct explicit orders for ordinary champions",
+        "Dead/unspawned minions do not obstruct movement",
+        "Phantom Dancer ignores UNIT collisions only, not walkable() terrain or map limits",
+        "Phantom Dancer movement still accrues Rapid Firecannon legitimate walked-distance charge; teleport does not",
+        "Collision / body positions must be represented in replay snapshot where owned by state"
+      ]
+    },
+    {
+      "domain": "REAL_DELAYED_PROJECTILE",
+      "canonical_source": "Arena.castEzrealMysticShotV453Dev42 and Arena.advanceChampionProjectilesV453Dev42",
+      "required": [
+        "Cast validates champion name, Q rank, range, vision and authoritative mana/cooldown",
+        "Projectile snapshot has immutable origin, direction, width, range, time and event owner; travel advances at 2000 world units/sec for Ezreal Q",
+        "Enemy champion or minion interceptor nearest by trajectory depth intercepts and consumes projectile",
+        "Target relocation after cast never retargets the source ray; no future position access",
+        "World wall / enemy positional barrier blocks the Q without impact or on-hit cooldown refund",
+        "Successful Q impact uses ability_onhit_v453_dev40 and may trigger allowed on-hit items (e.g. Nashor), then refunds QWE cooldown by legacy 1.5s",
+        "Banshee spellshield blocks Q primary impact AND nested item on-hit"
+      ]
+    },
+    {
+      "domain": "NAMI_REAL_W_BOUNCE",
+      "canonical_source": "Arena.queueTargetedSkill and Arena.resolveTargetedCasts",
+      "required": [
+        "Legal W requires Nami identity, learned W, mana/cooldown, proper phase, vision and range",
+        "W casts through performActionV40 then resolves alternating allied heals and hostile impacts, up to original three bounce steps",
+        "Healing allied champion uses source heal/shield amplification from Forbidden Idol and recipient self-heal amplification from Spirit Visage",
+        "Hostile W bounce enters real spell hit branch; Liandry burn only on landed damage",
+        "Banshee Annul consumes spellshield and prevents both hostile bounce damage and related Liandry burn",
+        "All target and bounce selection must respect authoritative world distance, fog and reaction permissions"
+      ]
+    },
+    {
+      "domain": "IDENTITY_FIXTURE_BOUNDARY",
+      "canonical_source": "B09 test setup only",
+      "required": [
+        "Tests operate same default 1v1 five-unit arena; modify ADC champion label to Ezreal and red support to Nami only for targeted source-path exercising",
+        "Do NOT assume B09 certifies lobby champion selection, complete QWER, real champion native stats, skins or summons",
+        "Use full champion catalogs/selection when Rust core-skills becomes available; compare to B09 source baseline for only the traced paths"
+      ]
+    }
+  ],
+  "accepted_source_evidence": {
+    "phantom_without_item_walked": 0,
+    "phantom_with_item_walked": 299.80000000000024,
+    "phantom_terrain_walked": 0,
+    "ezreal_moved_target_hp_damage": 0,
+    "ezreal_barrier_reason": "bloqueio_posicional",
+    "nami_with_idol_heal": 124.19999999999999,
+    "nami_without_idol_heal": 115,
+    "jami_banshee_evil_bounce_damage": 0
+  },
+  "gaps": {
+    "node_esm": "NOT_RUN",
+    "gateway_pvp_room": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED",
+    "legacy_pvp_trinket_bug": "P1_OPEN_FROM_B04_B08"
+  },
+  "out_of_scope": [
+    "No real network packet/HTTP validation",
+    "No full champion QWER kits or stat normalization",
+    "No exhaustive wall/rift masks or line collision permutations",
+    "No performance/load test of large minion waves",
+    "No new JavaScript gameplay production"
+  ],
+  "request_to_coordinator": "Map these exact source invariants into Rust once shared core-pathing/core-skills/core-combat and core-items interfaces stabilize. Preserve single-authoritative replay order. Require parity receipt on both teams before G8, with explicit bug-deviation for unavailable legacy trinket gateway."
+}
