@@ -5578,9 +5578,22 @@ export class Arena {
      (i===0?Math.max(0,v.maxHp-v.hp)*.16:0),
      blocked=this.effectResolverV41().has(v,'spell_shield');
     if(this.damage(v,amount,u,'physical','spell')>0)hitCount++;
-    if(i>0&&v.champ&&v.hp>0&&!blocked)
+    if(i>0&&v.champ&&v.hp>0&&!blocked){
+     // Heartbreaker physically knocks secondary champions away from impact,
+     // subject to the current terrain/realm. A generic slow is insufficient.
+     const fromVictim={x:v.x,y:v.y},dx=(v.x-u.x)*this.worldWidth,
+      dy=(v.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy)),
+      away={x:v.x+dx/len*150/this.worldWidth,
+       y:v.y+dy/len*150/this.worldHeight};
+     if(away.x>=0&&away.x<=1&&away.y>=0&&away.y<=1&&
+       this.walkable(away.x,away.y)&&!this.obstacleLine(v,away)){
+      Object.assign(v,away);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(v);
+      this.itemEnergizeRelocateV453Dev39(v,fromVictim,away,{kind:'viego_heartbreaker_knockback'});
+     }
      this.applyEffectV41(v,'slow',{source:u,duration:1.5,power:.4,
       key:'m44_b12_viego_r_'+instance+'_'+v.id});
+    }
    }
    return {...committed,heartbreaker:true,hitCount};
   }
