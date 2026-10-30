@@ -4,8 +4,8 @@
   "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
   "engine_path": "engine.mjs",
   "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-  "result_status": "NOT_RUN",
-  "note": "S09 26 planned/0 run. New characterization golden expects suspected stale-W legacy bug and must never certify desired Rust behavior. Node script syntax verified locally; complete engine checkout blocked by container DNS.",
+  "result_status": "NODE_GOLDEN_NOT_RUN_V8_PARTIAL",
+  "note": "S10 performed actual pinned legacy engine evaluation in isolated V8, with ES module export wrappers and Node API shims, using original test bodies (24 suites attempted, 22 passed, 2 failed, 2 unrun due network module imports). These are NOT the full original Node CLI suite; Node 0/26, native Rust/WASM 0. See S10_V8_EXECUTION_RECEIPT.json.",
   "suites": [
     {
       "id": "realm_mordekaiser",
@@ -25,7 +25,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 12,
+        "source_git_blob": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3",
+        "observed_output": "DEV69 REALM HARDENING M14 12/12 PASS"
+      }
     },
     {
       "id": "neeko_shaco_clones",
@@ -45,7 +52,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "NOT_RUN",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 0,
+        "source_git_blob": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+        "blocked_reason": "Full source imports multiplayer authoritative actions, server and async HTTP test; no Node module graph or network in isolated V8"
+      }
     },
     {
       "id": "sylas_viego_original",
@@ -65,7 +79,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 78,
+        "source_git_blob": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+        "observed_output": "M44_B14D_COPY passed=78 snapshots=78 failures=0"
+      }
     },
     {
       "id": "terrain_recasts",
@@ -85,7 +106,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 28,
+        "source_git_blob": "1c79d95aa4396c604278192a73ab887973273d79",
+        "observed_output": "M44_B18 scenarios=14 passed=28 restored=28 failures=0"
+      }
     },
     {
       "id": "katarina_ballistic",
@@ -105,7 +133,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 40,
+        "source_git_blob": "5fd8a6cd5b1991ba8bf76f1b92debe3b9f94e8a2",
+        "observed_output": "M44_B31B cases=20 passed=40 failed=0"
+      }
     },
     {
       "id": "twitch_borrowed_onhit",
@@ -125,7 +160,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 24,
+        "source_git_blob": "371af239c1a2911eb94495cdebc4c3cba128ace1",
+        "observed_output": "M44_B32B_PASS 24/24"
+      }
     },
     {
       "id": "sion_ornn_yasuo",
@@ -145,7 +187,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 34,
+        "source_git_blob": "a0855ca4c8b2bf3f763f27dde706803d08b5da64",
+        "observed_output": "M44_B33A_PASS 34/34 snapshots=34"
+      }
     },
     {
       "id": "neeko_nidalee",
@@ -165,7 +214,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 20,
+        "source_git_blob": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a",
+        "observed_output": "M44_B11_HUNTED_CLONE scenarios=20 snapshots=20 failures=0"
+      }
     },
     {
       "id": "channels",
@@ -185,7 +241,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 30,
+        "source_git_blob": "5602ae51c2751f67bb80ca11ad27d1ee4933301a",
+        "observed_output": "M44_B22 cases=15 passed=30 failures=0"
+      }
     },
     {
       "id": "global_ultimates",
@@ -205,7 +268,15 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity",
+      "v8_isolated_s10": {
+        "status": "V8_FAIL",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 4,
+        "source_git_blob": "cd92e0675d81643ed5ac350f109fdd9ed5396c08",
+        "failed_at": "blue Ashe R stun duration scales with travel distance",
+        "reason": "assert.ok(effect(near)) failed after 4 prior blue checks"
+      }
     },
     {
       "id": "precedence_blue_red",
@@ -225,7 +296,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Node execution and authorial cast/impact snapshots per seat, Rust parity."
+      "missing_evidence": "Node execution and authorial cast/impact snapshots per seat, Rust parity.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 56,
+        "source_git_blob": "501773e40e0866129b274c734626ec73eb371047",
+        "observed_output": "M45_SKILLS_PRECEDENCE 2/2 assertions=56"
+      }
     },
     {
       "id": "v42_multi_m1",
@@ -245,7 +323,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 53,
+        "source_git_blob": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1",
+        "observed_output": "DEV69 MULTI CHAMPIONS M1 53/53 PASS"
+      }
     },
     {
       "id": "v42_multi_m2",
@@ -265,7 +350,15 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_FAIL",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 8,
+        "source_git_blob": "620fac6714ab1097594a615085fa95add56920ef",
+        "failed_at": "blue kit input routes Ahri Charm through temporal combat",
+        "reason": "assert.equal(queued.ok,true) failed"
+      }
     },
     {
       "id": "v42_multi_m3",
@@ -285,7 +378,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 41,
+        "source_git_blob": "a93f9767f451392bfd7baa1cdbca7cfa58378921",
+        "observed_output": "DEV69 MULTI CHAMPIONS M3 41/41 PASS"
+      }
     },
     {
       "id": "v42_multi_m4",
@@ -305,7 +405,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 37,
+        "source_git_blob": "53b3d221af5c48519297a7fcf21f68daacf9c342",
+        "observed_output": "DEV69 MULTI CHAMPIONS M4 37/37 PASS"
+      }
     },
     {
       "id": "v42_multi_m5",
@@ -325,7 +432,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 39,
+        "source_git_blob": "7082cbb1795c9a70c7ed9e24a35583539f4df996",
+        "observed_output": "DEV69 MULTI CHAMPIONS M5 39/39 PASS"
+      }
     },
     {
       "id": "v42_multi_m6",
@@ -345,7 +459,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 15,
+        "source_git_blob": "1076d2f961de36756c01eaa225dffd2b1cb85840",
+        "observed_output": "DEV69 MULTI CHAMPIONS M6 15/15 PASS"
+      }
     },
     {
       "id": "v42_multi_m7",
@@ -366,7 +487,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 60,
+        "source_git_blob": "ee9451a05ea974649e8cf23381cfbcb462fcc852",
+        "observed_output": "DEV69 MULTI CHAMPIONS M7 60/60 PASS"
+      }
     },
     {
       "id": "nami_vex_batch2",
@@ -386,7 +514,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN.",
+      "v8_isolated_s10": {
+        "status": "NOT_RUN",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 0,
+        "source_git_blob": "2bbb0117afa91454c138442a9b021b08d2d67d9a",
+        "blocked_reason": "Full source imports PvPRoomRegistry, createPvPServer and async two-seat HTTP sessions; not simulated"
+      }
     },
     {
       "id": "s06_nami_q",
@@ -407,7 +542,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 17,
+        "source_git_blob": "6afedff84107a7595f8d94600fe491984a196ac8",
+        "observed_output": "M45_S06_NAMI_Q passed=17 seats=2"
+      }
     },
     {
       "id": "m44_b20_mobile_barrier",
@@ -428,7 +570,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 16,
+        "source_git_blob": "0832fcfa45c0b64bc0bad1a918c6e4eb26af8275",
+        "observed_output": "M44_B20 cases=8 passed=16 failures=0"
+      }
     },
     {
       "id": "m44_b21_projectile_interception",
@@ -449,7 +598,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 22,
+        "source_git_blob": "f9caf7fe9bcc79a8d11c6fd5c72d760a137cfaea",
+        "observed_output": "M44_B21 cases=11 passed=22 failures=0"
+      }
     },
     {
       "id": "m44_b23_charge_realm",
@@ -470,7 +626,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 46,
+        "source_git_blob": "b4ac517c332dd531bff0ff0fadbf8a64e59fd156",
+        "observed_output": "M44_B23 cases=23 passed=46 failures=0"
+      }
     },
     {
       "id": "s07_nami_routes",
@@ -491,7 +654,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "actual Node execution and captured receipts; Nami W bounce bug and Rust native/WASM parity"
+      "missing_evidence": "actual Node execution and captured receipts; Nami W bounce bug and Rust native/WASM parity",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 8,
+        "source_git_blob": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+        "observed_output": "M45_S07_NAMI_ROUTES traces=8 seats=2 checkpointMatches=8"
+      }
     },
     {
       "id": "s08_nami_w_coqueued",
@@ -512,7 +682,14 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Node full engine execution, captured W six-case receipt, true fog and network, Rust native/WASM comparator"
+      "missing_evidence": "Node full engine execution, captured W six-case receipt, true fog and network, Rust native/WASM comparator",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 6,
+        "source_git_blob": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+        "observed_output": "M45_S08_NAMI_W cases=6 seats=2"
+      }
     },
     {
       "id": "s09_nami_w_stale_intent",
@@ -533,7 +710,21 @@
       "expected_player_views": null,
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
-      "missing_evidence": "Full Node engine run; failure must be recorded as FAIL/observed divergence, not golden PASS; Rust intentional-fix, native/WASM and PvP network tests."
+      "missing_evidence": "Full Node engine run; failure must be recorded as FAIL/observed divergence, not golden PASS; Rust intentional-fix, native/WASM and PvP network tests.",
+      "v8_isolated_s10": {
+        "status": "V8_PASS",
+        "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+        "checks_or_cases": 4,
+        "source_git_blob": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+        "observed_output": "M45_S09_NAMI_W_STALE cases=4 seats=2; all observed cooldown duplicate"
+      }
     }
-  ]
+  ],
+  "s10_isolated_v8": {
+    "planned": 26,
+    "attempted": 24,
+    "passed": 22,
+    "failed": 2,
+    "not_run": 2
+  }
 }

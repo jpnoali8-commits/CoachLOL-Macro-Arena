@@ -1,0 +1,165 @@
+{
+  "schema": "coachlol.m45.skills.s10.nami-w-rust-contract.v3",
+  "date": "2026-10-30",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "contract_kind": "RUST_MIGRATION_DESIGN_ONLY",
+  "status": "V8_LEGACY_BUG_CONFIRMED_RUST_FIX_NOT_IMPLEMENTED",
+  "slots": [
+    "champion.Nami.Q",
+    "champion.Nami.W",
+    "champion.Nami.R"
+  ],
+  "evidence": [
+    {
+      "route": "Nami.W.M44_B13_BOARD",
+      "descriptor_line": 1261,
+      "dispatcher_line": 1715,
+      "executor_line": 8213,
+      "client_entry": "queueBoardSkillV453Dev69",
+      "combo_entry_line": 17679,
+      "traits": {
+        "shape": "target_any",
+        "initial_range": 725,
+        "mana_rank1": 70,
+        "next_hop_max_range": 725,
+        "max_hops": 3,
+        "heal_rank1_base": 75,
+        "first_damage_rank1_base": 70,
+        "visibility": "per next enemy",
+        "realm": true,
+        "obstacleLine": true,
+        "surging_passive_on_heal": "not_called_here"
+      },
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "route": "Nami.W.V42_TARGETED",
+      "descriptor_line": 727,
+      "dispatcher_line": 13878,
+      "executor_line": 13915,
+      "traits": {
+        "initial_range_v42": 725,
+        "cooldown_taken_from": "abilityRule M44",
+        "mana_taken_from": "abilityRule M44",
+        "v42_bounceRange": 800,
+        "bounce_range_used": "abilityRule(u, W).bounceRange",
+        "effective_bounceRange": "undefined",
+        "max_hops_requested": 3,
+        "heal_rank1_base": 115,
+        "enemy_damage_formula": "this.attack(u,current,p.amount*.70,'skill')",
+        "surging_passive_on_heal": "grantNamiSurgingV453Dev69B2"
+      },
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "route": "Nami.W.SAME_TURN_DOUBLE_QUEUE",
+      "source_lines": [
+        4434,
+        13878,
+        17875
+      ],
+      "condition": "A board intent and a V42 targeted intent may be queued for same champion/slot without a shared pending-slot lock",
+      "outcome_hypothesis": "Board resolves first, targeted later finds W in cooldown and continues without clearing pendingTargetedCast",
+      "risk": "delayed ghost cast after cooldown / stale intent and divergent saved state",
+      "runtime_status": "NOT_RUN"
+    }
+  ],
+  "implementation_target": {
+    "crates": [
+      "core-champions",
+      "core-combat",
+      "core-clock",
+      "core-protocol"
+    ],
+    "rust_state": "SOURCE_ONLY",
+    "actor_slot_intent_arbiter": {
+      "key": [
+        "match_id",
+        "turn_id",
+        "actor_id",
+        "slot"
+      ],
+      "resolution": "Only one active pending slot action per seal; duplicate request_id returns same ACK, conflicting intents reject or atomically replace before seal by explicit protocol contract",
+      "status": "PROPOSED_NOT_IMPLEMENTED"
+    },
+    "cast_pipeline": [
+      "ACL from server seat",
+      "range/vision/realm/cost/cooldown check before commit",
+      "one atomic mana/CD debit",
+      "explicit authored bounce selection and eligibility",
+      "state cleanup and replay events",
+      "team-filtered public projections"
+    ]
+  },
+  "policy": "Do not silently copy the undefined-bounceRange bug into Rust or silently change gameplay. Preserve exact legacy evidence in old-golden fixture, then publish an explicit versioned DELIBERATE_FIDELITY_FIX exception with golden and two-seat approval. Until approved, mark BLOCKED, never PARITY_VERIFIED.",
+  "accept_gates": [
+    "legacy Node source SHA passed and test executed blue/red",
+    "both W routes, co-queued, timers, passive and spell shields captured with before/after",
+    "no double debit or stale cast after cooldown in chosen Rust policy",
+    "source fixture and intentional fix versioned separately",
+    "Rust native test and WASM public projection test actually compiled and run",
+    "real PvP/fog/reconnect test without visible mock"
+  ],
+  "note": "Static registry implemented does not imply Rust migration or correct Nami W gameplay.",
+  "previous": "S09_NAMI_W_RUST_CONTRACT.json",
+  "s09_extension": {
+    "discovered_static_issue": "Separate pendingTargetedCast and pendingBoardV453Dev69 can coexist for same Nami W and legacy resolver does not clear pendingTargetedCast on castGate cooldown fail",
+    "expected_legacy_trace": "Board W spends once at t0 -> targeted W gate waits and retains pending -> after W cooldown expires legacy targeted intent may commit a second W without fresh player order. Hypothesis to verify; NOT yet an executed source receipt.",
+    "test": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s09_nami_w_stale.test.mjs",
+      "git_blob_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+      "seat_count": 2,
+      "queue_orders": [
+        [
+          "targeted",
+          "board"
+        ],
+        [
+          "board",
+          "targeted"
+        ]
+      ],
+      "planned_cases": 4,
+      "actual_cases_executed": 0
+    },
+    "rust_behavior_proposed": {
+      "authoritative_queue_key": [
+        "match_id",
+        "turn_id",
+        "champion_id",
+        "slot"
+      ],
+      "seat_binding": "From authenticated server session, never payload.team",
+      "idempotent_same_request": "Return prior ACK without enqueue or debit",
+      "conflicting_slot_requests": "Reject conflict or replace before seal according to protocol; never leave parallel queues",
+      "preflight": "Rank/mana/CD, realm/fog/range/CC checked before one atomic resource commit",
+      "terminal_cleanup": "On accepted commit, invalid intent and interrupted cast clear same-slot competing pending records; no old request replay after cooldown",
+      "separate_receipts": "Expected legacy bug fixture and intentionally fixed Rust behavior get different versioned artifact IDs",
+      "status": "DESIGN_ONLY"
+    }
+  },
+  "validation_gates": [
+    "Execute same source SHA true Node golden blue/red",
+    "Verify queued order permutations and tick transitions",
+    "Verify source bug receipt or record mismatch honestly",
+    "Version deliberate Rust fidelity fix and test absence of ghost cast",
+    "Compile and execute actual native Rust and WASM",
+    "Prove network fog/seat/reconnect without mocks"
+  ],
+  "s10_evidence": {
+    "receipt": "S10_V8_EXECUTION_RECEIPT.json",
+    "source_engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "bug": "Stale W post-CD second cast reproduced under original engine in isolated V8 for both seats and both queue orders",
+    "observed_cases": 4,
+    "observed_mana": [
+      500,
+      430,
+      360
+    ],
+    "node_full": "NOT_RUN",
+    "rust_native": "NOT_RUN"
+  },
+  "s10_contract_requirement": "Only one active W intent per champion per sealed turn, atomic resource debit, cancel stale pending for same slot regardless of cooldown; same request id replay returns prior ACK, never resurrects an old W."
+}

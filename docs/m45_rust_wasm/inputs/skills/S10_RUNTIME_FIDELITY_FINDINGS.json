@@ -1,0 +1,97 @@
+{
+  "schema": "coachlol.m45.skills.s10.runtime-fidelity-findings.v1",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "blockers": [
+    {
+      "id": "SKILLS-S10-P0-NAMI-W",
+      "severity": "P0",
+      "status": "V8_REPRODUCED",
+      "feature_id": "champion.Nami.W",
+      "detail": {
+        "feature_id": "champion.Nami.W",
+        "severity": "P0_GHOST_INTENT",
+        "status": "V8_REPRODUCED_4_OF_4",
+        "pattern": "Two independent same-slot W queues; board cast charges once at t0, targeted remains pending in cooldown, targeted automatically casts after cooldown without new request.",
+        "sample": {
+          "initial_mana": 500,
+          "after_board_mana": 430,
+          "after_rejected_targeted_mana": 430,
+          "later_game_time": 10.25,
+          "later_mana": 360,
+          "ally_hp_initial": 400,
+          "ally_hp_after_board": 475,
+          "ally_hp_later": 590
+        },
+        "cases": [
+          {
+            "seat": "blue",
+            "queue_order": [
+              "targeted",
+              "board"
+            ],
+            "checksum": "d68c3247"
+          },
+          {
+            "seat": "blue",
+            "queue_order": [
+              "board",
+              "targeted"
+            ],
+            "checksum": "ac967537"
+          },
+          {
+            "seat": "red",
+            "queue_order": [
+              "targeted",
+              "board"
+            ],
+            "checksum": "4b0ab891"
+          },
+          {
+            "seat": "red",
+            "queue_order": [
+              "board",
+              "targeted"
+            ],
+            "checksum": "596a5c6d"
+          }
+        ],
+        "validation": "All four test-body assertions passed in V8 and restored snapshot checksums matched. These synthetic mocked-visibility cases characterize code behavior, not a network exploit.",
+        "desired_rust_behavior": "Server arbiter rejects or replaces conflicting same-slot commands at seal; pending erased after one cast; no delayed autonomous action from old request."
+      }
+    },
+    {
+      "id": "SKILLS-S10-P1-AHRI-E",
+      "severity": "P1",
+      "status": "V8_FAIL_PARTIAL_SUITE",
+      "feature_id": "champion.Ahri.E",
+      "entrypoint": "Arena.queueKitSkillV42 -> Arena.queueDirectionalSkill",
+      "actual": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "expected": {
+        "ok": true,
+        "queuedDirectional": "E"
+      },
+      "hypothesis": "AbilityRule Ahri E is authored board_effect under newer registry; dispatcher still attempts legacy directional path.",
+      "next": "Reconcile real source routing, then explicit Rust executor precedence and fresh bilateral test"
+    },
+    {
+      "id": "SKILLS-S10-P2-ASHE-R",
+      "severity": "P2",
+      "status": "V8_FAIL_PARTIAL_SUITE",
+      "feature_id": "champion.Ashe.R",
+      "actual": {
+        "queue": "accepted",
+        "manaSpent": 100,
+        "immediateStun": false,
+        "pendingBoardTemporalKind": "m44_authored_projectile"
+      },
+      "expected": "Immediate stun from legacy M14 global test",
+      "interpretation": "Temporal projectile route and stale immediate-hit assertion; verify flight impacts and update source baseline as intentional semantic difference, not silently change gameplay"
+    }
+  ],
+  "policy": "Frozen engine not edited. Must compare actual Node original suite and Rust native/WASM only when runnable; keep failures visible."
+}

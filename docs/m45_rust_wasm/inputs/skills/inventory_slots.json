@@ -1,6 +1,6 @@
 {
   "meta": {
-    "schema": "coachlol.m45.skills.static-audit.v8",
+    "schema": "coachlol.m45.skills.static-audit.v9",
     "branch": "dev69/skills-batch2",
     "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
     "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
@@ -20,7 +20,9 @@
     "s08_contract": "S08_NAMI_W_RUST_CONTRACT.json",
     "s09_receipt": "S09_STATIC_QA_RECEIPT.json",
     "s09_legacy_conflict": "S09_NAMI_W_INTENT_CONFLICT.json",
-    "golden_gameplay": "NOT_RUN"
+    "golden_gameplay": "NOT_RUN",
+    "s10_receipt": "S10_V8_EXECUTION_RECEIPT.json",
+    "runtime": "V8_ISOLATED_PARTIAL_NODE_FULL_NOT_RUN"
   },
   "stats": {
     "slots": 865,
@@ -514,7 +516,7 @@
       "release_status": "NOT_CERTIFIED",
       "blocker": "pending blue/red JS golden and Rust contracts",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority.",
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S10 V8 original M2 test FAIL at blue Ahri E routing, code selects board_effect in abilityRule and kit input delegates to rejected directional queue. Requires source dispatch reconciliation in Rust; no full Node goldens.",
       "dependencies": [
         "projectile",
         "crowd_control",
@@ -524,7 +526,8 @@
       "expected_gameplay_snapshot": "NOT_CAPTURED",
       "golden_spec_ids": [],
       "precedence_audit_category": "V42_OVERLAP",
-      "precedence_conditional_routes": {}
+      "precedence_conditional_routes": {},
+      "s10_v8_evidence": "S10_V8_EXECUTION_RECEIPT.json"
     },
     {
       "feature_id": "champion.Ahri.R",
@@ -2659,7 +2662,7 @@
       "release_status": "NOT_CERTIFIED",
       "blocker": "pending blue/red JS golden and Rust contracts",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution.",
+      "notes": "Static scan; no gameplay execution. S10 V8 global M14 test FAIL at blue Ashe R instant-stun expectation; observed m44_authored_projectile temporal flight after mana cost; characterize delayed impact separately. No canonical Rust parity.",
       "dependencies": [
         "projectile",
         "crowd_control",
@@ -2668,7 +2671,8 @@
       "expected_legacy_behavior": "Reproduce only behavior actually reachable in the selected legacy rule; do not silently fill gaps. Exact before/after/events NOT_CAPTURED.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
       "golden_spec_ids": [],
-      "precedence_audit_category": null
+      "precedence_audit_category": null,
+      "s10_v8_evidence": "S10_V8_EXECUTION_RECEIPT.json"
     },
     {
       "feature_id": "champion.AurelionSol.P",
@@ -22190,9 +22194,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "S09 highest skill migration gate: need real 4 bilateral source-pinned queue-order receipts; compare stale intent across CD; decide explicit fixed Rust behavior with deterministic per-actor slot arbitration, no double charge, no stale recast.",
+      "blocker": "S10 LEGACY_V8_REPRODUCED_P0: unauthorized stale targeted W recast after cooldown, 4 bilateral cases. Rust must block stale orders. Native Node and Rust parity not run.",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: W dual codepaths; targeted V42 downstream bounceRange read resolves to higher-priority M44 descriptor lacking bounceRange. Board/combos use separate M44 authored hop logic. Do not map to a single certified executor. S08: in targeted W after authored M44 precedence, abilityRule(u,'W').bounceRange is undefined, so next-hop comparison is false; other concurrent board queue may leave targeted pending after cooldown gate rejection. Real runtime reproducer s08_nami_w_routes.test.mjs NOT_RUN. S09: pinned characterisation for independent target+board W queues and later simulated-time recast (legacy bug hypothesis). Not executed in original engine; absence of same-tick double charge is not enough to guarantee no later ghost cast.",
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: W dual codepaths; targeted V42 downstream bounceRange read resolves to higher-priority M44 descriptor lacking bounceRange. Board/combos use separate M44 authored hop logic. Do not map to a single certified executor. S08: in targeted W after authored M44 precedence, abilityRule(u,'W').bounceRange is undefined, so next-hop comparison is false; other concurrent board queue may leave targeted pending after cooldown gate rejection. Real runtime reproducer s08_nami_w_routes.test.mjs NOT_RUN. S09: pinned characterisation for independent target+board W queues and later simulated-time recast (legacy bug hypothesis). Not executed in original engine; absence of same-tick double charge is not enough to guarantee no later ghost cast. S10 V8 source-engine regression REPRODUCED 4/4 mirrored queue orders: board W spends mana 500->430, targeted pending survives CD gate, at t10.25 autonomously spends 430->360 and heals ally again. Snapshots restored matching checksums. No independent Node CLI yet.",
       "dependencies": [
         "dispatch_precedence",
         "bounce_range",
@@ -22235,7 +22239,8 @@
           "source_risk": "abilityRule selects M44 rule without bounceRange; subsequent pool likely empty",
           "runtime": "NOT_RUN"
         }
-      }
+      },
+      "s10_v8_evidence": "S10_V8_EXECUTION_RECEIPT.json"
     },
     {
       "feature_id": "champion.Nami.E",
