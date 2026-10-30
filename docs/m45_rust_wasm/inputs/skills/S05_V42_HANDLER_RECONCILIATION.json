@@ -14,248 +14,284 @@
         "feature_id": "champion.Ezreal.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.P",
         "source_line": 703,
-        "was_missing_from_matrix": false,
-        "previous_legacy_status": "absent"
+        "was_missing_from_matrix": true,
+        "previous_legacy_status": "absent",
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.Q",
         "source_line": 704,
-        "was_missing_from_matrix": false,
-        "previous_legacy_status": "implemented"
+        "was_missing_from_matrix": true,
+        "previous_legacy_status": "implemented",
+        "status_at_S04": "implemented"
       },
       {
         "feature_id": "champion.Ezreal.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.W",
         "source_line": 706,
-        "was_missing_from_matrix": false,
-        "previous_legacy_status": "absent"
+        "was_missing_from_matrix": true,
+        "previous_legacy_status": "absent",
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.E",
         "source_line": 708,
-        "was_missing_from_matrix": false,
-        "previous_legacy_status": "absent"
+        "was_missing_from_matrix": true,
+        "previous_legacy_status": "absent",
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Ezreal.R",
         "source_line": 710,
-        "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "was_missing_from_matrix": true,
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Irelia.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Irelia.P",
         "source_line": 714,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Irelia.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Irelia.Q",
         "source_line": 715,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Irelia.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Irelia.W",
         "source_line": 717,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Irelia.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Irelia.E",
         "source_line": 720,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Irelia.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Irelia.R",
         "source_line": 722,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Nami.P",
         "source_line": 725,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Nami.Q",
         "source_line": 726,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Nami.W",
         "source_line": 727,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "implemented"
+        "previous_legacy_status": "implemented",
+        "status_at_S04": "implemented"
       },
       {
         "feature_id": "champion.Nami.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Nami.E",
         "source_line": 728,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Nami.R",
         "source_line": 729,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Lux.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Lux.P",
         "source_line": 731,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Lux.Q",
         "source_line": 732,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "implemented"
+        "previous_legacy_status": "implemented",
+        "status_at_S04": "implemented"
       },
       {
         "feature_id": "champion.Lux.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Lux.W",
         "source_line": 733,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Lux.E",
         "source_line": 734,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Lux.R",
         "source_line": 735,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Vex.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Vex.P",
         "source_line": 737,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Vex.Q",
         "source_line": 738,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Vex.W",
         "source_line": 740,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Vex.E",
         "source_line": 742,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Vex.R",
         "source_line": 745,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Jinx.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Jinx.P",
         "source_line": 747,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Jinx.Q",
         "source_line": 748,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Jinx.W",
         "source_line": 751,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "implemented"
+        "previous_legacy_status": "implemented",
+        "status_at_S04": "implemented"
       },
       {
         "feature_id": "champion.Jinx.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Jinx.E",
         "source_line": 749,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Jinx.R",
         "source_line": 750,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "partial"
+        "previous_legacy_status": "partial",
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Ahri.P",
         "catalog_symbol": "CHAMPION_KITS_V42.Ahri.P",
         "source_line": 754,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.Q",
         "catalog_symbol": "CHAMPION_KITS_V42.Ahri.Q",
         "source_line": 755,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.W",
         "catalog_symbol": "CHAMPION_KITS_V42.Ahri.W",
         "source_line": 759,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.E",
         "catalog_symbol": "CHAMPION_KITS_V42.Ahri.E",
         "source_line": 757,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "implemented"
+        "previous_legacy_status": "implemented",
+        "status_at_S04": "implemented"
       },
       {
         "feature_id": "champion.Ahri.R",
         "catalog_symbol": "CHAMPION_KITS_V42.Ahri.R",
         "source_line": 761,
         "was_missing_from_matrix": false,
-        "previous_legacy_status": "reference-only"
+        "previous_legacy_status": "reference-only",
+        "status_at_S04": "reference-only"
       }
-    ]
+    ],
+    "found_missing_entries": 5
   },
   "handler_candidates": {
     "count": 25,
@@ -280,7 +316,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.W",
@@ -302,7 +339,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.E",
@@ -324,7 +362,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "absent"
       },
       {
         "feature_id": "champion.Ezreal.R",
@@ -352,7 +391,8 @@
         },
         "previous_status": "partial",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Irelia.P",
@@ -374,7 +414,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Irelia.W",
@@ -396,7 +437,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Irelia.R",
@@ -418,7 +460,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.P",
@@ -440,7 +483,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Nami.E",
@@ -462,7 +506,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.P",
@@ -490,7 +535,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.W",
@@ -518,7 +564,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Lux.E",
@@ -540,7 +587,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.P",
@@ -568,7 +616,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.Q",
@@ -590,7 +639,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.W",
@@ -612,7 +662,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.E",
@@ -634,7 +685,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Vex.R",
@@ -662,7 +714,8 @@
         },
         "previous_status": "partial",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Jinx.P",
@@ -684,7 +737,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.Q",
@@ -706,7 +760,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.E",
@@ -728,7 +783,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Jinx.R",
@@ -750,7 +806,8 @@
         },
         "previous_status": "partial",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "partial"
       },
       {
         "feature_id": "champion.Ahri.P",
@@ -772,7 +829,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.Q",
@@ -794,7 +852,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.W",
@@ -816,7 +875,8 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       },
       {
         "feature_id": "champion.Ahri.R",
@@ -838,35 +898,36 @@
         },
         "previous_status": "reference-only",
         "revised_status": "partial",
-        "runtime_executed": false
+        "runtime_executed": false,
+        "status_at_S04": "reference-only"
       }
     ]
   },
   "status_changes": {
     "count": 22,
     "feature_ids": [
-      "Ezreal.P",
-      "Ezreal.W",
-      "Ezreal.E",
-      "Irelia.P",
-      "Irelia.W",
-      "Irelia.R",
-      "Nami.P",
-      "Nami.E",
-      "Lux.P",
-      "Lux.W",
-      "Lux.E",
-      "Vex.P",
-      "Vex.Q",
-      "Vex.W",
-      "Vex.E",
-      "Jinx.P",
-      "Jinx.Q",
-      "Jinx.E",
-      "Ahri.P",
-      "Ahri.Q",
-      "Ahri.W",
-      "Ahri.R"
+      "champion.Ezreal.P",
+      "champion.Ezreal.W",
+      "champion.Ezreal.E",
+      "champion.Irelia.P",
+      "champion.Irelia.W",
+      "champion.Irelia.R",
+      "champion.Nami.P",
+      "champion.Nami.E",
+      "champion.Lux.P",
+      "champion.Lux.W",
+      "champion.Lux.E",
+      "champion.Vex.P",
+      "champion.Vex.Q",
+      "champion.Vex.W",
+      "champion.Vex.E",
+      "champion.Jinx.P",
+      "champion.Jinx.Q",
+      "champion.Jinx.E",
+      "champion.Ahri.P",
+      "champion.Ahri.Q",
+      "champion.Ahri.W",
+      "champion.Ahri.R"
     ]
   },
   "stats_after": {
@@ -875,5 +936,6 @@
     "implemented": 234,
     "reference-only": 1
   },
-  "warning": "A dedicated method's presence does not certify LoL parity or prove the route is reachable under every queue/commit path. No Node golden was run."
+  "warning": "A dedicated method's presence does not certify LoL parity or prove the route is reachable under every queue/commit path. No Node golden was run.",
+  "static_note": "S04 has 27 registry multivariants; S05 adds catalog/handler source-evidence variants, so total multi-evidence rows is 50; this is not a count of competing executors."
 }
