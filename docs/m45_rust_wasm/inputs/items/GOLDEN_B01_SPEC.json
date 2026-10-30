@@ -129,7 +129,7 @@
     {
       "id": "M45-B01-PVP-red",
       "seed": null,
-      "actor_id": "red_MID",
+      "actor_id": "red_SUP",
       "team": "red",
       "expected": "Authorized seat buys and undoes for own champion",
       "before": null,
@@ -142,7 +142,7 @@
     {
       "id": "M45-B01-ACL-red-denied",
       "seed": null,
-      "actor_id": "blue_MID",
+      "actor_id": "blue_TOP",
       "team": "red",
       "expected": "Enemy player cannot mutate other team's champion",
       "before": null,
