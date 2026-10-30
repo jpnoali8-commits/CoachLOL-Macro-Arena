@@ -1,0 +1,211 @@
+{
+  "schema": "coachlol.m45.skills.golden-plan.v1",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_path": "engine.mjs",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "result_status": "NOT_RUN",
+  "note": "Test source and expected assertions are genuine. No gameplay suite has been run by this audit. This is a reproducible run plan, not captured golden outputs.",
+  "suites": [
+    {
+      "id": "realm_mordekaiser",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_realm_hardening_m14.test.mjs",
+      "test_git_blob_sha": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3",
+      "seeds": [
+        69148
+      ],
+      "bilateral_in_source": true,
+      "contract": "Mordekaiser realm, isolated combat and restore",
+      "expected_output_marker": "DEV69 REALM HARDENING M14",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "neeko_shaco_clones",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_clones_m15.test.mjs",
+      "test_git_blob_sha": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+      "seeds": [
+        6915
+      ],
+      "bilateral_in_source": true,
+      "contract": "Neeko appearance and shoma, Shaco clone, fog",
+      "expected_output_marker": "DEV69 M15 CLONES",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "sylas_viego_original",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
+      "test_git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+      "seeds": [
+        144914
+      ],
+      "bilateral_in_source": true,
+      "contract": "Sylas original R delegation and Viego donor P/QWE but native R",
+      "expected_output_marker": "M44_B14D_COPY",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "terrain_recasts",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b18_shared_terrain_recast_interception_pvp.test.mjs",
+      "test_git_blob_sha": "1c79d95aa4396c604278192a73ab887973273d79",
+      "seeds": [
+        18180
+      ],
+      "bilateral_in_source": true,
+      "contract": "Shared terrain obstacle and recast, two PvP seats",
+      "expected_output_marker": "M44_B18",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "katarina_ballistic",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b31b_katarina_ballistic_ricochet_pvp.test.mjs",
+      "test_git_blob_sha": "5fd8a6cd5b1991ba8bf76f1b92debe3b9f94e8a2",
+      "seeds": [
+        31131
+      ],
+      "bilateral_in_source": true,
+      "contract": "Katarina Q ballistic ricochet, mana/CD and snapshots",
+      "expected_output_marker": "M44_B31B",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "twitch_borrowed_onhit",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b32b_twitch_borrowed_onhit_pvp.test.mjs",
+      "test_git_blob_sha": "371af239c1a2911eb94495cdebc4c3cba128ace1",
+      "seeds": [
+        32323
+      ],
+      "bilateral_in_source": true,
+      "contract": "Twitch R piercing, Sylas stolen interactions, realm",
+      "expected_output_marker": "M44_B32B_PASS",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "sion_ornn_yasuo",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b33a_three_champions_qw_authorial_pvp.test.mjs",
+      "test_git_blob_sha": "a0855ca4c8b2bf3f763f27dde706803d08b5da64",
+      "seeds": [
+        333301
+      ],
+      "bilateral_in_source": true,
+      "contract": "Sion/Ornn/Yasuo Q/W authorial identities, Viego donor and snapshots",
+      "expected_output_marker": "M44_B33A_PASS",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "neeko_nidalee",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+      "test_git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a",
+      "seeds": [
+        441122
+      ],
+      "bilateral_in_source": true,
+      "contract": "Neeko clone and Nidalee special interactions",
+      "expected_output_marker": "M44",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "channels",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b22_channel_interrupt_delivery_pvp.test.mjs",
+      "test_git_blob_sha": "5602ae51c2751f67bb80ca11ad27d1ee4933301a",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Channel cancellation and delayed attacks in both teams",
+      "expected_output_marker": "M44_B22",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "global_ultimates",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_global_ult_m14.test.mjs",
+      "test_git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08",
+      "seeds": [
+        6918
+      ],
+      "bilateral_in_source": true,
+      "contract": "Global legacy ultimate casting and delayed effects",
+      "expected_output_marker": "DEV69",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    }
+  ]
+}
