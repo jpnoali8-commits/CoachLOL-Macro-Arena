@@ -183,6 +183,31 @@ export function runSpatialSkillsB09({Arena,map,mask,checksumV40}){
   const burn=(v.statusEffectsV41||[]).find(e=>e.key==='liandry_'+u.id);
   return{enemyDamage:before-v.hp,sourceItem:burn?.key,until:burn?.until};
  }],
+ ['EZREAL_Q_TARGET_MOVES_AFTER_LAUNCH',({a,team})=>{
+  const {u,v}=setups.ezreal(a,team,{nashor:true});
+  const cast=a.castEzrealMysticShotV453Dev42(u,v);ok(cast.ok,'projectile launch');
+  const before=v.hp;
+  // Projectile direction is immutable. A moving champion does not get tracked.
+  v.y=.52;
+  a.gameTime=1;a.advanceChampionProjectilesV453Dev42();
+  const history=a.championProjectileHistoryV453Dev42.at(-1);
+  equal(v.hp,before,'Q illegally tracked relocated opponent');
+  ok(history?.hitId!==v.id,'Q history falsely records moved target');
+  return{reason:history?.reason,targetHit:history?.hitId||null,enemyLostHp:before-v.hp};
+ }],
+ ['EZREAL_Q_ENEMY_PROJECTILE_BARRIER',({a,team})=>{
+  const {u,v}=setups.ezreal(a,team,{nashor:true});
+  const cast=a.castEzrealMysticShotV453Dev42(u,v);ok(cast.ok,'Q launch');
+  const barrier={team:v.team,x:.492,y:.5,radius:55,until:2};
+  a.projectileBarriersV453Dev43=[barrier];
+  const before=v.hp,cdBefore=u.skillCds.Q;
+  a.gameTime=1;a.advanceChampionProjectilesV453Dev42();
+  const history=a.championProjectileHistoryV453Dev42.at(-1);
+  equal(history?.reason,'bloqueio_posicional','Q did not obey enemy barrier');
+  equal(v.hp,before,'Q passed through enemy positional barrier');
+  equal(u.skillCds.Q,cdBefore,'blocked projectile incorrectly refunded Q cooldown');
+  return{reason:history.reason,hitId:history.hitId||null,enemyLostHp:before-v.hp,cdBefore,cdAfter:u.skillCds.Q};
+ }],
  ['NAMI_W_BANSHEE_BLOCKS_BOUNCE_AND_BURN',({a,team})=>{
   const {u,v,ally}=setups.nami(a,team,{liandry:true,banshee:true});
   const before=v.hp;ok(a.queueTargetedSkill(team,u.id,'W',ally.id).ok,'Nami queue');
