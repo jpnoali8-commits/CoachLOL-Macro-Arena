@@ -343,11 +343,48 @@ export function runAdversarialItemsB06({Arena,Gateway,map,mask,checksumV40}){
   ok(!a.canBuy(team,u.id,'refillable_potion').ok,'refillable with health');
   return {potions:[...u.items]};
  });
+
+ scenario('SHOP_COMMAND_ORDER_AND_REPLAY_HASH',({Arena:Unused,a,Gateway,seats,ok,same,checksumV40})=>{
+  // One owner controls five champions; shop actions are independent by team,
+  // but their arrival order affects the GLOBAL event log and canonical snapshot.
+  const mk=order=>{
+   const sandbox=new Arena(map,mask,{seed:460699,mode:'pvp'});
+   for(const team of ['blue','red']){
+    const actor=sandbox.units.find(x=>x.id===team+'_MID');
+    actor.items=[];actor.gold=2000;
+   }
+   const gw=new Gateway(sandbox,seats);
+   const receipts=[];
+   for(const team of order){
+    const cmd={sequence:1,unitId:team+'_MID',kind:'item.buy',
+      payload:{itemId:team==='blue'?'boots':'long_sword'}};
+    const ack=gw.submit(team==='blue'?'p1':'p2',cmd);
+    ok(ack.ok,'cross-team buy failed');
+    receipts.push({team,ack});
+   }
+   const balances=Object.fromEntries(['blue','red'].map(team=>{
+    const u=sandbox.units.find(x=>x.id===team+'_MID');
+    return [team,{gold:u.gold,items:[...u.items]}];
+   }));
+   return {order,balances,hash:checksumV40(sandbox.snapshotV40()),
+    events:sandbox.events.filter(x=>x.kind==='purchase').map(x=>x.team),
+    receipts};
+  };
+  const br=mk(['blue','red']),rb=mk(['red','blue']);
+  same(br.balances,rb.balances,'economic order independence');
+  ok(br.hash!==rb.hash,'legacy full snapshots unexpectedly identical: revise replay policy');
+  same(br.events,['red','blue'],'event log order one');
+  same(rb.events,['blue','red'],'event log order two');
+  return {blue_then_red:br,red_then_blue:rb,
+   finding:'ECONOMY_COMMUTATIVE_BUT_CANONICAL_SNAPSHOT_EVENT_ORDER_DEPENDENT',
+   classification:'REPLAY_CONTRACT_NOT_AUTOMATIC_BUG'};
+ },{type:'replay_contract',teams:['blue']});
  return {schema:'coachlol.m45.items.adversarial.b06.v1',
   origin:'LEGACY_ITEMS_SOURCE',cases,
   summary:{planned:cases.length,passed:counts.PASS||0,failed:counts.FAIL||0,
    status:counts.FAIL?'FAIL':'PASS_WITH_LEGACY_TRINKET_GAP',
    negative_gap_cases:cases.filter(x=>x.category==='legacy_gap').length,
    gateway_cases:cases.filter(x=>x.category==='gateway').length,
+   replay_contract_cases:cases.filter(x=>x.category==='replay_contract').length,
    economy_cases:cases.filter(x=>x.category==='economy').length}};
 }
