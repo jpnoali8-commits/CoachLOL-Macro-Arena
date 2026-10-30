@@ -9392,7 +9392,15 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
          const prior=z.hitCounts[v.id]||0;if(prior>=6)continue;
          if(this.damage(v,z.power*Math.min(1.5,1+prior*.1),u,'magic','spell')>0){
           z.hitCounts[v.id]=prior+1;
-          this.m44B26KennenMarkV453(u,v,'storm_'+z.id+'_'+z.ticks);
+          // B30A: six damage pulses but only three successful storm marks per target.
+          // Extra bolts refresh six seconds of caster-scoped storm-mark immunity.
+          const immune=(v.m44B30KennenStormImmunity??={});
+          if((z.markCounts?.[v.id]||0)>=3||immune[u.id]>now)immune[u.id]=now+6;
+          else{
+           (z.markCounts??={})[v.id]=(z.markCounts?.[v.id]||0)+1;
+           this.m44B26KennenMarkV453(u,v,'storm_'+z.id+'_'+z.ticks);
+           if(z.markCounts[v.id]===3)immune[u.id]=now+6;
+          }
          }
         }
         z.ticks--;z.nextAt=now+.5;
