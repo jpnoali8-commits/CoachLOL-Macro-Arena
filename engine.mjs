@@ -4559,6 +4559,20 @@ export class Arena {
    return {ok:false,reason:'m44_b11_poison_lost_before_commit'};
   if(s.m44B12KillerInstinct&&!(target?.m44B12KaisaPlasma?.[u.id]>this.gameTime))
    return {ok:false,reason:'m44_b12_plasma_lost_before_commit'};
+  if(s.m44B12KillerInstinct&&target){
+   const dx=(target.x-u.x)*this.worldWidth,dy=(target.y-u.y)*this.worldHeight,
+    len=Math.max(1,Math.hypot(dx,dy)),
+    landing={x:target.x-dx/len*190/this.worldWidth,
+     y:target.y-dy/len*190/this.worldHeight};
+   if(!this.walkable(landing.x,landing.y)||this.obstacleLine(u,landing))
+    return {ok:false,reason:'m44_b12_kaisa_r_route_changed'};
+  }
+  if(s.m44B12NoxianDiplomacy&&target&&this.mapDistance(u,target)>190){
+   const landing={x:target.x-(target.x-u.x)*.14,
+    y:target.y-(target.y-u.y)*.14};
+   if(!this.walkable(landing.x,landing.y)||this.obstacleLine(u,landing))
+    return {ok:false,reason:'m44_b12_talon_q_route_changed'};
+  }
   if(s.m22Magazine&&q.slot==='R'&&
      this.m42CorkiAmmoV453Dev69(u,s).charges<1)
     return {ok:false,reason:'m42_corki_ammo_spent_before_commit'};
