@@ -206,6 +206,26 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "precedence_blue_red",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/precedence_blue_red.test.mjs",
+      "test_git_blob_sha": "501773e40e0866129b274c734626ec73eb371047",
+      "seeds": [
+        450204
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nidalee human/cougar W, Elise QWER forms, Gnar mini/mega QWER, Shyvana E both forms, Nami W and V42/V382 route, mirror seat, snapshot",
+      "expected_output_marker": "M45_SKILLS_PRECEDENCE 2/2",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Node execution and authorial cast/impact snapshots per seat, Rust parity."
     }
   ]
 }
