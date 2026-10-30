@@ -5824,7 +5824,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      const soldier=(this.boardSummonsV453Dev69||[]).filter(v=>
       v.kind==='azir_soldier'&&v.ownerId===u.id&&v.hp>0&&v.until>now&&
       this.mapDistance(v,aim)<=200&&this.mapDistance(u,v)<=1100)
-      .sort((a,b)=>this.mapDistance(a,b)-this.mapDistance(u,b))[0];
+      .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b))[0];
      if(!soldier||!relocate(soldier,'azir_shift'))return {...committed,shiftingSands:false};
      u.shield=(u.shield||0)+60+25*rank;
      let hits=0;for(const v of enemies(u,210))if(hit(v)>0)hits++;
