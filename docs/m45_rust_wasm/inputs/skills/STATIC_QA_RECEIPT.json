@@ -1,0 +1,42 @@
+{
+  "verified_at_utc": "2026-10-30",
+  "audit_branch_head": "b7f93126644b7aa03a8fc2019179f5d8b36121e2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "static_qa": {
+    "status": "PASS",
+    "checks": [
+      "173 roster, 865 unique slots",
+      "source blob unchanged",
+      "7 executor-only overrides",
+      "10 bilateral test source SHA and output markers",
+      "isolation of touched paths"
+    ],
+    "tests_checked": 10,
+    "tests_source_verified": 10,
+    "classification": {
+      "absent": 268,
+      "reference-only": 20,
+      "implemented": 234,
+      "partial": 343
+    },
+    "errors": []
+  },
+  "gameplay_golden": {
+    "status": "NOT_RUN",
+    "tests_executed": 0,
+    "tests_passed": 0,
+    "reason": "GitHub connector exposes source and writes but no Node checkout or test execution; local container cannot authenticate/resolve private Github repository"
+  },
+  "rust_native": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "browser": "NOT_RUN",
+  "changed_paths": [
+    "docs/m45_rust_wasm/inputs/skills/README.md",
+    "docs/m45_rust_wasm/inputs/skills/executor_only_reconciliation.json",
+    "docs/m45_rust_wasm/inputs/skills/golden_plan.json",
+    "docs/m45_rust_wasm/inputs/skills/inventory_slots.json",
+    "docs/m45_rust_wasm/inputs/skills/mechanic_symbols.json",
+    "docs/m45_rust_wasm/inputs/skills/run_golden.mjs"
+  ]
+}
