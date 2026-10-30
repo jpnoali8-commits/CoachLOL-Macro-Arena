@@ -12,15 +12,15 @@
 ## Resultados com evidência
 
 1. Inventário programático de **173 campeões × P/Q/W/E/R = 865 slots**. Status estático final: **234 implemented**, **343 partial**, **20 reference-only**, **268 absent**. São categorias de descoberta de fonte, NÃO cobertura Rust, nem kits inteiros certificados. Em particular, 'absent' significa ausente dos registros vasculhados e pode esconder handlers/fallback.
-2. **55 sobreposições** nos registros; nenhuma deve ser removida antes de revisar precedência exata de `m44B14DOriginalBoardRuleV453` e a entrada `abilityRule` (há fallback de treino).
+2. **55 sobreposições na primeira varredura; 56 após a reconciliação inicial de Jinx R, das quais 29 artificiais (ver S04)** nos registros; nenhuma deve ser removida antes de revisar precedência exata de `m44B14DOriginalBoardRuleV453` e a entrada `abilityRule` (há fallback de treino).
 3. **63 símbolos** mecânicos/executores indicados na engine; **sete** correções explícitas de habilidades/passivas que o lookup comum subestima: Mordekaiser R, Sylas R, Viego P, Neeko P, K'Sante R, Ezreal R e Jinx R. As quatro primeiras têm caminhos especiais diretamente verificados na fonte; nenhuma certificada em Rust.
-4. **244 arquivos de testes** encontrados na Git tree; **10 suítes bilaterais** selecionadas e pinadas por commit, blob SHA, seeds, marcador de saída e propósito (Sion/Ornn/Yasuo, Sylas/Viego, realm, clones, recasts, colisão, Katarina, Twitch, Neeko/Nidalee, canais, globais).
-5. QA estático (executado contra repositório GitHub): **PASS** nos 865 IDs únicos, 7 reconciliações, imutabilidade da engine, 10/10 testes-fonte com marcador e mirror blue/red, somente documentos da branch escritos. Detalhes em `STATIC_QA_RECEIPT.json`.
+4. **244 arquivos de testes** encontrados na Git tree; **10 suítes bilaterais iniciais; 11 após S04** selecionadas e pinadas por commit, blob SHA, seeds, marcador de saída e propósito (Sion/Ornn/Yasuo, Sylas/Viego, realm, clones, recasts, colisão, Katarina, Twitch, Neeko/Nidalee, canais, globais).
+5. QA estático (executado contra repositório GitHub): **PASS** nos 865 IDs únicos, 7 reconciliações, imutabilidade da engine, 10/10 testes-fonte do S03 com marcador e mirror blue/red, somente documentos da branch escritos. Detalhes em `STATIC_QA_RECEIPT.json`.
 6. **Runner Node** `run_golden.mjs`: compilação sintática **PASS** em Node v22.16.0 via `node --check`. O arquivo testado tem Git blob SHA `6fd420a6e594b4bde0f7de9fa890c67d37604ed6`, **idêntico ao arquivo publicado no GitHub**. Isso verifica apenas sintaxe do harness, não a engine.
 
 ## Não executado / gates
 
-- Golden PvP JS: **NOT_RUN (0/10)**; depende de checkout autenticado do repositório privado. Manifest `golden_plan.json` é `SPEC_ONLY_NOT_RUN`; não há outputs/snapshots dourados capturados.
+- Golden PvP JS: **NOT_RUN (0/11)**; depende de checkout autenticado do repositório privado. Manifest `golden_plan.json` é `SPEC_ONLY_NOT_RUN`; não há outputs/snapshots dourados capturados.
 - Rust native, WASM, duas sessões de rede, browser: **NOT_RUN**.
 - G0: **PARTIAL**; G6: **NOT_RUN**; G8: **NOT_CERTIFIED**.
 - Os dados B33B não commitados não estão preservados no HEAD e não foram incluídos.
@@ -53,3 +53,11 @@ node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
 ```
 
 Rollback: reverter exclusivamente os commits desta branch de auditoria, nunca reset/rebase/force-push e jamais modificar PR #9.
+
+## ADENDO S04 — PRECEDÊNCIA (não altera ledger central)
+
+- Fonte de engine e HEAD de origem permanecem congelados. `precedence_overlaps.json` e `M45_B02_S04_RECEIPT.md` registram 56 overlaps aparentes: 29 duplicações do scanner de passivas, 16 formas, 10 overlaps V42, 1 V382. **27 slots multivariantes verdadeiros permanecem na matriz v3**, sem apagar definição de gameplay.
+- Teste bilateral `precedence_blue_red.test.mjs` foi **CRIADO, NÃO EXECUTADO**. Golden plan agora 11 suítes `SPEC_ONLY_NOT_RUN`. Runner Node e verificador de fonte disponíveis; falta checkout autenticado com DNS para executá-los.
+- Riscos prioritários: Shyvana E (handler autoral por forma), Nidalee W humano/puma, Gnar Rage Mini/Mega, Elise forma, colisões entre V42/V382 e rotas de queue/commit. Só validar igualdade de referência de descriptor não certifica efeito ou cooldown real.
+- QA estático de 13 invariantes sobre blobs SHA: **PASS**. QA de gameplay: **NOT_RUN**. Referência completa: `M45_B02_S04_RECEIPT.md`.
+- Próximo Chat 2 S05: ampliar inventário de executores/passivas fora do registry e capturar 11 goldens realmente executados quando acesso ao checkout estiver disponível. Rust depende B16–B19/contratos do Chat 1.
