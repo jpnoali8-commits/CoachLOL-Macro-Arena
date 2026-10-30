@@ -18,5 +18,5 @@ test('missing Rust is BLOCKED; process exit nonzero is FAIL', () => {
   assert.equal(statusFromSpawn({status:null,error:{code:'ENOENT'}}),'BLOCKED');
   assert.equal(statusFromSpawn({status:101}), 'FAIL');
   assert.equal(statusFromSpawn({status:0}), 'PASS');
-  assert.equal(Object.keys(TASKS).length, 8);
+  assert.equal(Object.keys(TASKS).length, 9);
 });

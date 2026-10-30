@@ -1,0 +1,46 @@
+name: M45 B02A Rust/WASM native verification (isolated one-shot)
+on:
+  push:
+    branches:
+      - dev69/rust-core-m45
+    paths:
+      - docs/m45_rust_wasm/qa/trigger_b02a5.txt
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coachlol-m45-b02a5-once
+  cancel-in-progress: false
+
+jobs:
+  rust-native-wasm:
+    name: Pinned Rust core-state, actual WASM, source golden
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout pinned M45 branch
+        uses: actions/checkout@v4
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Rust 1.85.1 + wasm32 target
+        run: |
+          rustup toolchain install 1.85.1 --profile minimal --component rustfmt,clippy --target wasm32-unknown-unknown
+          rustup default 1.85.1
+          rustc --version
+          cargo --version
+          rustup target list --installed
+      - name: Execute G1 baseline and emit evidence JSON
+        run: |
+          mkdir -p artifacts
+          node tools/m45_qa_evidence.mjs --receipt artifacts/m45-qa.json
+      - name: Publish sanitized QA evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m45-b02a5-rust-wasm-qa
+          path: artifacts/m45-qa.json
+          if-no-files-found: warn
+          retention-days: 7

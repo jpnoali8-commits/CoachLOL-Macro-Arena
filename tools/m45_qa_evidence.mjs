@@ -13,7 +13,7 @@ import os from 'node:os';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const TASKS = Object.freeze({
-  adapter: 'node_adapter_mock_only', jsGolden: 'js_legacy_golden',
+  adapter: 'node_adapter_mock_only', sourceSnapshot: 'js_pinned_legacy_source_isolated', jsGolden: 'js_legacy_golden',
   native: 'cargo_native_tests', fmt: 'cargo_fmt', clippy: 'cargo_clippy',
   target: 'wasm_target', wasmBuild: 'wasm_binary_build', wasmSmoke: 'wasm_binary_smoke',
 });
@@ -43,7 +43,7 @@ function execute() {
   if (outputFlag >= 0 && !cli[outputFlag + 1]) throw new Error('--receipt needs a file path');
   const receiptPath = outputFlag >= 0 ? resolve(cli[outputFlag + 1]) : null;
   const steps = {
-    adapter: unrun('not attempted'), jsGolden: unrun('not attempted'),
+    adapter: unrun('not attempted'), sourceSnapshot: unrun('not attempted'), jsGolden: unrun('not attempted'),
     native: unrun('native toolchain pending'), fmt: unrun('native toolchain pending'),
     clippy: unrun('native toolchain pending'), target: unrun('rustup pending'),
     wasmBuild: unrun('wasm target pending'), wasmSmoke: unrun('compiled WASM pending'),
@@ -51,6 +51,9 @@ function execute() {
   const adapterTest = 'tests/audit/m45_b02_public_adapter_contract.test.mjs';
   steps.adapter = existsSync(resolve(root, adapterTest)) ?
     run(process.execPath, ['--test', adapterTest]) : unrun('adapter source file missing');
+  const sourceSnapshotTest = 'tests/audit/m45_b02_legacy_smite_snapshot.test.mjs';
+  steps.sourceSnapshot = existsSync(resolve(root, sourceSnapshotTest)) ?
+    run(process.execPath, ['--test', sourceSnapshotTest]) : unrun('pinned legacy source snapshot unavailable');
   const legacy = 'tests/audit/v453_m45_rust_golden_js_pvp.test.mjs';
   steps.jsGolden = existsSync(resolve(root, 'engine.mjs')) && existsSync(resolve(root, legacy)) ?
     run(process.execPath, [legacy]) : unrun('full integration checkout and golden script unavailable');
@@ -98,9 +101,11 @@ function execute() {
     generated_at: new Date().toISOString(),
     host: { platform: os.platform(), arch: os.arch(), node: process.version },
     toolchain, steps, wasm_sha256: wasmSha256,
+    source_snapshot_mode: existsSync(resolve(root, 'engine.mjs')) ? 'PINNED_FULL_ENGINE_SHA_VERIFIED_BY_TEST' : 'ISOLATED_COPY_ONLY',
     G1: gateG1(steps),
     warnings: [
       'adapter PASS is a mock ABI test, never native Rust or WASM',
+      'sourceSnapshot PASS tests pinned copied JS functions; without engine.mjs this does not verify the entire original engine blob',
       'G1 PASS_BASELINE_ONLY does not certify gameplay parity or full migration G8',
       'G2-G8 require independent match, security, browser and asset evidence',
     ],

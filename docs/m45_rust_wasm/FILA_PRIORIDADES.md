@@ -68,3 +68,9 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 - Publicado `tools/m45_qa_evidence.mjs` + `tests/audit/m45_qa_evidence_policy.test.mjs`, com 4/4 PASS de regras G1 e 4/4 PASS do adaptador JS já existente. Executado runner: EXIT 42, Rust nativo BLOCKED, WASM NOT_RUN, mock não contado como WASM. Emitir recibos `--receipt` ao executar em ambiente real e guardar `wasm_sha256` somente de artefato compilado.
 - Atualização G0: skills S04 reduz 55 conflitos preliminares para **27 multivariantes reais**, itens I02 registra **oito métodos compartilhados modificados** além de oito exclusivos, plataforma A03 reproduziu em V8 isolado exposição de eventos sem owner e inventariou 132 calls. Proveniência em `inputs/core/B02_HANDOFF_DELTA_A4.json`.
 - `B02A/B02B` continuam elegíveis e incompletos; **B03 QUEUED**. Não habilitar Actions/codespaces automaticamente nem engine Rust em produção.
+
+### B02A5 (2026-10-30) — GitHub remoto sem projeto no computador
+
+- Execução ChatGPT Node: **30/30 PASS** em contrato/fonte JS isolada, 0 Rust/WASM nativo executado (EXIT 42). `m45_qa_evidence.mjs` passa a testar também `sourceSnapshot`, separadamente do `jsGolden` original.
+- Job GitHub de **push com gatilho único por path** `.github/workflows/m45-b02a5-one-shot.yml` solicitado neste commit; não roda em cada alteração/PR. Verificar se Actions habilitado e o run/recibo real antes de considerar G1, sem exigir instalação no PC do usuário.
+- Próximo sublote B02A: tratar feedback de execução remota (ou bloqueio de Actions); B02B continuar goldens integrais e reconciliação S04/I02/A03. **B03 ainda QUEUED.**

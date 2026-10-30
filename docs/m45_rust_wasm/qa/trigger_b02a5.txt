@@ -1,0 +1,4 @@
+M45 B02A5 — one-time GitHub-hosted Rust 1.85.1 + wasm32 native compile and smoke.
+This is the only path accepted by .github/workflows/m45-b02a5-one-shot.yml.
+Source branch: dev69/rust-core-m45. Do not touch in later commits.
+This has no gameplay impact; workspace B01 baseline only.

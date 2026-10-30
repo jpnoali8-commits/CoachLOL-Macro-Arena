@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, M45 B02A4 runner de evidência + correções G0 dos handoffs; PARCIAL.
+**Atualizado:** 2026-10-30, M45 B02A5 oracle fonte isolada e acionamento remoto GitHub pinado; PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A (executar native/WASM em toolchain real via tools/m45_qa_evidence.mjs); B02B executar goldens das fontes e auditoria P0 da plataforma.
+**Próxima prioridade:** M45 B02A (inspecionar execução do job Rust/WASM acionado via push restrito); B02B executar goldens das fontes; G1 não alterar sem recibo de compilação.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,7 +23,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | executor de evidências M45 B02A4 publicado; Node policy 4/4 + adapter 4/4 PASS; Rust/WASM NOT_RUN; deltas dos especialistas S04/I02/A03 incorporados |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | B02A5 fonte Smite isolada 22/22 + adapter 4/4 + QA policy 4/4 PASS; workflow CI 1x solicitado, Rust/WASM aguardam prova externa |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | NOT_RUN | toolchain cargo/rustc não encontrado neste ambiente |
@@ -99,3 +99,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Delta de handoffs machine-readable: `docs/m45_rust_wasm/inputs/core/B02_HANDOFF_DELTA_A4.json`. Skills `2184c906...`: **56 overlaps aparentes = 29 duplicatas do scanner + 27 slots multivariantes reais**, 11 suites bilaterais planejadas, zero runtime executado. Itens `0ae7cbff...`: 286 métodos Arena na branch de itens vs 278 na integração, 8 métodos exclusivos + 8 compartilhados modificados; 14 domínios de interfaces/62 símbolos, 43 arquivos/458 âncoras de testes, 244 golden candidatos NÃO executados. Plataforma `e98c9353...`: 132 chamadas `this.event`, 20 sem time, 2 com literal `public:true`; falha de projeção legado comprovada em V8 isolado (NÃO E2E).
 - Atualiza leitura histórica de 55 overlaps preliminares: **27 permanecem multivariantes distintos após corrigir artefato de varredura**. Preservar as anotações históricas anteriores e a matriz central até regenerar com as novas fontes, sem confundir a correção estática com prova de runtime.
 - **G0 PARTIAL, G1 NOT_RUN, G3 Rust NOT_RUN, G7 BLOCKED, G8 NOT_RUN**. B02 ainda IN_PROGRESS_BLOCKED. Próxima prioridade: executar Cargo/WASM num runner que tenha Rust e validar fonte SHA golden full/segurança, sem liberar B03.
+
+## M45 B02A5 — execução no ChatGPT + GitHub, sem cliente local (2026-10-30)
+
+- Base validada: `7635edfb1558b20d5c7bf2e876b18b962e4b8738` no PR #19 Draft; **não solicitar instalação Windows** ao usuário. `rustc/cargo/rustup` ausentes do container; DNS `static.rust-lang.org` continua indisponível. Tentativa local de compilar Rust permanece NOT_RUN, nunca PASS.
+- Congelados no Rust branch dois resolvedores exatos de `engine.mjs` da integration `374d87d5f49b52514ec68bbe666df086363c1ec5` (blob `1737f4f675bd9cc5ed0a48defc68b2fddc124d71`) em `tests/fixtures/m45_integration_smite_source_snapshot.mjs`. `tests/audit/m45_b02_legacy_smite_snapshot.test.mjs` executa 18 cenários no-Smite, 3 simultâneos e pin de blob fixture: **22/22 PASS**, com fonte **isolada**; quando checkout full `engine.mjs` presente, testa também o blob SHA integral. Um resultado isolado NÃO prova JS engine completo.
+- `node --test` com teste de contrato e gate G1 incluídos: **30/30 PASS** (22 fonte isolada, 4 contrato mock, 4 policy). `node tools/m45_qa_evidence.mjs --receipt ...`: `adapter PASS`, `sourceSnapshot PASS`, `native BLOCKED`, `rustc=false cargo=false rustup=false`, `wasmBuild/wasmSmoke NOT_RUN`, `G1 NOT_RUN`, EXIT 42.
+- Para criar caminho remoto sem violar isolamento de branches, foi criado `.github/workflows/m45-b02a5-one-shot.yml` na branch Rust com `push` de caminho restrito a `docs/m45_rust_wasm/qa/trigger_b02a5.txt`. Apenas um push contendo o gatilho solicita o job `ubuntu-latest` de 10 minutos, `contents:read`, Rust 1.85.1 + wasm32 + Node 22, gravação de recibo artifact. **Não é prova de que Actions esteja habilitado ou que o job realmente executou**; conferir run/resultados antes de qualquer atualização de G1.
+- `docs/m45_rust_wasm/GITHUB_REMOTE_QA.md` descreve QA por GitHub, sem clone local. Nenhum workflow em main, sem force/rebase/merge, sem tocar PR #9. Mesmo se G1 baseline PASS após job, G2–G8 requerem paridade completa.
+- **B02 IN_PROGRESS_BLOCKED, G0 PARTIAL, G1 NOT_RUN, G3 Rust NOT_RUN, G7 BLOCKED e G8 NOT_RUN.**

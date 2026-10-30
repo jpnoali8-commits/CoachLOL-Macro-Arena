@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A4_EVIDENCE_RUNNER_NODE_PASS_RUST_BLOCKED",
+    "phase": "B02A5_GITHUB_ONESHOT_REQUESTED_NATIVE_UNVERIFIED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -405,6 +405,40 @@
     },
     "handoff_delta_path": "docs/m45_rust_wasm/inputs/core/B02_HANDOFF_DELTA_A4.json",
     "latest_overlap_slots_active": 27,
-    "platform_016": "REPRODUCED_V8_ISOLATED_NOT_E2E"
+    "platform_016": "REPRODUCED_V8_ISOLATED_NOT_E2E",
+    "source_snapshot": {
+      "status": "PASS_ISOLATED_COPY_ONLY",
+      "tests": 22,
+      "source_engine_blob_sha": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+      "fixture_blob_sha": "5226234262b5ce9dfa10d61e40e6131b03530db5",
+      "test_blob_sha": "3c23b2250b3f5e7dd2694a786af21aaf7f5cedd5",
+      "does_not_certify": [
+        "engine_full_checkout",
+        "rust_native",
+        "wasm_compiled"
+      ]
+    },
+    "node_qa": {
+      "status": "PASS",
+      "tests": 30,
+      "passed": 30,
+      "components": {
+        "sourceSnapshot": 22,
+        "adapter": 4,
+        "policy": 4
+      }
+    },
+    "remote_runner": {
+      "provider": "GitHub Actions",
+      "status": "REQUESTED_NOT_CONFIRMED",
+      "trigger": "push_path_only",
+      "path": ".github/workflows/m45-b02a5-one-shot.yml",
+      "trigger_file": "docs/m45_rust_wasm/qa/trigger_b02a5.txt",
+      "timeout_minutes": 10,
+      "permissions": "contents:read",
+      "receipt": "m45-b02a5-rust-wasm-qa",
+      "auto_rerun_every_commit": false
+    },
+    "user_has_local_checkout": false
   }
 }
