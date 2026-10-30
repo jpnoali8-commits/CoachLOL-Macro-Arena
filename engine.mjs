@@ -1019,8 +1019,8 @@ export const M44_B08_KITS_V453=Object.freeze({
 // M44 B26 — nine explicit ice, dagger and electrical identities (partial kits).
 export const M44_B26_KITS_V453=Object.freeze({
  Anivia:{
-  Q:BS('line_enemy',1100,80,[12,11,10,9,8],[50,70,90,110,130],
-   {apRatio:.45,width:180,m44B26Id:'Anivia.Q'}),
+  Q:BS('line_enemy',1100,[80,85,90,95,100],[11,10,9,8,7],[50,70,90,110,130],
+   {apRatio:.25,width:220,m44B26Id:'Anivia.Q'}),
   W:BS('move_point',1000,70,[17,16,15,14,13],[],
    {m44B26Id:'Anivia.W'}),
   E:BS('target_enemy',650,50,[4,4,4,4,4],[50,80,110,140,170],
@@ -4956,11 +4956,11 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    if(!z||this.gameTime<z.m44B28LaunchedAt+.25||
       !this.effectResolverV41().canAct(u,'skill').ok)
     return {ok:false,reason:'m44_b28_frost_recast_lost'};
-   const fraction=Math.max(0,Math.min(1,
-    (this.gameTime-z.m44B28LaunchedAt)/z.m44B28FlightDuration));
-   const targetPoint=z.point;
-   z.point={x:z.origin.x+(targetPoint.x-z.origin.x)*fraction,
-    y:z.origin.y+(targetPoint.y-z.origin.y)*fraction};
+   // Recast follows actual projectile speed rather than the clicked distance.
+   const travel=Math.min(z.range,Math.max(0,(this.gameTime-z.m44B28LaunchedAt)*950));
+   z.m44B30RecastDistance=travel;
+   z.point={x:z.origin.x+z.m44B30Direction.x*travel/this.worldWidth,
+    y:z.origin.y+z.m44B30Direction.y*travel/this.worldHeight};
    z.m44B28Detonating=true;z.nextAt=this.gameTime;
    return {ok:true,flashFrost:true,recast:true,spentMana:0,
     detonationPoint:{...z.point},projectileId:z.id};
@@ -6435,11 +6435,19 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      (this.boardTemporalV453Dev69??=[]).push(z);return z;
     };
     if(id==='Anivia.Q'){
-     const z=schedule('m44_b26_anivia_frost',now+.5,{
-      point:{...q.point},width:180,range:s.range,power:power(s.damage),
-      m44B28LaunchedAt:now,m44B28FlightDuration:.5,
-      m44B28Detonating:false});
-     return {...committed,flashFrost:true,impactAt:z.nextAt,projectileId:z.id};
+     const dx=(q.point.x-origin.x)*this.worldWidth,dy=(q.point.y-origin.y)*this.worldHeight,
+      size=Math.max(1,Math.hypot(dx,dy)),dir={x:dx/size,y:dy/size},
+      end={x:origin.x+dir.x*s.range/this.worldWidth,
+       y:origin.y+dir.y*s.range/this.worldHeight},flight=s.range/950;
+     const z=schedule('m44_b26_anivia_frost',now+.1,{
+      point:end,width:220,range:s.range,power:Math.max(0,
+       amount([60,95,130,165,200])+stats.ap*.45),passPower:power(s.damage),
+      stunSeconds:[1.1,1.2,1.3,1.4,1.5][Math.min(4,rank-1)],
+      slowPower:[.2,.3,.4][Math.min(2,Math.max(0,(u.skillRanks.R||0)-1))],
+      m44B30Direction:dir,m44B30PassHits:{},m44B30Distance:0,
+      m44B28LaunchedAt:now,m44B28FlightDuration:flight,
+      m44B28Detonating:false,until:now+flight+2});
+     return {...committed,flashFrost:true,impactAt:now+flight,projectileId:z.id};
     }
     if(id==='Anivia.W'){
      const delta={x:(q.point.x-u.x)*this.worldWidth,
@@ -9342,25 +9350,52 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
      if(z.kind==='m44_b26_anivia_frost'){
-       // Projectiles in flight keep their launch realm, including owner death.
+       // B30B: swept 950 units/s with separate one-time passage and burst.
        const pool=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
         (this.realmOfV453Dev69(v)?.id||null)===z.m44B23LaunchRealmId);
-       const rays=skillshotHitsV42(z.origin,z.point,pool,{
-        range:z.range,width:z.width,maxHits:Infinity,
-        worldWidth:this.worldWidth,worldHeight:this.worldHeight});
-       const first=rays.find(v=>!this.obstacleLine(z.origin,v)),center=first||z.point;
-       const impacted=[...(first?[first]:[]),...pool.filter(v=>
-        v.id!==first?.id&&this.mapDistance(center,v)<=190&&
-        !this.obstacleLine(center,v))].sort((a,b)=>String(a.id).localeCompare(String(b.id)));
-       for(const v of impacted){
-        const dealt=this.damage(v,z.power*(v.id===first?.id?1.4:1),u,'magic','spell');
-        if(dealt>0&&v.champ&&v.hp>0){
+       const dir=z.m44B30Direction,last=z.m44B30Distance||0,
+        wanted=Math.min(z.range,z.m44B30RecastDistance??Math.max(0,
+         (now-z.m44B28LaunchedAt)*950));
+       const pos=d=>({x:z.origin.x+dir.x*d/this.worldWidth,
+        y:z.origin.y+dir.y*d/this.worldHeight});
+       let traveled=Math.max(last,wanted),blocked=false;
+       if(traveled>last+1e-7&&this.obstacleLine(pos(last),pos(traveled))){
+        let lo=last,hi=traveled;
+        for(let k=0;k<18;k++){
+         const mid=(lo+hi)/2;
+         if(this.obstacleLine(pos(last),pos(mid)))hi=mid;else lo=mid;
+        }
+        traveled=lo;blocked=true;
+       }
+       const center=pos(traveled),ledger=z.m44B30PassHits||{};
+       for(const v of pool.sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+        if(ledger[v.id])continue;
+        const dx=(v.x-z.origin.x)*this.worldWidth,dy=(v.y-z.origin.y)*this.worldHeight,
+         along=dx*dir.x+dy*dir.y,across=Math.abs(dx*dir.y-dy*dir.x);
+        if(along<last-55||along>traveled+55||across>z.width/2||
+         this.obstacleLine(z.origin,v))continue;
+        ledger[v.id]=true;
+        if(this.damage(v,z.passPower,u,'magic','spell')>0&&v.hp>0){
          (v.m44B26Chilled??={})[u.id]=now+3;
-         this.applyEffectV41(v,'stun',{source:u,duration:1.1,
-          key:'m44_b26_flash_frost_'+z.id+'_'+v.id});
+         this.applyEffectV41(v,'slow',{source:u,duration:3,power:z.slowPower,
+          key:'m44_b30_frost_pass_'+z.id+'_'+v.id});
         }
        }
-       ended=true;
+       z.m44B30PassHits=ledger;z.m44B30Distance=traveled;
+       if(blocked||z.m44B28Detonating||traveled>=z.range-1e-7){
+        for(const v of pool.filter(v=>v.hp>0&&
+         this.mapDistance(v,center)<=225&&!this.obstacleLine(center,v))
+         .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+         if(this.damage(v,z.power,u,'magic','spell')>0&&v.hp>0){
+          (v.m44B26Chilled??={})[u.id]=now+3;
+          this.applyEffectV41(v,'slow',{source:u,duration:3,power:z.slowPower,
+           key:'m44_b30_frost_burst_slow_'+z.id+'_'+v.id});
+          this.applyEffectV41(v,'stun',{source:u,duration:z.stunSeconds,
+           key:'m44_b26_flash_frost_'+z.id+'_'+v.id});
+         }
+        }
+        ended=true;
+       }else z.nextAt=now+.1;
       }else if(z.kind==='m44_b26_katarina_drop'){
        if(u.hp>0&&(this.realmOfV453Dev69(u)?.id||null)===z.m44B23LaunchRealmId&&
          z.point.x>=.019&&z.point.x<=.978&&z.point.y>=.019&&z.point.y<=.978){

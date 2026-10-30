@@ -50,7 +50,7 @@ test('Anivia Q recast interpolates in-flight position without second debit','Ani
  const after=u.mana,cd=u.skillCds.Q;assert.ok(after<mana);
  turn(.25);const r=cast('Q');
  assert.equal(r.recast,true);assert.equal(r.spentMana,0);
- assert.ok(Math.abs(r.detonationPoint.x-.555)<.00001);
+ assert.ok(Math.abs(r.detonationPoint.x-(.5+237.5/a.worldWidth))<.00001);
  assert.equal(u.mana,after);assert.equal(u.skillCds.Q,cd);
  assert.equal(r.projectileId,first.projectileId);
 });
@@ -68,7 +68,7 @@ test('Anivia Q recast loses authorization when hard controlled','Anivia',({a,u,v
  assert.equal(q.ok,false);assert.equal(q.reason,'m44_b28_frost_incapacitated');
 });
 test('Anivia Q recast hits a nearby target at detonation point','Anivia',({a,u,v,cast,turn})=>{
- v.x=.555;const hp=v.hp;
+ v.x=.517;const hp=v.hp;
  cast('Q',{point:{x:.61,y:.5}});turn(.25);cast('Q');
  a.advanceBoardTemporalV453Dev69();
  assert.ok(v.hp<hp);assert.ok(a.effectResolverV41().has(v,'stun'));

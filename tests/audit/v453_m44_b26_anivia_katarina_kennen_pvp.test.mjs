@@ -37,13 +37,16 @@ test('nine previously missing source slots have exact identities','Anivia',()=>{
     champ+'.'+slot);
  assert.equal(m44B14DOriginalBoardRuleV453('Aatrox','Q'),null);
 });
-test('Anivia Q waits before hit and applies chill/stun','Anivia',({a,u,v,cast})=>{
+test('Anivia Q passage hits and chills without a premature detonation','Anivia',({a,u,v,cast})=>{
  const hp=v.hp,mana=u.mana,r=cast('Q',{point:pt(v)});
  assert.equal(r.flashFrost,true);assert.equal(v.hp,hp);
- assert.equal(u.mana,mana-80);
+ assert.equal(u.mana,mana-100);
  a.gameTime=.5;a.advanceBoardTemporalV453Dev69();
  assert.ok(v.hp<hp);assert.ok(v.m44B26Chilled?.[u.id]>.5);
- assert.ok(a.effectResolverV41().has(v,'stun'));
+ assert.equal(a.effectResolverV41().has(v,'stun'),false);
+ const afterPass=v.hp;a.advanceBoardTemporalV453Dev69();
+ assert.equal(v.hp,afterPass); // no double-debit from a repeated scheduler call
+
 });
 test('Anivia Q blocked by shield does not apply chill','Anivia',({a,u,v,cast})=>{
  a.applyEffectV41(v,'spell_shield',{source:v,duration:2,key:'b26_anivia_shield'});
