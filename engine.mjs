@@ -3906,6 +3906,12 @@ export class Arena {
    return {ok:false,reason:'m40_channel_active'};
   }
   if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(slot==='W'&&['Leblanc','Zed'].includes(u.champ)&&
+     u.m44B13Return?.until>this.gameTime){
+   u.pendingBoardV453Dev69={slot,m44B13Return:true};
+   this.recordIntentV40(team,id,'m44_b13_recast',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   if(s.m28ViktorStorm&&u.champ==='Viktor'&&slot==='R'){
    const storm=(this.boardTemporalV453Dev69||[]).find(z=>z.kind==='m28_viktor_storm'&&
     z.ownerId===u.id&&z.until>this.gameTime);
@@ -4317,6 +4323,21 @@ export class Arena {
    if(!(u.m24FizzLeapV453?.until>this.gameTime))
     return {ok:false,reason:'fizz_recast_expirado'};
    this.m24FizzLandV453(u,q.point);
+   return {ok:true,recast:true,spentMana:0};
+  }
+  if(q?.m44B13Return&&['Leblanc','Zed'].includes(u.champ)){
+   const z=u.m44B13Return;
+   if(!z||z.until<=this.gameTime||!z.point||
+      !this.walkable(z.point.x,z.point.y)||
+      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,z.point))||
+      (u.champ==='Zed'&&!this.boardSummonsV453Dev69.some(v=>
+       v.id===z.entityId&&v.hp>0&&v.until>this.gameTime)))
+    return {ok:false,reason:'m44_b13_return_expired'};
+   const from={x:u.x,y:u.y};
+   Object.assign(u,z.point);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,from,z.point,{kind:'m44_b13_recast'});
+   u.m44B13Return=null;
    return {ok:true,recast:true,spentMana:0};
   }
   if(s.m16Stealth||s.m16Trap||s.m16FourShots||s.m16Blind||s.m16Charm)
@@ -8701,6 +8722,12 @@ export class Arena {
    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
  }
  advanceBoardPassivesV453Dev69(){
+  for(const ekko of this.units.filter(u=>u.champ==='Ekko'&&u.hp>0)){
+   const history=ekko.m44B13History??=[];
+   if(!history.length||history[history.length-1].at<this.gameTime)
+    history.push({at:this.gameTime,x:ekko.x,y:ekko.y,hp:ekko.hp});
+   ekko.m44B13History=history.filter(q=>q.at>=this.gameTime-6).slice(-8);
+  }
   this.advanceMechanicsV453M16();
   // Twitch P uses the existing per-caster six-stack ledger.
   for(const target of [...this.units,...this.minions]){
@@ -12933,6 +12960,20 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Kaisa'&&
    target.champ&&target.hp>0&&attacker.team!==target.team)
    (target.m44B12KaisaPlasma??={})[attacker.id]=this.gameTime+5;
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Kalista'&&
+   target.hp>0&&attacker.team!==target.team){
+   const marks=target.m44B13KalistaSpears??={},prior=marks[attacker.id];
+   marks[attacker.id]={stacks:Math.min(120,(prior?.until>this.gameTime?prior.stacks:0)+1),
+    until:this.gameTime+8};
+  }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Azir'&&
+   target.hp>0&&attacker.team!==target.team){
+   const soldier=(this.boardSummonsV453Dev69||[]).find(z=>
+    z.kind==='azir_soldier'&&z.ownerId===attacker.id&&z.hp>0&&
+    z.until>this.gameTime&&this.mapDistance(z,target)<=400);
+   if(soldier)this.damage(target,35+15*Math.max(1,attacker.skillRanks?.W||1),
+    attacker,'magic','m44_b13_azir_soldier_basic');
+  }
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Darius'&&
    target.champ&&target.team!==attacker.team&&target.hp>0)
    this.applyBoardHemorrhageV453Dev69(attacker,target);
