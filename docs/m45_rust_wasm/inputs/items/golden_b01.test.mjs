@@ -5,6 +5,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {assertFrozenSourcesB03} from './oracle_source_lock_b03.mjs';
 import {Arena,checksumV40,ITEM_FAMILY_RULES_V453_DEV69,ITEM_EFFECTS_V43} from '../../../../engine.mjs';
 import {PvPRoomRegistryV453Dev47} from '../../../../multiplayer/room_v453_dev47.mjs';
 
@@ -12,6 +13,7 @@ const data=file=>JSON.parse(readFileSync(new URL('../../../../data/'+file,import
 const map=data('coachlol_map_v6.json'),masks=data('masks_128.json'),manifest=data('rift_user_manifest_v452d4.json');
 const SOURCE_COMMIT='182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d';
 const SOURCE_ENGINE_BLOB='e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d';
+const sourceLock=assertFrozenSourcesB03({server:true});
 const cases=[];
 const digest=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const arena=(seed=45001)=>new Arena(map,masks,{seed,mode:'pvp'});
@@ -90,7 +92,7 @@ for (const team of ['blue','red']){
 assert.ok(ITEM_FAMILY_RULES_V453_DEV69.maw_of_malmortius);
 assert.ok(ITEM_EFFECTS_V43.banshees_veil);
 const result={schema:'coachlol.m45.items.golden.oracle.v1',oracle:'JS SOURCE BRANCH ONLY',source_commit:SOURCE_COMMIT,
- source_engine_blob_sha:SOURCE_ENGINE_BLOB,execution:'EXECUTED',cases,case_count:cases.length};
+ source_engine_blob_sha:SOURCE_ENGINE_BLOB,source_lock:sourceLock,execution:'EXECUTED',cases,case_count:cases.length};
 if(process.argv.includes('--write')){
  const dest=new URL('./GOLDEN_B01_EXECUTED.json',import.meta.url);
  writeFileSync(dest,JSON.stringify(result,null,2)+'\n');
