@@ -115,3 +115,15 @@ Este lote conferiu 122 preços e revendas + 89 receitas com o arquivo Riot arqui
 A classificação de **122 engine_playable** foi refinada para **120 compras normais + 2 trinkets não compráveis**, cada um para azul/vermelho. Golden B02 corrigido para manter 244 casos honestos. P1 detectado: a troca interna de trinket não possui uma rota no gateway PvP legado (`item.buy` chama `Arena.buy` e não `purchaseOrPlan`). O protocolo Rust precisa registrar a correção como **desvio explícito de paridade**; não declarar que a feature PvP já está funcional.
 
 Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real tentou primeira passagem sem gravar e **parou corretamente** na ausência do checkout completo. **299 casos preparados, ZERO cenários de gameplay executados** nesta sessão. Migrar somente após gates e contratos centrais.
+
+## B02B-ITEMS Lote 05 — 2026-10-30
+
+[RECEIPT_B02B_ITEMS_05.md](RECEIPT_B02B_ITEMS_05.md) é o handoff canônico. Evidências por lote:
+[QA_V8_CATALOG_B05.json](QA_V8_CATALOG_B05.json),
+[QA_V8_EFFECTS_B05.json](QA_V8_EFFECTS_B05.json),
+[QA_V8_ECONOMY_B05.json](QA_V8_ECONOMY_B05.json),
+[QA_V8_TRINKET_PVP_B05.json](QA_V8_TRINKET_PVP_B05.json),
+[QA_V8_DETERMINISM_B05.json](QA_V8_DETERMINISM_B05.json) e
+[QA_V8_CONSOLIDATED_B05.json](QA_V8_CONSOLIDATED_B05.json).
+
+**V8_SOURCE_EXECUTED:** 299 casos com resultados esperados: 244 catálogo, 36 efeitos, 11 loja/Undo/snapshot/ACL, seis trinkets internos e duas rejeições intencionais que **confirmam uma lacuna P1 no gateway PvP legado**. Adicionalmente, 244 replays em duas arenas com seeds idênticas produziram 244 checksums de sequência equivalentes (488 execuções). A fonte original da engine foi avaliada em V8 após remoção somente da palavra-chave ESM export; o gateway dev44/dev47 executou via shim structuredClone em vez de Node. **NODE_ESM_NOT_RUN**, `PvPRoomRegistry` / HTTP **NOT_RUN**, Rust native/WASM **NOT_RUN**, G8 **NOT_CERTIFIED**. Os arquivos golden de Node não foram gerados artificialmente.
