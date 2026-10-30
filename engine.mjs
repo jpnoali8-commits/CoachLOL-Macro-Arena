@@ -4348,21 +4348,6 @@ const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViC
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
-  if(s.m44B15AId==='Azir.E'&&
-    !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
-     e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&q.point&&
-     this.mapDistance(e,q.point)<=200&&this.mapDistance(u,e)<=1100))
-    return {ok:false,reason:'m44_b15_azir_no_soldier'};
-   if(s.m44B15AId==='Akshan.E'&&
-    (!q.point||this.mapDistance(u,q.point)<60))
-    return {ok:false,reason:'m44_b15_akshan_no_swing_anchor'};
-   if(s.m44B15BId==='Belveth.Q'&&q.point){
-    const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight,
-     direction=Math.abs(dx)>Math.abs(dy)?(dx>=0?'E':'W'):(dy>=0?'S':'N');
-    if(u.m44B15BelvethDash?.until>this.gameTime&&
-     u.m44B15BelvethDash.used.includes(direction))
-     return {ok:false,reason:'m44_b15_belveth_direction_spent'};
-   }
   if(s.m44B14Id==='Aphelios.Q'){
    const gun=u.m44B14Aphelios?.primary||'calibrum';
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
@@ -4807,6 +4792,21 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.m44B15AId==='Azir.E'&&
+    !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
+     e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&q.point&&
+     this.mapDistance(e,q.point)<=200&&this.mapDistance(u,e)<=1100))
+    return {ok:false,reason:'m44_b15_azir_no_soldier'};
+   if(s.m44B15AId==='Akshan.E'&&
+    (!q.point||this.mapDistance(u,q.point)<60))
+    return {ok:false,reason:'m44_b15_akshan_no_swing_anchor'};
+   if(s.m44B15BId==='Belveth.Q'&&q.point){
+    const dx=(q.point.x-u.x)*this.worldWidth,dy=(q.point.y-u.y)*this.worldHeight,
+     direction=Math.abs(dx)>Math.abs(dy)?(dx>=0?'E':'W'):(dy>=0?'S':'N');
+    if(u.m44B15BelvethDash?.until>this.gameTime&&
+     u.m44B15BelvethDash.used.includes(direction))
+     return {ok:false,reason:'m44_b15_belveth_direction_spent'};
+   }
   if(s.m44B14Id==='Aphelios.Q'){
    const gun=u.m44B14Aphelios?.primary||'calibrum';
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
