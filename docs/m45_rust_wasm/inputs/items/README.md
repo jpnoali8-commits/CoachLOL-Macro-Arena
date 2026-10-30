@@ -127,3 +127,13 @@ Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real ten
 [QA_V8_CONSOLIDATED_B05.json](QA_V8_CONSOLIDATED_B05.json).
 
 **V8_SOURCE_EXECUTED:** 299 casos com resultados esperados: 244 catálogo, 36 efeitos, 11 loja/Undo/snapshot/ACL, seis trinkets internos e duas rejeições intencionais que **confirmam uma lacuna P1 no gateway PvP legado**. Adicionalmente, 244 replays em duas arenas com seeds idênticas produziram 244 checksums de sequência equivalentes (488 execuções). A fonte original da engine foi avaliada em V8 após remoção somente da palavra-chave ESM export; o gateway dev44/dev47 executou via shim structuredClone em vez de Node. **NODE_ESM_NOT_RUN**, `PvPRoomRegistry` / HTTP **NOT_RUN**, Rust native/WASM **NOT_RUN**, G8 **NOT_CERTIFIED**. Os arquivos golden de Node não foram gerados artificialmente.
+
+## B02B-ITEMS Lote 06 — 2026-10-30
+
+[Recibo B06](RECEIPT_B02B_ITEMS_06.md) ·
+[casos JS puros B06](adversarial_b06_cases.mjs) ·
+[runner Node B06](golden_b06_adversarial.test.mjs) ·
+[execução V8 B06](QA_V8_ADVERSARIAL_B06.json) ·
+[contrato Rust para economia/protocolo/replay](ECONOMY_PROTOCOL_CONTRACT_B06.json).
+
+**Execução:** 92/92 resultados esperados no motor original JS via V8, com 92/92 repetições equivalentes; 60 testes economia, 29 gateway, 2 negativas P1 trinket e 1 verificação de ordenação. **Contratos sem paridade Rust certificada.** A ordem de compra por times diferentes não muda os saldos, mas muda os eventos/ACK e checksum global V40; replay Rust deve preservar ordem autoritativa de commit. O runner agregado de B01–B06 soma **391 casos preparados para Node** (299 anteriores + 92 B06); a suíte Node literal e Cargo/WASM seguem **NOT_RUN**.
