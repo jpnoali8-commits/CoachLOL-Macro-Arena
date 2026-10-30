@@ -1,0 +1,1757 @@
+{
+  "schema": "coachlol.m45.items.v8.adversarial_execution.b06.v1",
+  "executed_on": "2026-10-30",
+  "origin": {
+    "branch": "dev69/items-batch2",
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "paths": [
+      {
+        "path": "engine.mjs",
+        "git_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+      },
+      {
+        "path": "data/coachlol_map_v6.json",
+        "git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109"
+      },
+      {
+        "path": "data/masks_128.json",
+        "git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+      },
+      {
+        "path": "multiplayer/authoritative_actions_v453_dev44.mjs",
+        "git_blob_sha": "b2ebb58248c8aec9aee0a64c354150757cd71a4a"
+      },
+      {
+        "path": "multiplayer/authoritative_actions_v453_dev47.mjs",
+        "git_blob_sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/adversarial_b06_cases.mjs",
+        "git_blob_sha": "e69028c45065370acc570d5c8b4710b0979f6406"
+      }
+    ],
+    "pure_fixture_file": "docs/m45_rust_wasm/inputs/items/adversarial_b06_cases.mjs",
+    "pure_fixture_sha": "e69028c45065370acc570d5c8b4710b0979f6406"
+  },
+  "execution": {
+    "mode": "V8 isolated JS runtime, original engine and gateway classes loaded from exact source blobs with only ESM export/import wrappers removed",
+    "source_test_logic": "Exactly runAdversarialItemsB06() from versioned pure JS fixture (Node runner imports the same file)",
+    "snapshot_sha": "Arena.checksumV40(snapshotV40())",
+    "summary": {
+      "planned": 92,
+      "passed": 92,
+      "failed": 0,
+      "status": "PASS_WITH_LEGACY_TRINKET_GAP",
+      "negative_gap_cases": 2,
+      "gateway_cases": 29,
+      "replay_contract_cases": 1,
+      "economy_cases": 60
+    },
+    "deterministic_repeat": {
+      "identical_cases": 92,
+      "attempts": 92,
+      "divergent": []
+    },
+    "no_scripted_fake_results": true
+  },
+  "known_gap": {
+    "id": "PVP_TRINKET_GAP_B04",
+    "cases": 2,
+    "expected_gateway_denial": true,
+    "functionality_status": "OPEN"
+  },
+  "replay_order_contract": {
+    "source": "One B06 scenario runs opposite cross-team purchase ordering on same seed",
+    "economic_balances_equal": true,
+    "overall_snapshot_hashes_differ": true,
+    "observed": [
+      {
+        "id": "M45-B06-SHOP_COMMAND_ORDER_AND_REPLAY_HASH-blue",
+        "observed": {
+          "blue_then_red": {
+            "order": [
+              "blue",
+              "red"
+            ],
+            "balances": {
+              "blue": {
+                "gold": 1700,
+                "items": [
+                  "boots"
+                ]
+              },
+              "red": {
+                "gold": 1650,
+                "items": [
+                  "long_sword"
+                ]
+              }
+            },
+            "hash": "a7eb3c8e",
+            "events": [
+              "red",
+              "blue"
+            ],
+            "receipts": [
+              {
+                "team": "blue",
+                "ack": {
+                  "ok": true,
+                  "sequence": 1,
+                  "revision": 1,
+                  "unitId": "blue_MID",
+                  "kind": "item.buy"
+                }
+              },
+              {
+                "team": "red",
+                "ack": {
+                  "ok": true,
+                  "sequence": 1,
+                  "revision": 2,
+                  "unitId": "red_MID",
+                  "kind": "item.buy"
+                }
+              }
+            ]
+          },
+          "red_then_blue": {
+            "order": [
+              "red",
+              "blue"
+            ],
+            "balances": {
+              "blue": {
+                "gold": 1700,
+                "items": [
+                  "boots"
+                ]
+              },
+              "red": {
+                "gold": 1650,
+                "items": [
+                  "long_sword"
+                ]
+              }
+            },
+            "hash": "0c00bfae",
+            "events": [
+              "blue",
+              "red"
+            ],
+            "receipts": [
+              {
+                "team": "red",
+                "ack": {
+                  "ok": true,
+                  "sequence": 1,
+                  "revision": 1,
+                  "unitId": "red_MID",
+                  "kind": "item.buy"
+                }
+              },
+              {
+                "team": "blue",
+                "ack": {
+                  "ok": true,
+                  "sequence": 1,
+                  "revision": 2,
+                  "unitId": "blue_MID",
+                  "kind": "item.buy"
+                }
+              }
+            ]
+          },
+          "finding": "ECONOMY_COMMUTATIVE_BUT_CANONICAL_SNAPSHOT_EVENT_ORDER_DEPENDENT",
+          "classification": "REPLAY_CONTRACT_NOT_AUTOMATIC_BUG",
+          "pre_checksum_v40": "259d0836",
+          "post_checksum_v40": "259d0836"
+        }
+      }
+    ],
+    "interpretation": "Arrival order is part of replay input and cannot be arbitrarily sorted while comparing full snapshots; event log and gateway revisions are order-sensitive, though the tested two independent economic purchases commute."
+  },
+  "limitations": [
+    "V8 isolate execution, not native node .test.mjs",
+    "No HTTP room, server tokens or real network",
+    "No Rust native/WASM",
+    "2 known trinket negative tests are not proof that trinkets work remotely",
+    "No claim of exhaustive input/fuzz coverage"
+  ],
+  "cases": [
+    {
+      "id": "M45-B06-NO_FUNDS-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460600,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "3fb5aca5",
+        "post_checksum_v40": "e6f966a4"
+      }
+    },
+    {
+      "id": "M45-B06-NO_FUNDS-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460603,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "8c3adfde",
+        "post_checksum_v40": "f2844be9"
+      }
+    },
+    {
+      "id": "M45-B06-EXACT_FUNDS-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460604,
+      "status": "PASS",
+      "observed": {
+        "gold": 0,
+        "pre_checksum_v40": "d4a0c079",
+        "post_checksum_v40": "06ed8cf6"
+      }
+    },
+    {
+      "id": "M45-B06-EXACT_FUNDS-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460607,
+      "status": "PASS",
+      "observed": {
+        "gold": 0,
+        "pre_checksum_v40": "0ef1f032",
+        "post_checksum_v40": "ffd88acb"
+      }
+    },
+    {
+      "id": "M45-B06-INVALID_ITEM_ID-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460608,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "bb16dd2d",
+        "post_checksum_v40": "bb16dd2d"
+      }
+    },
+    {
+      "id": "M45-B06-INVALID_ITEM_ID-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460611,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "9de957a3",
+        "post_checksum_v40": "9de957a3"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_BUY_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460612,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "e9b68ca0",
+        "post_checksum_v40": "e9b68ca0"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_BUY_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460615,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "dd22fdaf",
+        "post_checksum_v40": "dd22fdaf"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_SELL_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460616,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "2917280c",
+        "post_checksum_v40": "8da0c125"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_SELL_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460619,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "37c4790b",
+        "post_checksum_v40": "39c7b98c"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_UNDO_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460620,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "9177d277",
+        "post_checksum_v40": "7c64334e"
+      }
+    },
+    {
+      "id": "M45-B06-FOREIGN_UNDO_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460623,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "a73ccd40",
+        "post_checksum_v40": "fde6b213"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_BAD_INDEX-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460624,
+      "status": "PASS",
+      "observed": {
+        "tested": 5,
+        "pre_checksum_v40": "29b56f83",
+        "post_checksum_v40": "ffb2bde2"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_BAD_INDEX-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460627,
+      "status": "PASS",
+      "observed": {
+        "tested": 5,
+        "pre_checksum_v40": "03a2dc4c",
+        "post_checksum_v40": "8c89e697"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_ONCE_ONLY-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460628,
+      "status": "PASS",
+      "observed": {
+        "refund": 210,
+        "pre_checksum_v40": "63c545ef",
+        "post_checksum_v40": "45737d43"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_ONCE_ONLY-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460631,
+      "status": "PASS",
+      "observed": {
+        "refund": 210,
+        "pre_checksum_v40": "3b4bf9d1",
+        "post_checksum_v40": "e52548e3"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_UNDO_ATOMIC-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460632,
+      "status": "PASS",
+      "observed": {
+        "restored": true,
+        "pre_checksum_v40": "a8f188be",
+        "post_checksum_v40": "08570c6b"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_UNDO_ATOMIC-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460635,
+      "status": "PASS",
+      "observed": {
+        "restored": true,
+        "pre_checksum_v40": "1e71d445",
+        "post_checksum_v40": "3b71b1e4"
+      }
+    },
+    {
+      "id": "M45-B06-DUPLICATE_LEGENDARY_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460636,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "d8b1e632",
+        "post_checksum_v40": "8100a804"
+      }
+    },
+    {
+      "id": "M45-B06-DUPLICATE_LEGENDARY_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460639,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "87cd6c29",
+        "post_checksum_v40": "f1eb25e1"
+      }
+    },
+    {
+      "id": "M45-B06-LIFELINE_EXCLUSIVE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460640,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "8b90ecc9",
+        "post_checksum_v40": "bd8b2bf9"
+      }
+    },
+    {
+      "id": "M45-B06-LIFELINE_EXCLUSIVE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460643,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "ca2ba182",
+        "post_checksum_v40": "298f0fb2"
+      }
+    },
+    {
+      "id": "M45-B06-ANNUL_EXCLUSIVE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460644,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "e8f245c5",
+        "post_checksum_v40": "d0606e43"
+      }
+    },
+    {
+      "id": "M45-B06-ANNUL_EXCLUSIVE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460647,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "7a5ede5e",
+        "post_checksum_v40": "74d195d2"
+      }
+    },
+    {
+      "id": "M45-B06-FULL_SLOTS_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460648,
+      "status": "PASS",
+      "observed": {
+        "slots": 6,
+        "pre_checksum_v40": "ac9ee601",
+        "post_checksum_v40": "1dd58ca7"
+      }
+    },
+    {
+      "id": "M45-B06-FULL_SLOTS_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460651,
+      "status": "PASS",
+      "observed": {
+        "slots": 6,
+        "pre_checksum_v40": "4de4543f",
+        "post_checksum_v40": "05166499"
+      }
+    },
+    {
+      "id": "M45-B06-COMPONENT_USED_ONCE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460652,
+      "status": "PASS",
+      "observed": {
+        "upgradePrice": 300,
+        "inventory": [
+          "serrated_dirk"
+        ],
+        "pre_checksum_v40": "e6a3f7b4",
+        "post_checksum_v40": "9a0d6b5e"
+      }
+    },
+    {
+      "id": "M45-B06-COMPONENT_USED_ONCE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460655,
+      "status": "PASS",
+      "observed": {
+        "upgradePrice": 300,
+        "inventory": [
+          "serrated_dirk"
+        ],
+        "pre_checksum_v40": "f6accc93",
+        "post_checksum_v40": "ad8ce1a3"
+      }
+    },
+    {
+      "id": "M45-B06-COMPONENTS_UPGRADE_WHEN_FULL-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460656,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "dagger",
+          "dagger",
+          "dagger",
+          "dagger",
+          "serrated_dirk"
+        ],
+        "pre_checksum_v40": "7fb7dcd8",
+        "post_checksum_v40": "075b7aca"
+      }
+    },
+    {
+      "id": "M45-B06-COMPONENTS_UPGRADE_WHEN_FULL-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460659,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "dagger",
+          "dagger",
+          "dagger",
+          "dagger",
+          "serrated_dirk"
+        ],
+        "pre_checksum_v40": "a144ab67",
+        "post_checksum_v40": "0cf7a8cf"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_INCOME_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460660,
+      "status": "PASS",
+      "observed": {
+        "balance": 49745,
+        "pre_checksum_v40": "a905e02b",
+        "post_checksum_v40": "46204390"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_INCOME_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460663,
+      "status": "PASS",
+      "observed": {
+        "balance": 49745,
+        "pre_checksum_v40": "edd737f4",
+        "post_checksum_v40": "6c991345"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_TIME_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460664,
+      "status": "PASS",
+      "observed": {
+        "time": 1,
+        "pre_checksum_v40": "12ed3d8f",
+        "post_checksum_v40": "3a635eeb"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_TIME_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460667,
+      "status": "PASS",
+      "observed": {
+        "time": 1,
+        "pre_checksum_v40": "465cd278",
+        "post_checksum_v40": "f1cd40d6"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_HP_MUTATION_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460668,
+      "status": "PASS",
+      "observed": {
+        "hp": 580,
+        "pre_checksum_v40": "299e2d43",
+        "post_checksum_v40": "928b1683"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_HP_MUTATION_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460671,
+      "status": "PASS",
+      "observed": {
+        "hp": 580,
+        "pre_checksum_v40": "000b2a2d",
+        "post_checksum_v40": "05f115ad"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_READY_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460672,
+      "status": "PASS",
+      "observed": {
+        "ready": true,
+        "pre_checksum_v40": "384c9852",
+        "post_checksum_v40": "47512c0c"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_AFTER_READY_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460675,
+      "status": "PASS",
+      "observed": {
+        "ready": true,
+        "pre_checksum_v40": "8929c979",
+        "post_checksum_v40": "29c0f1d7"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_DEPARTURE_IRREVERSIBLE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460676,
+      "status": "PASS",
+      "observed": {
+        "revoked": true,
+        "pre_checksum_v40": "1ad0d50e",
+        "post_checksum_v40": "c0664265"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_DEPARTURE_IRREVERSIBLE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460679,
+      "status": "PASS",
+      "observed": {
+        "revoked": true,
+        "pre_checksum_v40": "c85af7b5",
+        "post_checksum_v40": "c4880b1c"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_NEW_VISIT-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460680,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "boots"
+        ],
+        "pre_checksum_v40": "9e2569dd",
+        "post_checksum_v40": "3330fb37"
+      }
+    },
+    {
+      "id": "M45-B06-UNDO_NEW_VISIT-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460683,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "boots"
+        ],
+        "pre_checksum_v40": "a2654c26",
+        "post_checksum_v40": "7a2cd774"
+      }
+    },
+    {
+      "id": "M45-B06-ROLE_LOCK_SUPPORT-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460684,
+      "status": "PASS",
+      "observed": {
+        "midDenied": true,
+        "supAllowed": true,
+        "pre_checksum_v40": "be8b9e01",
+        "post_checksum_v40": "ac6b5084"
+      }
+    },
+    {
+      "id": "M45-B06-ROLE_LOCK_SUPPORT-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460687,
+      "status": "PASS",
+      "observed": {
+        "midDenied": true,
+        "supAllowed": true,
+        "pre_checksum_v40": "cecfa00a",
+        "post_checksum_v40": "caa24303"
+      }
+    },
+    {
+      "id": "M45-B06-JUNGLE_FIRST_PET-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460688,
+      "status": "PASS",
+      "observed": {
+        "pet": "gustwalker",
+        "pre_checksum_v40": "dafe75f5",
+        "post_checksum_v40": "752924ca"
+      }
+    },
+    {
+      "id": "M45-B06-JUNGLE_FIRST_PET-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460691,
+      "status": "PASS",
+      "observed": {
+        "pet": "gustwalker",
+        "pre_checksum_v40": "1a668d3b",
+        "post_checksum_v40": "0b404aa9"
+      }
+    },
+    {
+      "id": "M45-B06-TRINKET_NOT_BUYABLE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460692,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "1b819258",
+        "post_checksum_v40": "1b819258"
+      }
+    },
+    {
+      "id": "M45-B06-TRINKET_NOT_BUYABLE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460695,
+      "status": "PASS",
+      "observed": {
+        "denied": true,
+        "pre_checksum_v40": "3b5e54e7",
+        "post_checksum_v40": "3b5e54e7"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_REMOTE_VISIT-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460696,
+      "status": "PASS",
+      "observed": {
+        "purchased": [
+          {
+            "unitId": "blue_MID",
+            "itemId": "long_sword"
+          }
+        ],
+        "gold": 49650,
+        "pre_checksum_v40": "3bad29d4",
+        "post_checksum_v40": "903d010d"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_REMOTE_VISIT-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460699,
+      "status": "PASS",
+      "observed": {
+        "purchased": [
+          {
+            "unitId": "red_MID",
+            "itemId": "long_sword"
+          }
+        ],
+        "gold": 49650,
+        "pre_checksum_v40": "7764fb33",
+        "post_checksum_v40": "3ba8929e"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_CANCEL-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460700,
+      "status": "PASS",
+      "observed": {
+        "cancelled": true,
+        "pre_checksum_v40": "3f9dddd8",
+        "post_checksum_v40": "c3511505"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_CANCEL-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460703,
+      "status": "PASS",
+      "observed": {
+        "cancelled": true,
+        "pre_checksum_v40": "df824073",
+        "post_checksum_v40": "af2a98b2"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_CAP-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460704,
+      "status": "PASS",
+      "observed": {
+        "queued": 12,
+        "pre_checksum_v40": "aae3530c",
+        "post_checksum_v40": "229c2995"
+      }
+    },
+    {
+      "id": "M45-B06-QUEUE_CAP-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460707,
+      "status": "PASS",
+      "observed": {
+        "queued": 12,
+        "pre_checksum_v40": "c2216307",
+        "post_checksum_v40": "c9b5b464"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REPLAY_IDEMPOTENT-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460708,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "gold": 49700,
+        "pre_checksum_v40": "276136b0",
+        "post_checksum_v40": "a94c2609"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REPLAY_IDEMPOTENT-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460711,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "gold": 49700,
+        "pre_checksum_v40": "23dd866e",
+        "post_checksum_v40": "d60bdebd"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SEQUENCE_CONFLICT-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460712,
+      "status": "PASS",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes",
+        "pre_checksum_v40": "3d46890d",
+        "post_checksum_v40": "e124fc88"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SEQUENCE_CONFLICT-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460715,
+      "status": "PASS",
+      "observed": {
+        "reason": "sequencia_reutilizada_com_dados_diferentes",
+        "pre_checksum_v40": "cb7eda8a",
+        "post_checksum_v40": "8862a4c1"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SEQUENCE_GAP-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460716,
+      "status": "PASS",
+      "observed": {
+        "bad": {
+          "ok": false,
+          "reason": "sequencia_fora_de_ordem"
+        },
+        "good": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "9d10d4d9",
+        "post_checksum_v40": "dacc4734"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SEQUENCE_GAP-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460719,
+      "status": "PASS",
+      "observed": {
+        "bad": {
+          "ok": false,
+          "reason": "sequencia_fora_de_ordem"
+        },
+        "good": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "6233b256",
+        "post_checksum_v40": "1170cd45"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REJECTED_PAYLOAD_RETRY-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460720,
+      "status": "PASS",
+      "observed": {
+        "bad": {
+          "ok": false,
+          "reason": "comando_invalido"
+        },
+        "good": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "a8939b92",
+        "post_checksum_v40": "5bcd99ef"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REJECTED_PAYLOAD_RETRY-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460723,
+      "status": "PASS",
+      "observed": {
+        "bad": {
+          "ok": false,
+          "reason": "comando_invalido"
+        },
+        "good": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "9f1a628d",
+        "post_checksum_v40": "6d8c1dfa"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_FOREIGN_UNIT-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460724,
+      "status": "PASS",
+      "observed": {
+        "reason": "unidade_nao_autorizada",
+        "pre_checksum_v40": "38cc7b7e",
+        "post_checksum_v40": "38cc7b7e"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_FOREIGN_UNIT-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460727,
+      "status": "PASS",
+      "observed": {
+        "reason": "unidade_nao_autorizada",
+        "pre_checksum_v40": "3c2bca99",
+        "post_checksum_v40": "3c2bca99"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_MULTICHAMP_OWNER-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460728,
+      "status": "PASS",
+      "observed": {
+        "resp": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_TOP",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "63da40fa",
+        "post_checksum_v40": "7ee569fc"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_MULTICHAMP_OWNER-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460731,
+      "status": "PASS",
+      "observed": {
+        "resp": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_TOP",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "0df003c4",
+        "post_checksum_v40": "89c78289"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_RESTORE_RECEIPT-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460732,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "replayHash": "a0564a82",
+        "pre_checksum_v40": "1029f053",
+        "post_checksum_v40": "a0564a82"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_RESTORE_RECEIPT-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460735,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "replayHash": "c7514557",
+        "pre_checksum_v40": "cb687528",
+        "post_checksum_v40": "c7514557"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_UNDO_REPLAY-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460736,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.undo"
+        },
+        "again": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.undo"
+        },
+        "audit": 1,
+        "pre_checksum_v40": "c654d757",
+        "post_checksum_v40": "bca0ee24"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_UNDO_REPLAY-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460739,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.undo"
+        },
+        "again": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.undo"
+        },
+        "audit": 1,
+        "pre_checksum_v40": "cf77cfdc",
+        "post_checksum_v40": "c6449f59"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_TWO_SEATS_SAME_SEQUENCE-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460740,
+      "status": "PASS",
+      "observed": {
+        "blue": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "red": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "5612aa0c",
+        "post_checksum_v40": "f57a6305"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_READY_LOCK-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460742,
+      "status": "PASS",
+      "observed": {
+        "denied": {
+          "ok": false,
+          "reason": "fase_bloqueada"
+        },
+        "pre_checksum_v40": "4aa60302",
+        "post_checksum_v40": "93a6052f"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_READY_LOCK-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460745,
+      "status": "PASS",
+      "observed": {
+        "denied": {
+          "ok": false,
+          "reason": "fase_bloqueada"
+        },
+        "pre_checksum_v40": "6bc7ac0d",
+        "post_checksum_v40": "06baaa5a"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_TRINKET_KNOWN_GAP-blue",
+      "category": "legacy_gap",
+      "team": "blue",
+      "seed": 460746,
+      "status": "PASS",
+      "observed": {
+        "known_functional_gap": true,
+        "negative_only": true,
+        "outcomes": [
+          {
+            "kind": "item.buy",
+            "receipt": {
+              "ok": false,
+              "reason": "Trinkets são trocados sem custo na fonte."
+            }
+          },
+          {
+            "kind": "item.queue",
+            "receipt": {
+              "ok": false,
+              "reason": "Compra programada indisponível."
+            }
+          },
+          {
+            "kind": "item.trinket",
+            "receipt": {
+              "ok": false,
+              "reason": "comando_invalido"
+            }
+          }
+        ],
+        "pre_checksum_v40": "5e61477e",
+        "post_checksum_v40": "5e61477e"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_TRINKET_KNOWN_GAP-red",
+      "category": "legacy_gap",
+      "team": "red",
+      "seed": 460749,
+      "status": "PASS",
+      "observed": {
+        "known_functional_gap": true,
+        "negative_only": true,
+        "outcomes": [
+          {
+            "kind": "item.buy",
+            "receipt": {
+              "ok": false,
+              "reason": "Trinkets são trocados sem custo na fonte."
+            }
+          },
+          {
+            "kind": "item.queue",
+            "receipt": {
+              "ok": false,
+              "reason": "Compra programada indisponível."
+            }
+          },
+          {
+            "kind": "item.trinket",
+            "receipt": {
+              "ok": false,
+              "reason": "comando_invalido"
+            }
+          }
+        ],
+        "pre_checksum_v40": "9300a699",
+        "post_checksum_v40": "9300a699"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REUSED_SEQ_DIFFERENT_UNIT-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460750,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "denied": {
+          "ok": false,
+          "reason": "sequencia_reutilizada_com_dados_diferentes"
+        },
+        "pre_checksum_v40": "ff4fc84b",
+        "post_checksum_v40": "3988df3e"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_REUSED_SEQ_DIFFERENT_UNIT-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460753,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "denied": {
+          "ok": false,
+          "reason": "sequencia_reutilizada_com_dados_diferentes"
+        },
+        "pre_checksum_v40": "79712140",
+        "post_checksum_v40": "aa9983fb"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_QUEUE_RETRY_NO_DUPLICATE-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460754,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.queue"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.queue"
+        },
+        "queue": [
+          "long_sword"
+        ],
+        "pre_checksum_v40": "77cd4c3f",
+        "post_checksum_v40": "12cfc62e"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_QUEUE_RETRY_NO_DUPLICATE-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460757,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.queue"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.queue"
+        },
+        "queue": [
+          "long_sword"
+        ],
+        "pre_checksum_v40": "c018dd04",
+        "post_checksum_v40": "2bb9b955"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SELL_RETRY_NO_DUPLICATE_GOLD-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460758,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.sell"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.sell"
+        },
+        "balance": 49910,
+        "pre_checksum_v40": "999c2bf3",
+        "post_checksum_v40": "2f9134a3"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_SELL_RETRY_NO_DUPLICATE_GOLD-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460761,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.sell"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.sell"
+        },
+        "balance": 49910,
+        "pre_checksum_v40": "530a3f6f",
+        "post_checksum_v40": "61513e7d"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_CANCEL_QUEUE_RETRY-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460762,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.cancelQueue"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "item.cancelQueue"
+        },
+        "pre_checksum_v40": "2cb31140",
+        "post_checksum_v40": "ae288bd1"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_CANCEL_QUEUE_RETRY-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460765,
+      "status": "PASS",
+      "observed": {
+        "first": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.cancelQueue"
+        },
+        "retry": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "item.cancelQueue"
+        },
+        "pre_checksum_v40": "cc4e8a03",
+        "post_checksum_v40": "49c3823e"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_MALFORMED_PACKET_RETRY-blue",
+      "category": "gateway",
+      "team": "blue",
+      "seed": 460766,
+      "status": "PASS",
+      "observed": {
+        "reject": {
+          "ok": false,
+          "reason": "comando_invalido"
+        },
+        "valid": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "5938c584",
+        "post_checksum_v40": "817ff641"
+      }
+    },
+    {
+      "id": "M45-B06-GATEWAY_MALFORMED_PACKET_RETRY-red",
+      "category": "gateway",
+      "team": "red",
+      "seed": 460769,
+      "status": "PASS",
+      "observed": {
+        "reject": {
+          "ok": false,
+          "reason": "comando_invalido"
+        },
+        "valid": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "item.buy"
+        },
+        "pre_checksum_v40": "07fbaa57",
+        "post_checksum_v40": "4520aa88"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_OUTSIDE_FOUNTAIN_DENIED-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460770,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "boots"
+        ],
+        "gold": 49700,
+        "pre_checksum_v40": "932ffc8d",
+        "post_checksum_v40": "c44d8938"
+      }
+    },
+    {
+      "id": "M45-B06-SELL_OUTSIDE_FOUNTAIN_DENIED-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460773,
+      "status": "PASS",
+      "observed": {
+        "inventory": [
+          "boots"
+        ],
+        "gold": 49700,
+        "pre_checksum_v40": "59148ba2",
+        "post_checksum_v40": "f082b9fc"
+      }
+    },
+    {
+      "id": "M45-B06-HEALTH_POTION_CAP-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460774,
+      "status": "PASS",
+      "observed": {
+        "potions": 5,
+        "pre_checksum_v40": "d1dcbaa9",
+        "post_checksum_v40": "c7ca016b"
+      }
+    },
+    {
+      "id": "M45-B06-HEALTH_POTION_CAP-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460777,
+      "status": "PASS",
+      "observed": {
+        "potions": 5,
+        "pre_checksum_v40": "593a21de",
+        "post_checksum_v40": "d6733624"
+      }
+    },
+    {
+      "id": "M45-B06-HEALTH_POTION_REFILLABLE_EXCLUSIVE-blue",
+      "category": "economy",
+      "team": "blue",
+      "seed": 460778,
+      "status": "PASS",
+      "observed": {
+        "potions": [
+          "health_potion"
+        ],
+        "pre_checksum_v40": "077f4815",
+        "post_checksum_v40": "6d2cbe03"
+      }
+    },
+    {
+      "id": "M45-B06-HEALTH_POTION_REFILLABLE_EXCLUSIVE-red",
+      "category": "economy",
+      "team": "red",
+      "seed": 460781,
+      "status": "PASS",
+      "observed": {
+        "potions": [
+          "health_potion"
+        ],
+        "pre_checksum_v40": "3c884f4d",
+        "post_checksum_v40": "c31ff60d"
+      }
+    },
+    {
+      "id": "M45-B06-SHOP_COMMAND_ORDER_AND_REPLAY_HASH-blue",
+      "category": "replay_contract",
+      "team": "blue",
+      "seed": 460782,
+      "status": "PASS",
+      "observed": {
+        "blue_then_red": {
+          "order": [
+            "blue",
+            "red"
+          ],
+          "balances": {
+            "blue": {
+              "gold": 1700,
+              "items": [
+                "boots"
+              ]
+            },
+            "red": {
+              "gold": 1650,
+              "items": [
+                "long_sword"
+              ]
+            }
+          },
+          "hash": "a7eb3c8e",
+          "events": [
+            "red",
+            "blue"
+          ],
+          "receipts": [
+            {
+              "team": "blue",
+              "ack": {
+                "ok": true,
+                "sequence": 1,
+                "revision": 1,
+                "unitId": "blue_MID",
+                "kind": "item.buy"
+              }
+            },
+            {
+              "team": "red",
+              "ack": {
+                "ok": true,
+                "sequence": 1,
+                "revision": 2,
+                "unitId": "red_MID",
+                "kind": "item.buy"
+              }
+            }
+          ]
+        },
+        "red_then_blue": {
+          "order": [
+            "red",
+            "blue"
+          ],
+          "balances": {
+            "blue": {
+              "gold": 1700,
+              "items": [
+                "boots"
+              ]
+            },
+            "red": {
+              "gold": 1650,
+              "items": [
+                "long_sword"
+              ]
+            }
+          },
+          "hash": "0c00bfae",
+          "events": [
+            "blue",
+            "red"
+          ],
+          "receipts": [
+            {
+              "team": "red",
+              "ack": {
+                "ok": true,
+                "sequence": 1,
+                "revision": 1,
+                "unitId": "red_MID",
+                "kind": "item.buy"
+              }
+            },
+            {
+              "team": "blue",
+              "ack": {
+                "ok": true,
+                "sequence": 1,
+                "revision": 2,
+                "unitId": "blue_MID",
+                "kind": "item.buy"
+              }
+            }
+          ]
+        },
+        "finding": "ECONOMY_COMMUTATIVE_BUT_CANONICAL_SNAPSHOT_EVENT_ORDER_DEPENDENT",
+        "classification": "REPLAY_CONTRACT_NOT_AUTOMATIC_BUG",
+        "pre_checksum_v40": "259d0836",
+        "post_checksum_v40": "259d0836"
+      }
+    }
+  ]
+}
