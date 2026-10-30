@@ -7392,7 +7392,15 @@ export class Arena {
       this.units.some(v=>v.champ==='Samira'&&v.team!==z.team&&v.hp>0&&
        v.m44B13SamiraWhirlUntil>now&&
        this.sameCombatRealmV453Dev69(v,u)&&
-       this.mapDistance(v,z.current||z.origin)<=360)){
+       (()=>{
+        const from=z.current||z.origin,to=z.point,
+         dx=(to.x-from.x)*this.worldWidth,dy=(to.y-from.y)*this.worldHeight,
+         len=Math.max(1,Math.hypot(dx,dy)),
+         step=Math.min(1,(z.speed||550)/len),sx=dx*step,sy=dy*step,
+         px=(v.x-from.x)*this.worldWidth,py=(v.y-from.y)*this.worldHeight,
+         t=Math.max(0,Math.min(1,(px*sx+py*sy)/Math.max(1,sx*sx+sy*sy)));
+        return Math.hypot(px-t*sx,py-t*sy)<=360;
+       })())){
      // Blade Whirl destroys a nearby opposing projectile before impact.
      ended=true;
     }else if(z.kind==='m44_authored_projectile'){
