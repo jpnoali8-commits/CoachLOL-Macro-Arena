@@ -1,0 +1,12 @@
+[package]
+name = "coachlol-core-items"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+description = "M45 isolated frozen item catalog + recipe primitives; NOT match-authoritative"
+
+[lib]
+name = "coachlol_core_items"
+
+[dependencies]

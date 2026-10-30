@@ -1,0 +1,13 @@
+[package]
+name = "coachlol-core-economy"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+description = "M45 isolated deterministic economy/shopping partial port; NOT authoritative"
+
+[lib]
+name = "coachlol_core_economy"
+
+[dependencies]
+coachlol-core-items = { path = "../core-items" }
