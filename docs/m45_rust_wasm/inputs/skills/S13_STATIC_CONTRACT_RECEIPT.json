@@ -1,0 +1,81 @@
+{
+  "schema": "coachlol.m45.skills.s13.static-contract-receipt.v1",
+  "date": "2026-10-30",
+  "audit_branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "rust_coordinator_head": "5afd330f260c7a0b1984521732e117dfcd81396f",
+  "files": {
+    "arbiter": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s13_intent_arbiter_reference.rs",
+      "blob_sha": "d628bb624e3dc249975a88851de43ec94cba57a6",
+      "rust_unit_tests_prepared": 6
+    },
+    "projectile_port": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s13_projectile_acceptance.rs",
+      "blob_sha": "eddeb826e8f1dae6f8963aa985f065576b6bccfe",
+      "rust_unit_tests_prepared": 2
+    },
+    "matrix": {
+      "path": "docs/m45_rust_wasm/inputs/skills/S13_RUST_ACCEPTANCE_MATRIX.json",
+      "blob_sha": "a54416ccf901385c4840c03954fcfa6c872eb5b5"
+    },
+    "verifier": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s13_validate_acceptance.mjs",
+      "blob_sha": "3d30f395f678e824a37c0fd8d377a5d14b79d936"
+    }
+  },
+  "actual_qa": {
+    "status": "V8_STATIC_SOURCE_CONTRACT_PASS",
+    "passed": 48,
+    "attempted": 48,
+    "technique": "Saved S13 JS validator's validateInputs() body evaluated in V8 against original saved GitHub blobs of S10/S11/S12, Rust sources, and acceptance matrix, with minimal assert shims. No Rust compiler, cargo or full Node original runner invoked.",
+    "source_integrity_pass": true,
+    "types_source_pins_pass": true,
+    "rust_projectile_future_parity_cases": 26,
+    "rust_reference_tests_prepared_not_executed": 8,
+    "rust_core_combat_crate_present": false,
+    "rust_core_champions_crate_present": false
+  },
+  "rust": {
+    "native_compilation": "NOT_RUN_RUSTC_NOT_INSTALLED_IN_LOCAL_EXECUTOR",
+    "cargo_test": "NOT_RUN",
+    "wasm_build": "NOT_RUN",
+    "rust_reference_test_cases_executed": 0,
+    "gameplay_authority": "NOT_IMPLEMENTED",
+    "reason": "Rust coordinator workspace currently only has crates/core-state; both Rust sources authored audit-only outside workspace and await actual combat/champions/clock/protocol APIs"
+  },
+  "legacy_sources": {
+    "S10_original_suites": {
+      "pass_v8": 22,
+      "fail_v8": 2,
+      "not_run": 2,
+      "full_node": 0
+    },
+    "S11_supplemental": {
+      "v8_assertions": 66
+    },
+    "S12_supplemental": {
+      "v8_assertions": 438,
+      "scenarios": 34,
+      "restore": 8
+    }
+  },
+  "policy": "Strictly separate source evidence and integration acceptance. Rust model only specifies a single-slot intent gate and no damage, cooldown, mana, authoritative fog, recast or server behavior. Rust authored projectile port is a typed harness, not an actual executor. Never claim parity while crates/tests not run.",
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "LEGACY_SOURCE_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "changes": [
+    "audit-only files in docs/m45_rust_wasm/inputs/skills",
+    "no legacy engine JS modifications",
+    "no PR merge",
+    "no GitHub Actions triggered by request"
+  ]
+}
