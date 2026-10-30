@@ -1,0 +1,262 @@
+{
+  "schema": "coachlol.m45.platform.a14.sse-recovery-contract.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-platform",
+  "references": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "platform_before": "b96fb8f9766e18068e730702b1692626059640fb",
+    "rust_head_observed": "5afd330f260c7a0b1984521732e117dfcd81396f",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "server_blob": "d6ed7a4b0dd30f2bf22c3d5876e3ac6b293ddf5d",
+    "test_blobs": {
+      "tests/m45_platform_a14_legacy_sse_recovery.test.mjs": "45549715ee12debd5156a5652ae08035d148be6f",
+      "tests/m45_platform_a14_sse_resync_reference.mjs": "42ca78cabafa27a7ae361a59435562cab9e70abf",
+      "tests/m45_platform_a14_sse_resync_reference.test.mjs": "a1adcd25a3734fca85b7652ed4d20d40fe7669fc"
+    }
+  },
+  "qa": {
+    "original_legacy_room": "14/14_PASS_V8_ISOLATED",
+    "native_node_qa": "16/16_PASS_NODE_22_REAL_DISK_A13_A07",
+    "native_node_source_sha": "2/2_EXACT_GITHUB_BLOB_MATCH",
+    "full_node_checkout": "NOT_RUN",
+    "http_two_sessions": "NOT_RUN",
+    "production_event_privacy": "NOT_CERTIFIED",
+    "rust_server": "NOT_IMPLEMENTED_AT_OBSERVED_HEAD",
+    "rust_wasm": "NOT_RUN",
+    "process_crash": "NOT_RUN",
+    "github_actions": "NOT_USED"
+  },
+  "vulnerabilities": [
+    {
+      "id": "A14-GAP-01",
+      "severity": "P0",
+      "observation": "Arena.perspective includes anonymous unclassified public:false event in both team projections",
+      "required": "VisibleEventDTO typed allowlist default-deny; never copy arbitrary event details; apply same filter session/SSE/reconnect"
+    },
+    {
+      "id": "A14-GAP-02",
+      "severity": "P1",
+      "observation": "Room.subscribe immediately sends filtered snapshot on reconnect, no per-seat SSE id or journal; Last-Event-ID ignored",
+      "required": "RoomEpoch+Seat+Revision cursor, explicit snapshot resync on gap; optionally journal with per-seat authorization"
+    },
+    {
+      "id": "A14-GAP-03",
+      "severity": "P1",
+      "observation": "Room.broadcast sends duplicate revision even without state change; browser accepts revision >= lastRevision",
+      "required": "client ignores duplicate/older revision and binds frame to session epoch and authenticated seat"
+    },
+    {
+      "id": "A14-GAP-04",
+      "severity": "P0",
+      "observation": "Persist failure leaves live room ahead of durable checkpoint (A13), creating SSE state/ACK divergence",
+      "required": "persist snapshot+receipt+revision atomically before publish, then per-seat SSE snapshot"
+    },
+    {
+      "id": "A14-GAP-05",
+      "severity": "P1",
+      "observation": "Legacy server SSE ignores backpressure, lacks Last-Event-ID handling and in-memory replay queue",
+      "required": "bounded queues and drain/cancel; on reconnect full authorized snapshot from committed store, no raw checkpoint"
+    },
+    {
+      "id": "A14-GAP-06",
+      "severity": "P2",
+      "observation": "client lastRevision global can survive room change (A08)",
+      "required": "reset revision and cursor on room/seat epoch changes and ignore late old-stream callbacks"
+    }
+  ],
+  "contract": {
+    "identity": "seat derived exclusively from authenticated session; never pass client-chosen team/seat as authority",
+    "cursor": "room_epoch/seat_id/committed_revision, unique within one room epoch, per-seat bound; never accept cursor as authentication",
+    "initial": "publish one full per-seat sanitized committed snapshot; no raw RNG, tokenHash or enemy orders",
+    "gap": "if last committed revision missing, malformed, future, wrong room or wrong seat, send current authorized snapshot and mark resync; no replay of raw event journal",
+    "same": "on reconnect with matching revision, sending identical sanitized snapshot is acceptable; browser dedupes by cursor/revision",
+    "order": "storage commit then immutable in-memory publish, then per-seat SSE frame, then ACK; in case lost ACK retry returns original durable receipt",
+    "events": "deny missing scope/unknown kind and project only explicitly allowed event fields; any arbitrary details/property spreads prohibited",
+    "client": "validate cursor, room epoch and seat, use > monotonic revision, discard exact duplicate and all old-room callbacks",
+    "expected_dynamic": "one human controls five units for blue/red; opponent concealed positions/items/orders cannot appear in reconnect",
+    "caveats": "Node reference trusts injected auth seat, is single-room toy storage and does not implement production cookies, TLS, WAL or game mechanics; QA only"
+  },
+  "vectors": [
+    {
+      "id": "A14-LEGACY-01",
+      "label": "01 each subscription immediately sends a distinct team perspective",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-02",
+      "label": "02 accepted blue command broadcasts one state to each seat",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-03",
+      "label": "03 repeated unchanged broadcast generates duplicate revision frames",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-04",
+      "label": "04 reconnect sends current snapshot, not lost intermediate messages",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-05",
+      "label": "05 command duplicate after reconnect recovers same ACK without broadcast",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-06",
+      "label": "06 persisted room snapshot recovers receipt and matching per-seat revision",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-07",
+      "label": "07 red private event is excluded from hidden blue perspective",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-08",
+      "label": "08 unclassified private event leaks to both teams in original legacy",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-09",
+      "label": "09 fog hides enemy unit even when unclassified event is leaked",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-10",
+      "label": "10 view never sends checkpoint private fields or other seat token hash",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-11",
+      "label": "11 ready state and receipt survive reconnect from restored checkpoint",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-12",
+      "label": "12 subscriber unsubscribe prevents stale callback delivery",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-13",
+      "label": "13 throwing subscriber removed without preventing other seat broadcast",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-LEGACY-14",
+      "label": "14 source has no SSE cursor, replay journal or Last-Event-ID negotiation",
+      "status": "PASS_V8_LEGACY_DIAGNOSTIC",
+      "source": "tests/m45_platform_a14_legacy_sse_recovery.test.mjs"
+    },
+    {
+      "id": "A14-NODE-01",
+      "label": "01 initial cursor and team-scoped snapshot from committed checkpoint",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-02",
+      "label": "02 unauthorized seat never receives state or cursor",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-03",
+      "label": "03 commits produce independent per-seat filtered snapshots",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-04",
+      "label": "04 resync ignores foreign seat cursor and sends only own snapshot",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-05",
+      "label": "05 missed revisions recover a full current authorized snapshot",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-06",
+      "label": "06 same revision reconnect safely returns snapshot with same cursor",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-07",
+      "label": "07 future, malformed and cross-room cursor are not trusted",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-08",
+      "label": "08 actual SSE frames pass existing A07 incremental decoder",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-09",
+      "label": "09 duplicate frames accepted once and older revisions dropped",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-10",
+      "label": "10 client rejects foreign seat and manipulated event ID",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-11",
+      "label": "11 store restart returns same cursor and durable receipt without replay",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-12",
+      "label": "12 lost ACK after rename resolves to prior receipt and one cursor",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-13",
+      "label": "13 failure before durable rename does not advance SSE cursor",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-14",
+      "label": "14 unclassified/private malformed events are denied by explicit DTO allowlist",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-15",
+      "label": "15 one ready and second ready persist once and cursor is monotonic",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    },
+    {
+      "id": "A14-NODE-16",
+      "label": "16 duplicate wire snapshots in same data chunk accepted only once by client",
+      "status": "PASS_NATIVE_NODE22_QA_REFERENCE",
+      "source": "tests/m45_platform_a14_sse_resync_reference.test.mjs"
+    }
+  ]
+}
