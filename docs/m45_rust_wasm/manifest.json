@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I02_QUOTA_GUARD_PUBLISHED",
+    "phase": "B02B_I03_NAMI_W_GHOST_V8_CONFIRMED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -513,19 +513,20 @@
       "status": "PASS",
       "errors": 0,
       "checks": {
-        "skills_refs": 25,
+        "skills_refs": 26,
         "skills_executed": 0,
         "items_catalog": 244,
         "items_replay_matches": 244,
         "items_v8_cases": 299,
         "items_expected_gateway_denials": 2,
-        "platform_contracts": 12
+        "platform_contracts": 12,
+        "skills_executed_full_node": 0
       },
       "node_test": "CREATED_NOT_RUN",
       "actions_used": 0
     },
     "open_risks": [
-      "M45-SKILLS-NAMI-W",
+      "M45-SKILLS-NAMI-W_REPRODUCED_V8",
       "PLATFORM-016",
       "M45-PVP-TRINKET",
       "M45-READY-ACK"
@@ -584,6 +585,42 @@
         }
       ],
       "runners_allocated_after_guard": 0
+    },
+    "nami_w": {
+      "status": "LEGACY_SOURCE_V8_REPRODUCED_SYNTHETIC_DUAL_QUEUE",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "fixture_blob": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+      "validator_blob": "4692fb2e2352cda3b76c745ea9842aa23f512ba0",
+      "scenarios": 8,
+      "controls_without_ghost": 4,
+      "coqueue_ghost_cases": 4,
+      "blue": 4,
+      "red": 4,
+      "replay_cases": 8,
+      "replay_differences": 0,
+      "snapshot_restore_matches": 8,
+      "targeted_heal": 115,
+      "board_heal": 75,
+      "ghost_extra_mana": 70,
+      "conditions": [
+        "visible forced true",
+        "duelPermission forced true",
+        "time manually jumped past CD",
+        "API queues directly invoked"
+      ],
+      "gameplay_ui_reachability": "NOT_RUN",
+      "full_node_esm": "NOT_RUN",
+      "rust_combat": "NOT_IMPLEMENTED",
+      "rust_equivalence": "NOT_RUN",
+      "artifact_path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json"
+    },
+    "actions_this_priority": 0,
+    "specialist_skills_s09": {
+      "audit_head": "e1210e1d2e75bd172ef73a50af79d04193a4de6d",
+      "planned_suites": 26,
+      "executed_node_suites": 0,
+      "s09_test_blob": "eec3732e024fbee3517041d9f92f9862d01e5ad2"
     }
   }
 }

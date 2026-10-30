@@ -76,7 +76,7 @@
     "independent_v8_integrity": {
       "status": "PASS",
       "errors": 0,
-      "checked_skills_source_refs": 25,
+      "checked_skills_source_refs": 26,
       "checked_catalog_cases": 244,
       "blue": 122,
       "red": 122,
@@ -87,9 +87,11 @@
     },
     "specialist_runtime": {
       "skills": {
-        "planned_suites": 25,
+        "planned_suites": 26,
         "executed": 0,
-        "status": "NOT_RUN"
+        "status": "NOT_RUN",
+        "v8_isolated_witness_cases": 8,
+        "v8_isolated_repeat_matches": 8
       },
       "items": {
         "environment": "V8_ISOLATED_ORIGINAL_JS_CLASSES",
@@ -118,9 +120,11 @@
     {
       "id": "M45-SKILLS-NAMI-W",
       "priority": "P0",
-      "state": "SOURCE_ROUTE_CONFLICT_NOT_GAMEPLAY_GOLDEN",
-      "legacy": "M44 B13 route without bounceRange shadows V42; board W has independently coded bounce; potential queue collision unconfirmed",
-      "target": "explicit one owned W cast per seat/turn; server side route and state arbitration; double-debit forbidden"
+      "state": "CONFIRMED_SOURCE_V8_SYNTHETIC_DUAL_QUEUE",
+      "legacy": "Both queue routes accepted; board W spends 70 mana and leaves targeted W pending; at t=10.25 stale W spends another 70 mana without fresh request; blue/red, both queue orders 4/4. Single-route controls 4/4 do not ghost.",
+      "target": "Exactly once per authenticated W command and cast transaction; retire conflicting pending route immediately; permit later genuinely new authorized W after cooldown, with champion-specific recast exceptions preserved",
+      "provenance": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json",
+      "scope": "V8 isolated; no real fog, full Node gameplay, HTTP, UI reachability or Rust"
     },
     {
       "id": "PLATFORM-016",
@@ -166,5 +170,41 @@
     "do_not_promote_gates_without_runtime": true,
     "actions_quota_guard": "BRANCH_RUST_JOBS_SKIP_PULL_REQUEST_HEAD",
     "note": "Three legacy CI workflows auto-executed on B02B-I01 PR synchronization; guards added to stop future billed jobs. No deliberate Actions requested."
+  },
+  "skills_s09": {
+    "source_audit_head": "e1210e1d2e75bd172ef73a50af79d04193a4de6d",
+    "source_engine_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "golden_plan_26": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_golden_plan.json",
+      "sha": "98bbc1c66cce8d6d0d52f3c75975ad8a8515a4bc",
+      "planned": 26,
+      "full_node_executed": 0
+    },
+    "source_s09_conflict": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_intent_conflict.json",
+      "sha": "0505948ffdd54b64c46264bd7f5796776ce9b6f6"
+    },
+    "source_s09_rust_contract": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_rust_contract.json",
+      "sha": "0649922a02657a04972ff493d12b3b038a23bc10",
+      "status": "DESIGN_ONLY"
+    },
+    "independent_actual_v8": {
+      "artifact_path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json",
+      "artifact_sha": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+      "validator_path": "docs/m45_rust_wasm/inputs/core/b02b/validate_nami_w_witness.mjs",
+      "validator_sha": "4692fb2e2352cda3b76c745ea9842aa23f512ba0",
+      "scenarios": 8,
+      "blue": 4,
+      "red": 4,
+      "controls": 4,
+      "coqueued_ghost": 4,
+      "same_source_second_execution": 8,
+      "second_execution_differences": 0,
+      "validated_receipt": "PASS",
+      "tamper_control": "PASS_REJECTED",
+      "risk": "NAMI_W_STALE_INTENT_REPRODUCED_V8_SYNTHETIC_DUAL_QUEUE",
+      "caveat": "Not Node ESM game full match nor proof the UI permits dual route from one user; visibility and duelPermission mocked; no Rust gameplay/parity."
+    }
   }
 }

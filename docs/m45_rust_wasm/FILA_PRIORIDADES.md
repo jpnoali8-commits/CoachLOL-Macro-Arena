@@ -107,3 +107,9 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 ### B02B-I02 — guard CI validado: skip 3/3 (2026-10-30)
 
 GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusion=skipped`: #41138667106, #41138667069, #41138667088. O guard efetivamente impediu alocação de runner para a branch Rust; preservar o filtro. Próxima prioridade continua B02B (25 goldens de skills ainda NOT_RUN, HTTP/SSE original NOT_RUN), sem iniciar Actions.
+
+### M45 B02B-I03 — witness real Nami W (2026-10-30)
+
+- P0 `M45-SKILLS-NAMI-W` elevado de **hipótese** para **LEGACY_SOURCE_V8_REPRODUCED_UNDER_SYNTHETIC_DUAL_QUEUE**: 4/4 cenários coqueue azul/vermelho executam segunda W depois do cooldown sem novo request (mana 500→430→360, heal 400→475→590), 4/4 controles isolados não repetem; mais 8/8 replay idênticos de checksums. Artefatos JSON com SHAs em `inputs/core/b02b/`; Node ESM completo ainda NOT_RUN.
+- Plano especialista S09 passou de 25 para **26/26** refs source verificadas; testes integrais Node 0/26, Rust gameplay 0. Proteger contrato Rust one-seat+unit+slot+round+request, nenhuma espera de cooldown com pending stale, defesa de ACL.
+- Próxima B02B: testar reachability real do comando UI/Room e HTTP/SSE/reconnect, capturar 26 golden Node exatos sem GitHub Actions. Não tocar workflow trigger. B03 continua QUEUED.

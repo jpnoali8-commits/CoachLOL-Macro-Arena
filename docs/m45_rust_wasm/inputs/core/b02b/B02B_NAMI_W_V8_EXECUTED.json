@@ -1,0 +1,289 @@
+{
+  "schema": "coachlol.m45.b02b.nami-w.v8-executed.v1",
+  "date": "2026-10-30",
+  "source": {
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "map_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+  },
+  "execution": {
+    "environment": "V8 CODE_MODE_REAL_ENGINE",
+    "source_transform": "removed top-level export tokens; no other engine methods modified",
+    "fixture_mutations": "units positioned; abilities/ranks/mana set; visible and duelPermission overridden true to isolate dispatch",
+    "not_node_esm": true,
+    "not_real_fog": true,
+    "not_server_http": true,
+    "not_rust": true,
+    "not_wasm": true,
+    "scenarios": 8,
+    "failed": 0,
+    "ghost_cases": 4,
+    "control_cases": 4
+  },
+  "rules": {
+    "abilityRuleW": {
+      "m44B13Id": "Nami.W",
+      "bounceRange": null
+    },
+    "kitSpellV42Bounce": 800
+  },
+  "cases": [
+    {
+      "id": "nami-w-blue-targeted_only",
+      "team": "blue",
+      "route": "targeted_only",
+      "seed": 450209,
+      "queue": [
+        "targeted"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "cb9ea5a0",
+      "first": {
+        "mana": 430,
+        "allyHp": 515,
+        "cd": 10,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "818f064f"
+      },
+      "afterCooldown": {
+        "mana": 430,
+        "allyHp": 515,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "d212ab8f",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "d212ab8f",
+      "ghostCast": false,
+      "expectedRisk": "SINGLE_ROUTE_CONTROL"
+    },
+    {
+      "id": "nami-w-blue-board_only",
+      "team": "blue",
+      "route": "board_only",
+      "seed": 450209,
+      "queue": [
+        "board"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "cb9ea5a0",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "8d51a676"
+      },
+      "afterCooldown": {
+        "mana": 430,
+        "allyHp": 475,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "ff645d72",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "ff645d72",
+      "ghostCast": false,
+      "expectedRisk": "SINGLE_ROUTE_CONTROL"
+    },
+    {
+      "id": "nami-w-blue-targeted_then_board",
+      "team": "blue",
+      "route": "targeted_then_board",
+      "seed": 450209,
+      "queue": [
+        "targeted",
+        "board"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "cb9ea5a0",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "checksum": "facd924f"
+      },
+      "afterCooldown": {
+        "mana": 360,
+        "allyHp": 590,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "d68c3247",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "d68c3247",
+      "ghostCast": true,
+      "expectedRisk": "P0_REPRODUCED_DOUBLE_CAST_ACROSS_COOLDOWN"
+    },
+    {
+      "id": "nami-w-blue-board_then_targeted",
+      "team": "blue",
+      "route": "board_then_targeted",
+      "seed": 450209,
+      "queue": [
+        "board",
+        "targeted"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "cb9ea5a0",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "checksum": "63d1df9f"
+      },
+      "afterCooldown": {
+        "mana": 360,
+        "allyHp": 590,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "ac967537",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "ac967537",
+      "ghostCast": true,
+      "expectedRisk": "P0_REPRODUCED_DOUBLE_CAST_ACROSS_COOLDOWN"
+    },
+    {
+      "id": "nami-w-red-targeted_only",
+      "team": "red",
+      "route": "targeted_only",
+      "seed": 450209,
+      "queue": [
+        "targeted"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "a2f86088",
+      "first": {
+        "mana": 430,
+        "allyHp": 515,
+        "cd": 10,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "42af7f2e"
+      },
+      "afterCooldown": {
+        "mana": 430,
+        "allyHp": 515,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "bff318ae",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "bff318ae",
+      "ghostCast": false,
+      "expectedRisk": "SINGLE_ROUTE_CONTROL"
+    },
+    {
+      "id": "nami-w-red-board_only",
+      "team": "red",
+      "route": "board_only",
+      "seed": 450209,
+      "queue": [
+        "board"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "a2f86088",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "b280ca5e"
+      },
+      "afterCooldown": {
+        "mana": 430,
+        "allyHp": 475,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "033e812e",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "033e812e",
+      "ghostCast": false,
+      "expectedRisk": "SINGLE_ROUTE_CONTROL"
+    },
+    {
+      "id": "nami-w-red-targeted_then_board",
+      "team": "red",
+      "route": "targeted_then_board",
+      "seed": 450209,
+      "queue": [
+        "targeted",
+        "board"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "a2f86088",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "checksum": "ed582eaa"
+      },
+      "afterCooldown": {
+        "mana": 360,
+        "allyHp": 590,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "4b0ab891",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "4b0ab891",
+      "ghostCast": true,
+      "expectedRisk": "P0_REPRODUCED_DOUBLE_CAST_ACROSS_COOLDOWN"
+    },
+    {
+      "id": "nami-w-red-board_then_targeted",
+      "team": "red",
+      "route": "board_then_targeted",
+      "seed": 450209,
+      "queue": [
+        "board",
+        "targeted"
+      ],
+      "foreignSeatDenied": true,
+      "manaAfterQueue": 500,
+      "beforeChecksum": "a2f86088",
+      "first": {
+        "mana": 430,
+        "allyHp": 475,
+        "cd": 10,
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "checksum": "a7f97abe"
+      },
+      "afterCooldown": {
+        "mana": 360,
+        "allyHp": 590,
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "checksum": "596a5c6d",
+        "gameTime": 10.25
+      },
+      "restoreChecksum": "596a5c6d",
+      "ghostCast": true,
+      "expectedRisk": "P0_REPRODUCED_DOUBLE_CAST_ACROSS_COOLDOWN"
+    }
+  ],
+  "failures": [],
+  "expected_rust": "Single active owned skill intent per seat/champion/slot/turn; no queued-targeted spill after board cast; idempotent retries and rejection of stale delayed W",
+  "gate": "LEGACY_SOURCE_GOLDEN_ONLY_NO_RUST_PARITY"
+}

@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B integridade V8 PASS e 3 workflows legados do PR #19 verificados SKIPPED (sem runners).
+**Atualizado:** 2026-10-30, B02B-I03 Nami W dual-queue confirmada em V8 (8/8 + replay 8/8), sem CI Rust deliberado; G0/G1 PARTIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02B — executar as 25 suítes de skills ainda NOT_RUN, golden HTTP/SSE real e conciliar divergências, sem CI por lote; B02C somente após provas.
+**Próxima prioridade:** M45 B02B — executar 26 suítes de skills Node ESM ainda NOT_RUN, confirmar reachability pela UI/room da Nami W, executar golden HTTP/SSE sem Actions; B02C somente depois de reconciliar fontes.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,7 +23,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_B02B | B02B 8 handoffs immutable SHA imported: 25/25 skills plan refs, items V8 299 outcomes (297 positive + 2 expected denials), 244/244 replay hashes, 12 platform contracts; zero Actions nesta etapa; G0 PARTIAL, Rust baseline G1 PARTIAL |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_B02B | Skills S09 26 suites planos; Nami W: 8/8 V8 real (4 ghost coqueue, 4 controls), replay 8/8 checksum match; item V8 299, replay 244, platform 12 contratos; G0/G1 PARTIAL |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | PARTIAL | baseline real do único crate B01 core-state **PASS_BASELINE_ONLY** via Actions #41137516144; crates futuros e equivalência total ainda não implementados |
@@ -154,3 +154,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 
 - Após o commit `83a2a8b8dd403f8cf38567a47821d9ea427ab387`, consulta REST `/actions/runs?head_sha=...` retornou **3/3 conclusões `skipped`** (nenhum job com executor). IDs: skills #41138667106, integração #41138667069, QA logic #41138667088. **Proteção de jobs validada.** Eventos workflow aparecerão como `skipped`, mas sem runner consumindo minutos.
 - A primeira atualização B02B-I01 disparou 3 jobs legados de verdade (SUCCESS); esta dívida de quota está reconhecida no ledger. A partir do guard, novos commits do PR #19 não devem alocar jobs dessas três rotas, a menos que workflows sejam alterados novamente; se aparecer FAIL/runner, interromper e auditar. Nenhum workflow Rust e nenhum arquivo-gatilho one-shot foram alterados no corretivo.
+
+## M45 B02B-I03 — Nami W ghost-cast confirmado nos métodos originais (2026-10-30)
+
+- **Fonte congelada:** `dev69/skills-batch2@f0b1147ac46e585a1d5374a178b1ea462f5dc278`; `engine.mjs` blob **`41679f7328a42e379fdfb8de5b92006e1bfb529f`** (1.116.423 caracteres). Recursos reais do mesmo SHA: mapa blob `ad853bbb6f110c0d2b6b8b4995ac4e80169f7109`, máscaras `ecddcee76f3bce20a483ff7545ce2231696270e2`. Fonte carregada por conector GitHub em V8, **removidos somente tokens top-level `export`**, executados `Arena`, `queueTargetedSkill`, `queueBoardSkillV453Dev69`, `resolveBoardSkillsV453Dev69`, `resolveTargetedCasts`, `snapshotV40`, `fromSnapshotV40`, `checksumV40`. Não é runtime Node ESM completo nem Rust.
+- **Oito cenários V8 genuínos em dois assentos:** controles W targeted-only azul/vermelho e W board-only azul/vermelho **4/4 sem ghost** (mana 500→430, após CD permanece 430). Rotas concorrentes targeted→board e board→targeted, azul/vermelho **4/4 com ghost reproduzido**: ambas queues `ok:true`, Board debita 70 mana e cura 75 (aliado 400→475), `pendingTargetedCast` fica **true** apesar do CD; no tick simulado `t=10.25` após CD `10`, o targeted pendente cobra mais 70 mana (430→360) e cura mais 115 (475→590) **sem nova ordem**. O alvo W targeted-only cura 115 (400→515), W board-only 75 (400→475): **duas semânticas diferentes**, não portar silenciosamente como skill equivalente. ACL adversária de ambos métodos rejeita comandos para unidade do oponente em todos os cenários.
+- **QA de replay:** os oito casos foram **executados novamente do zero** com seed/máscaras originais e **8/8** checksums de início/primeira ação/final, mana, cooldown, HP e negações ACL idênticos; zero divergências. Em todos 8 `checksumV40` do snapshot `fromSnapshotV40` corresponde ao resultado. Validador JavaScript puro sobre receipt publicado **PASS 8/8** + mutação de mana negativa **REJEITADA**. Este é QA de **legado V8 isolado com `visible()=true` e `duelPermission()=true`**, **não** prova que UI ou jogo normal possibilitem duas rotas nem turno de 10s naturalmente, e não é paridade Rust.
+- Artefatos: `inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json` (blob `06d36ff...`), `validate_nami_w_witness.mjs` (blob `4692fb2...`), plano S09 congelado **26/26 suites com SHA válido, 0 Node ESM executadas** (antes 25), fonte `S09_NAMI_W_INTENT_CONFLICT.json` e contrato Rust S09 **DESIGN_ONLY**, arquivo de quatro testes Node de receipt **CRIADO_NOT_RUN**.
+- **Decisão vinculante para Rust futuro:** keyed `(match,round,seat,champion,slot,request_id)`; uma única execução por intenção W autenticada, sem pending targeted preservado através do cooldown quando board venceu, retry idempotente, mana/CD apenas uma vez por cast aceito, **nova W legítima após CD exige novo request** e recasts autorais de outros campeões são preservados, diferença board vs V42 explícita/documentada, negar invocação de oponente, snapshots repetidos. Não aplicar cegamente o bug do legado. O motor Rust de combate ainda não foi escrito nem certificado.
+- **CI/quota:** nenhum workflow/gatilho alterado, nenhuma chamada para iniciar Actions; guards dos três jobs legados permanecem ativos na branch Rust. Conferir eventos de `pull_request` após o push, esperando `skipped`. **B02B IN_PROGRESS**; G0 PARTIAL, G1 PARTIAL (core-state baseline), G2–G6 Rust NOT_RUN, G7 BLOCKED, G8 NOT_RUN. B03 QUEUED.
