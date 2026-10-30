@@ -7057,13 +7057,50 @@ export class Arena {
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
     if(z.kind==='m44_b13_zone'){
+     if(z.variant==='fiddle_r'||z.variant==='diana_r')
+      z.point={x:u.x,y:u.y};
+     if(z.variant==='ryze_r'&&now>=z.castAt+2){
+      const source=z.origin,destination=z.point;
+      for(const ally of this.units.filter(v=>v.hp>0&&v.team===u.team&&
+       this.sameCombatRealmV453Dev69(u,v)&&
+       this.mapDistance(v,source)<=350)
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const offset={x:destination.x+(ally.x-source.x),
+        y:destination.y+(ally.y-source.y)},
+        next=offset.x>=0&&offset.x<=1&&offset.y>=0&&offset.y<=1&&
+         this.walkable(offset.x,offset.y)?offset:destination;
+       if(!this.walkable(next.x,next.y)||
+         (this.realmOfV453Dev69(ally)&&
+          !this.realmValidV453Dev69(ally,next)))continue;
+       const from={x:ally.x,y:ally.y};
+       Object.assign(ally,next);ally.path=[];ally.laneFollowPath=[];ally.retreatPath=[];
+       this.invalidateShopUndoOnDepartureV453Dev61(ally);
+       this.itemEnergizeRelocateV453Dev39(ally,from,next,{kind:'ryze_realm_warp'});
+      }
+     }
+     if(z.variant==='malzahar_r'){
+      const t=this.units.find(v=>v.id===z.targetId&&v.hp>0&&v.team!==u.team&&
+       this.sameCombatRealmV453Dev69(u,v));
+      if(!u.hp||!t||this.mapDistance(u,t)>750||
+       !this.effectResolverV41().canAct(u,'skill').ok)ended=true;
+      else this.damage(t,z.power,u,'magic','spell');
+     }
      // Every zone resolves independently at board-clock time from its owner,
      // never from a preselected enemy list or leaked fog coordinates.
      if(z.variant==='rumble_q')z.point={x:u.x,y:u.y};
      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
       v.hp>0&&this.mapDistance(v,z.point)<=z.radius&&
       !this.obstacleLine(z.point,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
-      if(z.variant==='aurelion_e'){
+      if(z.variant==='rakan_w'){
+       const shield=this.effectResolverV41().has(v,'spell_shield');
+       this.damage(v,z.power,u,'magic','spell');
+       if(!shield&&v.champ&&v.hp>0)this.applyEffectV41(v,'knockup',
+        {source:u,duration:1.1,key:'m44_b13_rakan_'+z.id+'_'+v.id});
+      }else if(z.variant==='diana_r'){
+       this.damage(v,z.power*(1+.18*(z.pulled||0)),u,'magic','spell');
+      }else if(z.variant==='shyvana_e'||z.variant==='fiddle_r'){
+       this.damage(v,z.power,u,'magic','spell');
+      }else if(z.variant==='aurelion_e'){
        const distance=this.mapDistance(v,z.point);
        if(distance>35){
         const dx=(z.point.x-v.x)*this.worldWidth,
@@ -7345,7 +7382,14 @@ export class Arena {
         source:u,duration:1.25,key:'m44_b08_pyke_e_'+z.id+'_'+v.id});
       }
       ended=true;
-     }else if(z.kind==='m44_authored_projectile'){
+     }else if(z.kind==='m44_authored_projectile'&&
+      this.units.some(v=>v.champ==='Samira'&&v.team!==z.team&&v.hp>0&&
+       v.m44B13SamiraWhirlUntil>now&&
+       this.sameCombatRealmV453Dev69(v,u)&&
+       this.mapDistance(v,z.current||z.origin)<=360)){
+     // Blade Whirl destroys a nearby opposing projectile before impact.
+     ended=true;
+    }else if(z.kind==='m44_authored_projectile'){
      // Each discrete movement segment is swept for actual intervening
      // bodies; no pre-selected target or omniscient destination hit.
      const remaining=Math.max(0,z.range-z.distanceDone);
