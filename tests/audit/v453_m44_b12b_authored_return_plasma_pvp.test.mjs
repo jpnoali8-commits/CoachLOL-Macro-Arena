@@ -80,10 +80,11 @@ for(const team of ['blue','red']){
   a.damage(e,25,u,'physical','basic');assert.ok(e.hp<hp-25);
  });
  check('Viego',team,'R Heartbreaker arrives and hits primary plus nearby enemy',({u,e,sec,cast})=>{
-  sec.x=.524;sec.y=.5;const hp=e.hp,hp2=sec.hp;
+  sec.x=.524;sec.y=.5;const hp=e.hp,hp2=sec.hp,priorX=sec.x;
   const r=cast('R',{point:{x:e.x,y:e.y}});
   assert.equal(r.heartbreaker,true);assert.equal(r.hitCount,2);
   assert.ok(e.hp<hp&&sec.hp<hp2);
+  assert.ok(sec.x>priorX,'Heartbreaker must displace secondary champion');
  });
  check('Khazix',team,'W Void Spike real projectile splash',({e,sec,cast,tick})=>{
   sec.x=.524;sec.y=.5;const hp=sec.hp;
