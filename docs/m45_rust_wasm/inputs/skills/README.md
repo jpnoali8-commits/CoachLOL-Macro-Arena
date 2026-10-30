@@ -123,3 +123,14 @@ Branch Rust central verificada em `5afd330f260c7a0b1984521732e117dfcd81396f` ain
 - `s14_validate_sylas_viego.mjs` ran **79/79 static checks in V8 PASS** against saved exact GitHub files, including S10 prior overlap. `S14_STATIC_CONTRACT_RECEIPT.json` and `M45_B02_S14_HANDOFF.md` contain precise evidence and blockers.
 
 Latest Rust coordinator HEAD observed `ddbdf8e9ee4345646c70162c1637e5b08670708a`, still only `core-state`. No Rust compiler locally, `core-combat`/`core-champions` absent; Rust native/WASM/real HTTP, complete champion kits all NOT_RUN/NOT_CERTIFIED. Original full Node 0/26; S10 remains 22 PASS, 2 FAIL, 2 NOT_RUN.
+
+
+## M45 B02 Skills S15 — Neeko/Shaco/Sylas clone identity and targetability
+
+- Original `tests/v453_dev69_clones_m15.test.mjs`: **20 checks V8 PASS then check 21 V8 FAIL** (Sylas steals Shaco R; owner=**Sylas** but spawned/public clone=**Shaco**, expected Sylas). Original remainder 22–24 and HTTP manifest test 25 NOT_RUN. Full original Node ESM NOT_RUN.
+- Original independent `tests/audit/v453_clone_targetability_audit.test.mjs --strict`: **24/24 PASS**, zero remaining P1 clone-targetability failures in source `f0b1147a`. Both original gateway dev44/dev47 and actual engine were used, with import/assert/structuredClone shims and synthetic visibility.
+- `s15_clone_identity_security.test.mjs`: **88/88 real V8 assert checks, 8 bilateral cases PASS**. Pass **characterizes a known bug twice**, not successful Rust parity. Original source Sylas R temporary `u.champ=Shaco` and `m15Summon` copies that donor instead of real Sylas into `appearance`. Both colored seats prove mismatch and snapshot persistence.
+- `s15_clone_disguise_rust_acceptance.rs`: typed **non-production** contract, 6 scenarios × 2 seats = 12 future real Rust positives, 8 negatives and 3 Rust unit tests **prepared / 0 executed**. Requires real server and `core-combat/core-champions` crates.
+- `S15_CLONE_IDENTITY_V8_RECEIPT.json`, `S15_STATIC_CONTRACT_RECEIPT.json` and `M45_B02_S15_HANDOFF.md` pin original Git blobs, source failure and versioned Rust *deliberate fidelity fix*. `s15_validate_clone_receipt.mjs` V8 static cross-check **53/53 PASS**.
+
+The S10 original 26-suite status remains 22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN; original M15 entry remains NOT_RUN in the **frozen S10 ledger**, and S15 evidence is reported separately. Coordinator `dev69/rust-core-m45` at `4bf98495e32dffb67cde32542f76af11d85a66f8` still has only `core-state`; Rust native/WASM and two-seat HTTP NOT_RUN. No Actions, merges, original engine modifications or champion certifications.
