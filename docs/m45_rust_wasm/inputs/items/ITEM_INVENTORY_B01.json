@@ -48,116 +48,11 @@
       "champion_exclusive": 3,
       "conditional_quest": 5
     },
-    "local_catalog_count": 146,
+    "local_catalog_count": 125,
     "effect_rule_count": 51,
     "official_sale_entries": 122,
     "recipe_entries": 92,
     "local_only": [
-      {
-        "id": "balanced",
-        "source_symbol": "catalog@engine.mjs:48",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "defend",
-        "source_symbol": "catalog@engine.mjs:49",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "heal",
-        "source_symbol": "catalog@engine.mjs:50",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "shield",
-        "source_symbol": "catalog@engine.mjs:51",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "peel_adc",
-        "source_symbol": "catalog@engine.mjs:52",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "guard_carry",
-        "source_symbol": "catalog@engine.mjs:53",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "frontline",
-        "source_symbol": "catalog@engine.mjs:54",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "anti_dive",
-        "source_symbol": "catalog@engine.mjs:55",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "kite",
-        "source_symbol": "catalog@engine.mjs:56",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "disengage",
-        "source_symbol": "catalog@engine.mjs:57",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "retreat",
-        "source_symbol": "catalog@engine.mjs:58",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "sustain",
-        "source_symbol": "catalog@engine.mjs:59",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "counterengage",
-        "source_symbol": "catalog@engine.mjs:60",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "counterattack",
-        "source_symbol": "catalog@engine.mjs:61",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "engage",
-        "source_symbol": "catalog@engine.mjs:62",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "burst",
-        "source_symbol": "catalog@engine.mjs:63",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "chase",
-        "source_symbol": "catalog@engine.mjs:64",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "countergank",
-        "source_symbol": "catalog@engine.mjs:65",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "guard_objective",
-        "source_symbol": "catalog@engine.mjs:66",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "vision",
-        "source_symbol": "catalog@engine.mjs:67",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
-      {
-        "id": "farm",
-        "source_symbol": "catalog@engine.mjs:68",
-        "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-      },
       {
         "id": "support_compass",
         "source_symbol": "catalog@engine.mjs:103",
@@ -201,7 +96,8 @@
         "execution": "NOT_RUN"
       }
     ],
-    "warning": "Audit is static; source status does not mean migrated or fully certified; data rows reference_only must not be promoted."
+    "warning": "Audit is static; source status does not mean migrated or fully certified; data rows reference_only must not be promoted.",
+    "audit_correction": "Catalog entries are counted only within export const catalog=[...] (engine.mjs lines 95-251); earlier object keys are not items."
   },
   "items": [
     {
@@ -12525,111 +12421,6 @@
     }
   ],
   "local_only": [
-    {
-      "id": "balanced",
-      "source_symbol": "catalog@engine.mjs:48",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "defend",
-      "source_symbol": "catalog@engine.mjs:49",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "heal",
-      "source_symbol": "catalog@engine.mjs:50",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "shield",
-      "source_symbol": "catalog@engine.mjs:51",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "peel_adc",
-      "source_symbol": "catalog@engine.mjs:52",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "guard_carry",
-      "source_symbol": "catalog@engine.mjs:53",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "frontline",
-      "source_symbol": "catalog@engine.mjs:54",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "anti_dive",
-      "source_symbol": "catalog@engine.mjs:55",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "kite",
-      "source_symbol": "catalog@engine.mjs:56",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "disengage",
-      "source_symbol": "catalog@engine.mjs:57",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "retreat",
-      "source_symbol": "catalog@engine.mjs:58",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "sustain",
-      "source_symbol": "catalog@engine.mjs:59",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "counterengage",
-      "source_symbol": "catalog@engine.mjs:60",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "counterattack",
-      "source_symbol": "catalog@engine.mjs:61",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "engage",
-      "source_symbol": "catalog@engine.mjs:62",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "burst",
-      "source_symbol": "catalog@engine.mjs:63",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "chase",
-      "source_symbol": "catalog@engine.mjs:64",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "countergank",
-      "source_symbol": "catalog@engine.mjs:65",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "guard_objective",
-      "source_symbol": "catalog@engine.mjs:66",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "vision",
-      "source_symbol": "catalog@engine.mjs:67",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
-    {
-      "id": "farm",
-      "source_symbol": "catalog@engine.mjs:68",
-      "notes": "Fora das 210 rows SR mapeadas; não descartar (missão/trinket)"
-    },
     {
       "id": "support_compass",
       "source_symbol": "catalog@engine.mjs:103",
