@@ -1,0 +1,332 @@
+{
+  "schema": "coachlol.m45.skills.s12.authored-projectile-fixtures.v1",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "map_git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "mask_git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "supplementary_test_git_blob_sha": "014ec65c0c68a56ef1a654831b15eb4fcb753e84",
+  "actor_start": {
+    "x": 0.5,
+    "y": 0.5,
+    "mana": 1000,
+    "level": 6,
+    "rank": 1
+  },
+  "enemy_start": {
+    "hp": 1500,
+    "mr": 0,
+    "armor": 0
+  },
+  "launch_target": {
+    "x": 0.9,
+    "y": 0.5
+  },
+  "seed": 6918,
+  "clock": "integer simulation steps t=1..4 after t=0 cast",
+  "visibility": "SYNTHETIC_ALWAYS_VISIBLE_NOT_NETWORK_FOG",
+  "teams": [
+    "blue",
+    "red"
+  ],
+  "authored_projectiles": {
+    "Ahri_E": {
+      "mana": 60,
+      "range_units": 975,
+      "speed_units_per_tick": 550,
+      "first_body": "minion_or_champion",
+      "damage_no_ap": 80,
+      "cc": "charm",
+      "cc_duration_seconds": 1.6
+    },
+    "Ashe_R": {
+      "mana": 100,
+      "range_units": 25000,
+      "speed_units_per_tick": 550,
+      "first_body": "champion_only",
+      "damage_no_ap": 200,
+      "cc": "stun",
+      "cc_duration": "min(3.5, 1 + max(0, distance_units - 300) / 2800 * 2.5)",
+      "splash": {
+        "radius_units": 250,
+        "damage_fraction": 0.35,
+        "slow_fraction": 0.35,
+        "slow_duration_seconds": 2
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "AHRI_E_NORMAL",
+      "champ": "Ahri",
+      "slot": "E",
+      "input": "authored_board",
+      "target_x": 0.54,
+      "seat": "BOTH",
+      "expected": {
+        "mana": 940,
+        "hp": 1420,
+        "impact_tick": 2,
+        "cc": "charm",
+        "cc_until": 3.6
+      }
+    },
+    {
+      "id": "AHRI_E_LEGACY_INPUT",
+      "champ": "Ahri",
+      "slot": "E",
+      "input": "queueKitSkillV42",
+      "seat": "BOTH",
+      "expected": {
+        "ok": false,
+        "reason": "Ação direcional indisponível.",
+        "mana": 1000
+      },
+      "fidelity": "BUG_RECORD_NOT_DESIRED_RUST"
+    },
+    {
+      "id": "AHRI_E_SPELL_SHIELD",
+      "champ": "Ahri",
+      "slot": "E",
+      "seat": "BOTH",
+      "target_x": 0.54,
+      "shield": true,
+      "expected": {
+        "mana": 940,
+        "hp": 1500,
+        "charm": false,
+        "spell_shield_consumed": true
+      }
+    },
+    {
+      "id": "AHRI_E_MINION_INTERCEPT",
+      "champ": "Ahri",
+      "slot": "E",
+      "seat": "BOTH",
+      "target_x": 0.54,
+      "minion_x": 0.52,
+      "expected": {
+        "minion_hp": 820,
+        "champion_hp": 1500,
+        "projectile_ends_at_tick": 1
+      }
+    },
+    {
+      "id": "AHRI_E_PROJECTILE_BARRIER",
+      "champ": "Ahri",
+      "slot": "E",
+      "seat": "BOTH",
+      "target_x": 0.54,
+      "barrier": {
+        "x": 0.53,
+        "y": 0.5,
+        "radius": 70,
+        "team": "opponent"
+      },
+      "expected": {
+        "intercept_id": "s12_barrier",
+        "hp": 1500,
+        "no_charm": true
+      }
+    },
+    {
+      "id": "AHRI_E_ATLAS_WALL",
+      "champ": "Ahri",
+      "slot": "E",
+      "seat": "BOTH",
+      "target_x": 0.65,
+      "expected": {
+        "wall": true,
+        "hp": 1500,
+        "no_charm": true
+      }
+    },
+    {
+      "id": "AHRI_E_RANGE_CLAMP",
+      "champ": "Ahri",
+      "slot": "E",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "expected": {
+        "distance_units": 1199.2,
+        "range_units": 975,
+        "hp": 1500,
+        "no_charm": true
+      }
+    },
+    {
+      "id": "ASHE_R_NORMAL",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "expected": {
+        "mana": 900,
+        "hp": 1300,
+        "impact_tick": 3,
+        "cc": "stun",
+        "cc_duration": 1.8028571428571425
+      }
+    },
+    {
+      "id": "ASHE_R_SPELL_SHIELD",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "shield": true,
+      "expected": {
+        "mana": 900,
+        "hp": 1500,
+        "stun": false,
+        "spell_shield_consumed": true
+      }
+    },
+    {
+      "id": "ASHE_R_IGNORES_MINION",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "minion_x": 0.52,
+      "expected": {
+        "minion_hp": 900,
+        "champion_hp": 1300
+      }
+    },
+    {
+      "id": "ASHE_R_PROJECTILE_BARRIER",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "barrier": {
+        "x": 0.53,
+        "y": 0.5,
+        "radius": 70,
+        "team": "opponent"
+      },
+      "expected": {
+        "intercept_id": "s12_barrier",
+        "hp": 1500,
+        "no_stun": true
+      }
+    },
+    {
+      "id": "ASHE_R_ATLAS_WALL",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.65,
+      "expected": {
+        "wall": true,
+        "hp": 1500,
+        "no_stun": true
+      }
+    },
+    {
+      "id": "ASHE_R_EXPLOSION_SECONDARY",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "secondary": {
+        "x": 0.585,
+        "y": 0.508,
+        "hp": 1500
+      },
+      "expected": {
+        "primary_hp": 1300,
+        "secondary_hp": 1430,
+        "secondary_slow_until": 5
+      }
+    },
+    {
+      "id": "ASHE_R_SPLASH_SHIELD",
+      "champ": "Ashe",
+      "slot": "R",
+      "seat": "BOTH",
+      "target_x": 0.58,
+      "secondary": {
+        "x": 0.585,
+        "y": 0.508,
+        "hp": 1500,
+        "shield": true
+      },
+      "expected": {
+        "primary_hp": 1300,
+        "secondary_hp": 1500,
+        "secondary_slow": false,
+        "secondary_shield_consumed": true
+      }
+    }
+  ],
+  "snapshot_at_tick_1": [
+    {
+      "team": "blue",
+      "champ": "Ahri",
+      "spell_shield": false,
+      "checksum": "4d62e284"
+    },
+    {
+      "team": "blue",
+      "champ": "Ahri",
+      "spell_shield": true,
+      "checksum": "4564b8cf"
+    },
+    {
+      "team": "blue",
+      "champ": "Ashe",
+      "spell_shield": false,
+      "checksum": "67e1c526"
+    },
+    {
+      "team": "blue",
+      "champ": "Ashe",
+      "spell_shield": true,
+      "checksum": "15257e29"
+    },
+    {
+      "team": "red",
+      "champ": "Ahri",
+      "spell_shield": false,
+      "checksum": "5dbf079e"
+    },
+    {
+      "team": "red",
+      "champ": "Ahri",
+      "spell_shield": true,
+      "checksum": "92fc3c7e"
+    },
+    {
+      "team": "red",
+      "champ": "Ashe",
+      "spell_shield": false,
+      "checksum": "aae5d67c"
+    },
+    {
+      "team": "red",
+      "champ": "Ashe",
+      "spell_shield": true,
+      "checksum": "aee82ebc"
+    }
+  ],
+  "acceptance_notes": [
+    "Fixtures are observations of original JS under synthetic vision; execute independent Rust native and WASM public golden tests before claiming parity.",
+    "ChecksumV40 from JS is a legacy oracle; Rust canonical hash may use an explicitly mapped schema but cannot silently change causal state.",
+    "Ahri E legacy queueKitSkillV42 rejection is an intentional fidelity exception to fix in Rust input adapter, not the required Rust behavior.",
+    "Ahri E at x=.58 is beyond its 975-unit projectile range even though no wall occludes; Ashe R at x=.58 is within global 25000.",
+    "Minion model is injected, never from a full wave; actual 3+3(+cannon) macro waves and enemy fog are unverified.",
+    "Recast, actual authenticated two-seat permissions, browser, realtime server and Rust/WASM are not exercised."
+  ],
+  "required_rust_modules": [
+    "core-clock",
+    "core-map",
+    "core-combat",
+    "core-champions",
+    "core-replay",
+    "core-protocol"
+  ],
+  "native_qa": "NOT_RUN",
+  "wasm_qa": "NOT_RUN",
+  "http_qa": "NOT_RUN"
+}
