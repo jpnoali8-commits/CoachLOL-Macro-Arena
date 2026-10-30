@@ -1,0 +1,137 @@
+{
+  "schema": "coachlol.m45.skills.s13.native-migration-acceptance-matrix.v1",
+  "date": "2026-10-30",
+  "audit_branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_engine_git_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "source_map_git_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "source_mask_git_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "rust_coordinator_head_at_audit": "5afd330f260c7a0b1984521732e117dfcd81396f",
+  "coordinator_crates_at_audit": [
+    "core-state"
+  ],
+  "prerequisites_not_yet_present": [
+    "core-clock",
+    "core-map",
+    "core-combat",
+    "core-champions",
+    "core-replay",
+    "core-protocol",
+    "services/game-server"
+  ],
+  "executable_legacy_evidence": {
+    "S10": {
+      "count": 26,
+      "pass_v8": 22,
+      "fail_v8": 2,
+      "not_run": 2,
+      "full_original_node": 0
+    },
+    "S11": {
+      "assertions_v8_pass": 66
+    },
+    "S12": {
+      "assertions_v8_pass": 438,
+      "source_scenarios": 34,
+      "midflight_restore_scenarios": 8
+    }
+  },
+  "rust_reference_sources": [
+    {
+      "path": "docs/m45_rust_wasm/inputs/skills/s13_intent_arbiter_reference.rs",
+      "kind": "NON_AUTHORITATIVE_REFERENCE_MODEL",
+      "unit_tests_prepared": 6,
+      "compilation": "NOT_RUN",
+      "workspace_member": false
+    },
+    {
+      "path": "docs/m45_rust_wasm/inputs/skills/s13_projectile_acceptance.rs",
+      "kind": "TYPED_PORT_AND_FIXTURE_EXPECTATIONS",
+      "unit_tests_prepared": 2,
+      "compilation": "NOT_RUN",
+      "workspace_member": false
+    }
+  ],
+  "rust_projectile_parity": {
+    "source": "S12_AUTHORIAL_PROJECTILE_RUST_FIXTURES.json",
+    "distinct_cases_per_seat": 13,
+    "seat_count": 2,
+    "total_expected_case_executions": 26,
+    "approved_source_characterization_ids": [
+      "AHRI_E_NORMAL",
+      "AHRI_E_SPELL_SHIELD",
+      "AHRI_E_MINION_INTERCEPT",
+      "AHRI_E_PROJECTILE_BARRIER",
+      "AHRI_E_ATLAS_WALL",
+      "AHRI_E_RANGE_CLAMP",
+      "ASHE_R_NORMAL",
+      "ASHE_R_SPELL_SHIELD",
+      "ASHE_R_IGNORES_MINION",
+      "ASHE_R_PROJECTILE_BARRIER",
+      "ASHE_R_ATLAS_WALL",
+      "ASHE_R_EXPLOSION_SECONDARY",
+      "ASHE_R_SPLASH_SHIELD"
+    ],
+    "legacy_bug_excluded_from_parity_id": "AHRI_E_LEGACY_INPUT",
+    "limitations": [
+      "Rust acceptance data is synthetic-V8 source fixture; no full actual Node, no real HTTP, no all-champions equivalence",
+      "Future runner must execute actual Rust core-combat; cannot return hardcoded expectations",
+      "The Rust port currently only exposes data and test interface; no core-combat integration exists"
+    ]
+  },
+  "deliberate_fidelity_fixes": [
+    {
+      "id": "M45_SKILLS_AHRI_E_DISPATCH",
+      "legacy_status": "V8_REPRODUCED_FAIL",
+      "old_behavior": "normal queueKitSkillV42 rejected; direct authored board E casts",
+      "new_behavior": "normal PvP input routes to authored board E once",
+      "accept_gate": "2 seats x 2 command interfaces, one cast/debit, full Rust native and real authority",
+      "authorization": "NOT_APPROVED_BY_INTEGRATION"
+    },
+    {
+      "id": "M45_SKILLS_NAMI_W_STALE_INTENT",
+      "legacy_status": "V8_REPRODUCED_4_CASES",
+      "old_behavior": "board and targeted W coexist, second ghost W after cooldown",
+      "new_behavior": "single sealed actor-slot cast, idempotent request_id, conflict rejected, old intent cleared",
+      "accept_gate": "2 seats x 2 order permutations plus retry/reconnect/cooldown on actual Rust server",
+      "authorization": "NOT_APPROVED_BY_INTEGRATION"
+    }
+  ],
+  "stale_source_assertions": [
+    {
+      "id": "M14_ASHE_R_IMMEDIATE_STUN",
+      "legacy_status": "V8_FAIL",
+      "interpretation": "authored R travels and impacts on later ticks; source legacy M14 asserts immediate effect",
+      "new_baseline": "S12 authored temporal collision/wall/shield fixture",
+      "further_native_test": "MANDATORY"
+    },
+    {
+      "id": "M14_ASHE_R_FAR_WALL",
+      "legacy_status": "V8_CHARACTERIZED",
+      "interpretation": "target x=.65 crosses real atlas obstacle; replace with clear x=.58 in future explicit test",
+      "further_native_test": "MANDATORY"
+    }
+  ],
+  "required_native_acceptance": [
+    "Rust command validator binds actual logged-in seat to only five own actors",
+    "Rust match actor seals both seats before combat; request_id replay returns exact prior receipt",
+    "Nami W board->targeted and targeted->board cannot double debit or ghost-cast after cooldown",
+    "Ahri E normal command selects authored E once and honors range/first minion/spell shield/projectile barrier/map wall",
+    "Ashe R temporal projectile travels at authored tick rate, ignores minions, stuns first champion and splashes nearby champions with shield behavior",
+    "Both skills preserve source-pinned midflight snapshot causal state after restore for blue and red",
+    "Rust WASM exposes only explicitly public projection data, never raw enemy orders, fog, RNG, or authoritative private state",
+    "Real two-seat HTTP/WS/reconnect tests with no mock visibility and reproducible Node+Rust goldens"
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "RUST_REFERENCE_NOT_COMPILED",
+    "G2": "SOURCE_LEGACY_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_gameplay_branch_change": true
+}
