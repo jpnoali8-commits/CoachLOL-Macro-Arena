@@ -4746,7 +4746,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    return {ok:false,reason:'ponto'};
   if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
-  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(u,q.point)))return {ok:false,reason:'destino_bloqueado'};
+  if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y)||
+    (s.m44B16BId!=='Bard.E'&&this.obstacleLine(u,q.point))))return {ok:false,reason:'destino_bloqueado'};
   // M32: the second PvP player's order may consume a mark or remove an entity
   // before this spell resolves. Validate owner ledger before debit/cooldown.
   if(s.m21FrostRequired&&!(target?.m21FrostV453?.sourceId===u.id&&

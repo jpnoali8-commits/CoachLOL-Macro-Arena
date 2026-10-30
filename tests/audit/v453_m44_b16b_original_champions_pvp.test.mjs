@@ -101,7 +101,22 @@ for(const side of ['blue','red']){
   assert.equal(cast('E',{point:{x:.53,y:.5}}).phaseDive,true);
   assert.equal(u.id,side+'_MID');assert.equal(u.team,side);
  });
+ run(side,'Bard','wall removed before commit => no debit',({a,u})=>{
+  const point={x:.53,y:.5};
+  a.obstacleLine=(origin,dest)=>origin?.id===u.id&&
+   dest?.x===point.x&&dest?.y===point.y;
+  assert.equal(a.queueBoardSkillV453Dev69(side,u.id,'E',{point}).ok,true);
+  const mana=u.mana,cd=u.skillCds.E,start={x:u.x,y:u.y};
+  a.obstacleLine=()=>false;
+  let receipt;const original=a.executeBoardSkillV453Dev69.bind(a);
+  a.executeBoardSkillV453Dev69=(actor,order)=>(receipt=original(actor,order));
+  try{a.resolveBoardSkillsV453Dev69()}finally{a.executeBoardSkillV453Dev69=original}
+  assert.equal(receipt?.ok,false);
+  assert.equal(receipt?.reason,'m44_b16_bard_wall_lost_before_commit');
+  assert.equal(u.mana,mana);assert.equal(u.skillCds.E,cd);
+  assert.equal(u.x,start.x);assert.equal(u.y,start.y);
+ });
 }
 for(const fail of failures)console.error('M44_B16B_FAIL',JSON.stringify(fail));
 console.log('M44_B16B '+JSON.stringify({authored:12,pass,checkpoint,failures:failures.length,certifiedKits:0}));
-assert.equal(failures.length,0);assert.equal(pass,38);
+assert.equal(failures.length,0);assert.equal(pass,40);
