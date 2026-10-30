@@ -137,3 +137,14 @@ Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real ten
 [contrato Rust para economia/protocolo/replay](ECONOMY_PROTOCOL_CONTRACT_B06.json).
 
 **Execução:** 92/92 resultados esperados no motor original JS via V8, com 92/92 repetições equivalentes; 60 testes economia, 29 gateway, 2 negativas P1 trinket e 1 verificação de ordenação. **Contratos sem paridade Rust certificada.** A ordem de compra por times diferentes não muda os saldos, mas muda os eventos/ACK e checksum global V40; replay Rust deve preservar ordem autoritativa de commit. O runner agregado de B01–B06 soma **391 casos preparados para Node** (299 anteriores + 92 B06); a suíte Node literal e Cargo/WASM seguem **NOT_RUN**.
+
+## B02B-ITEMS Lote 07 — 2026-10-30
+
+[Recibo B07](RECEIPT_B02B_ITEMS_07.md) ·
+[matriz executável de cross-items](cross_items_b07_cases.mjs) ·
+[runner Node ESM B07](golden_b07_cross_items.test.mjs) ·
+[QA V8 B07](QA_V8_CROSS_ITEMS_B07.json) ·
+[cobertura e itens pendentes](EFFECT_CROSS_COVERAGE_B07.json) ·
+[contrato de ordem do combate Rust](ITEM_COMBAT_ORDER_CONTRACT_B07.json).
+
+**JS source/V8:** 23 interações × blue/red = **46/46 casos PASS**, com **46/46 registros repetidos identicamente** em nova execução; **34 IDs distintos de regras** referenciados pela matriz. Catálogo de fonte: 51 `ITEM_EFFECTS` e 15 `ITEM_FAMILY_RULES`; 22 entradas sem aparecimento nas matrizes B03/B07, não necessariamente sem testes legados. Runner cumulativo B01–B07: **437 casos planejados para Node**, mas Node ESM, HTTP, Cargo e WASM permanecem **NOT_RUN**. **G8 NOT_CERTIFIED**. Nenhuma mudança de regra em JS ou crate Rust publicada por este chat.
