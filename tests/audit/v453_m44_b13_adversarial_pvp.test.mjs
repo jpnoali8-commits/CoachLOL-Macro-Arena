@@ -129,6 +129,12 @@ for(const team of ['blue','red']){
   assert.ok(a.boardTemporalV453Dev69.some(v=>
    v.kind==='m44_b13_zone'&&v.variant==='shyvana_e'&&v.ownerId===u.id));
  });
+ scenario(team,'Jayce','level-one Mercury Cannon to Hammer conversion',({u,cast})=>{
+  u.level=1;u.skillRanks.R=1;u.skillCds.R=0;
+  const rec=cast('R');
+  assert.equal(rec.transformed,true);assert.equal(rec.form,'hammer');
+  assert.equal(u.m44B13JayceMode,'hammer');
+ });
  scenario(team,'Yorick','Maiden is server pet not a sixth champion',({a,u,cast})=>{
   const before=a.units.length,r=cast('R');
   assert.equal(a.units.length,before);
@@ -139,4 +145,4 @@ for(const team of ['blue','red']){
 for(const f of failures)console.error('M44_B13_ADVERSARIAL_FAIL',JSON.stringify(f));
 console.log('M44_B13_ADVERSARIAL '+JSON.stringify({passed,snapshots,
  failures:failures.length,certifiedKits:0}));
-assert.equal(failures.length,0);assert.equal(passed,28);
+assert.equal(failures.length,0);assert.equal(passed,30);
