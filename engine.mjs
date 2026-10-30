@@ -1082,6 +1082,12 @@ export const M44_B13A_KITS_V453=Object.freeze({
  Nami:{W:BS("target_any",725,[70,75,80,85,90],10,[70,110,150,190,230],{m44B13Id:"Nami.W"})},
  Azir:{W:BS("move_point",600,40,[12,11,10,9,8],[],{m44B13Id:"Azir.W"})}
 });
+// M44 B14C: exact borrowed Q/W; no anonymous fallbacks.
+export const M44_B14C_VIEGO_COPY_V453=Object.freeze({
+ Hwei:{Q:M44_B14B_KITS_V453.Hwei.Q,W:M44_B14B_KITS_V453.Hwei.W},
+ Azir:{Q:M44_B14A_KITS_V453.Azir.Q,W:M44_B13A_KITS_V453.Azir.W},
+ Bard:{W:M44_B14B_KITS_V453.Bard.W}
+});
 // M44 B12B — eight individually-authored board spells.
 export const M44_B12B_KITS_V453=Object.freeze({
  Akshan:{Q:BS('line_enemy',1000,60,[8,7.5,7,6.5,6],[10,30,50,70,90],
@@ -1527,6 +1533,9 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
 export function abilityRule(u,slot){
+ const p=u.champ==='Viego'&&u.m44B14CPossession;
+ if(p&&slot!=='R'&&M44_B14C_VIEGO_COPY_V453[p.sourceChamp]?.[slot])
+  return M44_B14C_VIEGO_COPY_V453[p.sourceChamp][slot];
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
   (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[u.champ]?.[slot]||M44_B14A_KITS_V453[u.champ]?.[slot]||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
@@ -3960,7 +3969,10 @@ export class Arena {
     return {ok:false,reason:'m40_channel_interrupted'};
    return {ok:false,reason:'m40_channel_active'};
   }
-  if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(u.champ==='Viego'&&u.m44B14CPossession?.until>this.gameTime&&slot!=='R'&&
+    !M44_B14C_VIEGO_COPY_V453[u.m44B14CPossession.sourceChamp]?.[slot])
+    return {ok:false,reason:'m44_b14c_slot_unsupported'};
+if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   if(slot==='W'&&['Leblanc','Zed'].includes(u.champ)&&
      u.m44B13Return?.until>this.gameTime){
    u.pendingBoardV453Dev69={slot,m44B13Return:true};
@@ -4315,6 +4327,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
     z?.form!=='mega'&&(z?.rage||0)>=100&&(z?.lockUntil||0)<=this.gameTime);
  }
  boardKitForV453Dev69(champ,slot,u=null){
+  if(champ==='Viego'&&slot!=='R'&&u?.m44B14CPossession?.until>this.gameTime)
+   return M44_B14C_VIEGO_COPY_V453[u.m44B14CPossession.sourceChamp]?.[slot]||null;
   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
    return m44B14CSylasUltimateRuleV453(u.sylasStolenV453M14.sourceChamp);
   if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
@@ -7170,6 +7184,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   return {...committed,hitCount:damaged};
  }
  resolveBoardSkillsV453Dev69(){
+  this.resolveViegoPossessV453M44B14C();
   for(const u of this.units){const q=u.pendingBoardV453Dev69;if(!q)continue;
    u.pendingBoardV453Dev69=null;
    const receipt=this.executeBoardSkillV453Dev69(u,q);
@@ -9471,6 +9486,15 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
  }
  advanceBoardPassivesV453Dev69(){
+  for(const v of this.units.filter(x=>x.champ==='Viego')){
+   v.m44B14CSouls=(v.m44B14CSouls||[]).filter(x=>x.until>this.gameTime);
+   if(v.m44B14CPossession&&(v.hp<=0||
+    v.m44B14CPossession.until<=this.gameTime)){
+    for(const slot of ['Q','W','E'])v.skillCds[slot]=Math.max(
+     v.skillCds[slot]||0,v.m44B14CPossession.originalCds?.[slot]||0);
+    v.m44B14CPossession=null;
+   }
+  }
   for(const ekko of this.units.filter(u=>u.champ==='Ekko'&&u.hp>0)){
    const history=ekko.m44B13History??=[];
    if(!history.length||history[history.length-1].at<this.gameTime)
@@ -9764,7 +9788,51 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    u.boardRegenAtV453Dev69=this.gameTime;
   }
  }
- // Sylas Hijack: steals one supported R contract without changing champion
+ // Server-owned Viego passive claim; no tenth-slot duplication.
+  queueViegoPossessV453M44B14C(team,id,soulId){
+   const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Viego');
+   if(!u||!u.hp||this.ended||this.teams[team]?.ready||
+    !['planning','preparation'].includes(this.phase)||
+    u.pendingBoardV453Dev69||u.m44B14CPendingSoul||
+    u.m44B14CPossession?.until>this.gameTime)
+    return {ok:false,reason:'viego_unavailable'};
+   const soul=(u.m44B14CSouls||[]).find(x=>x.id===soulId&&x.until>this.gameTime),
+    corpse=soul&&this.units.find(x=>x.id===soul.victimId&&x.hp<=0&&
+     x.deaths===soul.death&&x.team!==team);
+   if(!corpse||!M44_B14C_VIEGO_COPY_V453[soul.sourceChamp]||
+    this.mapDistance(u,soul.point)>700||!this.canSeePoint(team,soul.point)||
+    !this.sameCombatRealmV453Dev69(u,corpse)||
+    !this.walkable(soul.point.x,soul.point.y)||this.obstacleLine(u,soul.point))
+    return {ok:false,reason:'viego_invalid_soul'};
+   u.m44B14CPendingSoul=soul.id;
+   this.recordIntentV40(team,id,'viego_possess',{soulId:soul.id});
+   return {ok:true,queued:true};
+  }
+  resolveViegoPossessV453M44B14C(){
+   for(const u of this.units.filter(x=>x.champ==='Viego'&&x.m44B14CPendingSoul)){
+    const id=u.m44B14CPendingSoul;u.m44B14CPendingSoul=null;
+    const soul=(u.m44B14CSouls||[]).find(x=>x.id===id&&x.until>this.gameTime),
+     corpse=soul&&this.units.find(x=>x.id===soul.victimId&&x.hp<=0&&
+      x.deaths===soul.death&&x.team!==u.team);
+    if(!u.hp||!soul||!corpse||u.m44B14CPossession?.until>this.gameTime||
+     this.mapDistance(u,soul.point)>700||!this.canSeePoint(u.team,soul.point)||
+     !this.sameCombatRealmV453Dev69(u,corpse)||
+     !this.effectResolverV41().canAct(u,'skill').ok||
+     !this.walkable(soul.point.x,soul.point.y)||this.obstacleLine(u,soul.point))
+     continue;
+    const start={x:u.x,y:u.y};
+    u.m44B14CPossession={sourceChamp:soul.sourceChamp,until:this.gameTime+8,
+     victimId:corpse.id,originalCds:Object.fromEntries(
+      ['Q','W','E'].map(slot=>[slot,u.skillCds?.[slot]||0]))};
+    for(const slot of ['Q','W','E'])u.skillCds[slot]=this.gameTime;
+    Object.assign(u,soul.point);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,start,soul.point,{kind:'viego_possess'});
+    this.effectResolverV41().heal(u,u.maxHp*.12,u);
+    u.m44B14CSouls=u.m44B14CSouls.filter(x=>x.id!==id);
+   }
+  }
+// Sylas Hijack: steals one supported R contract without changing champion
  // identity. Unsupported unique or legacy ultimates fail explicitly.
  queueSylasHijackV453M14(team,id,targetId){
   const u=this.units.find(v=>v.id===id&&v.team===team&&v.champ==='Sylas'),
@@ -13969,7 +14037,17 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
        .sort(),updatedAt:this.gameTime};
      }
     }
-    target.damageContributors={};
+    // Viego earned soul: champion kill or recent assist, not a training summon.
+    for(const v of [credited,...assistingChampions].filter(x=>
+     x?.champ==='Viego'&&x.hp>0&&x.team!==target.team)){
+     if(!M44_B14C_VIEGO_COPY_V453[target.champ])continue;
+     const id='viego_soul_'+target.id+'_'+target.deaths,arr=v.m44B14CSouls??=[];
+     if(!arr.some(x=>x.id===id))arr.push({id,victimId:target.id,
+      sourceChamp:target.champ,death:target.deaths,
+      point:{x:target.x,y:target.y},until:this.gameTime+6});
+     v.m44B14CSouls=arr.filter(x=>x.until>this.gameTime).slice(-5);
+    }
+target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
     if(credited){this.ahriEssenceDeathV453Dev69M4(credited,{champion:true});this.jinxExcitedV453Dev69M5(credited,{champion:true});}
