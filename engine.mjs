@@ -2762,8 +2762,7 @@ export class Arena {
   if(!actor||!destination)return null;
   return this.units.filter(v=>v.hp>0&&v.team!==actor.team&&
     v.m44B17Steadfast?.until>this.gameTime&&
-    this.sameCombatRealmV453Dev69(actor,v)&&
-    this.mapDistance(actor,v)<=600)
+    this.sameCombatRealmV453Dev69(actor,v))
    .sort((a,b)=>String(a.id).localeCompare(String(b.id)))
    .find(v=>this.m44B18SegmentDistanceV453(v,actor,destination)<=400)||null;
  }
@@ -2782,6 +2781,15 @@ export class Arena {
    for(let i=1;i<steps;i++){const t=i/steps;
     if(!this.walkable(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t,actor))return true;}
    return false;
+ }
+ // B20: authoritative source-anchored projectile volumes are live at impact time.
+ m44B20ProjectileBarrierCenterV453(b,now=this.gameTime){
+   if(!b||!(b.until>now))return null;
+   if(b.anchor==='owner'){
+     const owner=this.units.find(u=>u.id===b.ownerId&&u.team===b.team&&u.hp>0);
+     return owner?{x:owner.x,y:owner.y}:null;
+   }
+   return Number.isFinite(b.x)&&Number.isFinite(b.y)?{x:b.x,y:b.y}:null;
  }
  m44B19ProjectileWalkableV453(p){
    return !!p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&
@@ -7334,7 +7342,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       u.m44B13SamiraWhirlUntil=now+2;
       (this.projectileBarriersV453Dev43??=[]).push({
        id:'m44_b19_samira_'+u.id+'_'+(++this.championProjectileSeqV453Dev42),
-       kind:'samira_blade_whirl',ownerId:u.id,team:u.team,
+       kind:'samira_blade_whirl',ownerId:u.id,team:u.team,anchor:'owner',
        x:u.x,y:u.y,radius:360,until:now+2});
      let hits=0;
      for(const v of enemies(u,360))
@@ -11804,7 +11812,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   let blockedAt=Infinity;
   for(const wall of this.projectileBarriersV453Dev43||[]){
    if(wall.team===p.team||!(wall.until>now))continue;
-   const rx=(wall.x-from.x)*this.worldWidth,ry=(wall.y-from.y)*this.worldHeight;
+   const c=this.m44B20ProjectileBarrierCenterV453(wall,now);
+   if(!c)continue;
+   const rx=(c.x-from.x)*this.worldWidth,ry=(c.y-from.y)*this.worldHeight;
    const depth=rx*vx+ry*vy,side=Math.abs(rx*vy-ry*vx),radius=Math.max(0,wall.radius||0);
    if(side<=radius&&depth+radius>=0&&depth-radius<=travel)
     blockedAt=Math.min(blockedAt,Math.max(0,depth-Math.sqrt(Math.max(0,radius*radius-side*side))));
@@ -15872,8 +15882,10 @@ target.damageContributors={};
    // projectile immunity. Barrier owners/allies never intercept friendly fire.
    let barrierDepth=Infinity;
    for(const b of (this.projectileBarriersV453Dev43||[])){
-    if(!b||b.team===p.team||!(b.until>now)||!Number.isFinite(b.x)||!Number.isFinite(b.y))continue;
-    const x=(b.x-origin.x)*this.worldWidth,y=(b.y-origin.y)*this.worldHeight;
+    if(!b||b.team===p.team||!(b.until>now))continue;
+    const c=this.m44B20ProjectileBarrierCenterV453(b,now);
+    if(!c)continue;
+    const x=(c.x-origin.x)*this.worldWidth,y=(c.y-origin.y)*this.worldHeight;
     const depth=x*p.unit.x+y*p.unit.y,side=Math.abs(x*p.unit.y-y*p.unit.x),radius=Math.max(0,Number(b.radius)||0);
     if(side<=radius&&depth+radius>=from&&depth-radius<=to){
      const crossing=Math.max(from,depth-Math.sqrt(Math.max(0,radius*radius-side*side)));
@@ -16147,7 +16159,7 @@ target.damageContributors={};
     'champion_projectile_impact_v453_dev42',p.ownerId);
   }
   this.championProjectilesV453Dev42=still;
-  this.projectileBarriersV453Dev43=(this.projectileBarriersV453Dev43||[]).filter(b=>b.until>now);
+  this.projectileBarriersV453Dev43=(this.projectileBarriersV453Dev43||[]).filter(b=>!!this.m44B20ProjectileBarrierCenterV453(b,now));
  }
  // Irelia E: first and second blades are real board points. The collision
  // line exists only on convergence, and cannot mark on the initial placement.
