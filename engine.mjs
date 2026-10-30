@@ -1016,6 +1016,22 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B15A — 12 champion-authored missing slots. Independent identities,
+// not common substitute spells. All share the original board dispatcher.
+export const M44_B15A_KITS_V453=Object.freeze({
+ Akshan:{E:BS('move_point',800,60,[18,16,14,12,10],[40,55,70,85,100],{type:'physical',adRatio:.6,m44B15AId:'Akshan.E'})},
+ Hwei:{E:BS('line_enemy',1100,65,[13,12,11,10,9],[60,85,110,135,160],{m44B15AId:'Hwei.E',width:230})},
+ Aphelios:{R:BS('circle_enemy',1300,100,[110,100,90],[125,200,275],{type:'physical',adRatio:.8,radius:430,m44B15AId:'Aphelios.R'})},
+ Leblanc:{Q:BS('target_enemy',700,50,[6,6,6,6,6],[65,90,115,140,165],{apRatio:.45,m44B15AId:'Leblanc.Q'})},
+ Jayce:{W:BS('self',0,40,[12,11,10,9,8],[20,30,40,50,60],{m44B15AId:'Jayce.W'})},
+ Rumble:{E:BS('line_enemy',950,0,[6,5.5,5,4.5,4],[55,75,95,115,135],{apRatio:.4,width:140,m44B15AId:'Rumble.E'})},
+ Kalista:{Q:BS('line_enemy',1150,50,[8,8,8,8,8],[60,85,110,135,160],{type:'physical',adRatio:.95,width:150,m44B15AId:'Kalista.Q'})},
+ Azir:{E:BS('move_point',1100,60,[22,20,18,16,14],[60,90,120,150,180],{apRatio:.4,m44B15AId:'Azir.E'})},
+ Zed:{E:BS('self',0,0,[5,4.5,4,3.5,3],[50,70,90,110,130],{type:'physical',adRatio:.65,m44B15AId:'Zed.E'})},
+ Viego:{W:BS('line_enemy',900,0,[8,7.5,7,6.5,6],[40,55,70,85,100],{apRatio:.6,width:140,m44B15AId:'Viego.W'})},
+ Sylas:{W:BS('target_enemy',550,70,[12,11,10,9,8],[60,90,120,150,180],{apRatio:.75,m44B15AId:'Sylas.W'})},
+ Ekko:{Q:BS('line_enemy',1050,50,[9,8.5,8,7.5,7],[60,75,90,105,120],{apRatio:.35,width:210,m44B15AId:'Ekko.Q'})}
+});
 // M44 B14C — explicit stealable R, no anonymous fallback.
 export const M44_B14C_STEALABLE_R_V453=Object.freeze([
  'Bard','Malzahar','Volibear','Nocturne','Diana','Lissandra',
@@ -1531,7 +1547,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4186,9 +4202,13 @@ if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:fals
    return {ok:false,reason:'m29_milio_no_charges'};
   if(s.m44B14BId==='Hwei.Q'&&!['QQ','QW','QE'].includes(m44B14Variant||'QQ'))
    return {ok:false,reason:'m44_b14_hwei_q_variant'};
-  if(s.m44B14BId==='Hwei.W'&&!['WQ','WW','WE'].includes(m44B14Variant||'WW'))
+  if(s.m44B15AId==='Hwei.E'&&!['EQ','EW','EE'].includes(m44B14Variant||'EQ'))
+   return {ok:false,reason:'m44_b15_hwei_e_variant'};
+  
+if(s.m44B14BId==='Hwei.W'&&!['WQ','WW','WE'].includes(m44B14Variant||'WW'))
    return {ok:false,reason:'m44_b14_hwei_w_variant'};
-  if(m44B14Variant!==null&&!['Hwei.Q','Hwei.W'].includes(s.m44B14BId))
+  if(m44B14Variant!==null&&s.m44B15AId!=='Hwei.E'&&
+   !['Hwei.Q','Hwei.W'].includes(s.m44B14BId))
    return {ok:false,reason:'m44_b14_variant_not_allowed'};
 
 const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot||s.m44B08PykeCharge;
@@ -5691,7 +5711,173 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-      // M44 B14B — explicit Hwei sub-spells and temporal owner effects.
+      // M44 B15A — each case is the actual authored effect of its source
+  // champion. Copies reuse this SAME switch with their actual owning actor ID.
+  if(s.m44B15AId){
+   const key=s.m44B15AId,now=this.gameTime,aim=q.point||target||u;
+   const enemies=(origin,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(origin,v)<=r&&!this.obstacleLine(origin,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const hit=(v,ratio=1,type=s.type||'magic')=>
+    this.damage(v,power(s.damage)*ratio,u,type,'spell');
+   const relocate=(to,reason)=>{
+    if(!to||to.x<0||to.x>1||to.y<0||to.y>1||
+     !this.walkable(to.x,to.y)||this.obstacleLine(u,to)||
+     (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,to)))
+     return false;
+    const from={x:u.x,y:u.y};Object.assign(u,to);
+    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'m44_b15_'+reason});
+    return true;
+   };
+   switch(key){
+    case 'Akshan.E':{
+     const dx=(u.x-aim.x)*this.worldWidth,dy=(u.y-aim.y)*this.worldHeight,
+      d=Math.hypot(dx,dy);
+     if(d<60||d>800)return {...committed,heroicSwing:false};
+     const arc=Math.PI/2,px=(dx*Math.cos(arc)-dy*Math.sin(arc)),
+      py=(dx*Math.sin(arc)+dy*Math.cos(arc)),
+      dest={x:aim.x+px/this.worldWidth,y:aim.y+py/this.worldHeight};
+     if(!relocate(dest,'akshan_swing'))return {...committed,heroicSwing:false};
+     let hits=0;
+     for(const v of enemies(u,540).slice(0,3))if(hit(v,1,'physical')>0)hits++;
+     return {...committed,heroicSwing:true,hits,anchor:{...aim}};
+    }
+    case 'Hwei.E':{
+     const variant=q.m44B14Variant||'EQ',
+      victims=skillshotHitsV42(u,aim,enemies(u,1100),{
+       range:1100,width:230,maxHits:variant==='EE'?3:1,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     const center=variant==='EW'?aim:null;let hits=0;
+     for(const v of variant==='EW'?enemies(center,280).slice(0,3):victims){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');
+      if(hit(v)>0)hits++;
+      if(v.champ&&v.hp>0&&!blocked){
+       const type=variant==='EQ'?'fear':variant==='EW'?'root':'slow';
+       this.applyEffectV41(v,type,{source:u,duration:variant==='EE'?1.5:1.25,
+        power:variant==='EE'?.45:0,key:'m44_b15_hwei_'+u.id+'_'+instance});
+      }
+     }
+     return {...committed,subjectTorment:variant,hits};
+    }
+    case 'Aphelios.R':{
+     const gun=u.m44B14Aphelios?.primary||'calibrum';
+     let hits=0;
+     for(const v of enemies(aim,430)){
+      if(hit(v,gun==='infernum'?1.4:1,'physical')>0)hits++;
+      if(!v.champ||v.hp<=0)continue;
+      if(gun==='gravitum'){
+       (v.m44B14GravitumMark??={})[u.id]=now+5;
+       this.applyEffectV41(v,'slow',{source:u,duration:2,power:.3,
+        key:'m44_b15_moon_'+instance});
+      }else if(gun==='calibrum')(v.m44B15CalibrumMark??={})[u.id]=now+5;
+      else if(gun==='crescendum')u.m44B15ChakramStacks=Math.min(20,
+       (u.m44B15ChakramStacks||0)+2);
+      else if(gun==='severum')this.effectResolverV41().heal(u,45+20*rank,u);
+     }
+     return {...committed,moonlightVigil:gun,hits};
+    }
+    case 'Leblanc.Q':{
+     if(!target)return {...committed,sigil:false};
+     const dealt=hit(target);
+     if(target.hp>0)(target.m44B15LeblancSigil??={})[u.id]={
+      until:now+3,stored:50+rank*25+stats.ap*.35};
+     return {...committed,sigil:true,hit:dealt>0};
+    }
+    case 'Jayce.W':{
+     const hammer=u.m44B13JayceMode==='hammer';let hits=0;
+     if(hammer){
+      for(const v of enemies(u,350).slice(0,8))if(hit(v)>0)hits++;
+      u.m44B15JayceField={until:now+3,power:power(s.damage)};
+     }else u.boardNextBasicV453Dev69={until:now+5,charges:3,total:3,
+      base:power(s.damage),adRatio:.18,sourceSlot:'W'};
+     return {...committed,lightningField:hammer,hyperCharge:!hammer,hits};
+    }
+    case 'Rumble.E':{
+     const victims=skillshotHitsV42(u,aim,enemies(u,950),{
+      range:950,width:140,maxHits:1,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const v of victims){
+      hit(v);
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:2,power:.35,key:'m44_b15_rumble_'+instance});
+     }
+     u.m44B13RumbleHeat=Math.min(100,(u.m44B13RumbleHeat||0)+10);
+     return {...committed,electroHarpoon:true,hits:victims.length};
+    }
+    case 'Kalista.Q':{
+     const victims=skillshotHitsV42(u,aim,enemies(u,1150),{
+      range:1150,width:150,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});let hits=0;
+     for(const v of victims){
+      const lethal=hit(v,1,'physical')>0; if(lethal)hits++;
+      if(v.hp>0){const prior=v.m44B13KalistaSpears??={};
+       const st=prior[u.id];
+       prior[u.id]={stacks:Math.min(120,(st?.until>now?st.stacks:0)+1),
+        until:now+8};break;}
+     }
+     return {...committed,pierce:true,hits};
+    }
+    case 'Azir.E':{
+     const soldier=(this.boardSummonsV453Dev69||[]).filter(v=>
+      v.kind==='azir_soldier'&&v.ownerId===u.id&&v.hp>0&&v.until>now&&
+      this.mapDistance(v,aim)<=200&&this.mapDistance(u,v)<=1100)
+      .sort((a,b)=>this.mapDistance(a,b)-this.mapDistance(u,b))[0];
+     if(!soldier||!relocate(soldier,'azir_shift'))return {...committed,shiftingSands:false};
+     u.shield=(u.shield||0)+60+25*rank;
+     let hits=0;for(const v of enemies(u,210))if(hit(v)>0)hits++;
+     return {...committed,shiftingSands:true,hits};
+    }
+    case 'Zed.E':{
+     const shadows=(this.boardSummonsV453Dev69||[]).filter(v=>
+      v.kind==='zed_shadow'&&v.ownerId===u.id&&v.hp>0&&v.until>now);
+     const ledger=new Set();let hits=0;
+     for(const origin of [u,...shadows])for(const v of enemies(origin,290)){
+      if(ledger.has(v.id))continue;
+      ledger.add(v.id);if(hit(v,1,'physical')>0)hits++;
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:1.5,power:.3,key:'m44_b15_zed_'+instance});
+     }
+     return {...committed,shadowSlash:true,emitters:shadows.length+1,hits};
+    }
+    case 'Viego.W':{
+     const victims=skillshotHitsV42(u,aim,enemies(u,900),{
+      range:900,width:140,maxHits:1,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     for(const v of victims){
+      const shielded=this.effectResolverV41().has(v,'spell_shield');
+      hit(v);
+      if(v.champ&&v.hp>0&&!shielded)this.applyEffectV41(v,'stun',{
+       source:u,duration:1.25,key:'m44_b15_viego_'+instance});
+     }
+     return {...committed,spectralMaw:true,hits:victims.length};
+    }
+    case 'Sylas.W':{
+     if(!target)return {...committed,kingslayer:false};
+     const dealt=hit(target);
+     if(dealt>0)this.effectResolverV41().heal(u,
+      55+35*rank+stats.ap*.3+Math.max(0,u.maxHp-u.hp)*.1,u);
+     return {...committed,kingslayer:true,hit:dealt>0};
+    }
+    case 'Ekko.Q':{
+     const victims=skillshotHitsV42(u,aim,enemies(u,1050),{
+      range:1050,width:210,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});let hits=0;
+     for(const v of victims){
+      if(hit(v)>0)hits++;
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:2,power:.3,key:'m44_b15_ekko_'+instance});
+     }
+     u.m44B15EkkoQReturn={at:now+1,point:{x:u.x,y:u.y},hitIds:victims.map(v=>v.id)};
+     return {...committed,timewinder:true,hits};
+    }
+    default:return {ok:false,reason:'m44_b15a_unhandled'};
+   }
+  }
+
+// M44 B14B — explicit Hwei sub-spells and temporal owner effects.
   if(s.m44B14BId){
    const now=this.gameTime,point=q.point||u,identity=s.m44B14BId;
    const enemies=(p,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
