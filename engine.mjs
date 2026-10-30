@@ -13935,6 +13935,40 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      if(helper){helper.assists=(helper.assists||0)+1;assistingChampions.push(helper);
       if(this.gameTime-stamp<=3)this.jinxExcitedV453Dev69M5(helper,{champion:true});}
     }}
+    // M44 B14C — Akshan Scoundrel is earned from a REAL champion death.
+    // The original killer carries a team-keyed list of fallen champion IDs,
+    // not a global/omniscient mark. A kill/assist by that team's Akshan
+    // avenges only these deaths; never enemy players, pets, or nonparticipants.
+    if(credited?.champ){
+     const token=(target.m44B14CScoundrels||{})[credited.team];
+     const avenger=this.units.find(v=>v.champ==='Akshan'&&v.team===credited.team&&
+      v.hp>0&&(credited.id===v.id||
+      assistingChampions.some(helper=>helper.id===v.id)));
+     if(token?.victimIds?.length){
+      if(avenger){
+       const revived=[];
+       for(const id of token.victimIds){
+        const ally=this.units.find(v=>v.id===id&&v.team===credited.team&&
+         v.champ&&v.hp<=0&&v.deadUntil>this.gameTime);
+        if(!ally)continue;
+        ally.deadUntil=this.gameTime;revived.push(ally.id);
+       }
+       if(revived.length){
+        (avenger.m44B14CAvenged??=[]).push({at:this.gameTime,
+         killerId:target.id,revived});
+        this.event('Akshan vingou '+revived.length+' aliado(s).',
+         avenger.team,'akshan_scoundrel',avenger.id);
+       }
+      }
+      delete target.m44B14CScoundrels[credited.team];
+     }
+     if(this.units.some(v=>v.champ==='Akshan'&&v.team===target.team)){
+      const record=credited.m44B14CScoundrels??={},
+       old=record[target.team]||{victimIds:[]};
+      record[target.team]={victimIds:[...new Set([...old.victimIds,target.id])]
+       .sort(),updatedAt:this.gameTime};
+     }
+    }
     target.damageContributors={};
     if(credited){this.creditGoldV452d4Dev7(credited,300,'takedown');this.recordEconomyV43(credited,'takedown',300,target.id);credited.kills++;this.teams[credited.team].kills++;this.awardGloryV453Dev58(credited,'kill');}
     for(const helper of assistingChampions)this.awardGloryV453Dev58(helper,'assist');
