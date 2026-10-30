@@ -1,0 +1,1313 @@
+{
+  "schema": "coachlol.m45.skills.precedence.v1",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "source_function": "m44B14DOriginalBoardRuleV453 + abilityRule + Arena.boardKitForV453Dev69 + Arena.resolveSpecialUltimates",
+  "static_check": "PASS",
+  "golden_gameplay": "NOT_RUN",
+  "rules": {
+    "source_lookup_order": [
+      "M16_MECHANIC_KITS",
+      "M44_B09_GNAR_MEGA_V453",
+      "M44_B33A_KITS_V453",
+      "M44_B32A_KITS_V453",
+      "M44_B26_KITS_V453",
+      "M44_B25_KITS_V453",
+      "M44_B24_KITS_V453",
+      "M44_B17B_KITS_V453",
+      "M44_B17A_KITS_V453",
+      "M44_B16B_KITS_V453",
+      "M44_B16A_KITS_V453",
+      "M44_B15B_KITS_V453",
+      "M44_B15A_KITS_V453",
+      "M44_B14B_KITS_V453",
+      "M44_B14A_KITS_V453",
+      "M44_B13B_KITS_V453",
+      "M44_B13A_KITS_V453",
+      "M44_B12B_KITS_V453",
+      "M44_B12_KITS_V453",
+      "M44_B11_KITS_V453",
+      "M44_B09_KITS_V453",
+      "M44_B08_KITS_V453",
+      "M44_B07_KITS_V453",
+      "M44_B05_KITS_V453",
+      "BOARD_KITS_V453_DEV69",
+      "BOARD_M20_B01_V453",
+      "M15_ENTITY_KITS_V453",
+      "FORM_KITS_V453_M14",
+      "CHAMPION_KITS_V42",
+      "CHAMPION_SPELL_RULES_V382"
+    ],
+    "conditional_gnar_mega_before_standard": true,
+    "m16_human_only_filter": true,
+    "form_registry_last_in_board_resolver": true,
+    "legacy_kit_v42_precedes_v382_in_abilityRule": true,
+    "special_handlers_not_equivalent_to_base_registry": true
+  },
+  "counts": {
+    "source_matrix_overlap_slots": 56,
+    "synthetic_duplicates": 29,
+    "form_conditional": 16,
+    "v42_overlap": 10,
+    "v382_overlap": 1,
+    "other_active": 0
+  },
+  "cases": [
+    {
+      "feature_id": "champion.Ahri.E",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "M44_B05_KITS_V453.Ahri.E",
+        "CHAMPION_KITS_V42.Ahri.E"
+      ],
+      "unique_symbols": [
+        "M44_B05_KITS_V453.Ahri.E",
+        "CHAMPION_KITS_V42.Ahri.E"
+      ],
+      "nominal_board_priority": [
+        "M44_B05_KITS_V453.Ahri.E",
+        "CHAMPION_KITS_V42.Ahri.E"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b05_jhin_xayah_authored_projectiles.test.mjs",
+          "git_blob_sha": "ec4069ae904ff430d70969ccee8d87e92f057187"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Annie.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Annie.P",
+        "BOARD_KITS_V453_DEV69.Annie.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Annie.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Annie.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Ashe.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Ashe.P",
+        "BOARD_KITS_V453_DEV69.Ashe.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Ashe.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Ashe.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Blitzcrank.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Blitzcrank.P",
+        "BOARD_KITS_V453_DEV69.Blitzcrank.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Blitzcrank.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Blitzcrank.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Brand.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Brand.P",
+        "BOARD_KITS_V453_DEV69.Brand.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Brand.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Brand.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Chogath.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Chogath.P",
+        "BOARD_KITS_V453_DEV69.Chogath.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Chogath.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Chogath.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Darius.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Darius.P",
+        "BOARD_KITS_V453_DEV69.Darius.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Darius.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Darius.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.DrMundo.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.DrMundo.P",
+        "BOARD_KITS_V453_DEV69.DrMundo.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.DrMundo.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.DrMundo.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Elise.Q",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.Q",
+        "FORM_KITS_V453_M14.Elise.spider.Q"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.Q",
+        "FORM_KITS_V453_M14.Elise.spider.Q"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Elise.human.Q",
+        "FORM_KITS_V453_M14.Elise.spider.Q"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Elise.human.Q",
+        "spider": "FORM_KITS_V453_M14.Elise.spider.Q"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Elise.W",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.W",
+        "FORM_KITS_V453_M14.Elise.spider.W"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.W",
+        "FORM_KITS_V453_M14.Elise.spider.W"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Elise.human.W",
+        "FORM_KITS_V453_M14.Elise.spider.W"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Elise.human.W",
+        "spider": "FORM_KITS_V453_M14.Elise.spider.W"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Elise.E",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.E",
+        "FORM_KITS_V453_M14.Elise.spider.E"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.E",
+        "FORM_KITS_V453_M14.Elise.spider.E"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Elise.human.E",
+        "FORM_KITS_V453_M14.Elise.spider.E"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Elise.human.E",
+        "spider": "FORM_KITS_V453_M14.Elise.spider.E"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Elise.R",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.R",
+        "FORM_KITS_V453_M14.Elise.spider.R"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Elise.human.R",
+        "FORM_KITS_V453_M14.Elise.spider.R"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Elise.human.R",
+        "FORM_KITS_V453_M14.Elise.spider.R"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Elise.human.R",
+        "spider": "FORM_KITS_V453_M14.Elise.spider.R"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Ezreal.Q",
+      "category": "V382_OVERLAP",
+      "original_symbols": [
+        "M44_B05_KITS_V453.Ezreal.Q",
+        "CHAMPION_SPELL_RULES_V382.Ezreal.Q"
+      ],
+      "unique_symbols": [
+        "M44_B05_KITS_V453.Ezreal.Q",
+        "CHAMPION_SPELL_RULES_V382.Ezreal.Q"
+      ],
+      "nominal_board_priority": [
+        "M44_B05_KITS_V453.Ezreal.Q",
+        "CHAMPION_SPELL_RULES_V382.Ezreal.Q"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b05_jhin_xayah_authored_projectiles.test.mjs",
+          "git_blob_sha": "ec4069ae904ff430d70969ccee8d87e92f057187"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Garen.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Garen.P",
+        "BOARD_KITS_V453_DEV69.Garen.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Garen.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Garen.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Gnar.Q",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M44_B07_KITS_V453.Gnar.Q",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.Q"
+      ],
+      "unique_symbols": [
+        "M44_B07_KITS_V453.Gnar.Q",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.Q"
+      ],
+      "nominal_board_priority": [
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.Q",
+        "M44_B07_KITS_V453.Gnar.Q"
+      ],
+      "expected_by_context": {
+        "mini": "M44_B07_KITS_V453.Gnar.Q",
+        "mega": "M44_B09_GNAR_MEGA_V453.Gnar.mega.Q"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b09_gnar_draven_karma_zyra_renata_identity.test.mjs",
+          "git_blob_sha": "2761ae982ec8a249dc94e681060b745836d7aeb1"
+        },
+        {
+          "path": "tests/audit/v453_m44_b07_ten_champion_projectile_cohort.test.mjs",
+          "git_blob_sha": "7eaf3cb57c3c687fe2a63a872f2c395af0f0d65c"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Gnar.W",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M44_B09_KITS_V453.Gnar.W",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.W"
+      ],
+      "unique_symbols": [
+        "M44_B09_KITS_V453.Gnar.W",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.W"
+      ],
+      "nominal_board_priority": [
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.W",
+        "M44_B09_KITS_V453.Gnar.W"
+      ],
+      "expected_by_context": {
+        "mini": "M44_B09_KITS_V453.Gnar.W",
+        "mega": "M44_B09_GNAR_MEGA_V453.Gnar.mega.W"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b09_gnar_draven_karma_zyra_renata_identity.test.mjs",
+          "git_blob_sha": "2761ae982ec8a249dc94e681060b745836d7aeb1"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Gnar.E",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M44_B09_KITS_V453.Gnar.E",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.E"
+      ],
+      "unique_symbols": [
+        "M44_B09_KITS_V453.Gnar.E",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.E"
+      ],
+      "nominal_board_priority": [
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.E",
+        "M44_B09_KITS_V453.Gnar.E"
+      ],
+      "expected_by_context": {
+        "mini": "M44_B09_KITS_V453.Gnar.E",
+        "mega": "M44_B09_GNAR_MEGA_V453.Gnar.mega.E"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b09_gnar_draven_karma_zyra_renata_identity.test.mjs",
+          "git_blob_sha": "2761ae982ec8a249dc94e681060b745836d7aeb1"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Gnar.R",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M44_B09_KITS_V453.Gnar.R",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.R"
+      ],
+      "unique_symbols": [
+        "M44_B09_KITS_V453.Gnar.R",
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.R"
+      ],
+      "nominal_board_priority": [
+        "M44_B09_GNAR_MEGA_V453.Gnar.mega.R",
+        "M44_B09_KITS_V453.Gnar.R"
+      ],
+      "expected_by_context": {
+        "mini": "M44_B09_KITS_V453.Gnar.R",
+        "mega": "M44_B09_GNAR_MEGA_V453.Gnar.mega.R"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b09_gnar_draven_karma_zyra_renata_identity.test.mjs",
+          "git_blob_sha": "2761ae982ec8a249dc94e681060b745836d7aeb1"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Irelia.Q",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Irelia.Q",
+        "CHAMPION_KITS_V42.Irelia.Q"
+      ],
+      "unique_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Irelia.Q",
+        "CHAMPION_KITS_V42.Irelia.Q"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Irelia.Q",
+        "CHAMPION_SPELL_RULES_V382.Irelia.Q"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev43_projectiles_irelia_e.test.mjs",
+          "git_blob_sha": "570620a47c401a80eb7e62c90e30bd7cb869aa46"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Irelia.E",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Irelia.E",
+        "CHAMPION_KITS_V42.Irelia.E"
+      ],
+      "unique_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Irelia.E",
+        "CHAMPION_KITS_V42.Irelia.E"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Irelia.E",
+        "CHAMPION_SPELL_RULES_V382.Irelia.E"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev43_projectiles_irelia_e.test.mjs",
+          "git_blob_sha": "570620a47c401a80eb7e62c90e30bd7cb869aa46"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Janna.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Janna.P",
+        "BOARD_KITS_V453_DEV69.Janna.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Janna.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Janna.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Jax.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Jax.P",
+        "BOARD_KITS_V453_DEV69.Jax.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Jax.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Jax.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Jinx.W",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "M44_B05_KITS_V453.Jinx.W",
+        "CHAMPION_KITS_V42.Jinx.W"
+      ],
+      "unique_symbols": [
+        "M44_B05_KITS_V453.Jinx.W",
+        "CHAMPION_KITS_V42.Jinx.W"
+      ],
+      "nominal_board_priority": [
+        "M44_B05_KITS_V453.Jinx.W",
+        "CHAMPION_KITS_V42.Jinx.W"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b05_jhin_xayah_authored_projectiles.test.mjs",
+          "git_blob_sha": "ec4069ae904ff430d70969ccee8d87e92f057187"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Jinx.R",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+        "CHAMPION_KITS_V42.Jinx.R"
+      ],
+      "unique_symbols": [
+        "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+        "CHAMPION_KITS_V42.Jinx.R"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Jinx.R"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev69_global_ult_m14.test.mjs",
+          "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Leona.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Leona.P",
+        "BOARD_KITS_V453_DEV69.Leona.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Leona.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Leona.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Lux.Q",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "M44_B05_KITS_V453.Lux.Q",
+        "CHAMPION_KITS_V42.Lux.Q"
+      ],
+      "unique_symbols": [
+        "M44_B05_KITS_V453.Lux.Q",
+        "CHAMPION_KITS_V42.Lux.Q"
+      ],
+      "nominal_board_priority": [
+        "M44_B05_KITS_V453.Lux.Q",
+        "CHAMPION_KITS_V42.Lux.Q"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
+          "git_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557"
+        },
+        {
+          "path": "tests/audit/v453_m44_b05_jhin_xayah_authored_projectiles.test.mjs",
+          "git_blob_sha": "ec4069ae904ff430d70969ccee8d87e92f057187"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Lux.R",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Lux.R",
+        "CHAMPION_KITS_V42.Lux.R"
+      ],
+      "unique_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Lux.R",
+        "CHAMPION_KITS_V42.Lux.R"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Lux.R",
+        "CHAMPION_SPELL_RULES_V382.Lux.R"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
+          "git_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Malphite.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Malphite.P",
+        "BOARD_KITS_V453_DEV69.Malphite.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Malphite.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Malphite.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.MissFortune.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.MissFortune.P",
+        "BOARD_KITS_V453_DEV69.MissFortune.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.MissFortune.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.MissFortune.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Morgana.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Morgana.P",
+        "BOARD_KITS_V453_DEV69.Morgana.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Morgana.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Morgana.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nami.W",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "M44_B13A_KITS_V453.Nami.W",
+        "CHAMPION_SPELL_RULES_V382.Nami.W",
+        "CHAMPION_KITS_V42.Nami.W"
+      ],
+      "unique_symbols": [
+        "M44_B13A_KITS_V453.Nami.W",
+        "CHAMPION_SPELL_RULES_V382.Nami.W",
+        "CHAMPION_KITS_V42.Nami.W"
+      ],
+      "nominal_board_priority": [
+        "M44_B13A_KITS_V453.Nami.W",
+        "CHAMPION_KITS_V42.Nami.W",
+        "CHAMPION_SPELL_RULES_V382.Nami.W"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
+          "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13_adversarial_pvp.test.mjs",
+          "git_blob_sha": "04aa15d55960d2d9f8086d84b2dfc908958ba7a4"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13_mixed_simultaneous_pvp.test.mjs",
+          "git_blob_sha": "beff5145e6738740a48bab004f2d94666c53fbdd"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13a_authored_identities_pvp.test.mjs",
+          "git_blob_sha": "35eedaaa71421c9da23431a3fbdd89d89ba181e6"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13b_authored_identities_pvp.test.mjs",
+          "git_blob_sha": "3435a824fd38875e8b7b49901b07d5f7dd0b568d"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nami.R",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Nami.R",
+        "CHAMPION_KITS_V42.Nami.R"
+      ],
+      "unique_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Nami.R",
+        "CHAMPION_KITS_V42.Nami.R"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Nami.R",
+        "CHAMPION_SPELL_RULES_V382.Nami.R"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
+          "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nasus.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Nasus.P",
+        "BOARD_KITS_V453_DEV69.Nasus.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Nasus.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Nasus.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nidalee.Q",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.Q",
+        "FORM_KITS_V453_M14.Nidalee.cougar.Q"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.Q",
+        "FORM_KITS_V453_M14.Nidalee.cougar.Q"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Nidalee.human.Q",
+        "FORM_KITS_V453_M14.Nidalee.cougar.Q"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Nidalee.human.Q",
+        "cougar": "FORM_KITS_V453_M14.Nidalee.cougar.Q"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+          "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nidalee.W",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M16_MECHANIC_KITS.Nidalee.W",
+        "FORM_KITS_V453_M14.Nidalee.human.W",
+        "FORM_KITS_V453_M14.Nidalee.cougar.W"
+      ],
+      "unique_symbols": [
+        "M16_MECHANIC_KITS.Nidalee.W",
+        "FORM_KITS_V453_M14.Nidalee.human.W",
+        "FORM_KITS_V453_M14.Nidalee.cougar.W"
+      ],
+      "nominal_board_priority": [
+        "M16_MECHANIC_KITS.Nidalee.W",
+        "FORM_KITS_V453_M14.Nidalee.human.W",
+        "FORM_KITS_V453_M14.Nidalee.cougar.W"
+      ],
+      "expected_by_context": {
+        "human": "M16_MECHANIC_KITS.Nidalee.W",
+        "cougar": "FORM_KITS_V453_M14.Nidalee.cougar.W"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+          "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nidalee.E",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.E",
+        "FORM_KITS_V453_M14.Nidalee.cougar.E"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.E",
+        "FORM_KITS_V453_M14.Nidalee.cougar.E"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Nidalee.human.E",
+        "FORM_KITS_V453_M14.Nidalee.cougar.E"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Nidalee.human.E",
+        "cougar": "FORM_KITS_V453_M14.Nidalee.cougar.E"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+          "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Nidalee.R",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.R",
+        "FORM_KITS_V453_M14.Nidalee.cougar.R"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Nidalee.human.R",
+        "FORM_KITS_V453_M14.Nidalee.cougar.R"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Nidalee.human.R",
+        "FORM_KITS_V453_M14.Nidalee.cougar.R"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Nidalee.human.R",
+        "cougar": "FORM_KITS_V453_M14.Nidalee.cougar.R"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+          "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Olaf.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Olaf.P",
+        "BOARD_KITS_V453_DEV69.Olaf.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Olaf.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Olaf.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Rammus.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Rammus.P",
+        "BOARD_KITS_V453_DEV69.Rammus.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Rammus.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Rammus.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Renekton.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Renekton.P",
+        "BOARD_KITS_V453_DEV69.Renekton.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Renekton.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Renekton.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Shyvana.Q",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.Q",
+        "FORM_KITS_V453_M14.Shyvana.dragon.Q"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.Q",
+        "FORM_KITS_V453_M14.Shyvana.dragon.Q"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Shyvana.human.Q",
+        "FORM_KITS_V453_M14.Shyvana.dragon.Q"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Shyvana.human.Q",
+        "dragon": "FORM_KITS_V453_M14.Shyvana.dragon.Q"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Shyvana.W",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.W",
+        "FORM_KITS_V453_M14.Shyvana.dragon.W"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.W",
+        "FORM_KITS_V453_M14.Shyvana.dragon.W"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Shyvana.human.W",
+        "FORM_KITS_V453_M14.Shyvana.dragon.W"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Shyvana.human.W",
+        "dragon": "FORM_KITS_V453_M14.Shyvana.dragon.W"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Shyvana.E",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "M44_B13B_KITS_V453.Shyvana.E",
+        "FORM_KITS_V453_M14.Shyvana.human.E",
+        "FORM_KITS_V453_M14.Shyvana.dragon.E"
+      ],
+      "unique_symbols": [
+        "M44_B13B_KITS_V453.Shyvana.E",
+        "FORM_KITS_V453_M14.Shyvana.human.E",
+        "FORM_KITS_V453_M14.Shyvana.dragon.E"
+      ],
+      "nominal_board_priority": [
+        "M44_B13B_KITS_V453.Shyvana.E",
+        "FORM_KITS_V453_M14.Shyvana.human.E",
+        "FORM_KITS_V453_M14.Shyvana.dragon.E"
+      ],
+      "expected_by_context": {
+        "human": "M44_B13B_KITS_V453.Shyvana.E",
+        "dragon": "M44_B13B_KITS_V453.Shyvana.E"
+      },
+      "source_test_candidates": [
+        {
+          "path": "tests/audit/v453_m44_b13_adversarial_pvp.test.mjs",
+          "git_blob_sha": "04aa15d55960d2d9f8086d84b2dfc908958ba7a4"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13_mixed_simultaneous_pvp.test.mjs",
+          "git_blob_sha": "beff5145e6738740a48bab004f2d94666c53fbdd"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13a_authored_identities_pvp.test.mjs",
+          "git_blob_sha": "35eedaaa71421c9da23431a3fbdd89d89ba181e6"
+        },
+        {
+          "path": "tests/audit/v453_m44_b13b_authored_identities_pvp.test.mjs",
+          "git_blob_sha": "3435a824fd38875e8b7b49901b07d5f7dd0b568d"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Shyvana.R",
+      "category": "FORM_CONDITIONAL",
+      "original_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.R",
+        "FORM_KITS_V453_M14.Shyvana.dragon.R"
+      ],
+      "unique_symbols": [
+        "FORM_KITS_V453_M14.Shyvana.human.R",
+        "FORM_KITS_V453_M14.Shyvana.dragon.R"
+      ],
+      "nominal_board_priority": [
+        "FORM_KITS_V453_M14.Shyvana.human.R",
+        "FORM_KITS_V453_M14.Shyvana.dragon.R"
+      ],
+      "expected_by_context": {
+        "human": "FORM_KITS_V453_M14.Shyvana.human.R",
+        "dragon": "FORM_KITS_V453_M14.Shyvana.dragon.R"
+      },
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Sivir.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Sivir.P",
+        "BOARD_KITS_V453_DEV69.Sivir.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Sivir.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Sivir.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Sona.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Sona.P",
+        "BOARD_KITS_V453_DEV69.Sona.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Sona.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Sona.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Soraka.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Soraka.P",
+        "BOARD_KITS_V453_DEV69.Soraka.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Soraka.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Soraka.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Taric.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Taric.P",
+        "BOARD_KITS_V453_DEV69.Taric.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Taric.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Taric.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Tristana.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Tristana.P",
+        "BOARD_KITS_V453_DEV69.Tristana.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Tristana.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Tristana.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.TwistedFate.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.TwistedFate.P",
+        "BOARD_KITS_V453_DEV69.TwistedFate.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.TwistedFate.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.TwistedFate.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Vayne.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Vayne.P",
+        "BOARD_KITS_V453_DEV69.Vayne.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Vayne.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Vayne.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Veigar.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Veigar.P",
+        "BOARD_KITS_V453_DEV69.Veigar.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Veigar.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Veigar.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Vex.R",
+      "category": "V42_OVERLAP",
+      "original_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Vex.R",
+        "CHAMPION_KITS_V42.Vex.R"
+      ],
+      "unique_symbols": [
+        "CHAMPION_SPELL_RULES_V382.Vex.R",
+        "CHAMPION_KITS_V42.Vex.R"
+      ],
+      "nominal_board_priority": [
+        "CHAMPION_KITS_V42.Vex.R",
+        "CHAMPION_SPELL_RULES_V382.Vex.R"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [
+        {
+          "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
+          "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
+        }
+      ],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Warwick.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Warwick.P",
+        "BOARD_KITS_V453_DEV69.Warwick.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Warwick.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Warwick.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.XinZhao.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.XinZhao.P",
+        "BOARD_KITS_V453_DEV69.XinZhao.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.XinZhao.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.XinZhao.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    },
+    {
+      "feature_id": "champion.Ziggs.P",
+      "category": "STATIC_SCAN_DUPLICATE",
+      "original_symbols": [
+        "BOARD_KITS_V453_DEV69.Ziggs.P",
+        "BOARD_KITS_V453_DEV69.Ziggs.P"
+      ],
+      "unique_symbols": [
+        "BOARD_KITS_V453_DEV69.Ziggs.P"
+      ],
+      "nominal_board_priority": [
+        "BOARD_KITS_V453_DEV69.Ziggs.P"
+      ],
+      "expected_by_context": {},
+      "source_test_candidates": [],
+      "runtime_result": "NOT_RUN"
+    }
+  ],
+  "risk_flags": [
+    {
+      "feature_id": "champion.Gnar.Q",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "Gnar Mega should select M44 B09 mega descriptor only when server-side rage/form gate applies."
+    },
+    {
+      "feature_id": "champion.Gnar.W",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "Gnar Mega should select M44 B09 mega descriptor only when server-side rage/form gate applies."
+    },
+    {
+      "feature_id": "champion.Gnar.E",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "Gnar Mega should select M44 B09 mega descriptor only when server-side rage/form gate applies."
+    },
+    {
+      "feature_id": "champion.Gnar.R",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "Gnar Mega should select M44 B09 mega descriptor only when server-side rage/form gate applies."
+    },
+    {
+      "feature_id": "champion.Irelia.Q",
+      "risk": "abilityRule() chooses V42 before V382 when board descriptor absent; dedicated queue paths may differ.",
+      "details": "Cannot certify runtime ownership or intended gameplay without invoking both queue and commit handlers."
+    },
+    {
+      "feature_id": "champion.Irelia.E",
+      "risk": "abilityRule() chooses V42 before V382 when board descriptor absent; dedicated queue paths may differ.",
+      "details": "Cannot certify runtime ownership or intended gameplay without invoking both queue and commit handlers."
+    },
+    {
+      "feature_id": "champion.Lux.R",
+      "risk": "abilityRule() chooses V42 before V382 when board descriptor absent; dedicated queue paths may differ.",
+      "details": "Cannot certify runtime ownership or intended gameplay without invoking both queue and commit handlers."
+    },
+    {
+      "feature_id": "champion.Nami.R",
+      "risk": "abilityRule() chooses V42 before V382 when board descriptor absent; dedicated queue paths may differ.",
+      "details": "Cannot certify runtime ownership or intended gameplay without invoking both queue and commit handlers."
+    },
+    {
+      "feature_id": "champion.Nidalee.W",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "M16 Bushwhack W is human-only; cougar W must dispatch to M14 form."
+    },
+    {
+      "feature_id": "champion.Shyvana.E",
+      "risk": "Conditional definition and executor behavior must be mirrored, not flattened to one unparameterized rule.",
+      "details": "M44 B13B E takes precedence over both M14 form E descriptors; B13B executor branches internally on dragon form."
+    },
+    {
+      "feature_id": "champion.Vex.R",
+      "risk": "abilityRule() chooses V42 before V382 when board descriptor absent; dedicated queue paths may differ.",
+      "details": "Cannot certify runtime ownership or intended gameplay without invoking both queue and commit handlers."
+    }
+  ]
+}
