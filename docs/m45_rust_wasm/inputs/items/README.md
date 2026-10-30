@@ -101,3 +101,17 @@ Este lote conferiu 122 preços e revendas + 89 receitas com o arquivo Riot arqui
 [STATIC_QA_B03.json](STATIC_QA_B03.json).
 
 **Estado:** 8/8 blobs de origem verificados estaticamente, 15/15 famílias com fixture azul/vermelho preparada, mais 3 itens Anular (total 36 casos de efeito). As 11 fixtures B01 e 244 B02 continuam preparadas e **NOT_RUN**, assim como as 36 do B03. **Nenhuma migração Rust e nenhum golden dinâmico certificado.**
+
+## B02B-ITEMS Lote 04 — 2026-10-30
+
+[Recibo B04 completo](RECEIPT_B02B_ITEMS_04.md) ·
+[SHOP_DISPATCH_B04.json](SHOP_DISPATCH_B04.json) ·
+[PVP_TRINKET_GAP_B04.json](PVP_TRINKET_GAP_B04.json) ·
+[STATIC_QA_B04.json](STATIC_QA_B04.json) ·
+[golden_b04_trinket_acl.test.mjs](golden_b04_trinket_acl.test.mjs) ·
+[golden_b04_pvp_gap.test.mjs](golden_b04_pvp_gap.test.mjs) ·
+[run_items_goldens_b04.mjs](run_items_goldens_b04.mjs).
+
+A classificação de **122 engine_playable** foi refinada para **120 compras normais + 2 trinkets não compráveis**, cada um para azul/vermelho. Golden B02 corrigido para manter 244 casos honestos. P1 detectado: a troca interna de trinket não possui uma rota no gateway PvP legado (`item.buy` chama `Arena.buy` e não `purchaseOrPlan`). O protocolo Rust precisa registrar a correção como **desvio explícito de paridade**; não declarar que a feature PvP já está funcional.
+
+Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real tentou primeira passagem sem gravar e **parou corretamente** na ausência do checkout completo. **299 casos preparados, ZERO cenários de gameplay executados** nesta sessão. Migrar somente após gates e contratos centrais.
