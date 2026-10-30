@@ -8,7 +8,7 @@
 - **Ashe R, both teams:** R spends **100 mana** at cast, schedules `m44_authored_projectile`, **no immediate stun**. In clear corridor from (0.5,0.5), near target (0.523,0.5) receives 200 damage / 1.039973 s stun at t=1; farther target (0.58,0.5) receives 200 / 1.802857 s stun at t=3. Source snapshots restored to same hash in blue/red. Prior M14 far target (0.65,0.5) crosses an actual map obstacle and can miss, independently of its obsolete instant-stun assertion.
 - **Nami W:** S10 confirms a stale second W when dual queues share a slot. Rust should not reproduce it.
 
-See `S11_V8_RUNTIME_WITNESSES.json` for literal observations and `S11_SKILL_ARBITER_RUST_CONTRACT.json` for the intended Rust state machine. New supplementary executable Node test `s11_ahri_ashe_temporal.test.mjs` characterizes source drift. Test body has **not** been run through the full Node module loader; its expected behaviors were separately reproduced in original-engine V8. It intentionally asserts Ahri's **buggy legacy behavior**; it is not the Rust acceptance test.
+See `S11_V8_RUNTIME_WITNESSES.json` for literal observations and `S11_SKILL_ARBITER_RUST_CONTRACT.json` for the intended Rust state machine. New supplementary executable Node test `s11_ahri_ashe_temporal.test.mjs` characterizes source drift. The saved S11 test body itself **ran in isolated V8 and passed 66 assertions** against original Arena code with import/assert shims; full unmodified Node module loader still **NOT_RUN**. It intentionally asserts Ahri's **buggy legacy behavior**; it is not the Rust acceptance test.
 
 ## Coordinator contract
 
