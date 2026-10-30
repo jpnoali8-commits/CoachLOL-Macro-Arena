@@ -1,0 +1,111 @@
+{
+  "schema": "coachlol.m45.skills.s07.static-qa.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_engine_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "mode": "MIGRATION_ONLY",
+  "checks": [
+    {
+      "id": "source_sha_anchor",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_rule_m44",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_precedence",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_targeted_fallback",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_bounce_undefined",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_board_authorial",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "combo_board_route",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "w_targeted_debit",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "r_temporal_before_fallback",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "r_projectile",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "trace_bilateral",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "trace_safety",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "trace_hashes",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "inventory_precondition",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "id": "no_unjustified_promotion",
+      "status": "PASS",
+      "scope": "STATIC_SOURCE_ONLY"
+    }
+  ],
+  "static_pass": 15,
+  "static_total": 15,
+  "node_syntax": {
+    "script": "s07_capture_nami_routes.mjs",
+    "blob": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+    "local_file_git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+    "node_version": "v22.16.0",
+    "command": "node --check /mnt/data/s07_check/s07_capture_nami_routes.mjs",
+    "result": "PASS",
+    "type": "SYNTAX_ONLY"
+  },
+  "node_gameplay": {
+    "executed": 0,
+    "planned": 24,
+    "result": "NOT_RUN",
+    "reason": "local terminal DNS github.com failure; no full source checkout"
+  },
+  "rust_native": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "browser_pvp": "NOT_RUN",
+  "warnings": [
+    "No gameplay checksums are fabricated",
+    "A source scanner confirms the W missing-property branch, not a played match",
+    "No central ledger or gameplay engine modified"
+  ],
+  "status": "STATIC_PASS_NODE_GAMEPLAY_NOT_RUN"
+}

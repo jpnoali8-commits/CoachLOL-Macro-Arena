@@ -1,6 +1,6 @@
 {
   "meta": {
-    "schema": "coachlol.m45.skills.static-audit.v5",
+    "schema": "coachlol.m45.skills.static-audit.v6",
     "branch": "dev69/skills-batch2",
     "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
     "git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
@@ -13,7 +13,9 @@
     "per_slot_expected_status": "NOT_CAPTURED",
     "precedence_receipt": "precedence_overlaps.json",
     "handler_audit_receipt": "S05_V42_HANDLER_RECONCILIATION.json",
-    "s06_receipt": "S06_STATIC_QA_RECEIPT.json"
+    "s06_receipt": "S06_STATIC_QA_RECEIPT.json",
+    "s07_receipt": "S07_STATIC_QA_RECEIPT.json",
+    "s07_route_reconciliation": "S07_NAMI_ROUTE_DIFF.json"
   },
   "stats": {
     "slots": 865,
@@ -69,7 +71,8 @@
     "s05_routing_handlers": 25,
     "s05_promoted_from_reference_or_absent": 22,
     "registry_duplicate_slots_s04": 27,
-    "s06_nami_q_promoted_static": 1
+    "s06_nami_q_promoted_static": 1,
+    "s07_nami_routes_explicit": 3
   },
   "unmapped": [],
   "rows": [
@@ -22150,6 +22153,11 @@
         {
           "path": "tests/audit/v453_m44_b13b_authored_identities_pvp.test.mjs",
           "git_blob_sha": "3435a824fd38875e8b7b49901b07d5f7dd0b568d"
+        },
+        {
+          "path": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
+          "git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+          "origin": "audit_branch_s07"
         }
       ],
       "golden_fixture_ids": [],
@@ -22163,15 +22171,42 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "S07: multiple reachable JS W routes + missing bounceRange on M44-precedence targeted path. Source static only; Node/PvP/Rust NOT_RUN.",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority.",
-      "dependencies": [],
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: W dual codepaths; targeted V42 downstream bounceRange read resolves to higher-priority M44 descriptor lacking bounceRange. Board/combos use separate M44 authored hop logic. Do not map to a single certified executor.",
+      "dependencies": [
+        "dispatch_precedence",
+        "bounce_range",
+        "owner_context",
+        "snapshot"
+      ],
       "expected_legacy_behavior": "Source-specific executor/marker found; preserve its actual cast/event/state changes; exact before/after/events NOT_CAPTURED.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
-      "golden_spec_ids": [],
+      "golden_spec_ids": [
+        "s07_nami_routes"
+      ],
       "precedence_audit_category": "V42_OVERLAP",
-      "precedence_conditional_routes": {}
+      "precedence_conditional_routes": {
+        "board_or_combo_M44B13": {
+          "source_symbol": "M44_B13A_KITS_V453.Nami.W",
+          "executor": "Arena.executeBoardSkillV453Dev69 [case Nami.W]",
+          "source_line": 8213,
+          "queue_source_line": 4680,
+          "combo_source_line": 17679,
+          "behavior": "up to 3 hops; magic damage/healing; visibility/realm/LOS; M44 authorial 725 next hop",
+          "runtime": "NOT_RUN"
+        },
+        "targeted_V42": {
+          "source_symbol": "CHAMPION_KITS_V42.Nami.W",
+          "queue": "Arena.queueTargetedSkill",
+          "executor": "Arena.resolveTargetedCasts",
+          "queue_line": 13878,
+          "resolve_line": 13915,
+          "behavior": "independent targeted sequence with 3 intended hops; uses abilityRule(u,'W').bounceRange",
+          "source_risk": "abilityRule selects M44 rule without bounceRange; subsequent pool likely empty",
+          "runtime": "NOT_RUN"
+        }
+      }
     },
     {
       "feature_id": "champion.Nami.E",
@@ -22291,6 +22326,11 @@
         {
           "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
           "git_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7"
+        },
+        {
+          "path": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
+          "git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+          "origin": "audit_branch_s07"
         }
       ],
       "golden_fixture_ids": [],
@@ -22306,15 +22346,34 @@
       "release_status": "NOT_CERTIFIED",
       "blocker": "pending blue/red JS golden and Rust contracts",
       "source_patch": null,
-      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority.",
+      "notes": "Multiple source registries; first candidate by declared precedence; verify effective runtime priority. S07: R directional special dispatch to launchWaveShadow occurs before generic fallback; verify via real timed fixtures before Rust port.",
       "dependencies": [
-        "projectile"
+        "projectile",
+        "dispatch_precedence",
+        "snapshot"
       ],
       "expected_legacy_behavior": "Reproduce only behavior actually reachable in the selected legacy rule; do not silently fill gaps. Exact before/after/events NOT_CAPTURED.",
       "expected_gameplay_snapshot": "NOT_CAPTURED",
-      "golden_spec_ids": [],
+      "golden_spec_ids": [
+        "s07_nami_routes"
+      ],
       "precedence_audit_category": "V42_OVERLAP",
-      "precedence_conditional_routes": {}
+      "precedence_conditional_routes": {
+        "directional_R_temporal": {
+          "source_symbol": "Arena.resolveDirectionalSkills -> Arena.launchWaveShadowV453Dev69",
+          "source_line": 13543,
+          "priority": "first_for_Nami_R",
+          "effect": "projectile nami_r tracked over simulated time",
+          "runtime": "NOT_RUN"
+        },
+        "directional_R_legacy_fallback": {
+          "source_symbol": "Arena.resolveDirectionalSkills generic directional branch",
+          "source_line": 13584,
+          "priority": "later_branch; Nami R should be consumed by earlier branch",
+          "effect": "instant line damage + knockup/slow if reached",
+          "runtime": "NOT_RUN"
+        }
+      }
     },
     {
       "feature_id": "champion.Nasus.P",

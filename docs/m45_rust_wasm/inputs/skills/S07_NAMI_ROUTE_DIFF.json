@@ -1,0 +1,94 @@
+{
+  "schema": "coachlol.m45.skills.s07.nami-route-diff.v1",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "material_findings": [
+    {
+      "feature_id": "champion.Nami.W",
+      "severity": "high",
+      "kind": "DUAL_EXECUTOR_AND_MISSING_BOUNCE_RANGE",
+      "runtime_claim": "NOT_RUN",
+      "source_refs": [
+        {
+          "line": 1261,
+          "symbol": "M44_B13A_KITS_V453.Nami.W",
+          "bounceRange": "not defined"
+        },
+        {
+          "line": 1718,
+          "symbol": "abilityRule",
+          "resolution": "board first"
+        },
+        {
+          "line": 8213,
+          "symbol": "executeBoardSkill Nami.W",
+          "bounceRange": 725
+        },
+        {
+          "line": 13878,
+          "symbol": "queueTargetedSkill"
+        },
+        {
+          "line": 13940,
+          "symbol": "resolveTargetedCasts",
+          "expression": "this.mapDistance(v,current)<=abilityRule(u,'W').bounceRange"
+        }
+      ],
+      "impact": "V42 targeted W may stop after first hop (undefined RHS) while M44 board W bounces; distinct heal/damage effects. Verify actual committed route via blue/red golden; fix intentional Rust behavior under explicit deviation contract.",
+      "rust_crate": "core-champions"
+    },
+    {
+      "feature_id": "champion.Nami.R",
+      "severity": "medium",
+      "kind": "EARLY_TEMPORAL_BRANCH_VS_GENERIC_FALLBACK",
+      "runtime_claim": "NOT_RUN",
+      "source_refs": [
+        {
+          "line": 13543,
+          "symbol": "resolveDirectionalSkills dedicated Nami R"
+        },
+        {
+          "line": 13584,
+          "symbol": "resolveDirectionalSkills generic later branch"
+        },
+        {
+          "line": 13608,
+          "symbol": "generic Nami R effects"
+        }
+      ],
+      "impact": "Avoid accidentally executing instant line branch, duplicate cost/hit, or dropping temporal projectile.",
+      "rust_crate": "core-combat"
+    },
+    {
+      "feature_id": "champion.Nami.Q",
+      "severity": "medium",
+      "kind": "DESCRIPTOR_VS_EXECUTOR_CC",
+      "runtime_claim": "NOT_RUN",
+      "source_refs": [
+        {
+          "line": 726,
+          "symbol": "V42 Aqua Prison",
+          "cc": "suspension"
+        },
+        {
+          "line": 12737,
+          "symbol": "V42 ground_circle executor",
+          "cc": "stun"
+        }
+      ],
+      "impact": "Existing S06 fidelity mismatch remains; not changed.",
+      "rust_crate": "core-combat"
+    }
+  ],
+  "capture": {
+    "script": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
+    "test_blob": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+    "expected_routes": 8,
+    "expected_seats": [
+      "blue",
+      "red"
+    ],
+    "actual_results": "NOT_RUN"
+  },
+  "contract_status": "SOURCE_ONLY_UNVERIFIED"
+}

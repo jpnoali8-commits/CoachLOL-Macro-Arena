@@ -5,7 +5,7 @@
   "engine_path": "engine.mjs",
   "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
   "result_status": "NOT_RUN",
-  "note": "S06: 23 planned, 0 gameplay runs. Nami Q candidate belongs to audit branch, engine remains source pinned.",
+  "note": "S07 added pinned audit-branch route capture test, 24 planned total. Node only syntax-checked for new capture in separate local tool, gameplay zero. Route fidelity is source-only and must be proven dynamically.",
   "suites": [
     {
       "id": "realm_mordekaiser",
@@ -471,6 +471,27 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "s07_nami_routes",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
+      "test_git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450207
+      ],
+      "bilateral_in_source": true,
+      "contract": "Pin legacy Nami Q/W-targeted/W-board/R-temporal; 8 real snapshot+event+blue/red views traces on local Node execution, after source-hash check; do not certify LoL/Rust",
+      "expected_output_marker": "M45_S07_NAMI_ROUTES",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution and captured receipts; Nami W bounce bug and Rust native/WASM parity"
     }
   ]
 }
