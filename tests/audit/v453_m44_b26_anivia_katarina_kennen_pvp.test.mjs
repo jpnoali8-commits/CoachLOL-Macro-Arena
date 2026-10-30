@@ -86,7 +86,7 @@ test('Katarina Q hits up to three distinct victims and schedules a dagger','Kata
  for(let i=0;i<others.length;i++)Object.assign(others[i],{x:v.x+(i+1)*.01,y:v.y});
  const r=cast('Q',{targetId:v.id});
  assert.equal(r.hitIds.length,3);assert.equal(new Set(r.hitIds).size,3);
- a.gameTime=.75;a.advanceBoardTemporalV453Dev69();
+ a.gameTime=1.03;a.advanceBoardTemporalV453Dev69();
  assert.ok(u.m44B26Daggers?.length>0);
 });
 test('Katarina W grants movement buff and delayed dagger at old location','Katarina',({a,u,cast})=>{
@@ -153,7 +153,7 @@ test('Kennen E dashes with contact damage and one electric mark','Kennen',({a,u,
  assert.equal(r.lightningRush,true);assert.ok(r.hits>=1);
  assert.ok(u.x>from);assert.ok(v.hp<hp);
  assert.equal(v.m44KennenStorm?.[u.id]?.stacks,1);
- assert.equal(u.mana,mana-80);
+ assert.equal(u.mana,mana-40);
 });
 test('Kennen E cannot dash through obstacle and spend resources','Kennen',({a,u,v})=>{
  const mana=u.mana,cd=u.skillCds.E;

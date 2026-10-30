@@ -1036,8 +1036,8 @@ export const M44_B26_KITS_V453=Object.freeze({
  Kennen:{
   W:BS('self',0,[40,40,40,40,40],[13,11.25,9.5,7.75,6],
    [70,95,120,145,170],{apRatio:.8,m44B26Id:'Kennen.W'}),
-  E:BS('move_point',600,[100,95,90,85,80],[10,9,8,7,6],
-   [80,110,140,170,200],{apRatio:.6,m44B26Id:'Kennen.E'}),
+  E:BS('move_point',600,[80,80,80,80,80],[10,9,8,7,6],
+   [80,120,160,200,240],{apRatio:.8,m44B26Id:'Kennen.E'}),
   R:BS('self',0,0,[120,120,120],[40,80,120],
    {apRatio:.25,m44B26Id:'Kennen.R'})
  }
@@ -4240,11 +4240,28 @@ export class Arena {
    stacks=(old?.until>this.gameTime?old.stacks:0)+1;
   if(stacks>=3){
    delete marks[owner.id];
-   this.applyEffectV41(v,'stun',{source:owner,duration:1.25,
+   const last=v.m44B29KennenStunAt?.[owner.id];
+   const repeat=Number.isFinite(last)&&this.gameTime>=last&&this.gameTime-last<=6;
+   (v.m44B29KennenStunAt??={})[owner.id]=this.gameTime;
+   this.applyEffectV41(v,'stun',{source:owner,duration:repeat?.5:1.25,
     key:'m44_b26_kennen_marks_'+receipt+'_'+v.id});
+   owner.mana=Math.min(Math.max(0,owner.maxMana||200),
+    Math.max(0,owner.mana||0)+25);
    return 3;
   }
   marks[owner.id]={stacks,until:this.gameTime+6};return stacks;
+ }
+ // B29: early and automatic Lightning Rush exits share exactly one AS grant.
+ m44B29FinishKennenE(u,at=this.gameTime){
+  const state=u?.m44B28LightningRush;
+  if(!u||u.champ!=='Kennen'||!state||state.m44B29Finished)return false;
+  state.m44B29Finished=true;state.until=Math.min(state.until,at);
+  if(u.hp>0){
+   const rank=Math.min(5,Math.max(1,u.skillRanks?.E||1));
+   u.m44B29KennenEAttackSpeed={until:at+4,
+    percent:[50,60,70,80,90][rank-1]};
+  }
+  return true;
  }
  // B26 Katarina passive: daggers only detonate when their actual owner arrives.
  m44B26KatarinaPickupV453(u){
@@ -4252,6 +4269,10 @@ export class Arena {
   const now=this.gameTime,remaining=[];let collected=0;
   for(const dagger of u.m44B26Daggers){
    if(dagger.until<=now)continue;
+   if((dagger.m44B28RealmId??(u.realmIdV453Dev69||null))!==
+      (u.realmIdV453Dev69||null)){
+    remaining.push(dagger);continue;
+   }
    if(this.mapDistance(u,dagger)>250){remaining.push(dagger);continue;}
    collected++;
    for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
@@ -4259,7 +4280,12 @@ export class Arena {
     this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(dagger,v))
     .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
     this.damage(v,dagger.power,u,'magic','spell');
-   u.skillCds.E=Math.max(now,(u.skillCds.E||now)-4);
+   // B29: Katarina's dagger pickup scales the E refund by champion level.
+   const rule=this.boardKitForV453Dev69('Katarina','E',u);
+   const rank=Math.min(5,Math.max(1,u.skillRanks?.E||1));
+   const fullCD=Number(rule?.cooldown?.[rank-1]||8);
+   const refund=fullCD*(u.level>=16?.96:u.level>=11?.90:u.level>=6?.84:.78);
+   u.skillCds.E=Math.max(now,(u.skillCds.E||now)-refund);
   }
   u.m44B26Daggers=remaining;return collected;
  }
@@ -4945,8 +4971,9 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
       state.startedAt!==q.startedAt||this.gameTime<state.startedAt+.5||
       !this.effectResolverV41().canAct(u,'skill').ok)
     return {ok:false,reason:'m44_b28_kennen_e_recast_expired'};
-   state.until=this.gameTime;
-   return {ok:true,lightningRush:true,recast:true,spentMana:0,ended:true};
+   this.m44B29FinishKennenE(u);
+   return {ok:true,lightningRush:true,recast:true,spentMana:0,ended:true,
+    attackSpeedUntil:u.m44B29KennenEAttackSpeed?.until||0};
   }
   // B25 reactivation: verify target and deadline again at resolution.
    if(q?.m44B25EveRecast&&s.m44B25Id==='Evelynn.Q'){
@@ -6433,19 +6460,25 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      const hitIds=[],used=new Set();
      for(let i=0;i<3&&victim;i++){
       if(used.has(victim.id)||this.obstacleLine(previous,victim))break;
-      hit(victim,power(s.damage)*Math.pow(.82,i));hitIds.push(victim.id);
+      hit(victim,power(s.damage));hitIds.push(victim.id);
       used.add(victim.id);previous={x:victim.x,y:victim.y};
       victim=pool().filter(v=>!used.has(v.id)&&this.mapDistance(previous,v)<=350&&
        !this.obstacleLine(previous,v)).sort((a,b)=>
        this.mapDistance(previous,a)-this.mapDistance(previous,b)||
        String(a.id).localeCompare(String(b.id)))[0];
      }
-     const last=previous,distance=Math.max(1,this.mapDistance(origin,last));
-     const dag={x:last.x+(last.x-origin.x)*150/distance,
-      y:last.y+(last.y-origin.y)*150/distance};
-     schedule('m44_b26_katarina_drop',now+.75,{
-      point:dag,power:50+20*rank+stats.ap*.65,daggerUntil:now+4.75});
-     return {...committed,bouncingBlade:true,hitIds,daggerAt:now+.75};
+     // Q dagger lands opposite the FIRST hit target, regardless of bounces.
+     const first=target,distance=Math.max(1,this.mapDistance(origin,first));
+     const desired={x:first.x+(first.x-origin.x)*350/distance,
+      y:first.y+(first.y-origin.y)*350/distance};
+     const clamped={x:Math.min(.975,Math.max(.025,desired.x)),
+      y:Math.min(.975,Math.max(.025,desired.y))};
+     const dag=this.walkable(clamped.x,clamped.y,u)?clamped:
+      {x:first.x,y:first.y};
+     schedule('m44_b26_katarina_drop',now+1.02,{
+      point:dag,power:50+20*rank+stats.ap*.65,daggerUntil:now+5.02});
+     return {...committed,bouncingBlade:true,hitIds,daggerAt:now+1.02,
+      daggerPoint:dag};
     }
     if(id==='Katarina.W'){
      u.boardSpeedV453Dev69={until:now+1.25,fraction:.5};
@@ -6490,10 +6523,12 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'kennen_lightning_rush'});
      let hits=0;
      for(const v of victims.filter(v=>!this.obstacleLine(start,v))){
-      if(hit(v,power(s.damage))>0){
+      if(hit(v,power(s.damage)*(v.champ?1:.65))>0){
        this.m44B26KennenMarkV453(u,v,'e_'+instance);hits++;
       }
      }
+     if(hits>0)u.mana=Math.min(Math.max(0,u.maxMana||200),
+      Math.max(0,u.mana||0)+40);
      u.boardSpeedV453Dev69={until:now+2,fraction:.7};
      u.m44B28LightningRush={startedAt:now,until:now+2};
      return {...committed,lightningRush:true,hits};
@@ -10883,6 +10918,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    }
   }
   this.boardTemporalV453Dev69=keep;
+  // B29: natural E expiry matches early release, without a second grant.
+  for(const u of this.units.filter(v=>v.champ==='Kennen'&&
+   v.m44B28LightningRush&&!v.m44B28LightningRush.m44B29Finished&&
+   v.m44B28LightningRush.until<=now))
+   this.m44B29FinishKennenE(u,now);
   // B27: the authoritative game-time scheduler revives only surviving eggs.
   for(const egg of this.units.filter(v=>v.champ==='Anivia'&&
    v.m44B27Egg?.active&&v.hp>0&&v.m44B27Egg.until<=now)){
@@ -15383,9 +15423,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   const flurry=u.champ==='LeeSin'&&u.m30LeeFlurry?.until>this.gameTime&&
    u.m30LeeFlurry.charges>0?35:0;
   const highlander=u.champ==='MasterYi'&&u.m32YiHighlanderUntil>this.gameTime?45:0;
+  const kennenE=u.champ==='Kennen'&&u.m44B29KennenEAttackSpeed?.until>this.gameTime?
+   u.m44B29KennenEAttackSpeed.percent:0;
   const soulIgnition=u.champ==='Locke'&&u.m37LockeIgnition?.until>this.gameTime?35:0;
   const bonus=Math.max(0,(u.attackSpeedBonusV453Dev29||0)+rage+soulIgnition+excited+ezrealBuff+
-   ireliaBuff+revved+whimsy+banner+flurry+highlander-rocketPenalty)/100;
+   ireliaBuff+revved+whimsy+banner+flurry+highlander+kennenE-rocketPenalty)/100;
   // Dev47: Winter's Caress only affects enemy champions within actual world
   // distance. Multiple copies never stack. Training attack interval is an
   // approximation, not Riot's full attack-speed soft caps/windup system.
