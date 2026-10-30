@@ -6980,12 +6980,39 @@ export class Arena {
          (z.m44CurtainCallShot===4?2.3:1):
        z.champ==='Jhin'&&z.slot==='W'&&!victim.champ?z.power*.75:
        z.champ==='Xayah'&&z.slot==='Q'&&z.hitCount>0?z.power*.5:
+       z.champ==='Talon'&&z.slot==='W'&&z.m44ReturnLeg?z.power*1.4:
         z.champ==='Caitlyn'&&z.slot==='Q'?z.power*(z.hitCount===0||
           victim.m16CaitHeadshot?.ownerId===u.id&&
           victim.m16CaitHeadshot.until>now?1:.6):
        z.champ==='DrMundo'&&z.slot==='Q'?
         Math.max(z.power,Math.min(victim.hp*.2,400)):z.power;
       const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
+      if(z.champ==='Kaisa'&&z.slot==='W'&&victim.champ&&dealt>0){
+       const marks=victim.m44B12KaisaPlasma??={};
+       marks[u.id]=now+5;
+      }
+      if(z.champ==='Akshan'&&z.slot==='Q'&&!z.m44ReturnLeg&&dealt>0){
+       u.boardSpeedV453Dev69={fraction:.15,until:now+1.5};
+       const count=z.m44B12ExtendCount||0;
+       if(count<3){
+        const dx=z.point.x-z.origin.x,dy=z.point.y-z.origin.y,
+         length=Math.max(1,this.mapDistance(z.origin,z.point)),
+         p={x:z.point.x+dx*100/length,y:z.point.y+dy*100/length};
+        if(p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1){
+         z.point=p;z.range=this.mapDistance(z.origin,p);
+         z.m44B12ExtendCount=count+1;
+        }
+       }
+      }
+      if(z.champ==='Khazix'&&z.slot==='W'&&dealt>0){
+       for(const splash of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+        v.id!==victim.id&&v.hp>0&&this.mapDistance(v,victim)<=230&&
+        !this.obstacleLine(victim,v))
+        .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
+        this.damage(splash,z.power*.65,u,'physical','spell');
+       if(u.hp>0&&this.mapDistance(u,victim)<=280)
+        this.effectResolverV41().heal(u,45+25*Math.max(1,u.skillRanks.W||1),u);
+      }
       if(z.hitCount===0)z.m44ImpactBlocked=spellShield;
       z.hitIds.push(victim.id);z.hitCount++;
       if(z.champ==='Karma'&&z.slot==='Q'&&z.m44B08Mantra&&
@@ -6996,6 +7023,10 @@ export class Arena {
         point:{x:victim.x,y:victim.y},power:z.power*.75,
         radius:270,nextAt:now+1,until:now+1.1});
       }
+      if(z.champ==='Talon'&&z.slot==='W'&&z.m44ReturnLeg&&
+        victim.champ&&!spellShield&&victim.hp>0)
+       this.applyEffectV41(victim,'slow',{source:u,duration:1.5,power:.4,
+        key:'m44_b12_talon_rake_'+z.id+'_'+victim.id});
       if(z.champ==='Rengar'&&z.slot==='E'&&victim.champ&&!spellShield&&victim.hp>0)
        this.applyEffectV41(victim,z.m44B12Empowered?'root':'slow',{
         source:u,duration:z.m44B12Empowered?1.5:2,power:.35,
@@ -7330,13 +7361,14 @@ export class Arena {
        !this.obstacleLine(from,next))
       u.m44B07Ball={x:next.x,y:next.y,until:now+30};
      if(((z.champ==='Sivir'&&z.slot==='Q')||
-         (['Draven','Gnar'].includes(z.champ)&&!z.m44B09Boulder))&&
+         (['Draven','Gnar','Akshan','Talon'].includes(z.champ)&&!z.m44B09Boulder))&&
         (endOfTravel||z.m44B07ReverseNow)&&!z.m44ReturnLeg){
       // Boomerang Blade traverses both legs. The same body can be hit once
       // per leg, never repeatedly by overlapping travel segments.
       z.m44ReturnLeg=true;z.m44OutboundHitIds=[...z.hitIds];
       z.origin={...next};z.current={...next};
-      z.point=['Draven','Gnar'].includes(z.champ)?{x:u.x,y:u.y}:
+      z.point=['Draven','Gnar','Akshan','Talon'].includes(z.champ)?
+       {x:u.x,y:u.y}:
        {...z.m44ReturnOrigin};
       z.distanceDone=0;z.m44B07ReverseNow=false;
       z.range=this.mapDistance(z.origin,z.point);z.hitIds=[];z.hitCount=0;
@@ -12850,6 +12882,13 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
      sourceId:attacker.id,stacks:count+1,until:this.gameTime+4};
    }
   }
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Viego'&&
+   target.hp>0&&target.m44B12ViegoMark?.[attacker.id]>this.gameTime)
+   this.damage(target,Math.max(1,(attacker.ad||60)*.32),
+    attacker,'physical','m44_b12_viego_double_strike');
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Kaisa'&&
+   target.champ&&target.hp>0&&attacker.team!==target.team)
+   (target.m44B12KaisaPlasma??={})[attacker.id]=this.gameTime+5;
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Darius'&&
    target.champ&&target.team!==attacker.team&&target.hp>0)
    this.applyBoardHemorrhageV453Dev69(attacker,target);
