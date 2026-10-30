@@ -1016,6 +1016,15 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B25 — three source-authored identities (partial kits, never certified).
+export const M44_B25_KITS_V453=Object.freeze({
+ Thresh:{R:BS('self',0,100,[120,100,80],[250,400,550],
+  {apRatio:1,m44B25Id:'Thresh.R'})},
+ Pyke:{R:BS('circle_enemy',750,100,[100,85,70],[125,200,275],
+  {type:'physical',adRatio:.4,radius:300,m44B25Id:'Pyke.R'})},
+ Evelynn:{Q:BS('line_enemy',800,[40,45,50,55,60],[4,4,4,4,4],
+  [25,30,35,40,45],{apRatio:.25,width:120,m44B25Id:'Evelynn.Q'})}
+});
 // M44 B24: six formerly unregistered Q/W/E/R identities. Partial kits only.
 export const M44_B24_KITS_V453=Object.freeze({
  Jhin:{Q:BS('target_enemy',550,40,[7,6.5,6,5.5,5],[45,70,95,120,145],
@@ -1651,7 +1660,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B25_KITS_V453[champ]?.[slot]||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4285,7 +4294,37 @@ export class Arena {
     !m44B14DOriginalBoardRuleV453(u.m44B14CPossession.sourceChamp,slot,u))
     return {ok:false,reason:'m44_b14c_slot_unsupported'};
 if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
-  // B18 Lissandra E: same original-source recast for owners and Viego.
+  // B25: original and copied champions reuse these no-cost recasts.
+   if(s.m44B25Id==='Evelynn.Q'&&u.m44B25HateSpike?.until>this.gameTime&&
+      u.m44B25HateSpike.remaining>0){
+    const state=u.m44B25HateSpike;
+    if(state.nextAt>this.gameTime)return {ok:false,reason:'m44_b25_eve_recast_wait'};
+    if(!this.effectResolverV41().canAct(u,'skill').ok)
+     return {ok:false,reason:'m44_b25_eve_incapacitated'};
+    const valid=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
+      this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(u,v)<=550&&
+      (v.champ?this.visible(team,v):this.canSeePoint(team,v))&&
+      !this.obstacleLine(u,v)).sort((a,b)=>
+       (a.id===state.lastTargetId?-1:b.id===state.lastTargetId?1:0)||
+       Number(!!b.champ)-Number(!!a.champ)||
+       this.mapDistance(u,a)-this.mapDistance(u,b)||
+       String(a.id).localeCompare(String(b.id)));
+    if(!valid.length)return {ok:false,reason:'m44_b25_eve_no_visible_target'};
+    u.pendingBoardV453Dev69={slot,m44B25EveRecast:true,targetId:valid[0].id};
+    this.recordIntentV40(team,id,'m44_b25_eve_q_recast',{slot});
+    return {ok:true,queued:true,recast:true};
+   }
+   if(s.m44B25Id==='Pyke.R'&&u.m44B25PykeRecast?.until>this.gameTime){
+    if(!point||![point.x,point.y].every(Number.isFinite)||
+       point.x<0||point.x>1||point.y<0||point.y>1||
+       this.mapDistance(u,point)>750||this.mapDistance(u,point)<1||
+       (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,point)))
+     return {ok:false,reason:'m44_b25_pyke_recast_point'};
+    u.pendingBoardV453Dev69={slot,m44B25PykeRecast:true,point:{...point}};
+    this.recordIntentV40(team,id,'m44_b25_pyke_r_recast',{slot});
+    return {ok:true,queued:true,recast:true};
+   }
+   // B18 Lissandra E: same original-source recast for owners and Viego.
   if(s.m44B17AId==='Lissandra.E'&&u.m44B17GlacialPath?.until>this.gameTime){
    const state=u.m44B17GlacialPath;
    if(state.arrivesAt>this.gameTime)return {ok:false,reason:'m44_b18_claw_in_flight'};
@@ -4674,7 +4713,9 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
  boardKitForV453Dev69(champ,slot,u=null){
   if(u?.m44B14CPossession?.until>this.gameTime&&slot==='R')
    return m44B14DOriginalBoardRuleV453('Viego','R');
-  if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
+  if(champ==='Sylas'&&slot==='R'&&u?.m44B25PykeRecast?.until>this.gameTime)
+    return M44_B25_KITS_V453.Pyke.R;
+   if(champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?.expiresAt>this.gameTime)
    return m44B14CSylasUltimateRuleV453(u.sylasStolenV453M14.sourceChamp);
   if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
    e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
@@ -4743,7 +4784,51 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    if(q.m28ChargeSeconds===undefined||Math.abs(q.m28ChargeSeconds-elapsed)>1e-8)
     return {ok:false,reason:'m34_charge_duration_mismatch'};
   }
-  if(q?.m41ViktorStormCommand!==undefined&&s.m28ViktorStorm&&u.champ==='Viktor'){
+  // B25 reactivation: verify target and deadline again at resolution.
+   if(q?.m44B25EveRecast&&s.m44B25Id==='Evelynn.Q'){
+    const state=u.m44B25HateSpike;
+    const victim=this.boardCombatEntityByIdV453Dev69(q.targetId);
+    if(!state||state.until<=this.gameTime||state.remaining<1||
+       state.nextAt>this.gameTime||!victim||victim.hp<=0||
+       victim.team===u.team||!this.sameCombatRealmV453Dev69(u,victim)||
+       this.mapDistance(u,victim)>550||this.obstacleLine(u,victim)||
+       !(victim.champ?this.visible(u.team,victim):this.canSeePoint(u.team,victim))||
+       !this.effectResolverV41().canAct(u,'skill').ok)
+     return {ok:false,reason:'m44_b25_eve_recast_lost'};
+    const ray=skillshotHitsV42(u,victim,this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>v.hp>0&&this.sameCombatRealmV453Dev69(u,v)),{
+      range:550,width:180,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    const rank=Math.max(1,u.skillRanks?.Q||1),
+     spell=25+5*(rank-1)+this.elementalStatsV452d3(u).ap*.25,hitIds=[];
+    for(const v of ray.filter(v=>!this.obstacleLine(u,v))){
+     this.damage(v,spell,u,'magic','spell');hitIds.push(v.id);
+    }
+    state.remaining--;state.nextAt=this.gameTime+.5;
+    if(!state.remaining)u.m44B25HateSpike=null;
+    return {ok:true,recast:true,spentMana:0,hateSpike:true,hitIds,remaining:state.remaining};
+   }
+   if(q?.m44B25PykeRecast&&s.m44B25Id==='Pyke.R'){
+    const state=u.m44B25PykeRecast,p=q.point;
+    if(!state||state.until<=this.gameTime||!p||
+       ![p.x,p.y].every(Number.isFinite)||p.x<0||p.x>1||p.y<0||p.y>1||
+       this.mapDistance(u,p)>750||
+       (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,p)))
+     return {ok:false,reason:'m44_b25_pyke_recast_expired'};
+    const rank=Math.max(1,u.skillRanks?.R||1),stats=this.elementalStatsV452d3(u);
+    (this.boardTemporalV453Dev69??=[]).push({
+      id:++this.boardTemporalIdV453Dev69,kind:'m44_b25_pyke_death',
+      ownerId:u.id,team:u.team,origin:{x:u.x,y:u.y},point:{...p},
+      nextAt:this.gameTime+.5,until:this.gameTime+.6,
+      power:[125,200,275][Math.min(rank-1,2)]+Math.max(0,stats.ad||0)*.4,
+      threshold:[250,400,550][Math.min(rank-1,2)]+
+       Math.max(0,(stats.ad||0)-(u.baseAd||0))*.8+
+       Math.max(0,stats.lethality||u.lethality||0)*1.5,
+      m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null});
+    u.m44B25PykeRecast=null;
+    return {ok:true,recast:true,spentMana:0,deathFromBelow:true};
+   }
+   if(q?.m41ViktorStormCommand!==undefined&&s.m28ViktorStorm&&u.champ==='Viktor'){
    const storm=(this.boardTemporalV453Dev69||[]).find(z=>
     z.kind==='m28_viktor_storm'&&z.ownerId===u.id&&
     z.id===q.m41ViktorStormCommand&&z.until>this.gameTime);
@@ -5137,7 +5222,18 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
    if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
   }
-  // B24 reject malformed authored intent BEFORE paying any skill cost.
+  // B25 invalid first-stage intentions cannot debit resources.
+   if(s.m44B25Id){
+    if(!['Thresh.R','Pyke.R','Evelynn.Q'].includes(s.m44B25Id))
+     return {ok:false,reason:'m44_b25_unknown_identity'};
+    if(s.m44B25Id==='Evelynn.Q'&&
+       (!q.point||this.mapDistance(u,q.point)<30))
+     return {ok:false,reason:'m44_b25_eve_direction_required'};
+    if(s.m44B25Id==='Pyke.R'&&
+       (!q.point||this.mapDistance(u,q.point)>750))
+     return {ok:false,reason:'m44_b25_pyke_point_required'};
+   }
+   // B24 reject malformed authored intent BEFORE paying any skill cost.
   if(s.m44B24Id){
    if(!['Jhin.Q','Nautilus.W','Nautilus.E','Thresh.E','Senna.R','Caitlyn.R']
        .includes(s.m44B24Id))
@@ -6098,7 +6194,51 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
     
-  // B24: source-authored paths are executed only after the authoritative
+  // B25 first-stage source abilities, no copied lists and no generic hit pass.
+   if(s.m44B25Id){
+    const id=s.m44B25Id,now=this.gameTime,origin={x:u.x,y:u.y};
+    if(id==='Thresh.R'){
+     (this.boardTemporalV453Dev69??=[]).push({
+      id:++this.boardTemporalIdV453Dev69,kind:'m44_b25_thresh_box',
+      ownerId:u.id,team:u.team,origin,point:{...origin},
+      nextAt:now,until:now+5,walls:[true,true,true,true,true],
+      damagedOnce:false,lastContacts:{},power:power(s.damage),
+      m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null});
+     return {...committed,theBox:true,walls:5};
+    }
+    if(id==='Pyke.R'){
+     (this.boardTemporalV453Dev69??=[]).push({
+      id:++this.boardTemporalIdV453Dev69,kind:'m44_b25_pyke_death',
+      ownerId:u.id,team:u.team,origin,point:{...q.point},
+      nextAt:now+.5,until:now+.6,
+      power:power(s.damage),
+      threshold:[250,400,550][Math.min(rank-1,2)]+
+       Math.max(0,stats.ad-(u.baseAd||0))*.8+
+       Math.max(0,stats.lethality||u.lethality||0)*1.5,
+      m44B23LaunchRealmId:this.realmOfV453Dev69(u)?.id||null});
+     return {...committed,deathFromBelow:true,impactAt:now+.5};
+    }
+    if(id==='Evelynn.Q'){
+     const rays=skillshotHitsV42(u,q.point,this.boardCombatEnemyPoolV453Dev69(u)
+      .filter(v=>v.hp>0&&this.sameCombatRealmV453Dev69(u,v)),{
+       range:800,width:120,maxHits:1,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     const victim=rays.find(v=>!this.obstacleLine(u,v));
+     if(victim){
+      const dealt=this.damage(victim,power(s.damage),u,'magic','spell');
+      if(dealt>0&&victim.hp>0){
+       (victim.m44B25EveMarks??={})[u.id]={
+        until:now+4,charges:3,bonus:15+10*(rank-1)+stats.ap*.25};
+      }
+     }
+     u.m44B25HateSpike={until:now+4,nextAt:now+.5,
+      remaining:3,lastTargetId:victim?.id||null};
+     return {...committed,hateSpike:true,firstHitId:victim?.id||null,
+      recasts:3};
+    }
+    throw new Error('M44 B25 unhandled authored identity '+id);
+   }
+   // B24: source-authored paths are executed only after the authoritative
   // one-time mana/CD receipt. No generic geometry or second damage pass.
   if(s.m44B24Id){
    const now=this.gameTime,id=s.m44B24Id,origin={x:u.x,y:u.y};
@@ -8831,7 +8971,77 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-     if(z.kind==='m44_b24_nautilus_riptide'){
+     if(z.kind==='m44_b25_thresh_box'){
+       // Five spectral segments, each breaks only once; first break damages.
+       // Not terrain obstacles: opponents remain free to path through the Box.
+       if((this.realmOfV453Dev69(u)?.id||null)!==z.m44B23LaunchRealmId)
+        ended=true;
+       else{
+        const verts=Array.from({length:5},(_,i)=>({
+         x:z.origin.x+Math.cos(-Math.PI/2+i*Math.PI*2/5)*345/this.worldWidth,
+         y:z.origin.y+Math.sin(-Math.PI/2+i*Math.PI*2/5)*345/this.worldHeight}));
+        for(const v of this.units.filter(v=>v.champ&&v.hp>0&&v.team!==z.team&&
+         this.sameCombatRealmV453Dev69(u,v))
+         .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+         if((z.lastContacts[v.id]??-Infinity)+1>now)continue;
+         for(let i=0;i<5;i++){
+          if(!z.walls[i])continue;
+          const a=verts[i],b=verts[(i+1)%5],
+           dx=(b.x-a.x)*this.worldWidth,dy=(b.y-a.y)*this.worldHeight,
+           x=(v.x-a.x)*this.worldWidth,y=(v.y-a.y)*this.worldHeight,
+           t=Math.max(0,Math.min(1,(x*dx+y*dy)/Math.max(1,dx*dx+dy*dy)));
+          if(Math.hypot(x-t*dx,y-t*dy)>65)continue;
+          z.walls[i]=false;z.lastContacts[v.id]=now;
+          const shield=!!this.effectResolverV41().has(v,'spell_shield');
+          const first=!z.damagedOnce;
+          if(first){this.damage(v,z.power,u,'magic','spell');z.damagedOnce=true;}
+          if(v.hp>0&&!shield)this.applyEffectV41(v,'slow',{
+           source:u,duration:first?2:1,power:.99,
+           key:'m44_b25_thresh_box_'+z.id+'_'+i+'_'+v.id});
+          break;
+         }
+        }
+        z.nextAt=now+.1;
+        if(!z.walls.some(Boolean))ended=true;
+       }
+      }else if(z.kind==='m44_b25_pyke_death'){
+       if((this.realmOfV453Dev69(u)?.id||null)!==z.m44B23LaunchRealmId)
+        ended=true;
+       else{
+        const inX=v=>{
+         const x=Math.abs((v.x-z.point.x)*this.worldWidth),
+          y=Math.abs((v.y-z.point.y)*this.worldHeight);
+         return Math.hypot(x,y)<=125||
+          (x<=282.5&&y<=282.5&&Math.abs(x-y)<=100);
+        };
+        let hitChampion=false,executed=0;
+        for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+         v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&inX(v))
+         .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+         const shield=!!this.effectResolverV41().has(v,'spell_shield');
+         if(v.champ)hitChampion=true;
+         if(v.champ&&v.hp<=z.threshold&&!shield){
+          const was=v.hp;
+          this.damage(v,Math.max(was+1,z.threshold),u,'true','spell');
+          if(v.hp<=0&&was>0)executed++;
+         }else this.damage(v,z.power,u,'physical','spell');
+        }
+        if(hitChampion&&u.hp>0&&!this.effectResolverV41().has(u,'suppression')&&
+         this.walkable(z.point.x,z.point.y,u)&&!this.obstacleLine(u,z.point)&&
+         (!this.realmOfV453Dev69(u)||this.realmValidV453Dev69(u,z.point))){
+         const from={x:u.x,y:u.y};Object.assign(u,{x:z.point.x,y:z.point.y});
+         u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+         this.invalidateShopUndoOnDepartureV453Dev61(u);
+         this.itemEnergizeRelocateV453Dev39(u,from,z.point,{kind:'pyke_r'});
+        }
+        if(executed){
+         u.m44B25PykeRecast={until:now+20,sourceTemporalId:z.id};
+         (u.m44B25PykeExecutions??=[]).push({at:now,id:z.id,count:executed});
+         u.m44B25PykeExecutions=u.m44B25PykeExecutions.slice(-16);
+        }
+        z.m44B25Result={hitChampion,executed};ended=true;
+       }
+      }else if(z.kind==='m44_b24_nautilus_riptide'){
       // No future wave may migrate into a realm entered after casting.
       if((this.realmOfV453Dev69(u)?.id||null)!==z.m44B23LaunchRealmId)
        ended=true;
@@ -15974,7 +16184,16 @@ target.damageContributors={};
     if(ready){attacker.runeGraspLastProcAtV43=this.gameTime;this.damage(target,10+attacker.maxHp*.02,attacker,'magic','rune');this.effectResolverV41().heal(attacker,10+attacker.maxHp*.01,attacker);}
    }
   }
-  return final;
+  // Evelynn Q mark: three actual attacker hits, never item/proc recursion.
+   if(dealt>0&&attacker?.champ==='Evelynn'&&target?.m44B25EveMarks?.[attacker.id]&&
+     ['basic','spell','ability_onhit_v453_dev40'].includes(sourceType)){
+    const mark=target.m44B25EveMarks[attacker.id];
+    if(mark.until>this.gameTime&&mark.charges>0&&target.hp>0){
+     mark.charges--;
+     this.damage(target,mark.bonus,attacker,'magic','m44_b25_eve_mark');
+    }
+   }
+   return final;
  }
  attack(attacker,target,amount,kind='attack'){if(!target||target.hp<=0)return;
   if(attacker?.champ&&this.heraldMercenariesV45.includes(target))return this.attackSummonedHeraldV452d4Dev21(attacker,target,amount,kind);
