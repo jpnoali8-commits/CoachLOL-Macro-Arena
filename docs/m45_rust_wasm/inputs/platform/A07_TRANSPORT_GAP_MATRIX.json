@@ -1,0 +1,118 @@
+{
+  "schema": "coachlol.m45.platform-a07.transport-gap-matrix.v1",
+  "date": "2026-10-30",
+  "source": {
+    "integration_sha": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "rust_head_seen": "6bb6d2cc7f58c1e4053170276eddf56ebba9ab36",
+    "server_blob": "d6ed7a4b0dd30f2bf22c3d5876e3ac6b293ddf5d",
+    "room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "pvp_client_blob": "43f42ef9e9022db8aa3cb96a299e8ed69d8522f3"
+  },
+  "qa": {
+    "node_sse_decoder": "8/8_PASS",
+    "full_engine_subscribe": "13/13_PASS_V8",
+    "http_e2e": "NOT_RUN",
+    "disk_io": "NOT_RUN",
+    "rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "browser": "NOT_RUN"
+  },
+  "matrix": [
+    {
+      "id": "A07-WIRE-01",
+      "surface": "HTTP",
+      "legacy": "POST /api/create 201; 2 seats required; cookie HttpOnly SameSite=Strict",
+      "rust": "Create idempotence and CSRF/Origin policy; Secure cookie under HTTPS; no secrets in response",
+      "evidence": "SOURCE_STATIC",
+      "severity": "P1"
+    },
+    {
+      "id": "A07-WIRE-02",
+      "surface": "HTTP",
+      "legacy": "POST /api/join 200 allocates second seat; lost response has no safe join retry",
+      "rust": "Secure join retry/recovery; deny third seat; bind token hash to seat",
+      "evidence": "SOURCE_STATIC",
+      "severity": "P1"
+    },
+    {
+      "id": "A07-WIRE-03",
+      "surface": "HTTP",
+      "legacy": "POST /api/action 200 or 409, sequence receipt persisted and returned after phase seal",
+      "rust": "Authenticated seat, canonical idempotent receipt, persisted before ACK",
+      "evidence": "A06_FULL_ARENA_V8_10_OF_10",
+      "severity": "P0"
+    },
+    {
+      "id": "A07-WIRE-04",
+      "surface": "HTTP",
+      "legacy": "POST /api/ready 200/409; duplicates not idempotent",
+      "rust": "requestId+seat+round durable ready receipt, same ACK after restart",
+      "evidence": "A04_A05_V8_DIAGNOSTICS",
+      "severity": "P1"
+    },
+    {
+      "id": "A07-WIRE-05",
+      "surface": "SSE",
+      "legacy": "First sends comment : connected, then full event: state; may split anywhere",
+      "rust": "SSE framing and UTF8 safe; no secrets; same perspective function as session",
+      "evidence": "A06_NODE_5_OF_5_A07_NODE_8_OF_8",
+      "severity": "P0"
+    },
+    {
+      "id": "A07-WIRE-06",
+      "surface": "SSE",
+      "legacy": "No id: header, no Last-Event-ID journal, initial subscription sends latest snapshot",
+      "rust": "per-seat monotonic event id and replay/gap recovery or explicit snapshot resync",
+      "evidence": "SOURCE_STATIC_ROOM_SUBSCRIBE_V8_13_OF_13",
+      "severity": "P1"
+    },
+    {
+      "id": "A07-WIRE-07",
+      "surface": "SSE",
+      "legacy": "No res.write backpressure branch, heartbeat 15s; no explicit per-seat connection cap",
+      "rust": "bounded queues, drain, cancellation, timeouts, rate limits",
+      "evidence": "SOURCE_STATIC",
+      "severity": "P1"
+    },
+    {
+      "id": "A07-WIRE-08",
+      "surface": "FOG",
+      "legacy": "Anonymous nonpublic game event included by both subscriptions",
+      "rust": "default deny event visibility with typed per-kind DTO and payload whitelist",
+      "evidence": "A07_FULL_ARENA_SUBSCRIBE_V8_13_OF_13",
+      "severity": "P0"
+    },
+    {
+      "id": "A07-WIRE-09",
+      "surface": "CHECKPOINT",
+      "legacy": "Server-only checkpoint includes RNG, players tokenHash, ready and action receipts",
+      "rust": "Durable internal checkpoint; version/migration and integrity; never send raw file to client",
+      "evidence": "A06_FULL_ARENA_V8_10_OF_10_A07_ROOM_V8_13_OF_13",
+      "severity": "P0"
+    },
+    {
+      "id": "A07-WIRE-10",
+      "surface": "RECONNECT",
+      "legacy": "After in-memory restore room.subscribe immediately pushes current per-seat state",
+      "rust": "Same seat token, reconnect on cursor gap, forbidden cross-seat replay",
+      "evidence": "A07_ROOM_V8_13_OF_13",
+      "severity": "P0"
+    },
+    {
+      "id": "A07-WIRE-11",
+      "surface": "CLIENT",
+      "legacy": "EventSource accepts state if revision >= lastRevision; no room-level reset on new create/join",
+      "rust": "Bind revision to room/epoch; discard old EventSource messages and reset on seat switch",
+      "evidence": "SOURCE_STATIC",
+      "severity": "P2"
+    },
+    {
+      "id": "A07-WIRE-12",
+      "surface": "PRESENCE",
+      "legacy": "connected field equals room.players.length, not active live streams",
+      "rust": "Use seated vs online as different fields; no false online claims",
+      "evidence": "SOURCE_STATIC",
+      "severity": "P2"
+    }
+  ]
+}
