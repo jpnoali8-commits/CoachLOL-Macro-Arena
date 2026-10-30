@@ -15,6 +15,16 @@
       "observed_sha1": "0661fed18a4b59c55101843c4a152506eefa5f5d",
       "status": "PASS",
       "scope": "isolated SHA calculation, not a gameplay test"
+    },
+    "syntax_lock_exact_blob": {
+      "path": "docs/m45_rust_wasm/inputs/items/oracle_source_lock_b03.mjs",
+      "github_blob_sha": "1f02ef2b5ae50f0280ff7ebe9cdb5e5e222653cf",
+      "local_reconstructed_blob_sha": "1f02ef2b5ae50f0280ff7ebe9cdb5e5e222653cf",
+      "exact_bytes": true,
+      "command": "node --check /mnt/data/m45_items_qa/oracle_source_lock_b03.mjs",
+      "exit_code": 0,
+      "status": "PASS",
+      "scope": "source-lock module syntax only; other fixture syntax and full JS gameplay NOT_RUN"
     }
   },
   "source_lock_sources": [
@@ -205,6 +215,7 @@
   "note": "No golden outcomes or snapshot hashes were fabricated. The absence of a fetched full checkout blocks JS execution.",
   "notes": [
     "Additional transitive gateway dependency authoritative_actions_v453_dev44.mjs included in mandatory source lock.",
-    "B03B adds 9 remaining effect families to 15/15 with blue/red source fixtures; total effects B03+B03B = 36 NOT_RUN cases."
+    "B03B adds 9 remaining effect families to 15/15 with blue/red source fixtures; total effects B03+B03B = 36 NOT_RUN cases.",
+    "One exact-byte reconstructed source-lock module verified by git hash-object equality and Node --check (exit 0). Does not cover B01/B02/B03 runners."
   ]
 }
