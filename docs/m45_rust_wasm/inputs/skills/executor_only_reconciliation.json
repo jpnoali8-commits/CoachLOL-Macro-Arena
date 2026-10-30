@@ -1,0 +1,148 @@
+{
+  "schema": "coachlol.m45.executor-only.v1",
+  "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "exceptions": [
+    {
+      "feature_id": "champion.Mordekaiser.R",
+      "old_status": "absent",
+      "new_status": "implemented",
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.startRealmV453Dev69",
+      "paths": [
+        {
+          "path": "tests/v453_dev69_realm_hardening_m14.test.mjs",
+          "git_blob_sha": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3"
+        },
+        {
+          "path": "tests/v453_dev69_board_m14.test.mjs",
+          "git_blob_sha": "3efca85be8c6e00201004e3496b1ba07c72e3806"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "Autoritativo: R excepcional despacha para Death Realm, com geometria, limite, owner e validação por alvo"
+    },
+    {
+      "feature_id": "champion.Sylas.R",
+      "old_status": "absent",
+      "new_status": "implemented",
+      "source_symbol": "Arena.queueSylasHijackV453M14 -> Arena.resolveSylasHijacksV453M14 -> Arena.executeBoardSkillV453Dev69",
+      "paths": [
+        {
+          "path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
+          "git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37"
+        },
+        {
+          "path": "tests/v453_dev69_sylas_m14.test.mjs",
+          "git_blob_sha": "446ac7689d0c2fd029113da679031ebe18c8722e"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "R existe como hijack fora do registro comum; devolve owner Sylas e delega executor R original, sem fallback"
+    },
+    {
+      "feature_id": "champion.Viego.P",
+      "old_status": "absent",
+      "new_status": "implemented",
+      "source_symbol": "Arena.queueViegoPossessV453M44B14C -> Arena.endViegoPossessionV453M44B14D",
+      "paths": [
+        {
+          "path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
+          "git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37"
+        },
+        {
+          "path": "tests/audit/v453_m44_b14c_viego_owner_possession_pvp.test.mjs",
+          "git_blob_sha": "df33700bb71565d10665f8be763e3dce41429366"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "Passiva de alma/posse e aparência fora do registro P; delega P/Q/W/E da vítima, mantém R nativa"
+    },
+    {
+      "feature_id": "champion.Neeko.P",
+      "old_status": "absent",
+      "new_status": "implemented",
+      "source_symbol": "Arena.queueNeekoDisguiseV453M15 -> Arena.queueNeekoShomaV453M15 -> Arena.m15BreakDisguise",
+      "paths": [
+        {
+          "path": "tests/v453_dev69_clones_m15.test.mjs",
+          "git_blob_sha": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2"
+        },
+        {
+          "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+          "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "Passiva de disfarce fora do registro; suporta aparência de aliado e Shoma de unidade visível, não comprova LoL 1:1"
+    },
+    {
+      "feature_id": "champion.KSante.R",
+      "old_status": "absent",
+      "new_status": "partial",
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.pushChampionThroughTerrain",
+      "paths": [
+        {
+          "path": "tests/v453_dev69_board_m14.test.mjs",
+          "git_blob_sha": "3efca85be8c6e00201004e3496b1ba07c72e3806"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "Empurrão através de terreno, raiz e All Out em executor especial, sem confirmação de fidelidade integral"
+    },
+    {
+      "feature_id": "champion.Ezreal.R",
+      "old_status": "absent",
+      "new_status": "partial",
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+      "paths": [
+        {
+          "path": "tests/v453_dev69_global_ult_m14.test.mjs",
+          "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "R com projétil global de resolução temporal especial, sem paridade de frames"
+    },
+    {
+      "feature_id": "champion.Jinx.R",
+      "old_status": "reference-only",
+      "new_status": "partial",
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+      "paths": [
+        {
+          "path": "tests/v453_dev69_global_ult_m14.test.mjs",
+          "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
+        }
+      ],
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "source_checked": true,
+      "runtime_test": "NOT_RUN",
+      "reason": "R global custom supera metadata V42 reference-only; tempo de turno diferente de LoL"
+    }
+  ],
+  "summary": {
+    "count": 7,
+    "verified_by_source_scan": 7,
+    "gameplay_tests_run": 0,
+    "golden_status": "NOT_RUN"
+  }
+}
