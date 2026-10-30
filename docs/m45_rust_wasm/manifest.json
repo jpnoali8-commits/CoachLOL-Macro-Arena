@@ -1,0 +1,314 @@
+{
+  "schema": "coachlol.m45.migration-roadmap.v1",
+  "updated_at": "2026-10-30",
+  "migration_mode": "MIGRATION_ONLY",
+  "certification": "NOT_CERTIFIED",
+  "next_priority": "B02",
+  "ledger": "docs/m45_rust_wasm/STATUS_LEDGER.md",
+  "base_refs": {
+    "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "skills": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "items": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "rust_initial": "7d344d2fac16b05a6e81c8984e38ce6ad2c907c3"
+  },
+  "rules": [
+    "Never claim Rust compiled based on V8",
+    "Never run two authoritative writers in one match",
+    "No JS novel skills/items until MIGRATION_CERTIFIED",
+    "No force/rebase/main merge",
+    "A queued task is eligible only when verified dependencies are satisfied"
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "G4": "NOT_RUN",
+    "G5": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G7": "BLOCKED",
+    "G8": "NOT_RUN"
+  },
+  "tasks": [
+    {
+      "id": "B01",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "requires": [],
+      "scope": "rust core-state + golden smite; cargo/WASM NOT_RUN"
+    },
+    {
+      "id": "B02",
+      "status": "READY",
+      "requires": [
+        "B01"
+      ],
+      "scope": "Rust toolchain + native/wasm QA and cross-branch inventory"
+    },
+    {
+      "id": "B03",
+      "status": "QUEUED",
+      "requires": [
+        "B02"
+      ],
+      "scope": "versioned schemas/serde/replay test harness"
+    },
+    {
+      "id": "B04",
+      "status": "QUEUED",
+      "requires": [
+        "B03"
+      ],
+      "scope": "protocol, clock, seat/turn seal/ACK"
+    },
+    {
+      "id": "B05",
+      "status": "QUEUED",
+      "requires": [
+        "B04"
+      ],
+      "scope": "canonical replay checksum/snapshot/RNG"
+    },
+    {
+      "id": "B06",
+      "status": "QUEUED",
+      "requires": [
+        "B04",
+        "B05"
+      ],
+      "scope": "Rust match actor networking and authority boundary"
+    },
+    {
+      "id": "B07",
+      "status": "QUEUED",
+      "requires": [
+        "B03",
+        "B06"
+      ],
+      "scope": "PT-BR parser persistent command plans"
+    },
+    {
+      "id": "B08",
+      "status": "QUEUED",
+      "requires": [
+        "B06",
+        "B07"
+      ],
+      "scope": "text/voice/client command ACK boundary"
+    },
+    {
+      "id": "B09",
+      "status": "QUEUED",
+      "requires": [
+        "B05"
+      ],
+      "scope": "map/collision/pathfinding"
+    },
+    {
+      "id": "B10",
+      "status": "QUEUED",
+      "requires": [
+        "B09"
+      ],
+      "scope": "fog and vision ownership"
+    },
+    {
+      "id": "B11",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B10"
+      ],
+      "scope": "dynamic Rift/plant/wall geography"
+    },
+    {
+      "id": "B12",
+      "status": "QUEUED",
+      "requires": [
+        "B04",
+        "B11"
+      ],
+      "scope": "waves/CS/XP"
+    },
+    {
+      "id": "B13",
+      "status": "QUEUED",
+      "requires": [
+        "B12"
+      ],
+      "scope": "economy/recall/undo"
+    },
+    {
+      "id": "B14",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B13"
+      ],
+      "scope": "jungle/smite"
+    },
+    {
+      "id": "B15",
+      "status": "QUEUED",
+      "requires": [
+        "B14"
+      ],
+      "scope": "objectives/structures/nexus"
+    },
+    {
+      "id": "B16",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B04"
+      ],
+      "scope": "combat stats/damage/target"
+    },
+    {
+      "id": "B17",
+      "status": "QUEUED",
+      "requires": [
+        "B16",
+        "B11"
+      ],
+      "scope": "projectiles/recasts/CC"
+    },
+    {
+      "id": "B18",
+      "status": "QUEUED",
+      "requires": [
+        "B17"
+      ],
+      "scope": "effects/summons/realms"
+    },
+    {
+      "id": "B19",
+      "status": "QUEUED",
+      "requires": [
+        "B18"
+      ],
+      "scope": "authored champion registry P/QWER + Sylas/Viego"
+    },
+    {
+      "id": "B20",
+      "status": "QUEUED",
+      "requires": [
+        "B19",
+        "B02"
+      ],
+      "scope": "legacy P/QWER batch 1"
+    },
+    {
+      "id": "B21",
+      "status": "QUEUED",
+      "requires": [
+        "B20"
+      ],
+      "scope": "legacy P/QWER batch 2"
+    },
+    {
+      "id": "B22",
+      "status": "QUEUED",
+      "requires": [
+        "B21"
+      ],
+      "scope": "all remaining authored legacy P/QWER"
+    },
+    {
+      "id": "B23",
+      "status": "QUEUED",
+      "requires": [
+        "B13",
+        "B16"
+      ],
+      "scope": "items/runes/spells/trinket crates"
+    },
+    {
+      "id": "B24",
+      "status": "QUEUED",
+      "requires": [
+        "B23",
+        "B02"
+      ],
+      "scope": "all legacy item contracts"
+    },
+    {
+      "id": "B25",
+      "status": "QUEUED",
+      "requires": [
+        "B22",
+        "B24"
+      ],
+      "scope": "all features union 100% reconcile and cross interactions"
+    },
+    {
+      "id": "B26",
+      "status": "QUEUED",
+      "requires": [
+        "B06",
+        "B25"
+      ],
+      "scope": "Rust full match authority"
+    },
+    {
+      "id": "B27",
+      "status": "QUEUED",
+      "requires": [
+        "B26"
+      ],
+      "scope": "WASM safe public boundary"
+    },
+    {
+      "id": "B28",
+      "status": "QUEUED",
+      "requires": [
+        "B26",
+        "B27"
+      ],
+      "scope": "TS UI integration"
+    },
+    {
+      "id": "B29",
+      "status": "QUEUED",
+      "requires": [
+        "B26",
+        "B28"
+      ],
+      "scope": "two session full PvP"
+    },
+    {
+      "id": "B30",
+      "status": "QUEUED",
+      "requires": [
+        "B25",
+        "B29"
+      ],
+      "scope": "exhaustive historical parity audit"
+    },
+    {
+      "id": "B31",
+      "status": "QUEUED",
+      "requires": [
+        "B30"
+      ],
+      "scope": "stress/security/rollback"
+    },
+    {
+      "id": "B32",
+      "status": "QUEUED",
+      "requires": [
+        "B31"
+      ],
+      "scope": "asset restoration/release package"
+    },
+    {
+      "id": "B33",
+      "status": "QUEUED",
+      "requires": [
+        "B30",
+        "B31",
+        "B32"
+      ],
+      "scope": "G0-G8 migration certification"
+    }
+  ]
+}
