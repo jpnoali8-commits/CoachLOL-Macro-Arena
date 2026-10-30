@@ -1,0 +1,40 @@
+{
+  "schema": "coachlol.m45.items.qa_v8_source_golden.b12b.v1",
+  "date": "2026-10-30",
+  "status": "JS_SOURCE_EXECUTED_RUST_NOT_RUN",
+  "source": {
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "files": {
+      "engine.mjs": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "data/coachlol_map_v6.json": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+      "data/masks_128.json": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+    }
+  },
+  "execution": {
+    "source_js_v8": true,
+    "recipes_expected": 1000,
+    "recipes_executed": 1000,
+    "shop_scenarios": 44,
+    "shop_steps_executed": 258,
+    "js_source_repeat_equal": true,
+    "recipe_source": "actual recipePurchasePartsV453Dev30 + original catalog",
+    "shop_source": "Arena.buy/sellItemV43/undoShopV453Dev61 and server-state updates, fresh seeded Arena per scenario",
+    "rust_cargo_executed": false,
+    "rust_native_pass_claimed": false
+  },
+  "outcome": {
+    "shop_generator_errors": [],
+    "generated_fixture_lines": {
+      "recipe": 1000,
+      "shop": 258
+    },
+    "rust_tests_defined": 2
+  },
+  "notes": [
+    "Result of Rust tests NOT KNOWN: native compiler and runner unavailable.",
+    "JS generated oracle can expose parity gaps as soon as native Rust executes.",
+    "Data-driven fixtures are deterministically reproducible, not fake Rust PASS.",
+    "The source JS shop full-unit stats and item effects are not yet implemented in Rust B12A.",
+    "No Actions, no merge, no original JS gameplay edits."
+  ]
+}

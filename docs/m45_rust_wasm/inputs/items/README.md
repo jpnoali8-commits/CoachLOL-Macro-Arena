@@ -187,3 +187,7 @@ B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Da
 [Recibo Rust B12A](RECEIPT_B02B_ITEMS_12A.md) · [QA estático do catálogo Rust](QA_RUST_STATIC_B12A.json) · [core-items Rust](../../../../crates/core-items/src/lib.rs) · [core-economy Rust](../../../../crates/core-economy/src/lib.rs).
 
 **Implementação Rust parcial publicada:** crates reais `core-items` + `core-economy`; 125/125 registros de item alinhados estaticamente ao motor legado, 92 receitas e 122 valores de revenda, 12 testes Rust escritos. **Cargo/rustc/rustfmt NOT_RUN (ausentes no terminal)**, sem importação no workspace do coordenador. A transação não aplica stats/passivas e precisa de commit atômico no match actor. G8 NÃO certificado. Próxima etapa: compilar/integrar somente quando coordenador aceitar os DTOs e houver toolchain, sem Actions.
+
+## B02B-ITEMS Lote 12B — 2026-10-30
+
+[Recibo B12B](RECEIPT_B02B_ITEMS_12B.md) · [QA do oráculo JS para Rust](QA_V8_RUST_GOLDENS_B12B.json). **1.000 casos de componentes/receitas + 258 passos buy/sell/Undo = 1.258 observações V8 da engine congelada**, com fixtures e 2 testes Rust adicionais. Rust `cargo test` **NOT_RUN**, nenhuma certificação nativa/WASM/HTTP/G8. Nenhum GitHub Actions.
