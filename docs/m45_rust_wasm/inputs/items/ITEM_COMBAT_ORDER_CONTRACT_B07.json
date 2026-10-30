@@ -1,0 +1,171 @@
+{
+  "schema": "coachlol.m45.items.combat_order_contract.b07.v1",
+  "date": "2026-10-30",
+  "status": "SPEC_PROPOSED_ONLY_NOT_IMPLEMENTED",
+  "owner_chat": "CHAT_3_ITEMS",
+  "legacy_sources": {
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "methods": [
+      {
+        "name": "Arena.damage",
+        "source_line": 4830
+      },
+      {
+        "name": "Arena.itemBattleRampV453Dev69",
+        "source_line": 2925
+      },
+      {
+        "name": "Arena.procLifelineV453Dev69",
+        "source_line": 2945
+      },
+      {
+        "name": "Arena.onBulkItemChampionHitV453Dev69",
+        "source_line": 2960
+      },
+      {
+        "name": "Arena.itemAnnulSpecV453Dev69Batch2",
+        "source_line": 2980
+      },
+      {
+        "name": "Arena.attack",
+        "source_line": 5222
+      }
+    ]
+  },
+  "validation": {
+    "B07_cross_item_qa": "QA_V8_CROSS_ITEMS_B07.json",
+    "executed": "46/46 V8 source",
+    "replayed": "46/46 identical",
+    "coverage": "23 types across both teams; 34 distinct registered item IDs referenced",
+    "missing": "All other effect combinations, exact Node ESM, server HTTP, Rust native/WASM, G8"
+  },
+  "required_order": [
+    {
+      "phase": 1,
+      "action": "Gate ability spell_shield",
+      "semantics": "Block primary enemy spell/ability-onhit, consume Annul, return zero; no Liandry, Bloodletter or Hextech contact proc"
+    },
+    {
+      "phase": 2,
+      "action": "Invulnerability/stasis and basic blindness",
+      "semantics": "Reject illegal hit before damage or item-generated effects"
+    },
+    {
+      "phase": 3,
+      "action": "Primary damage shaping",
+      "semantics": "Exhaust, soul/Baron modifiers, prepared Spellblade, item combat ramp and Giant Slayer; disallow item-proc recursion"
+    },
+    {
+      "phase": 4,
+      "action": "Conditional aura and defense",
+      "semantics": "Abyssal aura, derived target armor/MR, Bloodletter stack from prior hits, penetration and resistances"
+    },
+    {
+      "phase": 5,
+      "action": "Primary mitigation",
+      "semantics": "Plated Steelcaps BASIC only, Warden's Mail BASIC only, Hexdrinker MAGIC-only and shared Lifeline before HP"
+    },
+    {
+      "phase": 6,
+      "action": "Shield absorption and HP",
+      "semantics": "Shield powers applied before HP debit. Keep source damageType so Kaenic MAGIC shield and ordinary shield differ"
+    },
+    {
+      "phase": 7,
+      "action": "Post-hit state and cooldown",
+      "semantics": "Only landed champion damage may advance Bloodletter stacks, Liandry burn, Cosmic sprint, Tear charges, lifesteal/vamp, FoN stacks"
+    },
+    {
+      "phase": 8,
+      "action": "Nested item effects",
+      "semantics": "Collector execution, Thorns reflection, Scout, Fated Ashes, Guinsoo, Kraken, Nashor, Wits End, Hextech Alternator use named sourceType and must not recursively enter their own proc"
+    },
+    {
+      "phase": 9,
+      "action": "Event + receipt",
+      "semantics": "Preserve authoritative action order and source attribution; checkpoint/replay checksum includes ordered event history"
+    }
+  ],
+  "typed_event_proposal": {
+    "actor": {
+      "champion_id": "string",
+      "team": "blue|red",
+      "source_type": "basic|spell|ability_onhit_v453_dev40|item_...|dot|rune"
+    },
+    "impact": {
+      "target_id": "string",
+      "damage_type": "physical|magic|true",
+      "raw": "numeric",
+      "mitigated": "numeric",
+      "absorbed": "numeric",
+      "hp_damage": "numeric"
+    },
+    "proc": {
+      "item_id": "canonical legacy id",
+      "stack_delta": "integer",
+      "until": "game seconds",
+      "cooldown_until": "game seconds",
+      "origin_damage_event": "authoritative event ref"
+    },
+    "caution": "Field names proposed, not a published Rust serde schema. Preserve canonical numeric policy when Chat 1 publishes B03."
+  },
+  "invariants": [
+    "Item damage and reflected Thorns cannot trigger recursive item damage without a dedicated allowlisted effect",
+    "Spellshield blocks a complete ability impact before DOT, damage contact or shred",
+    "Physical basic retaliation by Bramble/Thornmail applies GW in return without infinite reflection",
+    "Guinsoo fourth stack and every-third-hit extra proc must not double Kraken primary bookkeeping",
+    "Kraken's 3-hit stacks and Guinsoo stack windows are separate and have individual expiration",
+    "Navori 15% cooldown refund affects QWE only and never R",
+    "Riftmaker/Liandry combat windows don't refresh on DOT sourceType",
+    "Mercury QSS removes configured CC only and enforces per-item cooldown; Mercurial also grants temporary sprint",
+    "Tear charges and Catalyst mana refunds require their respective qualifying damage/target conditions",
+    "Banshee and Kaenic layers both retain their own cooldown and consumption semantics",
+    "Account for empty/zero resources, physical fountain Undo, team ownership and perspective filtering"
+  ],
+  "risk_matrix": [
+    {
+      "risk": "P0",
+      "feature": "Cross-skill caster/item recursion and protected team-fog state",
+      "gate": "Rust core-combat + cross-item PvP fixtures; not yet covered by B07"
+    },
+    {
+      "risk": "P1",
+      "feature": "Trinket PvP gateway still inaccessible",
+      "source": "PVP_TRINKET_GAP_B04.json",
+      "gate": "Rust core-protocol item.trinket repair"
+    },
+    {
+      "risk": "P1",
+      "feature": "22 effect entries not even present in executed B03/B07 matrices",
+      "source": "EFFECT_CROSS_COVERAGE_B07.json",
+      "gate": "Future B08 individual plus pairwise tests"
+    },
+    {
+      "risk": "P2",
+      "feature": "Replay event order depends on command arrival",
+      "source": "ECONOMY_PROTOCOL_CONTRACT_B06.json",
+      "gate": "Global authoritative event order replay"
+    },
+    {
+      "risk": "P2",
+      "feature": "Riot per-item numerical parity and broad catalog version",
+      "gate": "Blocked until actual Rust port and reference QA"
+    }
+  ],
+  "dependencies": [
+    "B03 numeric/time/canonical state",
+    "B04 core-protocol",
+    "B05 replay",
+    "B12/B13 core-economy",
+    "B16-B18 core-combat",
+    "B23 core-items",
+    "G1 native+WASM"
+  ],
+  "restrictions": [
+    "Do not treat this JSON as implementation",
+    "Do not alter JavaScript engine",
+    "No Actions or merge",
+    "No G8 promotion without full parity"
+  ]
+}
