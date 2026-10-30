@@ -1,0 +1,241 @@
+{
+  "schema": "coachlol.m45.platform.a13.durable-checkpoint-protocol.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-platform",
+  "source": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "platform_previous": "e64398e96de32791bdf90c7a873e9646655f2fee",
+    "rust_head_observed": "5afd330f260c7a0b1984521732e117dfcd81396f",
+    "room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "server_blob": "d6ed7a4b0dd30f2bf22c3d5876e3ac6b293ddf5d",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "qa_scripts": {
+      "tests/m45_platform_a13_room_persist_faults.test.mjs": "5df4f69cd2ea8030ed136503b991df323810ad74",
+      "tests/m45_platform_a13_durable_reference.mjs": "447e700f70fbbda2093df3f5c209b81fe34a9020",
+      "tests/m45_platform_a13_durable_reference.test.mjs": "394ce3bbcfb88153df84ad861b46fbe52cefcdfd"
+    }
+  },
+  "qa": {
+    "legacy_room_fault_v8": "6/6_PASS_REPRODUCES_FAIL_NON_ATOMIC_LEGACY",
+    "qa_reference_native_node22": "14/14_PASS_ACTUAL_TEMP_DIR_FILE_IO",
+    "native_sha_match": "2/2_SOURCE_BLOBS_EXACT",
+    "http_browser": "NOT_RUN",
+    "rust_game_server": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "real_process_kill": "NOT_RUN",
+    "production_disk_failure": "NOT_RUN",
+    "github_actions": "NOT_USED_BY_CHAT4"
+  },
+  "risk_findings": [
+    {
+      "id": "A13-F01",
+      "severity": "P0",
+      "source": "PvPRoom.command() + persist()",
+      "observation": "persist() injected failure after command accepted mutates room.revision + gateway receipt + Arena but does not broadcast or ACK; old checkpoint restores prior sequence",
+      "rust": "stage full authoritative world and receipt; storage commit before mutation/broadcast"
+    },
+    {
+      "id": "A13-F02",
+      "severity": "P0",
+      "source": "PvPRoom.confirm()",
+      "observation": "persist() failure on first ready leaves room.ready sealed and revision ahead in memory, restart unseals; no durable ACK",
+      "rust": "atomic ready+revision+receipt; after last ready execute turn only once, persist outcome"
+    },
+    {
+      "id": "A13-F03",
+      "severity": "P0",
+      "source": "PvPRoom.confirm(second ready)",
+      "observation": "persist() injected failure after playTurn() leaves executing memory, old checkpoint has preparation+first ready",
+      "rust": "exactly once execution and checkpoint boundary with retry reconciliation"
+    },
+    {
+      "id": "A13-F04",
+      "severity": "P1",
+      "source": "PvPRoom.advance()",
+      "observation": "persist() injected failure leaves gameTime advanced in memory but restart reverts",
+      "rust": "advance/checkpoint revision and emitted SSE frame must bind to durable committed version"
+    },
+    {
+      "id": "A13-F05",
+      "severity": "P1",
+      "source": "PvPRoom.persist()",
+      "observation": "writeFileSync(temp)+renameSync(file) but lacks explicit fsync file or directory; rename alone is not a full power-loss durability guarantee",
+      "rust": "durable store/WAL, fsync ordered to supported filesystem, crash/recovery test"
+    },
+    {
+      "id": "A13-F06",
+      "severity": "P0",
+      "source": "Arena.perspective and broadcast",
+      "observation": "legacy anonymous event visibility gap from prior A03–A12 remains; no SSE id replay",
+      "rust": "server DTO allowlist and authenticated per-seat event cursor; no hidden state in receipts or replay"
+    }
+  ],
+  "rust_transaction_contract": {
+    "identity": "authenticated roomId+seatId+round+requestId; derive seat from cookie, not payload",
+    "canonical_hash": "canonical serialized enum+unitId+intent and full payload; reject requestId conflict",
+    "staged_validation": "all actions apply to staged authoritative world, no side effects or SSE on failure",
+    "write_order": [
+      "validate authenticated seat, expected round and revision",
+      "validate all actions with fog and ownership",
+      "stage complete world+event journal+receipt+ready/phase and revision",
+      "durably commit checkpoint/WAL, with appropriate fsync and atomic metadata",
+      "publish in-memory committed version",
+      "emit per-seat filtered SSE snapshot and return ACK"
+    ],
+    "failure_before_commit": "old state, old revision, no leaked event or receipt, retry may apply exactly once",
+    "failure_after_commit_before_ack": "read durable receipt by same idempotency key and return original ACK; never re-execute",
+    "restart": "replay WAL/committed checkpoint only; reject partial/temp/corrupt images with verified recovery and integrity",
+    "privacy": "receipt only to authenticated seat; SSE team-filtered state/event DTO; never send raw tokenHash, privateSeed, RNG, hidden positions/wards, other seat draft",
+    "failure_tests": [
+      "before write",
+      "after temporary fsync before rename",
+      "after rename before HTTP ACK",
+      "process crash during durable commit (pending)",
+      "disk full/ENOSPC (pending)",
+      "two-process concurrent writer fencing (pending)"
+    ],
+    "caveats": "The Node QA store assumes single writer; fixed room ID, toy order.stop/ready subset, SHA256 of noncanonical JSON.stringify, no actual authentication, no WAL, no process kill. NOT a production implementation."
+  },
+  "vectors": [
+    {
+      "id": "A13-LEGACY-01",
+      "label": "01 failed action persistence mutates memory and revision without ACK",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-LEGACY-02",
+      "label": "02 failed action persists no broadcast yet in-memory ACK is recoverable",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-LEGACY-03",
+      "label": "03 failed first ready sets seat fence despite no checkpoint",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-LEGACY-04",
+      "label": "04 failed second ready plays turn in memory but restored image is still planning",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-LEGACY-05",
+      "label": "05 failed tick persistence advances in memory but not restart state",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-LEGACY-06",
+      "label": "06 successful command persists via room-provided hook before broadcast",
+      "suite": "REAL_LEGACY_ROOM_INJECT_PERSIST_EXCEPTION",
+      "status": "PASS_REPRODUCED_DEFECT",
+      "script": "tests/m45_platform_a13_room_persist_faults.test.mjs"
+    },
+    {
+      "id": "A13-DISK-01",
+      "label": "01 new checkpoint revision zero",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-02",
+      "label": "02 successful command durably stores receipt before returning ACK",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-03",
+      "label": "03 retry after restart returns identical original ACK, no second execution",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-04",
+      "label": "04 changed request with same requestId fails closed",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-05",
+      "label": "05 fault before temp write leaves checkpoint identical",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-06",
+      "label": "06 fault after temp fsync and before rename leaves committed image unchanged",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-07",
+      "label": "07 post-rename lost ACK is reconciled from disk on retry",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-08",
+      "label": "08 two distinct seats have independent team ownership",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-09",
+      "label": "09 first ready seals only own seat and remains durable",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-10",
+      "label": "10 second ready executes once and old receipts survive restart",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-11",
+      "label": "11 failure before final ready remains in planning after reconnect",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-12",
+      "label": "12 owner-only SSE projection excludes foreign order and storage secrets",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-13",
+      "label": "13 storage file is not world-readable by default",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    },
+    {
+      "id": "A13-DISK-14",
+      "label": "14 corrupted checkpoint fails closed instead of silently resetting",
+      "suite": "NATIVE_NODE_DISK_QA_REFERENCE",
+      "status": "PASS_NODE_22",
+      "script": "tests/m45_platform_a13_durable_reference.test.mjs"
+    }
+  ]
+}
