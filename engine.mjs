@@ -5542,7 +5542,8 @@ export class Arena {
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
    }
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
-    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker){
+    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker&&
+    !s.m44B13Id&&!s.m44B13BId){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
