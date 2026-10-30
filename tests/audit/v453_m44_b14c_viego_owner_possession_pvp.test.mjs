@@ -1,7 +1,7 @@
 /** M44 B14C — Viego authored corpse ownership, bounded Q/W copy, PvP. */
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {Arena,checksumV40,M44_B14C_VIEGO_COPY_V453} from '../../engine.mjs';
+import {Arena,checksumV40,m44B14DOriginalBoardRuleV453} from '../../engine.mjs';
 const load=n=>JSON.parse(readFileSync(new URL('../../data/'+n,import.meta.url)));
 const map=load('coachlol_map_v6.json'),mask=load('masks_128.json');
 let passed=0,snapshots=0;const failures=[];
@@ -29,7 +29,8 @@ function fixture(team,sourceChamp){
   assert.equal(a.queueViegoPossessV453M44B14C(team,u.id,soul.id).ok,true);
   a.resolveBoardSkillsV453Dev69();
   assert.equal(u.m44B14CPossession?.sourceChamp,sourceChamp);
-  assert.equal(u.champ,'Viego','source champion identity never overwritten');
+  assert.equal(u.champ,sourceChamp,'active borrowed identity');
+   assert.equal(u.m44B14DAppearanceV453?.champ,sourceChamp);
  };
  const cast=(slot,options={})=>{
   const q=a.queueBoardSkillV453Dev69(team,u.id,slot,options);
@@ -54,18 +55,22 @@ function run(team,champ,label,fn){
  catch(e){failures.push({team,champ,label,error:String(e?.stack||e)})}
 }
 for(const team of ['blue','red']){
- for(const champ of Object.keys(M44_B14C_VIEGO_COPY_V453))
+ for(const champ of ['Hwei','Azir','Bard'])
   run(team,champ,'source rule identity',({a,u,kill,claim})=>{
    claim(kill());
-   for(const [slot,rule] of Object.entries(M44_B14C_VIEGO_COPY_V453[champ]))
-    assert.equal(a.boardKitForV453Dev69('Viego',slot,u),rule);
-   assert.equal(a.units.filter(x=>x.hp>0).length,9);
+   for(const slot of ['Q','W','E'])
+     assert.equal(a.boardKitForV453Dev69(champ,slot,u),
+      m44B14DOriginalBoardRuleV453(champ,slot,u));
+    assert.equal(a.boardKitForV453Dev69(champ,'R',u),
+     m44B14DOriginalBoardRuleV453('Viego','R'));
+    assert.equal(u.m44B14DAppearanceV453?.effect,'viego_possession');
+    assert.equal(a.units.filter(x=>x.hp>0).length,9);
   });
- run(team,'Hwei','QQ copied receipt remains owner Viego',({u,target,kill,claim,cast})=>{
+ run(team,'Hwei','QQ copied receipt preserves actor ID',({u,target,kill,claim,cast})=>{
   claim(kill());
   const r=cast('Q',{point:{x:target.x+.001,y:target.y},m44B14Variant:'QQ'});
   assert.equal(r.devastatingFireball,true);
-  assert.equal(u.champ,'Viego');
+  assert.equal(u.champ,'Hwei');
  });
  run(team,'Azir','W copied real soldier entity',({a,u,kill,claim,cast})=>{
   claim(kill());
