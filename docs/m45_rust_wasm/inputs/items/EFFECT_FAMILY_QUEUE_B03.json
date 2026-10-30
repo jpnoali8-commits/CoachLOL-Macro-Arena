@@ -1,0 +1,476 @@
+{
+  "schema": "coachlol.m45.items.family_port_queue.b03.v1",
+  "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+  "summary": {
+    "family_rule_entries": 15,
+    "with_blue_red_golden_prepared": 6,
+    "remaining_without_b03_fixture": 9,
+    "remaining": [
+      "overlords_bloodmail",
+      "steraks_gage",
+      "cosmic_drive",
+      "riftmaker",
+      "chempunk_chainsword",
+      "immortal_shieldbow",
+      "seryldas_grudge",
+      "bloodletters_curse",
+      "abyssal_mask"
+    ],
+    "status": "AUDIT_ONLY_NO_RUST_CRATES"
+  },
+  "entries": [
+    {
+      "item_id": "overlords_bloodmail",
+      "riot_item_id": "2501",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 385,
+      "parameters": "overlords_bloodmail:{bonusHpToAd:.025,maxMissingHpAdRatio:.12}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 72,
+          "title": "Overlord: bonus max health becomes AD and missing HP increases AD, sale removes"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "kaenic_rookern",
+      "riot_item_id": "2504",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 375,
+      "parameters": "kaenic_rookern:{rechargeSeconds:15,shieldMaxHpRatio:.15}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 98,
+          "title": "Kaenic: 15% maxHP magic shield, timer on hit, physical bypass, full recharge"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 140,
+          "title": "Kaenic purchase requires 15 seconds without incoming magic before the first shield"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "steraks_gage",
+      "riot_item_id": "3053",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 378,
+      "parameters": "steraks_gage:{cooldown:90,threshold:.30,shieldSeconds:4.5,shieldBonusHealthRatio:.60,baseAdRatio:.50}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 119,
+          "title": "Sterak: bonus AD from base, 20 tenacity, shield scales with bonus HP"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 159,
+          "title": "remote team cannot buy/sell or Undo enemy items"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "maw_of_malmortius",
+      "riot_item_id": "3156",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 376,
+      "parameters": "maw_of_malmortius:{cooldown:90,threshold:.30,shieldSeconds:3,flatMelee:200,flatRanged:150,bonusAdMelee:1.5,bonusAdRanged:1.125}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 106,
+          "title": "Maw lifeline: magic-only shield absorbs triggering hit and preserves cooldown"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 132,
+          "title": "Riftmaker + Maw: vamp heals only while the appropriate item condition is active"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 152,
+          "title": "departure irrevocably prevents old Undo (even after return)"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 3,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "force_of_nature",
+      "riot_item_id": "4401",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 379,
+      "parameters": "force_of_nature:{stacks:8,mr:70,speedFraction:.06,stackSeconds:5}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 125,
+          "title": "Force of Nature: 8 different magic hits trigger +70 MR and +6% MS"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "cosmic_drive",
+      "riot_item_id": "4629",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 380,
+      "parameters": "cosmic_drive:{flatSpeed:20,seconds:4}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 66,
+          "title": "Cosmic Drive: magic contact gives temporary MS only to holder"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "riftmaker",
+      "riot_item_id": "4633",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 384,
+      "parameters": "riftmaker:{bonusHpToAp:.02,ampPerSecond:.02,maxAmp:.08}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 79,
+          "title": "Riftmaker: health -> AP, champion combat amp ramps without item recursion"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 132,
+          "title": "Riftmaker + Maw: vamp heals only while the appropriate item condition is active"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "shadowflame",
+      "riot_item_id": "4645",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 381,
+      "parameters": "shadowflame:{threshold:.40,bonusFraction:.20}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 46,
+          "title": "Shadowflame: magic damage is amplified below 40%, physical unaffected"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 147,
+          "title": "Undo in fountain restores complete reactive item state and money"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "chempunk_chainsword",
+      "riot_item_id": "6609",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 389,
+      "parameters": "chempunk_chainsword:{woundsSeconds:3}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 35,
+          "title": "Chempunk: physical damage applies grievous wounds; not magic"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "liandrys_torment",
+      "riot_item_id": "6653",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 383,
+      "parameters": "liandrys_torment:{burnMaxHpPerSecond:.02,burnSeconds:3,ampPerSecond:.02,maxAmp:.06}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 86,
+          "title": "Liandry: damaging ability produces timed burn with authoritative source"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "immortal_shieldbow",
+      "riot_item_id": "6673",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 377,
+      "parameters": "immortal_shieldbow:{cooldown:90,threshold:.30,shieldSeconds:3,shieldBase:400,shieldPerLevel:300/17}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 106,
+          "title": "Maw lifeline: magic-only shield absorbs triggering hit and preserves cooldown"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 112,
+          "title": "Shieldbow lifeline: absorbs the activating hit; cooldown/sale preserve gold"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "the_collector",
+      "riot_item_id": "6676",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 382,
+      "parameters": "the_collector:{executeThreshold:.05,killGold:25}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 26,
+          "title": "components discount and exact sell, no duplicate gold via repeated sale"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 51,
+          "title": "Collector: executes enemy below 5%, awards 1 kill and +25g once"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 2,
+      "prepared_golden": {
+        "file": "docs/m45_rust_wasm/inputs/items/golden_b03_effects.test.mjs",
+        "planned_blue_red": 2,
+        "status": "NOT_RUN"
+      },
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "PREPARED_GOLDEN",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "seryldas_grudge",
+      "riot_item_id": "6694",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 388,
+      "parameters": "seryldas_grudge:{slowFraction:.30,seconds:1,threshold:.50}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 40,
+          "title": "Serylda: spell slows champions below 50% health, physical basics do not"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "bloodletters_curse",
+      "riot_item_id": "8010",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 386,
+      "parameters": "bloodletters_curse:{shredPerStack:.075,maxStacks:4,seconds:6}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 92,
+          "title": "Bloodletter: four independent magical casts cap MR shred, expire after 6s"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 159,
+          "title": "remote team cannot buy/sell or Undo enemy items"
+        },
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 166,
+          "title": "checkpoint reproducibility after combat item events, no resource duplication"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 3,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    },
+    {
+      "item_id": "abyssal_mask",
+      "riot_item_id": "8020",
+      "status": "engine_playable",
+      "source_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "rule_symbol": "ITEM_FAMILY_RULES_V453_DEV69",
+      "rule_location": 387,
+      "parameters": "abyssal_mask:{amplifyMagic:.12,radius:550}",
+      "source_tests": [
+        {
+          "file": "tests/v453_dev69_items_bulk_18.test.mjs",
+          "blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+          "source_line": 60,
+          "title": "Abyssal: ally aura near enemy empowers magic damage, not physical"
+        }
+      ],
+      "legacy_test_candidates": 1,
+      "case_count": 1,
+      "prepared_golden": null,
+      "rust_target": "core-items + core-combat",
+      "rust_status": "BLOCKED_NO_CRATE",
+      "migration_priority": "NEXT_GOLDEN_FAMILY",
+      "warning": "Partial legacy source; test literals and rule params not full effect certification"
+    }
+  ],
+  "dependency_gates": {
+    "prerequisites": [
+      "B13: core-economy fountain and gold transactional receipts",
+      "B16-B18: core-combat damage/shields/clock/CC",
+      "B23: core-items DTO schema",
+      "B02: JS golden executed with source-lock and checksum"
+    ],
+    "gates": "G0 PARTIAL; G1-G8 NOT_CERTIFIED"
+  }
+}
