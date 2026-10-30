@@ -354,6 +354,9 @@ export function runAdversarialItemsB06({Arena,Gateway,map,mask,checksumV40}){
     actor.items=[];actor.gold=2000;
    }
    const gw=new Gateway(sandbox,seats);
+   // Starter purchases already emitted their own events during Arena setup.
+   // Compare only events emitted by these two adversarial test commands.
+   const eventCountBefore=sandbox.events.length;
    const receipts=[];
    for(const team of order){
     const cmd={sequence:1,unitId:team+'_MID',kind:'item.buy',
@@ -367,7 +370,7 @@ export function runAdversarialItemsB06({Arena,Gateway,map,mask,checksumV40}){
     return [team,{gold:u.gold,items:[...u.items]}];
    }));
    return {order,balances,hash:checksumV40(sandbox.snapshotV40()),
-    events:sandbox.events.filter(x=>x.kind==='purchase').map(x=>x.team),
+    events:sandbox.events.slice(0,sandbox.events.length-eventCountBefore).filter(x=>x.kind==='purchase').map(x=>x.team),
     receipts};
   };
   const br=mk(['blue','red']),rb=mk(['red','blue']);
