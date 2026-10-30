@@ -76,7 +76,7 @@
     "ezreal_barrier_reason": "bloqueio_posicional",
     "nami_with_idol_heal": 124.19999999999999,
     "nami_without_idol_heal": 115,
-    "jami_banshee_evil_bounce_damage": 0
+    "nami_banshee_enemy_bounce_damage": 0
   },
   "gaps": {
     "node_esm": "NOT_RUN",
