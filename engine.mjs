@@ -4252,6 +4252,15 @@ export class Arena {
    return {ok:false,reason:'m44_b12_killer_instinct_requires_plasma'};
   if(s.m44B14Id==='Leblanc.R'&&u.m44B14LastBasicSlot!=='W')
    return {ok:false,reason:'m44_b14_mimic_requires_w'};
+  // B14: reject Oathsworn mismatches and empty ammo BEFORE the one-time debit.
+  if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
+    u.m44B14OathswornId!==target?.id)
+   return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.m44B14Id==='Aphelios.Q'){
+   const gun=u.m44B14Aphelios?.primary||'calibrum';
+   const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
+   if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
+  }
 const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
@@ -4659,7 +4668,16 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(s.m44B08PykeCharge&&q.m28ChargeSeconds!==undefined&&
      this.mapDistance(u,q.point)>400+350*q.m28ChargeSeconds)
    return {ok:false,reason:'m44_b08_pyke_charge_range_commit'};
-  const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
+    // B14: reject Oathsworn mismatches and empty ammo BEFORE the one-time debit.
+  if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
+    u.m44B14OathswornId!==target?.id)
+   return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.m44B14Id==='Aphelios.Q'){
+   const gun=u.m44B14Aphelios?.primary||'calibrum';
+   const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
+   if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
+  }
+const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m23KarthusCanActV453(u,q.slot)?this.m23KarthusCommitV453(u,q.slot):
    this.performActionV40({actorId:u.id,kind:'skill',slot:q.slot,
     targetId:target?.champ?target.id:null,
@@ -13611,6 +13629,11 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Kaisa'&&
    target.champ&&target.hp>0&&attacker.team!==target.team)
    (target.m44B12KaisaPlasma??={})[attacker.id]=this.gameTime+5;
+  // Aphelios Gravitum binds only a target marked by his own landed basic.
+  if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Aphelios'&&
+   attacker.m44B14Aphelios?.primary==='gravitum'&&target.hp>0&&
+   target.team!==attacker.team)
+   (target.m44B14GravitumMark??={})[attacker.id]=this.gameTime+5;
   if(dealt>0&&sourceType==='basic'&&attacker?.champ==='Kalista'&&
    target.hp>0&&attacker.team!==target.team){
    const marks=target.m44B13KalistaSpears??={},prior=marks[attacker.id];
