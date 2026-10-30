@@ -1,0 +1,373 @@
+{
+  "schema": "coachlol.m45.platform.a10.voice-text-multiturn.v1",
+  "date": "2026-10-30",
+  "git": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "rust_head_consulted": "83a2a8b8dd403f8cf38567a47821d9ea427ab387",
+    "platform_base": "b974b3ff5cf5cb34dacd660519fca31484e6acaf"
+  },
+  "sourceBlobs": {
+    "app": "09ab1c0feaaf58dd48a94e72641a77358055f932",
+    "commandsNode": "671df897b0b9b18b75b3a996fb2b2294edc63c39",
+    "commandsBrowser": "2bfdfb77d7ea83aacdb62ef70623b0601ad47de8",
+    "engine": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "room": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "pvpClient": "43f42ef9e9022db8aa3cb96a299e8ed69d8522f3"
+  },
+  "qa": {
+    "v8": {
+      "passed": 31,
+      "total": 31
+    },
+    "nodeFullCheckout": "NOT_RUN",
+    "realMicrophone": "NOT_RUN",
+    "realBrowser": "NOT_RUN",
+    "rustPlatform": "NOT_IMPLEMENTED",
+    "wasmPlatform": "NOT_RUN",
+    "httpPvPTxt": "NO_LEGACY_ENDPOINT"
+  },
+  "suites": [
+    {
+      "suite": "A10_PERSIST",
+      "count": 14,
+      "path": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source": "commands.mjs+commands.browser.js+full Arena+gateway+room",
+      "mode": "ISOLATED_V8",
+      "source_pins": [
+        "2bfdfb77d7ea83aacdb62ef70623b0601ad47de8",
+        "43f42ef9e9022db8aa3cb96a299e8ed69d8522f3"
+      ]
+    },
+    {
+      "suite": "A10_VOICE",
+      "count": 9,
+      "path": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source": "app.js original voice handler + controlled fake local SpeechRecognition",
+      "mode": "ISOLATED_V8_MOCK_BROWSER",
+      "source_pins": [
+        "09ab1c0feaaf58dd48a94e72641a77358055f932"
+      ]
+    },
+    {
+      "suite": "A10_ENTER",
+      "count": 8,
+      "path": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source": "app.js original Enter/preview/apply handler + real Arena/commands with mocked DOM",
+      "mode": "ISOLATED_V8_MOCK_DOM",
+      "source_pins": [
+        "09ab1c0feaaf58dd48a94e72641a77358055f932"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "id": "A10-GAP-01",
+      "severity": "P0_AUTH_BOUNDARY",
+      "legacy": "Room.ready and Arena.teams.blue.ready can disagree after one seat confirms; direct offline applyCommands allows edit",
+      "required": "Rust all text/voice-compiled actions must enter authenticated server command boundary and check Room.ready atomically",
+      "networkExploitDemonstrated": false
+    },
+    {
+      "id": "A10-GAP-02",
+      "severity": "P1_FEATURE",
+      "legacy": "commands.mjs and local-only voice are wired in app.js; multiplayer/pvp_client_v453_dev47.js contains neither",
+      "required": "Rust/WASM public UI must offer PTBR text and opt-in local voice routed through per-seat authoritative command validation",
+      "networkExploitDemonstrated": false
+    },
+    {
+      "id": "A10-GAP-03",
+      "severity": "P1_PRIVACY",
+      "legacy": "SpeechRecognition code configures processLocally=true and requires local availability/install click",
+      "required": "Never silently fall back to cloud recognizer; transcript as untrusted text; explicit user permission with no auto-apply",
+      "networkExploitDemonstrated": false
+    },
+    {
+      "id": "A10-GAP-04",
+      "severity": "P1_REPLAY",
+      "legacy": "Text intent persists through 2 simulated turns, snapshots in one match; not proven between matches",
+      "required": "Preserve per-champion safe farm, smite hold, kite, freeze and independent blue/red state through turn seal and checkpoint; separately design cross-match preferences if desired",
+      "networkExploitDemonstrated": false
+    }
+  ],
+  "vectors": [
+    {
+      "id": "A10-PERSIST-01",
+      "label": "01 compiler parity across six phrases and both teams",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-02",
+      "label": "02 unknown role and blank input rejected identically",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-03",
+      "label": "03 preview only: never mutate full Arena",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-04",
+      "label": "04 applying blue plan mutates no red champion",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-05",
+      "label": "05 applying red plan mutates no blue champion",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-06",
+      "label": "06 original persistent intent is typed and owned",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-07",
+      "label": "07 room ready locks gateway but offline applyCommands does not see seat lock",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-08",
+      "label": "08 second ready starts turn, no unilateral simulation",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-09",
+      "label": "09 first 30s turn reaches round two deterministically",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-10",
+      "label": "10 key text intents survive one resolution",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-11",
+      "label": "11 server-only checkpoint restores persistent intentions",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-12",
+      "label": "12 second full human round retains persistent text intentions",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-13",
+      "label": "13 text preview is NOT a privileged multiplayer action packet",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-PERSIST-14",
+      "label": "14 byte-pinned PvP frontend has no PTBR/voice integration",
+      "suite": "A10_PERSIST",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_parser_multiturn.test.mjs",
+      "source_blob_sha": "2779fca9ca7ff1ca1acc3b83b61ef433bc2beec4"
+    },
+    {
+      "id": "A10-VOICE-01",
+      "label": "01 no supported local speech API means fail closed",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-02",
+      "label": "02 local available and recognition processLocally true pt-BR only",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-03",
+      "label": "03 interim result ignored and final transcribed once into preview",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-04",
+      "label": "04 repeated final callback never appends or applies twice",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-05",
+      "label": "05 voice appends to typed prompt with semicolon separator",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-06",
+      "label": "06 manual stop aborts and ignores previous callback",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-07",
+      "label": "07 language download requires explicit user click",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-08",
+      "label": "08 unavailable language never falls back to server recognition",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-VOICE-09",
+      "label": "09 availability error fails closed and no recording starts",
+      "suite": "A10_VOICE",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_voice_ui_contract.test.mjs",
+      "source_blob_sha": "4736a0839b9883b48c0484ae0a28a4600dde5643"
+    },
+    {
+      "id": "A10-ENTER-01",
+      "label": "01 first Enter previews only, no game mutation",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-02",
+      "label": "02 second Enter applies previous preview exactly once",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-03",
+      "label": "03 Shift+Enter never previews or applies",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-04",
+      "label": "04 IME composition and repeat do not apply",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-05",
+      "label": "05 changed source without input event triggers new preview not old apply",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-06",
+      "label": "06 input event clears previous preview and disarms apply button",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-07",
+      "label": "07 invalid preview cannot be applied by second Enter",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    },
+    {
+      "id": "A10-ENTER-08",
+      "label": "08 direct apply after stale modified preview refuses mutation",
+      "suite": "A10_ENTER",
+      "legacy_result": "PASS_DIAGNOSTIC",
+      "required_rust": "PRESERVE_SAFE_BEHAVIOR_OR_FIX_DOCUMENTED_LEGACY_GAP",
+      "source_test": "tests/m45_platform_a10_enter_preview_contract.test.mjs",
+      "source_blob_sha": "16f72b7377c23006c69ffa499ba553e2e6c3c2e6"
+    }
+  ]
+}
