@@ -133,5 +133,31 @@
     "G8": "NOT_CERTIFIED"
   },
   "no_actions": true,
-  "no_gameplay_branch_change": true
+  "no_gameplay_branch_change": true,
+  "open_decisions": [
+    {
+      "id": "NAMI_W_CANONICAL_ROUTE",
+      "legacy": "board path W rank1 heals 75 vs targeted path heals 115; both were concurrently available",
+      "required": "coordinator selects authored W executor and versioned power/bounce/passive policy; never silently combine both",
+      "status": "BLOCKED_REQUIRES_AUTHORITY"
+    },
+    {
+      "id": "REQUEST_ID_GC",
+      "legacy": "Rust model stores receipts indefinitely",
+      "required": "production bounded idempotency/reconnect retention in authoritative server with replay horizon and save compatibility",
+      "status": "BLOCKED_REQUIRES_SERVER_CONTRACT"
+    },
+    {
+      "id": "RECAST_EXCEPTION",
+      "legacy": "some authored skills permit recast without second cost/turn",
+      "required": "explicit per-skill registered active cast_instance_id, validated slot transition; reference arbiter rejects recasts pending executor",
+      "status": "BLOCKED_REQUIRES_CORE_CHAMPIONS"
+    },
+    {
+      "id": "ASHE_R_M14_TEST_REWRITE",
+      "legacy": "source M14 assumed immediate stun and used map-wall far position",
+      "required": "versioned deliberate temporal characterization and clean lane geometry; source suite failures remain visible",
+      "status": "NOT_APPROVED"
+    }
+  ]
 }
