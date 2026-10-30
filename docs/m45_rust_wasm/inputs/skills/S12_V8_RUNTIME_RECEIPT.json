@@ -1,0 +1,63 @@
+{
+  "schema": "coachlol.m45.skills.s12.runtime-execution-receipt.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "map_git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "mask_git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "supplementary_test_path": "docs/m45_rust_wasm/inputs/skills/s12_projectile_fidelity_pvp.test.mjs",
+  "supplementary_test_git_blob_sha": "014ec65c0c68a56ef1a654831b15eb4fcb753e84",
+  "runtime": "ISOLATED_V8_EVAL_ORIGINAL_ARENA_WITH_NODE_ASSERT_AND_IMPORT_SHIMS",
+  "verifications": {
+    "assertions": 438,
+    "assertions_pass": 438,
+    "scenarios": 34,
+    "scenarios_pass": 34,
+    "seats": 2,
+    "inflight_snapshot_restore_scenarios": 8,
+    "restore_state_ticks_per_scenario": 3
+  },
+  "result": "V8_PASS",
+  "stdout_marker": "M45_S12_PROJECTILE_FIDELITY seats=2 cases=34 midflight_restore=8 PASS (LEGACY V8/Node source oracle, not Rust/WASM/HTTP)",
+  "behavior_witnesses": [
+    "Ahri E 975 units/60 mana/80 damage/1.6s charm; valid x=.54 impact t2, beyond range x=.58 misses.",
+    "Ashe R 100 mana/200 damage/1.802857s stun for clear x=.58 impact t3; wall at x=.65 stops it.",
+    "Ahri E first minion receives 80 and intercepts; Ashe R bypasses minion and damages enemy champion.",
+    "Both are blocked by an opposing projectile barrier near x=.53.",
+    "Spell shields consume and block both damage and CC on primary targets.",
+    "Ashe R 250-unit explosion applies 70 damage and 35% slow to nearby secondary champion unless its spell shield blocks it.",
+    "All 8 live-vs-restored midflight t1 snapshot hashes agree, including outcomes at t2/t3/t4, for both teams and with/without spell shield."
+  ],
+  "provenance": {
+    "engine_path": "engine.mjs",
+    "engine_import_edit": "ESM export tokens removed for in-memory eval; no gameplay logic modified",
+    "test_body": "Saved actual supplemental S12 .test.mjs body from GitHub blob run in V8 with Node prelude import and assert API shims",
+    "s12_source_test_compilation_with_node": "NOT_RUN",
+    "full_original_node_suite": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "network_http_two_seat": "NOT_RUN"
+  },
+  "prior_s10_matrix_unchanged": {
+    "planned": 26,
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "original_node_executed": 0
+  },
+  "gate_status": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "PARTIAL_LEGACY_ORACLE_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "PARTIAL_LEGACY_ORACLE_ONLY",
+    "G8": "NOT_CERTIFIED"
+  },
+  "limitations": [
+    "Synthetic visibility=()=>true, manually authored unit positions/minion/barrier and manually advanced clock",
+    "No native Rust, WASM, actual player sessions, fog ACL, server reconnect",
+    "S12 supplemental suite is NOT added to the S10 26-source original golden count; two original S10 failures remain FAIL"
+  ]
+}
