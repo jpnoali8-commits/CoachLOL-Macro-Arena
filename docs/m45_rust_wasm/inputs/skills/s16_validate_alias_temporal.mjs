@@ -15,7 +15,7 @@ export function verify({receipt,s16test,s16rust,goldenPlan,s15Receipt}){
  eq(receipt.original_source.gateway_dev44_blob,'4be23bdd9df6d9918a0c32b6ea699be8974bf9de','dev44 gateway');
  eq(receipt.original_source.gateway_dev47_blob,'adf6900a20b1b2c162ec9769b18bf1cc2c23867f','dev47 gateway');
  eq(receipt.supplementary_source.git_blob_sha,'6446595bf421c367eb26eed9f868ebca473b8daf','saved test pin');
- eq(receipt.rust_reference.git_blob_sha,'3f9ed69cdee33ebcef1a8207953365ee2c99f09c','Rust contract pin');
+ eq(receipt.rust_reference.git_blob_sha,'5321e3e5c1e3ea5d54510411adb4f468036e4085','Rust contract pin');
  eq(receipt.execution.status,'V8_PASS_LEGACY_CHARACTERIZATION','actual source V8 result');
  eq(receipt.execution.assertions_attempted,295,'executed asserts');
  eq(receipt.execution.assertions_pass,295,'passed asserts');
