@@ -42,7 +42,7 @@ pub trait AuthoredProjectileRunner {
     // Never satisfy acceptance via hard-coded results from this file.
     fn run_case(&mut self, seat: Seat, case: Case) -> Expected;
 }
-pub const FIXTURES: [Case; 14] = [
+pub const FIXTURES: [Case; 13] = [
     Case{id:"AHRI_E_NORMAL",slot:ChampionSlot::AhriE,kind:ScenarioKind::CleanHit,target_x_milli:540},
     Case{id:"AHRI_E_SPELL_SHIELD",slot:ChampionSlot::AhriE,kind:ScenarioKind::PrimarySpellShield,target_x_milli:540},
     Case{id:"AHRI_E_MINION_INTERCEPT",slot:ChampionSlot::AhriE,kind:ScenarioKind::LaneMinion,target_x_milli:540},
@@ -56,8 +56,6 @@ pub const FIXTURES: [Case; 14] = [
     Case{id:"ASHE_R_ATLAS_WALL",slot:ChampionSlot::AsheR,kind:ScenarioKind::AtlasWall,target_x_milli:650},
     Case{id:"ASHE_R_EXPLOSION_SECONDARY",slot:ChampionSlot::AsheR,kind:ScenarioKind::SecondarySplash,target_x_milli:580},
     Case{id:"ASHE_R_SPLASH_SHIELD",slot:ChampionSlot::AsheR,kind:ScenarioKind::SecondarySplashShield,target_x_milli:580},
-    // The old M14 test's x=.65 is NOT a far clear path. This is a wall-specific witness.
-    Case{id:"ASHE_R_OBSOLETE_M14_WALL",slot:ChampionSlot::AsheR,kind:ScenarioKind::AtlasWall,target_x_milli:650},
 ];
 pub const fn expected(f: Case) -> Expected {
     use ChampionSlot::{AhriE,AsheR};
@@ -121,10 +119,10 @@ pub fn check_runner<R: AuthoredProjectileRunner>(runner: &mut R)
 mod tests {
     use super::*;
     #[test]
-    fn typed_cases_are_distinct_except_explicit_obsolete_alias() {
+    fn typed_cases_are_distinct_and_source_pinned() {
         let mut ids = std::collections::BTreeSet::new();
         for f in FIXTURES { assert!(ids.insert(f.id)); assert!(expected(f).accept); }
-        assert_eq!(ids.len(), 14);
+        assert_eq!(ids.len(), 13);
         // This is data integrity only; no projectile gameplay is executed.
     }
     #[test]
