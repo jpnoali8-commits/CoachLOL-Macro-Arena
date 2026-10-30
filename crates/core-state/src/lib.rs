@@ -3,7 +3,9 @@
 //! The native server may eventually consume private inputs; WASM exports only a
 //! public standalone hash primitive, never the hidden objective arbitration.
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub mod skill_admission;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Team {
     Blue,
     Red,

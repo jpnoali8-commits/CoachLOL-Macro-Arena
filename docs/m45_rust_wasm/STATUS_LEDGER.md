@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I04 rotas UI/gateway auditadas com 18 cenários V8, lacuna de 14 kits M44 B13 no catálogo antigo, sem gastar runner.
+**Atualizado:** 2026-10-30, B02B-I05 protótipo Rust de admissão/ACK escrito sem compilação.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02B — executar Node ESM 26 skills suites e HTTP/SSE completo em ambiente sem Actions; reconciliar catálogos de skills e comandos UI/room contra fonte congelada; depois B02C.
+**Próxima prioridade:** M45 B02B — testar protótipo Rust com cargo (quando disponível), 26 skills Node ESM e HTTP/SSE; reconciliar kits/rotas UI; depois B02C.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -173,3 +173,11 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Arquivos de prova `B02B_GATEWAY_KIT_V8_EXECUTED.json` (blob `30375b17c600b65eef953988f149c6408c588da1`), `B02B_CLIENT_KIT_SOURCE_DISCOVERY.json` (blob `4dec9b0da3e40252b1929217f87455652fa05ff8`), validador `validate_gateway_kit_evidence.mjs` (blob `ed61250ff7029150e7b2f159a6238d5517c5243a`, **PASS V8 + controle de alteração maliciosa REJEITADO**). Testes Node receipts **preparados NOT_RUN**; contrato Rust `B02B_SKILL_WIRE_RUST_CONTRACT.json` **PROPOSED_NOT_IMPLEMENTED**, com API tipada/registries unificados, dono do assento, árbitro de cast e DTO seguro.
 - QA especialista S10 (outra branch): **26 suites** declaradas, 22 V8 PASS, **2 V8 FAIL** (Ahri E M2; Ashe R golden antigo espera stun instantâneo em vez de projétil temporal) e 2 NOT_RUN; 0/26 Node original completo. S11 confirma Ahri E rota board interna funcional e Ashe R impacto temporal, não confundir regressão antiga com falta de ultimate.
 - **Nenhum workflow/gatilho GitHub Actions tocado**, 0 jobs solicitados diretamente neste lote; os três jobs legados do PR #19 devem ficar `skipped` (conferir após commit). Sem alteração de engine/cliente legado; G0 PARTIAL, G1 PARTIAL baseline B01, G2–G6 Rust NOT_RUN, G7 BLOCKED, G8 NOT_RUN. B02B permanece IN_PROGRESS, B03 QUEUED.
+
+## M45 B02B-I05 — protótipo privado Rust SkillAdmission (2026-10-30)
+
+- Criado crates/core-state/src/skill_admission.rs: uma intenção primária por assento/ator/slot; ACK idempotente; conflito de request_id; seal; commit-once; retire terminal e limpeza de pending ao mudar de turno.
+- Testes Rust definidos: Nami W em duas equipes e duas ordens; Ahri E como direção tipada (sem projétil), owner/aim/recast inválidos, cache de ACK em clone in-memory, isolamento de dois seats.
+- Nenhum executor real de habilidade, custo, fog, autorização de sala, registry M44, HTTP/SSE ou WASM novo implementado. Manter regras autoritativas na engine JS até gates.
+- cargo/rustc indisponíveis: testes Rust, fmt/clippy, wasm build NOT_RUN. 26 suítes Node legadas permanecem 0/26. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN. Sem Actions solicitadas.
+- Próxima etapa B02B: compilar módulo em executor Rust quando possível, obter goldens Node e HTTP/SSE reais e reconciliar 14 kits de registro/cliente. B03 ainda QUEUED.

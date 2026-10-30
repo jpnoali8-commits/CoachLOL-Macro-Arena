@@ -119,3 +119,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 - Runtime V8 real do mesmo SHA skills branch: **14/14 testes de gateway** (2 W targeted aceitos, 6 Nami rotas indevidas negadas, 6 Ahri E rotas comuns negadas), **4/4** combos targeted W+order.combo com um único débito no primeiro resolve e nenhum novo débito após cooldown sintético. Todos os 18 fixtures têm ACK/checksums; rejeições Ahri E indicam BUG de roteamento, não PASS funcional.
 - Catálogo legado server `/api/kits.kits` inclui 30 `BOARD_KITS`; **14 M44 B13** autorais ausentes dessa propriedade, embora existam campos alternativos (specials/form/...) que exigem reconciliação. Client target button exclui `target_any` da Nami. Contrato Rust de unificação entregue **SPEC_ONLY**.
 - Skills S10 executou **22/26 em V8 PASS, 2/26 em V8 FAIL e 2/26 NOT_RUN**, não 26 Node completos; conservar duas falhas (Ahri E e Ashe R golden desatualizado) como deltas. **Próxima B02B:** executar Node ESM/HTTP quando possível, escolher prioridade P0 catalog/rota e ACL, sem CI repetitivo; B03 QUEUED.
+
+### M45 B02B-I05 — protótipo de admissão única Rust (2026-10-30)
+
+- core-state ganhou SkillAdmission e cinco testes unitários escritos mas NÃO EXECUTADOS, contendo idempotência, bloqueio de slot, seal e descarte de pending em dois seats. Registro de Ahri E tipada não constitui execução de projétil; Nami W testada só como protocolo, não como heal.
+- B02B continua IN_PROGRESS: G0/G1 PARTIAL, Node 0/26, HTTP/SSE NOT_RUN, runtime Rust novo NOT_RUN. Não promover B03 nem disparar Actions.
