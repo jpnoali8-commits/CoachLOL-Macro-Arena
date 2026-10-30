@@ -58,3 +58,25 @@ node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
 ~~~
 
 O DNS de `github.com` falhou neste ambiente local, impossibilitando checkout do repositório privado; `NOT_RUN` permanece honesto. O Chat 1 mantém exclusivamente o ledger central, contratos e PR #19.
+
+## M45 S05 — Descoberta de executores e recuperação do catálogo V42
+
+**Origem:** `dev69/skills-batch2` commit `f0b1147ac46e585a1d5374a178b1ea462f5dc278`, engine Git blob `41679f7328a42e379fdfb8de5b92006e1bfb529f`.
+
+O scanner inicial de `CHAMPION_KITS_V42` deixou de registrar os cinco descritores de Ezreal, primeiro campeão no bloco. O S05 recuperou os **35 descritores P/Q/W/E/R de 7 campeões** e 25 rotas de implementação/hook sem inventar habilidades. Das reclassificações, 22 evoluíram para **partial** a partir de evidências de runtime; paridade, rota e efeito permanecem não certificados. `inventory_slots.json` v4: **234 implemented, 365 partial, 1 reference-only, 265 absent**, em 865 IDs.
+
+O campo `duplicate_slots=50` agora contém variantes de registro **e** evidências de handler alternativas; a S04 isolou originalmente 27 slots com múltiplos descritores. Isso não representa 50 conflitos de gameplay.
+
+`golden_plan.json` passa a incluir **19 suítes**, com 8 adições dos testes existentes M1–M7 e batch2. As oito fontes novas foram verificadas por blob SHA, saída esperada e assentos azul/vermelho. **Nenhuma das 19 foi executada neste turno**; Node não consegue clonar o repositório devido à resolução de DNS, embora o conector Github confirme que ele é público.
+
+Artefatos: `S05_V42_HANDLER_RECONCILIATION.json`, `S05_STATIC_QA_RECEIPT.json`, `M45_B02_S05_HANDOFF.md`.
+
+Comandos para execução no checkout real:
+
+~~~bash
+node docs/m45_rust_wasm/inputs/skills/verify_precedence_source.mjs
+node docs/m45_rust_wasm/inputs/skills/run_golden.mjs --verify-only
+node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
+~~~
+
+**Observação:** `verify_precedence_source.mjs` foi escrito na S04 e ainda espera `27` entradas multivariantes; com o enriquecimento S05 da matriz há `50` linhas multi-evidência. É necessário atualizar esse verificador para separar `registry_multivariants` de `handler_evidence_multivariants` antes da execução, ou ele falhará por expectativa obsoleta. Não considerar seu resultado como PASS até ser atualizado.
