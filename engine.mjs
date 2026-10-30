@@ -4137,16 +4137,52 @@ export class Arena {
     until:Math.min(z.until+1,this.gameTime+2),ratio:.15};
   return applied.ok;
  }
+ // B22: explicit delivery taxonomy, no generic skill fallback.
+ m44B22DeliveryKindV453(kind){
+  if(['cone_channel','m20_requiem_channel','m22_artillery_channel','jhin_r_channel'].includes(kind))return 'channel';
+  if(['m44_authored_projectile','ahri_q_out','ahri_q_back','ahri_e','lux_q','lux_w_out','lux_w_back','jinx_w','nami_r','vex_q','vex_r','ezreal_q','ezreal_w','irelia_r'].includes(kind))return 'projectile';
+  if(['lux_final_spark','lux_final_spark_pending'].includes(kind))return 'beam';
+  if(['m40_sett_haymaker','irelia_w_dance'].includes(kind))return 'windup';
+  if(['m44_b08_karma_burst','m44_sejuani_storm'].includes(kind))return 'delayed_impact';
+  return 'unknown';
+ }
+ m44B22ChannelInterruptRecordV453(v,kind,reason,sourceId=null,token=null){
+  (this.m44B22ChannelInterruptHistory??=[]).push({ownerId:v.id,team:v.team,kind,reason,sourceId,token,at:this.gameTime});
+  this.m44B22ChannelInterruptHistory=this.m44B22ChannelInterruptHistory.slice(-100);
+ }
+ // Only cancel channels; missiles already in flight and fixed effects survive.
+ m44B22CancelChannelsV453(v,reason,sourceId=null){
+  if(!v)return 0;
+  const channelKinds=['cone_channel','m20_requiem_channel','m22_artillery_channel'];
+  const stopped=(this.boardTemporalV453Dev69||[]).filter(z=>z.ownerId===v.id&&channelKinds.includes(z.kind));
+  if(stopped.length){
+   this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>!stopped.includes(z));
+   for(const z of stopped)this.m44B22ChannelInterruptRecordV453(v,z.kind,reason,sourceId,z.id);
+   v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
+  }
+  let count=stopped.length;
+  if(v.m16JhinChannel){
+   const active=v.m16JhinChannel.until>this.gameTime;
+   if(active)this.m44B22ChannelInterruptRecordV453(v,'jhin_r_channel',reason,sourceId,
+    v.m16JhinChannel.startedAt);
+   // A naturally expired channel is also cleared, but never treated as an
+   // ongoing interrupt to be credited to Viktor or Kassadin.
+   if(active||reason==='expired'||reason==='death')v.m16JhinChannel=null;
+   if(active)count++;
+  }
+  return count;
+ }
+ m44B22ChannelInterruptReasonV453(v,z,now=this.gameTime){
+  if(this.m44B22DeliveryKindV453(z?.kind)!=='channel'||!v)return null;
+  if(v.hp<=0&&!(z.kind==='m20_requiem_channel'&&v.m23DeathDefiedV453?.until>=z.nextAt))return 'death';
+  if(!(z.kind==='m20_requiem_channel'&&v.hp<=0)&&!this.effectResolverV41().canAct(v,'skill').ok)return 'cc';
+  if(this.mapDistance(v,z.origin||v)>60)return 'movement';
+  if(Object.hasOwn(z,'m44B22CastRealmId')&&z.m44B22CastRealmId!==(v.realmIdV453Dev69||null))return 'realm_change';
+  return null;
+ }
  m41ViktorStormDisruptV453Dev69(u,v){
   if(!v?.champ||v.hp<=0)return false;
-  const cancellable=['cone_channel','m20_requiem_channel','m22_artillery_channel'];
-  const old=(this.boardTemporalV453Dev69||[]).length;
-  for(const zone of this.boardTemporalV453Dev69||[])
-   if(zone.ownerId===v.id&&cancellable.includes(zone.kind))
-    zone.m43InterruptedAt=this.gameTime;
-  this.boardTemporalV453Dev69=(this.boardTemporalV453Dev69||[])
-   .filter(z=>z.m43InterruptedAt===undefined);
-  let interrupted=this.boardTemporalV453Dev69.length<old;
+  let interrupted=this.m44B22CancelChannelsV453(v,'viktor_r',u.id)>0;
   if(v.m40AuthoredChannelV453){
    const state=v.m40AuthoredChannelV453;
    if(state.kind==='sett_haymaker')
@@ -5697,6 +5733,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    else if(s.boardTemporal==='tibbers_aura'){
     temporal.nextAt=this.gameTime+2;temporal.until=this.gameTime+8;
    }else if(s.boardTemporal==='minefield')temporal.until=this.gameTime+5;
+   if(this.m44B22DeliveryKindV453(temporal.kind)==='channel')
+    temporal.m44B22CastRealmId=u.realmIdV453Dev69||null;
    (this.boardTemporalV453Dev69??=[]).push(temporal);
    if(s.m28ViktorStorm){
     // Chaos Storm has its own ON-CAST disruption packet before roaming ticks.
@@ -8227,14 +8265,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       this.damage(other,raw*.4,u,'magic','m29_corki_big_one');
     }
     if(done>0&&s.m30KassInterrupt&&v.champ){
-     const prior=(this.boardTemporalV453Dev69||[]).length;
-     this.boardTemporalV453Dev69=this.boardTemporalV453Dev69.filter(z=>
-      !(z.ownerId===v.id&&['cone_channel','m20_requiem_channel',
-       'm22_artillery_channel'].includes(z.kind)));
-     if(this.boardTemporalV453Dev69.length<prior){
-      v.boardChannelUntilV453Dev69=0;v.m22ArtilleryV453=null;
+     if(this.m44B22CancelChannelsV453(v,'kassadin_q',u.id)>0)
       this.event('Kassadin Q: canalização interrompida.',u.team,'skill_vfx',u.id);
-     }
     }
     if(done>0&&s.m32MilioBounce&&v.champ&&v.hp>0){
      const next=this.boardCombatEnemyPoolV453Dev69(u).filter(x=>x.id!==v.id&&
@@ -8633,12 +8665,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    const u=this.units.find(v=>v.id===z.ownerId);
    if(!u){continue;}
    let ended=false;
-   if(['cone_channel','m20_requiem_channel','m22_artillery_channel'].includes(z.kind)&&
-    ((!u.hp&&!(z.kind==='m20_requiem_channel'&&
-       u.m23DeathDefiedV453?.until>=z.nextAt))||
-     (z.kind==='m20_requiem_channel'&&u.hp<=0?false:
-      !this.effectResolverV41().canAct(u,'skill').ok)||
-     this.mapDistance(u,z.origin)>60)){
+   const cancelReason=this.m44B22ChannelInterruptReasonV453(u,z,now);
+   if(cancelReason){
+    this.m44B22ChannelInterruptRecordV453(u,z.kind,cancelReason,null,z.id);
     u.boardChannelUntilV453Dev69=0;
     if(z.kind==='m22_artillery_channel')u.m22ArtilleryV453=null;
     ended=true;
@@ -10361,7 +10390,10 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   if(q.m16Recast){
    if(s.m16FourShots){
     const channel=u.m16JhinChannel;
-    if(!channel||channel.until<=now||channel.remaining<=0||channel.nextAt>now||
+    if(channel&&Object.hasOwn(channel,'m44B22CastRealmId')&&
+       channel.m44B22CastRealmId!==(u.realmIdV453Dev69||null))
+     this.m44B22CancelChannelsV453(u,'realm_change');
+    if(!u.m16JhinChannel||channel.until<=now||channel.remaining<=0||channel.nextAt>now||
        !this.effectResolverV41().canAct(u,'skill').ok||(u.stunUntil||0)>now)
      return {ok:false,reason:'jhin_r_sem_recarga'};
     // The same targetable-entity resolver handles R bullets and other board
@@ -10427,7 +10459,8 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   }
   if(s.m16FourShots){
    u.m16JhinChannel={remaining:4,nextAt:now+1,until:now+10,
-    origin:{x:u.x,y:u.y},axis:null};
+    origin:{x:u.x,y:u.y},axis:null,startedAt:now,
+    m44B22CastRealmId:u.realmIdV453Dev69||null};
    return {...cast,channel:true,shots:4};
   }
   if(s.m16Blind||s.m16Charm){
@@ -10489,7 +10522,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
  advanceMechanicsV453M16(){
   const now=this.gameTime;
   for(const u of this.units){
-   if(u.hp<=0){u.m16StealthV453=null;u.m16JhinChannel=null;continue;}
+   if(u.hp<=0){u.m16StealthV453=null;
+    if(u.m16JhinChannel)this.m44B22CancelChannelsV453(u,'death');
+    continue;}
    const previous=u.m16LastPoint,brush=this.brushRegionAt(u.x,u.y);
    const moving=previous&&this.mapDistance(previous,u)>2;
    if(moving&&!brush)u.m16IdleSince=now;
@@ -10525,9 +10560,16 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     u.m16StealthV453={type:'camouflage',source:'Evelynn:P',radius:700,
      startsAt:now,until:Number.MAX_SAFE_INTEGER};
    }
-   if(u.m16JhinChannel?.until<=now||u.m16JhinChannel&&
-     (moving||!this.effectResolverV41().canAct(u,'skill').ok||
-       (u.stunUntil||0)>now))u.m16JhinChannel=null;
+   if(u.m16JhinChannel){
+    const ch=u.m16JhinChannel;
+    const reason=ch.until<=now?'expired':
+     Object.hasOwn(ch,'m44B22CastRealmId')&&
+       ch.m44B22CastRealmId!==(u.realmIdV453Dev69||null)?'realm_change':
+     moving?'movement':
+     (!this.effectResolverV41().canAct(u,'skill').ok||
+      (u.stunUntil||0)>now)?'cc':null;
+    if(reason)this.m44B22CancelChannelsV453(u,reason);
+   }
    if(u.champ==='Jhin'&&u.m16JhinAmmo===0&&(u.m16JhinReloadUntil||0)<=now)
     u.m16JhinAmmo=4;
   }
