@@ -1,0 +1,91 @@
+{
+  "schema": "coachlol.platform-a05.ready-receipts.v1",
+  "intent": "target Rust server protocol goldens (not existing legacy behavior)",
+  "source": {
+    "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "legacy_room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae"
+  },
+  "scope": {
+    "humans": 2,
+    "champions_per_seat": 5
+  },
+  "receipt_key": [
+    "match_id",
+    "round",
+    "authenticated_seat_id",
+    "request_id"
+  ],
+  "semantics": [
+    {
+      "id": "RD-01",
+      "action": "ready(p1,r=3,request=A)",
+      "expected": "ACK accepted; p1 sealed; no execution; durable ack"
+    },
+    {
+      "id": "RD-02",
+      "action": "retry ready(p1,r=3,request=A) after ACK lost",
+      "expected": "byte-identical ACK from RD-01; no duplicate revision"
+    },
+    {
+      "id": "RD-03",
+      "action": "ready(p2,r=3,request=B)",
+      "expected": "ACK accepted; exactly one turn execution; store ack durably"
+    },
+    {
+      "id": "RD-04",
+      "action": "retry ready(p2,r=3,request=B) after seal",
+      "expected": "byte-identical ACK from RD-03, even after phase executing"
+    },
+    {
+      "id": "RD-05",
+      "action": "after restart, retry request A and B",
+      "expected": "durable same ACKs, no re-execution"
+    },
+    {
+      "id": "RD-06",
+      "action": "p1 second distinct ready request C in already sealed r=3",
+      "expected": "reject as phase locked; no change"
+    },
+    {
+      "id": "RD-07",
+      "action": "request_id A reused by p1 on r=3 with modified payload",
+      "expected": "reject receipt conflict; no change"
+    },
+    {
+      "id": "RD-08",
+      "action": "request_id A guessed by p2",
+      "expected": "never return p1 receipt; authentication binds seat and payload"
+    },
+    {
+      "id": "RD-09",
+      "action": "p2 ready B calls engine and fails before commit",
+      "expected": "transaction rolls back; no revision increase; request B not accepted; p1 existing ack unchanged"
+    },
+    {
+      "id": "RD-10",
+      "action": "SSE disconnect during last ACK + reconnect with cursor gap",
+      "expected": "send filtered snapshot+ready receipt by seat, never raw checkpoint"
+    },
+    {
+      "id": "RD-11",
+      "action": "turn r=4 ready p1 with distinct request_id",
+      "expected": "per-round independent idempotence; no stale r=3 readiness"
+    }
+  ],
+  "legacy_divergences": [
+    "legacy ready has no request_id",
+    "retry before or after seal returns confirmacao_indisponivel",
+    "failed playTurn increments revision even without persistence"
+  ],
+  "security": [
+    "do not accept seatId/team from payload",
+    "receipts stored server-only and scoped by seat",
+    "no raw seed/hidden positions/hidden wards in any SSE replay",
+    "bounded rate limit and TTL with explicit reconnect semantics"
+  ],
+  "status": {
+    "rust_implementation": "NOT_IMPLEMENTED",
+    "node_end_to_end": "NOT_RUN",
+    "v8_legacy_method_failure_injection": "EXECUTED"
+  }
+}

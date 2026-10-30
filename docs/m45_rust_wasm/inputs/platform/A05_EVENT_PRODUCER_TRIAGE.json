@@ -1,0 +1,320 @@
+{
+  "schema": "coachlol.platform-a05.event-producer-triage.v1",
+  "status": "PROPOSED_FOR_RUST_REVIEW_NOT_IMPLEMENTED",
+  "source": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71"
+  },
+  "count": {
+    "total": 20,
+    "actor_visibility": 3,
+    "review": 2,
+    "public_candidates": 15
+  },
+  "warnings": [
+    "20 events lack fixed team; 15 public CANDIDATES require manual classification, not safe to mark public blindly",
+    "Engine details may override team/unitId/public/observedBy via Object.assign",
+    "No raw event detail serialization in Rust"
+  ],
+  "producer_sites": [
+    {
+      "line": 858,
+      "source_args": [
+        "'Preparação de 60 segundos: compre itens e planeje rotas; o mapa está pausado.'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 1060,
+      "source_args": [
+        "'Fruta explosiva ativada.'",
+        "null",
+        "'rift_plant'",
+        "null"
+      ],
+      "baseline_public_literal": true,
+      "proposed_policy": "REVIEW_PRIVATE_VISIBILITY",
+      "target_rust_fields": [
+        "kind",
+        "server_timestamp",
+        "audited_visibility_scope"
+      ],
+      "risk": "P1_POLICY_REVIEW"
+    },
+    {
+      "line": 1233,
+      "source_args": [
+        "'Rift Elemental transformado: '+element+'.'",
+        "null",
+        "'objective'",
+        "null"
+      ],
+      "baseline_public_literal": true,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 1273,
+      "source_args": [
+        "`Alma do Dragão conquistada por ${team}; Ancião em 6 minutos.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3323,
+      "source_args": [
+        "`Turno ${frame.round}: ${frame.seconds}s simulados após as duas confirmações.`",
+        "null",
+        "'round'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3507,
+      "source_args": [
+        "`Rodada ${this.round-1} resolvida: ${this.lastResolvedSeconds}s de jogo simultâneos.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3515,
+      "source_args": [
+        "'Modo legado ao vivo iniciado.'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3549,
+      "source_args": [
+        "`Janela ${frame.round}: ${frame.seconds}s vividos durante o planejamento; o mundo não foi reexecutado.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3595,
+      "source_args": [
+        "`Nexus destruído. Vitória do ${this.winner}.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3603,
+      "source_args": [
+        "`${s.name||s.id} destruído.`",
+        "null",
+        "'structure'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3844,
+      "source_args": [
+        "`Leva ${this.waveIndex}: minions saíram das três rotas.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 3921,
+      "source_args": [
+        "`${u.champ}: destino sem passagem.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "ACTOR_VISIBILITY_REQUIRED",
+      "target_rust_fields": [
+        "kind",
+        "public_text_if_observed",
+        "actor_id_if_observed",
+        "server_timestamp"
+      ],
+      "risk": "P0_FOG_INFORMATION"
+    },
+    {
+      "line": 4147,
+      "source_args": [
+        "`${u.champ} usou Flash.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "ACTOR_VISIBILITY_REQUIRED",
+      "target_rust_fields": [
+        "kind",
+        "public_text_if_observed",
+        "actor_id_if_observed",
+        "server_timestamp"
+      ],
+      "risk": "P0_FOG_INFORMATION"
+    },
+    {
+      "line": 5010,
+      "source_args": [
+        "`${turret.name}: aggro de dive em ${attacker.champ}.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "ACTOR_VISIBILITY_REQUIRED",
+      "target_rust_fields": [
+        "kind",
+        "public_text_if_observed",
+        "actor_id_if_observed",
+        "server_timestamp"
+      ],
+      "risk": "P0_FOG_INFORMATION"
+    },
+    {
+      "line": 5740,
+      "source_args": [
+        "`Torre ${t.id} eliminou ${victim.champ}.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 5913,
+      "source_args": [
+        "`Vastilarvas derrotadas: Azul ${blue}/3 · Vermelho ${red}/3.`",
+        "null",
+        "'objective'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 6226,
+      "source_args": [
+        "`Disputa sem Golpear: ${noSmitePitVerdict.blue} Azul × ${noSmitePitVerdict.red} Vermelho; sorteio ponderado (${Math.round(noSmitePitVerdict.blueProbability*100)}% Azul).`",
+        "null",
+        "'objective'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "REVIEW_PRIVATE_VISIBILITY",
+      "target_rust_fields": [
+        "kind",
+        "server_timestamp",
+        "audited_visibility_scope"
+      ],
+      "risk": "P1_POLICY_REVIEW"
+    },
+    {
+      "line": 6230,
+      "source_args": [
+        "`${owner==='blue'?'Azul':'Vermelho'} derrotou ${timer==='dragon'?'Dragão':timer==='baron'?'Barão Na’Shor':timer==='herald'?'Arauto':'Vastilarvas'}.`",
+        "null",
+        "'objective'"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 6259,
+      "source_args": [
+        "`Dragão Ancião: execução ativa para ${owner} (modelo simplificado).`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    },
+    {
+      "line": 6261,
+      "source_args": [
+        "`Dragão elemental: ${el} para ${owner}.`"
+      ],
+      "baseline_public_literal": false,
+      "proposed_policy": "EXPLICIT_PUBLIC_CANDIDATE",
+      "target_rust_fields": [
+        "kind",
+        "public_text",
+        "server_timestamp"
+      ],
+      "risk": "P2_NEEDS_EXPLICIT_PUBLIC_CLASSIFICATION"
+    }
+  ]
+}
