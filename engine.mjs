@@ -1016,6 +1016,18 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B14A: explicit authored skills, NOT a complete roster certification.
+export const M44_B14A_KITS_V453=Object.freeze({
+ Azir:{Q:BS('line_enemy',1100,70,[14,12,10,8,6],[50,75,100,125,150],{m44B14Id:'Azir.Q',width:190})},
+ Zed:{Q:BS('line_enemy',900,0,6,[80,115,150,185,220],{m44B14Id:'Zed.Q',width:145})},
+ Jayce:{Q:BS('line_enemy',1050,55,[8,7.5,7,6.5,6],[65,95,125,155,185],{m44B14Id:'Jayce.Q',width:205})},
+ Rumble:{W:BS('self',0,0,6,[],{m44B14Id:'Rumble.W'})},
+ Kalista:{R:BS('target_ally',1200,100,[120,100,80],[],{m44B14Id:'Kalista.R'})},
+ Leblanc:{R:BS('move_point',600,100,[50,45,40],[150,250,350],{m44B14Id:'Leblanc.R',radius:300})},
+ Aphelios:{
+  Q:BS('line_enemy',1450,0,[10,9,8,7,6],[45,65,85,105,125],{m44B14Id:'Aphelios.Q',width:180}),
+  W:BS('self',0,0,1,[],{m44B14Id:'Aphelios.W'})}
+});
 // M44 B13B — second authored cohort, 14 champion identities.
 export const M44_B13B_KITS_V453=Object.freeze({
  Malzahar:{R:BS("target_enemy",700,100,[140,120,100],[50,75,100],{m44B13BId:"Malzahar.R"})},
@@ -1497,7 +1509,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14A_KITS_V453[u.champ]?.[slot]||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4238,7 +4250,9 @@ export class Arena {
    (!target||!target.champ||target.team===team||
     !(target.m44B12KaisaPlasma?.[u.id]>this.gameTime)))
    return {ok:false,reason:'m44_b12_killer_instinct_requires_plasma'};
-  const hijacked=u.champ==='Sylas'&&slot==='R'&&
+  if(s.m44B14Id==='Leblanc.R'&&u.m44B14LastBasicSlot!=='W')
+   return {ok:false,reason:'m44_b14_mimic_requires_w'};
+const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
    if(u.champ==='LeeSin'&&['Q','W','E'].includes(slot)&&
@@ -4272,7 +4286,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -5543,7 +5557,7 @@ export class Arena {
    }
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
     !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker&&
-    !s.m44B13Id&&!s.m44B13BId){
+    !s.m44B13Id&&!s.m44B13BId&&!s.m44B14Id){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
@@ -5591,7 +5605,162 @@ export class Arena {
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-  // M44: six distinct author-owned flying skills. The shared scheduler moves
+    // M44 B14A author-owned mechanics; no global fallback on these exact slots.
+  if(s.m44B14Id){
+   const now=this.gameTime,aim=q.point||u,key=s.m44B14Id;
+   const enemies=(origin,radius)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(origin,v)<=radius&&!this.obstacleLine(origin,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const relocate=(v,to,reason)=>{
+    if(!to||to.x<0||to.x>1||to.y<0||to.y>1||
+      !this.walkable(to.x,to.y)||this.obstacleLine(v,to)||
+      (this.realmOfV453Dev69(v)&&!this.realmValidV453Dev69(v,to)))return false;
+    const old={x:v.x,y:v.y};Object.assign(v,to);
+    v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(v);
+    this.itemEnergizeRelocateV453Dev39(v,old,to,{kind:'m44_b14_'+reason});
+    return true;
+   };
+   switch(key){
+    case 'Azir.Q':{
+     const soldiers=(this.boardSummonsV453Dev69||[]).filter(e=>
+      e.kind==='azir_soldier'&&e.ownerId===u.id&&e.hp>0&&e.until>now);
+     let moved=0,hits=0;
+     for(const soldier of soldiers){
+      const old={x:soldier.x,y:soldier.y},distance=this.mapDistance(old,aim);
+      if(distance>1100||!relocate(soldier,aim,'azir_command'))continue;
+      moved++;
+      for(const v of skillshotHitsV42(old,aim,enemies(old,1100),{
+       range:distance,width:190,maxHits:Infinity,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight}))
+       if(this.damage(v,power(s.damage)*(hits?.45:1),u,'magic','spell')>0)hits++;
+     }
+     return {...committed,conqueringSands:true,soldiers:moved,hits};
+    }
+    case 'Zed.Q':{
+     const shadows=(this.boardSummonsV453Dev69||[]).filter(e=>
+      e.kind==='zed_shadow'&&e.ownerId===u.id&&e.hp>0&&e.until>now);
+     const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight,
+      length=Math.max(1,Math.hypot(dx,dy)),ledger={};let hits=0;
+     for(const origin of [u,...shadows]){
+      const end={x:origin.x+dx/length*900/this.worldWidth,
+       y:origin.y+dy/length*900/this.worldHeight};
+      for(const v of skillshotHitsV42(origin,end,enemies(origin,900),{
+       range:900,width:145,maxHits:Infinity,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight})){
+       const n=ledger[v.id]||0;
+       if(this.damage(v,power(s.damage)*(n?.55:1),u,'physical','spell')>0)hits++;
+       ledger[v.id]=n+1;
+      }
+     }
+     return {...committed,razorShuriken:true,emitters:shadows.length+1,hits};
+    }
+    case 'Jayce.Q':{
+     const hammer=u.m44B13JayceMode==='hammer';
+     const victims=hammer?enemies(u,330):skillshotHitsV42(u,aim,enemies(u,1050),{
+      range:1050,width:205,maxHits:1,worldWidth:this.worldWidth,
+      worldHeight:this.worldHeight});
+     let hits=0;
+     for(const v of victims){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');
+      if(this.damage(v,power(s.damage)*(hammer?1:1.3),u,'physical','spell')>0){
+       hits++;
+       if(hammer&&v.champ&&!blocked)this.applyEffectV41(v,'slow',{
+        source:u,duration:1.5,power:.3,key:'m44_b14_jayce_q_'+instance+'_'+v.id});
+      }
+     }
+     return {...committed,toTheSkies:hammer,shockBlast:!hammer,hits};
+    }
+    case 'Rumble.W':{
+     const heat=u.m44B13RumbleHeat=Math.min(100,(u.m44B13RumbleHeat||0)+20);
+     this.applyEffectV41(u,'shield',{source:u,duration:2,
+      power:55+rank*25+stats.ap*.4,key:'m44_b14_rumble_w_'+instance});
+     u.boardSpeedV453Dev69={until:now+2,fraction:heat>=50?.3:.2};
+     return {...committed,scrapShield:true,heat};
+    }
+    case 'Kalista.R':{
+     if(!target?.champ||target.id===u.id||
+       (u.m44B14OathswornId&&u.m44B14OathswornId!==target.id))
+      return {...committed,fatesCall:false};
+     const original={x:target.x,y:target.y};
+     if(!relocate(target,{x:u.x,y:u.y},'kalista_pull'))
+      return {...committed,fatesCall:false};
+     u.m44B14OathswornId=target.id;
+     this.applyEffectV41(target,'shield',{source:u,duration:2,
+      power:110+rank*70,key:'m44_b14_kalista_r_'+instance});
+     const victim=enemies(u,650).find(v=>v.champ);let knocked=0;
+     if(victim&&relocate(target,{x:victim.x-(victim.x-u.x)*.12,
+      y:victim.y-(victim.y-u.y)*.12},'kalista_launch'))
+      for(const v of enemies(target,230).filter(v=>v.champ)){
+       if(this.effectResolverV41().has(v,'spell_shield'))continue;
+       this.applyEffectV41(v,'knockup',{source:u,duration:1.2,
+        key:'m44_b14_kalista_impact_'+instance+'_'+v.id});knocked++;
+      }
+     return {...committed,fatesCall:true,allyId:target.id,original,knocked};
+    }
+    case 'Leblanc.R':{
+     const original={x:u.x,y:u.y};
+     if(!relocate(u,aim,'leblanc_mimic_w'))return {...committed,mimic:false};
+     u.m44B13Return={point:original,until:now+4};
+     let hits=0;
+     for(const v of enemies(u,300))
+      if(this.damage(v,power(s.damage),u,'magic','spell')>0)hits++;
+     return {...committed,mimic:true,mimicked:'W',hits};
+    }
+    case 'Aphelios.W':{
+     const st=u.m44B14Aphelios??={primary:'calibrum',offhand:'severum',
+      ammo:{calibrum:50,severum:50,gravitum:50,infernum:50,crescendum:50}};
+     [st.primary,st.offhand]=[st.offhand,st.primary];
+     return {...committed,phase:true,primary:st.primary,offhand:st.offhand};
+    }
+    case 'Aphelios.Q':{
+     const st=u.m44B14Aphelios??={primary:'calibrum',offhand:'severum',
+      ammo:{calibrum:50,severum:50,gravitum:50,infernum:50,crescendum:50}};
+     const weapon=st.primary;let hits=0,entityId=null;
+     if((st.ammo[weapon]||0)<10)return {...committed,weapon,noAmmo:true};
+     st.ammo[weapon]-=10;
+     const hit=(v,n)=>{if(this.damage(v,n,u,'physical','spell')>0)hits++};
+     if(weapon==='calibrum'){
+      for(const v of skillshotHitsV42(u,aim,enemies(u,1450),{
+       range:1450,width:170,maxHits:1,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight}))
+       hit(v,power(s.damage));
+     }else if(weapon==='severum'){
+      for(const v of enemies(u,550).slice(0,3)){
+       const previous=v.hp;hit(v,power(s.damage)*.55);
+       if(v.hp<previous)this.effectResolverV41().heal(u,(previous-v.hp)*.22,u);
+      }
+     }else if(weapon==='gravitum'){
+      for(const v of enemies(u,750).filter(v=>v.m44B14GravitumMark?.[u.id]>now)){
+       const blocked=this.effectResolverV41().has(v,'spell_shield');
+       hit(v,power(s.damage)*.7);
+       if(v.champ&&!blocked)this.applyEffectV41(v,'root',{
+        source:u,duration:1.25,key:'m44_b14_aphelios_q_'+instance+'_'+v.id});
+       delete v.m44B14GravitumMark[u.id];
+      }
+     }else if(weapon==='infernum'){
+      for(const v of skillshotHitsV42(u,aim,enemies(u,650),{
+       range:650,width:340,maxHits:Infinity,
+       worldWidth:this.worldWidth,worldHeight:this.worldHeight}))
+       hit(v,power(s.damage)*.85);
+     }else{
+      const e=this.m15Summon('aphelios_sentry',u,aim,{
+       until:now+5,hp:250,maxHp:250,power:power(s.damage)*.6,
+       attackRange:550,moveSpeed:0,leashRange:600,nextAttackAt:now+1});
+      entityId=e.id;
+     }
+     if(st.ammo[weapon]===0){
+      const order=['calibrum','severum','gravitum','infernum','crescendum'];
+      st.primary=st.offhand;st.offhand=order[(order.indexOf(weapon)+2)%5];
+     }
+     return {...committed,weapon,hits,entityId,ammo:st.ammo[weapon]};
+    }
+    default:return {ok:false,reason:'m44_b14_unknown_owner'};
+   }
+  }
+
+// M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
   // B13A: one authored mechanic per EXACT champion/slot. No generic effects.
@@ -5651,6 +5820,7 @@ export class Arena {
      const from={x:u.x,y:u.y};
      if(!move(u,point,'leblanc_distortion'))return {...committed,distortion:false};
      u.m44B13Return={point:from,until:now+4};
+     u.m44B14LastBasicSlot='W';
      let hits=0;for(const v of enemies(u,260))
       if(this.damage(v,power(s.damage),u,'magic','spell')>0)hits++;
      return {...committed,distortion:true,hits};
