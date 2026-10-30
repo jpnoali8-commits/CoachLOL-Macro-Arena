@@ -1,0 +1,1260 @@
+{
+  "schema": "coachlol.m45.items.shop_dispatch.b04.v1",
+  "source": {
+    "branch": "dev69/items-batch2",
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+  },
+  "counts": {
+    "riot_sr_rows": 210,
+    "engine_playable": 122,
+    "purchase": 120,
+    "trinket_switch": 2,
+    "reference_only": 80,
+    "conditional_quest": 5,
+    "champion_exclusive": 3,
+    "local_only": 3
+  },
+  "notes": {
+    "status": "The 122 playable SR rows are a superset of buyable inventory items; 2 trinkets are exclusively switchable, not purchasable.",
+    "local_only": "support_compass and support_bounty quest evolutions are not normal purchases; farsight trinket is locally available but not in archived Riot normal SR rows.",
+    "test_exception": "Previous B02 golden mistakenly tried Arena.buy() for all 122 rows. B04 replaces this with per-domain dispatch; 240 purchases + 4 zero-cost trinket switches.",
+    "source_static_only": "Interpretation is based on literal methods and catalog rows, not runtime execution. No PASS of gameplay claimed."
+  },
+  "dispatch": {
+    "purchase": [
+      {
+        "riotId": "1001",
+        "localId": "boots",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1004",
+        "localId": "faerie_charm",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1006",
+        "localId": "rejuvenation_bead",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1011",
+        "localId": "giants_belt",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1018",
+        "localId": "agility_cloak",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1026",
+        "localId": "blasting_wand",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1027",
+        "localId": "sapphire_crystal",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1028",
+        "localId": "ruby_crystal",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1029",
+        "localId": "cloth_armor",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1031",
+        "localId": "chain_vest",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1033",
+        "localId": "null_magic_mantle",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1036",
+        "localId": "long_sword",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1037",
+        "localId": "pickaxe",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1038",
+        "localId": "bf_sword",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1042",
+        "localId": "dagger",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1043",
+        "localId": "recurve_bow",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1052",
+        "localId": "amp_tome",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1053",
+        "localId": "vampiric_scepter",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1054",
+        "localId": "dorans_shield",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1055",
+        "localId": "dorans_blade",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1056",
+        "localId": "dorans_ring",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1057",
+        "localId": "negatron_cloak",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1058",
+        "localId": "needless_rod",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1082",
+        "localId": "dark_seal",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1083",
+        "localId": "cull",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1086",
+        "localId": "dorans_bow",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1101",
+        "localId": "jungle_scorchclaw",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1102",
+        "localId": "jungle_gustwalker",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1103",
+        "localId": "jungle_mosstomper",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "1120",
+        "localId": "dorans_helm",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2003",
+        "localId": "health_potion",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2019",
+        "localId": "steel_sigil",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2020",
+        "localId": "brutalizer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2021",
+        "localId": "tunneler",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2022",
+        "localId": "glowing_mote",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2031",
+        "localId": "refillable_potion",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2055",
+        "localId": "ward",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2420",
+        "localId": "seekers_armguard",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2501",
+        "localId": "overlords_bloodmail",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2504",
+        "localId": "kaenic_rookern",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "2508",
+        "localId": "fated_ashes",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3006",
+        "localId": "berserkers_greaves",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3009",
+        "localId": "swifties",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3020",
+        "localId": "sorcerers_shoes",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3024",
+        "localId": "glacial_buckler",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3031",
+        "localId": "infinity_edge",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3033",
+        "localId": "mortal_reminder",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3035",
+        "localId": "last_whisper",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3036",
+        "localId": "lord_dominiks_regards",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3041",
+        "localId": "mejais_soulstealer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3044",
+        "localId": "phage",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3046",
+        "localId": "phantom_dancer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3047",
+        "localId": "plated_steelcaps",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3051",
+        "localId": "hearthbound_axe",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3053",
+        "localId": "steraks_gage",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3057",
+        "localId": "sheen",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3065",
+        "localId": "spirit_visage",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3066",
+        "localId": "winged_moonplate",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3067",
+        "localId": "kindlegem",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3070",
+        "localId": "tear_of_the_goddess",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3071",
+        "localId": "black_cleaver",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3075",
+        "localId": "thornmail",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3076",
+        "localId": "bramble_vest",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3078",
+        "localId": "trinity_force",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3082",
+        "localId": "wardens_mail",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3086",
+        "localId": "zeal",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3089",
+        "localId": "rabadon",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3091",
+        "localId": "wits_end",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3094",
+        "localId": "rapid_firecannon",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3102",
+        "localId": "banshees_veil",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3108",
+        "localId": "fiendish_codex",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3110",
+        "localId": "frozen_heart",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3111",
+        "localId": "mercurys_treads",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3113",
+        "localId": "aether_wisp",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3114",
+        "localId": "forbidden_idol",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3115",
+        "localId": "nashors_tooth",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3116",
+        "localId": "rylais_crystal_scepter",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3123",
+        "localId": "executioners_calling",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3124",
+        "localId": "guinsoos_rageblade",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3133",
+        "localId": "caulfields_warhammer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3134",
+        "localId": "serrated_dirk",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3135",
+        "localId": "void_staff",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3139",
+        "localId": "mercurial_scimitar",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3140",
+        "localId": "quicksilver_sash",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3142",
+        "localId": "youmuus_ghostblade",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3143",
+        "localId": "randuins_omen",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3144",
+        "localId": "scouts_slingshot",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3145",
+        "localId": "hextech_alternator",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3147",
+        "localId": "haunting_guise",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3155",
+        "localId": "hexdrinker",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3156",
+        "localId": "maw_of_malmortius",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3157",
+        "localId": "zhonyas_hourglass",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3158",
+        "localId": "ionian_boots",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3165",
+        "localId": "morellonomicon",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3211",
+        "localId": "spectres_cowl",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3801",
+        "localId": "crystalline_bracer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3802",
+        "localId": "lost_chapter",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3803",
+        "localId": "catalyst_of_aeons",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3814",
+        "localId": "edge_of_night",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3865",
+        "localId": "support_atlas",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "3916",
+        "localId": "oblivion_orb",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4401",
+        "localId": "force_of_nature",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4629",
+        "localId": "cosmic_drive",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4630",
+        "localId": "blighting_jewel",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4632",
+        "localId": "verdant_barrier",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4633",
+        "localId": "riftmaker",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4642",
+        "localId": "bandleglass_mirror",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "4645",
+        "localId": "shadowflame",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6609",
+        "localId": "chempunk_chainsword",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6653",
+        "localId": "liandrys_torment",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6660",
+        "localId": "bamis_cinder",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6670",
+        "localId": "noonquiver",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6672",
+        "localId": "kraken_slayer",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6673",
+        "localId": "immortal_shieldbow",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6675",
+        "localId": "navori_flickerblade",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6676",
+        "localId": "the_collector",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6690",
+        "localId": "rectrix",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "6694",
+        "localId": "seryldas_grudge",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "8010",
+        "localId": "bloodletters_curse",
+        "mode": "item.buy",
+        "fixture_count": 2
+      },
+      {
+        "riotId": "8020",
+        "localId": "abyssal_mask",
+        "mode": "item.buy",
+        "fixture_count": 2
+      }
+    ],
+    "trinket_switch": [
+      {
+        "riotId": "3340",
+        "localId": "trinket_stealth",
+        "mode": "trinket.switch",
+        "fixture_count": 2,
+        "cost": 0
+      },
+      {
+        "riotId": "3364",
+        "localId": "trinket_oracle",
+        "mode": "trinket.switch",
+        "fixture_count": 2,
+        "cost": 0
+      }
+    ],
+    "local_only": [
+      {
+        "localId": "support_compass",
+        "mode": "quest_evolution"
+      },
+      {
+        "localId": "support_bounty",
+        "mode": "quest_evolution"
+      },
+      {
+        "localId": "trinket_farsight",
+        "mode": "trinket.switch"
+      }
+    ],
+    "exclusive_and_reference": [
+      {
+        "riotId": "2065",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2138",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2139",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2140",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2421",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2502",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2503",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2510",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2512",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2517",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2520",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2522",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2523",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2524",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2525",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "2526",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3003",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3004",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3008",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3026",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3032",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3050",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3068",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3072",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3073",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3074",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3077",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3083",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3084",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3085",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3087",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3095",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3100",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3107",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3109",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3118",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3119",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3137",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3146",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3152",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3153",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3161",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3168",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3170",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3171",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3172",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3173",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3174",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3175",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3179",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3181",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3190",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3222",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3302",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3330",
+        "status": "champion_exclusive",
+        "canBuy": false
+      },
+      {
+        "riotId": "3363",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3504",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3508",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3599",
+        "status": "champion_exclusive",
+        "canBuy": false
+      },
+      {
+        "riotId": "3600",
+        "status": "champion_exclusive",
+        "canBuy": false
+      },
+      {
+        "riotId": "3742",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3748",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "3869",
+        "status": "conditional_quest",
+        "canBuy": false
+      },
+      {
+        "riotId": "3870",
+        "status": "conditional_quest",
+        "canBuy": false
+      },
+      {
+        "riotId": "3871",
+        "status": "conditional_quest",
+        "canBuy": false
+      },
+      {
+        "riotId": "3876",
+        "status": "conditional_quest",
+        "canBuy": false
+      },
+      {
+        "riotId": "3877",
+        "status": "conditional_quest",
+        "canBuy": false
+      },
+      {
+        "riotId": "4005",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "4628",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "4646",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6333",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6610",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6616",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6617",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6620",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6621",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6631",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6655",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6657",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6662",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6664",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6665",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6692",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6695",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6696",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6697",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6698",
+        "status": "reference_only",
+        "canBuy": false
+      },
+      {
+        "riotId": "6699",
+        "status": "reference_only",
+        "canBuy": false
+      }
+    ]
+  },
+  "methods": {
+    "setTrinket": {
+      "path": "engine.mjs",
+      "line": 1708,
+      "sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+    },
+    "canBuy": {
+      "path": "engine.mjs",
+      "line": 3000,
+      "sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+    },
+    "queuePurchase": {
+      "path": "engine.mjs",
+      "line": 2855,
+      "sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+    },
+    "purchaseOrPlan": {
+      "path": "engine.mjs",
+      "line": 2898,
+      "sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+    }
+  },
+  "validations": {
+    "checks": 14,
+    "errors": [],
+    "result": "PASS"
+  },
+  "rust_contract": {
+    "router": "core-items::dispatch_item_action",
+    "purchase": "core-economy::authoritative_buy_sell_queue",
+    "trinket": "core-items::switch_trinket_free_slot_and_preserved_cooldown",
+    "postconditions": [
+      "trinket never enters six normal inventory slots",
+      "trinket never consumes gold",
+      "trinket cooldown cannot reset on switch",
+      "trinket owner and fountain required",
+      "a default-stealth selection is no-op denied, not a refundable purchase"
+    ],
+    "warning": "Rust implementation blocked before B13/B23; schema proposal is NOT a published Rust crate."
+  }
+}
