@@ -1,33 +1,46 @@
-# M45 Chat 2 — Auditoria estática de skills (B02-S01)
+# M45 Chat 2 — Auditoria independente de skills (B02-S01–S03)
 
-## Proveniência
+## Origem imutável
 
-- Fonte somente leitura: `dev69/skills-batch2`, HEAD `f0b1147ac46e585a1d5374a178b1ea462f5dc278`.
-- Engine: `engine.mjs`, Git blob `41679f7328a42e379fdfb8de5b92006e1bfb529f`, comprimento recebido 1116423 caracteres.
-- Branch desta auditoria: `dev69/m45-audit-skills`; PR #9 intacto.
-- Todos os dados em `inventory_slots.json` foram extraídos da string de fonte retornada pelo GitHub e conferidos contra os 173 IDs de roster, sem compilar nem executar a engine.
+- Fonte: `dev69/skills-batch2`, commit `f0b1147ac46e585a1d5374a178b1ea462f5dc278`.
+- Engine: `engine.mjs`, Git blob SHA `41679f7328a42e379fdfb8de5b92006e1bfb529f`.
+- PR #9 permanece Draft, sem merge; nenhum código de gameplay nem `engine.browser.js` alterado.
 
-## Levantamento
+## Inventário estático
 
-- 865 P/Q/W/E/R de 173 campeões.
-- Classes estáticas por slot: absent=274; reference-only=21; implemented=230; partial=340.
-- 55 slots com múltiplas definições (a precedência exata precisa de revisão); 0 entradas não reconciliadas; 63 símbolos de mecânicas/executores encontrados por busca nominal.
-- 244 arquivos `.test.mjs` localizados via Git tree. `candidate_test_files` é apenas associação por nome, **não** prova de execução ou cobertura.
-- `implemented` significa marcador autoral referenciado pelo motor na inspeção estática, **não** paridade LoL nem QA aprovado. `partial` significa regra/descriptor e possíveis lacunas; `reference-only` é apenas metadata de V42; `absent` significa nenhum registro nos mapas consultados. Algumas habilidades podem existir apenas em handlers não registrados: revisar `mechanic_symbols.json` e classificar manualmente.
-- Os termos `missing:` e `m20Missing:` rebaixam a classe da definição; fichas base dos 173 campeões não certificam skills.
+- 173 campeões × 5 slots = **865** IDs exclusivos, status inicial: **{"absent":268,"reference-only":20,"implemented":234,"partial":343}**.
+- 55 slots com múltiplos registros; 7 exceções por executores fora do registro (Mordekaiser R, Sylas R, Viego P, Neeko P, K'Sante R, Ezreal R e Jinx R).
+- 63 símbolos mecânicos candidatos; 280 slots possuem etiquetas de dependência estática; 16 slots têm ponteiro para um dos dez planos golden.
+- 244 testes `.test.mjs` localizados na árvore; os nomes em `candidate_test_files` são pistas e **não** teste executado nem prova de cobertura.
 
-## Gatilhos de migração
+**Limitações de classificação:** `implemented` indica presença de código/marcador de executor específico, não equivalência Riot, completude de kit ou certificação. `partial` representa descrição adaptada, marcador sem prova completa ou `missing` explícito; `reference-only` não habilita gameplay autoral; `absent` significa que os registros enumerados não contêm a habilidade. Há `abilityRule` com fallback de treino, e há executores especiais fora dos registries. Por isso `absent` NÃO prova ausência absoluta de comportamento no JavaScript. A fase seguinte precisa auditar caminhos de código e resolver os 55 conflitos por precedência efetiva.
 
-A função `m44B14DOriginalBoardRuleV453` intercala registros autorais, mecânicas M16, formas M14 e base genérica. A função `abilityRule` possui **fallback de treino**. A migração NÃO pode promover fallback a executor Rust autoral. Precisam de fixture específica: Sylas R delegando ao executor original, Viego aparência/P/QWE sem R emprestada, Neeko disfarce + clone, Shaco clone/armadilha/stealth, Mordekaiser realm, Azir summons/terrain, projéteis, recasts, CC e visibilidade.
+## Artefatos
 
-## QA / gates
+- `inventory_slots.json`: cada um dos 865 slots, todas as variantes descobertas, símbolo, commit/blob SHA, status, dependências, testes candidatos, pendências, resultado esperado como não capturado e estado Rust `SOURCE_ONLY`.
+- `mechanic_symbols.json`: 63 símbolos de métodos/executores, com linha de origem e SHA.
+- `executor_only_reconciliation.json`: sete slots antes ocultos nos handlers especiais.
+- `golden_plan.json`: dez suítes de teste legadas, caminho e blob Git, seed, ambos os assentos e marcador esperado; **SPEC_ONLY_NOT_RUN**.
+- `run_golden.mjs`: executor reproduzível com verificação de blob e logs/hash local.
+- `STATIC_QA_RECEIPT.json`: auditoria estática real dos registros, fontes, isolamento de arquivos e 10/10 testes fonte.
+- `HANDOFF_CHAT1_M45_B02_SKILLS.md`: resumo e contrato de dependências para o coordenador.
 
-- G0: PARTIAL (inventário estático inicial; sem validação dinâmica de todos os executores ou comparação entre branches).
-- G6: NOT_RUN (golden JS em runtime não executado neste ambiente; nenhuma equivalência Rust disponível).
-- Rust native / WASM: NOT_RUN, fora da prioridade elegível sem contratos `core-combat` e `core-champions`.
-- Valores de `source_test_ids`, `golden_fixture_ids` e testes de rede vazios são intencionais até existirem resultados reproduzidos. Não inventar hashes de snapshot.
-- Próxima prioridade: golden fixtures azul/vermelho de casos autorais, execução por Node 22+ sobre checkout da própria branch; correlacionar métodos não registrados e garantir fonte SHA.
+## Comandos em checkout Node 22+
 
-## Instruções de handoff ao Chat 1
+~~~bash
+node docs/m45_rust_wasm/inputs/skills/run_golden.mjs --verify-only
+node docs/m45_rust_wasm/inputs/skills/run_golden.mjs
+~~~
 
-Revisar `inventory_slots.json`, `mechanic_symbols.json` e conflitos. Não alterar STATUS_LEDGER.md nem manifest.json central nesta branch. Nenhum merge foi feito. B33B não commitado não foi contado.
+O primeiro comando verifica somente proveniência local, o segundo **executa** as dez suítes JavaScript bilaterais, falha se qualquer uma falhar e gera `golden_results.local.json`. Esse arquivo deve ser analisado e versionado como evidência apenas após execução genuína; não deve ser forjado.
+
+## QA executado / NÃO executado
+
+- Auditoria estática V8 com acesso ao GitHub: **PASS**. 865 IDs únicos, 7 exceções, SHA de engine imutável, dez fontes de testes SHA/mirrored conferidas, apenas arquivos deste diretório modificados.
+- QA gameplay Node 22: **NOT_RUN**. O checkout local deste ambiente não consegue acessar o repositório privado para executar a engine.
+- Rust native / WASM / rede real / browser: **NOT_RUN**.
+- G0: **PARTIAL**; G6 **NOT_RUN**; G8 **NOT_CERTIFIED**. No B33B não commitado não há conteúdo disponível no HEAD.
+
+## Próxima prioridade técnica
+
+Executar golden baseline em um checkout autenticado, salvar seeds+before/after+events+snapshots+filtro de visão por assento, classificar executores não registrados, cruzar 55 sobreposições com precedência real e só então integrar contratos `core-combat/core-champions` publicados pelo Chat 1. Não migrar executores Rust enquanto esses contratos não existirem.
