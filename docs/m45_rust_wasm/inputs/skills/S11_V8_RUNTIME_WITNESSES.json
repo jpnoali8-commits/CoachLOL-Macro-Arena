@@ -1,0 +1,89 @@
+{
+  "schema": "coachlol.m45.skills.s11.v8-witness-receipt.v1",
+  "date": "2026-10-30",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "map_git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "mask_git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "mode": "ORIGINAL_ENGINE_FUNCTIONS_IN_ISOLATED_V8_WITH_MAP_MASK_JSON_VISION_STUB",
+  "technique": "GitHub fetch_blob original source, remove ESM export keywords only, new Function and direct Arena functions; synthetic visibility=()=>true, manually advanced gameTime.",
+  "executed": {
+    "ahri_e_blue_red": 2,
+    "ashe_r_cast_near_far_blue_red": 4,
+    "ashe_r_impact_near_far_blue_red": 4,
+    "source_snapshot_restore_checkpoints": 6
+  },
+  "ahri_e": {
+    "both_seats_identical": true,
+    "normal_kit_api": {
+      "ok": false,
+      "reason": "Ação direcional indisponível."
+    },
+    "directional_api": {
+      "ok": false,
+      "reason": "Ação direcional indisponível."
+    },
+    "direct_board_api": {
+      "ok": true,
+      "queued": true
+    },
+    "mana_before": 1000,
+    "mana_after": 940,
+    "projectile": {
+      "kind": "m44_authored_projectile",
+      "slot": "E",
+      "speed": 550,
+      "range": 975
+    },
+    "rule_kind": "board_effect",
+    "status": "LEGACY_MISROUTING_REPRODUCED_NOT_RUST_FIXED"
+  },
+  "ashe_r": {
+    "both_seats_identical": true,
+    "impact_not_immediate": true,
+    "mana_before": 1000,
+    "mana_after": 900,
+    "baseline_target_hp": 1500,
+    "after_hit_hp": 1300,
+    "near": {
+      "x": 0.523,
+      "distance_units": 344.77,
+      "obstacle": false,
+      "impact_tick": 1,
+      "stun_duration_seconds": 1.0399732142857143
+    },
+    "far_clear": {
+      "x": 0.58,
+      "distance_units": 1199.2,
+      "obstacle": false,
+      "impact_tick": 3,
+      "stun_duration_seconds": 1.8028571428571425
+    },
+    "old_far_fixture": {
+      "x": 0.65,
+      "distance_units": 2248.5,
+      "obstacle": true,
+      "impact": "NO_STUN_IN_V8_BLUE_RED"
+    },
+    "snapshot_hashes_at_cast": {
+      "blue_near": "b3d8c127",
+      "blue_far": "e0c22b9a",
+      "red_near": "59bf9c87",
+      "red_far": "af1b1804"
+    },
+    "result": "TEMPORAL_IMPACTS_REPRODUCED_WITH_CLEAR_CORRIDOR_NOT_IMMEDIATE"
+  },
+  "regression_matrix_unchanged": {
+    "legacy_original_suites": 26,
+    "V8_pass": 22,
+    "V8_fail": 2,
+    "not_run": 2,
+    "full_node_pass": 0
+  },
+  "supplemental_test_path": "docs/m45_rust_wasm/inputs/skills/s11_ahri_ashe_temporal.test.mjs",
+  "supplemental_test_status": "NEW_SOURCE_CREATED_NODE_NOT_RUN; direct equivalent Arena witnesses V8 executed",
+  "rust_native": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "http_real": "NOT_RUN",
+  "risk": "Vision is mocked; manually set positions/ticks; full Node imports/HTTP unavailable here; no claim of all-time temporal fidelity."
+}
