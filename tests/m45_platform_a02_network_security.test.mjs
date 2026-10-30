@@ -7,6 +7,7 @@ import {mkdtempSync,rmSync,readFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {checksumV40} from '../engine.mjs';
+import {readFirstSseState} from './m45_platform_a06_sse_state_reader.mjs';
 import {PvPRoomRegistryV453Dev47} from '../multiplayer/room_v453_dev47.mjs';
 import {createPvPServerV453Dev47} from '../multiplayer/server_v453_dev47.mjs';
 
@@ -99,16 +100,14 @@ try {
  });
  await check('08 two SSE streams carry own projection only',async()=>{
   for(const [cookie,team] of [[blueCookie,'blue'],[redCookie,'red']]){
-   const ctl=new AbortController();
+   const ctl=new AbortController(),timeout=setTimeout(()=>ctl.abort(),7000);
    try{
     const res=await fetch(base+'/api/stream',{headers:{cookie},signal:ctl.signal});assert.equal(res.status,200);
-    const {value}=await res.body.getReader().read();const frame=new TextDecoder().decode(value);
-    assert.match(frame,/event: state/);
-    const projected=JSON.parse(frame.split('data: ')[1].split('\n')[0]);
+    const projected=await readFirstSseState(res.body.getReader());
     assert.equal(projected.team,team);assert.equal(projected.projection.team,team);
     assert.equal(Object.hasOwn(projected,'rngState'),false);
     assert.equal(Object.hasOwn(projected,'tokenHash'),false);
-   }finally{ctl.abort();}
+   }finally{clearTimeout(timeout);ctl.abort();}
   }
  });
  await check('09 checkpoint restore preserves receipt and RNG privately',()=>{
