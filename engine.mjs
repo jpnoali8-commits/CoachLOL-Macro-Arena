@@ -1016,6 +1016,25 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B16A: 14 explicit original tactical identities, partial kits only.
+// The source's executor is shared automatically by Sylas and possessed Viego.
+export const M44_B16A_KITS_V453=Object.freeze({
+ AurelionSol:{R:BS('circle_enemy',1250,100,[120,100,80],[150,250,350],{apRatio:.7,radius:440,m44B16AId:'AurelionSol.R'})},
+ Lissandra:{W:BS('self',0,50,[12,11,10,9,8],[70,105,140,175,210],{apRatio:.7,m44B16AId:'Lissandra.W'})},
+ Taliyah:{E:BS('circle_enemy',950,90,[16,15,14,13,12],[60,85,110,135,160],{apRatio:.4,radius:360,m44B16AId:'Taliyah.E'})},
+ Yorick:{E:BS('circle_enemy',850,50,[12,11,10,9,8],[70,105,140,175,210],{apRatio:.7,radius:270,m44B16AId:'Yorick.E'})},
+ Malzahar:{E:BS('target_enemy',650,60,[15,13.5,12,10.5,9],[80,115,150,185,220],{apRatio:.7,m44B16AId:'Malzahar.E'})},
+ Fiddlesticks:{Q:BS('target_enemy',575,65,[15,14.5,14,13.5,13],[50,75,100,125,150],{apRatio:.45,m44B16AId:'Fiddlesticks.Q'})},
+ Nocturne:{E:BS('target_enemy',425,60,[15,14,13,12,11],[65,90,115,140,165],{apRatio:.5,m44B16AId:'Nocturne.E'})},
+ Skarner:{W:BS('self',0,55,[10,9.5,9,8.5,8],[60,90,120,150,180],{apRatio:.6,m44B16AId:'Skarner.W'})},
+ Belveth:{W:BS('cone_enemy',675,0,[12,11,10,9,8],[70,100,130,160,190],{apRatio:.85,arc:85,m44B16AId:'Belveth.W'})},
+ Rakan:{E:BS('target_ally',700,60,[16,15,14,13,12],[],{m44B16AId:'Rakan.E'})},
+ Pantheon:{W:BS('target_enemy',600,55,[13,12,11,10,9],[60,95,130,165,200],{type:'physical',apRatio:.75,m44B16AId:'Pantheon.W'})},
+ Diana:{W:BS('self',0,60,[15,13.5,12,10.5,9],[25,40,55,70,85],{apRatio:.25,m44B16AId:'Diana.W'})},
+ Akshan:{R:BS('target_enemy',2300,100,[100,85,70],[30,40,50],{type:'physical',adRatio:.2,m44B16AId:'Akshan.R'})},
+ Leblanc:{E:BS('line_enemy',925,70,[14,13,12,11,10],[50,75,100,125,150],{apRatio:.5,width:140,m44B16AId:'Leblanc.E'})}
+});
+
 // M44 B15B — fourteen more individual champion-authored board slots.
 export const M44_B15B_KITS_V453=Object.freeze({
  Bard:{Q:BS('line_enemy',950,60,[11,10,9,8,7],[70,100,130,160,190],{apRatio:.65,width:150,m44B15BId:'Bard.Q'})},
@@ -1564,7 +1583,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -5759,7 +5778,172 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-      // M44 B15B — owner-authored mechanics, not anonymous damage adapters.
+      // B16A ORIGINAL executable identities. No generic adapters or copied code.
+  if(s.m44B16AId){
+   const id=s.m44B16AId,now=this.gameTime,aim=q.point||target||u;
+   const foes=(center,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(center,v)<=r&&!this.obstacleLine(center,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const harm=(victim,factor=1,type=s.type||'magic')=>
+    this.damage(victim,power(s.damage)*factor,u,type,'spell');
+   const aimed=()=>skillshotHitsV42(u,aim,foes(u,s.range),{
+    range:s.range,width:s.width||180,maxHits:1,
+    worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+   switch(id){
+    case 'AurelionSol.R':{
+     const star=foes(aim,440),empowered=(u.m44B13Stardust||0)>=75;
+     let hits=0;
+     for(const v of star){if(harm(v)>0)hits++;
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'stun',{
+       source:u,duration:1,key:'m44_b16_asol_'+instance});}
+     if(empowered)for(const v of foes(aim,650).filter(v=>!star.includes(v))){
+      if(harm(v,.4)>0)hits++;
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:1.5,power:.35,key:'m44_b16_asol_ring_'+instance});
+     }
+     return {...committed,fallingStar:true,skiesDescend:empowered,hits};
+    }
+    case 'Lissandra.W':{
+     let rooted=0;
+     for(const v of foes(u,440)){
+      const shielded=this.effectResolverV41().has(v,'spell_shield');harm(v);
+      if(v.champ&&v.hp>0&&!shielded){
+       this.applyEffectV41(v,'root',{source:u,duration:1.15,
+        key:'m44_b16_liss_'+instance});rooted++;}}
+     return {...committed,ringOfFrost:true,rooted};
+    }
+    case 'Taliyah.E':{
+     let hits=0;for(const v of foes(aim,360))if(harm(v)>0)hits++;
+     u.m44B16Unraveled={until:now+4,nextAt:now+1,
+      center:{x:aim.x,y:aim.y},tracked:{},power:power(s.damage)*.6};
+     return {...committed,unraveledEarth:true,hits};
+    }
+    case 'Yorick.E':{
+     let marked=0;
+     for(const v of foes(aim,270)){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');
+      harm(v);
+      if(v.champ&&v.hp>0&&!blocked){
+       (v.m44B16YorickMist??={})[u.id]=now+5;
+       this.applyEffectV41(v,'slow',{source:u,duration:2,power:.32,
+        key:'m44_b16_yorick_'+instance});marked++;}}
+     return {...committed,mourningMist:true,marked};
+    }
+    case 'Malzahar.E':{
+     if(!target)return {...committed,maleficVisions:false};
+     harm(target,.25);
+     if(target.hp>0)(target.m44B16Malefic??={})[u.id]={
+      until:now+4,nextAt:now+1,power:power(s.damage)*.25};
+     return {...committed,maleficVisions:true,ownerId:u.id};
+    }
+    case 'Fiddlesticks.Q':{
+     if(!target)return {...committed,terrify:false};
+     const fear=this.effectResolverV41().has(target,'fear');
+     harm(target,fear?1.6:1);
+     if(target.champ&&target.hp>0&&!fear)
+      this.applyEffectV41(target,'fear',{source:u,duration:1.4,
+       key:'m44_b16_fiddle_'+instance});
+     return {...committed,terrify:true,bonusFearDamage:fear};
+    }
+    case 'Nocturne.E':{
+     if(!target)return {...committed,unspeakableHorror:false};
+     harm(target);
+     u.m44B16NocturneTether={targetId:target.id,at:now+2,until:now+3};
+     return {...committed,unspeakableHorror:true,tetherId:target.id};
+    }
+    case 'Skarner.W':{
+     u.shield=(u.shield||0)+60+rank*28+Math.max(0,stats.ap*.15);
+     let slowed=0;
+     for(const v of foes(u,430)){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');harm(v);
+      if(v.champ&&v.hp>0&&!blocked){
+       this.applyEffectV41(v,'slow',{source:u,duration:2,power:.35,
+        key:'m44_b16_skar_'+instance});slowed++;}}
+     return {...committed,seismicBastion:true,slowed};
+    }
+    case 'Belveth.W':{
+     const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight;
+     const victims=foes(u,675).filter(v=>{
+      const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+       m=Math.max(1,Math.hypot(dx,dy)*Math.hypot(x,y));
+      return dx*x+dy*y>0&&(dx*x+dy*y)/m>=Math.cos(85*Math.PI/360);
+     });
+     let airborne=0;
+     for(const v of victims){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');harm(v);
+      if(v.champ&&v.hp>0&&!blocked){
+       this.applyEffectV41(v,'knockup',{source:u,duration:.75,
+        key:'m44_b16_bel_'+instance});airborne++;}}
+     if(airborne&&u.m44B15BelvethDash?.until>now){
+      const axis=Math.abs(dx)>Math.abs(dy)?(dx>=0?'E':'W'):(dy>=0?'S':'N');
+      u.m44B15BelvethDash.used=u.m44B15BelvethDash.used.filter(v=>v!==axis);
+      u.skillCds.Q=Math.min(u.skillCds.Q||Infinity,now);
+     }
+     return {...committed,aboveAndBelow:true,knockedUp:airborne};
+    }
+    case 'Rakan.E':{
+     if(!target||target.team!==u.team||!target.champ)return {...committed,battleDance:false};
+     const dest={x:target.x,y:target.y};
+     if(!this.walkable(dest.x,dest.y)||this.obstacleLine(u,dest)||
+      (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,dest)))
+      return {...committed,battleDance:false};
+     const start={x:u.x,y:u.y};u.x=dest.x;u.y=dest.y;
+     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+     this.invalidateShopUndoOnDepartureV453Dev61(u);
+     this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'rakan_e'});
+     target.shield=(target.shield||0)+70+rank*35+stats.ap*.5;
+     return {...committed,battleDance:true,shielded:target.id};
+    }
+    case 'Pantheon.W':{
+     if(!target)return {...committed,shieldVault:false};
+     const dest={x:target.x-(target.x-u.x)*.12,y:target.y-(target.y-u.y)*.12};
+     if(!this.walkable(dest.x,dest.y)||this.obstacleLine(u,dest))
+      return {...committed,shieldVault:false};
+     const start={x:u.x,y:u.y};u.x=dest.x;u.y=dest.y;
+     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+     this.invalidateShopUndoOnDepartureV453Dev61(u);
+     this.itemEnergizeRelocateV453Dev39(u,start,dest,{kind:'pantheon_w'});
+     const blocked=this.effectResolverV41().has(target,'spell_shield');
+     harm(target,1,'physical');
+     if(target.champ&&target.hp>0&&!blocked)this.applyEffectV41(target,'stun',{
+      source:u,duration:1,key:'m44_b16_pan_'+instance});
+     return {...committed,shieldVault:true,stunned:!blocked};
+    }
+    case 'Diana.W':{
+     u.shield=(u.shield||0)+45+rank*20+stats.ap*.3;
+     let orbs=0;
+     for(const v of foes(u,300).slice(0,3))if(harm(v)>0)orbs++;
+     if(orbs===3)u.shield+=45+rank*20+stats.ap*.3;
+     return {...committed,paleCascade:true,orbs,bonusShield:orbs===3};
+    }
+    case 'Akshan.R':{
+     if(!target)return {...committed,comeuppance:false};
+     const blockers=skillshotHitsV42(u,target,foes(u,s.range),{
+      range:s.range,width:140,maxHits:Infinity,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     const interceptor=blockers.find(v=>v.id!==target.id&&
+      this.mapDistance(u,v)<this.mapDistance(u,target));
+     const victim=interceptor||target,shots=5+rank;
+     let dealt=0;
+     for(let i=0;i<shots&&victim.hp>0;i++){
+      const missing=1-victim.hp/Math.max(1,victim.maxHp);
+      dealt+=harm(victim,1+missing*.8,'physical');}
+     return {...committed,comeuppance:true,shots,intercepted:!!interceptor,dealt};
+    }
+    case 'Leblanc.E':{
+     const victim=aimed()[0];
+     if(!victim)return {...committed,etherealChains:true,tethered:false};
+     harm(victim);
+     if(victim.hp>0)u.m44B16LeblancChain={targetId:victim.id,
+      at:now+2,until:now+3,power:power(s.damage)*.6};
+     return {...committed,etherealChains:true,tethered:victim.hp>0};
+    }
+    default:return {ok:false,reason:'m44_b16a_unhandled'};
+   }
+  }
+
+  // M44 B15B — owner-authored mechanics, not anonymous damage adapters.
   if(s.m44B15BId){
    const now=this.gameTime,key=s.m44B15BId,aim=q.point||target||u;
    const enemies=(at,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
@@ -9947,6 +10131,58 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
        healed+=this.damage(target,state.power,u,'magic','spell')*.4;
       if(healed>0)this.effectResolverV41().heal(u,healed,u);
      }
+    }
+   }
+  // B16A owner-timed states are serialized with the Arena, no untracked timers.
+  for(const owner of this.units.filter(v=>v.hp>0)){
+   for(const [field,radius,type] of [
+    ['m44B16NocturneTether',550,'fear'],
+    ['m44B16LeblancChain',925,'root']]){
+    const state=owner[field];
+    if(!state||state.at>this.gameTime)continue;
+    owner[field]=null;
+    const victim=this.units.find(v=>v.id===state.targetId&&v.team!==owner.team&&v.hp>0);
+    if(!victim||this.gameTime>state.until||
+     this.mapDistance(owner,victim)>radius||
+     !this.sameCombatRealmV453Dev69(owner,victim)||this.obstacleLine(owner,victim))
+     continue;
+    if(type==='root')this.damage(victim,state.power,owner,'magic','spell');
+    if(victim.hp>0)this.applyEffectV41(victim,type,{source:owner,
+     duration:1.4,key:'m44_b16_tether_'+owner.id+'_'+this.gameTime});
+   }
+   const zone=owner.m44B16Unraveled;
+   if(zone&&zone.until>=this.gameTime&&zone.nextAt<=this.gameTime){
+    zone.nextAt=this.gameTime+1;
+    for(const enemy of this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+      v.hp>0&&this.sameCombatRealmV453Dev69(owner,v)&&
+      this.mapDistance(zone.center,v)<=360&&!this.obstacleLine(zone.center,v))){
+     const old=zone.tracked[enemy.id];
+     if(old&&this.mapDistance(old,enemy)>=30){
+      this.damage(enemy,zone.power,owner,'magic','spell');
+      if(enemy.champ&&enemy.hp>0)this.applyEffectV41(enemy,'slow',{
+       source:owner,duration:1,power:.4,key:'m44_b16_taliyah_'+owner.id});
+     }
+     zone.tracked[enemy.id]={x:enemy.x,y:enemy.y};
+    }
+   }
+  }
+  for(const victim of [...this.units,...this.minions])
+   for(const [sourceId,mark] of Object.entries(victim.m44B16Malefic||{})){
+    if(mark.nextAt>this.gameTime||mark.until<this.gameTime)continue;
+    const owner=this.units.find(v=>v.id===sourceId&&v.team!==victim.team);
+    if(!owner){delete victim.m44B16Malefic[sourceId];continue;}
+    mark.nextAt=this.gameTime+1;
+    if(victim.hp>0&&this.sameCombatRealmV453Dev69(owner,victim))
+     this.damage(victim,mark.power,owner,'magic','spell');
+    if(victim.hp<=0){
+     delete victim.m44B16Malefic[sourceId];
+     const candidate=this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+      v.hp>0&&v.id!==victim.id&&this.mapDistance(v,victim)<=450&&
+      this.sameCombatRealmV453Dev69(owner,v)&&!this.obstacleLine(victim,v))
+      .sort((a,b)=>this.mapDistance(a,victim)-this.mapDistance(b,victim)||
+       String(a.id).localeCompare(String(b.id)))[0];
+     if(candidate)(candidate.m44B16Malefic??={})[sourceId]={
+      until:this.gameTime+3,nextAt:this.gameTime+1,power:mark.power};
     }
    }
   for(const ekko of this.units.filter(u=>u.champ==='Ekko'&&u.hp>0)){
