@@ -159,3 +159,13 @@ Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real ten
 [matriz atualizada dos 66 registros](REGISTRY_COVERAGE_B08.json).
 
 **B08 em V8:** 22 efeitos previamente fora dos casos B03/B07, testados azul/vermelho (**44/44 PASS**), mais 4 cenários gate de habilidades Q/W × efeitos de itens azul/vermelho (**8/8 PASS**), **52/52 casos reprodutíveis**. As 66 entradas conhecidas do registro legadas estão agora ligadas a **alguma** evidência das matrizes B03/B07/B08, NÃO a paridade integral. O runner Node ESM soma **489 cenários preparados**, mas sua execução literal continua **NOT_RUN**, assim como HTTP, Rust nativo e WASM; G8 **NOT_CERTIFIED**. O primeiro preflight do B08 teve 4 falhas por precondições equivocadas nos testes de Dominik e Ídolo, posteriormente corrigidas e reexecutadas. Nenhuma mudança de gameplay em JavaScript.
+
+## B02B-ITEMS Lote 09 — 2026-10-30
+
+[RECEIPT_B02B_ITEMS_09.md](RECEIPT_B02B_ITEMS_09.md) ·
+[spatial_skill_b09_cases.mjs](spatial_skill_b09_cases.mjs) ·
+[golden_b09_spatial_skills.test.mjs](golden_b09_spatial_skills.test.mjs) ·
+[QA_V8_SPATIAL_SKILLS_B09.json](QA_V8_SPATIAL_SKILLS_B09.json) ·
+[SPATIAL_SKILL_RUST_CONTRACT_B09.json](SPATIAL_SKILL_RUST_CONTRACT_B09.json).
+
+B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Dançarina Fantasma atravessa corpos vivos, mas não atravessa paredes; minions mortos não bloqueiam; Energizado é gerado por movimento efetivo. As habilidades **Ezreal Q e Nami W foram realmente executadas por seus métodos do motor** em arenas isoladas, incluindo projétil com impacto atrasado, barreiras/colisores, amplificação de cura, Liandry e Banshee. **30/30 PASS no V8 e 30/30 repetidos identicamente** (15 tipos × duas equipes). A fixture muda rótulos de campeão no lobby padrão apenas para testar os executores, logo NÃO é paridade total QWER. Runner cumulativo **519 casos Node preparados**; Node real, room HTTP, Rust/Cargo/WASM e G8 permanecem **NOT_RUN/NOT_CERTIFIED**. Gameplay JavaScript, integration, itens e Rust central preservados.
