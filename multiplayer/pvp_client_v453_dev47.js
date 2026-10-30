@@ -3,19 +3,25 @@ const map=new Image();map.src='/assets/mapa_atualizado.jpg';map.onload=()=>draw(
 let state=null,stream=null,sequence=1,mode='move',lastRevision=-1,selectedUnitId=null,selectedUnitIds=[],resultDismissedFor=null;
 let reactionStepsV453Dev64=[],reactionKeyV453Dev64=null;
 let planningStepsV453Dev65=[];
+let boardKitsV453={},formKitsV453={},mechanicKitsV453={},boardSlotV453='Q';
 let shopCatalog=[],shopReference=[],selectedShopItemId=null,shopUnitId=null,shopQuote=null,shopQuotePending='',networkLock=Promise.resolve();
 const announce=t=>{$('feed').textContent=t;};
+async function fetchBoardKitsV453(){try{
+ const response=await fetch('/api/kits',{credentials:'same-origin'});if(!response.ok)return;
+ const x=await response.json();boardKitsV453={...(x.specials||{}),...(x.kits||{}),...(x.entityKits||{})};formKitsV453=x.formKits||{};mechanicKitsV453=x.mechanicKits||{};
+ if(state)renderBoardSlotsV453(state);
+}catch(e){announce('Habilidades: '+e.message);}}
 async function api(path,payload){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),credentials:'same-origin'});const data=await res.json();if(!res.ok)throw Error(data.reason||'Falha');return data;}
-function setMode(m){mode=m;announce('Modo: '+({move:'Mover',ward:'Ward',q:'Q'}[mode]||m));}
-$('create').onclick=async()=>{try{render(await api('create',{maxSeats:2}));await fetchShop();connect();}catch(e){announce(e.message);}};
-$('join').onclick=async()=>{try{render(await api('join',{roomId:$('code').value.trim().toLowerCase()}));await fetchShop();connect();}catch(e){announce(e.message);}};
+function setMode(m){mode=m;announce('Modo: '+({move:'Mover',ward:'Ward',q:'Q',skill:'Skill '+boardSlotV453}[mode]||m));}
+$('create').onclick=async()=>{try{render(await api('create',{maxSeats:2}));await fetchShop();await fetchBoardKitsV453();connect();}catch(e){announce(e.message);}};
+$('join').onclick=async()=>{try{render(await api('join',{roomId:$('code').value.trim().toLowerCase()}));await fetchShop();await fetchBoardKitsV453();connect();}catch(e){announce(e.message);}};
 $('ready').onclick=async()=>{try{const r=await api('ready',{});announce('Turno confirmado. '+r.phase);}catch(e){announce(e.message);}};
 $('move').onclick=()=>setMode('move');$('ward').onclick=()=>setMode('ward');$('q').onclick=()=>setMode('q');
 $('retreat').onclick=()=>sendGroup('order.retreat',{});
 $('mercury').onclick=()=>{const u=state?.projection?.units?.find(v=>v.id===(state?.pendingDecision?.unitId||selectedUnitId));const item=u?.items?.includes('mercurial_scimitar')?'mercurial_scimitar':'quicksilver_sash';return send('item.activate',{itemId:item},u?.id||selectedUnitId);};
 // Dev66: independent self-cast in planning; does not require an enemy target.
 $('cleansePvp').onclick=()=>send('summoner.queue',{type:'cleanse'},selectedUnitId);
-$('unitselect').onchange=()=>{selectedUnitIds=[...$('unitselect').selectedOptions].map(o=>o.value);selectedUnitId=selectedUnitIds[0]||null;if(state)renderPlanningComboV453Dev65(state);draw();};
+$('unitselect').onchange=()=>{selectedUnitIds=[...$('unitselect').selectedOptions].map(o=>o.value);selectedUnitId=selectedUnitIds[0]||null;if(state){renderPlanningComboV453Dev65(state);renderBoardSlotsV453(state);}draw();};
 function setShopOpen(open){$('shopOverlayPvp').classList.toggle('hidden',!open);$('shopTogglePvp').setAttribute('aria-expanded',String(open));if(open){renderShopUI();$('shopChampionPvp').focus();}}
 $('shopTogglePvp').onclick=()=>setShopOpen($('shopOverlayPvp').classList.contains('hidden'));
 $('shopClosePvp').onclick=()=>setShopOpen(false);
@@ -81,8 +87,168 @@ $('planningSubmitPvp').onclick=()=>{const id=$('planningTargetPvp').value;
  if(!id||!planningStepsV453Dev65.length)return;return send('order.combo',{targetId:id,steps:[...planningStepsV453Dev65]},selectedUnitId);
 };
 
+// Server owns ranges, fog, resource commits and the actual kit.
+function selectedBoardRuleV453(slot=boardSlotV453){
+ const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
+ return (u?.champ==='Sylas'&&slot==='R'&&u?.sylasStolenV453M14?boardKitsV453[u.sylasStolenV453M14.sourceChamp]?.R:null)||
+  (formKitsV453[u?.champ]?.[u?.boardFormV453M14||'human']||boardKitsV453[u?.champ])?.[slot]||null;
+}
+function renderBoardSlotsV453(v){
+ const unit=v.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===v.team);
+ const can=!!v.started&&!v.ended&&!v.paused&&['planning','preparation'].includes(v.phase)&&!v.ready?.includes(v.seatId);
+ const original=formKitsV453[unit?.champ]?.[unit?.boardFormV453M14||'human']||
+  boardKitsV453[unit?.champ]||(unit?.champ==='Sylas'&&unit.sylasStolenV453M14?
+  {R:boardKitsV453[unit.sylasStolenV453M14.sourceChamp]?.R}:null);
+ const mechanics=Object.fromEntries(Object.entries(mechanicKitsV453[unit?.champ]||{})
+  .filter(([slot,rule])=>!rule.m16OnlyHuman||(unit?.boardFormV453M14||'human')==='human'));
+ const kit={...(original||{}),...mechanics};
+ for(const b of $('boardSkillToolbarV453').querySelectorAll('[data-board-slot]')){
+  const slot=b.dataset.boardSlot,rule=kit?.[slot];
+  b.disabled=!can||!rule||rule.passiveOnly||!(unit?.skillRanks?.[slot]>0);
+  b.setAttribute('aria-pressed',String(boardSlotV453===slot));
+  b.title=rule?.passiveOnly?'Passiva não conjurável':rule?.shape||'Kit em auditoria';
+ }
+ const select=$('boardTargetV453'),prior=select.value;
+ const targets=(v.projection?.units||[]).filter(x=>x.hp>0&&
+  (x.team===v.team||(Number.isFinite(x.x)&&Number.isFinite(x.y))));
+ select.replaceChildren(...targets.map(x=>{const o=document.createElement('option');
+  o.value=x.id;o.textContent=(x.team===v.team?'ALIADO · ':'INIMIGO · ')+x.champ;return o;}));
+ select.value=targets.some(x=>x.id===prior)?prior:targets.find(x=>x.team!==v.team)?.id||'';
+ const rule=selectedBoardRuleV453(),targeted=rule&&['target_enemy','target_ally'].includes(rule.shape);
+ const recast=(v.projection?.boardRecastsV453Dev69?.[selectedUnitId]||[])
+  .find(x=>x.slot===boardSlotV453&&x.expiresAt>(v.projection?.time||0));
+ $('boardRecastV453').textContent=recast?.kind==='pick_card'?'Escolher '+recast.card:'Reativar';
+ $('boardRecastV453').classList.toggle('hidden',!recast);
+ $('boardRecastV453').disabled=!can||!recast;
+ $('sylasHijackV453').classList.toggle('hidden',unit?.champ!=='Sylas'||!!unit.sylasStolenV453M14);
+ $('sylasHijackV453').disabled=!can||!unit||!(unit.skillRanks?.R>0);
+ const ownSummon=activeOwnSummonV453();
+ renderNeekoM15(v,unit,can);
+ $('boardSummonMoveV453').classList.toggle('hidden',!ownSummon);
+ $('boardSummonAttackV453').classList.toggle('hidden',!ownSummon||!!ownSummon.nonCombat);
+ $('boardSummonMoveV453').textContent=ownSummon?.kind==='neeko_clone'?'Mover clone Neeko':
+  ownSummon?.kind==='shaco_clone'?'Mover clone Shaco':'Mover Tibbers';
+ $('boardSummonAttackV453').textContent=ownSummon?.kind==='shaco_clone'?'Clone atacar alvo':'Tibbers atacar alvo';
+ $('boardSummonMoveV453').disabled=!can||!ownSummon;
+ $('boardSummonAttackV453').disabled=!can||!ownSummon||!!ownSummon.nonCombat;
+ $('boardEnemySummonV453').classList.toggle('hidden',
+  !(v.projection?.boardSummons||[]).some(s=>s.team!==v.team)&&
+  !(v.projection?.units||[]).some(s=>s.team!==v.team&&s.id.startsWith('appearance_')));
+ $('boardEnemySummonV453').disabled=!can;
+ const fates=unit?.champ==='Kalista'&&!!(unit.queuedUltimate||unit.fatesCallV453M14)&&
+  !!unit.oathswornIdV453Dev69C;
+ $('kalistaLaunchV453').classList.toggle('hidden',!fates);
+ $('kalistaLaunchV453').disabled=!can||!fates;
+ $('boardCastTargetV453').disabled=!can||!targeted||!select.value;
+ $('boardTargetV453').disabled=!can||!targeted;
+ $('boardSkillHintV453').textContent=!unit?'Selecione campeão':!Object.keys(kit).length?
+  'Kit ainda em auditoria na interface · combos continuam disponíveis':rule?
+  unit.champ+' '+(unit.boardFormV453M14|| (formKitsV453[unit.champ]?'human':''))+' '+boardSlotV453+' · '+rule.shape+' · protótipo tático':'Selecione Q/W/E/R';
+}
+function renderNeekoM15(v,unit,can){
+ const panel=$('neekoKitV453'),active=unit?.champ==='Neeko';
+ panel.classList.toggle('hidden',!active);if(!active)return;
+ const choices=[{id:'self',label:'Forma real'},...(v.projection?.units||[])
+  .filter(x=>x.team===v.team&&x.id!==unit.id&&x.hp>0)
+  .map(x=>({id:x.id,label:x.champ}))];
+ if(unit.neekoShomaV453M15)choices.push({id:'shoma',label:'Sho’Ma: '+unit.neekoShomaV453M15.appearance});
+ const options=(sel,data)=>{
+  const prev=sel.value;
+  sel.replaceChildren(...data.map(item=>{const x=document.createElement('option');
+   x.value=item.id;x.textContent=item.label;return x;}));
+  sel.value=data.some(item=>item.id===prev)?prev:(data[0]?.id||'');
+ };
+ options($('neekoAppearanceV453'),choices);
+ const near=(v.projection?.minions||[]).concat(v.projection?.wards||[],
+  (v.projection?.boardSummons||[]),v.projection?.camps||[])
+  .filter(x=>x.id&&x.hp!==0&&x.alive!==false&&Number.isFinite(x.x)&&Number.isFinite(x.y)&&
+   Math.hypot(x.x-unit.x,x.y-unit.y)<=400/15000&&
+   !['baron','dragon','herald','voidgrubs'].includes(x.timerKey))
+  .map(x=>({id:x.id,label:x.kind||x.timerKey||x.type||x.id}));
+ options($('neekoSourceV453'),near);
+ $('neekoTransformV453').disabled=!can||!$('neekoAppearanceV453').value;
+ $('neekoCancelV453').disabled=!can||!unit.neekoDisguiseV453M15;
+ $('neekoCollectV453').disabled=!can||!near.length||!!unit.neekoDisguiseV453M15;
+ $('neekoSourceV453').disabled=!can||!near.length;
+}
+$('neekoTransformV453').onclick=()=>{
+ const id=$('neekoAppearanceV453').value;
+ if(id)return send('skill.neeko_disguise',{appearanceId:id},selectedUnitId);
+};
+$('neekoCancelV453').onclick=()=>send('skill.neeko_disguise',{appearanceId:'self'},selectedUnitId);
+$('neekoCollectV453').onclick=()=>{
+ const sourceId=$('neekoSourceV453').value;
+ if(sourceId)return send('skill.neeko_shoma',{sourceId},selectedUnitId);
+};
+function activeOwnSummonV453(){
+ const list=(state?.projection?.boardSummons||[]).filter(s=>s.ownerId===selectedUnitId&&
+  s.team===state.team&&s.hp>0);
+ return list.find(s=>['shaco_clone','neeko_clone','tibbers'].includes(s.kind))||null;
+}
+$('boardSummonMoveV453').onclick=()=>{if(activeOwnSummonV453())setMode('summon_move');};
+$('boardSummonAttackV453').onclick=()=>{
+ const summon=activeOwnSummonV453(),id=$('boardTargetV453').value,
+  foe=state?.projection?.units?.find(u=>u.id===id&&u.team!==state.team);
+ if(summon&&foe)return send('summon.order',{summonId:summon.id,targetId:id},selectedUnitId);
+ announce('Escolha um inimigo visível para a invocação');
+};
+$('boardEnemySummonV453').onclick=()=>setMode('summon_enemy');
+$('kalistaLaunchV453').onclick=()=>setMode('kalista_launch');
+function boardSelfV453(rule){
+ return ['self','circle_ally','global_ally'].includes(rule.shape)||
+  (rule.shape==='circle_enemy'&&rule.originSelf);
+}
+$('boardSkillToolbarV453').onclick=e=>{
+ const b=e.target.closest('[data-board-slot]');if(!b||b.disabled)return;
+ const slot=b.dataset.boardSlot;boardSlotV453=slot;const rule=selectedBoardRuleV453(slot);
+ if(!rule)return;
+ if(boardSelfV453(rule)){send(rule.specialUltimate?'skill.ultimate':'skill.self',rule.specialUltimate?{}:{slot},selectedUnitId);setMode('move');}
+ else setMode('skill');
+ if(state)renderBoardSlotsV453(state);
+};
+$('boardRecastV453').onclick=()=>{
+ const can=(state?.projection?.boardRecastsV453Dev69?.[selectedUnitId]||[])
+  .some(x=>x.slot===boardSlotV453);
+ if(!can)return;
+ return send('skill.self',{slot:boardSlotV453},selectedUnitId);
+};
+$('sylasHijackV453').onclick=()=>{
+ const u=state?.projection?.units?.find(x=>x.id===selectedUnitId&&x.team===state.team);
+ const targetId=$('boardTargetV453').value;
+ if(u?.champ==='Sylas'&&targetId)return send('skill.hijack',{targetId},u.id);
+ announce('Sylas precisa selecionar uma ultimate inimiga disponível');
+};
+$('boardCastTargetV453').onclick=()=>{
+ const rule=selectedBoardRuleV453(),id=$('boardTargetV453').value;
+ if(!rule||!['target_enemy','target_ally'].includes(rule.shape)||!id)return;
+ const target=state?.projection?.units?.find(x=>x.id===id);
+ if(!target||(rule.shape==='target_enemy')===(target.team===state.team)){
+  announce('Alvo incompatível com a habilidade');return;
+ }
+ return send(rule.specialUltimate||boardSlotV453==='R'?'skill.ultimate':'skill.targeted',rule.specialUltimate||boardSlotV453==='R'?{targetId:id}:{slot:boardSlotV453,targetId:id},selectedUnitId);
+};
+
 canvas.onclick=async e=>{const r=canvas.getBoundingClientRect();const point={x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};
- if(mode==='move')await sendGroup('order.move',{point});else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});else await sendGroup('skill.directional',{point,slot:'Q'});
+ if(mode==='move')await sendGroup('order.move',{point});
+ else if(mode==='ward')await sendGroup('order.ward',{point,wardType:'stealth'});
+ else if(mode==='kalista_launch')await send('skill.kalista_launch',{point},selectedUnitId);
+ else if(mode==='summon_move'){
+  const summon=activeOwnSummonV453();
+  if(summon)await send('summon.order',{summonId:summon.id,point},selectedUnitId);
+ }else if(mode==='summon_enemy'){
+  const pet=[...(state.projection?.boardSummons||[]),...(state.projection?.units||[]).filter(u=>
+    u.id.startsWith('appearance_'))].filter(s=>s.team!==state.team&&
+   Math.hypot(s.x-point.x,s.y-point.y)<=.025)
+   .sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y))[0];
+  if(pet)await send('order.attack',{targetId:pet.id},selectedUnitId);
+  else announce('Clique numa invocação inimiga visível');
+ }else if(mode==='skill'){
+  const rule=selectedBoardRuleV453();
+  if(!rule){announce('Habilidade indisponível no catálogo tático');return;}
+  const kind=rule.specialUltimate?'skill.ultimate':boardSlotV453==='R'?'skill.ultimate':
+   ['line_enemy','cone_enemy'].includes(rule.shape)?'skill.directional':'skill.ground';
+  await send(kind,kind==='skill.ultimate'?{point}:{slot:boardSlotV453,point},selectedUnitId);
+ }else await sendGroup('skill.directional',{point,slot:'Q'});
 };
 async function send(kind,payload,unitId=selectedUnitId){
  // Serializes orders from multi-selection: one monotonic sequence per human session.
@@ -176,12 +342,85 @@ function render(v){state=v;sequence=Math.max(sequence,v.nextSequence||1);
  $('shopTogglePvp').disabled=!!v.ended;
  $('info').textContent=`Equipe: ${v.team} • Controlando: ${selectedUnitId} (${ids.length} unidades) • ${v.connected}/${v.maxSeats} conectados • ${v.paused?'Decisão pendente no motor':v.ended?'Partida terminada':v.phase}`;
  if(!v.started)announce('Compartilhe o código '+v.roomId+' com o segundo jogador.');
- renderShopUI();renderPlanningComboV453Dev65(v);draw();}
+ renderShopUI();renderPlanningComboV453Dev65(v);renderBoardSlotsV453(v);draw();}
 $('pvpResultContinue').onclick=()=>{resultDismissedFor=state?.roomId;$('pvpResultOverlay').classList.add('hidden');};
 function connect(){if(stream)stream.close();stream=new EventSource('/api/stream');stream.addEventListener('state',e=>{try{const v=JSON.parse(e.data);if(v.revision>=lastRevision){lastRevision=v.revision;render(v);}}catch{}});stream.onerror=()=>{$('status').textContent='Reconectando…';};}
+// The viewport uses the SAME map image and the server-provided active
+// elemental terrain samples; a filter is visual only. No simulated 2nd map.
+function renderRealmV453(){
+ const realm=state?.projection?.realm,el=$('realmOverlayV453');
+ el.classList.toggle('hidden',!realm);
+ if(!realm)return;
+ $('realmTimeV453').textContent=Math.max(0,Math.ceil(realm.endsAt-(state.projection.time||0)))+'s';
+ const c=$('realmCanvasV453'),g=c.getContext('2d'),w=c.width,h=c.height,
+  cx=realm.centerWorld.x,cy=realm.centerWorld.y,rr=realm.radiusWorld;
+ g.clearRect(0,0,w,h);
+ g.fillStyle='#0a0d13';g.fillRect(0,0,w,h);
+ g.save();g.beginPath();g.arc(w/2,h/2,w*.48,0,Math.PI*2);g.clip();
+ if(map.complete&&map.naturalWidth){
+  const sw=rr*2/realm.worldWidth*map.naturalWidth,
+   sh=rr*2/realm.worldHeight*map.naturalHeight,
+   sx=cx*map.naturalWidth-sw/2,sy=cy*map.naturalHeight-sh/2;
+  g.filter='grayscale(.72) sepia(.32) contrast(1.2) brightness(.75)';
+  g.drawImage(map,sx,sy,sw,sh,0,0,w,h);
+  g.filter='none';
+ }
+ const rows=realm.terrain||[],n=rows.length,cell=n?w/n:0;
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+  if(rows[y].wall[x]==='1'){g.fillStyle='rgba(10,8,17,.64)';g.fillRect(x*cell,y*cell,cell+.4,cell+.4);}
+  else if(rows[y].brush[x]==='1'){g.fillStyle='rgba(87,75,100,.40)';g.fillRect(x*cell,y*cell,cell+.4,cell+.4);}
+ }
+ for(const u of realm.units||[]){
+  const x=w/2+(u.x-cx)*realm.worldWidth/(2*rr)*w,
+   y=h/2+(u.y-cy)*realm.worldHeight/(2*rr)*h;
+  g.beginPath();g.arc(x,y,8,0,Math.PI*2);
+  g.fillStyle=u.team==='blue'?'#d9bf87':'#b66b75';g.fill();
+  g.strokeStyle='#08080b';g.lineWidth=2;g.stroke();
+  g.fillStyle='#f5f0e3';g.font='11px system-ui';
+  g.fillText(u.champ,x+10,y-6);
+  g.fillStyle='#180b0f';g.fillRect(x-15,y+9,30,4);
+  g.fillStyle='#bc6270';g.fillRect(x-15,y+9,30*Math.max(0,u.hp/u.maxHp),4);
+ }
+ g.restore();
+ g.beginPath();g.arc(w/2,h/2,w*.48,0,Math.PI*2);
+ g.strokeStyle='#cba75e';g.lineWidth=3;g.stroke();
+ $('realmPlayersV453').textContent=(realm.units||[])
+  .map(u=>u.champ+' '+Math.round(u.hp)+'/'+Math.round(u.maxHp)).join(' · ');
+}
+$('realmCanvasV453').onclick=e=>{
+ const realm=state?.projection?.realm;if(!realm)return;
+ const actor=realm.units.find(u=>u.id===selectedUnitId&&u.team===state.team);
+ if(!actor){announce('Selecione seu campeão que está no Reino da Morte');return;}
+ const bounds=e.currentTarget.getBoundingClientRect(),
+  x=(e.clientX-bounds.left)/bounds.width,y=(e.clientY-bounds.top)/bounds.height,
+  point={x:realm.centerWorld.x+(x-.5)*2*realm.radiusWorld/realm.worldWidth,
+   y:realm.centerWorld.y+(y-.5)*2*realm.radiusWorld/realm.worldHeight};
+ if((x-.5)**2+(y-.5)**2>.48**2){announce('Fora do limite circular do Reino');return;}
+ return send('order.move',{point},actor.id);
+};
 function draw(){ctx.fillStyle='#13211c';ctx.fillRect(0,0,800,800);if(map.complete&&map.naturalWidth)ctx.drawImage(map,0,0,800,800);
  if(!state?.projection)return;const p=state.projection;
  for(const v of p.wards||[]){ctx.fillStyle=v.team==='blue'?'#5eceff':'#ef756c';ctx.fillRect(v.x*800-4,v.y*800-4,8,8);}
+ for(const m of p.minions||[]){
+  if(!Number.isFinite(m.x)||!Number.isFinite(m.y)||m.hp<=0)continue;
+  const size=m.kind==='cannon'?7:m.kind==='caster'?4:5;
+  ctx.fillStyle=m.team==='blue'?'#6f98af':'#af786b';
+  ctx.fillRect(m.x*800-size/2,m.y*800-size/2,size,size);
+  ctx.strokeStyle='#1b1c18';ctx.lineWidth=1;
+  ctx.strokeRect(m.x*800-size/2,m.y*800-size/2,size,size);
+ }
+ for(const trap of p.m16Traps||[]){
+  ctx.beginPath();ctx.arc(trap.x*800,trap.y*800,6,0,Math.PI*2);
+  ctx.fillStyle=trap.team===state.team?'#d3b36e':'#997c50';ctx.fill();
+  ctx.strokeStyle='#242018';ctx.lineWidth=1.5;ctx.stroke();
+ }
+ for(const s of p.boardSummons||[]){
+  ctx.beginPath();ctx.arc(s.x*800,s.y*800,11,0,Math.PI*2);
+  ctx.fillStyle=s.team==='blue'?'#c1a65e':'#a86d59';ctx.fill();
+  ctx.strokeStyle='#2b2319';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#fff1cd';ctx.font='11px system-ui';ctx.fillText('T',s.x*800-4,s.y*800+4);
+ }
  for(const v of p.units||[]){ctx.beginPath();ctx.arc(v.x*800,v.y*800,v.id===selectedUnitId?12:7,0,Math.PI*2);ctx.fillStyle=v.team==='blue'?'#49b9ff':'#e46863';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=v.id===selectedUnitId?'#f7d485':'#131b1e';ctx.stroke();if(v.id===selectedUnitId){ctx.fillStyle='#fff2c4';ctx.font='16px system-ui';ctx.fillText(v.champ,v.x*800+13,v.y*800-8);}}
+ renderRealmV453();
 }
-try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();connect();}}catch{}
+try{const res=await fetch('/api/session',{credentials:'same-origin'});if(res.ok){render(await res.json());await fetchShop();await fetchBoardKitsV453();connect();}}catch{}

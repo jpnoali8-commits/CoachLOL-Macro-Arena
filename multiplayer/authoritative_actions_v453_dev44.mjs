@@ -8,13 +8,24 @@ import {canonicalStateV40} from '../engine.mjs';
 
 const VALID_KINDS=Object.freeze([
  'order.move','order.attack','order.stop','order.recall','order.ward',
- 'skill.directional','skill.ground','skill.targeted','skill.onhit_target','skill.ultimate',
- 'skill.recast_vex','skill.upgrade','summoner.queue','item.queue','item.activate'
+ 'skill.directional','skill.ground','skill.targeted','skill.self','skill.onhit_target','skill.ultimate',
+ 'skill.recast_vex','skill.upgrade','skill.hijack','skill.neeko_disguise','skill.neeko_shoma','skill.kalista_launch','summon.order','summoner.queue','item.queue','item.activate'
 ]);
 export const PLAYER_ACTION_KINDS_V453_DEV44=VALID_KINDS;
 const allowed=new Set(VALID_KINDS);
-const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo']);
-const validV47=(kind,p)=>kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
+const extraV47=new Set(['order.retreat','order.plant','order.combo','decision.reaction','decision.duel','item.buy','item.sell','item.cancelQueue','item.undo',
+ 'skill.charge.start','skill.charge.release','skill.face','skill.viktor.evolve','skill.viktor.undo']);
+// Five separate authored LoL charging identities. Shared gateway security is
+// NOT a generic spell implementation; all five retain their own engine rules.
+const M35_CHARGE_SLOTS=Object.freeze({Xerath:'Q',Varus:'Q',Vi:'Q',Zac:'E',Galio:'W'});
+const stagedOnly=(unit,slot)=>M35_CHARGE_SLOTS[unit?.champ]===slot;
+export const M35_AUTHORED_CHARGES_PVP=Object.freeze({...M35_CHARGE_SLOTS});
+const validV47=(kind,p)=>kind==='skill.charge.start'?shape(p,['slot'])&&slot(p.slot):
+ kind==='skill.charge.release'?shape(p,['slot'],['point'])&&slot(p.slot)&&(!own(p,'point')||point(p.point)):
+ kind==='skill.face'?shape(p,['point'])&&point(p.point):
+ kind==='skill.viktor.evolve'?shape(p,['slot'])&&['Q','W','E'].includes(p.slot):
+ kind==='skill.viktor.undo'?shape(p,[]):
+ kind==='order.combo'?shape(p,['targetId','steps'])&&validId(p.targetId)&&Array.isArray(p.steps)&&p.steps.length>=1&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x)):kind==='item.buy'?shape(p,['itemId'])&&validId(p.itemId):['item.sell','item.cancelQueue'].includes(kind)?shape(p,['index'])&&Number.isInteger(p.index)&&p.index>=0&&p.index<=11:kind==='item.undo'?shape(p,[]):kind==='order.retreat'?shape(p,[]):kind==='order.plant'?shape(p,['plantId','angle'])&&validId(p.plantId)&&Number.isFinite(p.angle)&&p.angle>=-Math.PI*2&&p.angle<=Math.PI*2:kind==='decision.duel'?shape(p,['response'])&&['defend','heal','peel','fight','retreat'].includes(p.response):kind==='decision.reaction'?shape(p,['targetId','response','steps'],['chase'])&&validId(p.targetId)&&['fight','defend','retreat','peel'].includes(p.response)&&Array.isArray(p.steps)&&p.steps.length<=12&&p.steps.every(x=>['Q','W','E','R','FLASH','IGNITE','EXHAUST','HEAL','BARRIER','GHOST','CLEANSE'].includes(x))&&(!own(p,'chase')||typeof p.chase==='boolean'):false;
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v)&&Object.getPrototypeOf(v)===Object.prototype;
 const validId=v=>typeof v==='string'&&v.length>0&&v.length<=96&&/^[A-Za-z0-9_-]+$/.test(v);
@@ -31,10 +42,18 @@ function validated(kind,p){
   case 'order.stop':case 'order.recall':return shape(p,[]);
   case 'skill.directional':case 'skill.ground':return shape(p,['slot','point'])&&slot(p.slot)&&point(p.point);
   case 'skill.targeted':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
+  case 'skill.self':return shape(p,['slot'])&&slot(p.slot);
+  case 'skill.kalista_launch':return shape(p,['point'])&&point(p.point);
+  case 'skill.hijack':return shape(p,['targetId'])&&validId(p.targetId);
+  case 'skill.neeko_disguise':return shape(p,['appearanceId'])&&validId(p.appearanceId);
+  case 'skill.neeko_shoma':return shape(p,['sourceId'])&&validId(p.sourceId);
   case 'skill.onhit_target':return shape(p,['slot','targetId'])&&slot(p.slot)&&stringId(p.targetId);
   case 'skill.ultimate':return shape(p,[],['point','targetId'])&&(!own(p,'point')||point(p.point))&&(!own(p,'targetId')||stringId(p.targetId));
   case 'skill.recast_vex':return shape(p,[]);
   case 'skill.upgrade':return shape(p,['slot'])&&slot(p.slot);
+  case 'summon.order':return shape(p,['summonId'],['point','targetId'])&&
+   validId(p.summonId)&&(own(p,'point')!==own(p,'targetId'))&&
+   (!own(p,'point')||point(p.point))&&(!own(p,'targetId')||validId(p.targetId));
   case 'summoner.queue':return shape(p,['type'],['targetId'])&&['heal','ignite','exhaust','tp','barrier','ghost','cleanse'].includes(p.type)&&(!own(p,'targetId')||stringId(p.targetId));
   case 'item.queue':case 'item.buy':case 'item.activate':return shape(p,['itemId'])&&stringId(p.itemId);
   case 'item.undo':return shape(p,[]);
@@ -46,10 +65,14 @@ function dispatch(arena,unit,kind,p){
  const team=unit.team,id=unit.id;
  switch(kind){
   case 'decision.duel':return arena.respondToDuel(team,id,p.response)?{ok:true}:fail('duelo_indisponivel');
-  case 'decision.reaction':{const r=arena.queueReactionCombo(team,id,p.targetId,p.steps,{response:p.response,chase:p.chase||false});if(r.ok&&p.response==='retreat')arena.requestRetreatV453Dev45(team,id);return r;}
+  case 'decision.reaction':{
+   if(p.steps.some(step=>stagedOnly(unit,step)))return fail('m35_charge_requires_staging');
+   const r=arena.queueReactionCombo(team,id,p.targetId,p.steps,{response:p.response,chase:p.chase||false});if(r.ok&&p.response==='retreat')arena.requestRetreatV453Dev45(team,id);return r;}
   case 'order.retreat':return arena.requestRetreatV453Dev45(team,id);
   case 'order.plant':return arena.requestRiftPlantV453Dev45(team,id,p.plantId,p.angle);
   case 'order.combo':{
+   // A combo may not skip the owner's actual multi-turn charge state.
+   if(p.steps.some(step=>stagedOnly(unit,step)))return fail('m35_charge_requires_staging');
    // Dev65: planned attacks use the SAME authoritative queue as reactions,
    // but cannot bypass learned skills, immutable loadout or fog.
    const target=arena.units.find(x=>x.id===p.targetId&&x.team!==team&&x.hp>0);
@@ -65,9 +88,19 @@ function dispatch(arena,unit,kind,p){
   case 'order.stop':return arena.setOrder(team,id,{kind:'stop'});
   case 'order.recall':return arena.setOrder(team,id,{kind:'recall'});
   case 'order.ward':return arena.setOrder(team,id,{kind:'ward',destination:p.point,wardType:p.wardType||'stealth'});
-  case 'skill.directional':return arena.queueDirectionalSkill(team,id,p.slot,p.point);
-  case 'skill.ground':return arena.queueKitSkillV42(team,id,p.slot,p.point);
-  case 'skill.targeted':return arena.queueTargetedSkill(team,id,p.slot,p.targetId);
+  case 'skill.directional':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueDirectionalSkill(team,id,p.slot,p.point);
+  case 'skill.ground':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueKitSkillV42(team,id,p.slot,p.point);
+  case 'skill.targeted':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueTargetedSkill(team,id,p.slot,p.targetId);
+  case 'skill.self':return stagedOnly(unit,p.slot)?fail('m35_charge_requires_staging'):arena.queueKitSkillV42(team,id,p.slot,null);
+  case 'skill.charge.start':return arena.queueBoardChargeStartV453Dev69(team,id,p.slot);
+  case 'skill.charge.release':return arena.queueBoardChargeReleaseV453Dev69(team,id,p.slot,{point:p.point??null});
+  case 'skill.face':return arena.queueBoardFacingV453Dev69(team,id,p.point);
+  case 'skill.viktor.evolve':return arena.queueBoardViktorEvolutionV453Dev69(team,id,p.slot);
+  case 'skill.viktor.undo':return arena.undoBoardViktorEvolutionV453Dev69(team,id);
+  case 'skill.kalista_launch':return arena.queueKalistaLaunchV453M14(team,id,p.point);
+  case 'skill.hijack':return arena.queueSylasHijackV453M14(team,id,p.targetId);
+  case 'skill.neeko_disguise':return arena.queueNeekoDisguiseV453M15(team,id,p.appearanceId);
+  case 'skill.neeko_shoma':return arena.queueNeekoShomaV453M15(team,id,p.sourceId);
   case 'skill.onhit_target': {
    // Only audited Q variants. Never auto-convert all skills to a generic on-hit.
    if(p.slot!=='Q'||!['Ezreal','Irelia'].includes(unit.champ)||!(unit.skillRanks?.Q>0))return fail('habilidade_individual_nao_certificada');
@@ -75,8 +108,12 @@ function dispatch(arena,unit,kind,p){
    if(!target)return fail('alvo_invalido');
    return arena.setOrder(team,id,{kind:'attack',targetId:target.id,combo:['Q']});
   }
-  case 'skill.ultimate':return arena.queueSpecialUltimate(team,id,p.targetId??null,p.point??null);
+  case 'skill.ultimate':return arena.boardKitForV453Dev69?.(unit.champ,'R',unit)?
+   arena.queueBoardSkillV453Dev69(team,id,'R',{point:p.point??null,targetId:p.targetId??null}):
+   arena.queueSpecialUltimate(team,id,p.targetId??null,p.point??null);
   case 'skill.recast_vex':return arena.queueVexRecast(team,id);
+  case 'summon.order':return arena.queueBoardSummonOrderV453Dev69(team,id,p.summonId,
+   {point:p.point??null,targetId:p.targetId??null});
   case 'skill.upgrade':return arena.upgradeSkill(team,id,p.slot);
   case 'summoner.queue':return arena.queueSummoner(team,id,p.type,p.targetId??null);
   case 'item.queue':return arena.queuePurchase(team,id,p.itemId);
@@ -129,12 +166,35 @@ export class AuthoritativeActionsV453Dev44 {
   const reacting=this.dev47Enabled&&(['decision.reaction','decision.duel'].includes(message.kind)||(message.kind==='item.activate'&&this.arena.phase==='decision'));
   if(this.arena.ended||(!reacting&&(this.arena.teams[seat.team]?.ready||!['planning','preparation'].includes(this.arena.phase))))return fail('fase_bloqueada');
   if(reacting&&(this.arena.phase!=='decision'||this.arena.pendingDecision?.unitId!==unit.id||!(message.kind==='item.activate'||(message.kind==='decision.duel'?this.arena.pendingDecision?.kind==='duel_request':['combat_reaction','pickoff_reaction'].includes(this.arena.pendingDecision?.kind)))))return fail('decisao_nao_autorizada');
-  const targetId=message.payload.targetId;
+  const payload=structuredClone(message.payload);
+  const targetId=payload.targetId;
   if(targetId){
-   const target=this.arena.units.find(u=>u.id===targetId&&u.hp>0);
-   if(!target||target.team!==seat.team&&!this.arena.visible(seat.team,target)&&!(reacting&&this.arena.pendingDecision?.enemyId===targetId))return fail('alvo_indisponivel');
+   const alias=this.arena.m15ResolvePublicId?.(seat.team,targetId);
+   const resolved=alias||targetId;
+   const target=this.arena.units.find(u=>u.id===resolved&&u.hp>0)||
+    this.arena.boardSummonsV453Dev69?.find(u=>u.id===resolved&&u.hp>0&&u.until>this.arena.gameTime);
+   if(!target)return fail('alvo_indisponivel');
+   if(target.team!==seat.team){
+    // Never accept the real stable ID behind a currently masked champion.
+    const concealed=target.champ==='Neeko'&&target.neekoDisguiseV453M15||
+     target.champ==='Shaco'&&this.arena.boardSummonsV453Dev69.some(e=>
+      e.id===target.shacoCloneIdV453M15&&e.hp>0&&e.until>this.arena.gameTime)||
+     target.m16DecoyPublicAlias&&this.arena.boardSummonsV453Dev69.some(e=>
+      e.id===(target.m16WukongCloneId||target.m16LeblancCloneId)&&
+      e.hp>0&&e.until>this.arena.gameTime);
+    // All four disguise entities use opaque public IDs in perspective().
+    // Never accept an internal summon ID from the opposing seat.
+    if((concealed||['neeko_clone','shaco_clone','wukong_clone','leblanc_clone'].includes(target.kind))&&!alias)
+     return fail('alvo_identidade_oculta');
+    const seen=target.kind&&!target.champ?
+     this.arena.canSeePoint(seat.team,target)&&target.stealthUntil<=this.arena.gameTime:
+     this.arena.visible(seat.team,target);
+    if(!seen&&!(reacting&&this.arena.pendingDecision?.enemyId===resolved))
+     return fail('alvo_indisponivel');
+   }
+   payload.targetId=resolved;
   }
-  const result=dispatch(this.arena,unit,message.kind,structuredClone(message.payload));
+  const result=dispatch(this.arena,unit,message.kind,payload);
   if(!result?.ok)return fail(typeof result?.reason==='string'?result.reason:'acao_rejeitada_pelo_motor');
   this.revision++;seat.lastSequence=message.sequence;
   // No full-world snapshots, server secrets, enemy positions or RNG in replies.

@@ -11,9 +11,13 @@ t('Manifestos patchados com maturidade explícita; kits não certificados como c
  assert.equal(KIT_PATCH_V42,'26.21');assert.equal(CHAMPION_KITS_V42.Nami.certification,'partial');
  assert.equal(CHAMPION_KITS_V42.Lux.certification,'partial');
  assert.equal(CHAMPION_KITS_V42.Vex.certification,'partial');
- assert.equal(CHAMPION_KITS_V42.Jinx.certification,'data_only');
- assert.equal(CHAMPION_KITS_V42.Nami.spells.E.implemented,'planned');
- assert.equal(kitSpellV42('Nami','E'),null);
+ assert.equal(CHAMPION_KITS_V42.Jinx.certification,'partial');
+ assert.equal(CHAMPION_KITS_V42.Ahri.certification,'partial');
+ assert.equal(kitSpellV42('Lux','W').implemented,'prototype');
+ assert.equal(kitSpellV42('Jinx','W').implemented,'prototype');
+ assert.equal(kitSpellV42('Ahri','Q').kind,'line_return');
+ assert.equal(CHAMPION_KITS_V42.Nami.spells.E.implemented,'prototype');
+ assert.equal(kitSpellV42('Nami','E').charges,3);
  for(const [ch,kit] of Object.entries(CHAMPION_KITS_V42))assert.equal(kit.patch,KIT_PATCH_V42,ch);
 });
 t('Stats base e crescimento para cinco campeões auditados sem AP fantasma por nível',()=>{
@@ -154,7 +158,7 @@ t('Snapshot V4.0 restaura zonas, ordem de kit e seu estado determinístico',()=>
  a.resolveKitSkillsV42();assert.ok(lux.luxZoneV42);
  const copy=Arena.fromSnapshotV40(a.map,a.mask,a.snapshotV40());
  assert.deepEqual(u(copy,'blue_SUP').luxZoneV42,lux.luxZoneV42);
- a.gameTime+=5;copy.gameTime+=5;a.resolveKitSkillsV42();copy.resolveKitSkillsV42();
+ a.gameTime+=6;copy.gameTime+=6;a.resolveKitSkillsV42();copy.resolveKitSkillsV42();
  assert.equal(u(copy,'blue_SUP').luxZoneV42,null);assert.deepEqual(a.actionJournalV40,copy.actionJournalV40);
 });
 t('Browser/Node compatibilidade completa do registry e métodos',()=>{

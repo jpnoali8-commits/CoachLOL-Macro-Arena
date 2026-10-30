@@ -1,0 +1,233 @@
+{
+  "schema": "coachlol.skills.m38-debt-evidence.v1",
+  "baseDebt": 52,
+  "retiredDebt": 32,
+  "remainingDebt": 20,
+  "scope": "legacy labels only; full P+QWER 17 dimensions not certified",
+  "entries": [
+    {
+      "champion": "Cassiopeia",
+      "slot": "R",
+      "legacyTag": "directional_stun",
+      "nativeFlag": "m28CassPetrify",
+      "proofTest": "tests/audit/v453_m33_b01_pqwer_cohort_facing_energy_evolution.test.mjs"
+    },
+    {
+      "champion": "Seraphine",
+      "slot": "W",
+      "legacyTag": "echo_cast",
+      "nativeFlag": "m32SeraphineEchoShield",
+      "proofTest": "tests/audit/v453_m32_b01_five_deep_identities.test.mjs"
+    },
+    {
+      "champion": "Seraphine",
+      "slot": "E",
+      "legacyTag": "cc_upgrade",
+      "nativeFlag": "m29SeraphineBeatDrop",
+      "proofTest": "tests/audit/v453_m29_b01_authored_identity_gate.test.mjs"
+    },
+    {
+      "champion": "Xerath",
+      "slot": "Q",
+      "legacyTag": "charge_range",
+      "nativeFlag": "m28XerathCharge",
+      "proofTest": "tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs"
+    },
+    {
+      "champion": "Zac",
+      "slot": "E",
+      "legacyTag": "charge_range",
+      "nativeFlag": "m29ZacSlingshot",
+      "proofTest": "tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs"
+    },
+    {
+      "champion": "Yunara",
+      "slot": "W",
+      "legacyTag": "transcendent_variant",
+      "nativeFlag": "m36YunaraArcOfRuin",
+      "proofTest": "tests/audit/v453_m36_three_more_real_identity_slots.test.mjs"
+    },
+    {
+      "champion": "Gragas",
+      "slot": "Q",
+      "legacyTag": "barrel_charge_damage_growth",
+      "nativeFlag": "m21Barrel",
+      "proofTest": "tests/audit/v453_m21_b01_stateful_primitives.test.mjs"
+    },
+    {
+      "champion": "Lulu",
+      "slot": "W",
+      "legacyTag": "ally_attack_speed",
+      "nativeFlag": "m29LuluWhimsy",
+      "proofTest": "tests/audit/v453_m29_b01_authored_identity_gate.test.mjs"
+    },
+    {
+      "champion": "Mel",
+      "slot": "E",
+      "legacyTag": "outer_slow",
+      "nativeFlag": "m28MelOuterSlow",
+      "proofTest": "tests/audit/v453_m28_b01_extended_identities.test.mjs"
+    },
+    {
+      "champion": "Sejuani",
+      "slot": "W",
+      "legacyTag": "two_swings",
+      "nativeFlag": "m28SejTwoSwings",
+      "proofTest": "tests/audit/v453_m28_b01_authored_behaviors.test.mjs"
+    },
+    {
+      "champion": "Sejuani",
+      "slot": "E",
+      "legacyTag": "frost_from_other_melee_allies",
+      "nativeFlag": "m21FrostRequired",
+      "proofTest": "tests/audit/v453_m38_b01_legacy_debt_runtime.test.mjs"
+    },
+    {
+      "champion": "Sett",
+      "slot": "Q",
+      "legacyTag": "max_hp_bonus",
+      "nativeFlag": "m30SettKnuckle",
+      "proofTest": "tests/audit/v453_m38_b01_legacy_debt_runtime.test.mjs"
+    },
+    {
+      "champion": "TahmKench",
+      "slot": "R",
+      "legacyTag": "enemy_stacks_from_auto_attacks",
+      "nativeFlag": "m24Devour",
+      "proofTest": "tests/audit/v453_m26_b01_identity_matrix.test.mjs"
+    },
+    {
+      "champion": "Lucian",
+      "slot": "Q",
+      "legacyTag": "requires_initial_target",
+      "nativeFlag": "m30LucianAnchoredQ",
+      "proofTest": "tests/audit/v453_m30_b01_identity_counterplay.test.mjs"
+    },
+    {
+      "champion": "Lucian",
+      "slot": "W",
+      "legacyTag": "star_pattern",
+      "nativeFlag": "m32LucianStar",
+      "proofTest": "tests/audit/v453_m32_b01_five_deep_identities.test.mjs"
+    },
+    {
+      "champion": "Milio",
+      "slot": "Q",
+      "legacyTag": "ball_bounce",
+      "nativeFlag": "m32MilioBounce",
+      "proofTest": "tests/audit/v453_m32_b01_five_deep_identities.test.mjs"
+    },
+    {
+      "champion": "Milio",
+      "slot": "W",
+      "legacyTag": "attack_range_extension",
+      "nativeFlag": "m25MilioCampfire",
+      "proofTest": "tests/audit/v453_m25_b01_identity_matrix.test.mjs"
+    },
+    {
+      "champion": "Milio",
+      "slot": "E",
+      "legacyTag": "two_charges_and_speed",
+      "nativeFlag": "m29MilioTwoE",
+      "proofTest": "tests/audit/v453_m29_b01_five_identities.test.mjs"
+    },
+    {
+      "champion": "Urgot",
+      "slot": "E",
+      "legacyTag": "flip",
+      "nativeFlag": "m28UrgotFlip",
+      "proofTest": "tests/audit/v453_m28_b01_authored_behaviors.test.mjs"
+    },
+    {
+      "champion": "Urgot",
+      "slot": "R",
+      "legacyTag": "chains_channel_and_suppression",
+      "nativeFlag": "m23ExecuteThreshold",
+      "proofTest": "tests/audit/v453_m26_b01_identity_matrix.test.mjs"
+    },
+    {
+      "champion": "Varus",
+      "slot": "Q",
+      "legacyTag": "charge_damage_and_range",
+      "nativeFlag": "m28VarusCharge",
+      "proofTest": "tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs"
+    },
+    {
+      "champion": "Varus",
+      "slot": "W",
+      "legacyTag": "blight_charge_empowered_q",
+      "nativeFlag": "m30VarusEmpowerQ",
+      "proofTest": "tests/audit/v453_m30_b01_combat_family.test.mjs"
+    },
+    {
+      "champion": "Viktor",
+      "slot": "Q",
+      "legacyTag": "self_shield_and_evolution",
+      "nativeFlag": "m28ViktorShield",
+      "proofTest": "tests/audit/v453_m33_b01_real_identity_runtime.test.mjs"
+    },
+    {
+      "champion": "Shen",
+      "slot": "Q",
+      "legacyTag": "blade_pull",
+      "nativeFlag": "m29ShenBladePull",
+      "proofTest": "tests/audit/v453_m33_b01_real_identity_runtime.test.mjs"
+    },
+    {
+      "champion": "Vi",
+      "slot": "Q",
+      "legacyTag": "charge",
+      "nativeFlag": "m29ViCharge",
+      "proofTest": "tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs"
+    },
+    {
+      "champion": "Vi",
+      "slot": "R",
+      "legacyTag": "knockaside_path",
+      "nativeFlag": "m32ViRKnockaside",
+      "proofTest": "tests/audit/v453_m32_b01_five_deep_identities.test.mjs"
+    },
+    {
+      "champion": "Heimerdinger",
+      "slot": "Q",
+      "legacyTag": "turret_ai_and_charge_stock",
+      "nativeFlag": "m28HeimerStock",
+      "proofTest": "tests/audit/v453_m28_b01_authored_behaviors.test.mjs"
+    },
+    {
+      "champion": "Kassadin",
+      "slot": "Q",
+      "legacyTag": "interrupt",
+      "nativeFlag": "m30KassInterrupt",
+      "proofTest": "tests/audit/v453_m30_b01_identity_counterplay.test.mjs"
+    },
+    {
+      "champion": "Kassadin",
+      "slot": "E",
+      "legacyTag": "spell_stacks",
+      "nativeFlag": "m29KassForcePulse",
+      "proofTest": "tests/audit/v453_m29_b01_authored_identity_gate.test.mjs"
+    },
+    {
+      "champion": "KogMaw",
+      "slot": "E",
+      "legacyTag": "ooze_trail",
+      "nativeFlag": "m28KogOoze",
+      "proofTest": "tests/audit/v453_m28_b01_authored_behaviors.test.mjs"
+    },
+    {
+      "champion": "Locke",
+      "slot": "W",
+      "legacyTag": "self_damage_burst",
+      "nativeFlag": "m37LockeSoulIgnition",
+      "proofTest": "tests/audit/v453_m37_b01_five_remaining_authored_slots.test.mjs"
+    },
+    {
+      "champion": "MasterYi",
+      "slot": "R",
+      "legacyTag": "attack_speed_and_reset",
+      "nativeFlag": "m32YiHighlander",
+      "proofTest": "tests/audit/v453_m32_b01_five_deep_identities.test.mjs"
+    }
+  ]
+}

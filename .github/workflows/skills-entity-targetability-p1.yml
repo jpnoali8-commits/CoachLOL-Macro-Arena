@@ -1,0 +1,166 @@
+name: CoachLOL dev69 — P1 targetable clones, isolated specialist QA
+on:
+  push:
+    branches:
+      - fix/skills-entity-targetability-p1-dev69
+      - dev69/skills-batch2
+  workflow_dispatch:
+permissions:
+  contents: read
+# A burst of macro-batch commits should validate the newest HEAD once.
+# Preserve the dedicated specialist gate but cancel stale superseded runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  skills-entity-targetability:
+    name: P1 clone selection, QWER regressions, PvP and snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax validation
+        run: |
+          node --check engine.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tests/audit/v453_clone_targetability_audit.test.mjs
+          node --check tests/audit/v453_global_contract_execution_audit.test.mjs
+          node --check tests/audit/v453_entity_shape_matrix.test.mjs
+          node --check tests/audit/v453_entity_projectile_trap_m17.test.mjs
+          node --check tests/audit/v453_entity_projectile_matrix_m17.test.mjs
+          node --check tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
+      - name: New strict clone targetability contracts (previously 10 failures)
+        run: node tests/audit/v453_clone_targetability_audit.test.mjs --strict
+      - name: All 173 champion rule routes and M9-M16 authored slots
+        run: node tests/audit/v453_global_contract_execution_audit.test.mjs
+      - name: Data-driven damage geometry matrix and PvP receipt idempotency
+        run: node tests/audit/v453_entity_shape_matrix.test.mjs
+      - name: M17 delayed projectiles, Jhin R and trap contact with decoys
+        run: node tests/audit/v453_entity_projectile_trap_m17.test.mjs
+      - name: M17 seven real travelling missile families x two PvP teams
+        run: node tests/audit/v453_entity_projectile_matrix_m17.test.mjs
+      - name: M18 four clone families, disguise, aliases, targeted, projectile and Jhin R
+        run: node tests/audit/v453_m18_all_decoys_identity_target_matrix.test.mjs
+      - name: M20 B01 35 champion x QWER x two human PvP seats
+        run: |
+          node --check engine.mjs
+          node --check tests/audit/v453_m20_b01_pvp_matrix.test.mjs
+          node tests/audit/v453_m20_b01_pvp_matrix.test.mjs
+          node --check tests/audit/v453_m20_b01_special_primitives.test.mjs
+          node tests/audit/v453_m20_b01_special_primitives.test.mjs
+          node --check tests/audit/v453_m21_b01_stateful_primitives.test.mjs
+          node tests/audit/v453_m21_b01_stateful_primitives.test.mjs
+          node --check tests/audit/v453_m21_b01_passive_events.test.mjs
+          node tests/audit/v453_m21_b01_passive_events.test.mjs
+          node --check tests/audit/v453_m21_b01_dual_target_support.test.mjs
+          node tests/audit/v453_m21_b01_dual_target_support.test.mjs
+          node --check tests/audit/v453_m22_b01_channel_fuse.test.mjs
+          node tests/audit/v453_m22_b01_channel_fuse.test.mjs
+          node --check tests/audit/v453_m22_b01_second_stage.test.mjs
+          node tests/audit/v453_m22_b01_second_stage.test.mjs
+          node --check tests/audit/v453_m23_b01_death_state.test.mjs
+          node tests/audit/v453_m23_b01_death_state.test.mjs
+          node --check tests/audit/v453_m23_b01_execute_grit_upgrade.test.mjs
+          node tests/audit/v453_m23_b01_execute_grit_upgrade.test.mjs
+          node --check tests/audit/v453_m24_b01_board_phases.test.mjs
+          node tests/audit/v453_m24_b01_board_phases.test.mjs
+          node --check tests/audit/v453_m25_b01_identity_matrix.test.mjs
+          node tests/audit/v453_m25_b01_identity_matrix.test.mjs
+          node --check tests/audit/v453_m26_b01_identity_matrix.test.mjs
+          node tests/audit/v453_m26_b01_identity_matrix.test.mjs
+          node --check tests/audit/v453_m27_b01_passive_identities.test.mjs
+          node tests/audit/v453_m27_b01_passive_identities.test.mjs
+          node --check tools/skills_m27_b01_completeness_audit.mjs
+          node --check tests/audit/v453_m27_b01_certification_gate.test.mjs
+          node tests/audit/v453_m27_b01_certification_gate.test.mjs
+          node --check tests/audit/v453_m28_b01_adversarial_gate.test.mjs
+          node tests/audit/v453_m28_b01_adversarial_gate.test.mjs
+          node --check tests/audit/v453_m28_b01_authored_behaviors.test.mjs
+          node tests/audit/v453_m28_b01_authored_behaviors.test.mjs
+          node --check tests/audit/v453_m28_b01_extended_identities.test.mjs
+          node tests/audit/v453_m28_b01_extended_identities.test.mjs
+          node --check tests/audit/v453_m29_b01_authored_identity_gate.test.mjs
+          node tests/audit/v453_m29_b01_authored_identity_gate.test.mjs
+          node --check tests/audit/v453_m29_b01_five_identities.test.mjs
+          node tests/audit/v453_m29_b01_five_identities.test.mjs
+          node --check tests/audit/v453_m30_b01_identity_counterplay.test.mjs
+          node tests/audit/v453_m30_b01_identity_counterplay.test.mjs
+          node --check tests/audit/v453_m30_b01_combat_family.test.mjs
+          node tests/audit/v453_m30_b01_combat_family.test.mjs
+          node --check tools/skills_m31_b01_contract_ledger.mjs
+          node --check tests/audit/v453_m31_b01_35_identity_witnesses.test.mjs
+          node tests/audit/v453_m31_b01_35_identity_witnesses.test.mjs
+          node --check tests/audit/v453_m32_b01_qwer_authoritative_commit.test.mjs
+          node tests/audit/v453_m32_b01_qwer_authoritative_commit.test.mjs
+          node --check tests/audit/v453_m32_b01_five_deep_identities.test.mjs
+          node tests/audit/v453_m32_b01_five_deep_identities.test.mjs
+          node --check tests/audit/v453_m33_b01_real_identity_runtime.test.mjs
+          node tests/audit/v453_m33_b01_real_identity_runtime.test.mjs
+          node --check tests/audit/v453_m33_b01_pqwer_cohort_facing_energy_evolution.test.mjs
+          node tests/audit/v453_m33_b01_pqwer_cohort_facing_energy_evolution.test.mjs
+          node --check tools/skills_m34_atomic_release_train.mjs
+          node --check tests/audit/v453_m34_atomic_release_train.test.mjs
+          node tests/audit/v453_m34_atomic_release_train.test.mjs
+          node --check tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
+          node tests/audit/v453_m34_charge_lifecycle_atomic.test.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check tools/skills_m35_b01_cohort_work_queue.mjs
+          node --check tests/audit/v453_m35_b01_work_queue.test.mjs
+          node tests/audit/v453_m35_b01_work_queue.test.mjs
+          node --check tests/audit/v453_m35_b01_pvp_ingress_atomic.test.mjs
+          node tests/audit/v453_m35_b01_pvp_ingress_atomic.test.mjs
+          node --check tests/audit/v453_m36_b01_six_authored_identity_families.test.mjs
+          node tests/audit/v453_m36_b01_six_authored_identity_families.test.mjs
+          node --check tests/audit/v453_m36_three_more_real_identity_slots.test.mjs
+          node tests/audit/v453_m36_three_more_real_identity_slots.test.mjs
+          node --check tests/audit/v453_m37_b01_five_remaining_authored_slots.test.mjs
+          node tests/audit/v453_m37_b01_five_remaining_authored_slots.test.mjs
+          node --check tests/audit/v453_m38_b01_legacy_debt_runtime.test.mjs
+          node tests/audit/v453_m38_b01_legacy_debt_runtime.test.mjs
+          node --check tests/audit/v453_m39_b01_atomic_pickup_and_recasts.test.mjs
+          node tests/audit/v453_m39_b01_atomic_pickup_and_recasts.test.mjs
+          node --check tests/audit/v453_m40_b01_three_authored_channels.test.mjs
+          node tests/audit/v453_m40_b01_three_authored_channels.test.mjs
+          node --check tests/audit/v453_m41_b01_spatial_authored_mechanics.test.mjs
+          node tests/audit/v453_m41_b01_spatial_authored_mechanics.test.mjs
+          node --check tests/audit/v453_m42_b01_owner_atomic_cohort.test.mjs
+          node tests/audit/v453_m42_b01_owner_atomic_cohort.test.mjs
+          node --check tests/audit/v453_m43_b01_persistent_identity_family.test.mjs
+          node tests/audit/v453_m43_b01_persistent_identity_family.test.mjs
+          node --check tests/audit/v453_m43_b01_secondary_hazards.test.mjs
+          node tests/audit/v453_m43_b01_secondary_hazards.test.mjs
+          node --check tests/audit/v453_m43_b01_mobile_geometry_family.test.mjs
+          node tests/audit/v453_m43_b01_mobile_geometry_family.test.mjs
+      - name: M19 full 173 champion macro-batch QA gates
+        run: |
+          node --check tools/skills_macro_batch_planner_v453_dev69.mjs
+          node --check tests/audit/v453_m19_macro_batch_gate.test.mjs
+          node tests/audit/v453_m19_macro_batch_gate.test.mjs
+          node tools/skills_macro_batch_planner_v453_dev69.mjs --out docs/skills_macro_batches_dev69
+          node tools/skills_m27_b01_completeness_audit.mjs --out docs/skills_macro_batches_dev69/M27_B01_COMPLETENESS_MANIFEST.json
+          node tools/skills_m31_b01_contract_ledger.mjs --out docs/skills_macro_batches_dev69/M31_B01_35_IDENTITY_LEDGER.json
+          node tools/skills_m34_atomic_release_train.mjs --out docs/skills_macro_batches_dev69/M34_ATOMIC_RELEASE_TRAIN.json
+          node tools/skills_m35_b01_cohort_work_queue.mjs --out docs/skills_macro_batches_dev69/M35_B01_35_KIT_WORK_QUEUE.json
+      - name: Export five macro-batch contracts for Skills engineering
+        uses: actions/upload-artifact@v4
+        with:
+          name: coachlol-skills-m19-173-pqwer-macro-batches
+          path: docs/skills_macro_batches_dev69/
+          retention-days: 30
+      - name: Existing M15 clone/sylas checkpoints
+        run: node tests/v453_dev69_clones_m15.test.mjs
+      - name: Existing M16 stealth/traps/abilities
+        run: node tests/v453_dev69_mechanics_m16.test.mjs
+      - name: Board grammar, mechanics and M14 forms
+        run: |
+          node tests/v453_dev69_board_grammar.test.mjs
+          node tests/v453_dev69_forms_m14.test.mjs
+          node tests/v453_dev69_sylas_m14.test.mjs
+      - name: Existing V42 and PvP regressions
+        run: |
+          node tests/v42_champion_kits.test.mjs
+          node tests/v453_dev69_skills_batch2.test.mjs
+          node tests/v453_dev68_lux_projectile_pvp.test.mjs

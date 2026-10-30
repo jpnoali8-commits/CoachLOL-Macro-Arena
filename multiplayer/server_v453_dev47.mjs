@@ -3,7 +3,8 @@ import http from 'node:http';
 import {readFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60} from '../engine.mjs';
+import {catalog,ITEM_RECIPES,officialSaleValueV453Dev60,BOARD_KITS_V453_DEV69,FORM_KITS_V453_M14,M15_ENTITY_KITS_V453,M16_MECHANIC_KITS} from '../engine.mjs';
+
 import {PvPRoomRegistryV453Dev47} from './room_v453_dev47.mjs';
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
 const read=n=>JSON.parse(readFileSync(new URL('../data/'+n,import.meta.url),'utf8'));
@@ -46,6 +47,37 @@ export function createPvPServerV453Dev47({checkpointDir=null,tickMs=250,maxRooms
    const session=rooms.session(cookie(req));if(!session)return fail(res,'sessao_ausente',401);
    const {room,player}=session;
    if(req.method==='GET'&&path==='/api/session')return json(res,200,{ok:true,...room.view(player)});
+   if(req.method==='GET'&&path==='/api/kits')return json(res,200,{ok:true,
+    patch:'26.21',maturity:'board_prototype',
+    formKits:Object.fromEntries(Object.entries(FORM_KITS_V453_M14).map(([champ,forms])=>
+     [champ,Object.fromEntries(Object.entries(forms).map(([form,slots])=>
+      [form,Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
+       shape:slots[slot].shape,range:slots[slot].range,
+       passiveOnly:!!slots[slot].passiveOnly,
+       implemented:slots[slot].implemented,
+       transformTo:slots[slot].transformTo||null}]))]))])),
+    mechanicKits:Object.fromEntries(Object.entries(M16_MECHANIC_KITS).map(([champ,slots])=>[
+     champ,Object.fromEntries(Object.entries(slots).map(([slot,v])=>[slot,{
+      shape:v.shape,range:v.range,implemented:'partial_mechanic_adapter',
+      m16Stealth:v.m16Stealth||null,m16Trap:v.m16Trap||null,
+      m16FourShots:!!v.m16FourShots,m16OnlyHuman:!!v.m16OnlyHuman}]))])),
+    entityKits:Object.fromEntries(Object.entries(M15_ENTITY_KITS_V453).map(([champ,slots])=>[
+     champ,Object.fromEntries(Object.entries(slots).map(([slot,v])=>[slot,{
+      shape:v.shape,range:v.range,implemented:'partial_entity_adapter',m15Entity:v.m15Entity}]))])),
+    specials:{
+     Mordekaiser:{R:{shape:'target_enemy',range:650,specialUltimate:true,implemented:'realm_prototype'}},
+     Kalista:{R:{shape:'self',range:0,specialUltimate:true,implemented:'oath_bound_prototype'}},
+     Jinx:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Ezreal:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Ashe:{R:{shape:'line_enemy',range:25000,specialUltimate:true,implemented:'legacy_projectile'}},
+     Karthus:{R:{shape:'self',range:0,specialUltimate:true,implemented:'legacy_channel'}},
+     Soraka:{R:{shape:'self',range:0,specialUltimate:true,implemented:'legacy_global_heal'}}
+    },
+    kits:Object.fromEntries(
+     Object.entries(BOARD_KITS_V453_DEV69).map(([champ,row])=>[champ,
+      Object.fromEntries(['Q','W','E','R'].map(slot=>[slot,{
+       shape:row[slot].shape,range:row[slot].range,passiveOnly:!!row[slot].passiveOnly,
+       originSelf:!!row[slot].originSelf,boardTemporal:row[slot].boardTemporal||null,implemented:row[slot].implemented}]))]))});
    if(req.method==='GET'&&path==='/api/shop')return json(res,200,{ok:true,patch:'26.21',items:catalog.filter(i=>!i.notPurchasable&&!i.tags.includes('trinket')).map(i=>({id:i.id,name:i.name,cost:i.cost,refund:officialSaleValueV453Dev60(i.id),recipe:ITEM_RECIPES[i.id]||[],roleLock:i.roleLock||null,tags:i.tags,stats:i.stats})),referenceItems:Object.values(SHOP_REFERENCE_V453_DEV62.rows).filter(x=>x.status==='reference_only').map(x=>({id:x.id,name:x.name,cost:x.price,recipe:x.from||[],tags:x.tags||[],stats:null,playable:false}))});
    if(req.method==='GET'&&path==='/api/shop/quote'){
     const url=new URL(req.url,'http://localhost'),unitId=url.searchParams.get('unitId'),itemId=url.searchParams.get('itemId');

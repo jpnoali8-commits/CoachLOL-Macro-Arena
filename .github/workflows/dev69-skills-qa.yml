@@ -22,8 +22,56 @@ jobs:
         run: |
           node --check engine.mjs
           node --check tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+          node --check tests/v453_dev69_skills_batch2.test.mjs
+          node --check tests/v453_dev69_multi_champions_m1.test.mjs
+          node --check tests/v453_dev69_multi_champions_m2.test.mjs
+          node --check tests/v453_dev69_multi_champions_m3.test.mjs
+          node --check tests/v453_dev69_multi_champions_m4.test.mjs
+          node --check tests/v453_dev69_multi_champions_m5.test.mjs
+          node --check tests/v453_dev69_multi_champions_m6.test.mjs
+          node --check tests/v453_dev69_multi_champions_m7.test.mjs
+          node --check tests/v453_dev69_roster_scale.test.mjs
+          node --check tests/v453_dev69_board_grammar.test.mjs
+          node --check tests/v453_dev69_board_m10.test.mjs
+          node --check tests/v453_dev69_board_m11.test.mjs
+          node --check tests/v453_dev69_board_m12.test.mjs
+          node --check tests/v453_dev69_board_m13.test.mjs
+          node --check tests/v453_dev69_board_m14.test.mjs
+          node --check tests/v453_dev69_forms_m14.test.mjs
+          node --check tests/v453_dev69_kalista_m14.test.mjs
+          node --check tests/v453_dev69_sylas_m14.test.mjs
+          node --check tests/v453_dev69_global_ult_m14.test.mjs
+          node --check tests/v453_dev69_realm_hardening_m14.test.mjs
+          node --check tests/v453_dev69_clones_m15.test.mjs
+          node --check tests/v453_dev69_mechanics_m16.test.mjs
+          node --check multiplayer/authoritative_actions_v453_dev44.mjs
+          node --check multiplayer/pvp_client_v453_dev47.js
+          node --check multiplayer/server_v453_dev47.mjs
       - name: New gameplay contracts
-        run: node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
+        run: |
+          node tests/v453_dev69_skills_batch2.test.mjs
+          node tests/v453_dev69_multi_champions_m1.test.mjs
+          node tests/v453_dev69_multi_champions_m2.test.mjs
+          node tests/v453_dev69_multi_champions_m3.test.mjs
+          node tests/v453_dev69_multi_champions_m4.test.mjs
+          node tests/v453_dev69_multi_champions_m5.test.mjs
+          node tests/v453_dev69_multi_champions_m6.test.mjs
+          node tests/v453_dev69_multi_champions_m7.test.mjs
+          node tests/v453_dev69_roster_scale.test.mjs
+          node tests/v453_dev69_board_grammar.test.mjs
+          node tests/v453_dev69_board_m10.test.mjs
+          node tests/v453_dev69_board_m11.test.mjs
+          node tests/v453_dev69_board_m12.test.mjs
+          node tests/v453_dev69_board_m13.test.mjs
+          node tests/v453_dev69_board_m14.test.mjs
+          node tests/v453_dev69_forms_m14.test.mjs
+          node tests/v453_dev69_kalista_m14.test.mjs
+          node tests/v453_dev69_sylas_m14.test.mjs
+          node tests/v453_dev69_global_ult_m14.test.mjs
+          node tests/v453_dev69_realm_hardening_m14.test.mjs
+          node tests/v453_dev69_clones_m15.test.mjs
+          node tests/v453_dev69_mechanics_m16.test.mjs
+          node tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs
       - name: Existing Lux and individual skills regressions
         run: |
           node tests/v453_dev68_lux_projectile_pvp.test.mjs

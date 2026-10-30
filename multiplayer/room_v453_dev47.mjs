@@ -38,6 +38,17 @@ export class PvPRoomV453Dev47 {
    // Only owner's champions: never disclose opponents' inventory or shop distance.
    data.shopUndoAvailableV453Dev61=Object.fromEntries(data.controlledUnitIds.map(id=>{const r=this.arena.canUndoShopV453Dev61(p.team,id);return [id,r.ok?{kind:r.kind,itemId:r.itemId,amount:r.amount}:null];}));
    data.shopUndoStateV453Dev62=Object.fromEntries(data.controlledUnitIds.map(id=>{const r=this.arena.canUndoShopV453Dev61(p.team,id);return [id,r.ok?{ok:true,kind:r.kind,itemId:r.itemId,amount:r.amount}:{ok:false,reason:r.reason||'Desfazer indisponível'}];}));
+   // Only authenticated owners receive active recast slots. Never expose
+   // opposing charge coordinates, timer IDs or private board plans.
+   data.boardRecastsV453Dev69=Object.fromEntries(data.controlledUnitIds.map(id=>
+    [id,(this.arena.boardTemporalV453Dev69||[]).filter(z=>z.ownerId===id&&
+     z.team===p.team&&z.kind==='satchel_charge'&&z.until>=this.arena.gameTime)
+     .map(z=>({slot:'W',expiresAt:z.until,kind:'satchel'}))
+     .concat((this.arena.units.find(u=>u.id===id)?.boardCardCycleV453Dev69?.until||0)>
+      this.arena.gameTime?[{slot:'W',kind:'pick_card',
+       expiresAt:this.arena.units.find(u=>u.id===id).boardCardCycleV453Dev69.until,
+       card:['blue','red','gold'][Math.floor(Math.max(0,this.arena.gameTime-
+        this.arena.units.find(u=>u.id===id).boardCardCycleV453Dev69.startedAt))%3]}]:[])]));
    data.shopInRangeV453Dev60=Object.fromEntries(data.controlledUnitIds.map(id=>{
     const u=this.arena.units.find(x=>x.id===id&&x.team===p.team);
     const shop=this.arena.map.objects.find(x=>x.id===p.team+'_spawn_shop');
