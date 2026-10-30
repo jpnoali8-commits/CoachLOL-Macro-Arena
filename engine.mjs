@@ -1016,6 +1016,22 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B16B — 12 more source-authored slots, incomplete parity explicitly tracked.
+export const M44_B16B_KITS_V453=Object.freeze({
+ Azir:{R:BS('cone_enemy',750,100,[120,105,90],[150,225,300],{apRatio:.6,arc:100,m44B16BId:'Azir.R'})},
+ Zed:{R:BS('target_enemy',625,0,[120,100,80],[100,175,250],{type:'physical',adRatio:1,m44B16BId:'Zed.R'})},
+ Ekko:{E:BS('move_point',450,40,[9,8.5,8,7.5,7],[50,75,100,125,150],{apRatio:.4,m44B16BId:'Ekko.E'})},
+ Rumble:{R:BS('line_enemy',1700,0,[130,105,80],[60,90,120],{apRatio:.4,width:320,m44B16BId:'Rumble.R'})},
+ Sylas:{E:BS('move_point',500,65,[13,12,11,10,9],[55,80,105,130,155],{apRatio:.4,m44B16BId:'Sylas.E'})},
+ Briar:{E:BS('self',0,0,[16,15,14,13,12],[75,110,145,180,215],{type:'physical',adRatio:.9,m44B16BId:'Briar.E'})},
+ Fiddlesticks:{E:BS('cone_enemy',850,40,[10,9,8,7,6],[70,105,140,175,210],{apRatio:.5,arc:85,m44B16BId:'Fiddlesticks.E'})},
+ Skarner:{E:BS('move_point',950,40,[22,20,18,16,14],[50,75,100,125,150],{type:'physical',adRatio:.7,m44B16BId:'Skarner.E'})},
+ Nocturne:{W:BS('self',0,50,[20,19,18,17,16],[],{m44B16BId:'Nocturne.W'})},
+ Pantheon:{R:BS('circle_enemy',3500,100,[180,165,150],[250,400,550],{apRatio:.8,radius:480,m44B16BId:'Pantheon.R'})},
+ Diana:{E:BS('target_enemy',825,40,[22,20,18,16,14],[50,80,110,140,170],{apRatio:.5,m44B16BId:'Diana.E'})},
+ Bard:{E:BS('move_point',900,30,[18,17,16,15,14],[],{m44B16BId:'Bard.E'})}
+});
+
 // M44 B16A: 14 explicit original tactical identities, partial kits only.
 // The source's executor is shared automatically by Sylas and possessed Viego.
 export const M44_B16A_KITS_V453=Object.freeze({
@@ -1583,7 +1599,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4349,6 +4365,8 @@ const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViC
   if(s.m44B14Id==='Leblanc.R'&&u.m44B14LastBasicSlot!=='W')
    return {ok:false,reason:'m44_b14_mimic_requires_w'};
   // B14: reject Oathsworn mismatches and empty ammo BEFORE the one-time debit.
+  if(s.m44B16BId==='Bard.E'&&(!point||!this.obstacleLine(u,point)))
+   return {ok:false,reason:'m44_b16_bard_needs_wall'};
   if(s.m44B15AId==='Azir.E'&&
     !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
      e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&point&&
@@ -4811,6 +4829,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
+  if(s.m44B16BId==='Bard.E'&&(!q.point||!this.obstacleLine(u,q.point)))
+   return {ok:false,reason:'m44_b16_bard_wall_lost_before_commit'};
   if(s.m44B15AId==='Azir.E'&&
     !(this.boardSummonsV453Dev69||[]).some(e=>e.kind==='azir_soldier'&&
      e.ownerId===u.id&&e.hp>0&&e.until>this.gameTime&&q.point&&
@@ -5730,7 +5750,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
     !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker&&
     !s.m44B13Id&&!s.m44B13BId&&!s.m44B14Id&&
-     !s.m44B15AId&&!s.m44B15BId){
+     !s.m44B15AId&&!s.m44B15BId&&!s.m44B16BId){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
@@ -5778,7 +5798,160 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-      // B16A ORIGINAL executable identities. No generic adapters or copied code.
+      // B16B — original source effects; copied Sylas/Viego invocations share this.
+  if(s.m44B16BId){
+   const key=s.m44B16BId,now=this.gameTime,aim=q.point||target||u;
+   const foes=(origin,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(origin,v)<=r&&!this.obstacleLine(origin,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const hit=(v,ratio=1,type=s.type||'magic')=>
+    this.damage(v,power(s.damage)*ratio,u,type,'spell');
+   const shift=(to,throughWall=false)=>{
+    if(!to||to.x<0||to.x>1||to.y<0||to.y>1||
+     !this.walkable(to.x,to.y)||(!throughWall&&this.obstacleLine(u,to))||
+     (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,to)))return false;
+    const start={x:u.x,y:u.y};u.x=to.x;u.y=to.y;
+    u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,start,to,{kind:'m44_b16_'+key});
+    return true;
+   };
+   const cone=(angle,radius)=>foes(u,radius).filter(v=>{
+    const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight,
+     x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+     divisor=Math.max(1,Math.hypot(dx,dy)*Math.hypot(x,y));
+    return dx*x+dy*y>0&&(dx*x+dy*y)/divisor>=Math.cos(angle*Math.PI/360);
+   });
+   switch(key){
+    case 'Azir.R':{
+     let pushed=0,hits=0;
+     for(const v of cone(100,750)){if(hit(v)>0)hits++;
+      if(!v.champ||v.hp<=0)continue;
+      const len=Math.max(1,this.mapDistance(u,v)),start={x:v.x,y:v.y},
+       dest={x:v.x+(v.x-u.x)*250/len,y:v.y+(v.y-u.y)*250/len};
+      if(!this.walkable(dest.x,dest.y)||this.obstacleLine(v,dest))continue;
+      v.x=dest.x;v.y=dest.y;v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(v);
+      this.itemEnergizeRelocateV453Dev39(v,start,dest,{kind:'azir_r_push'});
+      pushed++;
+     }
+     u.m44B16AzirWall={until:now+4,point:{x:aim.x,y:aim.y}};
+     return {...committed,emperorsDivide:true,pushed,hits,wallCollisionCertified:false};
+    }
+    case 'Zed.R':{
+     if(!target)return {...committed,deathMark:false};
+     const landing={x:target.x+(target.x-u.x)*.18,y:target.y+(target.y-u.y)*.18};
+     if(!shift(landing))return {...committed,deathMark:false};
+     (target.m44B16DeathMark??={})[u.id]={
+      until:now+3,base:power(s.damage),accumulated:0};
+     return {...committed,deathMark:true,markedId:target.id};
+    }
+    case 'Ekko.E':{
+     if(!shift(aim))return {...committed,phaseDive:false};
+     u.boardNextBasicV453Dev69={until:now+5,charges:1,total:1,
+      base:power(s.damage),apRatio:.4,sourceSlot:'E'};
+     return {...committed,phaseDive:true,empoweredNextBasic:true};
+    }
+    case 'Rumble.R':{
+     const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy)),distance=Math.min(1700,len),
+      centers=Array.from({length:5},(_,i)=>({
+       x:u.x+dx/len*(i+1)*distance/5/this.worldWidth,
+       y:u.y+dy/len*(i+1)*distance/5/this.worldHeight}));
+     u.m44B16Equalizer={until:now+4,nextAt:now+1,
+      centers,power:power(s.damage)*.45};
+     let hits=0;
+     for(const v of foes(u,distance))if(centers.some(p=>
+      this.mapDistance(p,v)<=210))if(hit(v)>0)hits++;
+     return {...committed,equalizer:true,segments:centers.length,hits};
+    }
+    case 'Sylas.E':{
+     if(!shift(aim))return {...committed,abscondAbduct:false};
+     const victim=foes(u,350).find(v=>v.champ);
+     if(victim){
+      const blocked=this.effectResolverV41().has(victim,'spell_shield');
+      hit(victim);
+      if(victim.hp>0&&!blocked)this.applyEffectV41(victim,'stun',{
+       source:u,duration:.6,key:'m44_b16_sylas_'+instance});
+     }
+     return {...committed,abscondAbduct:true,chainHit:victim?.id||null};
+    }
+    case 'Briar.E':{
+     const facing=u.m28FacingV453||{x:1,y:0},victims=foes(u,550).filter(v=>{
+      const x=(v.x-u.x)*this.worldWidth,y=(v.y-u.y)*this.worldHeight,
+       len=Math.max(1,Math.hypot(x,y));
+      return (x*facing.x+y*facing.y)/len>=.5;
+     });
+     let pushed=0;
+     for(const v of victims){hit(v,1,'physical');
+      if(!v.champ||v.hp<=0)continue;
+      const dist=Math.max(1,this.mapDistance(u,v)),from={x:v.x,y:v.y},
+       to={x:v.x+(v.x-u.x)*160/dist,y:v.y+(v.y-u.y)*160/dist};
+      if(this.walkable(to.x,to.y)&&!this.obstacleLine(v,to)){
+       v.x=to.x;v.y=to.y;v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+       this.invalidateShopUndoOnDepartureV453Dev61(v);
+       this.itemEnergizeRelocateV453Dev39(v,from,to,{kind:'briar_e_push'});pushed++;
+      }else this.applyEffectV41(v,'stun',{source:u,duration:1,
+       key:'m44_b16_briar_wall_'+instance});
+     }
+     return {...committed,chillingScream:true,pushed};
+    }
+    case 'Fiddlesticks.E':{
+     const victims=cone(85,850);let silenced=0;
+     for(const v of victims){
+      const blocked=this.effectResolverV41().has(v,'spell_shield');hit(v);
+      if(v.champ&&v.hp>0&&!blocked&&this.mapDistance(u,v)>210){
+       this.applyEffectV41(v,'silence',{source:u,duration:1.25,
+        key:'m44_b16_fiddle_reap_'+instance});silenced++;}
+     }
+     return {...committed,reap:true,silenced,hits:victims.length};
+    }
+    case 'Skarner.E':{
+     const victims=skillshotHitsV42(u,aim,foes(u,950),{
+      range:950,width:240,maxHits:1,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+     const first=victims.find(v=>v.champ),end=first?
+      {x:first.x-(first.x-u.x)*.08,y:first.y-(first.y-u.y)*.08}:aim;
+     if(!shift(end))return {...committed,ixtalsImpact:false};
+     if(first){hit(first,1,'physical');
+      if(first.hp>0)this.applyEffectV41(first,'stun',{source:u,
+       duration:.75,key:'m44_b16_skarner_'+instance});}
+     return {...committed,ixtalsImpact:true,collided:first?.id||null};
+    }
+    case 'Nocturne.W':{
+     this.applyEffectV41(u,'spell_shield',{source:u,duration:2,
+      key:'m44_b16_shroud_'+instance});
+     u.m44B16ShroudUntil=now+2;
+     return {...committed,shroudOfDarkness:true};
+    }
+    case 'Pantheon.R':{
+     u.m44B16GrandStarfall={at:now+1,point:{x:aim.x,y:aim.y},
+      power:power(s.damage),radius:480,sourceId:u.id};
+     return {...committed,grandStarfall:true,landingAt:now+1};
+    }
+    case 'Diana.E':{
+     if(!target)return {...committed,lunarRush:false};
+     const before={x:u.x,y:u.y},landing={
+      x:target.x-(target.x-u.x)*.09,y:target.y-(target.y-u.y)*.09};
+     if(!shift(landing))return {...committed,lunarRush:false};
+     const marked=target.m44B15DianaMoonlight?.[u.id]>now;
+     hit(target);
+     if(marked){delete target.m44B15DianaMoonlight[u.id];
+      u.skillCds.E=now;}
+     return {...committed,lunarRush:true,reset:marked,from:before};
+    }
+    case 'Bard.E':{
+     if(!this.obstacleLine(u,aim)||!shift(aim,true))
+      return {...committed,magicalJourney:false};
+     u.m44B16PortalArrival={until:now+2,point:{x:aim.x,y:aim.y}};
+     return {...committed,magicalJourney:true,throughTerrain:true};
+    }
+    default:return {ok:false,reason:'m44_b16b_unhandled'};
+   }
+  }
+
+  // B16A ORIGINAL executable identities. No generic adapters or copied code.
   if(s.m44B16AId){
    const id=s.m44B16AId,now=this.gameTime,aim=q.point||target||u;
    const foes=(center,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
@@ -10185,6 +10358,48 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       until:this.gameTime+3,nextAt:this.gameTime+1,power:mark.power};
     }
    }
+  // B16B turn-based damage/landing state: deterministic and checkpointable.
+  for(const owner of this.units.filter(v=>v.hp>0)){
+   const rain=owner.m44B16Equalizer;
+   if(rain&&rain.until>=this.gameTime&&rain.nextAt<=this.gameTime){
+    rain.nextAt=this.gameTime+1;
+    for(const target of this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+     v.hp>0&&this.sameCombatRealmV453Dev69(owner,v)&&
+     rain.centers.some(p=>this.mapDistance(p,v)<=210&&!this.obstacleLine(p,v)))){
+     this.damage(target,rain.power,owner,'magic','spell');
+     if(target.champ&&target.hp>0)this.applyEffectV41(target,'slow',{
+      source:owner,duration:1,power:.25,key:'m44_b16_equalizer_'+owner.id});
+    }
+   }
+   const landing=owner.m44B16GrandStarfall;
+   if(landing&&landing.at<=this.gameTime){
+    owner.m44B16GrandStarfall=null;
+    if(this.walkable(landing.point.x,landing.point.y)&&
+     !this.obstacleLine(owner,landing.point)&&
+     (!this.realmOfV453Dev69(owner)||
+      this.realmValidV453Dev69(owner,landing.point))){
+     const start={x:owner.x,y:owner.y};
+     owner.x=landing.point.x;owner.y=landing.point.y;
+     owner.path=[];owner.laneFollowPath=[];owner.retreatPath=[];
+     this.invalidateShopUndoOnDepartureV453Dev61(owner);
+     this.itemEnergizeRelocateV453Dev39(owner,start,landing.point,{
+      kind:'m44_b16_pantheon_r'});
+     for(const target of this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+      v.hp>0&&this.sameCombatRealmV453Dev69(owner,v)&&
+      this.mapDistance(landing.point,v)<=landing.radius&&
+      !this.obstacleLine(landing.point,v)))
+      this.damage(target,landing.power,owner,'magic','spell');
+    }
+   }
+  }
+  for(const victim of [...this.units,...this.minions])
+   for(const [sourceId,mark] of Object.entries(victim.m44B16DeathMark||{})){
+    if(mark.until>this.gameTime||victim.hp<=0)continue;
+    delete victim.m44B16DeathMark[sourceId];
+    const owner=this.units.find(v=>v.id===sourceId&&v.team!==victim.team);
+    if(owner&&this.sameCombatRealmV453Dev69(owner,victim))
+     this.damage(victim,mark.base+mark.accumulated*.35,owner,'physical','spell');
+   }
   for(const ekko of this.units.filter(u=>u.champ==='Ekko'&&u.hp>0)){
    const history=ekko.m44B13History??=[];
    if(!history.length||history[history.length-1].at<this.gameTime)
@@ -14073,6 +14288,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    final+=target.m44B15LeblancSigil[attacker.id].stored;
    delete target.m44B15LeblancSigil[attacker.id];
   }
+  // The original Zed R ledger belongs to the real actor, including stolen R.
+  if(attacker&&attacker.team!==target.team&&
+   (sourceType==='spell'||sourceType==='basic')&&
+   target.m44B16DeathMark?.[attacker.id]?.until>this.gameTime)
+   target.m44B16DeathMark[attacker.id].accumulated+=final;
   if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
  // separately: deliberately scoped to the primary basic hit.
