@@ -1,0 +1,16 @@
+PASS A17 STATIC 01 Rust crate is a standalone cdylib/rlib with no external crates
+PASS A17 STATIC 02 exactly two authenticated seats and five original role names
+PASS A17 STATIC 03 room credential fields and grant fields not public
+PASS A17 STATIC 04 requestId and admission preflight before clone or mutation
+PASS A17 STATIC 05 original request body, ready, canonical payload and response typed
+PASS A17 STATIC 06 unsupported and invalid operations refuse entire batch
+PASS A17 STATIC 07 own-team projection discards opposite seat queued actions
+PASS A17 STATIC 08 event producer whitelist drops unknown and unclassified private events
+PASS A17 STATIC 09 cursor includes epoch and authorized seat and committed-like revision placeholder
+PASS A17 STATIC 10 raw session tokens and internal events not printed by RoomProtocol Debug
+PASS A17 STATIC 11 event injection helper exists only for Rust unit tests
+PASS A17 STATIC 12 Rust source bracket/string/comment scanner structurally balanced
+PASS A17 STATIC 13 Rust tests are present with unique symbols
+PASS A17 STATIC 14 no unsafe Rust, unchecked panics or network operations in production section
+M45 A17 14/14 Node static guards PASS; Rust compile/test NOT_RUN (toolchain absent)
+RUST_NOT_RUN: cargo is not installed in this environment

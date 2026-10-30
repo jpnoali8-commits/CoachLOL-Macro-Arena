@@ -1,0 +1,14 @@
+[package]
+name = "coachlol-core-protocol"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+description = "M45 A17 isolated typed PvP protocol prototype; not an authoritative game server"
+
+[lib]
+name = "coachlol_core_protocol"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+# Dependency-free. The coordinator may integrate with core-state after review.

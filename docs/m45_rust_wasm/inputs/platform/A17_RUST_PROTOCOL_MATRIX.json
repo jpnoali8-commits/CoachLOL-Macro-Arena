@@ -1,0 +1,285 @@
+{
+  "schema": "coachlol.m45.platform.a17.rust-protocol-v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-platform",
+  "workspace_policy": "standalone isolated Rust crate; coordinator workspace untouched",
+  "provenance": {
+    "integration_read_only": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "platform_parent": "4170cd60a9ff310964144b492554b4ddc79fab49",
+    "rust_head_observed": "94e22180623ca20477165221e9e9251ff508c1e8",
+    "file_git_blobs": {
+      "crates/core-protocol/Cargo.toml": "f9ac24234d515e3314aa2443371955a22a0ffcd6",
+      "crates/core-protocol/src/lib.rs": "8400618b2264863fb95609ab533ce04475e5c451",
+      "crates/core-protocol/README.md": "8ab5ecf9b3df0006ddc71f2df6e1ecf024479fb0",
+      "tests/m45_platform_a17_rust_static_audit.test.mjs": "31ab8a01dcac18161dccb18273aa2314ac0e27e3",
+      "tools/m45_platform_a17_rust_qa.sh": "d6987e5dc11d585ab6ee8481154a8b5bebf7384e"
+    }
+  },
+  "execution": {
+    "node_static_guardrails": {
+      "status": "PASS_EXECUTED",
+      "passed": 14,
+      "total": 14,
+      "runtime": "Node v22.16.0"
+    },
+    "rust_unit_tests": {
+      "status": "NOT_RUN_NO_RUSTC_CARGO",
+      "defined": 36,
+      "passed": null
+    },
+    "rust_fmt": "NOT_RUN_NO_CARGO",
+    "rust_clippy": "NOT_RUN_NO_CARGO",
+    "rust_native_build": "NOT_RUN_NO_CARGO",
+    "rust_wasm_build": "NOT_RUN_NO_TOOLCHAIN",
+    "github_actions": "NOT_USED"
+  },
+  "protocol_features": [
+    "two server-derived seats, blue/red, five roles per seat",
+    "epoch-bound seat grants",
+    "immutable idempotent receipts keyed by seat, round, request_id",
+    "full-batch preflight without silent fallback",
+    "in-memory staged request proposal",
+    "per-seat ready fence and two-seat sealing",
+    "per-seat snapshot and typed event DTO default-deny",
+    "room epoch + seat + revision SSE cursor",
+    "restricted input and role validation"
+  ],
+  "explicitly_absent": [
+    "authoritative LoL simulation",
+    "full catalog skill/item/ward/jungle commands",
+    "PT-BR command parser and microphone",
+    "serialized HTTP/JSON APIs or cookie/session issuance",
+    "durable transaction or WAL",
+    "actual socket SSE resync, backpressure or streaming",
+    "fog of war and visibility projection of real Arena",
+    "real WebAssembly bindings or browser interaction",
+    "automated compilation (toolchain missing)"
+  ],
+  "integration_priority": [
+    {
+      "id": "A17-I01",
+      "work": "Review crate, add core-protocol to coordinator workspace; run fmt/test/clippy offline; fix compiler errors if any",
+      "gate": "REQUIRED_BEFORE_PASS"
+    },
+    {
+      "id": "A17-I02",
+      "work": "Bind secure session from game-server, no raw client-declared team",
+      "gate": "G3"
+    },
+    {
+      "id": "A17-I03",
+      "work": "Apply validated intents to full Rust Arena staged world and persist atomically before ACK/SSE",
+      "gate": "G2_G3"
+    },
+    {
+      "id": "A17-I04",
+      "work": "Extend typed intents to every implemented champion passive/QWER and item, zero generic fallback",
+      "gate": "G5_G6"
+    },
+    {
+      "id": "A17-I05",
+      "work": "Serialize per-seat VisibleEvent DTO from real fog engine, not generic event JSON",
+      "gate": "G3"
+    },
+    {
+      "id": "A17-I06",
+      "work": "Build Rust target wasm32-unknown-unknown and native game server with real HTTP/SSE 2 sessions",
+      "gate": "G1_G4_G7"
+    },
+    {
+      "id": "A17-I07",
+      "work": "Execute migration goldens A02-A16 on real original/Rust transport and full-match PvP",
+      "gate": "G8"
+    }
+  ],
+  "unit_test_cases": [
+    {
+      "id": "A17-RUST-01",
+      "name": "credentials_must_be_distinct_and_nontrivial",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-02",
+      "name": "debug_representation_redacts_credentials_and_details",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-03",
+      "name": "invalid_session_is_denied",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-04",
+      "name": "two_seats_five_roles",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-05",
+      "name": "private_grant_bound_to_epoch",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-06",
+      "name": "preview_initial_snapshot_has_only_self_and_cursor",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-07",
+      "name": "empty_and_long_batch_are_rejected_without_mutation",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-08",
+      "name": "staged_acceptance_does_not_modify_live_room",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-09",
+      "name": "failed_staging_keeps_live_room_unchanged",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-10",
+      "name": "staged_ready_does_not_seal_published_state",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-11",
+      "name": "malformed_request_ids_fail_closed",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-12",
+      "name": "invalid_coordinates_rollback_complete_batch",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-13",
+      "name": "unsupported_action_rejected_without_fallback",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-14",
+      "name": "smite_policy_requires_jungle_role",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-15",
+      "name": "valid_move_boundaries",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-16",
+      "name": "typed_five_champion_batch_has_one_revision",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-17",
+      "name": "red_team_sees_no_blue_orders",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-18",
+      "name": "both_players_have_independent_queues",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-19",
+      "name": "stale_revision_fails_without_side_effect",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-20",
+      "name": "idempotent_request_replays_exact_receipt",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-21",
+      "name": "changed_payload_with_same_request_id_rejected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-22",
+      "name": "different_seats_can_use_same_request_id",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-23",
+      "name": "first_ready_blocks_own_edits_but_not_red",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-24",
+      "name": "second_ready_seals_once",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-25",
+      "name": "duplicate_ready_after_seal_returns_original_receipt",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-26",
+      "name": "request_id_conflict_after_seal_is_rejected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-27",
+      "name": "old_receipt_replays_even_after_next_round",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-28",
+      "name": "next_round_resets_ready_and_own_orders",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-29",
+      "name": "cannot_advance_without_both_ready",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-30",
+      "name": "unknown_events_and_details_are_never_projected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-31",
+      "name": "red_private_events_do_not_appear_on_blue",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-32",
+      "name": "public_known_events_redact_details",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-33",
+      "name": "stolen_cursor_does_not_change_authorized_team",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-34",
+      "name": "clone_restore_keeps_receipts_and_revision",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-35",
+      "name": "wrong_round_rejected_without_mutation",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A17-RUST-36",
+      "name": "batch_operation_order_preserved",
+      "status": "DEFINED_NOT_EXECUTED"
+    }
+  ],
+  "red_flags": [
+    "Demo credential strings are unencrypted in room memory; NOT production authentication",
+    "In-memory submit and clone restore are NOT durable transactions",
+    "SseCursor is not an authorization token",
+    "No supported skill/item executor; typed intents only queue protocol data",
+    "No cargo/rustc in present runtime; static guards cannot certify Rust syntax/types",
+    "No mutations to coordinator Rust branch or original integration"
+  ]
+}
