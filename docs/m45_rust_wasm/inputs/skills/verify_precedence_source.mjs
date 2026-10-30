@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Deterministic source-only S04 QA. This NEVER labels PvP gameplay or Rust as PASS. */
+/* Deterministic source-only S04/S05 QA. This NEVER labels PvP gameplay or Rust as PASS. */
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -14,7 +14,11 @@ const plan=JSON.parse(readFileSync(resolve(here,'golden_plan.json'),'utf8'));
 assert.equal(gitBlob(source),'41679f7328a42e379fdfb8de5b92006e1bfb529f');
 assert.equal(matrix.meta.source_commit,'f0b1147ac46e585a1d5374a178b1ea462f5dc278');
 assert.equal(matrix.rows.length,865);assert.equal(new Set(matrix.rows.map(r=>r.feature_id)).size,865);
-assert.equal(matrix.rows.filter(r=>r.variants.length>1).length,27);
+assert.equal(matrix.stats.registry_duplicate_slots_s04,27);
+assert.equal(matrix.rows.filter(r=>r.variants.length>1).length,50);
+assert.equal(matrix.stats.s05_new_v42_entries,5);
+assert.equal(matrix.stats.s05_routing_handlers,25);
+assert.equal(matrix.stats.s05_promoted_from_reference_or_absent,22);
 assert.equal(matrix.stats.synthetic_scan_duplicates_removed,29);
 assert.deepEqual(audit.counts,{source_matrix_overlap_slots:56,synthetic_duplicates:29,
  form_conditional:16,v42_overlap:10,v382_overlap:1,other_active:0});
@@ -36,10 +40,22 @@ for(const c of audit.cases){
  if(c.category==='STATIC_SCAN_DUPLICATE')assert.equal(row.variants.length,1,c.feature_id);
  else assert.ok(row.variants.length>=2,c.feature_id);
 }
-assert.equal(plan.suites.length,11);
+const routes=JSON.parse(readFileSync(resolve(here,'S05_V42_HANDLER_RECONCILIATION.json'),'utf8'));
+assert.equal(routes.corrected_v42_registry.entries.length,35);
+assert.equal(routes.handler_candidates.entries.length,25);
+for(const entry of routes.corrected_v42_registry.entries){
+ const row=matrix.rows.find(r=>r.feature_id===entry.feature_id);
+ assert.ok(row.variants.some(v=>v.symbol===entry.catalog_symbol),entry.feature_id);
+}
+for(const entry of routes.handler_candidates.entries){
+ const row=matrix.rows.find(r=>r.feature_id===entry.feature_id);
+ assert.ok(row.variants.some(v=>v.marker_references?.[0]===entry.source_symbols[0]),entry.feature_id);
+ for(const symbol of entry.source_symbols)assert.ok(src.includes(symbol+'('),symbol);
+}
+assert.equal(plan.suites.length,19);
 for(const t of plan.suites){
  assert.equal(gitBlob(readFileSync(resolve(root,t.test_path))),t.test_git_blob_sha,
   'fixture provenance '+t.id);
 }
-console.log('M45_SKILLS_S04_STATIC_PASS slots=865 historical_overlaps=56 synthetic=29 live_multivariants=27 pinned_suites=11');
+console.log('M45_SKILLS_S05_STATIC_PASS slots=865 historical_overlaps=56 synthetic=29 original_registry_multivariants=27 total_source_evidence_multivariants=50 pinned_suites=19');
 console.log('NOTE: verifies provenance/precedence descriptors only; executable blue/red golden and Rust are NOT_RUN.');
