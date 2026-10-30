@@ -175,9 +175,26 @@ for(const team of ['blue','red']){
   return f;
  });
 }
+for(const team of ['blue','red'])scenario(team,'Viego',
+ 'Sylas original Viego R never grants donor Viego passive',()=>{
+  const f=make(team,'Sylas','Viego'),{a,u,enemy,enemyTop,cast}=f;
+  enemyTop.x=.53;enemyTop.hp=100;enemyTop.maxHp=10000;
+  assert.equal(a.queueSylasHijackV453M14(team,u.id,enemy.id).ok,true);
+  a.resolveSylasHijacksV453M14();
+  assert.equal(u.sylasStolenV453M14?.sourceChamp,'Viego');
+  const r=cast(u,team,'R',{point:{x:enemyTop.x,y:enemyTop.y}});
+  assert.equal(r.heartbreaker,true);
+  assert.equal(enemyTop.hp,0,'R kills under Sylas actor credit');
+  assert.equal(u.champ,'Sylas');
+  assert.equal(u.m44B14DBorrowedBaseChamp,undefined);
+  assert.equal((u.m44B14CSouls||[]).length,0,
+   'Viego P souls do not leak to the Sylas who stole only R');
+  assert.ok(u.kills>=1,'kills attributed to real Sylas owner');
+  return f;
+ });
 for(const failure of failures)console.error('M44_B14D_COPY_FAIL',JSON.stringify(failure));
 console.log('M44_B14D_COPY '+JSON.stringify({passed,snapshots,
  failures:failures.length,sylasOriginalUltimates:champions.length,
  viegoSourceChampions:sources.length,
  completePqwerKitsCertified:0}));
-assert.equal(failures.length,0);assert.equal(passed,76);
+assert.equal(failures.length,0);assert.equal(passed,78);
