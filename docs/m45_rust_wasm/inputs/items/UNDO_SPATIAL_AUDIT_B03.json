@@ -1,0 +1,211 @@
+{
+  "schema": "coachlol.m45.items.undo_spatial_audit.b03.v1",
+  "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+  "source_engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+  "focus": "Any direct champion x/y change, fountain departure or return must invalidate undo history exactly once per departed visit.",
+  "evidence": "Static assignment scan of candidate actor variables; proximity (six lines) is NOT a control flow proof.",
+  "totals": {
+    "candidate_assignments": 15,
+    "same_line": 12,
+    "nearby": 1,
+    "not_within_6_lines": 2
+  },
+  "sites": [
+    {
+      "source_line": 1118,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "activateBlastConeV452d4",
+      "guard_proximity": "same_line",
+      "code": "for(const {unit:u,point} of targets){u.x=point.x;u.y=point.y;this.invalidateShopUndoOnDepartureV453Dev61(u);u.laneFollowPath=[];u.retreatPath=[];u.path=[];if(u.order)delete u.order.path;if(u.plan?.steps)for(const step of u.plan.steps)step.path=[];}"
+    },
+    {
+      "source_line": 1259,
+      "variables": [
+        "actor"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "advanceRiftHexgatesV452d4",
+      "guard_proximity": "same_line",
+      "code": "actor.x=dest.x;actor.y=dest.y;this.invalidateShopUndoOnDepartureV453Dev61(actor);actor.laneFollowPath=[];actor.retreatPath=[];actor.path=[];"
+    },
+    {
+      "source_line": 1284,
+      "variables": [
+        "obj"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "activateRiftV452d4",
+      "guard_proximity": "same_line",
+      "code": "const safe=this.nearestRiftLandingV452d4(obj,0,.012);if(safe){obj.x=safe.x;obj.y=safe.y;this.invalidateShopUndoOnDepartureV453Dev61(obj);}"
+    },
+    {
+      "source_line": 2325,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "castEscape",
+      "guard_proximity": "same_line",
+      "code": "u.x=destination.x;u.y=destination.y;this.invalidateShopUndoOnDepartureV453Dev61(u);"
+    },
+    {
+      "source_line": 2400,
+      "variables": [
+        "target"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "pushChampionThroughTerrain",
+      "guard_proximity": "same_line",
+      "code": "target.x=end.x;target.y=end.y;this.invalidateShopUndoOnDepartureV453Dev61(target);"
+    },
+    {
+      "source_line": 2582,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "advanceVexShadowDashV453Dev69",
+      "guard_proximity": "nearby",
+      "code": "u.x=destination.x;u.y=destination.y;"
+    },
+    {
+      "source_line": 2779,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "resolveSummonerCasts",
+      "guard_proximity": "same_line",
+      "code": "if(q.type==='tp'){const tower=this.structures.filter(t=>t.team===u.team&&t.alive&&t.type==='tower').sort((a,b)=>this.mapDistance(u,b)-this.mapDistance(u,a))[0];if(!tower)continue;let p=null;for(const r of [.018,.025,.035,.05]){for(let n=0;n<16;n++){const a=n*Math.PI/8,candidate={x:tower.x+"
+    },
+    {
+      "source_line": 3736,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "deployToLane",
+      "guard_proximity": "same_line",
+      "code": "u.x=target.x;u.y=target.y;this.invalidateShopUndoOnDepartureV453Dev61(u);"
+    },
+    {
+      "source_line": 4099,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "moveAlong",
+      "guard_proximity": "same_line",
+      "code": "u.x=next.x;u.y=next.y;this.invalidateShopUndoOnDepartureV453Dev61(u);remaining-=step;moved+=step;"
+    },
+    {
+      "source_line": 4253,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "reviveAndMove",
+      "guard_proximity": "not_within_6_lines",
+      "code": "if(u.hp<=0){if(this.gameTime>=u.deadUntil){const p=this.map.objects.find(o=>o.id===u.team+'_spawn_shop');u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.skillCd=0;u.recallProgress=0;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u.wardCharges,u.supportQue"
+    },
+    {
+      "source_line": 4289,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "reviveAndMove",
+      "guard_proximity": "not_within_6_lines",
+      "code": "if(u.recallProgress>=(this.hasBaronV452(u)?4:8)){u.x=p.x;u.y=p.y;u.hp=u.maxHp;u.mana=u.maxMana;u.recallProgress=0;u.order={kind:'auto',spell:'none'};u.explicitOrder=false;u.plan=null;u.manualMoveHold=false;u.awaitingShop=true;if(u.role==='SUP'&&u.supportQuest>=400)u.wardCharges=Math.max(u."
+    },
+    {
+      "source_line": 4324,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "unknown",
+      "guard_proximity": "same_line",
+      "code": "if(o.kind==='flash'&&u.lastFlashRound!==this.round){const to=o.destination;if(to&&u.flashCd<=this.gameTime&&dist(u,to)<=.090&&this.performActionV40({actorId:u.id,kind:'flash',point:to,source:'order'}).ok){u.x=to.x;u.y=to.y;this.invalidateShopUndoOnDepartureV453Dev61(u);u.lastFlashRound=thi"
+    },
+    {
+      "source_line": 5603,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "castChampionOnHitV453Dev41",
+      "guard_proximity": "same_line",
+      "code": "u.x=landing.x;u.y=landing.y;this.invalidateShopUndoOnDepartureV453Dev61(u);"
+    },
+    {
+      "source_line": 5676,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "resolveQueuedCombos",
+      "guard_proximity": "same_line",
+      "code": "u.x=spot.x;u.y=spot.y;this.invalidateShopUndoOnDepartureV453Dev61(u);"
+    },
+    {
+      "source_line": 5922,
+      "variables": [
+        "u"
+      ],
+      "coordinates": [
+        "x",
+        "y"
+      ],
+      "method_candidate": "unknown",
+      "guard_proximity": "same_line",
+      "code": "if(this.walkable(goal.x,goal.y)&&dist(goal,candidate)<=u.range*.93){u.x=goal.x;u.y=goal.y;this.invalidateShopUndoOnDepartureV453Dev61(u);}"
+    }
+  ],
+  "risk": "Candidate sites require real movement sequence tests and remote gateway replay; not all are champion movement. A missing nearby guard is not a proven exploit."
+}
