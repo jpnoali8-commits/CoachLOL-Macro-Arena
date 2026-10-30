@@ -1016,6 +1016,16 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B14B: tactical verse selection and owner-timed zones. Partial kits only.
+export const M44_B14B_KITS_V453=Object.freeze({
+ Hwei:{
+  Q:BS('line_enemy',1650,80,[9,8,7,6,5],[70,100,130,160,190],{m44B14BId:'Hwei.Q',width:210}),
+  W:BS('self',0,85,[18,17,16,15,14],[],{m44B14BId:'Hwei.W'})},
+ Ekko:{W:BS('circle_enemy',1600,30,[22,20,18,16,14],[],{m44B14BId:'Ekko.W',radius:350})},
+ Bard:{W:BS('target_ally',800,70,[18,17,16,15,14],[],{m44B14BId:'Bard.W'})},
+ AurelionSol:{Q:BS('line_enemy',750,0,3,[45,65,85,105,125],{m44B14BId:'AurelionSol.Q',width:255})}
+});
+
 // M44 B14A: explicit authored skills, NOT a complete roster certification.
 export const M44_B14A_KITS_V453=Object.freeze({
  Azir:{Q:BS('line_enemy',1100,70,[14,12,10,8,6],[50,75,100,125,150],{m44B14Id:'Azir.Q',width:190})},
@@ -1509,7 +1519,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14A_KITS_V453[u.champ]?.[slot]||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[u.champ]?.[slot]||M44_B14A_KITS_V453[u.champ]?.[slot]||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -3925,7 +3935,7 @@ export class Arena {
     String(a.id).localeCompare(String(b.id)))[0];
   return minion?{kind:'minion',entity:minion}:null;
  }
- queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null}={}){
+ queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null,m44B14Variant=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(!u||!s||s.passiveOnly||u.m24DevouredByV453?.until>this.gameTime||
      (u.m24FizzLeapV453?.until>this.gameTime&&slot!=='E')||
@@ -4151,7 +4161,14 @@ export class Arena {
    return {ok:false,reason:'m28_turret_stock'};
   if(s.m29MilioTwoE&&(u.m29MilioEStock?.charges??2)<1)
    return {ok:false,reason:'m29_milio_no_charges'};
-  const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot||s.m44B08PykeCharge;
+  if(s.m44B14BId==='Hwei.Q'&&!['QQ','QW','QE'].includes(m44B14Variant||'QQ'))
+   return {ok:false,reason:'m44_b14_hwei_q_variant'};
+  if(s.m44B14BId==='Hwei.W'&&!['WQ','WW','WE'].includes(m44B14Variant||'WW'))
+   return {ok:false,reason:'m44_b14_hwei_w_variant'};
+  if(m44B14Variant!==null&&!['Hwei.Q','Hwei.W'].includes(s.m44B14BId))
+   return {ok:false,reason:'m44_b14_variant_not_allowed'};
+
+const chargeable=s.m28XerathCharge||s.m28VarusCharge||s.m28GalioCharge||s.m29ViCharge||s.m29ZacSlingshot||s.m44B08PykeCharge;
   if(chargeSeconds!==null&&(!chargeable||!Number.isFinite(chargeSeconds)||
      chargeSeconds<0||chargeSeconds>2))
    return {ok:false,reason:'m28_charge_invalid'};
@@ -4274,7 +4291,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   u.pendingBoardV453Dev69={slot,stolenCast:!!hijacked,targetId:target?.id||null,
    point:aimed?{x:laserEnd?.x??point.x,y:laserEnd?.y??point.y}:null,
    ...(laserEnd?{m28LaserOrigin:{x:point.x,y:point.y}}:{}),
-   ...(chargeSeconds!==null?{m28ChargeSeconds:chargeSeconds}:{})};
+   ...(chargeSeconds!==null?{m28ChargeSeconds:chargeSeconds}:{}),
+   ...(m44B14Variant!==null?{m44B14Variant}:{})};
   this.recordIntentV40(team,id,'board_skill',{slot,
     ...(target?{targetId:target.id}:{}),
     ...(aimed?{point:u.pendingBoardV453Dev69.point}:{})});
@@ -4295,7 +4313,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -5623,7 +5641,78 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    amount=arr=>Array.isArray(arr)?Number(arr[Math.min(rank-1,arr.length-1)]||0):0,
    power=(value,ap=s.apRatio||0,ad=s.adRatio||0)=>Math.max(0,amount(value)+stats.ap*ap+stats.ad*ad);
   const instance=++this.championProjectileSeqV453Dev42;
-    // M44 B14A author-owned mechanics; no global fallback on these exact slots.
+      // M44 B14B — explicit Hwei sub-spells and temporal owner effects.
+  if(s.m44B14BId){
+   const now=this.gameTime,point=q.point||u,identity=s.m44B14BId;
+   const enemies=(p,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+    this.mapDistance(v,p)<=r&&!this.obstacleLine(p,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const zone=(variant,p,r,delay,duration,damage,extra={})=>{
+    const z={id:++this.boardTemporalIdV453Dev69,kind:'m44_b14b_zone',
+     variant,ownerId:u.id,team:u.team,point:{x:p.x,y:p.y},
+     radius:r,power:damage,nextAt:now+delay,until:now+duration,...extra};
+    (this.boardTemporalV453Dev69??=[]).push(z);return z.id;
+   };
+   switch(identity){
+    case 'Hwei.Q':{
+     const verse=q.m44B14Variant||'QQ';
+     if(verse==='QE')return {...committed,verse,moltenFissure:true,
+      zoneId:zone('hwei_qe',point,250,1,3,power(s.damage))};
+     if(verse==='QW'){
+      const victims=enemies(point,210);let hits=0;
+      for(const v of victims){
+       const bonus=victims.length===1?1.6:1;
+       if(this.damage(v,power(s.damage)*bonus+
+         Math.max(0,v.maxHp-v.hp)*.06,u,'magic','spell')>0)hits++;
+      }
+      return {...committed,verse,severingBolt:true,hits};
+     }
+     const first=skillshotHitsV42(u,point,enemies(u,1650),{
+      range:1650,width:210,maxHits:1,
+      worldWidth:this.worldWidth,worldHeight:this.worldHeight})[0];
+     let hits=0;
+     for(const v of enemies(first||point,230))
+      if(this.damage(v,power(s.damage)+v.maxHp*.03,u,'magic','spell')>0)hits++;
+     return {...committed,verse,devastatingFireball:true,hits};
+    }
+    case 'Hwei.W':{
+     const verse=q.m44B14Variant||'WW';
+     if(verse==='WE'){
+      u.boardNextBasicV453Dev69={until:now+5,charges:3,total:3,
+       base:20+rank*14,adRatio:0,apRatio:.2,sourceSlot:'W'};
+      return {...committed,verse,stirringLights:true};
+     }
+     const allies=this.units.filter(v=>v.hp>0&&v.team===u.team&&
+      this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,u)<=650);
+     for(const ally of allies){
+      if(verse==='WQ')ally.boardSpeedV453Dev69={until:now+3,fraction:.2+rank*.02};
+      else this.applyEffectV41(ally,'shield',{source:u,duration:3,
+       power:45+rank*25+stats.ap*.3,
+       key:'m44_b14_hwei_ww_'+instance+'_'+ally.id});
+     }
+     return {...committed,verse,fleetingCurrent:verse==='WQ',
+      poolReflection:verse==='WW',allies:allies.length};
+    }
+    case 'Ekko.W':
+     return {...committed,parallelConvergence:true,
+      zoneId:zone('ekko_w',point,350,2,2.1,0)};
+    case 'Bard.W':
+     return {...committed,caretakersShrine:true,
+      zoneId:zone('bard_w',target,260,1,4,
+       45+rank*30+stats.ap*.35,{allyId:target.id})};
+    case 'AurelionSol.Q':{
+     const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy));
+     return {...committed,breathOfLight:true,
+      zoneId:zone('aurelion_q',u,750,1,3,power(s.damage),
+       {origin:{x:u.x,y:u.y},direction:{x:dx/len,y:dy/len}})};
+    }
+    default:return {ok:false,reason:'m44_b14b_unknown'};
+   }
+  }
+
+// M44 B14A author-owned mechanics; no global fallback on these exact slots.
   if(s.m44B14Id){
    const now=this.gameTime,aim=q.point||u,key=s.m44B14Id;
    const enemies=(origin,radius)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
@@ -7251,7 +7340,47 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m44_b13_zone'){
+         if(z.kind==='m44_b14b_zone'){
+      if(z.variant==='bard_w'){
+       const ally=this.units.find(v=>v.id===z.allyId&&v.hp>0&&v.team===u.team);
+       if(ally&&this.sameCombatRealmV453Dev69(u,ally)&&
+        this.mapDistance(ally,z.point)<=z.radius){
+        this.effectResolverV41().heal(ally,z.power,u);ended=true;
+       }
+       z.nextAt=now+1;
+      }else if(z.variant==='ekko_w'){
+       if(u.hp>0&&this.mapDistance(u,z.point)<=z.radius){
+        this.applyEffectV41(u,'shield',{source:u,duration:2,
+         power:110+30*(u.skillRanks.W||1),key:'m44_b14_ekko_shield_'+z.id});
+        for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+          v.champ&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+          this.mapDistance(v,z.point)<=z.radius&&!this.obstacleLine(z.point,v)))
+         if(!this.effectResolverV41().has(v,'spell_shield'))
+          this.applyEffectV41(v,'stun',{source:u,duration:1.6,
+           key:'m44_b14_ekko_stun_'+z.id+'_'+v.id});
+       }
+       ended=true;
+      }else{
+       if(z.variant==='aurelion_q'&&(!u.hp||
+         !this.effectResolverV41().canAct(u,'skill').ok||
+         this.mapDistance(u,z.origin)>60))ended=true;
+       if(!ended)for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+         v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+         this.mapDistance(v,z.point)<=z.radius&&!this.obstacleLine(z.point,v))){
+        if(z.variant==='aurelion_q'){
+         const dx=(v.x-u.x)*this.worldWidth,dy=(v.y-u.y)*this.worldHeight,
+          len=Math.max(1,Math.hypot(dx,dy));
+         if((dx*z.direction.x+dy*z.direction.y)/len<.78)continue;
+        }
+        const blocked=this.effectResolverV41().has(v,'spell_shield');
+        if(this.damage(v,z.power,u,'magic','spell')>0&&v.champ&&
+         z.variant==='hwei_qe'&&!blocked)
+         this.applyEffectV41(v,'slow',{source:u,duration:1.25,power:.25,
+          key:'m44_b14_hwei_qe_'+z.id+'_'+v.id});
+       }
+       z.nextAt=now+1;if(z.nextAt>z.until)ended=true;
+      }
+     }else if(z.kind==='m44_b13_zone'){
      if(z.variant==='fiddle_r'||z.variant==='diana_r')
       z.point={x:u.x,y:u.y};
      if(z.variant==='ryze_r'&&now>=z.castAt+2){
