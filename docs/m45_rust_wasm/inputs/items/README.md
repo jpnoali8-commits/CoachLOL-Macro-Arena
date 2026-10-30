@@ -84,3 +84,8 @@ Se algum teste falhar, registrar stdout/stderr, SHA, falha e *não* promover fix
 **Próxima prioridade elegível deste Chat 3:** ampliar mapeamento funcional por item e executar golden JS do lote, com QA de interações, fonte, casos anti-dupla-aplicação e PvP; iniciar portagem Rust somente após o contrato dos crates ter sido publicado pelo coordenador.
 
 **Rollback:** `git revert` dos commits desta branch de auditoria; sem reset, force push, merge ou cópia destrutiva de motor.
+
+## Lote 02 / B02B-ITEMS — continuação 2026-10-30
+Recibo canônico do segundo lote: [RECEIPT_B02B_ITEMS_02.md](RECEIPT_B02B_ITEMS_02.md). Artefatos: [SOURCE_METHOD_DIFF_B02.json](SOURCE_METHOD_DIFF_B02.json), [TEST_PROVENANCE_INDEX_B02.json](TEST_PROVENANCE_INDEX_B02.json), [STATIC_QA_B02.json](STATIC_QA_B02.json), [ECONOMY_INTERFACES_B02.json](ECONOMY_INTERFACES_B02.json) e [golden_b02_catalog.test.mjs](golden_b02_catalog.test.mjs).
+
+Este lote conferiu 122 preços e revendas + 89 receitas com o arquivo Riot arquivado e identificou 8 métodos Arena exclusivos e 8 compartilhados alterados. Catalogou 43 arquivos/458 labels de teste, mapeou 14 interfaces e preparou 244 golden cases azul/vermelho. **QA runtime permanece NOT_RUN**; não confundir comparação estática com execução do JS, PvP ou Rust.
