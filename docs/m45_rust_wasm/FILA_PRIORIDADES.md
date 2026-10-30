@@ -74,3 +74,9 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 - Execução ChatGPT Node: **30/30 PASS** em contrato/fonte JS isolada, 0 Rust/WASM nativo executado (EXIT 42). `m45_qa_evidence.mjs` passa a testar também `sourceSnapshot`, separadamente do `jsGolden` original.
 - Job GitHub de **push com gatilho único por path** `.github/workflows/m45-b02a5-one-shot.yml` solicitado neste commit; não roda em cada alteração/PR. Verificar se Actions habilitado e o run/recibo real antes de considerar G1, sem exigir instalação no PC do usuário.
 - Próximo sublote B02A: tratar feedback de execução remota (ou bloqueio de Actions); B02B continuar goldens integrais e reconciliação S04/I02/A03. **B03 ainda QUEUED.**
+
+### M45 B02A6 — diagnóstico GitHub Actions (2026-10-30)
+
+- API GitHub Actions da branch Rust retornou **0 runs** após B02A5, inclusive `head_sha` do commit e check-runs. Isso **não identifica** causa raiz por si só.
+- Retry de caminho estritamente limitado: editar `qa/trigger_b02a5.txt` uma única vez depois de o workflow já existir no pai. Verificar `actions/runs?branch=...` no mesmo turno; se zero, marcar `NO_REMOTE_RUN_OBSERVED` e **não criar novos gatilhos repetidamente**.
+- Enquanto Rust/Cargo externos não rodarem, B02A BLOCKED, G1 NOT_RUN. Continuar B02B, sem salto a B03.

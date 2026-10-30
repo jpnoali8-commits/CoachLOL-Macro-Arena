@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, M45 B02A5 oracle fonte isolada e acionamento remoto GitHub pinado; PARCIAL.
+**Atualizado:** 2026-10-30, M45 B02A6 CI não disparado e segunda tentativa GitHub restrita; PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A (inspecionar execução do job Rust/WASM acionado via push restrito); B02B executar goldens das fontes; G1 não alterar sem recibo de compilação.
+**Próxima prioridade:** M45 B02A (inspecionar resultado da segunda tentativa de execução GitHub e corrigir bloqueio da toolchain/CI), com B02B goldens por SHA pendentes.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -108,3 +108,11 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Para criar caminho remoto sem violar isolamento de branches, foi criado `.github/workflows/m45-b02a5-one-shot.yml` na branch Rust com `push` de caminho restrito a `docs/m45_rust_wasm/qa/trigger_b02a5.txt`. Apenas um push contendo o gatilho solicita o job `ubuntu-latest` de 10 minutos, `contents:read`, Rust 1.85.1 + wasm32 + Node 22, gravação de recibo artifact. **Não é prova de que Actions esteja habilitado ou que o job realmente executou**; conferir run/resultados antes de qualquer atualização de G1.
 - `docs/m45_rust_wasm/GITHUB_REMOTE_QA.md` descreve QA por GitHub, sem clone local. Nenhum workflow em main, sem force/rebase/merge, sem tocar PR #9. Mesmo se G1 baseline PASS após job, G2–G8 requerem paridade completa.
 - **B02 IN_PROGRESS_BLOCKED, G0 PARTIAL, G1 NOT_RUN, G3 Rust NOT_RUN, G7 BLOCKED e G8 NOT_RUN.**
+
+## M45 B02A6 — CI remoto sem execuções observadas; diagnóstico e novo gatilho (2026-10-30)
+
+- Consultado PR #19 Draft em `6bb6d2cc7f58c1e4053170276eddf56ebba9ab36` (sem merge) e REST GitHub `/actions/runs?branch=dev69%2Frust-core-m45`: **total_count=0**; `/actions/runs?head_sha=6bb6d2cc7f58c1e4053170276eddf56ebba9ab36` **0**, `/commits/6bb6d2cc7f58c1e4053170276eddf56ebba9ab36/check-runs` **0**, status checks **0**. Estas leituras são verificações reais de API; não explicam isoladamente se Actions está desabilitado, se workflow novo não foi registrado no push inicial ou se tokens de integração não provocam eventos.
+- O workflow e primeiro gatilho foram **criados no mesmo commit** B02A5. Para testar a hipótese de evento inicial sem registro do workflow, uma única segunda atualização do arquivo `docs/m45_rust_wasm/qa/trigger_b02a5.txt` foi autorizada nesta branch Rust; workflow já existia no commit pai. Permissões `contents: read`, timeout de 10 minutos e nenhum trigger em `main`/PRs permanecem.
+- `rustc`, `cargo` e `rustup` continuam ausentes localmente; nenhum Rust native nem WASM real compilado neste executor. **A segunda tentativa de push não é evidência de execução: G1 permanece NOT_RUN até receber run, logs e recibo.
+- O código Rust do B01 permanece intacto; auditoria estática apontou que `cargo fmt --all --check` provavelmente exigirá formatação, mas sem `rustfmt` **não foi declarado PASS ou FAIL**. A prioridade correta é colher a evidência de CI e corrigir somente falhas observadas, sem criar false PASS.
+- Nenhum Actions/CodeSpace foi acionado manualmente nem foi alterado o repositório local do usuário (inexistente). B02 IN_PROGRESS_BLOCKED, G0 PARTIAL, G1 NOT_RUN, G8 NOT_RUN.

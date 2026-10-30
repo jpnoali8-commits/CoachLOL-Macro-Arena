@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A5_GITHUB_ONESHOT_REQUESTED_NATIVE_UNVERIFIED",
+    "phase": "B02A6_CI_TRIGGER_RETRY_NOT_YET_CONFIRMED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -430,14 +430,27 @@
     },
     "remote_runner": {
       "provider": "GitHub Actions",
-      "status": "REQUESTED_NOT_CONFIRMED",
+      "status": "SECOND_PUSH_TRIGGER_REQUESTED_NOT_YET_CONFIRMED",
       "trigger": "push_path_only",
       "path": ".github/workflows/m45-b02a5-one-shot.yml",
       "trigger_file": "docs/m45_rust_wasm/qa/trigger_b02a5.txt",
       "timeout_minutes": 10,
       "permissions": "contents:read",
       "receipt": "m45-b02a5-rust-wasm-qa",
-      "auto_rerun_every_commit": false
+      "auto_rerun_every_commit": false,
+      "first_commit": "6bb6d2cc7f58c1e4053170276eddf56ebba9ab36",
+      "first_probe": {
+        "head_sha": "6bb6d2cc7f58c1e4053170276eddf56ebba9ab36",
+        "branch_runs": 0,
+        "commit_runs": 0,
+        "check_runs": 0,
+        "commit_statuses": 0,
+        "execution": "NO_RUN_OBSERVED",
+        "cause": "UNKNOWN"
+      },
+      "retry_count": 1,
+      "max_retry_count": 1,
+      "automatic_retry_allowed": false
     },
     "user_has_local_checkout": false
   }
