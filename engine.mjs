@@ -2710,14 +2710,79 @@ export class Arena {
   for(const entry of candidates)if(forward*(entry.p-minion.progress)>-.035)return entry;
   return null;
  }
+ m44B18SkillWallsV453(){
+  const walls=[],now=this.gameTime;
+  for(const owner of this.units.filter(v=>v.hp>0)){
+   const y=owner.m44B17DarkProcession,t=owner.m44B17WeaversWall,a=owner.m44B16AzirWall;
+   if(y?.until>now)walls.push({shape:'ring',center:y.center,radius:y.radius,thickness:40,ownerId:owner.id});
+   if(t?.until>now)walls.push({shape:'segment',from:t.origin,to:t.destination,thickness:55,ownerId:owner.id});
+   if(a?.until>now&&a.from&&a.to)walls.push({shape:'segment',from:a.from,to:a.to,thickness:65,ownerId:owner.id});
+  }
+  return walls;
+ }
+ m44B18SegmentDistanceV453(p,a,b){
+  const x=p.x*this.worldWidth,y=p.y*this.worldHeight,
+   ax=a.x*this.worldWidth,ay=a.y*this.worldHeight,
+   bx=b.x*this.worldWidth,by=b.y*this.worldHeight,
+   dx=bx-ax,dy=by-ay,den=dx*dx+dy*dy,
+   t=den?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/den)):0;
+  return Math.hypot(x-ax-dx*t,y-ay-dy*t);
+ }
+ m44B18SkillWallPointV453(p,walls=this.m44B18SkillWallsV453()){
+  if(!p||![p.x,p.y].every(Number.isFinite))return false;
+  return walls.some(w=>w.shape==='ring'?
+   Math.abs(this.mapDistance(p,w.center)-w.radius)<=w.thickness:
+   this.m44B18SegmentDistanceV453(p,w.from,w.to)<=w.thickness);
+ }
+ m44B18SkillWallLineV453(a,b,walls=this.m44B18SkillWallsV453()){
+  if(!a||!b||!walls.length)return false;
+  for(const w of walls){
+   if(w.shape==='ring'){
+    if(this.m44B18SegmentDistanceV453(w.center,a,b)<=w.radius+w.thickness&&
+     Math.max(this.mapDistance(a,w.center),this.mapDistance(b,w.center))>=w.radius-w.thickness)return true;
+    continue;
+   }
+   const dx=(b.x-a.x)*this.worldWidth,dy=(b.y-a.y)*this.worldHeight,
+    vx=(w.to.x-w.from.x)*this.worldWidth,vy=(w.to.y-w.from.y)*this.worldHeight,
+    rx=(w.from.x-a.x)*this.worldWidth,ry=(w.from.y-a.y)*this.worldHeight,
+    denominator=dx*vy-dy*vx;
+   if(Math.abs(denominator)>1e-9){
+    const t=(rx*vy-ry*vx)/denominator,k=(rx*dy-ry*dx)/denominator;
+    if(t>=0&&t<=1&&k>=0&&k<=1)return true;
+   }
+   if(Math.min(this.m44B18SegmentDistanceV453(a,w.from,w.to),
+    this.m44B18SegmentDistanceV453(b,w.from,w.to),
+    this.m44B18SegmentDistanceV453(w.from,a,b),
+    this.m44B18SegmentDistanceV453(w.to,a,b))<=w.thickness)return true;
+  }
+  return false;
+ }
+ m44B18DashBlockerV453(actor,destination){
+  if(!actor||!destination)return null;
+  return this.units.filter(v=>v.hp>0&&v.team!==actor.team&&
+    v.m44B17Steadfast?.until>this.gameTime&&
+    this.sameCombatRealmV453Dev69(actor,v)&&
+    this.mapDistance(actor,v)<=600)
+   .sort((a,b)=>String(a.id).localeCompare(String(b.id)))
+   .find(v=>this.m44B18SegmentDistanceV453(v,actor,destination)<=400)||null;
+ }
  maskAt(layer,x,y){let ix=Math.floor(clamp(x,0,.999)*this.mask.size),iy=Math.floor(clamp(y,0,.999)*this.mask.size);return this.riftMaskV452d4(layer)?.[iy*this.mask.size+ix]==='1'}
  m24ArenaWallBlocksV453(p){
   return (this.boardTemporalV453Dev69||[]).some(z=>z.kind==='m24_jarvan_arena'&&
    z.until>this.gameTime&&Math.abs(this.mapDistance(p,z.point)-z.radius)<=40);
  }
  walkable(x,y){return x>=.019&&x<=.978&&y>=.019&&y<=.978&&
-  !this.maskAt('wall',x,y)&&!this.m24ArenaWallBlocksV453({x,y})}
- obstacleLine(a,b){const steps=Math.max(2,Math.ceil(dist(a,b)*130));for(let i=1;i<steps;i++){let f=i/steps;if(!this.walkable(a.x+(b.x-a.x)*f,a.y+(b.y-a.y)*f))return true}return false}
+   !this.maskAt('wall',x,y)&&!this.m24ArenaWallBlocksV453({x,y})&&
+   !this.m44B18SkillWallPointV453({x,y})}
+ obstacleLine(a,b){
+  if(this.m44B18SkillWallLineV453(a,b))return true;
+  const steps=Math.max(2,Math.ceil(dist(a,b)*130));
+  for(let i=1;i<steps;i++){
+   const t=i/steps;
+   if(!this.walkable(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t))return true;
+  }
+  return false;
+ }
  lineOfSight(a,b){
   const steps=Math.max(2,Math.ceil(dist(a,b)*155));
   const fromBrush=this.brushRegionAt(a.x,a.y),toBrush=this.brushRegionAt(b.x,b.y);
@@ -2739,12 +2804,20 @@ export class Arena {
  // A* 128x128 cost grid derived from supplied wall mask; diagonal corner-cutting is forbidden.
  findPath(from,to){let N=this.mask.size,c=(v)=>clamp(Math.floor(v*N),0,N-1), sx=c(from.x),sy=c(from.y),ex=c(to.x),ey=c(to.y);
   const idx=(x,y)=>y*N+x;const goal=idx(ex,ey);if(!this.walkable(to.x,to.y))return null;
-  const effectiveWall=this.riftMaskV452d4('wall');let blocked=(x,y)=>x<1||x>=N-1||y<1||y>=N-1||effectiveWall[idx(x,y)]==='1'||this.m24ArenaWallBlocksV453({x:(x+.5)/N,y:(y+.5)/N});
-  if(blocked(sx,sy)){let found=null;for(let r=1;r<7&&!found;r++)for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++)if(!blocked(sx+a,sy+b)){found=[sx+a,sy+b];break}if(found)[sx,sy]=found;else return null;}
+  const skillWalls=this.m44B18SkillWallsV453(),
+   wallPoint=(p)=>this.m44B18SkillWallPointV453(p,skillWalls),
+   wallLine=(a,b)=>this.m44B18SkillWallLineV453(a,b,skillWalls),
+   center=(x,y)=>({x:(x+.5)/N,y:(y+.5)/N});
+  const effectiveWall=this.riftMaskV452d4('wall');let blocked=(x,y)=>x<1||x>=N-1||y<1||y>=N-1||effectiveWall[idx(x,y)]==='1'||this.m24ArenaWallBlocksV453({x:(x+.5)/N,y:(y+.5)/N})||
+   wallPoint(center(x,y));
+  if(blocked(sx,sy)){let found=null;for(let r=1;r<7&&!found;r++)for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++)if(!blocked(sx+a,sy+b)&&!wallLine(from,center(sx+a,sy+b))){found=[sx+a,sy+b];break}if(found)[sx,sy]=found;else return null;}
   const start=idx(sx,sy),len=N*N,g=new Float32Array(len);g.fill(Infinity);g[start]=0;const parent=new Int32Array(len);parent.fill(-1);const closed=new Uint8Array(len),heap=[];
   const h=(x,y)=>Math.hypot(ex-x,ey-y);function push(id,score){heap.push([id,score]);let k=heap.length-1;while(k>0){const p=(k-1)>>1;if(heap[p][1]<=heap[k][1])break;[heap[k],heap[p]]=[heap[p],heap[k]];k=p}}function pop(){const root=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let i=0;while(true){let l=i*2+1,r=l+1,m=i;if(l<heap.length&&heap[l][1]<heap[m][1])m=l;if(r<heap.length&&heap[r][1]<heap[m][1])m=r;if(m===i)break;[heap[m],heap[i]]=[heap[i],heap[m]];i=m}}return root[0]}
-  push(start,h(sx,sy));let visits=0,found=false;while(heap.length&&visits++<25000){let id=pop();if(closed[id])continue;closed[id]=1;if(id===goal){found=true;break}let x=id%N,y=Math.floor(id/N);for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){if(!dx&&!dy)continue;let xx=x+dx,yy=y+dy;if(blocked(xx,yy)||(dx&&dy&&(blocked(x+dx,y)||blocked(x,y+dy))))continue;let next=idx(xx,yy),ng=g[id]+(dx&&dy?1.414:1)+(this.mask.routes[next]==='1'?-.18:0);if(ng<g[next]){g[next]=ng;parent[next]=id;push(next,ng+h(xx,yy));}}}
-  if(!found)return null;let indices=[],it=goal;while(it!==start&&it>=0&&indices.length<2000){indices.push(it);it=parent[it]}indices.reverse();let pts=indices.map(i=>({x:((i%N)+.5)/N,y:(Math.floor(i/N)+.5)/N}));if(pts.length)pts[pts.length-1]={...to};return compress(pts);
+  push(start,h(sx,sy));let visits=0,found=false;while(heap.length&&visits++<25000){let id=pop();if(closed[id])continue;closed[id]=1;if(id===goal){found=true;break}let x=id%N,y=Math.floor(id/N);for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){if(!dx&&!dy)continue;let xx=x+dx,yy=y+dy;if(blocked(xx,yy)||(dx&&dy&&(blocked(x+dx,y)||blocked(x,y+dy)))||
+      (skillWalls.length&&wallLine(center(x,y),center(xx,yy))))continue;let next=idx(xx,yy),ng=g[id]+(dx&&dy?1.414:1)+(this.mask.routes[next]==='1'?-.18:0);if(ng<g[next]){g[next]=ng;parent[next]=id;push(next,ng+h(xx,yy));}}}
+  if(!found)return null;let indices=[],it=goal;while(it!==start&&it>=0&&indices.length<2000){indices.push(it);it=parent[it]}indices.reverse();let pts=indices.map(i=>({x:((i%N)+.5)/N,y:(Math.floor(i/N)+.5)/N}));if(pts.length){if(skillWalls.length&&
+    (wallLine(from,pts[0])||wallLine(pts[pts.length-1],to)))return null;
+   pts[pts.length-1]={...to};}return compress(pts);
  }
  wardActive(w){return (w.until===null||w.until===undefined||w.until>this.gameTime)&&(w.hp===undefined||w.hp>0);}
  wardRadius(w){return (WARD_RULES_2026[w.type||'stealth']?.vision||900)/this.worldWidth*(w.faelightSiteId&&w.faelightUntil>this.gameTime?1.25:1);}
@@ -4078,6 +4151,16 @@ export class Arena {
     !m44B14DOriginalBoardRuleV453(u.m44B14CPossession.sourceChamp,slot,u))
     return {ok:false,reason:'m44_b14c_slot_unsupported'};
 if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  // B18 Lissandra E: same original-source recast for owners and Viego.
+  if(s.m44B17AId==='Lissandra.E'&&u.m44B17GlacialPath?.until>this.gameTime){
+   const state=u.m44B17GlacialPath;
+   if(state.arrivesAt>this.gameTime)return {ok:false,reason:'m44_b18_claw_in_flight'};
+   if(!this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m44_b18_claw_incapacitated'};
+   u.pendingBoardV453Dev69={slot,m44B18ClawRecast:true,clawArrival:state.arrivesAt};
+   this.recordIntentV40(team,id,'m44_b18_claw_recast',{slot});
+   return {ok:true,queued:true,recast:true};
+  }
   if(slot==='W'&&['Leblanc','Zed'].includes(u.champ)&&
      u.m44B13Return?.until>this.gameTime){
    u.pendingBoardV453Dev69={slot,m44B13Return:true};
@@ -4564,6 +4647,24 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    this.m24FizzLandV453(u,q.point);
    return {ok:true,recast:true,spentMana:0};
   }
+  if(q?.m44B18ClawRecast&&s.m44B17AId==='Lissandra.E'){
+   const state=u.m44B17GlacialPath;
+   if(!state||state.arrivesAt!==q.clawArrival||
+    state.arrivesAt>this.gameTime||state.until<=this.gameTime)
+    return {ok:false,reason:'m44_b18_claw_expired'};
+   if(!this.effectResolverV41().canAct(u,'skill').ok)
+    return {ok:false,reason:'m44_b18_claw_incapacitated'};
+   if(!this.walkable(state.point.x,state.point.y)||
+    (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,state.point)))
+    return {ok:false,reason:'m44_b18_claw_destination_blocked'};
+   const origin={x:u.x,y:u.y},landing={...state.point};
+   u.x=landing.x;u.y=landing.y;
+   u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,origin,landing,{kind:'lissandra_e_recast'});
+   u.m44B17GlacialPath=null;
+   return {ok:true,recast:true,glacialPathTeleport:true,spentMana:0};
+  }
   if(q?.m44B13Return&&['Leblanc','Zed'].includes(u.champ)){
    const z=u.m44B13Return;
    if(!z||z.until<=this.gameTime||!z.point||
@@ -4868,18 +4969,17 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(s.m44B14Id==='Kalista.R'&&u.m44B14OathswornId&&
     u.m44B14OathswornId!==target?.id)
    return {ok:false,reason:'m44_b14_not_oathsworn'};
-  if(s.shape==='move_point'&&this.units.some(enemy=>
-    enemy.team!==u.team&&enemy.hp>0&&
-    enemy.m44B17Steadfast?.until>this.gameTime&&
-    this.sameCombatRealmV453Dev69(u,enemy)&&
-    this.mapDistance(u,enemy)<=400)){
-    const blocker=this.units.find(enemy=>enemy.team!==u.team&&enemy.hp>0&&
-     enemy.m44B17Steadfast?.until>this.gameTime&&
-     this.sameCombatRealmV453Dev69(u,enemy)&&
-     this.mapDistance(u,enemy)<=400);
-    blocker.m44B17Steadfast.blocked++;
-    return {ok:false,reason:'m44_b17_poppy_anti_dash'};
-   }
+  // B18 shared anti-dash veto is validated prior to debit and includes targeted dashes.
+  const m44B18Dash=(s.shape==='move_point'&&s.m44B16BId!=='Bard.E'&&
+   s.m44B17BId!=='Taliyah.R'&&s.m44B17AId!=='Lissandra.E')||
+   ['Poppy.E','Samira.E'].includes(s.m44B17BId)||
+   s.m44B17AId==='Briar.R'||s.m44B16BId==='Diana.E';
+  const m44B18Blocker=m44B18Dash?
+   this.m44B18DashBlockerV453(u,q.point||target):null;
+  if(m44B18Blocker){
+   m44B18Blocker.m44B17Steadfast.blocked++;
+   return {ok:false,reason:'m44_b17_poppy_anti_dash'};
+  }
   if(s.m44B17BId==='Samira.R'&&(u.m44B17SamiraStyle||0)<6)
    return {ok:false,reason:'m44_b17_samira_style_required'};
 
@@ -5966,11 +6066,12 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      return {...committed,infernoTrigger:true,spentStyle:style};
     }
     case 'Taliyah.R':{
-     u.m44B17WeaversWall={until:now+5,origin:{x:u.x,y:u.y},
-      destination:{x:aim.x,y:aim.y},wallCollisionCertified:false};
+     const origin={x:u.x,y:u.y};
      const shifted=shift(u,aim,'taliyah_wall_surf');
+     u.m44B17WeaversWall={until:now+5,origin,
+      destination:{x:aim.x,y:aim.y},wallCollisionCertified:true};
      return {...committed,weaversWall:true,rode:shifted,
-      wallCollisionCertified:false};
+      wallCollisionCertified:true};
     }
     default:return {ok:false,reason:'m44_b17b_unhandled'};
    }
@@ -6003,7 +6104,7 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      const origin={x:u.x,y:u.y},arrivesAt=now+1;
      u.m44B17GlacialPath={origin,point:{x:center.x,y:center.y},
       arrivesAt,until:now+4};
-     return {...committed,glacialPath:true,damaged,arrivesAt,clawRecastNotCertified:true};
+     return {...committed,glacialPath:true,damaged,arrivesAt,clawRecastAvailable:true};
     }
     case 'Malzahar.W':{
      const active=(this.boardSummonsV453Dev69||[]).filter(v=>
@@ -6122,13 +6223,13 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
     }
     case 'Yorick.W':{
      u.m44B17DarkProcession={at:now,until:now+4,
-      center:{x:center.x,y:center.y},radius:220,wallCollisionCertified:false};
+      center:{x:center.x,y:center.y},radius:220,wallCollisionCertified:true};
      let trapped=0;
      for(const v of foes(center,220).filter(v=>v.champ)){
       this.applyEffectV41(v,'slow',{source:u,duration:1,power:.3,
        key:'m44_b17_yorick_cage_'+instance});trapped++;
      }
-     return {...committed,darkProcession:true,trapped,wallCollisionCertified:false};
+     return {...committed,darkProcession:true,trapped,wallCollisionCertified:true};
     }
     default:return {ok:false,reason:'m44_b17a_unhandled'};
    }
@@ -6172,8 +6273,12 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       this.itemEnergizeRelocateV453Dev39(v,start,dest,{kind:'azir_r_push'});
       pushed++;
      }
-     u.m44B16AzirWall={until:now+4,point:{x:aim.x,y:aim.y}};
-     return {...committed,emperorsDivide:true,pushed,hits,wallCollisionCertified:false};
+     const dx=(aim.x-u.x)*this.worldWidth,dy=(aim.y-u.y)*this.worldHeight,
+      n=Math.max(1,Math.hypot(dx,dy)),px=-dy/n*310/this.worldWidth,
+      py=dx/n*310/this.worldHeight;
+     u.m44B16AzirWall={until:now+4,point:{x:aim.x,y:aim.y},
+      from:{x:aim.x-px,y:aim.y-py},to:{x:aim.x+px,y:aim.y+py}};
+     return {...committed,emperorsDivide:true,pushed,hits,wallCollisionCertified:true};
     }
     case 'Zed.R':{
      if(!target)return {...committed,deathMark:false};
