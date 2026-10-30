@@ -2774,6 +2774,12 @@ export class Arena {
   return this._brushGroups[iy*size+ix]||0;
  }
  canSeePoint(team,point,sources=null){
+  if(this.teams?.[team]?.m44B13ParanoiaUntil>this.gameTime){
+   const brush=this.brushRegionAt(point.x,point.y);
+   return (sources||this.visionSources(team)).filter(p=>p.kind==='champion')
+    .some(p=>this.mapDistance(p,point)<=600&&this.lineOfSight(p,point)&&
+      (!brush||this.brushRegionAt(p.x,p.y)===brush));
+  }
   if(this.riftVisionPulsesV452d4.some(p=>p.team===team&&p.until>this.gameTime&&this.riftPulseContainsV452d4(p,point)))return true;
   const peers=sources||this.visionSources(team);
   const brush=this.brushRegionAt(point.x,point.y);
@@ -9151,6 +9157,55 @@ export class Arena {
    }
   }
   for(const u of this.units){
+   if(u.hp>0&&u.champ==='Briar'&&u.m44B13Frenzy?.until>this.gameTime&&
+      u.m44B13Frenzy.nextAt<=this.gameTime){
+    const t=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
+     this.mapDistance(u,v)<=480&&!this.obstacleLine(u,v)&&
+     (v.champ?this.visible(u.team,v):this.canSeePoint(u.team,v)))
+     .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+      String(a.id).localeCompare(String(b.id)))[0];
+    if(t){
+     const dealt=this.damage(t,Math.max(40,(u.ad||65)*.75),u,'physical','spell');
+     if(dealt>0)this.effectResolverV41().heal(u,dealt*.25,u);
+    }
+    u.m44B13Frenzy.nextAt=this.gameTime+1;
+   }
+   if(u.hp>0&&u.champ==='Belveth'&&u.m44B13Maelstrom?.until>this.gameTime&&
+      u.m44B13Maelstrom.nextAt<=this.gameTime){
+    const t=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
+     this.mapDistance(u,v)<=490&&!this.obstacleLine(u,v))
+     .sort((a,b)=>this.mapDistance(u,a)-this.mapDistance(u,b)||
+      String(a.id).localeCompare(String(b.id)))[0];
+    if(t)this.damage(t,u.m44B13Maelstrom.damage,u,'physical','spell');
+    u.m44B13Maelstrom.nextAt=this.gameTime+1;
+   }
+   if(u.champ==='Pantheon'&&u.m44B13Aegis&&
+      u.m44B13Aegis.until<=this.gameTime){
+    for(const t of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0&&
+      this.mapDistance(u,v)<=410&&!this.obstacleLine(u,v))){
+     const dx=(t.x-u.x)*this.worldWidth,dy=(t.y-u.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy)),dir=u.m44B13Aegis.facing;
+     if((dx*dir.x+dy*dir.y)/len>.45)
+      this.damage(t,70+40*Math.max(1,u.skillRanks.E||1),u,'physical','spell');
+    }
+    u.m44B13Aegis=null;
+   }
+   if(u.m44B13SkarnerImpaled?.until>this.gameTime){
+    const skarner=this.units.find(v=>v.id===u.m44B13SkarnerImpaled.ownerId&&
+     v.hp>0&&v.champ==='Skarner'&&v.team!==u.team);
+    if(skarner&&this.sameCombatRealmV453Dev69(skarner,u)){
+     const dx=(skarner.x-u.x)*this.worldWidth,
+      dy=(skarner.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(dx,dy)),
+      to={x:u.x+dx/len*Math.min(130,len)/this.worldWidth,
+       y:u.y+dy/len*Math.min(130,len)/this.worldHeight};
+     if(this.walkable(to.x,to.y)&&!this.obstacleLine(u,to)){
+      const from={x:u.x,y:u.y};Object.assign(u,to);
+      u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+      this.invalidateShopUndoOnDepartureV453Dev61(u);
+      this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'skarner_impale_drag'});
+     }
+    }
+   }
    if(u.champ==='Gnar'){
     const g=u.m44B09Gnar??={form:'mini',rage:0,until:0,lockUntil:0,readyAt:0};
     if(g.form==='mega'&&g.until<=this.gameTime){
@@ -12707,6 +12762,15 @@ export class Arena {
     this.damage(attacker,Math.max(1,amount*.45),target,'magic','m25_mel_reflect');
     return 0;
    }
+   if(target?.champ==='Belveth'&&target.m44B13Maelstrom?.until>this.gameTime)
+    amount*=.45;
+   if(target?.champ==='Pantheon'&&target.m44B13Aegis?.until>this.gameTime&&
+    attacker&&attacker.team!==target.team){
+    const dx=(attacker.x-target.x)*this.worldWidth,
+     dy=(attacker.y-target.y)*this.worldHeight,
+     len=Math.max(1,Math.hypot(dx,dy)),dir=target.m44B13Aegis.facing;
+    if((dx*dir.x+dy*dir.y)/len>.45)amount*=.12;
+   }
    if(target?.champ==='Evelynn'&&target.m44B12EvelynnEvasiveUntil>this.gameTime)
     return 0;
    if(target?.m24FizzLeapV453?.until>this.gameTime||
@@ -14620,7 +14684,9 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     m.attackAt=this.gameTime+m.interval*baronMods.intervalMultiplier;
    }
   }
-  for(const t of this.structures){if(!t.alive||t.type!=='tower'||t.lastShot+2.5>this.gameTime)continue;
+  for(const t of this.structures){if(!t.alive||t.type!=='tower'||
+   t.m44B13VoliDisabledUntil>this.gameTime||
+   t.lastShot+2.5>this.gameTime)continue;
    let targets=this.nearbyMinions(t,.13).filter(m=>m.team!==t.team&&(t.lane==='nexus'||m.lane===t.lane));
    let champions=this.units.filter(c=>c.team!==t.team&&c.hp>0&&dist(c,t)<.11);
    let victim=champions.find(c=>c.id===t.aggro);
