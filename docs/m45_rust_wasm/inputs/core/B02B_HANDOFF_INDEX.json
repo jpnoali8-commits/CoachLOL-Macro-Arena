@@ -91,7 +91,12 @@
         "executed": 0,
         "status": "NOT_RUN",
         "v8_isolated_witness_cases": 8,
-        "v8_isolated_repeat_matches": 8
+        "v8_isolated_repeat_matches": 8,
+        "v8_gateway_direct_routes": 14,
+        "v8_gateway_denied_routes": 12,
+        "v8_gateway_combo_sequences": 4,
+        "m44_authorial_kits_missing_from_old_board_kits": 14,
+        "full_node_executed": 0
       },
       "items": {
         "environment": "V8_ISOLATED_ORIGINAL_JS_CLASSES",
@@ -146,6 +151,14 @@
       "state": "LEGACY_RETRY_GAP_REPORTED",
       "legacy": "repeated ready or lost ACK rejected after seal/reconnect",
       "target": "idempotent round/seat/request receipt persisted before ACK"
+    },
+    {
+      "id": "M45-SKILL-WIRE-CLIENT-CATALOG",
+      "priority": "P0",
+      "state": "SOURCE_V8_AND_GATEWAY_CASES_REPRODUCED",
+      "legacy": "api/kits kits property contains 30 old BOARD_KITS; 14 M44 B13 authored champions absent from this property. Nami W shape target_any has no client-target button path, Ahri E authored board_effect rejected by directional/ground/targeted V47 gateway (6/6 cases). Other API fields may cover some abilities.",
+      "target": "Unified Rust authored descriptor registry, typed UI routes and exactly-once action arbiter",
+      "provenance": "docs/m45_rust_wasm/inputs/core/b02b/B02B_CLIENT_KIT_SOURCE_DISCOVERY.json"
     }
   ],
   "gates": {
@@ -206,5 +219,43 @@
       "risk": "NAMI_W_STALE_INTENT_REPRODUCED_V8_SYNTHETIC_DUAL_QUEUE",
       "caveat": "Not Node ESM game full match nor proof the UI permits dual route from one user; visibility and duelPermission mocked; no Rust gameplay/parity."
     }
+  },
+  "skills_gateway_i04": {
+    "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "skill_gateway_original_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "client_original_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_original_blob": "61f9d941852b6378bccccf8956aa699e8761836d",
+    "gateway_v8_evidence": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_GATEWAY_KIT_V8_EXECUTED.json",
+      "blob": "30375b17c600b65eef953988f149c6408c588da1",
+      "route_cases": 14,
+      "accepted": 2,
+      "denied": 12,
+      "combo_cases": 4,
+      "second_mana_debits_after_cooldown": 0
+    },
+    "client_kit_source_evidence": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_CLIENT_KIT_SOURCE_DISCOVERY.json",
+      "blob": "4dec9b0da3e40252b1929217f87455652fa05ff8",
+      "old_board_registry": 30,
+      "m44_b13_authorial_registry": 14,
+      "overlap": 0,
+      "other_api_fields_possible": true
+    },
+    "validator": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/validate_gateway_kit_evidence.mjs",
+      "blob": "ed61250ff7029150e7b2f159a6238d5517c5243a",
+      "v8_validated": "PASS",
+      "tamper_detected": true
+    },
+    "rust_contract": {
+      "path": "docs/m45_rust_wasm/inputs/core/B02B_SKILL_WIRE_RUST_CONTRACT.json",
+      "blob": "a049f91f318e1961931d87716bcd8fca79515f5b",
+      "state": "PROPOSED_NOT_IMPLEMENTED"
+    },
+    "full_node_26_suites": "NOT_RUN",
+    "http_real": "NOT_RUN",
+    "rust_combat": "NOT_IMPLEMENTED",
+    "actions_requested": 0
   }
 }

@@ -1,0 +1,83 @@
+{
+  "schema": "coachlol.m45.skills.s11.skill-intent-arbiter-rust-contract.v1",
+  "date": "2026-10-30",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "status": "CONTRACT_ONLY_RUST_NOT_IMPLEMENTED",
+  "target_crates": [
+    "core-protocol",
+    "core-clock",
+    "core-combat",
+    "core-champions",
+    "game-server"
+  ],
+  "authority": "Rust match actor with authenticated seat-to-five-champions binding; no client-provided team/owner authority",
+  "key": [
+    "match_id",
+    "turn_id",
+    "actor_id",
+    "slot"
+  ],
+  "lifecycle": [
+    "Received",
+    "Validated",
+    "Queued",
+    "Sealed",
+    "Committed",
+    "InFlight",
+    "ImpactedOrInterrupted",
+    "Terminal"
+  ],
+  "consistency_rules": [
+    "One active primary cast intent per actor/slot at seal; do not operate board, directional, targeted and kit queues concurrently for the same slot.",
+    "request_id replay with identical canonical payload returns identical cached ACK and never queues/casts/debits again; same request_id with different payload rejects.",
+    "Different request_id, same actor+slot before seal must reject with SLOT_ALREADY_PENDING unless a separately versioned explicit replacement protocol is implemented; after seal always immutable.",
+    "A sanctioned recast is a distinct explicit transition of the existing cast_instance_id and can occur within the same turn where skill design permits; never synthesize a new primary cast or second cost.",
+    "Validation (rank/CC/seat/fog/realm/range/resources/cooldown/target) and one atomic resource+CD commit precede spawning projectiles; track deterministic receipts.",
+    "Invalid, interrupted, superseded or completed intent transitions to Terminal and clears all old same-slot queue representations; cooldown expiry never resuscitates it.",
+    "Movement-to-range plans are distinct durable path orders; they cannot preserve a hidden unsealed cast that executes on cooldown expiry.",
+    "Visible team projections derive only filtered committed events; hidden targets, private intents, RNG and replay internals never leak through WASM.",
+    "Replay restore persists terminal command ids, cast_instance_id and state revisions so reconnect/retry cannot duplicate a debit or an impact."
+  ],
+  "resolver_precedence": {
+    "desired": "Resolved once against current authored registry with champion+slot+form+rank and explicit stage (board effect/targeted/directional/recast); legacy early adapter shortcuts are not authority.",
+    "ahri_e": {
+      "legacy": "queueKitSkillV42 forces queueDirectionalSkill; abilityRule kind=board_effect rejects. Direct board queue succeeds, mana 1000->940, creates authored temporal missile.",
+      "rust": "route Ahri E exactly once via authored board projectile executor from normal user input",
+      "change_class": "DELIBERATE_FIDELITY_FIX",
+      "test_requirement": "blue/red command->sealed->projectile->impact, no re-route or duplicate cost"
+    },
+    "ashe_r": {
+      "legacy": "One 100-mana board_temporal authored projectile. No immediate stun; collisions and terrain resolve on later simulated clock ticks.",
+      "rust": "authoritative seeded integer tick flight + swept collisions + first champion impact CC; do not make stun instant to satisfy obsolete M14.",
+      "change_class": "INTENDED_TEMPORAL_PARITY",
+      "test_requirement": "near/far clear line, obstacle suppression, spell-shield, blue/red, snapshot mid-flight"
+    },
+    "nami_w": {
+      "legacy": "Independent board and targeted pending queues, stale targeted W can cast after cooldown (S10 4/4 reproduced).",
+      "rust": "single-slot pending record, terminal cleanup and idempotent ACK; no ghost cast, regardless of queue order",
+      "change_class": "DELIBERATE_FIDELITY_FIX",
+      "test_requirement": "two seats x two order permutations x retry/reconnect and cooldown traversal"
+    }
+  },
+  "rejects_and_acks": [
+    "SLOT_ALREADY_PENDING",
+    "REQUEST_ID_PAYLOAD_CONFLICT",
+    "ACTOR_NOT_OWNED",
+    "TURN_SEALED",
+    "ABILITY_NOT_MIGRATED",
+    "INVALID_TARGET",
+    "COOLDOWN",
+    "RESOURCE_SHORTAGE"
+  ],
+  "accept_gates": {
+    "legacy_V8": "PARTIAL",
+    "original_node": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "network_two_seat": "NOT_RUN",
+    "certification": "NOT_CERTIFIED"
+  },
+  "notes": "No Rust gameplay changes in this audit branch. Snapshot hashes from legacy are not Rust parity hashes. Do not change the 22/2/2 S10 original-suite counts."
+}

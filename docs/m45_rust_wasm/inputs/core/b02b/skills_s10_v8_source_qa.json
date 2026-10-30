@@ -1,0 +1,371 @@
+{
+  "schema": "coachlol.m45.skills.s10.v8-source-engine-receipt.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "base_commit": "e1210e1d2e75bd172ef73a50af79d04193a4de6d",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "map_git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+  "mask_git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+  "runtime": {
+    "kind": "Genuine original legacy Arena class and functions evaluated in isolated V8",
+    "technique": "GitHub fetch_blob engine.mjs + map/masks, remove ESM export keywords only, new Function in fresh V8 with structuredClone JSON shim; use original checked test body (after Node imports/map prelude) and assert/console/fs/process shims. No gameplay branch source edits.",
+    "important_limitations": [
+      "Not a full Node module-loader execution of original .test.mjs files",
+      "Original test bodies were used and preserved; imports, map/bootstrap and writing outputs adapted",
+      "No network or two real browser sessions",
+      "Visibility/duel mocks in original test bodies do not certify fog, ACL or game servers",
+      "Not Rust native, WASM, browser or full-match runtime parity",
+      "Original source Git blob SHA came from GitHub objects; no local full checkout"
+    ],
+    "status": "V8_ISOLATED_EXECUTED_NOT_FULL_NODE"
+  },
+  "counts": {
+    "planned": 26,
+    "attempted": 24,
+    "passed": 22,
+    "failed": 2,
+    "not_run": 2
+  },
+  "suites": [
+    {
+      "suite": "realm_mordekaiser",
+      "test_git_blob_sha": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 12,
+      "source_git_blob": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3",
+      "observed_output": "DEV69 REALM HARDENING M14 12/12 PASS"
+    },
+    {
+      "suite": "neeko_shaco_clones",
+      "test_git_blob_sha": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+      "status": "NOT_RUN",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 0,
+      "source_git_blob": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+      "blocked_reason": "Full source imports multiplayer authoritative actions, server and async HTTP test; no Node module graph or network in isolated V8"
+    },
+    {
+      "suite": "sylas_viego_original",
+      "test_git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 78,
+      "source_git_blob": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+      "observed_output": "M44_B14D_COPY passed=78 snapshots=78 failures=0"
+    },
+    {
+      "suite": "terrain_recasts",
+      "test_git_blob_sha": "1c79d95aa4396c604278192a73ab887973273d79",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 28,
+      "source_git_blob": "1c79d95aa4396c604278192a73ab887973273d79",
+      "observed_output": "M44_B18 scenarios=14 passed=28 restored=28 failures=0"
+    },
+    {
+      "suite": "katarina_ballistic",
+      "test_git_blob_sha": "5fd8a6cd5b1991ba8bf76f1b92debe3b9f94e8a2",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 40,
+      "source_git_blob": "5fd8a6cd5b1991ba8bf76f1b92debe3b9f94e8a2",
+      "observed_output": "M44_B31B cases=20 passed=40 failed=0"
+    },
+    {
+      "suite": "twitch_borrowed_onhit",
+      "test_git_blob_sha": "371af239c1a2911eb94495cdebc4c3cba128ace1",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 24,
+      "source_git_blob": "371af239c1a2911eb94495cdebc4c3cba128ace1",
+      "observed_output": "M44_B32B_PASS 24/24"
+    },
+    {
+      "suite": "sion_ornn_yasuo",
+      "test_git_blob_sha": "a0855ca4c8b2bf3f763f27dde706803d08b5da64",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 34,
+      "source_git_blob": "a0855ca4c8b2bf3f763f27dde706803d08b5da64",
+      "observed_output": "M44_B33A_PASS 34/34 snapshots=34"
+    },
+    {
+      "suite": "neeko_nidalee",
+      "test_git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 20,
+      "source_git_blob": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a",
+      "observed_output": "M44_B11_HUNTED_CLONE scenarios=20 snapshots=20 failures=0"
+    },
+    {
+      "suite": "channels",
+      "test_git_blob_sha": "5602ae51c2751f67bb80ca11ad27d1ee4933301a",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 30,
+      "source_git_blob": "5602ae51c2751f67bb80ca11ad27d1ee4933301a",
+      "observed_output": "M44_B22 cases=15 passed=30 failures=0"
+    },
+    {
+      "suite": "global_ultimates",
+      "test_git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08",
+      "status": "V8_FAIL",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 4,
+      "source_git_blob": "cd92e0675d81643ed5ac350f109fdd9ed5396c08",
+      "failed_at": "blue Ashe R stun duration scales with travel distance",
+      "reason": "assert.ok(effect(near)) failed after 4 prior blue checks"
+    },
+    {
+      "suite": "precedence_blue_red",
+      "test_git_blob_sha": "501773e40e0866129b274c734626ec73eb371047",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 56,
+      "source_git_blob": "501773e40e0866129b274c734626ec73eb371047",
+      "observed_output": "M45_SKILLS_PRECEDENCE 2/2 assertions=56"
+    },
+    {
+      "suite": "v42_multi_m1",
+      "test_git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 53,
+      "source_git_blob": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1",
+      "observed_output": "DEV69 MULTI CHAMPIONS M1 53/53 PASS"
+    },
+    {
+      "suite": "v42_multi_m2",
+      "test_git_blob_sha": "620fac6714ab1097594a615085fa95add56920ef",
+      "status": "V8_FAIL",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 8,
+      "source_git_blob": "620fac6714ab1097594a615085fa95add56920ef",
+      "failed_at": "blue kit input routes Ahri Charm through temporal combat",
+      "reason": "assert.equal(queued.ok,true) failed"
+    },
+    {
+      "suite": "v42_multi_m3",
+      "test_git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 41,
+      "source_git_blob": "a93f9767f451392bfd7baa1cdbca7cfa58378921",
+      "observed_output": "DEV69 MULTI CHAMPIONS M3 41/41 PASS"
+    },
+    {
+      "suite": "v42_multi_m4",
+      "test_git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 37,
+      "source_git_blob": "53b3d221af5c48519297a7fcf21f68daacf9c342",
+      "observed_output": "DEV69 MULTI CHAMPIONS M4 37/37 PASS"
+    },
+    {
+      "suite": "v42_multi_m5",
+      "test_git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 39,
+      "source_git_blob": "7082cbb1795c9a70c7ed9e24a35583539f4df996",
+      "observed_output": "DEV69 MULTI CHAMPIONS M5 39/39 PASS"
+    },
+    {
+      "suite": "v42_multi_m6",
+      "test_git_blob_sha": "1076d2f961de36756c01eaa225dffd2b1cb85840",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 15,
+      "source_git_blob": "1076d2f961de36756c01eaa225dffd2b1cb85840",
+      "observed_output": "DEV69 MULTI CHAMPIONS M6 15/15 PASS"
+    },
+    {
+      "suite": "v42_multi_m7",
+      "test_git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 60,
+      "source_git_blob": "ee9451a05ea974649e8cf23381cfbcb462fcc852",
+      "observed_output": "DEV69 MULTI CHAMPIONS M7 60/60 PASS"
+    },
+    {
+      "suite": "nami_vex_batch2",
+      "test_git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a",
+      "status": "NOT_RUN",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 0,
+      "source_git_blob": "2bbb0117afa91454c138442a9b021b08d2d67d9a",
+      "blocked_reason": "Full source imports PvPRoomRegistry, createPvPServer and async two-seat HTTP sessions; not simulated"
+    },
+    {
+      "suite": "s06_nami_q",
+      "test_git_blob_sha": "6afedff84107a7595f8d94600fe491984a196ac8",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 17,
+      "source_git_blob": "6afedff84107a7595f8d94600fe491984a196ac8",
+      "observed_output": "M45_S06_NAMI_Q passed=17 seats=2"
+    },
+    {
+      "suite": "m44_b20_mobile_barrier",
+      "test_git_blob_sha": "0832fcfa45c0b64bc0bad1a918c6e4eb26af8275",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 16,
+      "source_git_blob": "0832fcfa45c0b64bc0bad1a918c6e4eb26af8275",
+      "observed_output": "M44_B20 cases=8 passed=16 failures=0"
+    },
+    {
+      "suite": "m44_b21_projectile_interception",
+      "test_git_blob_sha": "f9caf7fe9bcc79a8d11c6fd5c72d760a137cfaea",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 22,
+      "source_git_blob": "f9caf7fe9bcc79a8d11c6fd5c72d760a137cfaea",
+      "observed_output": "M44_B21 cases=11 passed=22 failures=0"
+    },
+    {
+      "suite": "m44_b23_charge_realm",
+      "test_git_blob_sha": "b4ac517c332dd531bff0ff0fadbf8a64e59fd156",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 46,
+      "source_git_blob": "b4ac517c332dd531bff0ff0fadbf8a64e59fd156",
+      "observed_output": "M44_B23 cases=23 passed=46 failures=0"
+    },
+    {
+      "suite": "s07_nami_routes",
+      "test_git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 8,
+      "source_git_blob": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+      "observed_output": "M45_S07_NAMI_ROUTES traces=8 seats=2 checkpointMatches=8"
+    },
+    {
+      "suite": "s08_nami_w_coqueued",
+      "test_git_blob_sha": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 6,
+      "source_git_blob": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+      "observed_output": "M45_S08_NAMI_W cases=6 seats=2"
+    },
+    {
+      "suite": "s09_nami_w_stale_intent",
+      "test_git_blob_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+      "status": "V8_PASS",
+      "mode": "SOURCE_BODY_EVAL_IN_V8_WITH_NODE_SHIMS",
+      "checks_or_cases": 4,
+      "source_git_blob": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+      "observed_output": "M45_S09_NAMI_W_STALE cases=4 seats=2; all observed cooldown duplicate"
+    }
+  ],
+  "supplemental": {
+    "id": "m44_b13a_authored_identities",
+    "test_git_blob_sha": "35eedaaa71421c9da23431a3fbdd89d89ba181e6",
+    "status": "V8_PASS",
+    "checked_cases": 28,
+    "snapshots": 28,
+    "failures": 0,
+    "not_in_26_manifest": true
+  },
+  "confirmed_bug": {
+    "feature_id": "champion.Nami.W",
+    "severity": "P0_GHOST_INTENT",
+    "status": "V8_REPRODUCED_4_OF_4",
+    "pattern": "Two independent same-slot W queues; board cast charges once at t0, targeted remains pending in cooldown, targeted automatically casts after cooldown without new request.",
+    "sample": {
+      "initial_mana": 500,
+      "after_board_mana": 430,
+      "after_rejected_targeted_mana": 430,
+      "later_game_time": 10.25,
+      "later_mana": 360,
+      "ally_hp_initial": 400,
+      "ally_hp_after_board": 475,
+      "ally_hp_later": 590
+    },
+    "cases": [
+      {
+        "seat": "blue",
+        "queue_order": [
+          "targeted",
+          "board"
+        ],
+        "checksum": "d68c3247"
+      },
+      {
+        "seat": "blue",
+        "queue_order": [
+          "board",
+          "targeted"
+        ],
+        "checksum": "ac967537"
+      },
+      {
+        "seat": "red",
+        "queue_order": [
+          "targeted",
+          "board"
+        ],
+        "checksum": "4b0ab891"
+      },
+      {
+        "seat": "red",
+        "queue_order": [
+          "board",
+          "targeted"
+        ],
+        "checksum": "596a5c6d"
+      }
+    ],
+    "validation": "All four test-body assertions passed in V8 and restored snapshot checksums matched. These synthetic mocked-visibility cases characterize code behavior, not a network exploit.",
+    "desired_rust_behavior": "Server arbiter rejects or replaces conflicting same-slot commands at seal; pending erased after one cast; no delayed autonomous action from old request."
+  },
+  "failures": [
+    {
+      "suite": "v42_multi_m2",
+      "feature_id": "champion.Ahri.E",
+      "status": "V8_FAIL",
+      "scope": "blue seat before red cases",
+      "details": {
+        "failedAt": "blue kit input routes Ahri Charm through temporal combat",
+        "error": "assert.equal(queued.ok,true) failed",
+        "passedBeforeFailure": 8,
+        "diagnostic": "queueKitSkillV42 Ahri E -> queueDirectionalSkill => {ok:false,reason:'Ação direcional indisponível.'}; abilityRule Ahri E selects newer board_effect"
+      }
+    },
+    {
+      "suite": "global_ultimates",
+      "feature_id": "champion.Ashe.R",
+      "status": "V8_FAIL",
+      "scope": "blue seat before red cases",
+      "details": {
+        "failedAt": "blue Ashe R stun duration scales with travel distance",
+        "error": "assert.ok(effect(near)) failed after 4 prior blue checks",
+        "passedBeforeFailure": 4,
+        "diagnostic": "queue accepted + 100 mana spent; m44_authored_projectile created and no instant stun before travel"
+      }
+    }
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G6": "PARTIAL_V8_SOURCE_ONLY",
+    "G8": "NOT_CERTIFIED",
+    "node_full_goldens": {
+      "executed": 0,
+      "total": 26,
+      "status": "NOT_RUN"
+    },
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "network_pvp": "NOT_RUN",
+    "github_actions_used": 0
+  },
+  "verdict": "Partial legacy V8 QA completed, with 2 meaningful failures and confirmed Nami W stale intent; no Rust migration or Node goldens claimed."
+}

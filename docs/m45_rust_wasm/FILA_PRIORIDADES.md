@@ -113,3 +113,9 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 - P0 `M45-SKILLS-NAMI-W` elevado de **hipótese** para **LEGACY_SOURCE_V8_REPRODUCED_UNDER_SYNTHETIC_DUAL_QUEUE**: 4/4 cenários coqueue azul/vermelho executam segunda W depois do cooldown sem novo request (mana 500→430→360, heal 400→475→590), 4/4 controles isolados não repetem; mais 8/8 replay idênticos de checksums. Artefatos JSON com SHAs em `inputs/core/b02b/`; Node ESM completo ainda NOT_RUN.
 - Plano especialista S09 passou de 25 para **26/26** refs source verificadas; testes integrais Node 0/26, Rust gameplay 0. Proteger contrato Rust one-seat+unit+slot+round+request, nenhuma espera de cooldown com pending stale, defesa de ACL.
 - Próxima B02B: testar reachability real do comando UI/Room e HTTP/SSE/reconnect, capturar 26 golden Node exatos sem GitHub Actions. Não tocar workflow trigger. B03 continua QUEUED.
+
+### M45 B02B-I04 — cliente/gateway/audit kits (2026-10-30)
+
+- Runtime V8 real do mesmo SHA skills branch: **14/14 testes de gateway** (2 W targeted aceitos, 6 Nami rotas indevidas negadas, 6 Ahri E rotas comuns negadas), **4/4** combos targeted W+order.combo com um único débito no primeiro resolve e nenhum novo débito após cooldown sintético. Todos os 18 fixtures têm ACK/checksums; rejeições Ahri E indicam BUG de roteamento, não PASS funcional.
+- Catálogo legado server `/api/kits.kits` inclui 30 `BOARD_KITS`; **14 M44 B13** autorais ausentes dessa propriedade, embora existam campos alternativos (specials/form/...) que exigem reconciliação. Client target button exclui `target_any` da Nami. Contrato Rust de unificação entregue **SPEC_ONLY**.
+- Skills S10 executou **22/26 em V8 PASS, 2/26 em V8 FAIL e 2/26 NOT_RUN**, não 26 Node completos; conservar duas falhas (Ahri E e Ashe R golden desatualizado) como deltas. **Próxima B02B:** executar Node ESM/HTTP quando possível, escolher prioridade P0 catalog/rota e ACL, sem CI repetitivo; B03 QUEUED.

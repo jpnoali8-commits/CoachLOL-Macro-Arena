@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I03_NAMI_W_GHOST_V8_CONFIRMED",
+    "phase": "B02B_I04_GATEWAY_UI_KIT_CATALOG_RECONCILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -529,7 +529,9 @@
       "M45-SKILLS-NAMI-W_REPRODUCED_V8",
       "PLATFORM-016",
       "M45-PVP-TRINKET",
-      "M45-READY-ACK"
+      "M45-READY-ACK",
+      "M45-SKILL-WIRE-CLIENT-CATALOG",
+      "M45-AHRI-E-UNREACHABLE_VIA_STANDARD_GATEWAY"
     ],
     "actions_policy": "ZERO_BY_DEFAULT_UNLESS_MAJOR_GATE_AND_UNBLOCKABLE_OTHERWISE",
     "actions_this_batch": 3,
@@ -621,6 +623,47 @@
       "planned_suites": 26,
       "executed_node_suites": 0,
       "s09_test_blob": "eec3732e024fbee3517041d9f92f9862d01e5ad2"
+    },
+    "skills_gateway_i04": {
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "gateway_replay": {
+        "blob": "30375b17c600b65eef953988f149c6408c588da1",
+        "routes_total": 14,
+        "nami_targeted_accepted": 2,
+        "nami_other_denials": 6,
+        "ahri_e_denials": 6,
+        "combo_sequences": 4,
+        "combo_repeat_casts_observed": 0
+      },
+      "catalog": {
+        "blob": "4dec9b0da3e40252b1929217f87455652fa05ff8",
+        "legacy_board_champs": 30,
+        "m44_authored_champs": 14,
+        "overlap": 0,
+        "other_api_fields_exist": true
+      },
+      "validator": {
+        "blob": "ed61250ff7029150e7b2f159a6238d5517c5243a",
+        "v8": "PASS",
+        "tamper_check": "PASS_REJECTED"
+      },
+      "rust_design": {
+        "blob": "a049f91f318e1961931d87716bcd8fca79515f5b",
+        "status": "PROPOSED_NOT_IMPLEMENTED"
+      },
+      "node_test": {
+        "blob": "9cbe4b958c11bd705f9813c80feac0b16be0c1df",
+        "status": "NOT_RUN"
+      },
+      "source_s10_skills_qa": {
+        "planned": 26,
+        "v8_pass": 22,
+        "v8_fail": 2,
+        "v8_not_run": 2,
+        "full_node_pass": 0
+      },
+      "qa_env": "V8_ORIGINAL_SOURCE_ISOLATED",
+      "actions_requested": 0
     }
   }
 }
