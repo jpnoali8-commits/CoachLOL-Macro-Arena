@@ -8,15 +8,16 @@
     "roster_champions": 173,
     "test_files_seen": 244,
     "regression_status": "NOT_RUN",
-    "interpretation": "Static evidence is not a successful native JS golden or Rust parity test."
+    "interpretation": "Static evidence is not a successful native JS golden or Rust parity test.",
+    "override_method": "Direct source scan of explicit M14/M15/M44 executor paths; no JS gameplay execution"
   },
   "stats": {
     "slots": 865,
     "by_status": {
-      "absent": 274,
-      "reference-only": 21,
-      "implemented": 230,
-      "partial": 340
+      "absent": 268,
+      "reference-only": 20,
+      "implemented": 234,
+      "partial": 343
     },
     "registry_stats": {
       "M16_MECHANIC_KITS": 22,
@@ -52,7 +53,8 @@
     },
     "duplicate_slots": 55,
     "mechanic_symbols": 63,
-    "unmapped_registrations": 0
+    "unmapped_registrations": 0,
+    "executor_only_overrides": 7
   },
   "unmapped": [],
   "rows": [
@@ -7116,15 +7118,38 @@
       "feature_id": "champion.Ezreal.R",
       "champion": "Ezreal",
       "slot": "R",
-      "legacy_status": "absent",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+      "variants": [
+        {
+          "symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+          "status": "partial",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.resolveSpecialUltimates",
+            "Arena.resolveDelayedEffects"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_global_ult_m14.test.mjs",
+          "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -7136,9 +7161,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: R com projétil global de resolução temporal especial, sem paridade de frames. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Fiddlesticks.P",
@@ -11585,13 +11610,30 @@
       "feature_id": "champion.Jinx.R",
       "champion": "Jinx",
       "slot": "R",
-      "legacy_status": "reference-only",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": "CHAMPION_KITS_V42.Jinx.R",
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
       "variants": [
+        {
+          "symbol": "Arena.resolveSpecialUltimates -> Arena.resolveDelayedEffects",
+          "status": "partial",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.resolveSpecialUltimates",
+            "Arena.resolveDelayedEffects"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        },
         {
           "symbol": "CHAMPION_KITS_V42.Jinx.R",
           "status": "reference-only",
@@ -11603,7 +11645,12 @@
         }
       ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_global_ult_m14.test.mjs",
+          "git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -11615,9 +11662,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "pending blue/red JS golden and Rust contracts",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: R global custom supera metadata V42 reference-only; tempo de turno diferente de LoL. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Kaisa.P",
@@ -14629,15 +14676,38 @@
       "feature_id": "champion.KSante.R",
       "champion": "KSante",
       "slot": "R",
-      "legacy_status": "absent",
+      "legacy_status": "partial",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.pushChampionThroughTerrain",
+      "variants": [
+        {
+          "symbol": "Arena.resolveSpecialUltimates -> Arena.pushChampionThroughTerrain",
+          "status": "partial",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.resolveSpecialUltimates",
+            "Arena.pushChampionThroughTerrain"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_board_m14.test.mjs",
+          "git_blob_sha": "3efca85be8c6e00201004e3496b1ba07c72e3806"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -14649,9 +14719,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: Empurrão através de terreno, raiz e All Out em executor especial, sem confirmação de fidelidade integral. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Leblanc.P",
@@ -18490,15 +18560,42 @@
       "feature_id": "champion.Mordekaiser.R",
       "champion": "Mordekaiser",
       "slot": "R",
-      "legacy_status": "absent",
+      "legacy_status": "implemented",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.resolveSpecialUltimates -> Arena.startRealmV453Dev69",
+      "variants": [
+        {
+          "symbol": "Arena.resolveSpecialUltimates -> Arena.startRealmV453Dev69",
+          "status": "implemented",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.resolveSpecialUltimates",
+            "Arena.startRealmV453Dev69"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
-      "candidate_test_files": [],
+      "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_realm_hardening_m14.test.mjs",
+          "git_blob_sha": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3"
+        },
+        {
+          "path": "tests/v453_dev69_board_m14.test.mjs",
+          "git_blob_sha": "3efca85be8c6e00201004e3496b1ba07c72e3806"
+        }
+      ],
       "golden_fixture_ids": [],
       "rust_crate": "core-champions",
       "rust_symbol": null,
@@ -18510,9 +18607,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: Autoritativo: R excepcional despacha para Death Realm, com geometria, limite, owner e validação por alvo. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Morgana.P",
@@ -19569,15 +19666,38 @@
       "feature_id": "champion.Neeko.P",
       "champion": "Neeko",
       "slot": "P",
-      "legacy_status": "absent",
+      "legacy_status": "implemented",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.queueNeekoDisguiseV453M15 -> Arena.queueNeekoShomaV453M15 -> Arena.m15BreakDisguise",
+      "variants": [
+        {
+          "symbol": "Arena.queueNeekoDisguiseV453M15 -> Arena.queueNeekoShomaV453M15 -> Arena.m15BreakDisguise",
+          "status": "implemented",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.queueNeekoDisguiseV453M15",
+            "Arena.queueNeekoShomaV453M15",
+            "Arena.m15BreakDisguise"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
       "candidate_test_files": [
+        {
+          "path": "tests/v453_dev69_clones_m15.test.mjs",
+          "git_blob_sha": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2"
+        },
         {
           "path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
           "git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a"
@@ -19594,9 +19714,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: Passiva de disfarce fora do registro; suporta aparência de aliado e Shoma de unidade visível, não comprova LoL 1:1. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Neeko.Q",
@@ -28089,30 +28209,49 @@
       "feature_id": "champion.Sylas.R",
       "champion": "Sylas",
       "slot": "R",
-      "legacy_status": "absent",
+      "legacy_status": "implemented",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.queueSylasHijackV453M14 -> Arena.resolveSylasHijacksV453M14 -> Arena.executeBoardSkillV453Dev69",
+      "variants": [
+        {
+          "symbol": "Arena.queueSylasHijackV453M14 -> Arena.resolveSylasHijacksV453M14 -> Arena.executeBoardSkillV453Dev69",
+          "status": "implemented",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.queueSylasHijackV453M14",
+            "Arena.resolveSylasHijacksV453M14",
+            "Arena.executeBoardSkillV453Dev69"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
       "candidate_test_files": [
-        {
-          "path": "tests/audit/v453_m44_b14c_sylas_hijack_authored_r_pvp.test.mjs",
-          "git_blob_sha": "122014a5690277ab1ee3ea88054545d63569901d"
-        },
         {
           "path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
           "git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37"
         },
         {
-          "path": "tests/audit/v453_m44_b17_shared_sylas_viego_pvp.test.mjs",
-          "git_blob_sha": "f84512a69664f46beaf4949fb57d6269138269ce"
-        },
-        {
           "path": "tests/v453_dev69_sylas_m14.test.mjs",
           "git_blob_sha": "446ac7689d0c2fd029113da679031ebe18c8722e"
+        },
+        {
+          "path": "tests/audit/v453_m44_b14c_sylas_hijack_authored_r_pvp.test.mjs",
+          "git_blob_sha": "122014a5690277ab1ee3ea88054545d63569901d"
+        },
+        {
+          "path": "tests/audit/v453_m44_b17_shared_sylas_viego_pvp.test.mjs",
+          "git_blob_sha": "f84512a69664f46beaf4949fb57d6269138269ce"
         }
       ],
       "golden_fixture_ids": [],
@@ -28126,9 +28265,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: R existe como hijack fora do registro comum; devolve owner Sylas e delega executor R original, sem fallback. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Syndra.P",
@@ -32475,22 +32614,40 @@
       "feature_id": "champion.Viego.P",
       "champion": "Viego",
       "slot": "P",
-      "legacy_status": "absent",
+      "legacy_status": "implemented",
       "legacy_source_branch": "dev69/skills-batch2",
       "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
       "source_path": "engine.mjs",
       "source_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
-      "source_symbol": null,
-      "variants": [],
+      "source_symbol": "Arena.queueViegoPossessV453M44B14C -> Arena.endViegoPossessionV453M44B14D",
+      "variants": [
+        {
+          "symbol": "Arena.queueViegoPossessV453M44B14C -> Arena.endViegoPossessionV453M44B14D",
+          "status": "implemented",
+          "marker_keys": [],
+          "marker_references": [
+            "Arena.queueViegoPossessV453M44B14C",
+            "Arena.endViegoPossessionV453M44B14D"
+          ],
+          "declared_missing": [],
+          "dependencies": [
+            "special_executor",
+            "ownership",
+            "snapshots"
+          ],
+          "source_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+          "not_in_common_registry": true
+        }
+      ],
       "source_test_ids": [],
       "candidate_test_files": [
         {
-          "path": "tests/audit/v453_m44_b14c_viego_owner_possession_pvp.test.mjs",
-          "git_blob_sha": "df33700bb71565d10665f8be763e3dce41429366"
-        },
-        {
           "path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
           "git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37"
+        },
+        {
+          "path": "tests/audit/v453_m44_b14c_viego_owner_possession_pvp.test.mjs",
+          "git_blob_sha": "df33700bb71565d10665f8be763e3dce41429366"
         },
         {
           "path": "tests/audit/v453_m44_b17_shared_sylas_viego_pvp.test.mjs",
@@ -32508,9 +32665,9 @@
       "snapshot_hash_status": "NOT_RUN",
       "ownership_fog_status": "NOT_RUN",
       "release_status": "NOT_CERTIFIED",
-      "blocker": "no skill rule found in selected registries",
+      "blocker": "special executor located by direct source inspection; dynamic golden NOT_RUN",
       "source_patch": null,
-      "notes": "Static scan; no gameplay execution."
+      "notes": "Explicit executor-only reconciliation: Passiva de alma/posse e aparência fora do registro P; delega P/Q/W/E da vítima, mantém R nativa. Source line references required for next B02-S02."
     },
     {
       "feature_id": "champion.Viego.Q",
