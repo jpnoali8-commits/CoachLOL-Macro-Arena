@@ -1,0 +1,557 @@
+{
+  "schema": "coachlol.m45.items.qa.v8.spatial_skills.b09.v1",
+  "executed_date": "2026-10-30",
+  "source": {
+    "items_branch": "dev69/items-batch2",
+    "items_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "files": [
+      {
+        "path": "engine.mjs",
+        "git_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+      },
+      {
+        "path": "data/coachlol_map_v6.json",
+        "git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109"
+      },
+      {
+        "path": "data/masks_128.json",
+        "git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/spatial_skill_b09_cases.mjs",
+        "git_blob_sha": "70788383dd463c73b1d9cae03af00d137cc5bba4"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/golden_b09_spatial_skills.test.mjs",
+        "git_blob_sha": "a69fbcec3783d7e7070420dc404c91779b9796c0"
+      }
+    ]
+  },
+  "execution": {
+    "runtime": "V8 isolate; directly fetched original engine source + real map/mask, remove top-level ESM export only, run versioned pure fixture without gameplay stubs",
+    "status": "PASS_SOURCE_V8_ONLY",
+    "scenarios": 15,
+    "expected_cases": 30,
+    "passed": 30,
+    "failed": 0,
+    "collision_cases": 12,
+    "actual_skill_resolution_cases": 18,
+    "replay_cases": 30,
+    "replay_equal": 30,
+    "important": "Source engine casts Ezreal Q, schedules & advances a real projectile, and queues/resolves Nami W with a bounce; fixture replaces champion identity on the default roster for both teams.",
+    "node_esm": "NOT_RUN",
+    "HTTP_server": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "source_scope": {
+    "wave_generator": "Arena.spawnWaves at gameTime=80 creates real wave minions; fixture isolates one and assigns its real bodyX/bodyY for deterministic collision geometry",
+    "movement": "Actual Arena.moveAlong, resolveChampionMinionBlockV453Dev48, minionBodyCollisionAlongV453Dev52, walkable geometry",
+    "skills": "Actual Arena.castEzrealMysticShotV453Dev42 + advanceChampionProjectilesV453Dev42; queueTargetedSkill + resolveTargetedCasts for Nami W",
+    "item_effects": [
+      "phantom_dancer",
+      "rapid_firecannon",
+      "nashors_tooth",
+      "banshees_veil",
+      "forbidden_idol",
+      "spirit_visage",
+      "liandrys_torment"
+    ],
+    "caution": [
+      "Real spawned minions are repositioned and filtered in fixture only to isolate collision",
+      "Unit champion labels changed in fixture to test Ezreal and Nami both blue/red without editing roster manifests",
+      "Not full champion kit parity or live PvP room",
+      "Position barriers inserted as fixture-owned state and resolved by original projectile engine"
+    ]
+  },
+  "observations": {
+    "phantom_with_wave": {
+      "source": "M45-B09-REAL_WAVE_PHANTOM_PASSES-blue",
+      "traveled": 299.80000000000024
+    },
+    "without_phantom_wave_traveled": 0,
+    "phantom_wall_traveled": 0,
+    "ezreal_moved_target": {
+      "reason": "sem_alvo",
+      "targetHit": null,
+      "enemyLostHp": 0
+    },
+    "ezreal_enemy_barrier": {
+      "reason": "bloqueio_posicional",
+      "hitId": null,
+      "enemyLostHp": 0,
+      "cdBefore": 4.782608695652174,
+      "cdAfter": 4.782608695652174
+    },
+    "nami_w_idol": {
+      "normal": 115,
+      "boosted": 124.19999999999999,
+      "enemyHitHpLoss": 63,
+      "castJournal": "targeted"
+    },
+    "nami_w_banshee": {
+      "blocked": true,
+      "enemyLost": 0,
+      "annulReady": 40
+    }
+  },
+  "cases": [
+    {
+      "case_id": "M45-B09-REAL_WAVE_BLOCKS_NORMAL-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490900,
+      "status": "PASS",
+      "before_checksum_v40": "38062d3d",
+      "observed": {
+        "minionId": "m7",
+        "collision": true,
+        "traveled": 0,
+        "after": {
+          "x": 0.49,
+          "y": 0.5
+        }
+      },
+      "after_checksum_v40": "12ec75c3"
+    },
+    {
+      "case_id": "M45-B09-REAL_WAVE_BLOCKS_NORMAL-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490901,
+      "status": "PASS",
+      "before_checksum_v40": "48cd1390",
+      "observed": {
+        "minionId": "m1",
+        "collision": true,
+        "traveled": 0,
+        "after": {
+          "x": 0.49,
+          "y": 0.5
+        }
+      },
+      "after_checksum_v40": "377354c7"
+    },
+    {
+      "case_id": "M45-B09-REAL_WAVE_PHANTOM_PASSES-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490902,
+      "status": "PASS",
+      "before_checksum_v40": "d8a565eb",
+      "observed": {
+        "minionId": "m7",
+        "traveled": 299.80000000000024,
+        "after": {
+          "x": 0.51,
+          "y": 0.5
+        }
+      },
+      "after_checksum_v40": "609bdc70"
+    },
+    {
+      "case_id": "M45-B09-REAL_WAVE_PHANTOM_PASSES-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490903,
+      "status": "PASS",
+      "before_checksum_v40": "d8898db6",
+      "observed": {
+        "minionId": "m1",
+        "traveled": 299.80000000000024,
+        "after": {
+          "x": 0.51,
+          "y": 0.5
+        }
+      },
+      "after_checksum_v40": "39819f6c"
+    },
+    {
+      "case_id": "M45-B09-DEAD_WAVE_DOES_NOT_BLOCK-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490904,
+      "status": "PASS",
+      "before_checksum_v40": "16368df1",
+      "observed": {
+        "deadMinionId": "m7",
+        "traveled": 299.80000000000024
+      },
+      "after_checksum_v40": "09190e45"
+    },
+    {
+      "case_id": "M45-B09-DEAD_WAVE_DOES_NOT_BLOCK-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490905,
+      "status": "PASS",
+      "before_checksum_v40": "e915b284",
+      "observed": {
+        "deadMinionId": "m1",
+        "traveled": 299.80000000000024
+      },
+      "after_checksum_v40": "3b4c3461"
+    },
+    {
+      "case_id": "M45-B09-FRIENDLY_WAVE_BLOCKS_NORMAL-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490906,
+      "status": "PASS",
+      "before_checksum_v40": "5612d61f",
+      "observed": {
+        "minionId": "m1",
+        "traveled": 0
+      },
+      "after_checksum_v40": "372d64e1"
+    },
+    {
+      "case_id": "M45-B09-FRIENDLY_WAVE_BLOCKS_NORMAL-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490907,
+      "status": "PASS",
+      "before_checksum_v40": "cfc108ea",
+      "observed": {
+        "minionId": "m7",
+        "traveled": 0
+      },
+      "after_checksum_v40": "d3eedba1"
+    },
+    {
+      "case_id": "M45-B09-PHANTOM_RESPECTS_WORLD_WALL-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490908,
+      "status": "PASS",
+      "before_checksum_v40": "029eda25",
+      "observed": {
+        "traveled": 0,
+        "start": {
+          "x": 0.332,
+          "y": 0.332
+        },
+        "destination": {
+          "x": 0.337,
+          "y": 0.332
+        }
+      },
+      "after_checksum_v40": "e25b5992"
+    },
+    {
+      "case_id": "M45-B09-PHANTOM_RESPECTS_WORLD_WALL-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490909,
+      "status": "PASS",
+      "before_checksum_v40": "11cad4e8",
+      "observed": {
+        "traveled": 0,
+        "start": {
+          "x": 0.332,
+          "y": 0.332
+        },
+        "destination": {
+          "x": 0.337,
+          "y": 0.332
+        }
+      },
+      "after_checksum_v40": "45498233"
+    },
+    {
+      "case_id": "M45-B09-PHANTOM_RFC_WALK_CHARGES-blue",
+      "category": "WAVE_COLLISION",
+      "team": "blue",
+      "seed": 490910,
+      "status": "PASS",
+      "before_checksum_v40": "0a6baa42",
+      "observed": {
+        "moved": 299.80000000000024,
+        "energizeStacks": 12.491666666666676
+      },
+      "after_checksum_v40": "6c8104ca"
+    },
+    {
+      "case_id": "M45-B09-PHANTOM_RFC_WALK_CHARGES-red",
+      "category": "WAVE_COLLISION",
+      "team": "red",
+      "seed": 490911,
+      "status": "PASS",
+      "before_checksum_v40": "baef2803",
+      "observed": {
+        "moved": 299.80000000000024,
+        "energizeStacks": 12.491666666666676
+      },
+      "after_checksum_v40": "dce2a41c"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_ACTUAL_PROJECTILE_NASHOR-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490912,
+      "status": "PASS",
+      "before_checksum_v40": "ef799f30",
+      "observed": {
+        "projectileId": "ezreal_q_1",
+        "hitId": "red_MID",
+        "damage": 126,
+        "procJournalCount": 1,
+        "manaSpent": 28,
+        "cdCast": 4.782608695652174,
+        "cdAfter": 3.282608695652174
+      },
+      "after_checksum_v40": "e479e86b"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_ACTUAL_PROJECTILE_NASHOR-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490913,
+      "status": "PASS",
+      "before_checksum_v40": "87f6f2b9",
+      "observed": {
+        "projectileId": "ezreal_q_1",
+        "hitId": "blue_MID",
+        "damage": 163,
+        "procJournalCount": 1,
+        "manaSpent": 28,
+        "cdCast": 4.782608695652174,
+        "cdAfter": 3.282608695652174
+      },
+      "after_checksum_v40": "d1414a0f"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_BANSHEE_BLOCKS_ONHIT-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490914,
+      "status": "PASS",
+      "before_checksum_v40": "7998f22e",
+      "observed": {
+        "hitId": "red_MID",
+        "blocked": true,
+        "annulReady": 41
+      },
+      "after_checksum_v40": "ed57b39b"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_BANSHEE_BLOCKS_ONHIT-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490915,
+      "status": "PASS",
+      "before_checksum_v40": "c25079ef",
+      "observed": {
+        "hitId": "blue_MID",
+        "blocked": true,
+        "annulReady": 41
+      },
+      "after_checksum_v40": "47c25a5f"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_REAL_MINION_INTERCEPTS-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490916,
+      "status": "PASS",
+      "before_checksum_v40": "8dc9939c",
+      "observed": {
+        "interceptor": "m7",
+        "hitId": "m7",
+        "minionLostHp": 97,
+        "championLostHp": 0
+      },
+      "after_checksum_v40": "27b1ab47"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_REAL_MINION_INTERCEPTS-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490917,
+      "status": "PASS",
+      "before_checksum_v40": "d36e8785",
+      "observed": {
+        "interceptor": "m1",
+        "hitId": "m1",
+        "minionLostHp": 140,
+        "championLostHp": 0
+      },
+      "after_checksum_v40": "ac3ac3e4"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_IDOL_HEALS_ALLY_MORE-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490918,
+      "status": "PASS",
+      "before_checksum_v40": "213efa2a",
+      "observed": {
+        "normal": 115,
+        "boosted": 124.19999999999999,
+        "enemyHitHpLoss": 63,
+        "castJournal": "targeted"
+      },
+      "after_checksum_v40": "00c26994"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_IDOL_HEALS_ALLY_MORE-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490919,
+      "status": "PASS",
+      "before_checksum_v40": "2af4350b",
+      "observed": {
+        "normal": 115,
+        "boosted": 124.20000000000005,
+        "enemyHitHpLoss": 62,
+        "castJournal": "targeted"
+      },
+      "after_checksum_v40": "3d8f0626"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_SPIRIT_VISAGE_RECIPIENT-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490920,
+      "status": "PASS",
+      "before_checksum_v40": "eff9b79f",
+      "observed": {
+        "normal": 115,
+        "boosted": 143.75,
+        "recipient": "blue_ADC"
+      },
+      "after_checksum_v40": "d190cc93"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_SPIRIT_VISAGE_RECIPIENT-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490921,
+      "status": "PASS",
+      "before_checksum_v40": "a1c80226",
+      "observed": {
+        "normal": 115,
+        "boosted": 143.75,
+        "recipient": "red_ADC"
+      },
+      "after_checksum_v40": "23864be1"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_LIANDRY_BURNS_ON_BOUNCE-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490922,
+      "status": "PASS",
+      "before_checksum_v40": "f0793841",
+      "observed": {
+        "enemyDamage": 69,
+        "sourceItem": "liandry_blue_SUP",
+        "until": 3
+      },
+      "after_checksum_v40": "90c77768"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_LIANDRY_BURNS_ON_BOUNCE-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490923,
+      "status": "PASS",
+      "before_checksum_v40": "bcdafd28",
+      "observed": {
+        "enemyDamage": 68,
+        "sourceItem": "liandry_red_SUP",
+        "until": 3
+      },
+      "after_checksum_v40": "b96f6651"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_TARGET_MOVES_AFTER_LAUNCH-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490924,
+      "status": "PASS",
+      "before_checksum_v40": "092dbb8b",
+      "observed": {
+        "reason": "sem_alvo",
+        "targetHit": null,
+        "enemyLostHp": 0
+      },
+      "after_checksum_v40": "a4e25547"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_TARGET_MOVES_AFTER_LAUNCH-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490925,
+      "status": "PASS",
+      "before_checksum_v40": "a49d2b12",
+      "observed": {
+        "reason": "sem_alvo",
+        "targetHit": null,
+        "enemyLostHp": 0
+      },
+      "after_checksum_v40": "4bf05a13"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_ENEMY_PROJECTILE_BARRIER-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490926,
+      "status": "PASS",
+      "before_checksum_v40": "ce76800d",
+      "observed": {
+        "reason": "bloqueio_posicional",
+        "hitId": null,
+        "enemyLostHp": 0,
+        "cdBefore": 4.782608695652174,
+        "cdAfter": 4.782608695652174
+      },
+      "after_checksum_v40": "509dd427"
+    },
+    {
+      "case_id": "M45-B09-EZREAL_Q_ENEMY_PROJECTILE_BARRIER-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490927,
+      "status": "PASS",
+      "before_checksum_v40": "e7387754",
+      "observed": {
+        "reason": "bloqueio_posicional",
+        "hitId": null,
+        "enemyLostHp": 0,
+        "cdBefore": 4.782608695652174,
+        "cdAfter": 4.782608695652174
+      },
+      "after_checksum_v40": "d256b84e"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_BANSHEE_BLOCKS_BOUNCE_AND_BURN-blue",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "blue",
+      "seed": 490928,
+      "status": "PASS",
+      "before_checksum_v40": "e8ce5577",
+      "observed": {
+        "blocked": true,
+        "enemyLost": 0,
+        "annulReady": 40
+      },
+      "after_checksum_v40": "4ca86d69"
+    },
+    {
+      "case_id": "M45-B09-NAMI_W_BANSHEE_BLOCKS_BOUNCE_AND_BURN-red",
+      "category": "REAL_CHAMPION_SKILL",
+      "team": "red",
+      "seed": 490929,
+      "status": "PASS",
+      "before_checksum_v40": "aa7fedde",
+      "observed": {
+        "blocked": true,
+        "enemyLost": 0,
+        "annulReady": 40
+      },
+      "after_checksum_v40": "c3d23929"
+    }
+  ]
+}
