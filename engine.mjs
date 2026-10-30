@@ -3928,7 +3928,7 @@ export class Arena {
     return {ok:false,reason:'m40_channel_interrupted'};
    return {ok:false,reason:'m40_channel_active'};
   }
-  if(slot==='R'&&u.level<6&&!['Nidalee','Elise'].includes(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
+  if(slot==='R'&&u.level<6&&!SPECIAL_R_FROM_LEVEL_ONE.has(u.champ))return {ok:false,reason:'ultimate_nivel_6'};
   if(slot==='W'&&['Leblanc','Zed'].includes(u.champ)&&
      u.m44B13Return?.until>this.gameTime){
    u.pendingBoardV453Dev69={slot,m44B13Return:true};
