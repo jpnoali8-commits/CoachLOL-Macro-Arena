@@ -5947,6 +5947,7 @@ export class Arena {
      origin:start,current:{...start},point:end,
      range:reach,width:s.width||160,
      m44B08Mantra:!!mantra,m44B09Boulder:!!s.m44B09Boulder,
+     m44B12Empowered:!!(s.m44B12Bola&&(u.m44B12Ferocity||0)>=4),
      power:power(s.damage)*(mantra?1.35:1)*(u.champ==='Varus'&&q.slot==='Q'?
       (1+.25*m44Charge)*(q.m30VarusEmpowered?1.15:1):1),
      damageType:s.type||'magic',
@@ -5960,6 +5961,8 @@ export class Arena {
      m44Mark:s.m20Mark||null,m44SplashRadius:s.m44SplashRadius||0,
      m44LatchTargetId:null,m44ExtensionCount:0,m44Ray:0
     });
+    if(s.m44B12Bola&&u.champ==='Rengar')
+     u.m44B12Ferocity=u.m44B12Ferocity>=4?0:Math.min(4,(u.m44B12Ferocity||0)+1);
     if(u.champ==='Xayah'&&q.slot==='Q'){
      const first=(this.boardTemporalV453Dev69||[]).at(-1);
      const heading=Math.atan2((end.y-start.y)*this.worldHeight,
@@ -6549,7 +6552,24 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m44_b11_twitch_cask'){
+    if(z.kind==='m44_b12_wukong_cyclone'){
+     if(u.hp<=0)ended=true;
+     else {
+      z.point={x:u.x,y:u.y};
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       v.champ&&v.hp>0&&this.mapDistance(v,z.point)<=z.radius&&
+       !this.obstacleLine(z.point,v)).sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       const blocked=this.effectResolverV41().has(v,'spell_shield');
+       this.damage(v,z.power,u,'physical','spell');
+       if(!blocked&&!z.hitIds.includes(v.id)&&v.hp>0){
+        this.applyEffectV41(v,'knockup',{source:u,duration:.7,
+         key:'m44_b12_cyclone_'+z.id+'_'+v.id});
+        z.hitIds.push(v.id);
+       }
+      }
+      z.nextAt=now+1;if(z.nextAt>z.until)ended=true;
+     }
+    }else if(z.kind==='m44_b11_twitch_cask'){
       for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
        v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
        this.mapDistance(v,z.point)<=z.radius&&!this.obstacleLine(z.point,v))
@@ -6863,6 +6883,10 @@ export class Arena {
         point:{x:victim.x,y:victim.y},power:z.power*.75,
         radius:270,nextAt:now+1,until:now+1.1});
       }
+      if(z.champ==='Rengar'&&z.slot==='E'&&victim.champ&&!spellShield&&victim.hp>0)
+       this.applyEffectV41(victim,z.m44B12Empowered?'root':'slow',{
+        source:u,duration:z.m44B12Empowered?1.5:2,power:.35,
+        key:'m44_b12_rengar_bola_'+z.id+'_'+victim.id});
       if(z.champ==='Draven'&&z.slot==='E'&&victim.champ&&!spellShield){
        this.applyEffectV41(victim,'slow',{source:u,duration:2,power:.35,
         key:'m44_b09_draven_e_'+z.id+'_'+victim.id});
@@ -12059,6 +12083,8 @@ export class Arena {
     this.damage(attacker,Math.max(1,amount*.45),target,'magic','m25_mel_reflect');
     return 0;
    }
+   if(target?.champ==='Evelynn'&&target.m44B12EvelynnEvasiveUntil>this.gameTime)
+    return 0;
    if(target?.m24FizzLeapV453?.until>this.gameTime||
       target?.m24DevouredByV453?.until>this.gameTime)return 0;
    if(!this.sameCombatRealmV453Dev69(attacker,target))return 0;
@@ -12219,7 +12245,8 @@ export class Arena {
   targetRes*(1-Math.min(.30,cleaverDebuffV453Dev29.stacks*.06)):targetRes)*
   (1-m26CorkiArmorShred)*(1-m26KogRatio)*(1-m26JarvanShred);
  const penetrable=damageType==='true'?0:damageType==='magic'?Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.magicPenPercent||0)/100)-(attacker?.magicPenFlat||0)):Math.max(-999,effectiveTargetResV453Dev29*(1-(attacker?.armorPenPercent||0)/100)-(attacker?.lethality||0)-(attacker?.armorPenFlat||0));
- const resistance=penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
+ const resistance=damageType==='physical'&&target?.m44B12WukongArmorShred?.until>this.gameTime?
+  penetrable-target.m44B12WukongArmorShred.amount:penetrable;const multiplier=resistance>=0?100/(100+resistance):2-100/(100-resistance);const amount2=Math.max(1,Math.round(amount*multiplier));let final=amount2;if(attacker?.jungleBuff==='scorchclaw'&&target.champ&&attacker.team!==target.team&&(attacker.jungleBurnAt||0)<=this.gameTime){final+=Math.round(target.maxHp*.05);target.slowPercent=Math.max(target.slowPercent||0,.20);attacker.jungleBurnAt=this.gameTime+30;}// DEV50 Barricade: 10% reduction to a legal BASIC attack, after resistances,
  // before existing shields. Does not reduce spell, DOT, true damage or item on-hit
  // separately: deliberately scoped to the primary basic hit.
  if(sourceType==='basic'&&target.champ&&target.items?.includes('plated_steelcaps'))final=Math.max(1,Math.round(final*.90));
@@ -12304,6 +12331,12 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     this.gameTime+3);
   }
   const dealt=Math.min(Math.max(0,target.hp),final);target.hp=Math.max(0,target.hp-final);
+  if(dealt>0&&target.champ==='Rengar'){
+   const prior=target.m44B12RecentDamage?.until>this.gameTime?
+    target.m44B12RecentDamage.amount:0;
+   target.m44B12RecentDamage={amount:Math.min(target.maxHp*.7,prior+dealt),
+    until:this.gameTime+2};
+  }
   // Locke W: only real damage that penetrates shields during the active
   // ignition window feeds its later self-healing. The self HP cost is excluded.
   if(dealt>0&&target.champ==='Locke'&&target.m37LockeIgnition?.until>this.gameTime&&
@@ -12657,6 +12690,9 @@ const farmContextV452c=target.id?.startsWith('m')&&target.kind&&target.hp<=final
     }
    const b=attacker.boardNextBasicV453Dev69;
    if(b?.charges>0&&b.until>this.gameTime){
+    if(attacker.champ==='MonkeyKing'&&b.sourceSlot==='Q'&&target.champ&&target.hp>0)
+     target.m44B12WukongArmorShred={amount:15+6*(attacker.skillRanks.Q||1),
+      until:this.gameTime+4,ownerId:attacker.id};
     b.charges--;
     const power=Math.max(0,b.base+
      b.adRatio*this.elementalStatsV452d3(attacker).ad+
