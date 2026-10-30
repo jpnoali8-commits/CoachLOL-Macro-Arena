@@ -1016,6 +1016,23 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B13A — fourteen individually authored champion slots.
+export const M44_B13A_KITS_V453=Object.freeze({
+ Bard:{R:BS("circle_enemy",3400,100,110,[],{m44B13Id:"Bard.R",radius:350})},
+ AurelionSol:{E:BS("circle_enemy",920,80,13,[30,40,50,60,70],{m44B13Id:"AurelionSol.E",radius:370})},
+ Anivia:{R:BS("circle_enemy",750,75,6,[30,45,60],{m44B13Id:"Anivia.R",radius:375})},
+ Kalista:{E:BS("self",0,30,12,[30,50,70,90,110],{m44B13Id:"Kalista.E"})},
+ Leblanc:{W:BS("move_point",600,60,18,[75,95,115,135,155],{m44B13Id:"Leblanc.W",radius:260})},
+ Jayce:{R:BS("self",0,0,6,[],{m44B13Id:"Jayce.R"})},
+ Rumble:{Q:BS("line_enemy",580,0,7,[40,55,70,85,100],{m44B13Id:"Rumble.Q",radius:400})},
+ Taliyah:{W:BS("circle_enemy",900,70,13,[],{m44B13Id:"Taliyah.W",radius:200})},
+ Lissandra:{R:BS("target_any",550,100,[120,100,80],[200,300,400],{m44B13Id:"Lissandra.R"})},
+ Ekko:{R:BS("self",0,100,[110,90,70],[150,300,450],{m44B13Id:"Ekko.R",radius:325})},
+ Zed:{W:BS("move_point",650,40,[20,18,16,14,12],[],{m44B13Id:"Zed.W"})},
+ Katarina:{E:BS("target_any",725,0,[14,12.5,11,9.5,8],[20,30,40,50,60],{m44B13Id:"Katarina.E"})},
+ Nami:{W:BS("target_any",725,[70,75,80,85,90],10,[70,110,150,190,230],{m44B13Id:"Nami.W"})},
+ Azir:{W:BS("move_point",600,40,[12,11,10,9,8],[],{m44B13Id:"Azir.W"})}
+});
 // M44 B12B — eight individually-authored board spells.
 export const M44_B12B_KITS_V453=Object.freeze({
  Akshan:{Q:BS('line_enemy',1000,60,[8,7.5,7,6.5,6],[10,30,50,70,90],
@@ -1463,7 +1480,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4226,7 +4243,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
