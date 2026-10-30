@@ -1,0 +1,230 @@
+{
+  "schema": "coachlol.m45.items.v8.trinket_gateway_execution.b05.v1",
+  "date": "2026-10-30",
+  "source": {
+    "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "gateway_dev44_sha": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "gateway_dev47_sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "fixture_internal_blob_sha": "fd06428f8262599bf0c06d434bb132712ad3f03f",
+    "fixture_pvp_negative_sha": "e73344f2802b13b715d8eb2274724525f8e8e4c6"
+  },
+  "execution": {
+    "mode": "Arena and gateway classes from frozen GitHub in isolated V8 (Node imports removed; structuredClone shim for plain receipts)",
+    "internal_6_passed": 6,
+    "negative_pvp_2_expected_rejections": 2,
+    "failed": 0,
+    "status": "PASS_WITH_CONFIRMED_P1_GAP",
+    "caveat": "Expected gateway rejection confirms P1 functional deficiency; neither actual HTTP room nor full Node tests executed."
+  },
+  "cases": [
+    {
+      "case_id": "B04-TRINKET-trinket_stealth-blue",
+      "team": "blue",
+      "seed": 452100,
+      "item_id": "trinket_stealth",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "stealth"
+        },
+        "after_gold": 500,
+        "after_trinket": "stealth",
+        "after_items": [],
+        "next_charge": 90,
+        "snapshot_checksum_v40": "c9149b14"
+      }
+    },
+    {
+      "case_id": "B04-TRINKET-trinket_stealth-red",
+      "team": "red",
+      "seed": 452101,
+      "item_id": "trinket_stealth",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "stealth"
+        },
+        "after_gold": 500,
+        "after_trinket": "stealth",
+        "after_items": [],
+        "next_charge": 90,
+        "snapshot_checksum_v40": "f27dd539"
+      }
+    },
+    {
+      "case_id": "B04-TRINKET-trinket_oracle-blue",
+      "team": "blue",
+      "seed": 452102,
+      "item_id": "trinket_oracle",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "oracle"
+        },
+        "after_gold": 500,
+        "after_trinket": "oracle",
+        "after_items": [],
+        "next_charge": 40,
+        "snapshot_checksum_v40": "c7157718"
+      }
+    },
+    {
+      "case_id": "B04-TRINKET-trinket_oracle-red",
+      "team": "red",
+      "seed": 452103,
+      "item_id": "trinket_oracle",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "oracle"
+        },
+        "after_gold": 500,
+        "after_trinket": "oracle",
+        "after_items": [],
+        "next_charge": 40,
+        "snapshot_checksum_v40": "2f0cfdd1"
+      }
+    },
+    {
+      "case_id": "B04-TRINKET-trinket_farsight-blue",
+      "team": "blue",
+      "seed": 452104,
+      "item_id": "trinket_farsight",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "farsight"
+        },
+        "after_gold": 500,
+        "after_trinket": "farsight",
+        "after_items": [],
+        "next_charge": 90,
+        "snapshot_checksum_v40": "df2f9b0b"
+      }
+    },
+    {
+      "case_id": "B04-TRINKET-trinket_farsight-red",
+      "team": "red",
+      "seed": 452105,
+      "item_id": "trinket_farsight",
+      "category": "ARENA_INTERNAL",
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "bought": true,
+          "trinket": "farsight"
+        },
+        "after_gold": 500,
+        "after_trinket": "farsight",
+        "after_items": [],
+        "next_charge": 90,
+        "snapshot_checksum_v40": "749c5ab4"
+      }
+    },
+    {
+      "case_id": "B04-PVP-GAP-blue",
+      "team": "blue",
+      "seed": 271828,
+      "category": "EXPECTED_PVP_REJECTIONS_OPEN_BUG",
+      "status": "PASS_EXPECTED_REJECTION_NOT_FUNCTIONAL",
+      "observed": {
+        "before": {
+          "gold": 500,
+          "inventory": [],
+          "trinket": "stealth",
+          "checksum_v40": "83ffaeb5"
+        },
+        "receipts": [
+          {
+            "kind": "item.buy",
+            "receipt": {
+              "ok": false,
+              "reason": "Trinkets são trocados sem custo na fonte."
+            }
+          },
+          {
+            "kind": "item.queue",
+            "receipt": {
+              "ok": false,
+              "reason": "Compra programada indisponível."
+            }
+          },
+          {
+            "kind": "item.trinket",
+            "receipt": {
+              "ok": false,
+              "reason": "comando_invalido"
+            }
+          }
+        ],
+        "after": {
+          "gold": 500,
+          "inventory": [],
+          "trinket": "stealth",
+          "checksum_v40": "83ffaeb5"
+        }
+      }
+    },
+    {
+      "case_id": "B04-PVP-GAP-red",
+      "team": "red",
+      "seed": 271828,
+      "category": "EXPECTED_PVP_REJECTIONS_OPEN_BUG",
+      "status": "PASS_EXPECTED_REJECTION_NOT_FUNCTIONAL",
+      "observed": {
+        "before": {
+          "gold": 500,
+          "inventory": [],
+          "trinket": "stealth",
+          "checksum_v40": "83ffaeb5"
+        },
+        "receipts": [
+          {
+            "kind": "item.buy",
+            "receipt": {
+              "ok": false,
+              "reason": "Trinkets são trocados sem custo na fonte."
+            }
+          },
+          {
+            "kind": "item.queue",
+            "receipt": {
+              "ok": false,
+              "reason": "Compra programada indisponível."
+            }
+          },
+          {
+            "kind": "item.trinket",
+            "receipt": {
+              "ok": false,
+              "reason": "comando_invalido"
+            }
+          }
+        ],
+        "after": {
+          "gold": 500,
+          "inventory": [],
+          "trinket": "stealth",
+          "checksum_v40": "83ffaeb5"
+        }
+      }
+    }
+  ]
+}

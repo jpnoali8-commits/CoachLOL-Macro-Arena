@@ -1,0 +1,183 @@
+{
+  "schema": "coachlol.m45.items.v8.economy_execution.b05.v1",
+  "date": "2026-10-30",
+  "provenance": {
+    "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "gateway_dev44_blob_sha": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "gateway_dev47_blob_sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "reference_fixture_blob_sha": "436b4d58c9db36ce192d46819e3e99f88e5d7efd"
+  },
+  "execution": {
+    "mode": "Real source Arena and authoritative gateway classes executed in isolated V8, export/import wrappers removed; node:crypto room server not run",
+    "cases": 11,
+    "passed": 11,
+    "failed": 0,
+    "limitations": [
+      "No Node PvPRoomRegistry/HTTP/server fs",
+      "Not the exact .mjs Node oracle runner",
+      "Not Rust/WASM"
+    ],
+    "status": "PASS"
+  },
+  "cases": [
+    {
+      "case_id": "M45-B01-BUY-blue",
+      "seed": 45001,
+      "status": "PASS",
+      "observed": {
+        "gold": 900,
+        "items": [
+          "boots"
+        ],
+        "checksum_v40": "8aa93120"
+      }
+    },
+    {
+      "case_id": "M45-B01-UNDO-blue",
+      "seed": 45001,
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "kind": "purchase",
+          "itemId": "boots",
+          "amount": 300
+        },
+        "gold": 1200,
+        "checksum_v40": "dbeaf380"
+      }
+    },
+    {
+      "case_id": "M45-B01-BUY-red",
+      "seed": 45002,
+      "status": "PASS",
+      "observed": {
+        "gold": 900,
+        "items": [
+          "boots"
+        ],
+        "checksum_v40": "1351e39f"
+      }
+    },
+    {
+      "case_id": "M45-B01-UNDO-red",
+      "seed": 45002,
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "kind": "purchase",
+          "itemId": "boots",
+          "amount": 300
+        },
+        "gold": 1200,
+        "checksum_v40": "de72af53"
+      }
+    },
+    {
+      "case_id": "M45-B01-SELL-blue",
+      "seed": 45003,
+      "status": "PASS",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "refund": 210,
+          "itemId": "boots",
+          "price": 300,
+          "loss": 90
+        },
+        "gold": 1110,
+        "checksum_v40": "3b28ebab"
+      }
+    },
+    {
+      "case_id": "M45-B01-LEAVE-RETURN-blue",
+      "seed": 45004,
+      "status": "PASS",
+      "observed": {
+        "revoked": true,
+        "gold": 900,
+        "checksum_v40": "811db484"
+      }
+    },
+    {
+      "case_id": "M45-B01-RECONNECT-blue",
+      "seed": 45004,
+      "status": "PASS",
+      "observed": {
+        "checksum_v40": "811db484"
+      }
+    },
+    {
+      "case_id": "M45-B01-NEW-VISIT-blue",
+      "seed": 45004,
+      "status": "PASS",
+      "observed": {
+        "gold": 900,
+        "items": [
+          "boots"
+        ],
+        "checksum_v40": "eca748c1"
+      }
+    },
+    {
+      "case_id": "M45-B01-PVP-blue",
+      "seed": 271828,
+      "status": "PASS",
+      "observed": {
+        "buy_receipt": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_TOP",
+          "kind": "item.buy"
+        },
+        "undo_receipt": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_TOP",
+          "kind": "item.undo"
+        },
+        "gold": 1200,
+        "checksum_v40": "b3b87ceb"
+      }
+    },
+    {
+      "case_id": "M45-B01-PVP-red",
+      "seed": 271828,
+      "status": "PASS",
+      "observed": {
+        "buy_receipt": {
+          "ok": true,
+          "sequence": 1,
+          "revision": 3,
+          "unitId": "red_SUP",
+          "kind": "item.buy"
+        },
+        "undo_receipt": {
+          "ok": true,
+          "sequence": 2,
+          "revision": 4,
+          "unitId": "red_SUP",
+          "kind": "item.undo"
+        },
+        "gold": 1200,
+        "checksum_v40": "b397e3f9"
+      }
+    },
+    {
+      "case_id": "M45-B01-ACL-red-denied",
+      "seed": 271828,
+      "status": "PASS",
+      "observed": {
+        "denied_receipt": {
+          "ok": false,
+          "reason": "unidade_nao_autorizada"
+        },
+        "checksum_v40": "b397e3f9"
+      }
+    }
+  ]
+}

@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A7_RUST_NATIVE_WASM_BASELINE_PASS_B02B_NEXT",
+    "phase": "B02B_I01_STATIC_INTEGRITY_PASS_DYNAMIC_GAPS",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -500,6 +500,37 @@
         "wasm_sha256": "ffc019a55a2799202e2511d7fe1a4304932479f48b739ed01ca7715dd4f48f63"
       }
     },
-    "user_has_local_checkout": false
+    "user_has_local_checkout": false,
+    "current_specialist_refs": {
+      "skills": "165f51bf1e50d3816484ce8c8ed715cf81c3ec0f",
+      "items": "13caf37797e9c85e41f63b9ff5b4a9652682305c",
+      "platform": "975153367177ccceb553f80a78b66b041b31a075"
+    },
+    "evidence_index_path": "docs/m45_rust_wasm/inputs/core/B02B_HANDOFF_INDEX.json",
+    "evidence_bundle_dir": "docs/m45_rust_wasm/inputs/core/b02b",
+    "evidence_integrity": {
+      "environment": "JS_V8_CODE_MODE_GITHUB_SOURCE",
+      "status": "PASS",
+      "errors": 0,
+      "checks": {
+        "skills_refs": 25,
+        "skills_executed": 0,
+        "items_catalog": 244,
+        "items_replay_matches": 244,
+        "items_v8_cases": 299,
+        "items_expected_gateway_denials": 2,
+        "platform_contracts": 12
+      },
+      "node_test": "CREATED_NOT_RUN",
+      "actions_used": 0
+    },
+    "open_risks": [
+      "M45-SKILLS-NAMI-W",
+      "PLATFORM-016",
+      "M45-PVP-TRINKET",
+      "M45-READY-ACK"
+    ],
+    "actions_policy": "ZERO_BY_DEFAULT_UNLESS_MAJOR_GATE_AND_UNBLOCKABLE_OTHERWISE",
+    "actions_this_batch": 0
   }
 }

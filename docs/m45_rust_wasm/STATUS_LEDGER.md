@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02A7 Rustfmt corrigido, Cargo/Clippy/WASM compilados e binário executado em GitHub Actions; baseline G1 aprovado, migração total NÃO certificada.
+**Atualizado:** 2026-10-30, B02B handoffs S08/Items-B05/Platform-A07 preservados com hashes e auditoria V8 PASS; zero Actions neste lote.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02B — executar e reconciliar golden JS dos HEADs congelados de skills, itens e plataforma, resultados por assento; depois B02C. G1 somente baseline do crate core-state.
+**Próxima prioridade:** M45 B02B — executar as 25 suítes de skills ainda NOT_RUN, golden HTTP/SSE real e conciliar divergências, sem CI por lote; B02C somente após provas.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,7 +23,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_B02B | GitHub Actions #41137516144: Cargo 3/3 PASS, fmt/Clippy PASS, WASM build + smoke PASS, binário SHA256 pinado; G1 baseline B01 aprovado, G0 e B02B goldens pendentes |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_B02B | B02B 8 handoffs immutable SHA imported: 25/25 skills plan refs, items V8 299 outcomes (297 positive + 2 expected denials), 244/244 replay hashes, 12 platform contracts; zero Actions nesta etapa; G0 PARTIAL, Rust baseline G1 PARTIAL |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | PARTIAL | baseline real do único crate B01 core-state **PASS_BASELINE_ONLY** via Actions #41137516144; crates futuros e equivalência total ainda não implementados |
@@ -133,3 +133,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Recibo real: `native PASS` (**3/3 Rust tests**), `fmt PASS`, `clippy PASS` com `-D warnings`, `target PASS`, `wasmBuild PASS` (release crate core-state), `wasmSmoke PASS` (binário WebAssembly compilado, não mock). `adapter PASS` (JS simulação), `sourceSnapshot PASS` (com SHA de engine full verificada, 23 casos), `jsGolden PASS` (**21/21**). Cada etapa tem exit_code 0.
 - **WASM SHA-256:** `ffc019a55a2799202e2511d7fe1a4304932479f48b739ed01ca7715dd4f48f63`. `G1` no recibo: **PASS_BASELINE_ONLY**. Isso conclui B02A baseline B01; **G1 do programa registrado PARTIAL** porque somente um crate core-state foi migrado/compilado (faltam engine completa, platform, champions, economy e testes cruzados). G8 **NOT_RUN**; nenhuma autoridade de partida transferida para Rust.
 - **Próxima elegível: B02B** (goldens full e fonte sem perda nos três SHAs de origem). Não acionar novamente o gatilho de CI B02A7, preservando quota. B02 IN_PROGRESS_B02B, G0 PARTIAL, G1 PARTIAL, G3 NOT_RUN, G7 BLOCKED, G8 NOT_RUN.
+
+## M45 B02B-I01 — consolidação de evidências S08 / Items-B05 / Platform-A07, sem Actions (2026-10-30)
+
+- Verificação em GitHub de HEADs especialistas: skills `165f51bf1e50d3816484ce8c8ed715cf81c3ec0f`, items `13caf37797e9c85e41f63b9ff5b4a9652682305c`, plataforma `975153367177ccceb553f80a78b66b041b31a075`. Fontes congeladas sem alterações: skills `f0b1147...`, items `182e592...`, integration `374d87d...`; árvores recursivas conferidas `truncated=false` para as seis refs.
+- **Oito arquivos de evidência** incorporados ao núcleo Rust **por blob Git SHA exato**, sem merge/cherry-pick de engine ou execução Rust: plano 25 skills, cinco recibos items V8 + índice central e matriz A07 plataforma. Roteamento de artefatos em `docs/m45_rust_wasm/inputs/core/b02b/` e índice `B02B_HANDOFF_INDEX.json`. Seis testes de integridade compilados em `tests/audit/m45_b02b_handoff_integrity.test.mjs`: verificam blobs SHA, 25 golden skills NOT_RUN, 244 compras/trocas (122 por lado), receitas de ouro/Undo, 244 pares de replay com hashes exatos, 299 casos V8 e 12 contratos. **Arquivo de teste Node criado, ainda NOT_RUN no checkout completo; não declarar 6/6 PASS.**
+- **QA realmente executado agora em V8 Code Mode sobre JSONs da fonte GitHub**: `PASS`, `0 divergências` em 25 referências com SHA e caminho pinados, 5 receipts com Git blob conferido, 244 casos bilaterais, 244 replays comparados campo por campo, 12 contratos plataforma, sem duplicatas. O PASS é **integridade de evidência**, NÃO execução do jogo Rust nem Node golden completo.
+- Evidência já executada pelos especialistas, mantida em seu escopo: itens **299 casos V8 originais**: 244 catálogo + 36 efeitos + 11 economia + 8 trinkets = 297 positivos e **2 negativas esperadas** que **confirmam BUG P1** no gateway `item.trinket`; 244 seeds repetidas com 488 execuções e hashes idênticos. Plataforma A07: **8/8 SSE decoder Node** e **13/13 room/subscription V8** com vazamento de evento privado anônimo **reproduzido**, HTTP/sessão completa e reinício disco NOT_RUN. Skills S08: **25 suítes planejadas, 0 executadas**; W Nami divergente por rota board/targeted, co-queue potencial ainda hipótese sem golden.
+- **Política econômica CI:** o usuário explicitou limite próximo de GitHub Actions. Nesta etapa **0 jobs Actions criados ou acionados**, nenhum `.github/workflows`/arquivo-gatilho editado, nenhum Codespaces. Protocolo codifica Actions somente em gate de certificação ou bloqueio crítico, sem uso automático por commit.
+- **G0 PARTIAL; G1 PARTIAL** (apenas core-state B01 nativo/WASM aprovado); G2–G6 Rust NOT_RUN, G7 BLOCKED, G8 NOT_RUN. **B02B IN_PROGRESS**, B03 ainda QUEUED.

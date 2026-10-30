@@ -1,0 +1,166 @@
+{
+  "schema": "coachlol.m45.b02b.handoff_evidence.v1",
+  "date": "2026-10-30",
+  "source_branches": {
+    "integration": {
+      "commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "write_policy": "READ_ONLY"
+    },
+    "skills": {
+      "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "write_policy": "READ_ONLY"
+    },
+    "items": {
+      "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+      "engine_blob": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "write_policy": "READ_ONLY"
+    }
+  },
+  "specialist_audit_heads": {
+    "skills": "165f51bf1e50d3816484ce8c8ed715cf81c3ec0f",
+    "items": "13caf37797e9c85e41f63b9ff5b4a9652682305c",
+    "platform": "975153367177ccceb553f80a78b66b041b31a075"
+  },
+  "immutable_imports": [
+    {
+      "domain": "skills",
+      "original": "docs/m45_rust_wasm/inputs/skills/golden_plan.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_golden_plan.json",
+      "sha": "736c8f9367110e54b84bced9cc9aa8964b0adfe8"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_CONSOLIDATED_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_index.json",
+      "sha": "036a620ab7fd2e68f37e9790eb9c66208d8c38b0"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_CATALOG_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_catalog.json",
+      "sha": "b98f3879fd5118f00aa85615fc4622dfb3d11333"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_EFFECTS_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_effects.json",
+      "sha": "be04c91bd9bb77a97b060116644efe047e5a7235"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_ECONOMY_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_economy.json",
+      "sha": "b9ec4f1e3ef9bc83589b081fe454e5114d9cf164"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_TRINKET_PVP_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_trinket.json",
+      "sha": "384d6c64f245cade000956555d256793536d44ff"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_DETERMINISM_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_determinism.json",
+      "sha": "a376eb7e4b6f771377d7feea3e427ab7cc3a2d74"
+    },
+    {
+      "domain": "platform",
+      "original": "docs/m45_rust_wasm/inputs/platform/A07_TRANSPORT_GAP_MATRIX.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/platform_a07_transport.json",
+      "sha": "4af0bd6e353a0b883f37ca9cf9ac11c1cf7169d3"
+    }
+  ],
+  "qa": {
+    "independent_v8_integrity": {
+      "status": "PASS",
+      "errors": 0,
+      "checked_skills_source_refs": 25,
+      "checked_catalog_cases": 244,
+      "blue": 122,
+      "red": 122,
+      "checked_determinism_pairs": 244,
+      "checked_items_receipts": 5,
+      "checked_platform_contracts": 12,
+      "source_trees_truncated": false
+    },
+    "specialist_runtime": {
+      "skills": {
+        "planned_suites": 25,
+        "executed": 0,
+        "status": "NOT_RUN"
+      },
+      "items": {
+        "environment": "V8_ISOLATED_ORIGINAL_JS_CLASSES",
+        "cases": 299,
+        "positive": 297,
+        "expected_negative": 2,
+        "repeat_cases": 244,
+        "repeat_executions": 488,
+        "source_runtime": "PASS_WITH_OPEN_TRINKET_PVP_P1",
+        "node_esm": "NOT_RUN"
+      },
+      "platform": {
+        "node_sse_decoder": "8/8_PASS",
+        "full_engine_v8": "13/13_PASS_WITH_PRIVACY_GAP",
+        "http_e2e": "NOT_RUN",
+        "rust_acl": "NOT_RUN"
+      }
+    },
+    "node_integrity_test": "CREATED_NOT_RUN",
+    "rust_full_feature_parity": "NOT_RUN",
+    "actions_this_batch": 0
+  },
+  "critical_deltas": [
+    {
+      "id": "M45-SKILLS-NAMI-W",
+      "priority": "P0",
+      "state": "SOURCE_ROUTE_CONFLICT_NOT_GAMEPLAY_GOLDEN",
+      "legacy": "M44 B13 route without bounceRange shadows V42; board W has independently coded bounce; potential queue collision unconfirmed",
+      "target": "explicit one owned W cast per seat/turn; server side route and state arbitration; double-debit forbidden"
+    },
+    {
+      "id": "PLATFORM-016",
+      "priority": "P0",
+      "state": "LEGACY_PRIVACY_GAP_REPRODUCED_V8",
+      "legacy": "anonymous non-public event crosses perspective and SSE snapshot",
+      "target": "deny by default VisibleEventDTO + fields whitelist + both seats + reconnect"
+    },
+    {
+      "id": "M45-PVP-TRINKET",
+      "priority": "P1",
+      "state": "LEGACY_GATEWAY_DENIAL_REPRODUCED_V8",
+      "legacy": "item.trinket rejected despite internal Arena.setTrinket success; 2 expected denials are bug evidence",
+      "target": "versioned intent item.trinket, server-authorized/at fountain, audit and replay"
+    },
+    {
+      "id": "M45-READY-ACK",
+      "priority": "P1",
+      "state": "LEGACY_RETRY_GAP_REPORTED",
+      "legacy": "repeated ready or lost ACK rejected after seal/reconnect",
+      "target": "idempotent round/seat/request receipt persisted before ACK"
+    }
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "PARTIAL_B01_NATIVE_WASM_BASELINE_ONLY",
+    "G2": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "G4": "NOT_RUN",
+    "G5": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G7": "BLOCKED",
+    "G8": "NOT_RUN"
+  },
+  "policy": {
+    "migration_only": true,
+    "no_actions_this_batch": true,
+    "no_workflow_changes": true,
+    "no_trigger_edits": true,
+    "no_merge": true,
+    "no_rebase": true,
+    "no_force_push": true,
+    "do_not_promote_gates_without_runtime": true
+  }
+}
