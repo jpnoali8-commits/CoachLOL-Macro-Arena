@@ -892,7 +892,7 @@ export const FORM_KITS_V453_M14=Object.freeze({
    R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'cougar'})
   },
   cougar:{
-   Q:FORM_BS_V453_M14('target_enemy',175,0,6,[55,80,105,130,155],{apRatio:.4,missingHpRatio:.28,missing:'hunted_empower'}),
+   Q:FORM_BS_V453_M14('target_enemy',175,0,6,[55,80,105,130,155],{apRatio:.4,missingHpRatio:.28,m44B11CougarQ:true,missing:'hunted_long_pounce_not_yet_parity'}),
    W:FORM_BS_V453_M14('move_point',375,0,6,[45,70,95,120,145],{radius:205,apRatio:.35,missing:'hunted_long_pounce'}),
    E:FORM_BS_V453_M14('cone_enemy',300,0,6,[60,90,120,150,180],{arc:75,apRatio:.4}),
    R:FORM_BS_V453_M14('self',0,0,3,[],{transformTo:'human'})
@@ -5501,6 +5501,13 @@ export class Arena {
      key:'m44_b11_shaco_e_'+instance});
    return {...committed,shiv:dealt>0,lowHealthBonus:low};
   }
+  // M44 B11: cougar Q recognizes ONLY this Nidalee's verified hunt mark.
+  if(s.m44B11CougarQ&&u.champ==='Nidalee'&&target){
+   const hunted=target.m44B11NidaleeHunted?.[u.id]>this.gameTime,
+    raw=power(s.damage)+Math.max(0,target.maxHp-target.hp)*.28,
+    dealt=this.damage(target,raw*(hunted?1.4:1),u,'magic','spell');
+   return {...committed,cougarQ:dealt>0,hunted:!!hunted};
+  }
   // M44 B09: named, owner-scoped mechanics (no generic kit substitute).
   if(u.champ==='Gnar'&&(s.m44B09Boulder||s.m44B09Wallop||
      s.m44B09Crunch||s.m44B09GnarUltimate)&&
@@ -6859,6 +6866,7 @@ export class Arena {
         }
        }else if(z.champ==='Nidalee'&&z.slot==='Q'&&victim.champ){
         victim.m16HuntedUntil=now+4;
+        (victim.m44B11NidaleeHunted??={})[u.id]=now+4;
         (victim.m16TrueSightUntil??={})[u.team]=now+4;
        }else if(z.champ==='Varus'&&z.slot==='Q'&&victim.champ){
         const blight=victim.m21VarusBlightV453;
@@ -7660,7 +7668,10 @@ export class Arena {
   const kind=s.m15Entity;
   if(q.recast){
    const e=this.boardSummonsV453Dev69.find(x=>x.id===q.entityId&&x.kind===kind&&x.ownerId===u.id&&x.hp>0&&x.until>this.gameTime);
-   if(!e||!q.point||!this.walkable(q.point.x,q.point.y))return {ok:false,reason:'clone_expirado'};
+   if(!e||!q.point||!this.walkable(q.point.x,q.point.y)||
+     this.mapDistance(e,q.point)>900||this.obstacleLine(e,q.point)||
+     !this.sameCombatRealmV453Dev69(u,e))
+    return {ok:false,reason:'clone_expirado_ou_rota_bloqueada'};
    e.commandPoint={...q.point};e.targetId=null;return {ok:true,recast:true,spentMana:0};
   }
   if(!q.point||this.mapDistance(u,q.point)>s.range||!this.walkable(q.point.x,q.point.y)||
@@ -8156,6 +8167,7 @@ export class Arena {
     if(victim.champ){
      (victim.m16TrueSightUntil??={})[t.team]=now+4;
      victim.m16HuntedUntil=now+4;
+     (victim.m44B11NidaleeHunted??={})[owner.id]=now+4;
     }
     t.until=now;
    }else if(t.kind==='teemo_mushroom'){
