@@ -1016,6 +1016,21 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B11 — explicit champion identity contracts; no fallback substitution.
+export const M44_B11_KITS_V453=Object.freeze({
+ Twitch:{
+  W:BS('move_point',950,70,[13,12,11,10,9],[],{m44B11VenomCask:true,radius:300}),
+  E:BS('self',0,[50,60,70,80,90],[12,11,10,9,8],[20,30,40,50,60],
+   {type:'physical',adRatio:.25,m44B11Contaminate:true})},
+ Teemo:{
+  W:BS('self',0,40,[14,14,14,14,14],[],{m44B11MoveQuick:true}),
+  E:BS('self',0,0,[0],[],{passiveOnly:true,m44B11ToxicShot:true})},
+ Shaco:{E:BS('target_enemy',625,75,[8,8,8,8,8],[70,95,120,145,170],
+  {apRatio:.6,m44B11TwoShiv:true})},
+ Caitlyn:{Q:BS('line_enemy',1300,[55,60,65,70,75],[10,9,8,7,6],
+  [50,95,140,185,230],{type:'physical',adRatio:1.25,width:180,
+   m44B11PiercingShot:true,m44B07Flight:true})}
+});
 // M44 B09: 11 named new spell slots, plus Gnar's Mega-Q variant.
 export const M44_B09_KITS_V453=Object.freeze({
  Gnar:{W:BS('self',0,0,[0],[],{passiveOnly:true,m44B09Hyper:true}),
@@ -1405,7 +1420,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4128,6 +4143,8 @@ export class Arena {
    return {ok:false,reason:'ponto_invalido'};
   if(s.m24OrbThrow&&!this.m39SyndraPickupV453Dev69(u,point))
    return {ok:false,reason:'m39_syndra_no_valid_pickup'};
+  if(s.m44B11Contaminate&&!this.m44B11TwitchTargetsV453Dev69(u).length)
+   return {ok:false,reason:'m44_b11_no_visible_poison'};
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
@@ -4162,7 +4179,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -4491,6 +4508,8 @@ export class Arena {
   if(u.champ==='LeeSin'&&['Q','W','E'].includes(q.slot)&&
      this.m33LeeEnergyAvailableV453Dev69(u)<50)
    return {ok:false,reason:'m33_lee_energy_before_commit'};
+  if(s.m44B11Contaminate&&!this.m44B11TwitchTargetsV453Dev69(u).length)
+   return {ok:false,reason:'m44_b11_poison_lost_before_commit'};
   if(s.m22Magazine&&q.slot==='R'&&
      this.m42CorkiAmmoV453Dev69(u,s).charges<1)
     return {ok:false,reason:'m42_corki_ammo_spent_before_commit'};
@@ -5399,7 +5418,7 @@ export class Arena {
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
    }
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
-    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow){
+    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
@@ -5450,6 +5469,38 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  // M44 B11 — champion-specific receipts after one authoritative debit.
+  if(s.m44B11VenomCask&&u.champ==='Twitch'&&q.point){
+   (this.boardTemporalV453Dev69??=[]).push({
+    id:++this.boardTemporalIdV453Dev69,kind:'m44_b11_twitch_cask',
+    ownerId:u.id,team:u.team,point:{...q.point},radius:300,
+    rank,nextAt:this.gameTime+1,until:this.gameTime+3.1});
+   return {...committed,scheduled:true,venomCask:true};
+  }
+  if(s.m44B11Contaminate&&u.champ==='Twitch'){
+   let count=0;
+   for(const v of this.m44B11TwitchTargetsV453Dev69(u)){
+    const stack=v.m16TwitchPoison[u.id].stacks;
+    if(this.damage(v,power(s.damage,0,s.adRatio||0)+
+        stack*(10+5*rank+stats.ad*.25),u,'physical','spell')>0)count++;
+   }
+   return {...committed,contaminated:count};
+  }
+  if(s.m44B11MoveQuick&&u.champ==='Teemo'){
+   u.boardSpeedV453Dev69={until:this.gameTime+3,
+    fraction:[.24,.32,.4,.48,.56][Math.min(4,rank-1)]};
+   return {...committed,moveQuick:true};
+  }
+  if(s.m44B11TwoShiv&&u.champ==='Shaco'&&target){
+   const shielded=!!this.effectResolverV41().has(target,'spell_shield'),
+    low=target.hp/Math.max(1,target.maxHp)<.3,
+    dealt=this.damage(target,power(s.damage,.6)*(low?1.5:1),u,'magic','spell');
+   if(!shielded&&target.champ&&target.hp>0&&dealt>0)
+    this.applyEffectV41(target,'slow',{source:u,duration:3,
+     power:[.2,.225,.25,.275,.3][Math.min(4,rank-1)],
+     key:'m44_b11_shaco_e_'+instance});
+   return {...committed,shiv:dealt>0,lowHealthBonus:low};
+  }
   // M44 B09: named, owner-scoped mechanics (no generic kit substitute).
   if(u.champ==='Gnar'&&(s.m44B09Boulder||s.m44B09Wallop||
      s.m44B09Crunch||s.m44B09GnarUltimate)&&
@@ -5759,8 +5810,8 @@ export class Arena {
      power:power(s.damage)*(mantra?1.35:1)*(u.champ==='Varus'&&q.slot==='Q'?
       (1+.25*m44Charge)*(q.m30VarusEmpowered?1.15:1):1),
      damageType:s.type||'magic',
-     maxHits:['Sejuani','Milio','Lucian'].includes(u.champ)||
-      m44FirstBody.includes(u.champ)||s.m44B07First?1:(s.maxHits??9999),
+     maxHits:s.m44B11PiercingShot?9999:(['Sejuani','Milio','Lucian'].includes(u.champ)||
+      m44FirstBody.includes(u.champ)||s.m44B07First?1:(s.maxHits??9999)),
      hitIds:[],distanceDone:0,hitCount:0,speed:550,
      nextAt:this.gameTime+1,
      until:this.gameTime+flightTicks*(u.champ==='Sivir'||s.m44B07Return?2:1)+2,
@@ -6358,7 +6409,22 @@ export class Arena {
    if(!ended&&now>=z.nextAt&&(now<=z.until+.001||['delayed_radiance','satchel_charge','m20_requiem_channel','m21_gragas_barrel','m22_zilean_bomb'].includes(z.kind))){
     const circle=(p,r)=>this.units.filter(v=>v.hp>0&&v.team!==z.team&&
      this.mapDistance(v,p)<=r).sort((a,b)=>a.id.localeCompare(b.id));
-    if(z.kind==='m44_b09_karma_tether'){
+    if(z.kind==='m44_b11_twitch_cask'){
+      for(const v of this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+       v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
+       this.mapDistance(v,z.point)<=z.radius&&!this.obstacleLine(z.point,v))
+       .sort((a,b)=>String(a.id).localeCompare(String(b.id)))){
+       if(this.effectResolverV41().has(v,'spell_shield'))continue;
+       const mark=(v.m16TwitchPoison??={})[u.id]||{stacks:0,until:0};
+       v.m16TwitchPoison[u.id]={
+        stacks:Math.min(6,(mark.until>now?mark.stacks:0)+1),
+        until:now+6,nextAt:mark.nextAt>now?mark.nextAt:now+1};
+       if(v.champ)this.applyEffectV41(v,'slow',{source:u,duration:1.25,
+        power:[.3,.35,.4,.45,.5][Math.min(4,z.rank-1)],
+        key:'m44_b11_twitch_w_'+z.id+'_'+v.id});
+      }
+      z.nextAt=now+1;if(z.nextAt>z.until)ended=true;
+     }else if(z.kind==='m44_b09_karma_tether'){
       const v=this.boardCombatEntityByIdV453Dev69(z.targetId);
       if(v?.champ&&v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
          this.mapDistance(u,v)<=700&&!this.obstacleLine(u,v)&&
@@ -6641,6 +6707,9 @@ export class Arena {
          (z.m44CurtainCallShot===4?2.3:1):
        z.champ==='Jhin'&&z.slot==='W'&&!victim.champ?z.power*.75:
        z.champ==='Xayah'&&z.slot==='Q'&&z.hitCount>0?z.power*.5:
+        z.champ==='Caitlyn'&&z.slot==='Q'?z.power*(z.hitCount===0||
+          victim.m16CaitHeadshot?.ownerId===u.id&&
+          victim.m16CaitHeadshot.until>now?1:.6):
        z.champ==='DrMundo'&&z.slot==='Q'?
         Math.max(z.power,Math.min(victim.hp*.2,400)):z.power;
       const dealt=raw>0?this.damage(victim,raw,u,z.damageType,'spell'):0;
@@ -8266,8 +8335,28 @@ export class Arena {
   this.boardSummonsV453Dev69=this.boardSummonsV453Dev69.filter(e=>
    !m15Before.includes(e)||m15Survivors.includes(e));
  }
+ m44B11TwitchTargetsV453Dev69(owner){
+  return this.boardCombatEnemyPoolV453Dev69(owner).filter(v=>
+   v.hp>0&&v.m16TwitchPoison?.[owner.id]?.until>this.gameTime&&
+   this.mapDistance(owner,v)<=1200&&this.sameCombatRealmV453Dev69(owner,v)&&
+   (v.champ?this.visible(owner.team,v):this.canSeePoint(owner.team,v)))
+   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+ }
  advanceBoardPassivesV453Dev69(){
   this.advanceMechanicsV453M16();
+  // Twitch P uses the existing per-caster six-stack ledger.
+  for(const target of [...this.units,...this.minions]){
+   const marks=target.m16TwitchPoison;if(!marks)continue;
+   for(const [sourceId,mark] of Object.entries(marks)){
+    if(mark.until<=this.gameTime||target.hp<=0){delete marks[sourceId];continue;}
+    const attacker=this.units.find(v=>v.id===sourceId&&v.champ==='Twitch');
+    if(!attacker||attacker.team===target.team){delete marks[sourceId];continue;}
+    if((mark.nextAt??(mark.until-5))>this.gameTime)continue;
+    mark.nextAt=this.gameTime+1;
+    this.damage(target,Math.max(1,2+mark.stacks*2),attacker,'true',
+     'm44_b11_twitch_venom_tick');
+   }
+  }
   for(const u of this.units){
    if(u.champ==='Gnar'){
     const g=u.m44B09Gnar??={form:'mini',rage:0,until:0,lockUntil:0,readyAt:0};
