@@ -1022,9 +1022,8 @@ export const M44_B14C_STEALABLE_R_V453=Object.freeze([
  'Fiddlesticks','Ryze','Skarner','Ekko','Yorick'
 ]);
 export function m44B14CSylasUltimateRuleV453(champ){
- if(M44_B14C_STEALABLE_R_V453.includes(champ))
-  return M44_B13B_KITS_V453[champ]?.R||M44_B13A_KITS_V453[champ]?.R||null;
- return BOARD_KITS_V453_DEV69[champ]?.R||M15_ENTITY_KITS_V453[champ]?.R||null;
+ const original=m44B14DOriginalBoardRuleV453(champ,'R');
+ return original&&!original.passiveOnly&&original.kind==='board_effect'?original:null;
 }
  // M44 B14B: tactical verse selection and owner-timed zones. Partial kits only.
 export const M44_B14B_KITS_V453=Object.freeze({
@@ -1532,13 +1531,20 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
  return targets.filter(t=>Math.hypot((t.x-point.x)*worldWidth,(t.y-point.y)*worldHeight)<=radius)
   .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
 }
+// M44 B14D: one original owner-authored descriptor registry, shared by
+// normal champions, Sylas Hijack and Viego possession (no generic fallback).
+export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
+const m16=M16_MECHANIC_KITS[champ]?.[slot];
+  return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
+}
 export function abilityRule(u,slot){
  const p=u.champ==='Viego'&&u.m44B14CPossession;
  if(p&&slot!=='R'&&M44_B14C_VIEGO_COPY_V453[p.sourceChamp]?.[slot])
   return M44_B14C_VIEGO_COPY_V453[p.sourceChamp][slot];
- const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
- const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[u.champ]?.[slot]||M44_B14A_KITS_V453[u.champ]?.[slot]||M44_B13B_KITS_V453[u.champ]?.[slot]||M44_B13A_KITS_V453[u.champ]?.[slot]||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+ const board=m44B14DOriginalBoardRuleV453(u.champ,slot,u,
+  u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega');if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4334,10 +4340,8 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(champ==='Sylas'&&slot==='R'&&this.boardSummonsV453Dev69?.some(e=>
    e.id===u?.shacoCloneIdV453M15&&e.hp>0&&e.until>this.gameTime))
    return M15_ENTITY_KITS_V453.Shaco.R;
-  const m16=M16_MECHANIC_KITS[champ]?.[slot];
-  return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
-   FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
+  return m44B14DOriginalBoardRuleV453(champ,slot,u,
+   champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u));
  }
  executeBoardSkillV453Dev69(u,q){
   const s=this.boardKitForV453Dev69(u?.champ,q?.slot,u);
