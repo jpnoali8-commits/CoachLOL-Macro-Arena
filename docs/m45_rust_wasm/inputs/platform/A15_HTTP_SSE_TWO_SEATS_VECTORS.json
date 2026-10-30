@@ -1,0 +1,262 @@
+{
+  "schema": "coachlol.m45.platform.a15.two-socket-http-sse-golden.v1",
+  "created": "2026-10-30",
+  "branch": "dev69/m45-audit-platform",
+  "source": {
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "legacy_server_blob": "d6ed7a4b0dd30f2bf22c3d5876e3ac6b293ddf5d",
+    "legacy_room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "platform_parent": "f8b28f6e71ee41f0f0cc7c5dc153c2d777b13c3f",
+    "rust_head_observed": "ddbdf8e9ee4345646c70162c1637e5b08670708a",
+    "native_reference_test_blob": "25f70acf6d491d8f9b598f39f607df8960a48e73",
+    "dependency_blobs": {
+      "a07_sse_decoder": "8b30f62637219e8f60872837f56b2d60f85bb453",
+      "a13_durable_reference": "447e700f70fbbda2093df3f5c209b81fe34a9020",
+      "a14_resync_reference": "42ca78cabafa27a7ae361a59435562cab9e70abf"
+    }
+  },
+  "qa": {
+    "node22_localhost": "24/24_PASS_REAL_HTTP_AND_SSE_LOCALHOST",
+    "node22_check": "PASS",
+    "native_exact_github_blob": "SHA_MATCH_25f70acf6d491d8f9b598f39f607df8960a48e73",
+    "live_sockets": "2 simultaneous real TCP SSE streams with blue and red cookies; extra connections and reconnect; store real fs",
+    "slow_client": "INJECTED_ServerResponse_WRITE_FALSE, OTHER_TEAM_RECEIVED_UPDATE",
+    "legacy_original_server": "NOT_RUN_FULL_CHECKOUT",
+    "legacy_existing_oracles": [
+      "tests/m45_platform_a02_network_security.test.mjs (NOT_RUN_A15)",
+      "tests/m45_platform_a07_http_sse_restart.test.mjs (NOT_RUN_A15)"
+    ],
+    "rust_http_server": "NOT_IMPLEMENTED_AT_OBSERVED_HEAD",
+    "rust_native_wasm_parity": "NOT_RUN",
+    "browser_cookies_microphone": "NOT_RUN",
+    "kernel_backpressure_stress": "NOT_RUN",
+    "process_kill": "NOT_RUN",
+    "action_workflows": "NONE"
+  },
+  "boundaries": {
+    "test_implementation": "A15 constructs QA localhost HTTP server using DurableCheckpointReference(A13), PerSeatSseResyncReference(A14), SseStateStream(A07). It is NOT multiplayer/server_v453_dev47.mjs, Arena, game-server Rust or production authentication.",
+    "auth": "Test-only fixed 64-character cookie tokens passed in request headers; they are not issued by /api/create or authenticated through production tokenHash.",
+    "store": "single-writer single-room A13 toy store, order.stop/ready only; no LoL action engine, no WAL",
+    "cors": "local test origin rejection; not full web browser CSRF proof",
+    "sse": "Real Node fetch streaming over loopback, per-seat replay as current durable snapshot, no event journal",
+    "privacy": "Toy allowlist demonstrates own-team redaction but cannot certify all legacy game event/ward/vision types",
+    "fault_injection": "after_rename, after_temp_fsync, and forced write false; not physical disk failure, kill -9 or a saturated kernel TCP buffer"
+  },
+  "observations": [
+    {
+      "id": "A15-GAP-01",
+      "priority": "P0",
+      "observation": "Real legacy HTTP server still not executed in full checkout; prior Node A02/A07 tests exist but remain unrun",
+      "rust_next": "On first available full checkout run A02/A07 plus A15; then implement equivalent Rust server end-to-end"
+    },
+    {
+      "id": "A15-GAP-02",
+      "priority": "P0",
+      "observation": "Legacy anonymous public:false event leak from A03-A14",
+      "rust_next": "Use typed VisibleEventDTO default-deny for HTTP session, SSE, replay, reconnect, receipt; test every event producer"
+    },
+    {
+      "id": "A15-GAP-03",
+      "priority": "P0",
+      "observation": "Memory and disk can diverge on legacy persist failure A13",
+      "rust_next": "Durable checkpoint+receipt+revision before state publication or SSE; retry recovers original ACK"
+    },
+    {
+      "id": "A15-GAP-04",
+      "priority": "P1",
+      "observation": "Legacy SSE does not emit id or support Last-Event-ID",
+      "rust_next": "SseCursor roomEpoch/seatId/committedRevision and authenticated filtered snapshot resync"
+    },
+    {
+      "id": "A15-GAP-05",
+      "priority": "P1",
+      "observation": "Legacy write does not respect backpressure and no active stream count per seat",
+      "rust_next": "Bounded streams and writes; disconnect slow stream without blocking other team; verify kernel/network-level cases"
+    },
+    {
+      "id": "A15-GAP-06",
+      "priority": "P1",
+      "observation": "Legacy ready retry 409, A08 client sequence and room-epoch bug",
+      "rust_next": "requestId per ready, replayable receipts and roomEpoch state reset on reconnect"
+    },
+    {
+      "id": "A15-GAP-07",
+      "priority": "P2",
+      "observation": "Reference HTTP credentials are test fixture tokens; server does not implement actual cookie issue/renewal",
+      "rust_next": "Implement secure HttpOnly SameSite cookies, Origin/CSRF policy, token rotation, expiration and origin coverage"
+    }
+  ],
+  "rust_transport_contract": {
+    "routes": [
+      "POST /api/create",
+      "POST /api/join",
+      "GET /api/session",
+      "POST /api/action",
+      "POST /api/ready",
+      "GET /api/stream"
+    ],
+    "guarantees": [
+      "Two human seats, five owned units per seat, server-derived seat identity from session",
+      "Unauthorized or cross-seat requests never mutate state",
+      "Same idempotency key and canonical packet returns stored ACK without broadcast/execution",
+      "Seat-scoped SSE after durable commit, never raw private world/checkpoint",
+      "Stale, foreign and corrupted SSE cursors cause safe per-seat resync",
+      "Client ignores duplicate revisions and other-room epochs",
+      "Slow stream is bounded or disconnected; the other seat remains healthy",
+      "Two ready confirmations execute the turn exactly once and survive restart",
+      "Failure pre-commit yields old revision, failure post-commit pre-ACK yields saved receipt"
+    ],
+    "required_next_gates": [
+      "Full original Node HTTP/SSE server run with two authenticated clients (pending)",
+      "Rust core-protocol/game-server implementation and TCP E2E (not yet present)",
+      "Kernel slow-client, cancellation/disconnection, concurrent requests and process-kill fault injection",
+      "Browser authentication, cookie policy and LoL fog/event producer matrix"
+    ]
+  },
+  "vectors": [
+    {
+      "id": "A15-HTTP-01",
+      "name": "01 live loopback server health",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-02",
+      "name": "02 missing cookie denied",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-03",
+      "name": "03 two authenticated cookie perspectives",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-04",
+      "name": "04 unauthenticated SSE rejected",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-05",
+      "name": "05 two live SSE connections get seat-bound cursor",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-06",
+      "name": "06 cross-seat unit spoof blocked",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-07",
+      "name": "07 foreign origin blocked",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-08",
+      "name": "08 invalid JSON blocked",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-09",
+      "name": "09 large payload rejected",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-10",
+      "name": "10 one accepted command broadcasts both authorized revisions",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-11",
+      "name": "11 same requestId replays ACK without new broadcast",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-12",
+      "name": "12 conflicting requestId rejected",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-13",
+      "name": "13 red command reaches both SSE while blue sees no red order",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-14",
+      "name": "14 max two streams per seat enforced",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-15",
+      "name": "15 reconnect with stale cursor gets latest own snapshot",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-16",
+      "name": "16 foreign Last-Event-ID cannot reveal enemy order",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-17",
+      "name": "17 duplicated recovery frames ignored by client cursor",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-18",
+      "name": "18 simulated lost ACK after rename retries durable receipt",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-19",
+      "name": "19 failure before rename preserves revision",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-20",
+      "name": "20 restart server + reconnect gets committed last revision",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-21",
+      "name": "21 false write backpressure disconnects slow blue stream",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-22",
+      "name": "22 slow blue stream does not block red SSE updates",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-23",
+      "name": "23 both ready resolve exactly once under repeated HTTP request",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    },
+    {
+      "id": "A15-HTTP-24",
+      "name": "24 restart projections never include private store fields",
+      "status": "PASS_NODE22_REAL_LOCALHOST_QA_REFERENCE",
+      "test": "tests/m45_platform_a15_http_sse_reference.test.mjs"
+    }
+  ]
+}
