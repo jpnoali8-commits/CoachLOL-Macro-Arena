@@ -1016,6 +1016,11 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B32A: source-authored Talon wall vault and Twitch piercing attacks.
+export const M44_B32A_KITS_V453=Object.freeze({
+ Talon:{E:BS('move_point',800,0,[2,2,2,2,2],[],{m44B32AId:'Talon.E'})},
+ Twitch:{R:BS('self',0,100,[90,90,90],[],{m44B32AId:'Twitch.R'})}
+});
 // M44 B26 — nine explicit ice, dagger and electrical identities (partial kits).
 export const M44_B26_KITS_V453=Object.freeze({
  Anivia:{
@@ -1686,7 +1691,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function m44B14DOriginalBoardRuleV453(champ,slot,u=null,gnarMega=false){
 const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B26_KITS_V453[champ]?.[slot]||M44_B25_KITS_V453[champ]?.[slot]||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&gnarMega?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B32A_KITS_V453[champ]?.[slot]||M44_B26_KITS_V453[champ]?.[slot]||M44_B25_KITS_V453[champ]?.[slot]||M44_B24_KITS_V453[champ]?.[slot]||M44_B17B_KITS_V453[champ]?.[slot]||M44_B17A_KITS_V453[champ]?.[slot]||M44_B16B_KITS_V453[champ]?.[slot]||M44_B16A_KITS_V453[champ]?.[slot]||M44_B15B_KITS_V453[champ]?.[slot]||M44_B15A_KITS_V453[champ]?.[slot]||M44_B14B_KITS_V453[champ]?.[slot]||M44_B14A_KITS_V453[champ]?.[slot]||M44_B13B_KITS_V453[champ]?.[slot]||M44_B13A_KITS_V453[champ]?.[slot]||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
 }
 export function abilityRule(u,slot){
@@ -4379,6 +4384,30 @@ export class Arena {
     String(a.id).localeCompare(String(b.id)))[0];
   return minion?{kind:'minion',entity:minion}:null;
  }
+ m44B32ATalonVaultGateV453(u,p){
+  if(!u||!p||![p.x,p.y].every(Number.isFinite)||
+    p.x<0||p.x>1||p.y<0||p.y>1)return {ok:false,reason:'talon_invalid_point'};
+  const distance=this.mapDistance(u,p);
+  if(distance<50||distance>800||!this.walkable(p.x,p.y,u)||
+    (this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,p)))
+   return {ok:false,reason:'talon_invalid_landing'};
+  const steps=Math.max(36,Math.ceil(distance/12));
+  let first=null,sections=0,inside=false,exited=false;
+  for(let i=1;i<steps;i++){
+   const t=i/steps,x=u.x+(p.x-u.x)*t,y=u.y+(p.y-u.y)*t,
+    blocked=!this.walkable(x,y,u);
+   if(blocked&&!inside){sections++;first??={x,y};inside=true}
+   if(!blocked&&inside){inside=false;exited=true}
+  }
+  if(sections!==1||!first||inside||!exited||
+    this.mapDistance(u,first)>725||!this.obstacleLine(u,p,u))
+   return {ok:false,reason:'talon_requires_single_wall'};
+  if((u.m44B32ATalonWalls||[]).some(w=>
+   w.until>this.gameTime&&this.mapDistance(w,first)<=300))
+   return {ok:false,reason:'talon_wall_cooldown'};
+  const rank=Math.max(1,Math.min(5,u.skillRanks?.E||1));
+  return {ok:true,wall:first,duration:[160,135,110,85,60][rank-1]};
+ }
  queueBoardSkillV453Dev69(team,id,slot,{point=null,targetId=null,chargeSeconds=null,laserEnd=null,m44B14Variant=null}={}){
   const u=this.units.find(v=>v.id===id&&v.team===team),s=this.boardKitForV453Dev69(u?.champ,slot,u);
   if(u?.m44B27Egg?.active&&u.m44B27Egg.until>this.gameTime)
@@ -4399,7 +4428,11 @@ export class Arena {
   if(u.m44B14CPossession?.until>this.gameTime&&slot!=='R'&&
     !m44B14DOriginalBoardRuleV453(u.m44B14CPossession.sourceChamp,slot,u))
     return {ok:false,reason:'m44_b14c_slot_unsupported'};
-if(s.m44B26Id==='Kennen.W'&&!this.boardCombatEnemyPoolV453Dev69(u)
+if(s.m44B32AId==='Talon.E'){
+    const result=this.m44B32ATalonVaultGateV453(u,point);
+    if(!result.ok)return result;
+   }
+   if(s.m44B26Id==='Kennen.W'&&!this.boardCombatEnemyPoolV453Dev69(u)
       .some(v=>v.hp>0&&this.sameCombatRealmV453Dev69(u,v)&&
        this.mapDistance(u,v)<=775&&
        (v.m44KennenStorm?.[u.id]?.until>this.gameTime||
@@ -5305,7 +5338,7 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
   if(['circle_enemy','move_point','vision_point','deploy_point'].includes(s.shape)&&!s.originSelf&&this.mapDistance(u,q.point)>s.range)
    return {ok:false,reason:'fora_alcance'};
   if(['move_point','deploy_point'].includes(s.shape)&&(!this.walkable(q.point.x,q.point.y,u)||
-    (s.m44B16BId!=='Bard.E'&&this.obstacleLine(u,q.point))))return {ok:false,reason:'destino_bloqueado'};
+    (s.m44B16BId!=='Bard.E'&&s.m44B32AId!=='Talon.E'&&this.obstacleLine(u,q.point))))return {ok:false,reason:'destino_bloqueado'};
   // M32: the second PvP player's order may consume a mark or remove an entity
   // before this spell resolves. Validate owner ledger before debit/cooldown.
   if(s.m21FrostRequired&&!(target?.m21FrostV453?.sourceId===u.id&&
@@ -5421,7 +5454,11 @@ const hijacked=u.champ==='Sylas'&&slot==='R'&&
    const rounds=u.m44B14Aphelios?.ammo?.[gun]??50;
    if(rounds<10)return {ok:false,reason:'m44_b14_no_ammunition'};
   }
-  // B26 prior to debit: world legality and Kennen W marked-target gate.
+  if(s.m44B32AId==='Talon.E'){
+    const gate=this.m44B32ATalonVaultGateV453(u,q.point);
+    if(!gate.ok)return gate;
+   }
+   // B26 prior to debit: world legality and Kennen W marked-target gate.
    if(s.m44B26Id){
     if(!['Anivia.Q','Anivia.W','Anivia.E','Katarina.Q','Katarina.W',
       'Katarina.R','Kennen.W','Kennen.E','Kennen.R'].includes(s.m44B26Id))
@@ -5483,7 +5520,24 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
    this.m33LeeEnergySpendV453Dev69(u,50);
   if(u.champ==='Xayah'&&!q.stolenCast)
    u.m44XayahCleanCuts=Math.min(5,(u.m44XayahCleanCuts||0)+3);
-  // M33: a queued but denied ability cannot rotate a defender for Cassiopeia R.
+  if(s.m44B32AId==='Talon.E'){
+    const gate=this.m44B32ATalonVaultGateV453(u,q.point),
+     from={x:u.x,y:u.y},to={x:q.point.x,y:q.point.y};
+    u.x=to.x;u.y=to.y;u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,to,{kind:'dash'});
+    u.m44B32ATalonWalls=(u.m44B32ATalonWalls||[])
+     .filter(w=>w.until>this.gameTime)
+     .concat([{...gate.wall,until:this.gameTime+gate.duration}]);
+    return {...committed,assassinsPath:true,wallCooldown:gate.duration};
+   }
+   if(s.m44B32AId==='Twitch.R'){
+    const rank=Math.max(1,Math.min(3,u.skillRanks?.R||1));
+    u.m44B32ATwitchSpray={until:this.gameTime+6,
+     bonusAD:[30,45,60][rank-1],bonusRange:300};
+    return {...committed,sprayAndPray:true,duration:6};
+   }
+   // M33: a queued but denied ability cannot rotate a defender for Cassiopeia R.
   const aim=target||q.m28LaserOrigin||q.point;
   if(aim&&['target_enemy','target_ally','target_any','line_enemy',
    'cone_enemy','circle_enemy','move_point','deploy_point','vision_point'].includes(s.shape)){
@@ -15394,7 +15448,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
  // RFC extends only the ONE attack made with a fully Energized charge. The
  // range is an authorization check before commit, not a permanent u.range buff.
  itemAttackRangeV453Dev38(u){
-  const base=(u.range||0)+(u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?
+  const b32range=u.m44B32ATwitchSpray?.until>this.gameTime?
+    (u.m44B32ATwitchSpray.bonusRange||0)/this.worldWidth:0;
+   const base=(u.range||0)+b32range+(u.champ==='Jinx'&&u.jinxRocketModeV453Dev69M5?
    (kitSpellV42('Jinx','Q').rocketRange[Math.max(0,Math.min(4,(u.skillRanks.Q||1)-1))]/this.worldWidth):0);
   if(!u.items?.includes('rapid_firecannon')||(u.energizeStacksV453Dev38||0)<100)return base;
   const spec=ITEM_EFFECTS_V43.rapid_firecannon;
@@ -16790,8 +16846,29 @@ target.damageContributors={};
    attacker.jinxPowPowUntilV453Dev69M5=this.gameTime+2.5;
   }
   const energized=basic&&landed&&attacker.items?.includes('rapid_firecannon')&&(attacker.energizeStacksV453Dev38||0)>=100;
-  const dealt=this.damage(target,amount+(jinxRocket?Math.max(0,(attacker.ad||0)*.10):0),attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
-  if(jinxRocket&&dealt>0){
+  const twitchSpray=basic&&landed&&attacker.champ==='Twitch'&&
+    attacker.m44B32ATwitchSpray?.until>this.gameTime?
+    attacker.m44B32ATwitchSpray:null;
+   const twitchAmount=amount+(twitchSpray?.bonusAD||0);
+   const dealt=this.damage(target,twitchAmount+(jinxRocket?Math.max(0,(attacker.ad||0)*.10):0),attacker,(kind==='skill'&&['mage','enchanter','support'].includes(attacker.klass)||kind==='skill_on_hit_magic')?'magic':'physical',onHitAbility?'ability_onhit_v453_dev40':basic?'basic':'spell');
+  // One source-owned piercing ray; secondary spell-like damage does not
+   // recursively duplicate item/proc hooks. Full ballistics remain partial.
+   if(twitchSpray){
+    const victims=skillshotHitsV42(attacker,target,
+     this.boardCombatEnemyPoolV453Dev69(attacker).filter(v=>
+      v.hp>0&&v.team!==attacker.team&&
+      this.sameCombatRealmV453Dev69(attacker,v)&&
+      (v.spawnAt==null||v.spawnAt<=this.gameTime)),{
+     range:1100,width:120,maxHits:Infinity,
+     worldWidth:this.worldWidth,worldHeight:this.worldHeight});
+    let i=0;
+    for(const v of victims){
+     const factor=Math.max(.6,1-.2*i++);
+     if(v.id!==target.id)this.damage(v,twitchAmount*factor,
+      attacker,'physical','m44_b32a_twitch_pierce');
+    }
+   }
+   if(jinxRocket&&dealt>0){
    for(const splash of [...this.units,...this.minions].filter(v=>v.id!==target.id&&v.hp>0&&
     v.team!==attacker.team&&this.mapDistance(v,target)<=250&&
     (v.spawnAt==null||v.spawnAt<=this.gameTime)))
