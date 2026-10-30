@@ -8,11 +8,14 @@
   "summary": {
     "engine_playable_verified": 122,
     "recipes_checked": 89,
-    "item_field_checks": 943,
     "contracts": 9,
     "errors": 0,
     "static_result": "PASS",
-    "runtime_test_result": "NOT_RUN"
+    "runtime_test_result": "NOT_RUN",
+    "contract_assertions": 9,
+    "item_row_comparisons": 122,
+    "recipe_comparisons": 89,
+    "note": "All observed checks are static source-vs-archive comparisons; reported counts are rows/recipe comparisons, not runtime assertions."
   },
   "contract_checks": [
     {
