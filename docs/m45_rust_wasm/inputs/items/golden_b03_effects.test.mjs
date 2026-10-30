@@ -37,7 +37,9 @@ function exercise(a,u,v,id){
  if(id==='shadowflame'){
   v.mr=0;v.hp=v.maxHp*.30;
   const boosted=a.damage(v,100,u,'magic','spell');
-  u.items=[];v.hp=v.maxHp*.30;
+  // Remove via the real shop path; do not create an impossible snapshot with ghost stats.
+  assert.equal(a.sellItemV43(u.team,u.id,0).ok,true);
+  v.hp=v.maxHp*.30;
   const plain=a.damage(v,100,u,'magic','spell');
   assert.ok(boosted>plain,'shadowflame threshold must amplify magic');
   return {boosted,plain,assertion:'boosted > plain'};
