@@ -1,0 +1,337 @@
+{
+  "schema": "coachlol.m45.items.qa_v8_snapshot_replay.b10.v1",
+  "date": "2026-10-30",
+  "source": {
+    "branch": "dev69/items-batch2",
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+  },
+  "execution": "SOURCE_JS_V8_EXECUTED",
+  "snapshot_type": "coachlol.snapshot.v4",
+  "result": {
+    "scenarios": 12,
+    "planned": 24,
+    "passed": 24,
+    "failed": 0,
+    "status": "PASS"
+  },
+  "deterministic_repeat": true,
+  "repeat_count": 24,
+  "limits": {
+    "node_esm": "NOT_RUN",
+    "http_room": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "cases": [
+    {
+      "case_id": "M45-B10-EZREAL_PENDING_NASHOR-blue",
+      "team": "blue",
+      "kind": "EZREAL_PENDING_NASHOR",
+      "seed": 451000,
+      "status": "PASS",
+      "before_checksum_v40": "af6f5afb",
+      "observed": {
+        "projectile": "ezreal_q_1",
+        "damage": 126,
+        "cd": 3.282608695652174
+      },
+      "after_checksum_v40": "713da1ce"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_PENDING_NASHOR-red",
+      "team": "red",
+      "kind": "EZREAL_PENDING_NASHOR",
+      "seed": 451001,
+      "status": "PASS",
+      "before_checksum_v40": "0c08e8ea",
+      "observed": {
+        "projectile": "ezreal_q_1",
+        "damage": 163,
+        "cd": 3.282608695652174
+      },
+      "after_checksum_v40": "de5d6a40"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_PARTIAL_SWEEP-blue",
+      "team": "blue",
+      "kind": "EZREAL_PARTIAL_SWEEP",
+      "seed": 451002,
+      "status": "PASS",
+      "before_checksum_v40": "8ebec5b9",
+      "observed": {
+        "savedTravel": 50,
+        "hit": "red_MID"
+      },
+      "after_checksum_v40": "4d978190"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_PARTIAL_SWEEP-red",
+      "team": "red",
+      "kind": "EZREAL_PARTIAL_SWEEP",
+      "seed": 451003,
+      "status": "PASS",
+      "before_checksum_v40": "b3db4620",
+      "observed": {
+        "savedTravel": 50,
+        "hit": "blue_MID"
+      },
+      "after_checksum_v40": "ea626886"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_MINION_INTERCEPT-blue",
+      "team": "blue",
+      "kind": "EZREAL_MINION_INTERCEPT",
+      "seed": 451004,
+      "status": "PASS",
+      "before_checksum_v40": "683df37f",
+      "observed": {
+        "minion": "m7",
+        "minionDamage": 97
+      },
+      "after_checksum_v40": "5c0bfb7a"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_MINION_INTERCEPT-red",
+      "team": "red",
+      "kind": "EZREAL_MINION_INTERCEPT",
+      "seed": 451005,
+      "status": "PASS",
+      "before_checksum_v40": "b50bf2be",
+      "observed": {
+        "minion": "m1",
+        "minionDamage": 140
+      },
+      "after_checksum_v40": "0d19fbff"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_BANSHEE_BLOCK-blue",
+      "team": "blue",
+      "kind": "EZREAL_BANSHEE_BLOCK",
+      "seed": 451006,
+      "status": "PASS",
+      "before_checksum_v40": "0561a91d",
+      "observed": {
+        "annulReady": 41
+      },
+      "after_checksum_v40": "f400ce56"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_BANSHEE_BLOCK-red",
+      "team": "red",
+      "kind": "EZREAL_BANSHEE_BLOCK",
+      "seed": 451007,
+      "status": "PASS",
+      "before_checksum_v40": "f1382834",
+      "observed": {
+        "annulReady": 41
+      },
+      "after_checksum_v40": "e27fe62c"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_POSITIONAL_BARRIER-blue",
+      "team": "blue",
+      "kind": "EZREAL_POSITIONAL_BARRIER",
+      "seed": 451008,
+      "status": "PASS",
+      "before_checksum_v40": "92ebdb13",
+      "observed": {
+        "reason": "bloqueio_posicional"
+      },
+      "after_checksum_v40": "1905d538"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_POSITIONAL_BARRIER-red",
+      "team": "red",
+      "kind": "EZREAL_POSITIONAL_BARRIER",
+      "seed": 451009,
+      "status": "PASS",
+      "before_checksum_v40": "db3264e2",
+      "observed": {
+        "reason": "bloqueio_posicional"
+      },
+      "after_checksum_v40": "738c9fd6"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_AFTER_HIT_NO_REPEAT-blue",
+      "team": "blue",
+      "kind": "EZREAL_AFTER_HIT_NO_REPEAT",
+      "seed": 451010,
+      "status": "PASS",
+      "before_checksum_v40": "c6ed9b14",
+      "observed": {
+        "hp": 9874,
+        "impactRecords": 1
+      },
+      "after_checksum_v40": "920c1131"
+    },
+    {
+      "case_id": "M45-B10-EZREAL_AFTER_HIT_NO_REPEAT-red",
+      "team": "red",
+      "kind": "EZREAL_AFTER_HIT_NO_REPEAT",
+      "seed": 451011,
+      "status": "PASS",
+      "before_checksum_v40": "ee3a1f31",
+      "observed": {
+        "hp": 9837,
+        "impactRecords": 1
+      },
+      "after_checksum_v40": "80ac7b81"
+    },
+    {
+      "case_id": "M45-B10-NAMI_QUEUED_IDOL_VISAGE-blue",
+      "team": "blue",
+      "kind": "NAMI_QUEUED_IDOL_VISAGE",
+      "seed": 451012,
+      "status": "PASS",
+      "before_checksum_v40": "78410b7a",
+      "observed": {
+        "healed": 155.25,
+        "enemyDamage": 63
+      },
+      "after_checksum_v40": "a88dab2d"
+    },
+    {
+      "case_id": "M45-B10-NAMI_QUEUED_IDOL_VISAGE-red",
+      "team": "red",
+      "kind": "NAMI_QUEUED_IDOL_VISAGE",
+      "seed": 451013,
+      "status": "PASS",
+      "before_checksum_v40": "e763e43f",
+      "observed": {
+        "healed": 155.25,
+        "enemyDamage": 62
+      },
+      "after_checksum_v40": "4e515ff7"
+    },
+    {
+      "case_id": "M45-B10-NAMI_LIANDRY_BOUNCE_TICKS-blue",
+      "team": "blue",
+      "kind": "NAMI_LIANDRY_BOUNCE_TICKS",
+      "seed": 451014,
+      "status": "PASS",
+      "before_checksum_v40": "36876ea0",
+      "observed": {
+        "burnDamage": 27,
+        "activeAt4": false
+      },
+      "after_checksum_v40": "a3840ddf"
+    },
+    {
+      "case_id": "M45-B10-NAMI_LIANDRY_BOUNCE_TICKS-red",
+      "team": "red",
+      "kind": "NAMI_LIANDRY_BOUNCE_TICKS",
+      "seed": 451015,
+      "status": "PASS",
+      "before_checksum_v40": "0debeabd",
+      "observed": {
+        "burnDamage": 27,
+        "activeAt4": false
+      },
+      "after_checksum_v40": "af0ab897"
+    },
+    {
+      "case_id": "M45-B10-NAMI_SAME_SECOND_DOT_NO_REPEAT-blue",
+      "team": "blue",
+      "kind": "NAMI_SAME_SECOND_DOT_NO_REPEAT",
+      "seed": 451016,
+      "status": "PASS",
+      "before_checksum_v40": "df7974e6",
+      "observed": {
+        "afterFirst": 512,
+        "afterSecond": 503
+      },
+      "after_checksum_v40": "4079c4a7"
+    },
+    {
+      "case_id": "M45-B10-NAMI_SAME_SECOND_DOT_NO_REPEAT-red",
+      "team": "red",
+      "kind": "NAMI_SAME_SECOND_DOT_NO_REPEAT",
+      "seed": 451017,
+      "status": "PASS",
+      "before_checksum_v40": "f24f6b0b",
+      "observed": {
+        "afterFirst": 513,
+        "afterSecond": 504
+      },
+      "after_checksum_v40": "4d8d2948"
+    },
+    {
+      "case_id": "M45-B10-NAMI_BANSHEE_REJECTS_BURN-blue",
+      "team": "blue",
+      "kind": "NAMI_BANSHEE_REJECTS_BURN",
+      "seed": 451018,
+      "status": "PASS",
+      "before_checksum_v40": "efbd73ac",
+      "observed": {
+        "annulReady": 40
+      },
+      "after_checksum_v40": "c508f0ec"
+    },
+    {
+      "case_id": "M45-B10-NAMI_BANSHEE_REJECTS_BURN-red",
+      "team": "red",
+      "kind": "NAMI_BANSHEE_REJECTS_BURN",
+      "seed": 451019,
+      "status": "PASS",
+      "before_checksum_v40": "06134a39",
+      "observed": {
+        "annulReady": 40
+      },
+      "after_checksum_v40": "fd78fd8a"
+    },
+    {
+      "case_id": "M45-B10-BANSHEE_RECHARGE_TIMELINE-blue",
+      "team": "blue",
+      "kind": "BANSHEE_RECHARGE_TIMELINE",
+      "seed": 451020,
+      "status": "PASS",
+      "before_checksum_v40": "143819e5",
+      "observed": {
+        "ready": 41,
+        "restored": true
+      },
+      "after_checksum_v40": "0d6299d5"
+    },
+    {
+      "case_id": "M45-B10-BANSHEE_RECHARGE_TIMELINE-red",
+      "team": "red",
+      "kind": "BANSHEE_RECHARGE_TIMELINE",
+      "seed": 451021,
+      "status": "PASS",
+      "before_checksum_v40": "9f5bb250",
+      "observed": {
+        "ready": 41,
+        "restored": true
+      },
+      "after_checksum_v40": "95909a9b"
+    },
+    {
+      "case_id": "M45-B10-PHANTOM_RFC_PERSIST_STACKS-blue",
+      "team": "blue",
+      "kind": "PHANTOM_RFC_PERSIST_STACKS",
+      "seed": 451022,
+      "status": "PASS",
+      "before_checksum_v40": "d2035a57",
+      "observed": {
+        "traveled": 299.80000000000024,
+        "charge": 15.408333333333342
+      },
+      "after_checksum_v40": "03e379f1"
+    },
+    {
+      "case_id": "M45-B10-PHANTOM_RFC_PERSIST_STACKS-red",
+      "team": "red",
+      "kind": "PHANTOM_RFC_PERSIST_STACKS",
+      "seed": 451023,
+      "status": "PASS",
+      "before_checksum_v40": "461e0202",
+      "observed": {
+        "traveled": 299.80000000000024,
+        "charge": 15.408333333333342
+      },
+      "after_checksum_v40": "d344f7f1"
+    }
+  ]
+}

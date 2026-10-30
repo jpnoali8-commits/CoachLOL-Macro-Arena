@@ -169,3 +169,9 @@ Node `--check` **PASS** em três blobs B04 idênticos ao GitHub. Runner real ten
 [SPATIAL_SKILL_RUST_CONTRACT_B09.json](SPATIAL_SKILL_RUST_CONTRACT_B09.json).
 
 B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Dançarina Fantasma atravessa corpos vivos, mas não atravessa paredes; minions mortos não bloqueiam; Energizado é gerado por movimento efetivo. As habilidades **Ezreal Q e Nami W foram realmente executadas por seus métodos do motor** em arenas isoladas, incluindo projétil com impacto atrasado, barreiras/colisores, amplificação de cura, Liandry e Banshee. **30/30 PASS no V8 e 30/30 repetidos identicamente** (15 tipos × duas equipes). A fixture muda rótulos de campeão no lobby padrão apenas para testar os executores, logo NÃO é paridade total QWER. Runner cumulativo **519 casos Node preparados**; Node real, room HTTP, Rust/Cargo/WASM e G8 permanecem **NOT_RUN/NOT_CERTIFIED**. Gameplay JavaScript, integration, itens e Rust central preservados.
+
+## B02B-ITEMS Lote 10 — 2026-10-30
+
+[Recibo B10](RECEIPT_B02B_ITEMS_10.md) · [fixture snapshot/replay](snapshot_replay_b10_cases.mjs) · [runner Node](golden_b10_snapshot_replay.test.mjs) · [QA V8](QA_V8_SNAPSHOT_REPLAY_B10.json) · [contrato Rust](SNAPSHOT_REPLAY_RUST_CONTRACT_B10.json).
+
+**B10:** 12 tipos x 2 equipes = **24/24 PASS V8**; **24/24 repetições idênticas** com restauração da fonte. Testes de projétil, escudo, Liandry, Energizado, cooldown e ticks. Runner cumulativo **543 cenários preparados para Node** (não executados). **Rust, HTTP, WASM e G8 permanecem pendentes**. Origem JS e crates centrais preservados.

@@ -1,0 +1,54 @@
+{
+  "schema": "coachlol.m45.items.snapshot_replay_rust_contract.b10.v1",
+  "status": "HANDOFF_PROPOSAL_ONLY",
+  "date": "2026-10-30",
+  "source_oracle": "QA_V8_SNAPSHOT_REPLAY_B10.json",
+  "executed_v8_cases": 24,
+  "domain_ownership": {
+    "core-state": [
+      "authoritative champions, minions and barriers",
+      "all cooldown clocks stored as logical absolute times",
+      "snapshot version, seed and deterministic RNG state"
+    ],
+    "core-clock": [
+      "single authoritative tick/monotonic logical time",
+      "partial projectile traveled distance and dueAt not wall-clock timers"
+    ],
+    "core-skills": [
+      "queued targeted Nami W persists through save/load",
+      "Ezreal Q persisted immutable origin/direction/speed/range/owner and swept progress",
+      "resolved projectile event may not re-hit after reconnect"
+    ],
+    "core-combat": [
+      "damage applied once per event id",
+      "typed shield absorption and DoT nextTick and effect id deterministic"
+    ],
+    "core-items": [
+      "Nashor on-hit provenance",
+      "Banshee spell-shield consumed once and recharge at stored timestamp",
+      "Liandry burn nextTick and expiration, no duplicate same-second tick",
+      "Phantom Dancer unit ghosting and RFC move charge preserved"
+    ],
+    "core-replay": [
+      "canonical state checksum and seed",
+      "snapshot at mid-event and after-effect",
+      "seat ownership of 5 champions and redacted enemy events",
+      "ordered authoritative event ids and ACK sequencing"
+    ]
+  },
+  "acceptance": [
+    "12 paired scenarios, both seats",
+    "single continuous and restored execution must equal full V40 snapshot checksum at every checkpoint",
+    "before and after restoration must preserve pending events without duplicates",
+    "replay may not shift cooldown end times or regenerate already-consumed item effects",
+    "event authority and hidden information must be validated separately in server tests",
+    "Rust native/WASM parity must compare supported fields with canonical serialization and declared deviations"
+  ],
+  "parity_policy": "Do not silently normalize source bugs; open deviations with reasons and separate tests",
+  "blocked": [
+    "No core-items/core-economy crates at reference check",
+    "Node ESM, PvP HTTP, Rust native and WASM unexecuted",
+    "G8 not certified",
+    "P1 legacy trinket gateway gap remains open"
+  ]
+}
