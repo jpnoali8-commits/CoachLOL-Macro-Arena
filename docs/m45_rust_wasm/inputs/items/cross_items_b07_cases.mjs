@@ -148,6 +148,96 @@ export function runCrossItemsB07({Arena,map,mask,checksumV40}){
    a.damage(v,75,u,'magic','spell');
    assert(shield.power<initial,'second spell did not consume Kaenic');
    return {kaenicBefore:initial,kaenicAfter:shield.power};
+  }],
+  ['QUICKSILVER_VS_RYLAI_SLOW',({a,u,v})=>{
+   buy(a,u,'quicksilver_sash');buy(a,v,'rylais_crystal_scepter');
+   a.damage(u,40,v,'magic','spell');
+   assert(effects(a,u,'slow'),'Rylai did not slow defender');
+   const receipt=a.activateItemV453Dev59(u.team,u.id,'quicksilver_sash');
+   assert(receipt.ok,'QSS did not activate');
+   assert(!effects(a,u,'slow'),'QSS did not remove slow');
+   assert(!a.activateItemV453Dev59(u.team,u.id,'quicksilver_sash').ok,'QSS cooldown bypass');
+   return {cleanse:receipt.ok,cooldownUntil:receipt.cooldownUntil};
+  }],
+  ['MERCURIAL_CLEANSE_AND_SPRINT',({a,u,v})=>{
+   buy(a,u,'mercurial_scimitar');
+   assert(a.applyEffectV41(u,'root',{source:v,duration:4}).ok,'root did not apply');
+   assert(effects(a,u,'root'),'missing root');
+   const receipt=a.activateItemV453Dev59(u.team,u.id,'mercurial_scimitar');
+   assert(receipt.ok,'Mercurial failed');
+   assert(!effects(a,u,'root'),'Mercurial root removal failed');
+   assert(u.mercurialSprintUntilV453Dev59>a.gameTime,'Mercurial sprint absent');
+   return {until:u.mercurialSprintUntilV453Dev59,cd:receipt.cooldownUntil};
+  }],
+  ['GUINSOO_NAVORI_ABILITY_COOLDOWN',({a,u,v})=>{
+   buy(a,u,'guinsoos_rageblade','navori_flickerblade');
+   u.skillCds={Q:10,W:12,E:0,R:100};v.maxHp=10000;v.hp=10000;
+   a.attack(u,v,20,'attack');
+   eq(u.skillCds.Q,8.5,'Navori Q -15 percent');
+   eq(u.skillCds.W,10.2,'Navori W -15 percent');
+   eq(u.skillCds.E,0,'Navori E inactive');
+   eq(u.skillCds.R,100,'Navori cannot refund R');
+   eq(u.guinsooHitCountV453Dev54,1,'Guinsoo first basic');
+   return {cooldowns:{...u.skillCds},guinsooCount:u.guinsooHitCountV453Dev54};
+  }],
+  ['SCOUT_HEXTECH_DISTINCT_COOLDOWNS',({a,u,v})=>{
+   buy(a,u,'scouts_slingshot','hextech_alternator');
+   a.damage(v,40,u,'magic','spell');
+   const scout=u.scoutBullseyeReadyAtV453Dev38,hex=u.hextechAlternatorReadyAtV453Dev56;
+   assert(scout>a.gameTime&&hex>a.gameTime,'item cooldown not set');
+   const hp=v.hp;a.damage(v,40,u,'magic','spell');
+   eq(u.scoutBullseyeReadyAtV453Dev38,scout,'scout repeated');
+   eq(u.hextechAlternatorReadyAtV453Dev56,hex,'hextech repeated');
+   assert(v.hp<hp,'primary spell did not damage');
+   return {scout,hex,postSecondHp:v.hp};
+  }],
+  ['WITS_NASHOR_TWO_MAGIC_ONHITS',({a,u,v})=>{
+   buy(a,u,'wits_end','nashors_tooth');v.hp=10000;v.maxHp=10000;
+   const before=v.hp;a.attack(u,v,20,'attack');const withItems=before-v.hp;
+   const baseline=new Arena(map,mask,{seed:a.seed,mode:'pvp'});
+   const attacker=champ(baseline,u.team),defender=champ(baseline,v.team);
+   defender.hp=10000;defender.maxHp=10000;
+   const plain=defender.hp-(baseline.attack(attacker,defender,20,'attack'),defender.hp);
+   assert(withItems>plain,'mixed item procs not adding damage');
+   return {withItems,plain};
+  }],
+  ['DARKSEAL_MEJAI_UPGRADE_KEEPS_GLORY',({a,u})=>{
+   buy(a,u,'dark_seal');
+   eq(a.setGloryStacksV453Dev58(u,8),8,'Dark Seal stack setup');
+   const before=u.ap;
+   buy(a,u,'mejais_soulstealer');
+   eq(u.gloryStacksV453Dev58,8,'Mejai did not carry stacks');
+   assert(!u.items.includes('dark_seal')&&u.items.includes('mejais_soulstealer'),'recipe not consumed');
+   eq(a.setGloryStacksV453Dev58(u,10),10,'Mejai speed threshold');
+   assert(u.percentMoveSpeed>0,'Mejai 10 stacks lacks movement bonus');
+   return {before,after:u.ap,stacks:u.gloryStacksV453Dev58,speed:u.percentMoveSpeed};
+  }],
+  ['HEXDRINKER_VS_SHADOWFLAME_MAGIC_ONLY',({a,u,v})=>{
+   buy(a,u,'shadowflame');buy(a,v,'hexdrinker');
+   v.hp=v.maxHp*.31;const hp=v.hp;
+   a.damage(v,95,u,'magic','spell');
+   assert(v.hexdrinkerReadyAtV453Dev57>a.gameTime,'Hexdrinker magic lifeline did not fire');
+   assert(v.hp>=hp-95,'Hexdrinker magic barrier failed');
+   const afterMagic=v.hp;
+   a.damage(v,30,u,'physical','basic');
+   assert(v.hp<afterMagic,'physical hit incorrectly absorbed by magic-only barrier');
+   return {hpBefore:hp,afterMagic,afterPhysical:v.hp,ready:v.hexdrinkerReadyAtV453Dev57};
+  }],
+  ['TEAR_CATALYST_MANA_EXCHANGE',({a,u,v})=>{
+   buy(a,u,'tear_of_the_goddess');buy(a,v,'catalyst_of_aeons');
+   v.mana=0;const beforeMana=u.tearManaBonusV453Dev56||0;
+   a.damage(v,70,u,'magic','spell');
+   assert(v.mana>0,'Catalyst did not return mana on actual champion damage');
+   assert((u.tearManaBonusV453Dev56||0)>beforeMana,'Tear did not grant mana on spell hit');
+   return {defenderMana:v.mana,tearBonus:u.tearManaBonusV453Dev56};
+  }],
+  ['BLACK_CLEAVER_SERYLDA_SPELL',({a,u,v})=>{
+   buy(a,u,'black_cleaver','seryldas_grudge');
+   v.hp=v.maxHp*.40;
+   a.damage(v,40,u,'physical','spell');
+   assert(effects(a,v,'slow'),'Serylda low HP spell did not slow');
+   eq(v.cleaverDebuffV453Dev29?.stacks,1,'Cleaver spell stack missing');
+   return {slow:true,armorDebuff:v.cleaverDebuffV453Dev29.stacks};
   }]
  ];
  let serial=0;
