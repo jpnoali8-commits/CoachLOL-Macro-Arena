@@ -20,13 +20,14 @@ const names=[
  'golden_b04_pvp_gap.test.mjs',
  'golden_b06_adversarial.test.mjs',
  'golden_b07_cross_items.test.mjs',
- 'golden_b08_effects_and_actions.test.mjs'
+ 'golden_b08_effects_and_actions.test.mjs',
+ 'golden_b09_spatial_skills.test.mjs'
 ];
 const sha256=s=>createHash('sha256').update(s).digest('hex');
 const report={schema:'coachlol.m45.items.qa.execution.b04.v1',source_commit:sourceCommit,
  branch_expected:'dev69/m45-audit-items',node:process.version,
  platform:process.platform,arch:process.arch,entrypoint:import.meta.url,
- timestamp:new Date().toISOString(),planned:{B01:11,B02:244,B03:18,B03B:18,B04_INTERNAL:6,B04_PVP_GAP:2,B06_ADVERSARIAL:92,B07_CROSS_ITEMS:46,B08_EFFECTS_AND_ACTIONS:52},
+ timestamp:new Date().toISOString(),planned:{B01:11,B02:244,B03:18,B03B:18,B04_INTERNAL:6,B04_PVP_GAP:2,B06_ADVERSARIAL:92,B07_CROSS_ITEMS:46,B08_EFFECTS_AND_ACTIONS:52,B09_SPATIAL_SKILLS:30},
  jobs:[],legacy_pvp_trinket_feature:'OPEN_GAP_NOT_A_PASS',status:'NOT_STARTED'};
 const wantWrite=process.argv.includes('--write');
 const jobs=[
