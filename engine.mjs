@@ -4279,7 +4279,8 @@ export class Arena {
     v.hp>0&&this.mapDistance(dagger,v)<=340&&
     this.sameCombatRealmV453Dev69(u,v)&&!this.obstacleLine(dagger,v))
     .sort((a,b)=>String(a.id).localeCompare(String(b.id))))
-    this.damage(v,dagger.power,u,'magic','spell');
+    this.damage(v,dagger.power,u,'magic',v.champ?
+     'ability_onhit_v453_dev40':'spell');
    // B29: Katarina's dagger pickup scales the E refund by champion level.
    const rule=this.boardKitForV453Dev69('Katarina','E',u);
    const rank=Math.min(5,Math.max(1,u.skillRanks?.E||1));
@@ -6481,8 +6482,27 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
       y:first.y+(first.y-origin.y)*350/distance};
      const clamped={x:Math.min(.975,Math.max(.025,desired.x)),
       y:Math.min(.975,Math.max(.025,desired.y))};
-     const dag=this.walkable(clamped.x,clamped.y,u)?clamped:
-      {x:first.x,y:first.y};
+     // B31A: find the closest legal landing around the FIRST victim.
+     // Stable rings/angles preserve seed determinism and respect realm bounds.
+     let dag=null;
+     for(const radius of [0,25,50,75,100,125,175,225,300]){
+      const n=radius===0?1:16;
+      for(let k=0;k<n;k++){
+       const angle=k*Math.PI*2/n;
+       const p={x:Math.min(.975,Math.max(.025,clamped.x+
+        radius*Math.cos(angle)/this.worldWidth)),
+        y:Math.min(.975,Math.max(.025,clamped.y+
+        radius*Math.sin(angle)/this.worldHeight))};
+       if(!this.walkable(p.x,p.y,u)||
+          this.realmOfV453Dev69(u)&&!this.realmValidV453Dev69(u,p))continue;
+       dag=p;break;
+      }
+      if(dag)break;
+     }
+     if(!dag){ // No legal ground dagger: the hits remain valid, but cannot blink.
+      return {...committed,bouncingBlade:true,hitIds,daggerAt:null,
+       daggerPoint:null,groundBlocked:true};
+     }
      schedule('m44_b26_katarina_drop',now+1.02,{
       point:dag,power:50+20*rank+stats.ap*.65,daggerUntil:now+5.02});
      return {...committed,bouncingBlade:true,hitIds,daggerAt:now+1.02,
@@ -7997,8 +8017,11 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
        this.mapDistance(end,a)-this.mapDistance(end,b)||
        String(a.id).localeCompare(String(b.id)));
       const victim=victims[0],hit=victim?
-       this.damage(victim,power(s.damage),u,'magic','spell')>0:false;
+       this.damage(victim,power(s.damage),u,'magic',
+        'ability_onhit_v453_dev40')>0:false;
       const picked=this.m44B26KatarinaPickupV453(u);
+      // The blink resets the basic-attack timer; it is NOT a basic hit.
+      u.attackAt=Math.min(Number.isFinite(u.attackAt)?u.attackAt:now,now);
       return {...committed,shunpo:true,daggerShunpo:true,hit,
        targetId:victim?.id||null,daggersCollected:picked};
      }
@@ -8009,7 +8032,9 @@ const committed=q.stolenCast?{ok:true,spentMana:0,hijacked:true}:
      if(!move(u,end,'katarina_shunpo'))return {...committed,shunpo:false};
      const picked=this.m44B26KatarinaPickupV453(u);
      const hit=target.team!==u.team?
-      this.damage(target,power(s.damage),u,'magic','spell')>0:false;
+      this.damage(target,power(s.damage),u,'magic',
+       'ability_onhit_v453_dev40')>0:false;
+     u.attackAt=Math.min(Number.isFinite(u.attackAt)?u.attackAt:now,now);
      return {...committed,shunpo:true,hit,daggersCollected:picked};
     }
     case 'Nami.W':{
