@@ -58,3 +58,7 @@ Antes de aceitar a saída: rever quaisquer `BLOCKED_BY_JS_SOURCE`, divergências
 **Chat 1:** receber este pacote como entrada B02B (G0 parcial), sem cherry-pick de `engine.mjs`. `core-items`/ `core-economy` continuam aguardando contratos B12/B13/B23; `core-combat` é dependência dos procs. Manter Undo como evento irrevogável por visita física, owner e seed, nada dependente apenas de estar dentro da fonte no instante do comando. A projeção PvP precisa proteger inventário/gold inimigo e receipt/cooldown privados.
 
 **Próxima prioridade elegível:** executar goldens B01/B02/B03 no checkout íntegro, reconciliar qualquer falha por hash, registrar snapshots/resultado real, auditar possíveis efeitos colaterais de recall/respawn/teleportes no Undo; só portar conteúdo Rust com contratos publicados. Sem novas funcionalidades JS. Sem modificar PR #9, main, integration, skills, items original ou Rust central.
+
+### QA adicional com bytes idênticos
+
+O módulo publicado `oracle_source_lock_b03.mjs` foi reconstruído localmente, e `git hash-object` produziu o SHA `1f02ef2b5ae50f0280ff7ebe9cdb5e5e222653cf`, **idêntico ao blob real do GitHub**. `node --check` sobre esses bytes retornou exit 0; o smoke `gitBlobSha1` retornou o mesmo hash que `git hash-object`. **Não foi executado gameplay/fixture completo**, apenas sintaxe e primitiva de hash desse módulo.
