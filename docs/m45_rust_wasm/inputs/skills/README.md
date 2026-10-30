@@ -104,3 +104,13 @@ O conector GitHub carregou a engine original e map/masks em um executor V8 isola
 **S12:** `s12_projectile_fidelity_pvp.test.mjs` executou **438/438 assertivas em 34/34 cenários e 8/8 restaurações de voo** (azul/vermelho), usando o Git blob de engine congelado. Cobertura Ahri E e Ashe R: travessia, alcance, minion/champion-first, spell shield, barreira, parede, impacto, splash e hash replay. Arquivos: `S12_AUTHORIAL_PROJECTILE_RUST_FIXTURES.json`, `S12_V8_RUNTIME_RECEIPT.json`, `M45_B02_S12_HANDOFF.md`.
 
 O S10 continua com sua matriz congelada das 26 suítes originais: **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**. Os 66+438 testes *suplementares* **não** mudam essa contagem. `node` integral, Rust native, WASM e HTTP/privacidade seguem **NOT_RUN**. A branch Rust observada `5afd330f260c7a0b1984521732e117dfcd81396f` ainda contém somente `core-state` e não contém `core-combat` nem `core-champions`; produção Rust de habilidade permanece bloqueada até que os contratos existam.
+
+
+## M45 B02 Skills S13 — contratos tipados Rust (source-only)
+
+- `s13_intent_arbiter_reference.rs`: modelo Rust **não autoritativo** de uma intenção primária por (match/turn/actor/slot), sessão→seat, ACK idempotente, seal, limpeza terminal e rejeição de recast sem executor autoral. **6 testes Rust escritos, 0 executados; fora do Cargo workspace**.
+- `s13_projectile_acceptance.rs`: interface `AuthoredProjectileRunner` e **13 casos distintos × 2 times = 26 execuções Rust futuras** para Ahri E/Ashe R, sem implementação da trait; 2 testes Rust de integridade preparados e **0 executados**.
+- `S13_RUST_ACCEPTANCE_MATRIX.json`: 13 casos de paridade fonte, exceções *deliberate fidelity fix* (Nami W stale, Ahri E shortcut), divergência Nami W 75 vs 115 cura, bloqueio de recasts e requisitos de segurança/replay.
+- `s13_validate_acceptance.mjs`: **48/48 verificações V8 PASS**, apenas coerência estática de arquivos/pins/contagens. `S13_STATIC_CONTRACT_RECEIPT.json` e `M45_B02_S13_HANDOFF.md` registram as limitações.
+
+Branch Rust central verificada em `5afd330f260c7a0b1984521732e117dfcd81396f` ainda não possui `core-combat`/`core-champions`. `rustc` e `cargo` estão ausentes no executor local; **native Rust/WASM/Node originais/HTTP NOT_RUN**. Ledger S10 inalterado: **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**; não promover nenhuma skill a MIGRATED.
