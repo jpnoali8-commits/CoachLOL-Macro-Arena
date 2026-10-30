@@ -1,0 +1,723 @@
+{
+  "schema": "coachlol.m45.items.v8.cross_items.b07.v1",
+  "date": "2026-10-30",
+  "execution": {
+    "engine": "Source JS Arena loaded unchanged except 'export' ESM tokens, evaluated by V8",
+    "cases_file": "cross_items_b07_cases.mjs",
+    "node_runner": "golden_b07_cross_items.test.mjs",
+    "node_runner_status": "NOT_RUN",
+    "scenario_types": 23,
+    "case_count": 46,
+    "passed": 46,
+    "failed": 0,
+    "replay_match": 46,
+    "replay_attempted": 46,
+    "status": "PASS_V8_SOURCE_ONLY",
+    "not_certified": [
+      "Node ESM",
+      "HTTP PvPRoomRegistry",
+      "Rust native",
+      "wasm",
+      "G8"
+    ]
+  },
+  "provenance": {
+    "items_branch": "dev69/items-batch2",
+    "items_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "files": [
+      {
+        "path": "engine.mjs",
+        "blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+      },
+      {
+        "path": "data/coachlol_map_v6.json",
+        "blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109"
+      },
+      {
+        "path": "data/masks_128.json",
+        "blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/cross_items_b07_cases.mjs",
+        "blob_sha": "e0268332ceac07edcf4ec408b43672e98e50644d"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/golden_b07_cross_items.test.mjs",
+        "blob_sha": "40904c1ad0f364be608f7abb5cb9230d6a394c7b"
+      }
+    ]
+  },
+  "scope": "cross-item effect interactions, not all Riot item rules, not all skills/combos",
+  "cases": [
+    {
+      "id": "M45-B07-MORELLO_LIANDRY_MAGIC-blue",
+      "scenario": "MORELLO_LIANDRY_MAGIC",
+      "seed": 470700,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "290ac4e5",
+      "after_checksum_v40": "380deffb",
+      "observed": {
+        "gw": true,
+        "burnPower": 11.8,
+        "burnUntil": 3
+      }
+    },
+    {
+      "id": "M45-B07-MORELLO_LIANDRY_MAGIC-red",
+      "scenario": "MORELLO_LIANDRY_MAGIC",
+      "seed": 470701,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "5ece91b8",
+      "after_checksum_v40": "cb736e11",
+      "observed": {
+        "gw": true,
+        "burnPower": 11.8,
+        "burnUntil": 3
+      }
+    },
+    {
+      "id": "M45-B07-EXECUTIONER_CLEAVER_PHYSICAL-blue",
+      "scenario": "EXECUTIONER_CLEAVER_PHYSICAL",
+      "seed": 470702,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "46647df3",
+      "after_checksum_v40": "6b0b83df",
+      "observed": {
+        "first": 1,
+        "stacks": 2
+      }
+    },
+    {
+      "id": "M45-B07-EXECUTIONER_CLEAVER_PHYSICAL-red",
+      "scenario": "EXECUTIONER_CLEAVER_PHYSICAL",
+      "seed": 470703,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "c062d6be",
+      "after_checksum_v40": "5064713f",
+      "observed": {
+        "first": 1,
+        "stacks": 2
+      }
+    },
+    {
+      "id": "M45-B07-RYLAI_FATED_ASHES_SPELL_ONLY-blue",
+      "scenario": "RYLAI_FATED_ASHES_SPELL_ONLY",
+      "seed": 470704,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "4d50b359",
+      "after_checksum_v40": "a0390500",
+      "observed": {
+        "slow": true,
+        "burn": true
+      }
+    },
+    {
+      "id": "M45-B07-RYLAI_FATED_ASHES_SPELL_ONLY-red",
+      "scenario": "RYLAI_FATED_ASHES_SPELL_ONLY",
+      "seed": 470705,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "e05fb9ec",
+      "after_checksum_v40": "d31fe2d6",
+      "observed": {
+        "slow": true,
+        "burn": true
+      }
+    },
+    {
+      "id": "M45-B07-BANSHEE_BLOCKS_LIANDRY_BLOODLETTER-blue",
+      "scenario": "BANSHEE_BLOCKS_LIANDRY_BLOODLETTER",
+      "seed": 470706,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "b72e2987",
+      "after_checksum_v40": "a7e806d9",
+      "observed": {
+        "blocked": 0,
+        "landed": 48,
+        "shred": 1
+      }
+    },
+    {
+      "id": "M45-B07-BANSHEE_BLOCKS_LIANDRY_BLOODLETTER-red",
+      "scenario": "BANSHEE_BLOCKS_LIANDRY_BLOODLETTER",
+      "seed": 470707,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "09ab0c32",
+      "after_checksum_v40": "85419a59",
+      "observed": {
+        "blocked": 0,
+        "landed": 47,
+        "shred": 1
+      }
+    },
+    {
+      "id": "M45-B07-BRAMBLE_HEXTECH_NO_REFLECTION_LOOP-blue",
+      "scenario": "BRAMBLE_HEXTECH_NO_REFLECTION_LOOP",
+      "seed": 470708,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "6dc02b6d",
+      "after_checksum_v40": "a82f9ef8",
+      "observed": {
+        "primary": 46,
+        "reflected": 8,
+        "hextechUntil": 40
+      }
+    },
+    {
+      "id": "M45-B07-BRAMBLE_HEXTECH_NO_REFLECTION_LOOP-red",
+      "scenario": "BRAMBLE_HEXTECH_NO_REFLECTION_LOOP",
+      "seed": 470709,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "9672fc50",
+      "after_checksum_v40": "1ce87399",
+      "observed": {
+        "primary": 46,
+        "reflected": 8,
+        "hextechUntil": 40
+      }
+    },
+    {
+      "id": "M45-B07-THORNMAIL_MORTAL_BIDIRECTIONAL_GW-blue",
+      "scenario": "THORNMAIL_MORTAL_BIDIRECTIONAL_GW",
+      "seed": 470710,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "0cbd868a",
+      "after_checksum_v40": "a60e95d4",
+      "observed": {
+        "attackerWounded": true,
+        "defenderWounded": true
+      }
+    },
+    {
+      "id": "M45-B07-THORNMAIL_MORTAL_BIDIRECTIONAL_GW-red",
+      "scenario": "THORNMAIL_MORTAL_BIDIRECTIONAL_GW",
+      "seed": 470711,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "edaf666b",
+      "after_checksum_v40": "89942386",
+      "observed": {
+        "attackerWounded": true,
+        "defenderWounded": true
+      }
+    },
+    {
+      "id": "M45-B07-STEELCAPS_WARDEN_COMBINED_BASIC_REDUCTION-blue",
+      "scenario": "STEELCAPS_WARDEN_COMBINED_BASIC_REDUCTION",
+      "seed": 470712,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "5ac94858",
+      "after_checksum_v40": "70d6421f",
+      "observed": {
+        "mitigated": 39,
+        "plain": 81
+      }
+    },
+    {
+      "id": "M45-B07-STEELCAPS_WARDEN_COMBINED_BASIC_REDUCTION-red",
+      "scenario": "STEELCAPS_WARDEN_COMBINED_BASIC_REDUCTION",
+      "seed": 470713,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "de632621",
+      "after_checksum_v40": "f7bd86e6",
+      "observed": {
+        "mitigated": 40,
+        "plain": 83
+      }
+    },
+    {
+      "id": "M45-B07-BANSHEE_BLOCKS_HEXTECH_CHARGE-blue",
+      "scenario": "BANSHEE_BLOCKS_HEXTECH_CHARGE",
+      "seed": 470714,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "562cf656",
+      "after_checksum_v40": "e1811aae",
+      "observed": {
+        "landed": 42,
+        "cooldownUntil": 40
+      }
+    },
+    {
+      "id": "M45-B07-BANSHEE_BLOCKS_HEXTECH_CHARGE-red",
+      "scenario": "BANSHEE_BLOCKS_HEXTECH_CHARGE",
+      "seed": 470715,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "9636ac97",
+      "after_checksum_v40": "e0c62bc4",
+      "observed": {
+        "landed": 41,
+        "cooldownUntil": 40
+      }
+    },
+    {
+      "id": "M45-B07-GUINSOO_NASHOR_RECURVE_SIXTH_ATTACK-blue",
+      "scenario": "GUINSOO_NASHOR_RECURVE_SIXTH_ATTACK",
+      "seed": 470716,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "ce513564",
+      "after_checksum_v40": "578d8120",
+      "observed": {
+        "deltas": [
+          76,
+          76,
+          76,
+          76,
+          76,
+          136
+        ],
+        "stacks": 4,
+        "hitCount": 6
+      }
+    },
+    {
+      "id": "M45-B07-GUINSOO_NASHOR_RECURVE_SIXTH_ATTACK-red",
+      "scenario": "GUINSOO_NASHOR_RECURVE_SIXTH_ATTACK",
+      "seed": 470717,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "9bd28eed",
+      "after_checksum_v40": "5421b3a4",
+      "observed": {
+        "deltas": [
+          76,
+          76,
+          76,
+          76,
+          76,
+          135
+        ],
+        "stacks": 4,
+        "hitCount": 6
+      }
+    },
+    {
+      "id": "M45-B07-KRAKEN_GUINSOO_THIRD_HIT-blue",
+      "scenario": "KRAKEN_GUINSOO_THIRD_HIT",
+      "seed": 470718,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "38640c92",
+      "after_checksum_v40": "2a0fef57",
+      "observed": {
+        "deltas": [
+          43,
+          43,
+          165
+        ],
+        "kraken": {
+          "targetId": "red_MID",
+          "stacks": 0,
+          "until": 4
+        }
+      }
+    },
+    {
+      "id": "M45-B07-KRAKEN_GUINSOO_THIRD_HIT-red",
+      "scenario": "KRAKEN_GUINSOO_THIRD_HIT",
+      "seed": 470719,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "02d798d3",
+      "after_checksum_v40": "8bfce47c",
+      "observed": {
+        "deltas": [
+          44,
+          44,
+          168
+        ],
+        "kraken": {
+          "targetId": "blue_MID",
+          "stacks": 0,
+          "until": 4
+        }
+      }
+    },
+    {
+      "id": "M45-B07-RABADON_DARK_SEAL_GLORY_ATOMIC-blue",
+      "scenario": "RABADON_DARK_SEAL_GLORY_ATOMIC",
+      "seed": 470720,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "5fc1b607",
+      "after_checksum_v40": "73cba985",
+      "observed": {
+        "full": 189,
+        "boosted": 241,
+        "restored": 189
+      }
+    },
+    {
+      "id": "M45-B07-RABADON_DARK_SEAL_GLORY_ATOMIC-red",
+      "scenario": "RABADON_DARK_SEAL_GLORY_ATOMIC",
+      "seed": 470721,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "ef5f8f8e",
+      "after_checksum_v40": "31760382",
+      "observed": {
+        "full": 189,
+        "boosted": 241,
+        "restored": 189
+      }
+    },
+    {
+      "id": "M45-B07-RIFTMAKER_LIANDRY_RAMP_EXCLUDES_DOT-blue",
+      "scenario": "RIFTMAKER_LIANDRY_RAMP_EXCLUDES_DOT",
+      "seed": 470722,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "0387ad89",
+      "after_checksum_v40": "8969ce71",
+      "observed": {
+        "first": 55,
+        "later": 63,
+        "rampTime": {
+          "rift": 0,
+          "liandry": 0
+        }
+      }
+    },
+    {
+      "id": "M45-B07-RIFTMAKER_LIANDRY_RAMP_EXCLUDES_DOT-red",
+      "scenario": "RIFTMAKER_LIANDRY_RAMP_EXCLUDES_DOT",
+      "seed": 470723,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "1e046b50",
+      "after_checksum_v40": "e600cbcd",
+      "observed": {
+        "first": 54,
+        "later": 62,
+        "rampTime": {
+          "rift": 0,
+          "liandry": 0
+        }
+      }
+    },
+    {
+      "id": "M45-B07-BLOODLETTER_ABYSSAL_TEAM_MAGIC-blue",
+      "scenario": "BLOODLETTER_ABYSSAL_TEAM_MAGIC",
+      "seed": 470724,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "714efad3",
+      "after_checksum_v40": "0a797777",
+      "observed": {
+        "first": 60,
+        "second": 61,
+        "stacks": 2,
+        "auraOwner": "blue_SUP"
+      }
+    },
+    {
+      "id": "M45-B07-BLOODLETTER_ABYSSAL_TEAM_MAGIC-red",
+      "scenario": "BLOODLETTER_ABYSSAL_TEAM_MAGIC",
+      "seed": 470725,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "54101a7a",
+      "after_checksum_v40": "211ce21a",
+      "observed": {
+        "first": 60,
+        "second": 61,
+        "stacks": 2,
+        "auraOwner": "red_SUP"
+      }
+    },
+    {
+      "id": "M45-B07-KAENIC_BANSHEE_TWO_LAYER_DEFENSE-blue",
+      "scenario": "KAENIC_BANSHEE_TWO_LAYER_DEFENSE",
+      "seed": 470726,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "88bebb95",
+      "after_checksum_v40": "7821ffe0",
+      "observed": {
+        "kaenicBefore": 148.5,
+        "kaenicAfter": 118.5
+      }
+    },
+    {
+      "id": "M45-B07-KAENIC_BANSHEE_TWO_LAYER_DEFENSE-red",
+      "scenario": "KAENIC_BANSHEE_TWO_LAYER_DEFENSE",
+      "seed": 470727,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "aa38f51c",
+      "after_checksum_v40": "b6283504",
+      "observed": {
+        "kaenicBefore": 148.5,
+        "kaenicAfter": 118.5
+      }
+    },
+    {
+      "id": "M45-B07-QUICKSILVER_VS_RYLAI_SLOW-blue",
+      "scenario": "QUICKSILVER_VS_RYLAI_SLOW",
+      "seed": 470728,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "fbb0323f",
+      "after_checksum_v40": "f62e2d25",
+      "observed": {
+        "cleanse": true,
+        "cooldownUntil": 90
+      }
+    },
+    {
+      "id": "M45-B07-QUICKSILVER_VS_RYLAI_SLOW-red",
+      "scenario": "QUICKSILVER_VS_RYLAI_SLOW",
+      "seed": 470729,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "a3a875c6",
+      "after_checksum_v40": "75f2d434",
+      "observed": {
+        "cleanse": true,
+        "cooldownUntil": 90
+      }
+    },
+    {
+      "id": "M45-B07-MERCURIAL_CLEANSE_AND_SPRINT-blue",
+      "scenario": "MERCURIAL_CLEANSE_AND_SPRINT",
+      "seed": 470730,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "2c6831a4",
+      "after_checksum_v40": "97a2dcdb",
+      "observed": {
+        "until": 1.5,
+        "cd": 90
+      }
+    },
+    {
+      "id": "M45-B07-MERCURIAL_CLEANSE_AND_SPRINT-red",
+      "scenario": "MERCURIAL_CLEANSE_AND_SPRINT",
+      "seed": 470731,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "ee829389",
+      "after_checksum_v40": "adad2131",
+      "observed": {
+        "until": 1.5,
+        "cd": 90
+      }
+    },
+    {
+      "id": "M45-B07-GUINSOO_NAVORI_ABILITY_COOLDOWN-blue",
+      "scenario": "GUINSOO_NAVORI_ABILITY_COOLDOWN",
+      "seed": 470732,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "36222186",
+      "after_checksum_v40": "aef9b7e5",
+      "observed": {
+        "cooldowns": {
+          "Q": 8.5,
+          "W": 10.2,
+          "E": 0,
+          "R": 100
+        },
+        "guinsooCount": 1
+      }
+    },
+    {
+      "id": "M45-B07-GUINSOO_NAVORI_ABILITY_COOLDOWN-red",
+      "scenario": "GUINSOO_NAVORI_ABILITY_COOLDOWN",
+      "seed": 470733,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "734cb6ab",
+      "after_checksum_v40": "a370779b",
+      "observed": {
+        "cooldowns": {
+          "Q": 8.5,
+          "W": 10.2,
+          "E": 0,
+          "R": 100
+        },
+        "guinsooCount": 1
+      }
+    },
+    {
+      "id": "M45-B07-SCOUT_HEXTECH_DISTINCT_COOLDOWNS-blue",
+      "scenario": "SCOUT_HEXTECH_DISTINCT_COOLDOWNS",
+      "seed": 470734,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "defd7648",
+      "after_checksum_v40": "ff4ebc90",
+      "observed": {
+        "scout": 40,
+        "hex": 40,
+        "postSecondHp": 466
+      }
+    },
+    {
+      "id": "M45-B07-SCOUT_HEXTECH_DISTINCT_COOLDOWNS-red",
+      "scenario": "SCOUT_HEXTECH_DISTINCT_COOLDOWNS",
+      "seed": 470735,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "7412c6dd",
+      "after_checksum_v40": "d26c7ba8",
+      "observed": {
+        "scout": 40,
+        "hex": 40,
+        "postSecondHp": 466
+      }
+    },
+    {
+      "id": "M45-B07-WITS_NASHOR_TWO_MAGIC_ONHITS-blue",
+      "scenario": "WITS_NASHOR_TWO_MAGIC_ONHITS",
+      "seed": 470736,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "6522eb5a",
+      "after_checksum_v40": "d9da5fd5",
+      "observed": {
+        "withItems": 72,
+        "plain": 16
+      }
+    },
+    {
+      "id": "M45-B07-WITS_NASHOR_TWO_MAGIC_ONHITS-red",
+      "scenario": "WITS_NASHOR_TWO_MAGIC_ONHITS",
+      "seed": 470737,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "6977220f",
+      "after_checksum_v40": "9245d159",
+      "observed": {
+        "withItems": 73,
+        "plain": 17
+      }
+    },
+    {
+      "id": "M45-B07-DARKSEAL_MEJAI_UPGRADE_KEEPS_GLORY-blue",
+      "scenario": "DARKSEAL_MEJAI_UPGRADE_KEEPS_GLORY",
+      "seed": 470738,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "6a65dddc",
+      "after_checksum_v40": "feb6bd12",
+      "observed": {
+        "before": 47,
+        "after": 70,
+        "stacks": 10,
+        "speed": 0.1
+      }
+    },
+    {
+      "id": "M45-B07-DARKSEAL_MEJAI_UPGRADE_KEEPS_GLORY-red",
+      "scenario": "DARKSEAL_MEJAI_UPGRADE_KEEPS_GLORY",
+      "seed": 470739,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "55567561",
+      "after_checksum_v40": "81a2c493",
+      "observed": {
+        "before": 47,
+        "after": 70,
+        "stacks": 10,
+        "speed": 0.1
+      }
+    },
+    {
+      "id": "M45-B07-HEXDRINKER_VS_SHADOWFLAME_MAGIC_ONLY-blue",
+      "scenario": "HEXDRINKER_VS_SHADOWFLAME_MAGIC_ONLY",
+      "seed": 470740,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "61157169",
+      "after_checksum_v40": "bf43460b",
+      "observed": {
+        "hpBefore": 182.9,
+        "afterMagic": 182.9,
+        "afterPhysical": 158.9,
+        "ready": 90
+      }
+    },
+    {
+      "id": "M45-B07-HEXDRINKER_VS_SHADOWFLAME_MAGIC_ONLY-red",
+      "scenario": "HEXDRINKER_VS_SHADOWFLAME_MAGIC_ONLY",
+      "seed": 470741,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "e1a23b94",
+      "after_checksum_v40": "35a63307",
+      "observed": {
+        "hpBefore": 182.9,
+        "afterMagic": 182.9,
+        "afterPhysical": 157.9,
+        "ready": 90
+      }
+    },
+    {
+      "id": "M45-B07-TEAR_CATALYST_MANA_EXCHANGE-blue",
+      "scenario": "TEAR_CATALYST_MANA_EXCHANGE",
+      "seed": 470742,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "57539297",
+      "after_checksum_v40": "ba502f03",
+      "observed": {
+        "defenderMana": 5.5,
+        "tearBonus": 6
+      }
+    },
+    {
+      "id": "M45-B07-TEAR_CATALYST_MANA_EXCHANGE-red",
+      "scenario": "TEAR_CATALYST_MANA_EXCHANGE",
+      "seed": 470743,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "0feb64c2",
+      "after_checksum_v40": "7c04dcfc",
+      "observed": {
+        "defenderMana": 5.4,
+        "tearBonus": 6
+      }
+    },
+    {
+      "id": "M45-B07-BLACK_CLEAVER_SERYLDA_SPELL-blue",
+      "scenario": "BLACK_CLEAVER_SERYLDA_SPELL",
+      "seed": 470744,
+      "team": "blue",
+      "status": "PASS",
+      "before_checksum_v40": "d923a945",
+      "after_checksum_v40": "2041a348",
+      "observed": {
+        "slow": true,
+        "armorDebuff": 1
+      }
+    },
+    {
+      "id": "M45-B07-BLACK_CLEAVER_SERYLDA_SPELL-red",
+      "scenario": "BLACK_CLEAVER_SERYLDA_SPELL",
+      "seed": 470745,
+      "team": "red",
+      "status": "PASS",
+      "before_checksum_v40": "a75810e0",
+      "after_checksum_v40": "61c0edf4",
+      "observed": {
+        "slow": true,
+        "armorDebuff": 1
+      }
+    }
+  ]
+}
