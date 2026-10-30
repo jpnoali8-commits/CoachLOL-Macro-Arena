@@ -59,6 +59,12 @@
       "sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
       "gitTreeSHA": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
       "matches": true
+    },
+    {
+      "path": "multiplayer/authoritative_actions_v453_dev44.mjs",
+      "sha": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+      "gitTreeSHA": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+      "matches": true
     }
   ],
   "source_item_test_links": [
@@ -155,7 +161,7 @@
   ],
   "checks": {
     "source_blobs_all_match": true,
-    "source_blobs_checked": 7,
+    "source_blobs_checked": 8,
     "b01_lock_call": true,
     "b02_lock_call": true,
     "b03_lock_call": true,
@@ -165,7 +171,7 @@
     "b03_team_loop": true,
     "b03_source_test_candidates": 9,
     "b03_shadowflame_real_sale": true,
-    "source_lock_blob_sha": "23d2ec259862e6151e402ac709028e7727fd61ed",
+    "source_lock_blob_sha": "1f02ef2b5ae50f0280ff7ebe9cdb5e5e222653cf",
     "b01_blob_sha": "436b4d58c9db36ce192d46819e3e99f88e5d7efd",
     "b02_blob_sha": "0cbd55739aba81c3b4ede71eb4df860e556006a1",
     "b03_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c"
@@ -190,5 +196,8 @@
     "G6": "NOT_RUN",
     "G8": "NOT_RUN"
   },
-  "note": "No golden outcomes or snapshot hashes were fabricated. The absence of a fetched full checkout blocks JS execution."
+  "note": "No golden outcomes or snapshot hashes were fabricated. The absence of a fetched full checkout blocks JS execution.",
+  "notes": [
+    "Additional transitive gateway dependency authoritative_actions_v453_dev44.mjs included in mandatory source lock."
+  ]
 }
