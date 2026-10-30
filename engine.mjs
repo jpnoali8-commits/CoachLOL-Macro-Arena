@@ -5570,6 +5570,167 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  // B13A: one authored mechanic per EXACT champion/slot. No generic effects.
+  if(s.m44B13Id){
+   const now=this.gameTime,point=q.point||u,kind=s.m44B13Id;
+   const enemies=(p,r)=>this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.mapDistance(v,p)<=r&&!this.obstacleLine(p,v))
+    .sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+   const move=(v,to,why)=>{
+    if(!to||to.x<0||to.x>1||to.y<0||to.y>1||
+      !this.walkable(to.x,to.y)||(this.realmOfV453Dev69(v)&&
+      !this.realmValidV453Dev69(v,to)))return false;
+    const from={x:v.x,y:v.y};
+    Object.assign(v,to);v.path=[];v.laneFollowPath=[];v.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(v);
+    this.itemEnergizeRelocateV453Dev39(v,from,to,{kind:'m44_b13_'+why});
+    return true;
+   };
+   const zone=(variant,p,r,duration,damage,extra={})=>{
+    const z={id:++this.boardTemporalIdV453Dev69,kind:'m44_b13_zone',
+     variant,ownerId:u.id,team:u.team,point:{x:p.x,y:p.y},
+     radius:r,power:damage,nextAt:now+1,until:now+duration+.1,...extra};
+    (this.boardTemporalV453Dev69??=[]).push(z);return z.id;
+   };
+   switch(kind){
+    case 'Bard.R':{
+     let affected=0;
+     for(const v of [...this.units,...this.minions].filter(v=>v.hp>0&&
+       this.sameCombatRealmV453Dev69(u,v)&&this.mapDistance(v,point)<=350)){
+      if(v.champ)this.applyEffectV41(v,'stasis',{source:u,duration:2,
+       key:'m44_b13_bard_fate_'+instance+'_'+v.id});
+      else v.stasisUntil=now+2;
+      affected++;
+     }
+     return {...committed,temperedFate:true,affected};
+    }
+    case 'AurelionSol.E':
+     return {...committed,singularity:true,zoneId:zone('aurelion_e',point,370,3,power(s.damage))};
+    case 'Anivia.R':
+     return {...committed,glacialStorm:true,zoneId:zone('anivia_r',point,375,4,power(s.damage))};
+    case 'Kalista.E':{
+     let count=0,reset=false;
+     for(const v of enemies(u,1200)){
+      const mark=v.m44B13KalistaSpears?.[u.id];if(!mark||mark.until<=now)continue;
+      const hp=v.hp;
+      if(this.damage(v,power(s.damage)+mark.stacks*(13+rank*8),
+        u,'physical','spell')>0)count++;
+      if(v.hp<=0&&hp>0)reset=true;
+      delete v.m44B13KalistaSpears[u.id];
+      if(v.champ&&v.hp>0)this.applyEffectV41(v,'slow',{source:u,
+       duration:2,power:.25+rank*.04,key:'m44_b13_rend_'+instance+'_'+v.id});
+     }
+     if(reset)u.skillCds.E=now;
+     return {...committed,rend:true,affected:count,reset};
+    }
+    case 'Leblanc.W':{
+     const from={x:u.x,y:u.y};
+     if(!move(u,point,'leblanc_distortion'))return {...committed,distortion:false};
+     u.m44B13Return={point:from,until:now+4};
+     let hits=0;for(const v of enemies(u,260))
+      if(this.damage(v,power(s.damage),u,'magic','spell')>0)hits++;
+     return {...committed,distortion:true,hits};
+    }
+    case 'Jayce.R':{
+     const form=u.m44B13JayceMode==='hammer'?'cannon':'hammer';
+     u.m44B13JayceMode=form;
+     if(form==='hammer')u.boardNextBasicV453Dev69={until:now+5,
+      charges:1,total:1,base:45+rank*20,adRatio:.35,apRatio:0,sourceSlot:'R'};
+     else u.boardSpeedV453Dev69={until:now+2,fraction:.25};
+     return {...committed,transformed:true,form};
+    }
+    case 'Rumble.Q':{
+     const dx=(point.x-u.x)*this.worldWidth,dy=(point.y-u.y)*this.worldHeight,
+      len=Math.max(1,Math.hypot(dx,dy));
+     u.m44B13RumbleHeat=Math.min(100,(u.m44B13RumbleHeat||0)+20);
+     return {...committed,flamespitter:true,heat:u.m44B13RumbleHeat,
+      zoneId:zone('rumble_q',u,580,3,power(s.damage),
+       {direction:{x:dx/len,y:dy/len}})};
+    }
+    case 'Taliyah.W':{
+     let displaced=0;
+     for(const v of enemies(point,200).filter(v=>v.champ)){
+      const dx=(v.x-u.x)*this.worldWidth,dy=(v.y-u.y)*this.worldHeight,
+       len=Math.max(1,Math.hypot(dx,dy)),
+       to={x:v.x+dx/len*210/this.worldWidth,
+        y:v.y+dy/len*210/this.worldHeight};
+      if(!this.obstacleLine(v,to)&&move(v,to,'taliyah_seismic_shove'))displaced++;
+     }
+     return {...committed,seismicShove:true,displaced};
+    }
+    case 'Lissandra.R':{
+     if(target?.id===u.id){
+      this.applyEffectV41(u,'stasis',{source:u,duration:2,
+       key:'m44_b13_lissandra_self_'+instance});
+      this.effectResolverV41().heal(u,u.maxHp*.22,u);
+      zone('lissandra_r',u,330,2,power(s.damage)*.35);
+      return {...committed,frozenTomb:true,selfCast:true};
+     }
+     if(!target)return {...committed,frozenTomb:false};
+     const blocked=this.effectResolverV41().has(target,'spell_shield'),
+      hit=this.damage(target,power(s.damage),u,'magic','spell');
+     if(hit>0&&!blocked&&target.champ)this.applyEffectV41(target,'stun',
+      {source:u,duration:1.5,key:'m44_b13_lissandra_enemy_'+instance});
+     zone('lissandra_r',target,330,2,power(s.damage)*.35);
+     return {...committed,frozenTomb:true,selfCast:false,hit:hit>0};
+    }
+    case 'Ekko.R':{
+     const hist=(u.m44B13History||[]).filter(v=>v.at<=now-2)
+      .sort((a,b)=>a.at-b.at),old=hist[0]||u;
+     const destination={x:old.x,y:old.y},from={x:u.x,y:u.y};
+     if(!move(u,destination,'ekko_chronobreak'))return {...committed,chronobreak:false};
+     this.effectResolverV41().heal(u,Math.max(0,Math.min(u.maxHp,old.hp)-u.hp),u);
+     let hits=0;for(const v of enemies(u,325))
+      if(this.damage(v,power(s.damage),u,'magic','spell')>0)hits++;
+     return {...committed,chronobreak:true,rewoundTo:destination,from,hits};
+    }
+    case 'Zed.W':{
+     const entity=this.m15Summon('zed_shadow',u,point,{
+      until:now+5,hp:400,maxHp:400,nonCombat:true,power:0,
+      attackRange:0,moveSpeed:0});
+     u.m44B13Return={point:{x:point.x,y:point.y},
+      entityId:entity.id,until:now+5};
+     return {...committed,livingShadow:true,entityId:entity.id};
+    }
+    case 'Katarina.E':{
+     if(!target)return {...committed,shunpo:false};
+     const dist=this.mapDistance(u,target),
+      end={x:target.x-(target.x-u.x)*Math.min(.18,85/Math.max(1,dist)),
+       y:target.y-(target.y-u.y)*Math.min(.18,85/Math.max(1,dist))};
+     if(!move(u,end,'katarina_shunpo'))return {...committed,shunpo:false};
+     const hit=target.team!==u.team?
+      this.damage(target,power(s.damage),u,'magic','spell')>0:false;
+     return {...committed,shunpo:true,hit};
+    }
+    case 'Nami.W':{
+     if(!target)return {...committed,ebbFlow:false};
+     const used=new Set(),hops=[];let v=target;
+     for(let i=0;i<3&&v;i++){
+      if(used.has(v.id))break;used.add(v.id);
+      if(v.team===u.team)this.effectResolverV41().heal(v,
+       45+rank*30+stats.ap*.35,u);
+      else this.damage(v,power(s.damage)*Math.max(.45,1-i*.15),
+       u,'magic','spell');
+      hops.push(v.id);
+      const nextTeam=v.team===u.team?'enemy':'ally',anchor=v;
+      v=this.units.filter(w=>w.hp>0&&!used.has(w.id)&&
+       (nextTeam==='enemy'?w.team!==u.team:w.team===u.team)&&
+       this.sameCombatRealmV453Dev69(u,w)&&this.mapDistance(anchor,w)<=725&&
+       (w.team===u.team||this.visible(u.team,w))&&!this.obstacleLine(anchor,w))
+       .sort((a,b)=>this.mapDistance(anchor,a)-this.mapDistance(anchor,b)||
+        String(a.id).localeCompare(String(b.id)))[0];
+     }
+     return {...committed,ebbFlow:true,hops};
+    }
+    case 'Azir.W':{
+     const entity=this.m15Summon('azir_soldier',u,point,{
+      until:now+9,hp:400,maxHp:400,nonCombat:true,power:0,
+      attackRange:0,moveSpeed:0});
+     return {...committed,arise:true,entityId:entity.id};
+    }
+    default:return {ok:false,reason:'m44_b13_unknown_owner_slot'};
+   }
+  }
   // B12B champion-authored skill branches; only a successful V40 debit reaches here.
   if(s.m44B12NoxianDiplomacy&&u.champ==='Talon'&&target){
    const start={x:u.x,y:u.y},dist=this.mapDistance(u,target),melee=dist<=190;
