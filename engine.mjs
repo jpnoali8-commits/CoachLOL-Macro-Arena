@@ -5518,6 +5518,88 @@ export class Arena {
   // M44: six distinct author-owned flying skills. The shared scheduler moves
   // geometry; the impact dispatcher below retains each champion's identity.
   // No Q2, mark, damage, crowd control or target receipt at launch.
+  // B12B champion-authored skill branches; only a successful V40 debit reaches here.
+  if(s.m44B12NoxianDiplomacy&&u.champ==='Talon'&&target){
+   const start={x:u.x,y:u.y},dist=this.mapDistance(u,target),melee=dist<=190;
+   if(!melee){
+    const end={x:target.x-(target.x-u.x)*.14,y:target.y-(target.y-u.y)*.14};
+    if(!this.walkable(end.x,end.y)||this.obstacleLine(start,end))
+     return {...committed,noxianDiplomacy:false,blocked:true};
+    Object.assign(u,end);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,start,end,{kind:'talon_diplomacy'});
+   }
+   const dealt=this.damage(target,power(s.damage)*(melee?1.5:1),u,'physical','spell');
+   if(dealt>0&&target.hp<=0)u.skillCds.Q=Math.max(this.gameTime,
+    (u.skillCds.Q||this.gameTime)-3);
+   return {...committed,noxianDiplomacy:true,melee,hit:dealt>0};
+  }
+  if(s.m44B12Blade&&u.champ==='Viego'&&q.point){
+   let hitCount=0;
+   for(const v of skillshotHitsV42(u,q.point,
+    this.boardCombatEnemyPoolV453Dev69(u).filter(v=>v.hp>0),{
+     range:s.range,width:s.width,maxHits:Infinity,
+     worldWidth:this.worldWidth,worldHeight:this.worldHeight})){
+    if(this.obstacleLine(u,v))continue;
+    if(this.damage(v,power(s.damage),u,'physical','spell')>0){
+     hitCount++;if(v.hp>0)(v.m44B12ViegoMark??={})[u.id]=this.gameTime+4;
+    }
+   }
+   return {...committed,blade:true,hitCount};
+  }
+  if(s.m44B12Heartbreaker&&u.champ==='Viego'&&q.point){
+   const from={x:u.x,y:u.y};
+   if(!this.walkable(q.point.x,q.point.y)||this.obstacleLine(from,q.point))
+    return {...committed,heartbreaker:false,blocked:true};
+   Object.assign(u,q.point);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+   this.invalidateShopUndoOnDepartureV453Dev61(u);
+   this.itemEnergizeRelocateV453Dev39(u,from,q.point,{kind:'viego_heartbreaker'});
+   const foes=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.mapDistance(v,q.point)<=330&&!this.obstacleLine(q.point,v))
+    .sort((a,b)=>a.hp/Math.max(1,a.maxHp)-b.hp/Math.max(1,b.maxHp)||
+     String(a.id).localeCompare(String(b.id)));
+   let hitCount=0;
+   for(const [i,v] of foes.entries()){
+    const amount=power(s.damage)*(i===0?1:.65)+
+     (i===0?Math.max(0,v.maxHp-v.hp)*.16:0),
+     blocked=this.effectResolverV41().has(v,'spell_shield');
+    if(this.damage(v,amount,u,'physical','spell')>0)hitCount++;
+    if(i>0&&v.champ&&v.hp>0&&!blocked)
+     this.applyEffectV41(v,'slow',{source:u,duration:1.5,power:.4,
+      key:'m44_b12_viego_r_'+instance+'_'+v.id});
+   }
+   return {...committed,heartbreaker:true,hitCount};
+  }
+  if(s.m44B12IcathianRain&&u.champ==='Kaisa'){
+   const targets=this.boardCombatEnemyPoolV453Dev69(u).filter(v=>
+    v.hp>0&&this.mapDistance(v,u)<=650&&this.visible(u.team,v)&&
+    !this.obstacleLine(u,v)).sort((a,b)=>
+    this.mapDistance(a,u)-this.mapDistance(b,u)||String(a.id).localeCompare(String(b.id)));
+   let missiles=0;
+   const quantity=u.m16KaisaEvolvedQ?12:6;
+   for(let i=0;i<quantity&&targets.length;i++){
+    const victim=targets[i%targets.length];
+    if(victim.hp<=0)continue;
+    if(this.damage(victim,power(s.damage)*(i<targets.length?1:.35),
+     u,'physical','spell')>0)missiles++;
+   }
+   return {...committed,icathianRain:true,missiles};
+  }
+  if(s.m44B12KillerInstinct&&u.champ==='Kaisa'&&target){
+   const from={x:u.x,y:u.y},vx=(target.x-u.x)*this.worldWidth,
+    vy=(target.y-u.y)*this.worldHeight,len=Math.max(1,Math.hypot(vx,vy)),
+    landing={x:target.x-vx/len*190/this.worldWidth,
+     y:target.y-vy/len*190/this.worldHeight};
+   if(this.walkable(landing.x,landing.y)&&!this.obstacleLine(from,landing)){
+    Object.assign(u,landing);u.path=[];u.laneFollowPath=[];u.retreatPath=[];
+    this.invalidateShopUndoOnDepartureV453Dev61(u);
+    this.itemEnergizeRelocateV453Dev39(u,from,landing,{kind:'kaisa_killer_instinct'});
+   }
+   this.applyEffectV41(u,'shield',{source:u,duration:2,
+    power:120+80*Math.max(1,u.skillRanks.R||1)+stats.ap*.7,
+    key:'m44_b12_kaisa_r_'+instance});
+   return {...committed,killerInstinct:true,targetId:target.id};
+  }
   // B12A: named champion-owned mechanics, after the canonical single debit.
   if(s.m44B12Whiplash&&u.champ==='Evelynn'&&target){
    const mark=target.m16EvelynnMark?.ownerId===u.id&&
