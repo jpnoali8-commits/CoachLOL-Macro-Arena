@@ -59,14 +59,14 @@ export function runEffectGapsB08({Arena,map,mask,checksumV40}){
  }],
  ['lord_dominiks_regards',({a,u,v})=>{
   buy(a,u,'lord_dominiks_regards');
-  const high=v.maxHp;v.maxHp=3500;v.hp=3500;
+  const normal=a.damage(v,100,u,'physical','spell');
+  // Giant Slayer reads item-sourced bonus HP, not arbitrary maxHp mutations.
+  buy(a,v,'overlords_bloodmail');v.hp=v.maxHp;
+  const bonusHp=a.bonusHealthForGiantSlayerV453Dev69(v);
+  ok(bonusHp>0,'target item did not grant bonus HP');
   const boosted=a.damage(v,100,u,'physical','spell');
-  const base=a.units.find(x=>x.id===u.id);
-  const target=a.units.find(x=>x.id===v.id);
-  target.maxHp=high;target.hp=high;
-  const normal=a.damage(target,100,base,'physical','spell');
-  ok(boosted>normal,'Giant Slayer should prefer high-bonus HP opponent');
-  return {boosted,normal};
+  ok(boosted>normal,'Giant Slayer should prefer item-sourced bonus HP opponent');
+  return {normal,boosted,bonusHp};
  }],
  ['phage',({a,u,v})=>{
   buy(a,u,'phage');
@@ -130,14 +130,15 @@ export function runEffectGapsB08({Arena,map,mask,checksumV40}){
  }],
  ['forbidden_idol',({a,u,v})=>{
   buy(a,u,'forbidden_idol');
-  v.hp=v.maxHp-120;
-  const heal=a.effectResolverV41().heal(v,40,u);
-  ok(heal>40,'Idol heal amp not applied');
-  const r=a.applyEffectV41(v,'shield',{source:u,duration:3,power:50,key:'b08_idol'});
-  ok(r.ok,'Idol shield apply');
-  const layer=v.statusEffectsV41.find(x=>x.key==='b08_idol');
-  ok(layer.power>50,'Idol shield amp not applied');
-  return {heal,shield:layer.power};
+  const ally=a.units.find(x=>x.id===u.team+'_SUP');
+  ally.hp=ally.maxHp-120;
+  const heal=a.effectResolverV41().heal(ally,40,u);
+  ok(heal>40,'Idol ally heal amp not applied');
+  const r=a.applyEffectV41(ally,'shield',{source:u,duration:3,power:50,key:'b08_idol'});
+  ok(r.ok,'Idol allied shield apply');
+  const layer=ally.statusEffectsV41.find(x=>x.key==='b08_idol');
+  ok(layer.power>50,'Idol allied shield amp not applied');
+  return {heal,shield:layer.power,ally:ally.id};
  }],
  ['youmuus_ghostblade',({a,u})=>{
   buy(a,u,'youmuus_ghostblade');
