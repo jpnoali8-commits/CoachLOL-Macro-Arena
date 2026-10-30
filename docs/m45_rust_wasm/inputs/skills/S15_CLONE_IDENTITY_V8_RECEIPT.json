@@ -1,0 +1,147 @@
+{
+  "schema": "coachlol.m45.skills.s15.clone-disguise-actual-legacy-v8.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "blobs": {
+    "engine": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "map": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "gateway_dev44": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "gateway_dev47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "original_m15_test": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+    "original_clone_targetability_audit": "1094fb6b475b1331f28a887978e522f6b2b8d677",
+    "s15_supplemental_test": "556ddbed60b4254c1c3c3eea9d202da0bf6415cf",
+    "rust_typed_acceptance": "TO_VERIFY"
+  },
+  "modes": {
+    "original_m15": "REAL_ORIGINAL_SYNC_TEST_BODY_ISOLATED_V8_NODE_ESM_IMPORTS_FS_ASSERT_AND_STRUCTUREDCLONE_SHIMS",
+    "clone_targetability": "REAL_ORIGINAL_FULL_SYNC_TEST_BODY_ISOLATED_V8_STRICT_WITH_NODE_ESM_IMPORTS_FS_ASSERT_PROCESS_AND_STRUCTUREDCLONE_SHIMS",
+    "s15_supplemental": "ACTUAL_SAVED_S15_TEST_BODY_ISOLATED_V8_WITH_ORIGINAL_ARENA_AND_AUTHENTICATED_DEV44_DEV47_GATEWAY",
+    "actual_node_test_loader": "NOT_RUN",
+    "actual_rust_compiler": "NOT_RUN",
+    "actual_wasm": "NOT_RUN",
+    "actual_http": "NOT_RUN"
+  },
+  "original_m15": {
+    "test_path": "tests/v453_dev69_clones_m15.test.mjs",
+    "original_total_expected": 25,
+    "original_synchronous_checks_expected": 24,
+    "original_synchronous_checks_pass_before_first_failure": 20,
+    "first_failure": {
+      "index": 21,
+      "case": "blue Sylas Hijack Shaco R executes cloned Sylas without second mana cost",
+      "expected_clone_appearance_champ": "Sylas",
+      "actual_clone_appearance_champ": "Shaco",
+      "exception": "Error: assert.equal (actual Shaco vs expected Sylas)",
+      "status": "V8_REPRODUCED_FAIL"
+    },
+    "remaining_original_sync_checks_after_early_throw": "NOT_RUN",
+    "original_http_manifest_and_ui_case": "NOT_RUN_NODE_SERVER_MODULE_GRAPH",
+    "v8_status": "V8_FAIL_PARTIAL_20_PASS_ONE_FAILED",
+    "source_m15_kits_status": "PARTIAL_UNCERTIFIED",
+    "main_positive_witnesses": [
+      "Neeko W noncombat clone, W2 recast, expiry, source roster 10, snapshot",
+      "Neeko ally disguise hides stable actor ID from adversary, event redaction and gateway real-ID rejection",
+      "Neeko minion ShoMa collects in 2 ticks and projects as minion",
+      "Native Shaco R creates separate public aliases, explosion 3 boxes and idempotent restore"
+    ]
+  },
+  "original_clone_targetability_strict": {
+    "test_path": "tests/audit/v453_clone_targetability_audit.test.mjs",
+    "command_semantics": "--strict (captured in V8 process.argv)",
+    "expected_cases": 24,
+    "executed_cases": 24,
+    "passed": 24,
+    "confirmed_code_path_failures": 0,
+    "unexpected_failures": 0,
+    "exit_code": 0,
+    "status": "V8_PASS_STRICT_SOURCE",
+    "details": "Original targetability audit covers real/public aliases, Teemo Q, Annie Q/W, minion/nonchampion clones, basic attack, internal ID rejection, alias expiry/fog and owner ACL on both seats. Historical P1 expectedFailure annotations remain, but no current failure in frozen source.",
+    "scope_note": "Original test mocks canSeePoint/visible to true, except manual fog false probe; not actual hidden-line-of-sight, real HTTP or Rust."
+  },
+  "s15_supplemental": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s15_clone_identity_security.test.mjs",
+    "v8_status": "V8_PASS",
+    "cases": 8,
+    "assertions": 88,
+    "blue_red": 2,
+    "known_wrong_sylas_clone_appearance_reproductions": 2,
+    "note": "A passing supplemental result explicitly EXPECTS the observed legacy bug Shaco appearance; this does not mean Rust may preserve it.",
+    "checksums": [
+      {
+        "team": "blue",
+        "cast": "Sylas steals Shaco R",
+        "owner_real_champ": "Sylas",
+        "wrong_clone_champ": "Shaco",
+        "wrong_public_decoy_champ": "Shaco",
+        "owner_stable_id_hidden": true,
+        "source_checksumV40": "a38375d5"
+      },
+      {
+        "team": "red",
+        "cast": "Sylas steals Shaco R",
+        "owner_real_champ": "Sylas",
+        "wrong_clone_champ": "Shaco",
+        "wrong_public_decoy_champ": "Shaco",
+        "owner_stable_id_hidden": true,
+        "source_checksumV40": "e582a349"
+      }
+    ],
+    "recast": "Both seats can redirect original server-owned clone from x=.525 to x=.545 with no duplicate entity or additional mana, while wrong clone appearance stays.",
+    "ownership": "The actual Sylas actor ID/team stays constant, stolen Shaco R costs 75 on acquisition, 0 at activation, no roster inflation (10)."
+  },
+  "root_cause": {
+    "bug": "SYLAS_STOLEN_SHACO_R_WRONG_CLONE_PUBLIC_CHAMPION",
+    "severity": "P1_VISIBLE_DECOY_FIDELITY",
+    "engine_source_ranges": [
+      "executeBoardSkillV453Dev69 stolenCast changes u.champ to sourceChamp at lines 4974-4984",
+      "M15 entity clone spawn uses appearance:{kind:'champion',champ:u.champ} at lines 11313-11320"
+    ],
+    "causal_explanation": "When Sylas temporarily becomes Shaco to reuse original R executor, shaco clone snapshots temporary u.champ Shaco. The cloned actor owner later restores to Sylas. Public player view therefore shows Sylas real avatar and Shaco decoy avatar, revealing which is genuine. This fails original M15 assertion expecting Sylas clone.",
+    "desired_rust": "Separate immutable real actor identity from temporary executor dispatch identity. Clone visual champ derives from actual Sylas owner, not the original borrowed R donor. Preserve original Shaco R behavior, but projected real and decoy champion should both be Sylas.",
+    "change_class": "DELIBERATE_FIDELITY_FIX",
+    "no_legacy_js_edit": true
+  },
+  "rust": {
+    "coordinator_branch": "dev69/rust-core-m45",
+    "coordinator_head_at_start": "4bf98495e32dffb67cde32542f76af11d85a66f8",
+    "actual_available_crates": [
+      "core-state"
+    ],
+    "absent_required": [
+      "core-combat",
+      "core-champions",
+      "core-map",
+      "core-clock",
+      "core-replay",
+      "core-protocol"
+    ],
+    "acceptance_source": "docs/m45_rust_wasm/inputs/skills/s15_clone_disguise_rust_acceptance.rs",
+    "prospective_two_seat_cases": 12,
+    "prospective_negative_cases": 8,
+    "native_executed": 0,
+    "wasm_executed": 0
+  },
+  "s10_original_matrix_unchanged": {
+    "planned": 26,
+    "passed_v8": 22,
+    "failed_v8": 2,
+    "not_run": 2,
+    "full_node": 0,
+    "original_m15_status_in_s10": "NOT_RUN"
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "RUST_NOT_RUN",
+    "G2": "PARTIAL_LEGACY_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merge": true,
+  "no_original_engine_or_source_branch_mutation": true
+}
