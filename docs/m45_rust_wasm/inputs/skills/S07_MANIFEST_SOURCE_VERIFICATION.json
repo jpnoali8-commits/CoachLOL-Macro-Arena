@@ -1,0 +1,26 @@
+{
+  "schema": "coachlol.m45.skills.s07.manifest-source-verification.v1",
+  "date": "2026-10-30",
+  "audited_commit": "4406da267baf7f22dfd34847307fd8c0e698a1b4",
+  "method": "GitHub connector read individual pinned tests and compare exact returned Git blob SHA, bilateral source regex and output-marker expressions",
+  "suite_count": 24,
+  "source_blob_sha_matched": 24,
+  "bilateral_source_pattern_matched": 24,
+  "literal_marker_in_file": 23,
+  "dynamically_constructed_marker": 1,
+  "dynamic_marker_detail": {
+    "id": "precedence_blue_red",
+    "configured_marker": "M45_SKILLS_PRECEDENCE 2/2",
+    "source_expression": "console.log('M45_SKILLS_PRECEDENCE '+seats+'/2 blue/red dispatch witnesses PASS; assertions='+assertions)",
+    "source_assertion": "assert.equal(seats,2)",
+    "expected_runtime_marker_derived": true,
+    "runtime_executed": false
+  },
+  "results": "SOURCE_VERIFIED_ONLY",
+  "gameplays_run": 0,
+  "snapshot_captures_run": 0,
+  "native_rust_run": 0,
+  "wasm_run": 0,
+  "warning": "Syntax and Git object verification are not execution; one marker is built at runtime and cannot be evaluated as a literal substring source check.",
+  "next_step": "Execute full Node runner and route capturer in a checkout with pinned 1.1 MB engine, before counting any gameplay PASS."
+}
