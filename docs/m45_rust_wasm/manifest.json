@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A_BLOCKED_B02B_STATIC_HANDOFFS",
+    "phase": "B02A3_NODE_ADAPTER_PASS_RUST_BLOCKED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -365,6 +365,30 @@
     "union_matrix_path": "docs/m45_rust_wasm/inputs/core/B02_UNION_MATRIX.json",
     "union_matrix_rows": 1178,
     "static_test_sha_refs_verified": 891,
-    "platform_source_paths_verified": 29
+    "platform_source_paths_verified": 29,
+    "public_adapter_qa": {
+      "status": "PASS_MOCK_ABI_ONLY",
+      "command": "node --test tests/audit/m45_b02_public_adapter_contract.test.mjs",
+      "tests": 4,
+      "passed": 4,
+      "fixture_vectors": 18,
+      "fixture_contested": 15,
+      "fixture_uncontested": 3,
+      "source_adapter_blob_sha": "9ac1d5595c12371092a82cb0b8538edd161be76b",
+      "source_fixture_blob_sha": "168abfd267632074d6da4f1ea7bddd02903b9bfa",
+      "test_blob_sha": "fa875c3e37b204a2124693291cdba7e82aa4f4f0",
+      "does_not_certify": [
+        "rust-native",
+        "compiled-wasm",
+        "legacy-pvp-parity"
+      ]
+    },
+    "latest_handoff_refs": {
+      "skills": "135d01adc29f7135323176cff6fc5e3f972dfacb",
+      "items": "654f8e1f7afc65d97fb38f234aaf39c7227d15a3",
+      "platform": "540c950f5b9a94be9a47c9a6d5c3bc56e5bb0927"
+    },
+    "latest_handoff_status": "RECEIVED_STATIC_ONLY",
+    "security_risk_platform_016": "P0_STATIC_SUSPECTED_PROJECTION_LEAK_NOT_RUNTIME_VERIFIED"
   }
 }

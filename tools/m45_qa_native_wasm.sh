@@ -2,7 +2,13 @@
 # M45 B02: local native + real WASM proof. This is NOT run by GitHub Actions.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-for name in rustc cargo node; do
+if ! command -v node >/dev/null 2>&1; then
+  echo "M45 BLOCKED_NODE: Node unavailable; adapter QA NOT_RUN" >&2
+  exit 41
+fi
+# These are JS adapter tests against a mock ABI, NOT native Rust or WASM proof.
+node --test tests/audit/m45_b02_public_adapter_contract.test.mjs
+for name in rustc cargo; do
   if ! command -v "$name" >/dev/null 2>&1; then
     echo "M45 BLOCKED_TOOLCHAIN: missing $name; native/WASM NOT_RUN" >&2
     exit 42

@@ -1,10 +1,10 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B reconciliação estática dos 3 handoffs; PARCIAL.
+**Atualizado:** 2026-10-30, M45 B02A3 runtime Node ABI smoke (4/4 PASS) + toolchain probe (EXIT 42); PARCIAL.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
-**Próxima prioridade:** M45 B02A (compilar/testar Rust/WASM); B02B goldens dinâmicos e conflitos semânticos pendentes.
+**Próxima prioridade:** M45 B02A (toolchain Rust nativo + target WASM real); B02B goldens de origem pendentes.
 **Regra:** jamais mudar para MIGRATION_CERTIFIED sem G8, nem declarar PASS sem evidência.
 
 ## Git / branches conferidas
@@ -23,7 +23,7 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 | ID | Estado | Evidência |
 |---|---|---|
 | B01 core-state + WASM hash + 18 fixtures | IMPLEMENTED_UNVERIFIED | commit 7d344d2; JS goldens 21/21 PASS; Rust native NOT_RUN; WASM native NOT_RUN |
-| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | 3 handoffs consolidados, matriz estática com 1178 IDs e 891 referências test SHA; G0 PARTIAL, Rust/WASM NOT_RUN |
+| B02 toolchain, compilação e inventário 3 branches | IN_PROGRESS_BLOCKED | matriz estática 1178; mock ABI JS test 4/4 PASS; toolchain EXIT 42; Cargo/WASM NOT_RUN; novos handoffs recebidos |
 | B03–B33 migração integral | QUEUED | consultar FILA_PRIORIDADES.md |
 | G0 inventário fontes | PARTIAL | três Git trees e 3 handoffs: 1178 registros estáticos em inputs/core/B02_UNION_MATRIX.json, sem golden dinâmico |
 | G1 native WASM | NOT_RUN | toolchain cargo/rustc não encontrado neste ambiente |
@@ -39,9 +39,10 @@ Não assumir que estes SHAs continuam HEAD; consultar GitHub em TODA próxima op
 
 - BLOCK-001: rustc/cargo/rustup não instalados no executor; npm/node disponíveis. DNS externo indisponível para baixar toolchain; probe local executado com EXIT 42. Rust native, clippy, rustfmt, WASM build e WASM runtime NOT_RUN. Script tools/m45_qa_native_wasm.sh e rust-toolchain.toml preparados. Sem Actions/Codespaces.
 - BLOCK-002: 78 assets runtime binários faltando no GitHub remoto (Issue #1). É bloqueio de release/browser completo, não de core Rust.
-- BLOCK-003: legado de skills e itens divergiu da integração; auditoria de union baseline ainda NÃO realizada (B02).
+- BLOCK-003: três handoffs de inventário estático incorporados, mas golden de runtime por source SHA, resolução semântica e identidade de executores ainda NÃO realizados (B02).
 - BLOCK-004: B33B era candidato não commitado; não afirmar que está no git.
 - BLOCK-005: JS legado em engine.browser.js gerado por script; mudar sistema de bundling sem gate quebra o browser.
+- BLOCK-006 / PLATFORM-016 (P0 segurança, suspeita estática): projection legado em `engine.mjs perspective(team)` aceita eventos sem `team` e sem `unitId` como gerais; payload privado sem rótulos pode atravessar filtro. NÃO declarar leak reproduzido sem teste; no Rust exigir default deny e allowlist tipo+campos/owner/observedBy. Handoff platform A02.
 
 ## Transição entre tarefas
 
@@ -80,3 +81,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - União com 1178 IDs únicos e proveniência por blob: `docs/m45_rust_wasm/inputs/core/B02_UNION_MATRIX.json`. **QA estático PASS** para 891 test SHA refs e 29 paths/blobs plataforma, 0 divergências conferidas. NÃO declarar runtime PASS.
 - **Bloqueio revalidado neste ciclo:** `rustc`, `cargo`, `rustup` ausentes; `bash -n` e `node --check` PASS, probe QA EXIT 42, DNS `static.rust-lang.org` indisponível. Native e WASM NOT_RUN.
 - **Próxima prioridade:** B02A e B02B goldens; B03 inelegível. G0 PARTIAL, G1 NOT_RUN, G8 NOT_RUN.
+
+## M45 B02A3 — QA executável do adaptador público e novo intake (2026-10-30)
+
+- Base conferida antes da escrita: `8a2d50f2d7189e16b467dcf4c546613a1d2c24c8` PR #19 Draft. Teste novo `tests/audit/m45_b02_public_adapter_contract.test.mjs`, com Node v22.16.0 e **4/4 casos de teste PASS** (18 linhas TSV: 15 disputas e 3 sem disputa; chave Unicode UTF-16, entradas inválidas, falha de alocação/trap + liberação). Teste usa **ABI simulada via WebAssembly.Memory** e adaptador real JS: **NÃO mede Rust nem binário wasm**.
+- Proveniência do teste local: blob SHA `fa875c3e37b204a2124693291cdba7e82aa4f4f0`; adaptador já publicado `9ac1d5595c12371092a82cb0b8538edd161be76b`; golden TSV `168abfd267632074d6da4f1ea7bddd02903b9bfa` conferidos contra GitHub.
+- `tools/m45_qa_native_wasm.sh` agora executa o mock ABI Node primeiro, depois tenta Cargo. `bash -n` PASS; `bash tools/m45_qa_native_wasm.sh`: 4/4 Node PASS e **EXIT 42 BLOCKED_TOOLCHAIN**, pois rustc/cargo ausentes. `cargo test`, clippy, rustfmt, build/exec WASM **NOT_RUN**. DNS `static.rust-lang.org` e `github.com` indisponível neste runner, sem apt/cache Rust; não se usou Actions/Codespaces.
+- Handoff skills atualizado `dev69/m45-audit-skills@135d01adc29f7135323176cff6fc5e3f972dfacb`: 10 suites bilaterais pinadas e runner; goldens NODE **NOT_RUN**. Handoff items `dev69/m45-audit-items@654f8e1f7afc65d97fb38f234aaf39c7227d15a3`: 43 suites/458 âncoras documentadas, golden 122 itens × 2 lados previsto mas **NOT_RUN**. Handoff platform `dev69/m45-audit-platform@540c950f5b9a94be9a47c9a6d5c3bc56e5bb0927`: alerta PLATFORM-016 e contratos de rede, 16/16 padrões em estática, runtime redteam NOT_RUN.
+- Matrizes centrais anteriores continuam congeladas nos SHAs originais até revisão semântica; estes novos handoffs estão **RECEIVED_UNVERIFIED**, sem merge/cherry-pick.
+- **Próxima prioridade continua B02A**, obter toolchain nativo WASM de ambiente autorizado; em paralelo executar oráculos JS de origem e red-team da projeção. **G0 PARTIAL, G1 NOT_RUN, G3 NOT_RUN, G7 BLOCKED, G8 NOT_RUN.**

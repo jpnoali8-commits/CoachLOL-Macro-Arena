@@ -57,3 +57,8 @@
 ### B02B: handoffs consumidos (2026-10-30)
 
 Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d370854a`, `dev69/m45-audit-items` @ `134b6260173d3b2d4e3a6ffa6317a40c361b8bfc` e `dev69/m45-audit-platform` @ `b7b8baf02d4a5dfacb15cd8679a94f2fe2841a06`. Integração no núcleo realizada SOMENTE via matriz estática e recibo, sem merge das engines. **B02A permanece primeiro bloqueio elegível; B03 ainda QUEUED.**
+
+### B02A3 (2026-10-30) — execução Node disponível, Cargo bloqueado
+
+- `node --test tests/audit/m45_b02_public_adapter_contract.test.mjs`: 4/4 PASS contra mock ABI e 18 golden TSV; script B02A agora roda este QA antes do probe de Cargo. `rustc`/Cargo indisponíveis, build nativo/WASM **NOT_RUN** (EXIT 42). Não contar o mock como G1.
+- 3 handoffs mais recentes recebidos e SHA fixado no ledger; PLATFORM-016 P0 projetado pela auditoria da plataforma precisa de teste red-team antes de G3. Executar golden Skills/Items/Platform no checkout original e não avançar B03.
