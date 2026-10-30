@@ -1,0 +1,786 @@
+{
+  "schema": "coachlol.m45.items.v8_effect_gaps_and_gate.b08.v1",
+  "date": "2026-10-30",
+  "source": {
+    "branch": "dev69/items-batch2",
+    "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "frozen_files": [
+      {
+        "path": "engine.mjs",
+        "git_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+      },
+      {
+        "path": "data/coachlol_map_v6.json",
+        "git_blob_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109"
+      },
+      {
+        "path": "data/masks_128.json",
+        "git_blob_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/legacy_effect_gaps_b08_cases.mjs",
+        "git_blob_sha": "a0e1682dc53816aa1d799ddc683492db7b8cbd24"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/skill_item_action_gate_b08_cases.mjs",
+        "git_blob_sha": "90eb9d9b5112303c5ec265e08519df56028abf97"
+      },
+      {
+        "path": "docs/m45_rust_wasm/inputs/items/golden_b08_effects_and_actions.test.mjs",
+        "git_blob_sha": "32bb03510d8969f9b46c20471db977db713c759a"
+      }
+    ]
+  },
+  "execution": {
+    "runtime": "V8 isolate, original engine source compiled after removing only ESM export tokens. The actual B08 pure JS fixture functions are read verbatim from GitHub and invoked; no item rule mocks.",
+    "effect_rules_tested": 22,
+    "effect_cases": 44,
+    "passed_effects": 44,
+    "action_gate_cases": 8,
+    "passed_action_gates": 8,
+    "total_cases": 52,
+    "passed": 52,
+    "failed": 0,
+    "repeated_identical": 52,
+    "repeats_attempted": 52,
+    "status": "PASS_V8_SOURCE_ONLY",
+    "caveats": [
+      "Node ESM not executed",
+      "not HTTP/server/room validation",
+      "action gate Q/W plus item impact only; not full champion QWER",
+      "not Rust native or WASM parity",
+      "Riot numerical 1:1 parity not claimed",
+      "Phantom Dancer fixture verifies bypass selector; not all collision and walls"
+    ]
+  },
+  "initial_preflight": {
+    "first_run_passed": 40,
+    "first_run_failed": 4,
+    "root_cause": "fixture control setup (Giant Slayer requires item bonus HP; Idol shield target must be ally)",
+    "correction": "revised fixture committed, then all 52 cases and repeats rerun"
+  },
+  "effects_cases": [
+    {
+      "case_id": "M45-B08-dorans_ring-blue",
+      "item_id": "dorans_ring",
+      "team": "blue",
+      "seed": 480800,
+      "status": "PASS",
+      "before_checksum_v40": "0dfb978d",
+      "observed": {
+        "basic": 1,
+        "champion": 2,
+        "activeUntil": 5
+      },
+      "after_checksum_v40": "20bcd280"
+    },
+    {
+      "case_id": "M45-B08-dorans_ring-red",
+      "item_id": "dorans_ring",
+      "team": "red",
+      "seed": 480801,
+      "status": "PASS",
+      "before_checksum_v40": "f280be40",
+      "observed": {
+        "basic": 1,
+        "champion": 2,
+        "activeUntil": 5
+      },
+      "after_checksum_v40": "b239911c"
+    },
+    {
+      "case_id": "M45-B08-cull-blue",
+      "item_id": "cull",
+      "team": "blue",
+      "seed": 480802,
+      "status": "PASS",
+      "before_checksum_v40": "582b687b",
+      "observed": {
+        "healed": 3,
+        "stacks": 0
+      },
+      "after_checksum_v40": "3150e654"
+    },
+    {
+      "case_id": "M45-B08-cull-red",
+      "item_id": "cull",
+      "team": "red",
+      "seed": 480803,
+      "status": "PASS",
+      "before_checksum_v40": "9b380b46",
+      "observed": {
+        "healed": 3,
+        "stacks": 0
+      },
+      "after_checksum_v40": "b5f7ed77"
+    },
+    {
+      "case_id": "M45-B08-health_potion-blue",
+      "item_id": "health_potion",
+      "team": "blue",
+      "seed": 480804,
+      "status": "PASS",
+      "before_checksum_v40": "d6700ea1",
+      "observed": {
+        "healApplied": 2,
+        "hp": 456
+      },
+      "after_checksum_v40": "83659a47"
+    },
+    {
+      "case_id": "M45-B08-health_potion-red",
+      "item_id": "health_potion",
+      "team": "red",
+      "seed": 480805,
+      "status": "PASS",
+      "before_checksum_v40": "206a2f34",
+      "observed": {
+        "healApplied": 2,
+        "hp": 456
+      },
+      "after_checksum_v40": "6768c399"
+    },
+    {
+      "case_id": "M45-B08-refillable_potion-blue",
+      "item_id": "refillable_potion",
+      "team": "blue",
+      "seed": 480806,
+      "status": "PASS",
+      "before_checksum_v40": "89a3404f",
+      "observed": {
+        "first": 1,
+        "second": 0,
+        "refilled": 2
+      },
+      "after_checksum_v40": "406f2fc4"
+    },
+    {
+      "case_id": "M45-B08-refillable_potion-red",
+      "item_id": "refillable_potion",
+      "team": "red",
+      "seed": 480807,
+      "status": "PASS",
+      "before_checksum_v40": "4e08441a",
+      "observed": {
+        "first": 1,
+        "second": 0,
+        "refilled": 2
+      },
+      "after_checksum_v40": "499b8111"
+    },
+    {
+      "case_id": "M45-B08-seekers_armguard-blue",
+      "item_id": "seekers_armguard",
+      "team": "blue",
+      "seed": 480808,
+      "status": "PASS",
+      "before_checksum_v40": "e40ad2d5",
+      "observed": {
+        "charged": true,
+        "until": 2.5
+      },
+      "after_checksum_v40": "dffdb4d9"
+    },
+    {
+      "case_id": "M45-B08-seekers_armguard-red",
+      "item_id": "seekers_armguard",
+      "team": "red",
+      "seed": 480809,
+      "status": "PASS",
+      "before_checksum_v40": "cfb18c98",
+      "observed": {
+        "charged": true,
+        "until": 2.5
+      },
+      "after_checksum_v40": "0279df26"
+    },
+    {
+      "case_id": "M45-B08-swifties-blue",
+      "item_id": "swifties",
+      "team": "blue",
+      "seed": 480810,
+      "status": "PASS",
+      "before_checksum_v40": "638f5892",
+      "observed": {
+        "baseline": 0.4,
+        "resistant": 0.30000000000000004
+      },
+      "after_checksum_v40": "25085d6c"
+    },
+    {
+      "case_id": "M45-B08-swifties-red",
+      "item_id": "swifties",
+      "team": "red",
+      "seed": 480811,
+      "status": "PASS",
+      "before_checksum_v40": "18e55a33",
+      "observed": {
+        "baseline": 0.4,
+        "resistant": 0.30000000000000004
+      },
+      "after_checksum_v40": "4a3b47e1"
+    },
+    {
+      "case_id": "M45-B08-lord_dominiks_regards-blue",
+      "item_id": "lord_dominiks_regards",
+      "team": "blue",
+      "seed": 480812,
+      "status": "PASS",
+      "before_checksum_v40": "32290d00",
+      "observed": {
+        "normal": 87,
+        "boosted": 92,
+        "bonusHp": 550
+      },
+      "after_checksum_v40": "acf02a1a"
+    },
+    {
+      "case_id": "M45-B08-lord_dominiks_regards-red",
+      "item_id": "lord_dominiks_regards",
+      "team": "red",
+      "seed": 480813,
+      "status": "PASS",
+      "before_checksum_v40": "91190e09",
+      "observed": {
+        "normal": 88,
+        "boosted": 93,
+        "bonusHp": 550
+      },
+      "after_checksum_v40": "2d2d9373"
+    },
+    {
+      "case_id": "M45-B08-phage-blue",
+      "item_id": "phage",
+      "team": "blue",
+      "seed": 480814,
+      "status": "PASS",
+      "before_checksum_v40": "c3dfd2fe",
+      "observed": {
+        "flatBefore": 0,
+        "flatAfter": 20
+      },
+      "after_checksum_v40": "a3799247"
+    },
+    {
+      "case_id": "M45-B08-phage-red",
+      "item_id": "phage",
+      "team": "red",
+      "seed": 480815,
+      "status": "PASS",
+      "before_checksum_v40": "f1d75cdf",
+      "observed": {
+        "flatBefore": 0,
+        "flatAfter": 20
+      },
+      "after_checksum_v40": "c2def49f"
+    },
+    {
+      "case_id": "M45-B08-phantom_dancer-blue",
+      "item_id": "phantom_dancer",
+      "team": "blue",
+      "seed": 480816,
+      "status": "PASS",
+      "before_checksum_v40": "0ac3c70c",
+      "observed": {
+        "point": {
+          "x": 0.0471041,
+          "y": 0.9557322
+        },
+        "after": {
+          "x": 0.0471041,
+          "y": 0.9557322
+        },
+        "unitCollisionBypass": true
+      },
+      "after_checksum_v40": "9f89cb71"
+    },
+    {
+      "case_id": "M45-B08-phantom_dancer-red",
+      "item_id": "phantom_dancer",
+      "team": "red",
+      "seed": 480817,
+      "status": "PASS",
+      "before_checksum_v40": "3b8b61f5",
+      "observed": {
+        "point": {
+          "x": 0.9557021565428672,
+          "y": 0.04817218571056246
+        },
+        "after": {
+          "x": 0.9557021565428672,
+          "y": 0.04817218571056246
+        },
+        "unitCollisionBypass": true
+      },
+      "after_checksum_v40": "a4f92e94"
+    },
+    {
+      "case_id": "M45-B08-sheen-blue",
+      "item_id": "sheen",
+      "team": "blue",
+      "seed": 480818,
+      "status": "PASS",
+      "before_checksum_v40": "ad95adfa",
+      "observed": {
+        "dealt": 76,
+        "charge": -1
+      },
+      "after_checksum_v40": "3f26ab44"
+    },
+    {
+      "case_id": "M45-B08-sheen-red",
+      "item_id": "sheen",
+      "team": "red",
+      "seed": 480819,
+      "status": "PASS",
+      "before_checksum_v40": "41c6309b",
+      "observed": {
+        "dealt": 78,
+        "charge": -1
+      },
+      "after_checksum_v40": "3cf9ff32"
+    },
+    {
+      "case_id": "M45-B08-spirit_visage-blue",
+      "item_id": "spirit_visage",
+      "team": "blue",
+      "seed": 480820,
+      "status": "PASS",
+      "before_checksum_v40": "e017990f",
+      "observed": {
+        "healed": 50
+      },
+      "after_checksum_v40": "abf930e1"
+    },
+    {
+      "case_id": "M45-B08-spirit_visage-red",
+      "item_id": "spirit_visage",
+      "team": "red",
+      "seed": 480821,
+      "status": "PASS",
+      "before_checksum_v40": "a8246d56",
+      "observed": {
+        "healed": 50
+      },
+      "after_checksum_v40": "4b9dae73"
+    },
+    {
+      "case_id": "M45-B08-trinity_force-blue",
+      "item_id": "trinity_force",
+      "team": "blue",
+      "seed": 480822,
+      "status": "PASS",
+      "before_checksum_v40": "9274e631",
+      "observed": {
+        "dealt": 119
+      },
+      "after_checksum_v40": "9a34914c"
+    },
+    {
+      "case_id": "M45-B08-trinity_force-red",
+      "item_id": "trinity_force",
+      "team": "red",
+      "seed": 480823,
+      "status": "PASS",
+      "before_checksum_v40": "ab7cd138",
+      "observed": {
+        "dealt": 122
+      },
+      "after_checksum_v40": "b64f298e"
+    },
+    {
+      "case_id": "M45-B08-rapid_firecannon-blue",
+      "item_id": "rapid_firecannon",
+      "team": "blue",
+      "seed": 480824,
+      "status": "PASS",
+      "before_checksum_v40": "d904a6bb",
+      "observed": {
+        "rangeBefore": 0.03666666666666667,
+        "rangeCharged": 0.03666666666666667,
+        "chargeAfter": 6
+      },
+      "after_checksum_v40": "655d8896"
+    },
+    {
+      "case_id": "M45-B08-rapid_firecannon-red",
+      "item_id": "rapid_firecannon",
+      "team": "red",
+      "seed": 480825,
+      "status": "PASS",
+      "before_checksum_v40": "97c8caa2",
+      "observed": {
+        "rangeBefore": 0.03666666666666667,
+        "rangeCharged": 0.03666666666666667,
+        "chargeAfter": 6
+      },
+      "after_checksum_v40": "6527872a"
+    },
+    {
+      "case_id": "M45-B08-frozen_heart-blue",
+      "item_id": "frozen_heart",
+      "team": "blue",
+      "seed": 480826,
+      "status": "PASS",
+      "before_checksum_v40": "15cbbc5d",
+      "observed": {
+        "far": 1.25,
+        "near": 1.5625
+      },
+      "after_checksum_v40": "15635258"
+    },
+    {
+      "case_id": "M45-B08-frozen_heart-red",
+      "item_id": "frozen_heart",
+      "team": "red",
+      "seed": 480827,
+      "status": "PASS",
+      "before_checksum_v40": "c299d264",
+      "observed": {
+        "far": 1.25,
+        "near": 1.5625
+      },
+      "after_checksum_v40": "079f308b"
+    },
+    {
+      "case_id": "M45-B08-forbidden_idol-blue",
+      "item_id": "forbidden_idol",
+      "team": "blue",
+      "seed": 480828,
+      "status": "PASS",
+      "before_checksum_v40": "b8296e27",
+      "observed": {
+        "heal": 43.2,
+        "shield": 54,
+        "ally": "blue_SUP"
+      },
+      "after_checksum_v40": "392168a4"
+    },
+    {
+      "case_id": "M45-B08-forbidden_idol-red",
+      "item_id": "forbidden_idol",
+      "team": "red",
+      "seed": 480829,
+      "status": "PASS",
+      "before_checksum_v40": "c014522e",
+      "observed": {
+        "heal": 43.2,
+        "shield": 54,
+        "ally": "red_SUP"
+      },
+      "after_checksum_v40": "a0cf74be"
+    },
+    {
+      "case_id": "M45-B08-youmuus_ghostblade-blue",
+      "item_id": "youmuus_ghostblade",
+      "team": "blue",
+      "seed": 480830,
+      "status": "PASS",
+      "before_checksum_v40": "39e12bac",
+      "observed": {
+        "base": 363.2,
+        "boosted": 426.36,
+        "until": 6
+      },
+      "after_checksum_v40": "baef7786"
+    },
+    {
+      "case_id": "M45-B08-youmuus_ghostblade-red",
+      "item_id": "youmuus_ghostblade",
+      "team": "red",
+      "seed": 480831,
+      "status": "PASS",
+      "before_checksum_v40": "0b0741b1",
+      "observed": {
+        "base": 368.4,
+        "boosted": 431.32,
+        "until": 6
+      },
+      "after_checksum_v40": "8e4d305f"
+    },
+    {
+      "case_id": "M45-B08-randuins_omen-blue",
+      "item_id": "randuins_omen",
+      "team": "blue",
+      "seed": 480832,
+      "status": "PASS",
+      "before_checksum_v40": "c894208e",
+      "observed": {
+        "targetIds": [
+          "red_MID"
+        ]
+      },
+      "after_checksum_v40": "0a29043e"
+    },
+    {
+      "case_id": "M45-B08-randuins_omen-red",
+      "item_id": "randuins_omen",
+      "team": "red",
+      "seed": 480833,
+      "status": "PASS",
+      "before_checksum_v40": "e66667b3",
+      "observed": {
+        "targetIds": [
+          "blue_MID"
+        ]
+      },
+      "after_checksum_v40": "45bc4ad0"
+    },
+    {
+      "case_id": "M45-B08-haunting_guise-blue",
+      "item_id": "haunting_guise",
+      "team": "blue",
+      "seed": 480834,
+      "status": "PASS",
+      "before_checksum_v40": "0b480eb0",
+      "observed": {
+        "first": 63,
+        "next": 66
+      },
+      "after_checksum_v40": "60efe1dd"
+    },
+    {
+      "case_id": "M45-B08-haunting_guise-red",
+      "item_id": "haunting_guise",
+      "team": "red",
+      "seed": 480835,
+      "status": "PASS",
+      "before_checksum_v40": "421f62a5",
+      "observed": {
+        "first": 62,
+        "next": 65
+      },
+      "after_checksum_v40": "282d1bb3"
+    },
+    {
+      "case_id": "M45-B08-lost_chapter-blue",
+      "item_id": "lost_chapter",
+      "team": "blue",
+      "seed": 480836,
+      "status": "PASS",
+      "before_checksum_v40": "dcd9ad02",
+      "observed": {
+        "levelBefore": 1,
+        "levelAfter": 13,
+        "mana": 684.6833333333334,
+        "pulses": 12
+      },
+      "after_checksum_v40": "f4ba7e5c"
+    },
+    {
+      "case_id": "M45-B08-lost_chapter-red",
+      "item_id": "lost_chapter",
+      "team": "red",
+      "seed": 480837,
+      "status": "PASS",
+      "before_checksum_v40": "6a0918b7",
+      "observed": {
+        "levelBefore": 1,
+        "levelAfter": 13,
+        "mana": 773.1626666666665,
+        "pulses": 12
+      },
+      "after_checksum_v40": "0894fa5b"
+    },
+    {
+      "case_id": "M45-B08-oblivion_orb-blue",
+      "item_id": "oblivion_orb",
+      "team": "blue",
+      "seed": 480838,
+      "status": "PASS",
+      "before_checksum_v40": "50861544",
+      "observed": {
+        "gw": true
+      },
+      "after_checksum_v40": "6e462a09"
+    },
+    {
+      "case_id": "M45-B08-oblivion_orb-red",
+      "item_id": "oblivion_orb",
+      "team": "red",
+      "seed": 480839,
+      "status": "PASS",
+      "before_checksum_v40": "6994d589",
+      "observed": {
+        "gw": true
+      },
+      "after_checksum_v40": "a2aad1c0"
+    },
+    {
+      "case_id": "M45-B08-blighting_jewel-blue",
+      "item_id": "blighting_jewel",
+      "team": "blue",
+      "seed": 480840,
+      "status": "PASS",
+      "before_checksum_v40": "1e8aae91",
+      "observed": {
+        "before": 78,
+        "after": 80
+      },
+      "after_checksum_v40": "85ba9500"
+    },
+    {
+      "case_id": "M45-B08-blighting_jewel-red",
+      "item_id": "blighting_jewel",
+      "team": "red",
+      "seed": 480841,
+      "status": "PASS",
+      "before_checksum_v40": "b6bd403c",
+      "observed": {
+        "before": 77,
+        "after": 79
+      },
+      "after_checksum_v40": "09ef132d"
+    },
+    {
+      "case_id": "M45-B08-bamis_cinder-blue",
+      "item_id": "bamis_cinder",
+      "team": "blue",
+      "seed": 480842,
+      "status": "PASS",
+      "before_checksum_v40": "b792efff",
+      "observed": {
+        "primary": 24,
+        "aura": 6,
+        "until": 3
+      },
+      "after_checksum_v40": "9d1bef45"
+    },
+    {
+      "case_id": "M45-B08-bamis_cinder-red",
+      "item_id": "bamis_cinder",
+      "team": "red",
+      "seed": 480843,
+      "status": "PASS",
+      "before_checksum_v40": "2540458a",
+      "observed": {
+        "primary": 25,
+        "aura": 6,
+        "until": 3
+      },
+      "after_checksum_v40": "840199b1"
+    }
+  ],
+  "action_gate_cases": [
+    {
+      "case_id": "M45-B08-SHEEN_Q_ARMS_ONE_BASIC-blue",
+      "seed": 481900,
+      "team": "blue",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "485a5a43",
+      "observed": {
+        "spentMana": 45,
+        "cooldownUntil": 8.181818181818182,
+        "firstDealt": 72
+      },
+      "after_checksum_v40": "1c66d7a7"
+    },
+    {
+      "case_id": "M45-B08-SHEEN_Q_ARMS_ONE_BASIC-red",
+      "seed": 481901,
+      "team": "red",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "50cde4e2",
+      "observed": {
+        "spentMana": 45,
+        "cooldownUntil": 8.181818181818182,
+        "firstDealt": 74
+      },
+      "after_checksum_v40": "622b0161"
+    },
+    {
+      "case_id": "M45-B08-TRINITY_W_ARMS_BUT_DOUBLE_CAST_BLOCKS-blue",
+      "seed": 481902,
+      "team": "blue",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "886651f9",
+      "observed": {
+        "first": {
+          "ok": true,
+          "spentMana": 50,
+          "cooldownEndsAt": 10.434782608695652,
+          "seq": 1
+        },
+        "secondDenied": "ação_duplicada",
+        "spellbladeNext": 1.5
+      },
+      "after_checksum_v40": "cc495503"
+    },
+    {
+      "case_id": "M45-B08-TRINITY_W_ARMS_BUT_DOUBLE_CAST_BLOCKS-red",
+      "seed": 481903,
+      "team": "red",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "8d675ed0",
+      "observed": {
+        "first": {
+          "ok": true,
+          "spentMana": 50,
+          "cooldownEndsAt": 10.434782608695652,
+          "seq": 1
+        },
+        "secondDenied": "ação_duplicada",
+        "spellbladeNext": 1.5
+      },
+      "after_checksum_v40": "1c6b2f18"
+    },
+    {
+      "case_id": "M45-B08-TEAR_Q_CAST_THEN_VALID_SPELL_HIT-blue",
+      "seed": 481904,
+      "team": "blue",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "3316f31f",
+      "observed": {
+        "manaSpent": 45,
+        "tearDelta": 6
+      },
+      "after_checksum_v40": "a2d1392a"
+    },
+    {
+      "case_id": "M45-B08-TEAR_Q_CAST_THEN_VALID_SPELL_HIT-red",
+      "seed": 481905,
+      "team": "red",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "7a9ac0ae",
+      "observed": {
+        "manaSpent": 45,
+        "tearDelta": 6
+      },
+      "after_checksum_v40": "bba483c2"
+    },
+    {
+      "case_id": "M45-B08-BANSHEE_BLOCKS_CAST_HIT_AND_BURN-blue",
+      "seed": 481906,
+      "team": "blue",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "ac9f3d45",
+      "observed": {
+        "blocked": 0,
+        "hit": 36,
+        "castSeq": 1
+      },
+      "after_checksum_v40": "23988c45"
+    },
+    {
+      "case_id": "M45-B08-BANSHEE_BLOCKS_CAST_HIT_AND_BURN-red",
+      "seed": 481907,
+      "team": "red",
+      "scope": "ACTION_GATE_AND_HIT_ADAPTER_NOT_FULL_KIT",
+      "status": "PASS",
+      "before_checksum_v40": "abceddcc",
+      "observed": {
+        "blocked": 0,
+        "hit": 35,
+        "castSeq": 1
+      },
+      "after_checksum_v40": "3f69eb41"
+    }
+  ]
+}
