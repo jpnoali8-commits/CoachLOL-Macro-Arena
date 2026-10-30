@@ -1,0 +1,452 @@
+{
+  "schema": "coachlol.m45.items.source_diff.b02.v1",
+  "generated_at": "2026-10-30",
+  "source": {
+    "items_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "items_engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "integration_engine_blob_sha": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71"
+  },
+  "method_comparison": {
+    "scope": "Arena class: single-indented method definitions; lexical body comparison to next named method, not semantic proof",
+    "items_count": 286,
+    "integration_count": 278,
+    "added_items": [
+      {
+        "name": "derivedItemStatsV453Dev69",
+        "items_source_line": 2907,
+        "lines": 18
+      },
+      {
+        "name": "itemBattleRampV453Dev69",
+        "items_source_line": 2925,
+        "lines": 10
+      },
+      {
+        "name": "refreshKaenicShieldV453Dev69",
+        "items_source_line": 2935,
+        "lines": 10
+      },
+      {
+        "name": "procLifelineV453Dev69",
+        "items_source_line": 2945,
+        "lines": 15
+      },
+      {
+        "name": "onBulkItemChampionHitV453Dev69",
+        "items_source_line": 2960,
+        "lines": 20
+      },
+      {
+        "name": "itemAnnulSpecV453Dev69Batch2",
+        "items_source_line": 2980,
+        "lines": 4
+      },
+      {
+        "name": "refreshItemAnnulV453Dev69Batch2",
+        "items_source_line": 2984,
+        "lines": 10
+      },
+      {
+        "name": "consumeItemAnnulV453Dev69Batch2",
+        "items_source_line": 2994,
+        "lines": 6
+      }
+    ],
+    "missing_in_items": [],
+    "changed_shared": [
+      {
+        "name": "elementalStatsV452d3",
+        "items_line": 1314,
+        "integration_line": 1254,
+        "items_lines": 7,
+        "integration_lines": 5,
+        "relevance": "shared_engine_review"
+      },
+      {
+        "name": "queuePurchase",
+        "items_line": 2855,
+        "integration_line": 2793,
+        "items_lines": 20,
+        "integration_lines": 18,
+        "relevance": "shared_engine_review"
+      },
+      {
+        "name": "purchaseOrPlan",
+        "items_line": 2898,
+        "integration_line": 2834,
+        "items_lines": 9,
+        "integration_lines": 9,
+        "relevance": "shared_engine_review"
+      },
+      {
+        "name": "canBuy",
+        "items_line": 3000,
+        "integration_line": 2843,
+        "items_lines": 27,
+        "integration_lines": 24,
+        "relevance": "economy_item_candidate"
+      },
+      {
+        "name": "buy",
+        "items_line": 3029,
+        "integration_line": 2869,
+        "items_lines": 48,
+        "integration_lines": 42,
+        "relevance": "economy_item_candidate"
+      },
+      {
+        "name": "sellItemV43",
+        "items_line": 3212,
+        "integration_line": 3046,
+        "items_lines": 52,
+        "integration_lines": 41,
+        "relevance": "economy_item_candidate"
+      },
+      {
+        "name": "effectiveMS",
+        "items_line": 4037,
+        "integration_line": 3860,
+        "items_lines": 3,
+        "integration_lines": 3,
+        "relevance": "shared_engine_review"
+      },
+      {
+        "name": "damage",
+        "items_line": 4830,
+        "integration_line": 4653,
+        "items_lines": 389,
+        "integration_lines": 336,
+        "relevance": "economy_item_candidate"
+      }
+    ],
+    "unchanged_shared_count": 270
+  },
+  "source_files": {
+    "paths": [
+      {
+        "path": "data/item_effect_grammar_v43.json",
+        "items_blob_sha": "2cfae4e3621817fd73b484986360f1afeef2d85c",
+        "integration_blob_sha": "2cfae4e3621817fd73b484986360f1afeef2d85c",
+        "status": "same_blob"
+      },
+      {
+        "path": "data/item_registry_v43.json",
+        "items_blob_sha": "34b5ab150fa9adf4d9b75230b56374a72020ceba",
+        "integration_blob_sha": "34b5ab150fa9adf4d9b75230b56374a72020ceba",
+        "status": "same_blob"
+      },
+      {
+        "path": "data/patch_center/current.json",
+        "items_blob_sha": "bc677c52e5e9a08189b9b18a9eb49fa7ffd342c4",
+        "integration_blob_sha": "bc677c52e5e9a08189b9b18a9eb49fa7ffd342c4",
+        "status": "same_blob"
+      },
+      {
+        "path": "data/patch_center/item_taxonomy_overrides_dev35.json",
+        "items_blob_sha": "0967ef424bce6791893e9a57bb952f80fd536e93",
+        "integration_blob_sha": "0967ef424bce6791893e9a57bb952f80fd536e93",
+        "status": "same_blob"
+      },
+      {
+        "path": "data/patch_center/unit_balance_26_21_local_baseline_dev35.json",
+        "items_blob_sha": "3ede24f63fefe492578f01741f72b4e1374819d6",
+        "integration_blob_sha": "3ede24f63fefe492578f01741f72b4e1374819d6",
+        "status": "same_blob"
+      },
+      {
+        "path": "data/riot_reference/sr_shop_26_21_dev49.js",
+        "items_blob_sha": "6568b968c489b33b59ae7ebd905a04c668b70f19",
+        "integration_blob_sha": "61c73a5ef6ad4300dc9a3a1bc6804cf0e20f3129",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "data/riot_reference/sr_shop_26_21_dev49.json",
+        "items_blob_sha": "3779aee3f9981a043a917824c0ddfbf3fbefaecb",
+        "integration_blob_sha": "777e6704cf280e55b28b66d4f0c4d21e5f7a2e1f",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "data/rune_pages_v43.json",
+        "items_blob_sha": "a46676ec8ce32524c18fc488b225420425fc4ef6",
+        "integration_blob_sha": "a46676ec8ce32524c18fc488b225420425fc4ef6",
+        "status": "same_blob"
+      },
+      {
+        "path": "docs/parallel/ITEM_ARCHITECTURE_DEV69.md",
+        "items_blob_sha": "eb910f4e833045f1cb03a3f21004c0299c26f092",
+        "integration_blob_sha": null,
+        "status": "items_only"
+      },
+      {
+        "path": "engine.mjs",
+        "items_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+        "integration_blob_sha": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "multiplayer/shop_v453_dev62.css",
+        "items_blob_sha": "0a5dcd520367eb14be3d8a3590714e1dd09c0a95",
+        "integration_blob_sha": "0a5dcd520367eb14be3d8a3590714e1dd09c0a95",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v22_shop.py",
+        "items_blob_sha": "32bcb1192bdb8af420c157a366ec2db31866eda2",
+        "integration_blob_sha": "32bcb1192bdb8af420c157a366ec2db31866eda2",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v43_shop_runes.py",
+        "items_blob_sha": "cfe8914964c5000af2e03f83b327243248e728fd",
+        "integration_blob_sha": "cfe8914964c5000af2e03f83b327243248e728fd",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev29_item_shop.py",
+        "items_blob_sha": "48ddca3ec8ddc560e9f0cf5ec69dddd599cc9821",
+        "integration_blob_sha": "48ddca3ec8ddc560e9f0cf5ec69dddd599cc9821",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev30_recipe_shop.py",
+        "items_blob_sha": "6ad889e901794d83bc4641d1213fa7fc9fafdd1c",
+        "integration_blob_sha": "6ad889e901794d83bc4641d1213fa7fc9fafdd1c",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev31_defensive_items.py",
+        "items_blob_sha": "14ba7e737172755f1ce9381eabd5ba2e0de4864e",
+        "integration_blob_sha": "14ba7e737172755f1ce9381eabd5ba2e0de4864e",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev32_item_recipe.py",
+        "items_blob_sha": "dec9f57fa540eeefeae51cd222762c028843b7a4",
+        "integration_blob_sha": "dec9f57fa540eeefeae51cd222762c028843b7a4",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev33_item_recipe.py",
+        "items_blob_sha": "91688da215b8633d358f920c8e411af201e5540a",
+        "integration_blob_sha": "91688da215b8633d358f920c8e411af201e5540a",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev37_shop.py",
+        "items_blob_sha": "65e5d8d7b2921eec0ab25e2e9f7082f0ce6389e2",
+        "integration_blob_sha": "65e5d8d7b2921eec0ab25e2e9f7082f0ce6389e2",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/browser_v453_dev38_item_passives.py",
+        "items_blob_sha": "89c0fe72cb285230b3112f55f889d9d465827882",
+        "integration_blob_sha": "89c0fe72cb285230b3112f55f889d9d465827882",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v18_role_shop.test.mjs",
+        "items_blob_sha": "4157c3b49e2afac213340157e0194cc19b9046d9",
+        "integration_blob_sha": "4157c3b49e2afac213340157e0194cc19b9046d9",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v22_shop_xp.test.mjs",
+        "items_blob_sha": "e059781eed20514871bd2952a91c11c8b19607c3",
+        "integration_blob_sha": "e059781eed20514871bd2952a91c11c8b19607c3",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v29_camera_shop.test.mjs",
+        "items_blob_sha": "b6662266f3a5733ac65f8d15479bd01806734e0f",
+        "integration_blob_sha": "b6662266f3a5733ac65f8d15479bd01806734e0f",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v32_shop_summoner.test.mjs",
+        "items_blob_sha": "4f393441e9beea173b6922faae790d88a8f31f10",
+        "integration_blob_sha": "4f393441e9beea173b6922faae790d88a8f31f10",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v33_brush_chain_shop.test.mjs",
+        "items_blob_sha": "b2cc6c92121cfac403b547f89a34822365fd2df2",
+        "integration_blob_sha": "b2cc6c92121cfac403b547f89a34822365fd2df2",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v43_items_runes_economy.test.mjs",
+        "items_blob_sha": "be6199ec18893bb62f7db6aad0fc9257dd1419b7",
+        "integration_blob_sha": "be6199ec18893bb62f7db6aad0fc9257dd1419b7",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v452_farm_buffs_draft_shop.test.mjs",
+        "items_blob_sha": "6133f7445e26704e10721898629aea9a29d224b2",
+        "integration_blob_sha": "6133f7445e26704e10721898629aea9a29d224b2",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev29_item_batch.test.mjs",
+        "items_blob_sha": "e2e8e6027bbedaeec2597ea5635eecf15a421c9d",
+        "integration_blob_sha": "e2e8e6027bbedaeec2597ea5635eecf15a421c9d",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev30_recipe_shop.test.mjs",
+        "items_blob_sha": "889769694d1c66a32dd9cb37c899672e8ccfcfd4",
+        "integration_blob_sha": "889769694d1c66a32dd9cb37c899672e8ccfcfd4",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev37_item_reconciliation.test.mjs",
+        "items_blob_sha": "ac52a8a6d2c613e93a16403644c598e945c721f7",
+        "integration_blob_sha": "ac52a8a6d2c613e93a16403644c598e945c721f7",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev38_item_passives.test.mjs",
+        "items_blob_sha": "45d2612416993d4350c464cfa8cdcdb3d32eada9",
+        "integration_blob_sha": "45d2612416993d4350c464cfa8cdcdb3d32eada9",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev49_sr_shop_scope_recipes.test.mjs",
+        "items_blob_sha": "00fe3713666c13a45996d7eee320b39fd7c2af69",
+        "integration_blob_sha": "00fe3713666c13a45996d7eee320b39fd7c2af69",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev51_minion_block_regen_items.test.mjs",
+        "items_blob_sha": "c6c80db2ebfd5e636f04250ef62991bdb1291223",
+        "integration_blob_sha": "c6c80db2ebfd5e636f04250ef62991bdb1291223",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev52_minions_items.test.mjs",
+        "items_blob_sha": "321bf0af51ff0e27874d0e04a749c678e2c7a3b7",
+        "integration_blob_sha": "321bf0af51ff0e27874d0e04a749c678e2c7a3b7",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev53_lane_collision_items.test.mjs",
+        "items_blob_sha": "b7f6cdc123fbb52af83d645e1a807e5800c76209",
+        "integration_blob_sha": "b7f6cdc123fbb52af83d645e1a807e5800c76209",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev55_minion_sweep_items.test.mjs",
+        "items_blob_sha": "008f9701286f14dae751aff50c9039adab922c44",
+        "integration_blob_sha": "008f9701286f14dae751aff50c9039adab922c44",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev56_minion_items.test.mjs",
+        "items_blob_sha": "0a78998e7bc933600831812298403ec6b4254018",
+        "integration_blob_sha": "0a78998e7bc933600831812298403ec6b4254018",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev57_formation_items.test.mjs",
+        "items_blob_sha": "7027473b9a82ef10a23d98c784f7cf2684b3cd1e",
+        "integration_blob_sha": "7027473b9a82ef10a23d98c784f7cf2684b3cd1e",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev60_pvp_shop_refunds.test.mjs",
+        "items_blob_sha": "dfece64482e920dd578df59f2eced40ded758f77",
+        "integration_blob_sha": "dfece64482e920dd578df59f2eced40ded758f77",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev61_shop_undo_pvp.test.mjs",
+        "items_blob_sha": "417181f1063b4a593f9aabe639e822087686692a",
+        "integration_blob_sha": "66b25633853886a5d6516a99faeeb99131d4e42e",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "tests/v453_dev62_pvp_hud_e2e.test.mjs",
+        "items_blob_sha": "5579ae5cd0dc513fab138897fb044eed173f5d2a",
+        "integration_blob_sha": "0cc65efbcab21063a4863d9f07c977eaee98b764",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "tests/v453_dev63_nexus_pvp_e2e.test.mjs",
+        "items_blob_sha": "5219eb1064ef71f0541e0d82a816b457cd96e176",
+        "integration_blob_sha": "5219eb1064ef71f0541e0d82a816b457cd96e176",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev64_pvp_reaction_e2e.test.mjs",
+        "items_blob_sha": "22b78bf2c4128504acfde93d8b8ed26e73848f85",
+        "integration_blob_sha": "22b78bf2c4128504acfde93d8b8ed26e73848f85",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev65_pvp_planned_combos.test.mjs",
+        "items_blob_sha": "63adc541a3b6c01938bda0ed25c2ea93e481e10d",
+        "integration_blob_sha": "63adc541a3b6c01938bda0ed25c2ea93e481e10d",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev66_combo_defenses.test.mjs",
+        "items_blob_sha": "871db7d2b2b59e4c42ca939fd22d25cdad28fe03",
+        "integration_blob_sha": "871db7d2b2b59e4c42ca939fd22d25cdad28fe03",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev66_summoners_cc_pvp.test.mjs",
+        "items_blob_sha": "ad568c1891fb5ebd65116c0a0ac643c99af8276d",
+        "integration_blob_sha": "ad568c1891fb5ebd65116c0a0ac643c99af8276d",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev67_targeted_heal_pvp.test.mjs",
+        "items_blob_sha": "1bbd5cdeb1a11cc91190f0bf6179ebd595c06db2",
+        "integration_blob_sha": "1bbd5cdeb1a11cc91190f0bf6179ebd595c06db2",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev68_lux_projectile_pvp.test.mjs",
+        "items_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557",
+        "integration_blob_sha": "402d5461a60aa447beddff62bc7628bcc26b3557",
+        "status": "same_blob"
+      },
+      {
+        "path": "tests/v453_dev69_items_batch1.test.mjs",
+        "items_blob_sha": "b3469fe37f8ac8812e24c0a1f1c19f51d0c6e472",
+        "integration_blob_sha": "b69a11fb268f817a116c323bbeeb9a77167aa610",
+        "status": "diverged_blob"
+      },
+      {
+        "path": "tests/v453_dev69_items_batch2.test.mjs",
+        "items_blob_sha": "2a52b2189062405e896cf2dbed7925db801e0c10",
+        "integration_blob_sha": null,
+        "status": "items_only"
+      },
+      {
+        "path": "tests/v453_dev69_items_bulk_18.test.mjs",
+        "items_blob_sha": "109590ba4a6c621f116846fb86c2e234097e575b",
+        "integration_blob_sha": null,
+        "status": "items_only"
+      },
+      {
+        "path": "tests/v453_dev69_nami_vex_projectiles_pvp.test.mjs",
+        "items_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7",
+        "integration_blob_sha": "b731c752d81e008cbbf84feaf0856b03fc02eff7",
+        "status": "same_blob"
+      }
+    ],
+    "summary": {
+      "matched": 52,
+      "items_only": 3,
+      "diverged_blob": 6,
+      "same_blob": 43
+    }
+  },
+  "limitations": [
+    "Changed source bodies are NOT directly interchangeable; investigate integration authority and feature-specific goldens.",
+    "Multiline method definitions or class parser edge cases can omit methods; manually review.",
+    "No runtime executed, no Rust equivalence."
+  ]
+}
