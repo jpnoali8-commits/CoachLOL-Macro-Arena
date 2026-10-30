@@ -278,6 +278,71 @@ export function runAdversarialItemsB06({Arena,Gateway,map,mask,checksumV40}){
   ok(checksumV40(a.snapshotV40())===pre,'invalid trinket mutated');
   return {known_functional_gap:true,negative_only:true,outcomes};
  },{type:'legacy_gap'});
+
+ scenario('GATEWAY_REUSED_SEQ_DIFFERENT_UNIT',({a,u,team,Gateway,seats,ok,eq})=>{
+  const gw=new Gateway(a,seats),seat=team==='blue'?'p1':'p2';
+  const buy=gw.submit(seat,{sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'}});
+  ok(buy.ok,'first buy');
+  const top=a.units.find(x=>x.id===team+'_TOP'),gold=top.gold,items=[...top.items];
+  const attack=gw.submit(seat,{sequence:1,unitId:top.id,kind:'item.buy',payload:{itemId:'boots'}});
+  ok(!attack.ok,'same seq different own unit accepted');
+  eq(top.gold,gold,'different own-unit debit');same(top.items,items,'different own-unit inventory');
+  return {first:buy,denied:attack};
+ },{type:'gateway'});
+ scenario('GATEWAY_QUEUE_RETRY_NO_DUPLICATE',({a,u,team,Gateway,seats,ok,eq})=>{
+  const gw=new Gateway(a,seats),seat=team==='blue'?'p1':'p2';
+  const cmd={sequence:1,unitId:u.id,kind:'item.queue',payload:{itemId:'long_sword'}};
+  const first=gw.submit(seat,cmd);ok(first.ok,'queue first');
+  const retry=gw.submit(seat,cmd);ok(retry.ok,'queue retry');
+  eq(u.purchaseQueue.length,1,'duplicate queue');
+  eq(u.gold,50000,'queue spent gold');
+  return {first,retry,queue:[...u.purchaseQueue]};
+ },{type:'gateway'});
+ scenario('GATEWAY_SELL_RETRY_NO_DUPLICATE_GOLD',({a,u,team,Gateway,seats,ok,eq,checksumV40})=>{
+  const gw=new Gateway(a,seats),seat=team==='blue'?'p1':'p2';
+  ok(gw.submit(seat,{sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'}}).ok,'buy');
+  const cmd={sequence:2,unitId:u.id,kind:'item.sell',payload:{index:0}};
+  const first=gw.submit(seat,cmd);ok(first.ok,'sale');
+  const balance=u.gold,digest=checksumV40(a.snapshotV40());
+  const retry=gw.submit(seat,cmd);ok(retry.ok,'sale retry');
+  eq(u.gold,balance,'duplicate gold sale');eq(checksumV40(a.snapshotV40()),digest,'duplicate sale state');
+  return {first,retry,balance};
+ },{type:'gateway'});
+ scenario('GATEWAY_CANCEL_QUEUE_RETRY',({a,u,team,Gateway,seats,ok,eq})=>{
+  const gw=new Gateway(a,seats),seat=team==='blue'?'p1':'p2';
+  ok(gw.submit(seat,{sequence:1,unitId:u.id,kind:'item.queue',payload:{itemId:'long_sword'}}).ok,'queue');
+  const cmd={sequence:2,unitId:u.id,kind:'item.cancelQueue',payload:{index:0}};
+  const first=gw.submit(seat,cmd);ok(first.ok,'cancel');
+  const retry=gw.submit(seat,cmd);ok(retry.ok,'cancel retry');
+  eq(u.purchaseQueue.length,0,'cancelled queue returned');
+  return {first,retry};
+ },{type:'gateway'});
+ scenario('GATEWAY_MALFORMED_PACKET_RETRY',({a,u,team,Gateway,seats,ok,eq})=>{
+  const gw=new Gateway(a,seats),seat=team==='blue'?'p1':'p2';
+  const malformed={sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'},team:'red',gold:9000000};
+  const reject=gw.submit(seat,malformed);ok(!reject.ok,'trusted client-supplied fields');
+  eq(u.gold,50000,'malformed packet charged');
+  const valid=gw.submit(seat,{sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'}});
+  ok(valid.ok,'malformed packet consumed sequence');return {reject,valid};
+ },{type:'gateway'});
+ scenario('SELL_OUTSIDE_FOUNTAIN_DENIED',({a,u,team,ok,eq})=>{
+  ok(a.buy(team,u.id,'boots'),'buy');u.x=.5;u.y=.5;
+  const prior=u.gold;
+  ok(!a.canSellItemV453Dev60(team,u.id,0).ok,'remote sell preflight');
+  ok(!a.sellItemV43(team,u.id,0).ok,'remote sale');
+  eq(u.gold,prior,'remote sale credit');return {inventory:[...u.items],gold:u.gold};
+ });
+ scenario('HEALTH_POTION_CAP',({a,u,team,ok,eq})=>{
+  for(let i=0;i<5;i++)ok(a.buy(team,u.id,'health_potion'),'potion '+i);
+  eq(u.items.length,5,'potion count');
+  ok(!a.canBuy(team,u.id,'health_potion').ok,'sixth potion accepted');
+  return {potions:u.items.length};
+ });
+ scenario('HEALTH_POTION_REFILLABLE_EXCLUSIVE',({a,u,team,ok})=>{
+  ok(a.buy(team,u.id,'health_potion'),'health setup');
+  ok(!a.canBuy(team,u.id,'refillable_potion').ok,'refillable with health');
+  return {potions:[...u.items]};
+ });
  return {schema:'coachlol.m45.items.adversarial.b06.v1',
   origin:'LEGACY_ITEMS_SOURCE',cases,
   summary:{planned:cases.length,passed:counts.PASS||0,failed:counts.FAIL||0,
