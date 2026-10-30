@@ -1,0 +1,260 @@
+{
+  "schema": "coachlol.m45.platform.a16.original-http-handler-golden.v1",
+  "date": "2026-10-30",
+  "status": "28/28_ORIGINAL_HTTP_HANDLER_V8_WITH_FAKE_TRANSPORT_NO_REAL_TCP",
+  "branch": "dev69/m45-audit-platform",
+  "provenance": {
+    "integration_head": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "platform_parent": "a6fa216bcc1d0c53ba2e7bfb564d7d7ac1ff7580",
+    "rust_head_checked": "056191eff45aa48167a79a36ffe3929b6e56eb48",
+    "rust_crates": [
+      "core-state"
+    ],
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "gateway_dev44_blob": "b2ebb58248c8aec9aee0a64c354150757cd71a4a",
+    "gateway_dev47_blob": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "original_server_blob": "d6ed7a4b0dd30f2bf22c3d5876e3ac6b293ddf5d",
+    "test_blob": "248f1cc1e62207bbb2b1f3124b9263b15dedb040",
+    "map_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "manifest_blob": "698f86922a5bf8c8699a306bab097cd2ca3743e5"
+  },
+  "execution": {
+    "source": "Exact original createPvPServerV453Dev47 HTTP route source + original Arena/Room/Gateway in isolated V8",
+    "method": "Strip ES import/export and standalone CLI bootstrap, inject fake http.createServer with handler(request,response), mock response lifecycle, timers and file-backed shop data. Actual room command and broadcast methods are original.",
+    "source_sha": "GitHub blobs retrieved by connector; explicit original server git-blob SHA assertion in test",
+    "passed": 28,
+    "total": 28,
+    "limitations": [
+      "No real TCP/network sockets executing original server",
+      "No checkpoint writes to disk from original Room in V8 fixture",
+      "No full Node checkout: terminal DNS and outbound network unavailable",
+      "Injected randomBytes/sha256 substitutes for V8 mock join/session; never security-cryptography certification",
+      "No real Origin/Host/browser CSRF or cookies under TLS",
+      "No native Rust game-server or WASM executed",
+      "No GitHub Actions used"
+    ],
+    "full_original_a02_network_security": "NOT_RUN",
+    "full_original_a07_http_sse_restart": "NOT_RUN",
+    "local_node_a15_qa_http_real_tcp": "24/24_PASS_BUT_QA_REFERENCE_ONLY",
+    "native_rust_server": "NOT_IMPLEMENTED",
+    "browser": "NOT_RUN"
+  },
+  "findings": [
+    {
+      "id": "A16-P0-ANON",
+      "source": "Exact original server HTTP event: state data and Arena.perspective",
+      "observed": "Anonymous private canary emitted to both seat streams, even though no room revision advanced",
+      "must_fix": "VisibleEventDTO default-deny scope/kind, no raw details spread, per-seat filtering before HTTP/SSE/reconnect/replay",
+      "severity": "P0_PRIVACY"
+    },
+    {
+      "id": "A16-P1-READY",
+      "source": "Original POST /api/ready",
+      "observed": "Second ready accepted and starts one turn; repeat returns 409 confirmacao_indisponivel",
+      "must_fix": "Persist per-request ready receipts and replay original ACK after lost response and restart",
+      "severity": "P1_IDEMPOTENCE"
+    },
+    {
+      "id": "A16-P1-SSE",
+      "source": "Original GET /api/stream",
+      "observed": "No SSE id or Last-Event-ID, duplicate current revision from broadcast, latest current snapshot sent on new subscription",
+      "must_fix": "RoomEpoch+Seat+CommittedRevision cursor and authorized snapshot resync",
+      "severity": "P1_TRANSPORT"
+    },
+    {
+      "id": "A16-P1-LIMIT",
+      "source": "Original SSE route uses res.write and 15s heartbeat",
+      "observed": "Source ignores write return and has no per-seat stream cap; not stress-tested on live socket",
+      "must_fix": "Bounded per-seat SSE streams, backpressure, drain/close, per-client heartbeat quotas",
+      "severity": "P1_BACKPRESSURE"
+    },
+    {
+      "id": "A16-P0-DURABLE",
+      "source": "Previous A13 Room.persist failure oracle",
+      "observed": "Memory and disk can diverge when persist throws after mutation",
+      "must_fix": "State, receipt, revision, event journal atomic durable commit before SSE/ACK",
+      "severity": "P0_RECOVERY"
+    }
+  ],
+  "checks": [
+    {
+      "id": "A16-ORIG-HTTP-01",
+      "label": "01 original create route returns cookie + one blue human",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-02",
+      "label": "02 original join route creates second red human",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-03",
+      "label": "03 missing cookie receives 401",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-04",
+      "label": "04 invalid cookie receives 401",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-05",
+      "label": "05 original session endpoint projects distinct teams",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-06",
+      "label": "06 blue cannot order red unit",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-07",
+      "label": "07 cross-origin mutation returns 403",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-08",
+      "label": "08 sequence gap returns 409",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-09",
+      "label": "09 extra untrusted team field rejected",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-10",
+      "label": "10 stream without session returns 401",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-11",
+      "label": "11 two original SSE handlers send own initial snapshots",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-12",
+      "label": "12 authorized command returns original ACK",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-13",
+      "label": "13 original SSE broadcasts to both original subscribers",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-14",
+      "label": "14 replayed packet returns identical ACK without duplicate stream",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-15",
+      "label": "15 changed command on used seq rejected",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-16",
+      "label": "16 first seat ready does not start engine",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-17",
+      "label": "17 first ready prevents further blue commands",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-18",
+      "label": "18 red ready starts one simultaneous turn",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-19",
+      "label": "19 legacy ready replay still fails rather than idempotently ACK",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-20",
+      "label": "20 session response never exposes raw server checkpoint secrets",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-21",
+      "label": "21 server stream has no id or Last-Event-ID cursor even for valid sessions",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-22",
+      "label": "22 duplicate revision stream frames emitted for unchanged state",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-23",
+      "label": "23 closing blue stream detaches only blue subscriber",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-24",
+      "label": "24 reconnect sends single latest authorized state and no journal",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-25",
+      "label": "25 anonymous private legacy event leaks in original HTTP SSE to both seats",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-26",
+      "label": "26 original body parser rejects oversized JSON payload",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-27",
+      "label": "27 original join endpoint rejects malformed room code",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    },
+    {
+      "id": "A16-ORIG-HTTP-28",
+      "label": "28 ready packet with extra fields rejected",
+      "test": "tests/m45_platform_a16_legacy_http_handler.test.mjs",
+      "status": "PASS_ORIGINAL_HANDLER_ISOLATED_V8"
+    }
+  ],
+  "requirements": {
+    "trust": "cookie/session resolves authenticated seat; exactly two humans each controls five units",
+    "authorization": "reject enemy unit control and spoof team/seat in command payload",
+    "replay": "canonical immutable command receipt stored durably; duplicate request cannot mutate world",
+    "ready": "first ready blocks only confirming seat; second starts exactly once; retries return receipt",
+    "privacy": "event DTO allowlist rejects anonymous, team-private and hostile detail fields in SSE, session and reconnect",
+    "transport": "SSE id, Last-Event-ID filtered snapshot, retry, bounded streams/backpressure and closed-client cleanup",
+    "qa_next": "Run original server under native Node with A02/A07 and A16, then compare Rust server HTTP/SSE when available"
+  }
+}
