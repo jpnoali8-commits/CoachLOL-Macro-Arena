@@ -67,8 +67,15 @@ for (const team of ['blue','red']){
 }
 {
  const reg=new PvPRoomRegistryV453Dev47({map,mask:masks,manifest});
- const blue=reg.create(),room=blue.room,red=room.join();
- const seed=room.arena.seed??null;
+ // PvPRoomRegistry normally seeds matches with Math.random; freeze this oracle
+ // to make its two-seat arena snapshot deterministic between runs.
+ const originalRandom=Math.random;
+ let blue;
+ try { Math.random=()=>0.271828; blue=reg.create(); }
+ finally { Math.random=originalRandom; }
+ const room=blue.room,red=room.join();
+ const seed=room.arena.seed;
+ assert.equal(seed,271828,'frozen PvP fixture seed');
  for(const [player,team,role] of [[blue.player,'blue','TOP'],[red.player,'red','SUP']]){
   const u=prep(hero(room.arena,team,role),1200),before=view(u);
   assert.equal(room.command(player,{sequence:1,unitId:u.id,kind:'item.buy',payload:{itemId:'boots'}}).ok,true);
