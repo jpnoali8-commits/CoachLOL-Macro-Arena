@@ -1,0 +1,103 @@
+{
+  "artifact": "M45_PLATFORM_A04_LEGACY_BOUNDARY_GOLDENS",
+  "provenance": {
+    "integration_sha": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "engine_blob": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+    "room_blob": "3bdb8cd3b737d20e3700e994a8872943e53366ae",
+    "validated_method_execution": "CODE_MODE_V8_ISOLATED",
+    "full_node_suite": "NOT_RUN",
+    "browser": "NOT_RUN",
+    "rust": "NOT_RUN"
+  },
+  "results": [
+    {
+      "id": "FOG-01",
+      "test": "hidden enemy champion/minion filtered both teams",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS"
+    },
+    {
+      "id": "FOG-02",
+      "test": "visible enemy champion restricted DTO; enemy order/items omitted",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS"
+    },
+    {
+      "id": "FOG-03",
+      "test": "known enemy ward restricted DTO",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS"
+    },
+    {
+      "id": "FOG-04",
+      "test": "hidden normal camp unknown, public epic respawn knowledge",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS",
+      "note": "Public epic respawn is announced; preserve when intentional"
+    },
+    {
+      "id": "EVENT-01",
+      "test": "own private event and explicit public event",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS"
+    },
+    {
+      "id": "EVENT-02",
+      "test": "anonymous nonpublic event",
+      "observed_legacy": "FAIL_PRIVACY",
+      "required_rust": "MUST_FILTER"
+    },
+    {
+      "id": "EVENT-03",
+      "test": "unwhitelisted fields in observed event",
+      "observed_legacy": "FAIL_PRIVACY",
+      "required_rust": "MUST_STRIP"
+    },
+    {
+      "id": "EVENT-04",
+      "test": "public string false treated as true",
+      "observed_legacy": "FAIL_PRIVACY",
+      "required_rust": "BOOLEAN_STRICT"
+    },
+    {
+      "id": "READY-01",
+      "test": "first ready does not execute; second ready executes once",
+      "observed_legacy": "PASS",
+      "required_rust": "PASS"
+    },
+    {
+      "id": "READY-02",
+      "test": "lost ACK retry after first ready returns same ACK",
+      "observed_legacy": "FAIL_IDEMPOTENCY",
+      "required_rust": "MUST_PASS"
+    },
+    {
+      "id": "READY-03",
+      "test": "same ready request replay after seal returns stored ACK",
+      "observed_legacy": "FAIL_IDEMPOTENCY",
+      "required_rust": "MUST_PASS"
+    }
+  ],
+  "next_tests": [
+    {
+      "id": "NET-LOSS-01",
+      "status": "NOT_RUN",
+      "scenario": "Disconnect between commit and ACK; replay same requestId"
+    },
+    {
+      "id": "NET-LOSS-02",
+      "status": "NOT_RUN",
+      "scenario": "Restore with seat1 ready, seat2 reconnect ready"
+    },
+    {
+      "id": "NET-SSE-01",
+      "status": "NOT_RUN",
+      "scenario": "Last-Event-ID gap -> filtered snapshot, no enemy secrecy leak"
+    },
+    {
+      "id": "NET-SSE-02",
+      "status": "NOT_RUN",
+      "scenario": "Two SSE consumers with bounded backpressure"
+    }
+  ]
+}
