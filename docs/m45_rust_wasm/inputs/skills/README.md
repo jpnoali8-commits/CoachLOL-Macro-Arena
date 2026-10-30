@@ -134,3 +134,14 @@ Latest Rust coordinator HEAD observed `ddbdf8e9ee4345646c70162c1637e5b08670708a`
 - `S15_CLONE_IDENTITY_V8_RECEIPT.json`, `S15_STATIC_CONTRACT_RECEIPT.json` and `M45_B02_S15_HANDOFF.md` pin original Git blobs, source failure and versioned Rust *deliberate fidelity fix*. `s15_validate_clone_receipt.mjs` V8 static cross-check **53/53 PASS**.
 
 The S10 original 26-suite status remains 22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN; original M15 entry remains NOT_RUN in the **frozen S10 ledger**, and S15 evidence is reported separately. Coordinator `dev69/rust-core-m45` at `4bf98495e32dffb67cde32542f76af11d85a66f8` still has only `core-state`; Rust native/WASM and two-seat HTTP NOT_RUN. No Actions, merges, original engine modifications or champion certifications.
+
+
+## M45 B02 Skills S16 — aliases simultâneos e colisão temporal com fog
+
+- `s16_multi_alias_temporal_clone_pvp.test.mjs`: execução real de corpo suplementar usando engine e gateway original no V8: **18/18 cenários, 295/295 assertivas, 38 checkpoints snapshot→restore PASS** (2 equipes, 2 grupos de aliases simultâneos, 8 impactos em clones visíveis, 8 impactos após perda de visão).
+- Neeko disfarçada de Shaco + Shaco real + clone Shaco geraram **3 aliases públicos distintos** por partida, permitindo alvos públicos autorizados sem aceitar IDs persistentes internos, replay de pacote duplicado ou alias expirado/oculto.
+- **Risco de fidelidade S16:** clones ocultos pela perda de `canSeePoint` saem do pool de colisão física; Ahri E/Ashe R acertam clone quando visível, mas não quando ele está oculto. No caso da Ashe, o projétil alcança o campeão verdadeiro atrás. Ainda **POTENTIAL_FIDELITY_RISK**, depende de decisão da regra física e de testes reais de fog/servidor.
+- `S16_ALIAS_TEMPORAL_V8_RECEIPT.json` registra o corpus original, valores, efeitos e limitação da visibilidade sintética. `s16_visibility_collision_rust_acceptance.rs` contém interface Rust **não executada**, com 18 casos positivos e 8 negativos futuros, 3 testes Rust preparados e gate explícito de incerteza.
+- `s16_validate_alias_temporal.mjs`: **63/63 verificações estáticas V8 PASS**, documentadas em `S16_STATIC_CONTRACT_RECEIPT.json`; `M45_B02_S16_HANDOFF.md` para o coordenador.
+
+S10 continua **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**, Node completo 0/26. Branch Rust em `94e22180623ca20477165221e9e9251ff508c1e8` ainda somente `core-state`; combat/champions, Rust native, WASM e servidor HTTP sem execução. Nenhuma Action ou merge; nenhuma alteração na engine de produção.
