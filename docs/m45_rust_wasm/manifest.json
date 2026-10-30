@@ -3,7 +3,7 @@
   "updated_at": "2026-10-30",
   "migration_mode": "MIGRATION_ONLY",
   "certification": "NOT_CERTIFIED",
-  "next_priority": "B02A",
+  "next_priority": "B02A7",
   "ledger": "docs/m45_rust_wasm/STATUS_LEDGER.md",
   "base_refs": {
     "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -20,7 +20,7 @@
   ],
   "gates": {
     "G0": "PARTIAL",
-    "G1": "NOT_RUN",
+    "G1": "FAIL",
     "G2": "NOT_RUN",
     "G3": "NOT_RUN",
     "G4": "NOT_RUN",
@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02A6_CI_TRIGGER_RETRY_NOT_YET_CONFIRMED",
+    "phase": "B02A7_RUSTFMT_CI_FIX_REQUESTED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -346,7 +346,7 @@
         "deleted": 0
       }
     },
-    "native_test": "NOT_RUN",
+    "native_test": "PASS_3_OF_3_IN_GITHUB_RUN_41137201572",
     "wasm_build": "NOT_RUN",
     "wasm_binary_test": "NOT_RUN",
     "wasm_target": "NOT_VERIFIED",
@@ -356,7 +356,7 @@
     "symbol_inventory": "STATIC_PARTIAL",
     "golden_per_source": "NOT_RUN",
     "handoffs": "STATIC_RECEIVED_RUNTIME_NOT_RUN",
-    "next": "B02A",
+    "next": "B02A7",
     "handoff_refs": {
       "skills": "6b8de5ec2906e9cab25c3b0205ed7572d370854a",
       "items": "134b6260173d3b2d4e3a6ffa6317a40c361b8bfc",
@@ -430,7 +430,7 @@
     },
     "remote_runner": {
       "provider": "GitHub Actions",
-      "status": "SECOND_PUSH_TRIGGER_REQUESTED_NOT_YET_CONFIRMED",
+      "status": "B02A7_FORMAT_FAST_FORWARD_REQUESTED",
       "trigger": "push_path_only",
       "path": ".github/workflows/m45-b02a5-one-shot.yml",
       "trigger_file": "docs/m45_rust_wasm/qa/trigger_b02a5.txt",
@@ -450,7 +450,33 @@
       },
       "retry_count": 1,
       "max_retry_count": 1,
-      "automatic_retry_allowed": false
+      "automatic_retry_allowed": false,
+      "first_real_run": {
+        "run_id": 41137201572,
+        "job_id": 124342476724,
+        "head_sha": "91fda60e81d44e7b08bc06874094fc38c24d5fef",
+        "conclusion": "failure",
+        "toolchain": "RUST_1_85_1_INSTALLED",
+        "native": "PASS_3_3",
+        "fmt": "FAIL",
+        "clippy": "PASS",
+        "target": "PASS",
+        "wasmBuild": "NOT_RUN",
+        "wasmSmoke": "NOT_RUN",
+        "jsGolden": "PASS_21_21",
+        "sourceSnapshot": "PASS_23_23",
+        "adapter": "PASS_4_4",
+        "artifact_id": 13016518122
+      },
+      "format_auto_commit": {
+        "path": "crates/core-state/src/lib.rs",
+        "allowed_only_file": true,
+        "method": "rustfmt 1.85.1 native GitHub runner",
+        "permissions": "job contents:write",
+        "push": "fast_forward_only",
+        "new_head": "NOT_YET_VERIFIED"
+      },
+      "followup_artifact": "m45-b02a7-rust-wasm-qa"
     },
     "user_has_local_checkout": false
   }

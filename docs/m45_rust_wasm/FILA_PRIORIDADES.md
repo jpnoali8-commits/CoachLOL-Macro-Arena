@@ -80,3 +80,9 @@ Publicados em `dev69/m45-audit-skills` @ `6b8de5ec2906e9cab25c3b0205ed7572d37085
 - API GitHub Actions da branch Rust retornou **0 runs** após B02A5, inclusive `head_sha` do commit e check-runs. Isso **não identifica** causa raiz por si só.
 - Retry de caminho estritamente limitado: editar `qa/trigger_b02a5.txt` uma única vez depois de o workflow já existir no pai. Verificar `actions/runs?branch=...` no mesmo turno; se zero, marcar `NO_REMOTE_RUN_OBSERVED` e **não criar novos gatilhos repetidamente**.
 - Enquanto Rust/Cargo externos não rodarem, B02A BLOCKED, G1 NOT_RUN. Continuar B02B, sem salto a B03.
+
+### B02A7 — falha real Rustfmt localizada / correção com CI isolado (2026-10-30)
+
+- B02A6 gerou `run #41137201572`: `cargo test` 3/3 PASS, `cargo clippy -D warnings` PASS e `cargo fmt --check` FAIL. WASM build/smoke NOT_RUN. G1 está **FAIL**, não NOT_RUN; requer correção real.
+- Único workflow do gatilho `qa/trigger_b02a5.txt` atualizado para executar `cargo fmt --all`, validar diff com escopo **apenas crates/core-state/src/lib.rs**, publicar commit **fast-forward** somente nesta branch e reexecutar QA, com artefato `m45-b02a7-rust-wasm-qa` e SHA verificado. Em caso de push concorrente ou permissão negada, abortar sem marcar PASS.
+- Próxima prioridade: obter log/artefato do B02A7, atualizar status G1 conforme execução e só então B02B goldens. Não atualizar Rustfmt PASS pelo código criado, apenas após execução GitHub.

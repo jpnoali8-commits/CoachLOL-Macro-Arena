@@ -1,5 +1,5 @@
-M45 B02A6 — one and only re-trigger after workflow existed in parent commit.
-Previous push with newly-created workflow: 0 observed runs (GitHub REST API).
-Workflow remains .github/workflows/m45-b02a5-one-shot.yml.
-Target: dev69/rust-core-m45 ONLY, no main and no legacy branches.
-This file is intentionally immutable after this retry; no repeated job triggers.
+M45 B02A7 — intentionally one-shot GitHub Rustfmt 1.85.1 correction.
+Previous workflow run 41137201572: cargo test 3/3 PASS, clippy PASS, fmt FAIL, wasm NOT_RUN.
+Updated workflow may commit formatting ONLY crates/core-state/src/lib.rs (fast-forward, no force).
+After formatting, run cargo test / fmt / clippy / wasm real and upload receipt.
+This is the final authorized trigger edit; do not touch after this one-shot push.
