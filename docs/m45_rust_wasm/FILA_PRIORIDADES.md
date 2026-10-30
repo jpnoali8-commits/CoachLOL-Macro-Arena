@@ -138,3 +138,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 ### M45 B02B-I08 — registro tipado privado para rotas PvP (2026-10-30)
 
 - Entrada Rust fail-closed de habilidades: server-owned champion+slot -> shape. Nami W e Ahri E mapeadas apenas no protocolo, sem efeitos. 6 testes Rust novos (15 totais) escritos NOT_RUN, 14 kits autorais restantes sem cobertura de registro; Node/HTTP não executados. B02B continua IN_PROGRESS, B03 QUEUED. CI somente no gate final.
+
+### M45 B02B-I09 — autorização baseada em snapshot de partida privado (2026-10-30)
+
+- O wire Rust agora pode derivar fatos da partida (sem campos de validação vindos de pacote) pelo `ServerSkillWorld`. 8 testes novos (23 definidos) NOT_RUN. Não é certificação G3: ainda não existe servidor HTTP PvP Rust, mana/CD não são debitados, reino/terreno não integrados.
+- Manter B02B IN_PROGRESS e CI reservado à certificação. Prioridade seguinte: criar isolamento de snapshot/retorno público, sem leaks de SSE, e compilar quando houver executor nativo off-CI.

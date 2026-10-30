@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I08 roteamento autoral Rust fail-closed para Nami W e Ahri E; compilação pendente.
+**Atualizado:** 2026-10-30, B02B-I09 validações do wire derivadas do snapshot interno Rust (fonte privada, não compilada).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -202,3 +202,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - ServerCastFacts representa dados internos autoritativos (owner, target team, fog, rank, range, cooldown e recursos). Este protótipo recebe fatos do chamador; NÃO calcula fog, recursos ou autenticação nem aplica habilidades. Source engine JS permanece autoridade.
 - SkillAdmission::admit deixou de ser API externa pública (pub(crate)); admit_authorial permite replay de ACK previamente admitido, mas não um segundo cast. Foram adicionados 6 testes Rust (total 15 definidos), 0 executados, e manifesto source-pinned.
 - Camada JS/servidor real, 14 kits M44, habilidades e efeitos, 26 suites Node completas e HTTP/SSE continuam pendentes. Gate G0 PARTIAL, G1 PARTIAL (somente baseline B01), G3/G6/G8 NOT_RUN. Nenhum GitHub Actions manual.
+
+## M45 B02B-I09 — ingress por snapshot autoritativo Rust, não por flags de pacote (2026-10-30)
+
+- Novo módulo `crates/core-state/src/skill_authority.rs` cria `ServerSkillWorld` a partir de unidades fornecidas pelo servidor. Deriva owner/champion/alvo/visibilidade/alcançe/rank/mana/custo/CD a partir desse snapshot e rejeita faltantes/dead/fora de alcance. Distância em `i128` sem overflow; direção Ahri E e ponto com limite distinto; não há cálculo do trajeto ou efeito.
+- API anterior de admissão com `ServerCastFacts` tornou-se `pub(crate)` para restringir bypass público. Nova entrada `admit_from_world` recebe apenas o seat autenticado, comando sem shape e snapshot privado. O servidor futuro ainda deve construir snapshots a partir do estado real, sem confiar no cliente; as posições e ranges de teste NÃO são regras de produção.
+- 8 testes Rust novos definidos (total **23**, **0 executados**): Nami W ally/enemy Blue/Red, fog, alvo ausente, identidade, geometria extrema, rank/mana/CD/range, Ahri E, replay após morte, snapshot inconsistente. Sem runtime cargo/rustc nesta sessão. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN.
+- 26 suítes Node completas, HTTP/SSE, compilação WASM e integração server-side permanecem NOT_RUN. Não acionar Actions até gate de certificação final; sem alterar branches legacy nem merge.

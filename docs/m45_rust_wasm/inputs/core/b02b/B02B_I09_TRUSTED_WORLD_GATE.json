@@ -1,0 +1,68 @@
+{
+  "schema": "coachlol.m45.b02b.i09.trusted-world-gateway.v1",
+  "source": {
+    "skills_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "gateway_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "client_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_blob": "61f9d941852b6378bccccf8956aa699e8761836d"
+  },
+  "base_commit": "b7a44676dd64b6b2f89ba2e3fca680e531136d76",
+  "status": "RUST_SOURCE_WRITTEN_NATIVE_NOT_RUN",
+  "server_owned": {
+    "fields": [
+      "actor_id/champion/team",
+      "unit alive",
+      "unit position",
+      "target team",
+      "target visibility to blue/red",
+      "rank",
+      "mana",
+      "mana cost",
+      "server-authored range",
+      "server-authored ready_at tick"
+    ],
+    "derived_guards": [
+      "actor identity+team",
+      "known authored champion+slot",
+      "enemy fog",
+      "missing/dead targets",
+      "target distance i128",
+      "rank/cost/cooldown from world",
+      "point max range"
+    ],
+    "client_packet_fields": [
+      "turn",
+      "request_id",
+      "actor_id",
+      "slot",
+      "aim"
+    ],
+    "effects_implemented": false,
+    "spell_resource_debit_implemented": false
+  },
+  "lifecycle": {
+    "private_raw_facts": "pub(crate)",
+    "private_admit_authorial": "pub(crate)",
+    "public_entry": "SkillAdmission::admit_from_world",
+    "no_client_ability_shape": true
+  },
+  "qa": {
+    "new_rust_test_declarations": 8,
+    "total_rust_test_declarations": 23,
+    "rust_tests_run": 0,
+    "node_source_checks": "NOT_RUN",
+    "native_rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "actions_manually_triggered": 0
+  },
+  "gaps": {
+    "no_runtime_server": true,
+    "no_atomic_commit": true,
+    "no_persistent_replay": true,
+    "no_production_ranged_authorial_specs": true,
+    "roster_realm_fog_engine": "NOT_MIGRATED",
+    "legacy_26_node_suites": "0/26"
+  }
+}

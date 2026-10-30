@@ -22,7 +22,7 @@ pub struct WireSkillRequest {
 /// Range, fog, cooldown and resource predicates MUST be computed by the server,
 /// never accepted as boolean flags provided in a client action packet.
 #[derive(Debug, Clone, Copy)]
-pub struct ServerCastFacts<'a> {
+pub(crate) struct ServerCastFacts<'a> {
     pub authenticated_seat: Team,
     pub actor_owner: Team,
     pub actor_champion: &'a str,
@@ -37,6 +37,8 @@ pub struct ServerCastFacts<'a> {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WireRejection {
     AbilityNotMigrated,
+    ActorNotFound,
+    ActorDead,
     WrongOwner,
     InvalidAim,
     InvalidTarget,
@@ -125,7 +127,7 @@ impl SkillAdmission {
     /// Already admitted identical requests replay original ACK even after
     /// cooldown/visibility changes, without queuing another cast.
     /// Unknown or partial kits always fail closed, never generic fallback.
-    pub fn admit_authorial(
+    pub(crate) fn admit_authorial(
         &mut self,
         facts: ServerCastFacts<'_>,
         request: WireSkillRequest,

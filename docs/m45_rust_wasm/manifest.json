@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I08_PRIVATE_AUTHORIAL_WIRE_REGISTRY_NOT_COMPILED",
+    "phase": "B02B_I09_TRUSTED_WORLD_DERIVED_WIRE_NOT_COMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -732,6 +732,22 @@
       "gameplay_executor": "NOT_IMPLEMENTED",
       "actions_manually_started": 0,
       "gates": "G0_PARTIAL_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i09": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "b7a44676dd64b6b2f89ba2e3fca680e531136d76",
+      "module": "crates/core-state/src/skill_authority.rs",
+      "rust_tests_defined": 23,
+      "rust_tests_executed": 0,
+      "validated_by": "SOURCE_ONLY",
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "original_node_skills": "0/26",
+      "server_auth_bridge": "NOT_IMPLEMENTED",
+      "effects": "NOT_IMPLEMENTED",
+      "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }
 }
