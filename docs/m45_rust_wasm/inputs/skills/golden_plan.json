@@ -226,6 +226,167 @@
       "status": "SPEC_ONLY_NOT_RUN",
       "run_result": null,
       "missing_evidence": "Node execution and authorial cast/impact snapshots per seat, Rust parity."
+    },
+    {
+      "id": "v42_multi_m1",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+      "test_git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1",
+      "seeds": [
+        6920
+      ],
+      "bilateral_in_source": true,
+      "contract": "Vex/Nami stateful QWER authorial actions",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M1 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m2",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m2.test.mjs",
+      "test_git_blob_sha": "620fac6714ab1097594a615085fa95add56920ef",
+      "seeds": [
+        6922
+      ],
+      "bilateral_in_source": true,
+      "contract": "Lux and allied skill projectile/mark interactions",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M2 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m3",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+      "test_git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921",
+      "seeds": [
+        6931
+      ],
+      "bilateral_in_source": true,
+      "contract": "Lux W/E/R commit/projectile/zone coverage",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M3 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m4",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+      "test_git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342",
+      "seeds": [
+        6944
+      ],
+      "bilateral_in_source": true,
+      "contract": "Ahri P/W/R original owner/cooldown",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M4 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m5",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+      "test_git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996",
+      "seeds": [
+        6955
+      ],
+      "bilateral_in_source": true,
+      "contract": "Jinx P/Q/E/R projectile and traps",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M5 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m6",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m6.test.mjs",
+      "test_git_blob_sha": "1076d2f961de36756c01eaa225dffd2b1cb85840",
+      "seeds": [
+        6966
+      ],
+      "bilateral_in_source": true,
+      "contract": "Ahri return and Jinx traps with snapshots",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M6 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m7",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+      "test_git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852",
+      "seeds": [
+        6977,
+        6978
+      ],
+      "bilateral_in_source": true,
+      "contract": "Seven champions P/QWER and Ezreal Irelia interop",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M7 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "nami_vex_batch2",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_skills_batch2.test.mjs",
+      "test_git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a",
+      "seeds": [
+        692
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami R passive + Vex R2 PvP gateway, snapshot, reconnect",
+      "expected_output_marker": "DEV69 BATCH2 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
     }
   ]
 }
