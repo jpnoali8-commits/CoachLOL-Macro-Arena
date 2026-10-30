@@ -124,3 +124,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - core-state ganhou SkillAdmission e cinco testes unitários escritos mas NÃO EXECUTADOS, contendo idempotência, bloqueio de slot, seal e descarte de pending em dois seats. Registro de Ahri E tipada não constitui execução de projétil; Nami W testada só como protocolo, não como heal.
 - B02B continua IN_PROGRESS: G0/G1 PARTIAL, Node 0/26, HTTP/SSE NOT_RUN, runtime Rust novo NOT_RUN. Não promover B03 nem disparar Actions.
+
+### M45 B02B-I06 — proteção de cast temporal no avanço (2026-10-30)
+
+- Removido descarte incondicional de pending na passagem de turnos do protótipo SkillAdmission. Bloqueia avanço com intenção não comprometida e preserva committed in-flight até evento terminal; testes Rust 5→7 definidos, ainda NOT_RUN.
+- A fase B02B continua não certificada: compilar/fmt/testar com Cargo em checkpoint final permitido, executar goldens ESM e segurança HTTP/SSE quando ambiente disponível, reconciliar cliente/autorais. Não promover B03. Proibido gastar runners de CI em cada sublote.

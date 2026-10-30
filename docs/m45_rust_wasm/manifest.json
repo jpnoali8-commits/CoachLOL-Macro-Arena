@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I05_RUST_PRIVATE_SKILL_ADMISSION_UNCOMPILED",
+    "phase": "B02B_I06_PRESERVE_INFLIGHT_CROSS_TURN_UNCOMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -676,6 +676,29 @@
       "source_contract": "docs/m45_rust_wasm/inputs/core/b02b/skills_s11_skill_arbiter_contract.json",
       "authority": "NONE",
       "gate": "G1_PARTIAL_B01_BASELINE_ONLY"
+    },
+    "rust_admission_i06": {
+      "source_head": "4bf98495e32dffb67cde32542f76af11d85a66f8",
+      "status": "WRITTEN_STATIC_REVIEW_ONLY",
+      "module": "crates/core-state/src/skill_admission.rs",
+      "fixes": [
+        "deny advance with uncommitted pending",
+        "retain committed in-flight across turn",
+        "terminal cleanup via explicit retire"
+      ],
+      "rust_unit_tests_defined": 7,
+      "rust_unit_tests_executed": 0,
+      "static_source_checks": "PASS",
+      "cargo": "NOT_RUN",
+      "rustfmt": "NOT_RUN",
+      "clippy": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "http_sse": "NOT_RUN",
+      "actions_manual": 0,
+      "g0": "PARTIAL",
+      "g1": "PARTIAL_PREVIOUS_B01_ONLY",
+      "g8": "NOT_RUN"
     }
   }
 }

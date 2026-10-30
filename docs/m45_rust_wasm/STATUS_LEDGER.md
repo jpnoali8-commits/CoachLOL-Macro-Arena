@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I05 protótipo Rust de admissão/ACK escrito sem compilação.
+**Atualizado:** 2026-10-30, B02B-I06 avanço de turno fail-closed e retenção de projéteis in-flight (Rust escrito, não compilado).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -181,3 +181,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Nenhum executor real de habilidade, custo, fog, autorização de sala, registry M44, HTTP/SSE ou WASM novo implementado. Manter regras autoritativas na engine JS até gates.
 - cargo/rustc indisponíveis: testes Rust, fmt/clippy, wasm build NOT_RUN. 26 suítes Node legadas permanecem 0/26. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN. Sem Actions solicitadas.
 - Próxima etapa B02B: compilar módulo em executor Rust quando possível, obter goldens Node e HTTP/SSE reais e reconciliar 14 kits de registro/cliente. B03 ainda QUEUED.
+
+## M45 B02B-I06 — retenção autoritativa de cast temporal entre turnos (2026-10-30)
+
+- Baseline Rust I05 confirmado no GitHub. Em I05, next_turn() executava self.pending.clear() incondicionalmente, podendo descartar intenções não confirmadas ou projéteis comprometidos ainda em voo. Corrigido: se houver pending não committed, avanço nega; quando todos committed, avanço preserva pending para terminal explícito. Sem criação de novo cast por cooldown.
+- Adicionados 2 testes Rust (total 7 definidos): ambos os seats com Ahri E temporal cruzando turno, e duas habilidades Blue/Red em estados distintos, incluindo ACK cacheado e necessidade de retire. Teste anterior in-memory clone atualizado para realizar commit + retire antes de avançar. A recepção da Ahri E continua separada da execução autoral do projétil.
+- Contratos legados Nami W target_any e Ahri E board_effect reconferidos pelo JSON source-pinned; 14 autorais M44 permanecem fora de BOARD_KITS.kits, sem afirmar invisibilidade total na UI. VERIFICAÇÃO ESTÁTICA local dos trechos/fixtures PASS; Cargo/rustfmt/clippy/WASM/26 Node/HTTP/SSE ainda NOT_RUN. Nenhum runner Actions manual; B02B IN_PROGRESS, G0/G1 PARTIAL, G3/G6/G8 NOT_RUN.
+- Pendência de design para B04: separar duravelmente Queued/Sealed/Committed/InFlight/Terminal e tratar timers/recats de forma autoral. Este protótipo não implementa relógio, autenticação, efeito, cooldown ou replay persistido.

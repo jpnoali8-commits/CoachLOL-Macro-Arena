@@ -168,10 +168,15 @@ impl SkillAdmission {
     }
     /// Request receipts retained across turns for reconnect/retry in memory.
     /// Persistent serialization and receipt eviction belong to later packages.
+    /// Advance only when sealed and all queued primaries have been committed.
+    /// In-flight/temporal projectiles remain tracked across turns; they can only
+    /// be retired by an explicit terminal event (impact, interruption, death).
+    /// Never discard uncommitted accepted casts or resurrect old targeted casts.
     pub fn next_turn(&mut self) -> Option<u32> {
-        if !self.sealed { return None; }
+        if !self.sealed || self.pending.values().any(|p| !p.committed) {
+            return None;
+        }
         let next = self.turn.checked_add(1)?;
-        self.pending.clear();
         self.turn = next;
         self.sealed = false;
         Some(next)
@@ -259,6 +264,11 @@ mod tests {
         assert_eq!(recovered_in_memory.admit(Team::Blue, Team::Blue,
             req(3, "late", "nami", SkillSlot::W, TargetShape::TargetAny,
                 SkillAim::Unit("ally".into()))).decision, AdmissionDecision::TurnSealed);
+        assert_eq!(recovered_in_memory.next_turn(), None);
+        let cast_id = ack.cast_instance_id.unwrap();
+        assert!(recovered_in_memory.mark_committed_once(
+            Team::Blue, "nami", SkillSlot::W, cast_id));
+        assert!(recovered_in_memory.retire(Team::Blue, "nami", SkillSlot::W, cast_id));
         assert_eq!(recovered_in_memory.next_turn(), Some(4));
         assert_eq!(recovered_in_memory.admit(Team::Blue, Team::Blue, x), ack);
         assert_eq!(recovered_in_memory.pending_count(), 0);
@@ -276,5 +286,60 @@ mod tests {
                 AdmissionDecision::RequestIdPayloadConflict);
         }
         assert_eq!(a.pending_count(), 2);
+    }
+
+    #[test]
+    fn in_flight_ahri_e_survives_round_advance_both_teams() {
+        for seat in [Team::Blue, Team::Red] {
+            let mut a = SkillAdmission::new(8);
+            let e = req(8, "ahri-e", "ahri", SkillSlot::E, TargetShape::LineEnemy,
+                SkillAim::Direction { x: 800, y: 200 });
+            let ack = a.admit(seat, seat, e.clone());
+            let cast_id = ack.cast_instance_id.unwrap();
+            assert_eq!(a.next_turn(), None);
+            assert!(a.seal());
+            // A sealed but uncommitted cast cannot vanish by advancing turn.
+            assert_eq!(a.next_turn(), None);
+            assert_eq!(a.pending_count(), 1);
+            assert!(a.mark_committed_once(seat, "ahri", SkillSlot::E, cast_id));
+            // A committed temporal cast continues across the next turn.
+            assert_eq!(a.next_turn(), Some(9));
+            assert_eq!(a.pending_count(), 1);
+            assert_eq!(a.admit(seat, seat, e), ack);
+            let second = req(9, "ahri-e-next", "ahri", SkillSlot::E,
+                TargetShape::LineEnemy, SkillAim::Direction { x: 500, y: 0 });
+            assert_eq!(a.admit(seat, seat, second.clone()).decision,
+                AdmissionDecision::SlotAlreadyPending);
+            assert!(a.retire(seat, "ahri", SkillSlot::E, cast_id));
+            assert_eq!(a.pending_count(), 0);
+            // A fresh request (and subsequent server cooldown check) is required.
+            assert_eq!(a.admit(seat, seat, req(9, "fresh", "ahri", SkillSlot::E,
+                TargetShape::LineEnemy, SkillAim::Direction { x: 400, y: 0 }))
+                .decision, AdmissionDecision::Queued);
+        }
+    }
+
+    #[test]
+    fn mixed_committed_and_uncommitted_slots_block_turn_advance() {
+        let mut a = SkillAdmission::new(12);
+        let nami = a.admit(Team::Blue, Team::Blue, req(12, "w", "nami",
+            SkillSlot::W, TargetShape::TargetAny, SkillAim::Unit("ally".into())));
+        let ahri = a.admit(Team::Red, Team::Red, req(12, "e", "ahri",
+            SkillSlot::E, TargetShape::LineEnemy, SkillAim::Direction { x: 1, y: 0 }));
+        assert_eq!(a.pending_count(), 2);
+        a.seal();
+        assert!(a.mark_committed_once(Team::Blue, "nami", SkillSlot::W,
+            nami.cast_instance_id.unwrap()));
+        assert_eq!(a.next_turn(), None);
+        assert_eq!(a.pending_count(), 2);
+        assert!(a.mark_committed_once(Team::Red, "ahri", SkillSlot::E,
+            ahri.cast_instance_id.unwrap()));
+        assert_eq!(a.next_turn(), Some(13));
+        assert_eq!(a.pending_count(), 2);
+        assert!(a.retire(Team::Blue, "nami", SkillSlot::W,
+            nami.cast_instance_id.unwrap()));
+        assert!(a.retire(Team::Red, "ahri", SkillSlot::E,
+            ahri.cast_instance_id.unwrap()));
+        assert_eq!(a.pending_count(), 0);
     }
 }
