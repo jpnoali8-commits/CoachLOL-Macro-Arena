@@ -1016,6 +1016,31 @@ export const M44_B08_KITS_V453=Object.freeze({
  Pyke:{E:BS('move_point',550,40,[15,14,13,12,11],[105,135,165,195,225],
    {type:'physical',adRatio:.8,width:180,m44B08PhantomUndertow:true})}
 });
+// M44 B12B — eight individually-authored board spells.
+export const M44_B12B_KITS_V453=Object.freeze({
+ Akshan:{Q:BS('line_enemy',1000,60,[8,7.5,7,6.5,6],[10,30,50,70,90],
+  {type:'physical',adRatio:.8,width:155,m44B07Flight:true,m44B07Return:true,
+   m44B12Avengerang:true})},
+ Talon:{
+  Q:BS('target_enemy',575,40,[8,7,6,5,4],[65,85,105,125,145],
+   {type:'physical',adRatio:.9,m44B12NoxianDiplomacy:true}),
+  W:BS('line_enemy',900,55,[9,8,7,6,5],[40,55,70,85,100],
+   {type:'physical',adRatio:.5,width:230,m44B07Flight:true,
+    m44B07Return:true,m44B12Rake:true})},
+ Viego:{
+  Q:BS('line_enemy',600,0,[5,5,5,5,5],[25,40,55,70,85],
+   {type:'physical',adRatio:.6,width:190,m44B12Blade:true}),
+  R:BS('move_point',500,0,[120,100,80],[120,240,360],
+   {type:'physical',adRatio:1.2,radius:330,m44B12Heartbreaker:true})},
+ Khazix:{W:BS('line_enemy',1000,55,[9,9,9,9,9],[85,115,145,175,205],
+  {type:'physical',adRatio:1,width:175,m44B07Flight:true,m44B07First:true,
+   m44B12VoidSpike:true})},
+ Kaisa:{
+  Q:BS('self',0,55,[10,9,8,7,6],[35,55,75,95,115],
+   {type:'physical',adRatio:.45,radius:650,m44B12IcathianRain:true}),
+  R:BS('target_enemy',1500,100,[130,100,70],[],
+   {m44B12KillerInstinct:true})}
+});
 // M44 B12A — ten champion-authored slots, no anonymous fallback.
 export const M44_B12_KITS_V453=Object.freeze({
  Evelynn:{
@@ -1438,7 +1463,7 @@ export function areaHitsV42(point,targets,radius,worldWidth=15000,worldHeight=15
 export function abilityRule(u,slot){
  const m16=M16_MECHANIC_KITS[u.champ]?.[slot];
  const board=(m16&&(!m16.m16OnlyHuman||(u.boardFormV453M14||'human')==='human')?m16:null)||
-  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
+  (u.champ==='Gnar'&&u.m44B09Gnar?.form==='mega'?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12B_KITS_V453[u.champ]?.[slot]||M44_B12_KITS_V453[u.champ]?.[slot]||M44_B11_KITS_V453[u.champ]?.[slot]||M44_B09_KITS_V453[u.champ]?.[slot]||M44_B08_KITS_V453[u.champ]?.[slot]||M44_B07_KITS_V453[u.champ]?.[slot]||M44_B05_KITS_V453[u.champ]?.[slot]||BOARD_KITS_V453_DEV69[u.champ]?.[slot]||BOARD_M20_B01_V453[u.champ]?.[slot]||M15_ENTITY_KITS_V453[u.champ]?.[slot]||FORM_KITS_V453_M14[u.champ]?.[u.boardFormV453M14||DEFAULT_FORM_V453_M14[u.champ]]?.[slot];if(board)return board;
  const certified=kitSpellV42(u.champ,slot);if(certified)return certified;
  const exact=CHAMPION_SPELL_RULES_V382[u.champ]?.[slot];if(exact)return exact;
  // Fallback: tightly capped range to avoid remote/map-wide casts. No false
@@ -4163,6 +4188,10 @@ export class Arena {
    return {ok:false,reason:'m39_syndra_no_valid_pickup'};
   if(s.m44B11Contaminate&&!this.m44B11TwitchTargetsV453Dev69(u).length)
    return {ok:false,reason:'m44_b11_no_visible_poison'};
+  if(s.m44B12KillerInstinct&&
+   (!target||!target.champ||target.team===team||
+    !(target.m44B12KaisaPlasma?.[u.id]>this.gameTime)))
+   return {ok:false,reason:'m44_b12_killer_instinct_requires_plasma'};
   const hijacked=u.champ==='Sylas'&&slot==='R'&&
    u.sylasStolenV453M14?.expiresAt>this.gameTime;
   if(!hijacked){
@@ -4197,7 +4226,7 @@ export class Arena {
    return M15_ENTITY_KITS_V453.Shaco.R;
   const m16=M16_MECHANIC_KITS[champ]?.[slot];
   return (m16&&(!m16.m16OnlyHuman||(u?.boardFormV453M14||'human')==='human')?m16:null)||
-   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
+   (champ==='Gnar'&&u&&this.m44B09GnarMegaEligibleV453Dev69(u)?M44_B09_GNAR_MEGA_V453[slot]:null)||M44_B12B_KITS_V453[champ]?.[slot]||M44_B12_KITS_V453[champ]?.[slot]||M44_B11_KITS_V453[champ]?.[slot]||M44_B09_KITS_V453[champ]?.[slot]||M44_B08_KITS_V453[champ]?.[slot]||M44_B07_KITS_V453[champ]?.[slot]||M44_B05_KITS_V453[champ]?.[slot]||BOARD_KITS_V453_DEV69[champ]?.[slot]||BOARD_M20_B01_V453[champ]?.[slot]||M15_ENTITY_KITS_V453[champ]?.[slot]||
    FORM_KITS_V453_M14[champ]?.[u?.boardFormV453M14||DEFAULT_FORM_V453_M14[champ]]?.[slot]||null;
  }
  executeBoardSkillV453Dev69(u,q){
@@ -4528,6 +4557,8 @@ export class Arena {
    return {ok:false,reason:'m33_lee_energy_before_commit'};
   if(s.m44B11Contaminate&&!this.m44B11TwitchTargetsV453Dev69(u).length)
    return {ok:false,reason:'m44_b11_poison_lost_before_commit'};
+  if(s.m44B12KillerInstinct&&!(target?.m44B12KaisaPlasma?.[u.id]>this.gameTime))
+   return {ok:false,reason:'m44_b12_plasma_lost_before_commit'};
   if(s.m22Magazine&&q.slot==='R'&&
      this.m42CorkiAmmoV453Dev69(u,s).charges<1)
     return {ok:false,reason:'m42_corki_ammo_spent_before_commit'};
@@ -5436,7 +5467,7 @@ export class Arena {
     u.path=[];u.laneFollowPath=[];u.retreatPath=[];
    }
   }else if(s.shape==='move_point'&&!s.m44B08Lantern&&
-    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap){
+    !s.m44B08RampantGrowth&&!s.m44B08PhantomUndertow&&!s.m44B11VenomCask&&!s.m44B12Leap&&!s.m44B12Heartbreaker){
    const start={x:u.x,y:u.y};
    const first=(s.m25GragasFirstCollision||s.m36SejuaniArcticAssault||s.m36GalioJusticePunch)?hits[0]:null;
    const destination=first?{x:first.x-(first.x-u.x)*.1,
