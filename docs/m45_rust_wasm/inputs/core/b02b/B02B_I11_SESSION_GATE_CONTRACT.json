@@ -1,0 +1,32 @@
+{
+  "schema": "coachlol.m45.b02b.i11.authenticated-public-sse-contract.v1",
+  "date": "2026-10-30",
+  "base": "3cd4f124590275d37c597cdc820eab655285d98c",
+  "status": "SOURCE_WRITTEN_NOT_CERTIFIED",
+  "security": {
+    "public_outputs": [
+      "SessionGate::public_json(bearer,world,events)",
+      "SessionGate::sse_frame(bearer,world,events)"
+    ],
+    "private_factory": "SeatPublicProjection::from_private pub(crate)",
+    "token_bytes": 32,
+    "token_generation": "REQUIRED_EXTERNAL_OS_CSPRNG_NOT_IMPLEMENTED",
+    "seat_claim": "NEVER_CLIENT_SELECTED",
+    "on_revocation": "NEXT_PUBLICATION_BLOCKED",
+    "on_rotation": "OLD_TOKEN_REJECTED",
+    "raw_world_snapshot": "MUST_BE_TRUSTED_SERVER_ONLY",
+    "event_policy": "ALLOWLIST_CURRENT_VISIBILITY_ONLY",
+    "transport": "NOT_IMPLEMENTED"
+  },
+  "qa": {
+    "rust_tests_added": 10,
+    "rust_tests_total": 42,
+    "rust_tests_executed": 0,
+    "static_rust_source_checks": "PENDING",
+    "cargo": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "full_legacy_node_skills": "0/26",
+    "github_actions_manual": 0
+  }
+}

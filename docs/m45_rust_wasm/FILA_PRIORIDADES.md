@@ -148,3 +148,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - DTO Rust allowlist por seat, campos próprios/visíveis somente, SSE com escape de strings e sem ordem/RNG privado; 9 testes novos (32 definidos), cargo NOT_RUN. Restrição: função ainda não conectada a endpoint HTTP nem à autenticação real.
 - Próxima prioridade B02B: revisar invariantes de ACL e transformar a projeção em fronteira única dos eventos HTTP/SSE quando existir servidor Rust. Não acionar Actions até checkpoint final completo.
+
+### M45 B02B-I11 — autenticação por sessão na projeção pública (2026-10-30)
+
+- Novo `SessionGate` Rust com token por seat, revogação e rotação, sem seleção de time pelo pacote. A DTO public factory ficou `pub(crate)`; JSON e SSE são emitidos apenas após autenticação; 10 testes Rust novos, 42 definidos, zero executados.
+- B02B segue IN_PROGRESS. É necessário integrar HTTP/TLS e gerar tokens por OS CSPRNG em servidor nativo de verdade, fazer certificação das 26 Node e paridade Rust/WASM. GitHub Actions reservados ao gate completo.

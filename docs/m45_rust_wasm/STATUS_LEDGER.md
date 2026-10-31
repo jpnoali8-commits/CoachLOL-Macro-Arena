@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I10 DTO público por equipe + frame SSE allowlist em Rust (não compilado).
+**Atualizado:** 2026-10-30, B02B-I11 fronteira Rust de sessão/token por assento antes de JSON/SSE (não compilada).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -216,3 +216,11 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Serializador JSON/SSE com allowlist explícita e escaping das strings (incluindo nova linha para não injetar campos SSE). Ordenação pública determinística por id (HashMap não estável). Eventos não visíveis são omitidos; suppressão conservadora de impacto histórico é uma limitação reconhecida.
 - 9 testes Rust novos definidos (total **32** com I09); zero executados nesta sessão porque cargo/rustc indisponíveis. Nenhum handler HTTP/SSE real escrito ou testado, nem integração de fog do mapa/realm, nem serviço de autenticação. G0/G1 PARTIAL, G3/G6/G8 NOT_RUN.
 - Engine/serviço JS originais não alterados; CI reservado ao gate final, sem disparo manual de Actions.
+
+## M45 B02B-I11 — fronteira de sessão para projeção HTTP/SSE (2026-10-30)
+
+- `crates/core-state/src/pvp_session.rs` vincula um token privado de 32 bytes a exatamente um seat azul/vermelho. `SessionGate::sse_frame` e `public_json` só produzem bytes após autenticar o token; o cliente não fornece campo `team` para escolher projeção.
+- Operações de servidor `revoke` e `rotate` invalidam credenciais antigas. Duplicação e token zero são negados; geração de tokens forte via OS CSPRNG, TLS, cookie/origin/CSRF, limites e servidor HTTP NÃO existem neste protótipo.
+- `SeatPublicProjection` e `from_private` passaram a `pub(crate)`, restringindo o bypass direto da projeção fora do core-state. A entrada pública destinada a outros crates é o `SessionGate` autenticado. Não há conversão de estado privado bruto em eventos públicos fora da allowlist.
+- 10 testes unitários Rust novos escritos (total **42**, executados **0**), cobrindo autorização por time, erros de credencial, revogação, rotação, rejeição de tokens inseguros, privacidade de eventos e payloads.
+- Nenhuma Action disparada manualmente, engine JS/skills/items intactos, PR #19 Draft sem merge. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN; 26 suítes Node e HTTP/SSE reais NOT_RUN.

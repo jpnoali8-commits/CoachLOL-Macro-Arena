@@ -93,7 +93,7 @@ impl PrivatePvPEvent {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct SeatPublicProjection {
+pub(crate) struct SeatPublicProjection {
     pub tick: u64,
     pub seat: Team,
     pub units: Vec<VisibleUnit>,
@@ -103,7 +103,7 @@ pub struct SeatPublicProjection {
 impl SeatPublicProjection {
     /// Server-only projection, NEVER a dump of arbitrary struct fields.
     /// The seat argument is trusted only if mapped from the request session.
-    pub fn from_private(
+    pub(crate) fn from_private(
         world: &ServerSkillWorld,
         authenticated_seat: Team,
         private_events: &[PrivatePvPEvent],

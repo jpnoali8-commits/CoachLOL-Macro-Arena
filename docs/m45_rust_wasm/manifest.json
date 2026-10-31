@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I10_SEAT_SCOPED_ALLOWLIST_PROJECTION_UNCOMPILED",
+    "phase": "B02B_I11_SESSION_GATED_PUBLIC_FRAME_UNCOMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -771,6 +771,38 @@
       "original_node_suites": "0/26",
       "manual_actions": 0,
       "certification": "NOT_CERTIFIED",
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i11": {
+      "status": "RUST_SOURCE_WRITTEN_UNCOMPILED",
+      "base": "3cd4f124590275d37c597cdc820eab655285d98c",
+      "module": "crates/core-state/src/pvp_session.rs",
+      "new_rust_tests_declared": 10,
+      "total_rust_tests_declared": 42,
+      "rust_tests_executed": 0,
+      "security_contract": [
+        "seat bound to token only, not packet team",
+        "32 byte session keys from external OS CSPRNG",
+        "reject duplicate/all-zero token material",
+        "revoke and rotate per seat",
+        "public JSON/SSE auth gate",
+        "raw projection factory crate-private",
+        "no private order or RNG in frame"
+      ],
+      "not_implemented": [
+        "OS CSPRNG",
+        "TLS",
+        "HTTP route",
+        "cookie parser",
+        "CSRF/origin",
+        "session persistence",
+        "full fog/realm engine"
+      ],
+      "rust_native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "github_actions_manual": 0,
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }
