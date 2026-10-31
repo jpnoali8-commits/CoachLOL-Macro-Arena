@@ -97,6 +97,9 @@ function witness(f,targetType){
  const view=room.view(defendingPlayer);
  assert.equal(view.pendingDecision?.kind,'combat_reaction');
  assert.equal(view.pendingDecision?.unitId,defender.id,'own actor ID authorized');
+ const enemySeatPlayer=room.players.find(p=>p.team!==f.defendingTeam);
+ assert.equal(room.view(enemySeatPlayer).pendingDecision,null,
+  'only authorized owner sees defender reaction metadata');
  assert.equal(view.pendingDecision?.enemyId,enemy.id,
   'BUG: public room metadata reveals a masked enemy stable ID');
  assert.notEqual(view.pendingDecision?.enemyId,alias,
