@@ -1,0 +1,133 @@
+{
+  "schema": "coachlol.m45.skills.s18.pvp-room-masked-reaction-v1",
+  "date": "2026-10-30",
+  "audit_branch": "dev69/m45-audit-skills",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "git_blobs": {
+    "engine": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "map": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "gateway_dev44": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "gateway_dev47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "room_dev47": "d5d5c36c2f967ed294f6d5e9fcedcd32348eacb5",
+    "test": "91376ef9026514a0a30a9fb0d33a0fc0bddec668",
+    "rust": "cf364d9ab0384c351e47839cbf5a410dbf6f7041"
+  },
+  "v8_actual": {
+    "status": "V8_PASS_BUG_WITNESSED_NOT_RUST_PARITY",
+    "kind": "SAVED_SUPPLEMENTAL_TEST_BODY_ORIGINAL_ARENA_ORIGINAL_DEV44_DEV47_GATEWAY_ORIGINAL_PVP_ROOM",
+    "assertions_attempted": 117,
+    "assertions_passed": 117,
+    "scenarios": 4,
+    "scenarios_passed": 4,
+    "owner_defender_seats": 2,
+    "masked_enemy_variants": [
+      "NeekoDisguised",
+      "ShacoCloneActive"
+    ],
+    "masked_stable_id_exposures": 4,
+    "after_synthetic_fog_exposures": 4,
+    "snapshot_room_restore_checks": 4,
+    "snapshot_recovery": "Arena.fromSnapshotV40 + rebuilt original PvPRoomV453Dev47 using restored original gateway exportSession; full room perspective and pendingDecision equality checked at checkpoint, after fog pendingDecision equality checked",
+    "command_api": "No real request cast during decision; invoked actual Arena.pauseForDecision(valid kind, defender, masked enemy) to stage decision boundary. No real combat, server token/session HTTP or live SSE exercised.",
+    "source_fixture_objective_security": "Injected an enemy-owned objectiveLedger fixture to check Arena.perspective filter. No actual objective fought or scored.",
+    "safe_fields_checked": [
+      "enemy objective contributor ledger not projected",
+      "teamfight summary is array",
+      "own kill total is numeric",
+      "actionJournalV40 absent from room projection",
+      "lastTacticalAlerts absent from room projection",
+      "only authenticated defender receives top-level pending decision"
+    ],
+    "original_node_esm": "NOT_RUN",
+    "native_rust": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "actual_http": "NOT_RUN",
+    "live_two_browser": "NOT_RUN"
+  },
+  "witnesses": [
+    {
+      "defending_seat": "blue",
+      "masked_enemy": "Neeko",
+      "internal_actor": "red_TOP",
+      "public_alias": "appearance_1",
+      "room_pending_enemy_id": "red_TOP",
+      "after_fog_pending_enemy_id": "red_TOP"
+    },
+    {
+      "defending_seat": "blue",
+      "masked_enemy": "Shaco",
+      "internal_actor": "red_MID",
+      "public_alias": "appearance_3",
+      "room_pending_enemy_id": "red_MID",
+      "after_fog_pending_enemy_id": "red_MID"
+    },
+    {
+      "defending_seat": "red",
+      "masked_enemy": "Neeko",
+      "internal_actor": "blue_TOP",
+      "public_alias": "appearance_1",
+      "room_pending_enemy_id": "blue_TOP",
+      "after_fog_pending_enemy_id": "blue_TOP"
+    },
+    {
+      "defending_seat": "red",
+      "masked_enemy": "Shaco",
+      "internal_actor": "blue_MID",
+      "public_alias": "appearance_3",
+      "room_pending_enemy_id": "blue_MID",
+      "after_fog_pending_enemy_id": "blue_MID"
+    }
+  ],
+  "defect": {
+    "id": "S18_PUBLIC_ROOM_PENDING_DECISION_STABLE_ENEMY_ID",
+    "severity": "P1_PRIVACY_PROTOCOL_CONTRACT",
+    "status": "SOURCE_V8_BILATERAL_REPRODUCED_NOT_FIXED",
+    "root_cause": "PvPRoomV453Dev47.publicInfo(p) sends pendingDecision.enemyId directly when defender controls unit. This is the server-internal actor ID; Arena.perspective(team).units correctly masks enemies as appearance_* while disguise/clone is live, yet top-level room payload discloses private id.",
+    "source_location": "multiplayer/room_v453_dev47.mjs publicInfo(p) around room source offset 2400, same method as GET /api/session, SSE room view and room create/join response",
+    "suggested_rust_fix": "project public reaction identity through authoritative per-seat alias resolver; masked enemies receive their current valid appearance_* public target reference if observable, else null/opaque unavailable. Keep server-internal enemyId private, authorize client target by server-revalidated alias, never allow user-supplied stable id to bypass owner/fog.",
+    "qualification": "The test deliberately staged a decision using the real pauseForDecision API; it did not demonstrate ordinary combat producing this exact masked reaction or a live HTTP response. Classify as confirmed code-path privacy leak, not a measured network attack.",
+    "distinct_from_s17": "S17 retroactive past event text + stable actor id disclosure. S18 leaks the current attacker stable ID in PvP room pendingDecision top-level metadata even while Arena.perspective protects the alias."
+  },
+  "rust": {
+    "coordinator_branch": "dev69/rust-core-m45",
+    "head_checked": "3cd4f124590275d37c597cdc820eab655285d98c",
+    "present_crates": [
+      "core-state"
+    ],
+    "missing_crates": [
+      "core-combat",
+      "core-champions"
+    ],
+    "source_path": "docs/m45_rust_wasm/inputs/skills/s18_room_reaction_identity_rust_acceptance.rs",
+    "blob_sha": "cf364d9ab0384c351e47839cbf5a410dbf6f7041",
+    "four_future_real_room_cases": 4,
+    "extra_negative_security_gates": 8,
+    "rust_unit_tests_prepared": 5,
+    "rust_unit_tests_executed": 0
+  },
+  "legacy_matrix_unchanged": {
+    "s10_planned": 26,
+    "s10_v8_pass": 22,
+    "s10_v8_fail": 2,
+    "s10_not_run": 2,
+    "full_original_node": 0
+  },
+  "prior_s17": {
+    "v8_assertions_pass": 149,
+    "old_event_leaks": 4,
+    "static_checks_pass": 71
+  },
+  "gates": {
+    "legacy_source": "V8_PASS_DEFECT_REPRODUCED",
+    "node_esm": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "real_http": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merges": true,
+  "no_original_branch_modifications": true
+}
