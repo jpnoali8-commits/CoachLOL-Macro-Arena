@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I11_SESSION_GATED_PUBLIC_FRAME_UNCOMPILED",
+    "phase": "B02B_I12_CROSS_ROOM_SNAPSHOT_BINDING_TOKEN_ROTATION_UNCOMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -803,6 +803,35 @@
       "http_sse": "NOT_RUN",
       "legacy_node_skills": "0/26",
       "github_actions_manual": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i12": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "930188b6d424bdb5457a58fe2632df297fbdbddb",
+      "changed_modules": [
+        "crates/core-state/src/skill_authority.rs",
+        "crates/core-state/src/pvp_session.rs"
+      ],
+      "new_rust_tests_declared": 5,
+      "rust_tests_total_declared": 47,
+      "rust_tests_executed": 0,
+      "fixed": [
+        "reject cross-room snapshot publication",
+        "reject unbound world publication",
+        "rotation must differ from current credential",
+        "reject empty/oversize room labels"
+      ],
+      "security_limitations": [
+        "room_id must be assigned by trusted server, never client",
+        "no session registry network binding",
+        "no CSPRNG/TLS/HTTP",
+        "no cryptographic constant-time proof"
+      ],
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "real_http_sse": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "manual_actions": 0,
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }

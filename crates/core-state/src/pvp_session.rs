@@ -13,6 +13,7 @@ pub const SESSION_TOKEN_BYTES: usize = 32;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SessionAuthError {
     InvalidTokenMaterial,
+    InvalidRoomId,
     Unauthorized,
 }
 
@@ -24,6 +25,7 @@ struct SessionBinding {
 /// Does NOT implement Debug, Clone, Serialize or token accessors. Keep this
 /// object private to the authoritative server's room/session registry.
 pub struct SessionGate {
+    room_id: String,
     blue: SessionBinding,
     red: SessionBinding,
 }
@@ -47,16 +49,33 @@ impl SessionGate {
     /// Takes two tokens created by an external trusted OS-random source.
     /// The test fixtures use repeated byte arrays ONLY in unit tests.
     pub fn from_server_generated_tokens(
+        room_id: &str,
         blue: [u8; SESSION_TOKEN_BYTES],
         red: [u8; SESSION_TOKEN_BYTES],
     ) -> Result<Self, SessionAuthError> {
+        if room_id.is_empty() || room_id.len() > crate::skill_admission::MAX_ID_BYTES {
+            return Err(SessionAuthError::InvalidRoomId);
+        }
         if invalid_token_material(&blue) || invalid_token_material(&red) || blue == red {
             return Err(SessionAuthError::InvalidTokenMaterial);
         }
         Ok(Self {
+            room_id: room_id.to_owned(),
             blue: SessionBinding { secret: blue, active: true },
             red: SessionBinding { secret: red, active: true },
         })
+    }
+
+    fn authorize_world(
+        &self,
+        bearer: &[u8],
+        world: &ServerSkillWorld,
+    ) -> Result<Team, SessionAuthError> {
+        let seat = self.authenticate(bearer)?;
+        if world.source_room_id() != Some(self.room_id.as_str()) {
+            return Err(SessionAuthError::Unauthorized);
+        }
+        Ok(seat)
     }
 
     fn authenticate(&self, supplied: &[u8]) -> Result<Team, SessionAuthError> {
@@ -93,14 +112,14 @@ impl SessionGate {
         }
         match seat {
             Team::Blue => {
-                if replacement == self.red.secret {
+                if replacement == self.blue.secret || replacement == self.red.secret {
                     return Err(SessionAuthError::InvalidTokenMaterial);
                 }
                 self.blue.secret = replacement;
                 self.blue.active = true;
             }
             Team::Red => {
-                if replacement == self.blue.secret {
+                if replacement == self.red.secret || replacement == self.blue.secret {
                     return Err(SessionAuthError::InvalidTokenMaterial);
                 }
                 self.red.secret = replacement;
@@ -118,7 +137,7 @@ impl SessionGate {
         world: &ServerSkillWorld,
         events: &[PrivatePvPEvent],
     ) -> Result<String, SessionAuthError> {
-        let seat = self.authenticate(bearer)?;
+        let seat = self.authorize_world(bearer, world)?;
         Ok(SeatPublicProjection::from_private(world, seat, events).to_public_json())
     }
 
@@ -131,7 +150,7 @@ impl SessionGate {
         world: &ServerSkillWorld,
         events: &[PrivatePvPEvent],
     ) -> Result<String, SessionAuthError> {
-        let seat = self.authenticate(bearer)?;
+        let seat = self.authorize_world(bearer, world)?;
         Ok(SeatPublicProjection::from_private(world, seat, events).to_sse_frame())
     }
 }
@@ -142,7 +161,7 @@ mod tests {
     use crate::skill_authority::{BoardPoint, ServerSkillSnapshot, ServerUnitSnapshot};
 
     fn gate() -> SessionGate {
-        SessionGate::from_server_generated_tokens([1u8; 32], [2u8; 32]).unwrap()
+        SessionGate::from_server_generated_tokens("room-blue-red", [1u8; 32], [2u8; 32]).unwrap()
     }
     fn unit(id: &str, team: Team) -> ServerUnitSnapshot {
         ServerUnitSnapshot {
@@ -160,7 +179,7 @@ mod tests {
         }
     }
     fn world() -> ServerSkillWorld {
-        ServerSkillWorld::from_authoritative_units(50, vec![
+        ServerSkillWorld::from_authoritative_units_in_room("room-blue-red", 50, vec![
             unit("BLUE_PRIVATE", Team::Blue),
             unit("RED_PRIVATE", Team::Red),
         ]).unwrap()
@@ -225,11 +244,11 @@ mod tests {
     #[test]
     fn duplicate_or_zero_tokens_fail_closed_on_registration_and_rotation() {
         assert!(matches!(
-            SessionGate::from_server_generated_tokens([1u8; 32], [1u8; 32]),
+            SessionGate::from_server_generated_tokens("room-blue-red", [1u8; 32], [1u8; 32]),
             Err(SessionAuthError::InvalidTokenMaterial)
         ));
         assert!(matches!(
-            SessionGate::from_server_generated_tokens([0u8; 32], [2u8; 32]),
+            SessionGate::from_server_generated_tokens("room-blue-red", [0u8; 32], [2u8; 32]),
             Err(SessionAuthError::InvalidTokenMaterial)
         ));
         let mut gate = gate();
@@ -294,5 +313,73 @@ mod tests {
         assert!(!frame.contains("visible_to_blue"));
         assert!(!frame.contains("SECRET_TOKEN"));
         assert_eq!(frame.matches("event: ").count(), 1);
+    }
+
+    #[test]
+    fn valid_session_cannot_read_other_room_even_with_same_seat() {
+        for bearer in [[1u8; 32], [2u8; 32]] {
+            let other = ServerSkillWorld::from_authoritative_units_in_room(
+                "other-match", 51, vec![unit("PRIVATE_OTHER_ROOM", Team::Blue)],
+            ).unwrap();
+            assert_eq!(gate().public_json(&bearer, &other, &[]),
+                Err(SessionAuthError::Unauthorized));
+            assert_eq!(gate().sse_frame(&bearer, &other, &[]),
+                Err(SessionAuthError::Unauthorized));
+        }
+    }
+
+    #[test]
+    fn unbound_world_cannot_be_published_by_any_session() {
+        let unbound = ServerSkillWorld::from_authoritative_units(
+            51, vec![unit("unbound", Team::Blue)],
+        ).unwrap();
+        for bearer in [[1u8; 32], [2u8; 32]] {
+            assert_eq!(gate().public_json(&bearer, &unbound, &[]),
+                Err(SessionAuthError::Unauthorized));
+        }
+    }
+
+    #[test]
+    fn same_token_rotation_is_rejected_and_does_not_change_credentials() {
+        let mut session = gate();
+        assert_eq!(session.rotate(Team::Blue, [1u8; 32]),
+            Err(SessionAuthError::InvalidTokenMaterial));
+        assert_eq!(session.rotate(Team::Red, [2u8; 32]),
+            Err(SessionAuthError::InvalidTokenMaterial));
+        assert!(session.public_json(&[1u8; 32], &world(), &[]).is_ok());
+        assert!(session.public_json(&[2u8; 32], &world(), &[]).is_ok());
+    }
+
+    #[test]
+    fn empty_or_oversized_room_id_is_rejected_before_session_publication() {
+        assert!(matches!(
+            SessionGate::from_server_generated_tokens("", [1u8; 32], [2u8; 32]),
+            Err(SessionAuthError::InvalidRoomId)
+        ));
+        assert!(matches!(
+            SessionGate::from_server_generated_tokens(&"r".repeat(129), [1u8; 32], [2u8; 32]),
+            Err(SessionAuthError::InvalidRoomId)
+        ));
+        assert_eq!(
+            ServerSkillWorld::from_authoritative_units_in_room(
+                "", 1, vec![unit("unit", Team::Blue)],
+            ).unwrap_err(),
+            crate::skill_authority::WorldSnapshotError::InvalidRoomId
+        );
+    }
+
+    #[test]
+    fn revocation_and_rotation_stay_scoped_to_bound_room() {
+        let mut session = gate();
+        session.revoke(Team::Blue);
+        session.rotate(Team::Blue, [3u8; 32]).unwrap();
+        let other = ServerSkillWorld::from_authoritative_units_in_room(
+            "other-match", 50, vec![unit("another-blue", Team::Blue)],
+        ).unwrap();
+        assert!(session.sse_frame(&[3u8; 32], &world(), &[]).is_ok());
+        assert_eq!(session.sse_frame(&[3u8; 32], &other, &[]),
+            Err(SessionAuthError::Unauthorized));
+        assert_eq!(session.sse_frame(&[1u8; 32], &world(), &[]),
+            Err(SessionAuthError::Unauthorized));
     }
 }

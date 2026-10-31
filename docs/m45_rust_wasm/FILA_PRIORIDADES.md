@@ -153,3 +153,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - Novo `SessionGate` Rust com token por seat, revogação e rotação, sem seleção de time pelo pacote. A DTO public factory ficou `pub(crate)`; JSON e SSE são emitidos apenas após autenticação; 10 testes Rust novos, 42 definidos, zero executados.
 - B02B segue IN_PROGRESS. É necessário integrar HTTP/TLS e gerar tokens por OS CSPRNG em servidor nativo de verdade, fazer certificação das 26 Node e paridade Rust/WASM. GitHub Actions reservados ao gate completo.
+
+### M45 B02B-I12 — segurança entre salas e rotação de credencial (2026-10-30)
+
+- I11 permitia `public_json` contra snapshot de sala diferente e `rotate` sem alterar credencial. I12 aplica gate por `room_id` server-owned, bloqueia mundos sem sala e exige token novo. 5 testes Rust novos, total 47 declarados, 0 executados.
+- B02B continua IN_PROGRESS; não declarar G3 nem HTTP PASS. CI/Actions somente no checkpoint final aprovado.

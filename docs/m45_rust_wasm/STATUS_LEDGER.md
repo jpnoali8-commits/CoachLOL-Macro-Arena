@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I11 fronteira Rust de sessão/token por assento antes de JSON/SSE (não compilada).
+**Atualizado:** 2026-10-30, B02B-I12 vínculo obrigatório sala/snapshot/sessão e rotação de token fail-closed (Rust não compilado).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -224,3 +224,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - `SeatPublicProjection` e `from_private` passaram a `pub(crate)`, restringindo o bypass direto da projeção fora do core-state. A entrada pública destinada a outros crates é o `SessionGate` autenticado. Não há conversão de estado privado bruto em eventos públicos fora da allowlist.
 - 10 testes unitários Rust novos escritos (total **42**, executados **0**), cobrindo autorização por time, erros de credencial, revogação, rotação, rejeição de tokens inseguros, privacidade de eventos e payloads.
 - Nenhuma Action disparada manualmente, engine JS/skills/items intactos, PR #19 Draft sem merge. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN; 26 suítes Node e HTTP/SSE reais NOT_RUN.
+
+## M45 B02B-I12 — bloquear cross-room projection e rotação sem troca (2026-10-30)
+
+- Problema encontrado em I11: `SessionGate` autenticava o lado, mas aceitava `ServerSkillWorld` arbitrário, mesmo de outra sala. Corrigido com `room_id` server-owned em `ServerSkillWorld::from_authoritative_units_in_room` e `SessionGate`; `public_json`/`sse_frame` exigem correspondência de sala após autenticação. Snapshots antigos sem sala nunca são publicáveis pelo gate.
+- Rotação de token igual ao próprio token atual, antes aceita, agora retorna InvalidTokenMaterial (além da colisão com o time oposto). Falhas não modificam tokens já válidos.
+- Cinco testes Rust acrescentados (total **47** definidos, **0 executados**): cross-room azul/vermelho, snapshot sem sala, rotação igual, room ID inválido, reconexão entre salas. Os dez testes I11 foram adaptados para fornecer sala server-owned.
+- `cargo/rustc/rustfmt` indisponíveis localmente, WASM e HTTP/SSE nativos NOT_RUN. Nenhuma Action manual. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN. Ainda faltam servidor real, CSPRNG, HTTP session binding, 26 Node suites e efeitos autorais.

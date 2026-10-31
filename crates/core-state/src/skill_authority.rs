@@ -44,6 +44,7 @@ pub enum WorldSnapshotError {
     InvalidUnitId,
     DuplicateUnitId,
     InvalidRange,
+    InvalidRoomId,
 }
 
 /// Immutable-at-ingress snapshot, built from the authoritative match actor.
@@ -51,6 +52,9 @@ pub enum WorldSnapshotError {
 #[derive(Debug, Clone)]
 pub struct ServerSkillWorld {
     tick: u64,
+    // None is allowed only in legacy standalone fixtures. Session-gated
+    // publication ALWAYS requires a nonempty room binding.
+    room_id: Option<String>,
     units: HashMap<String, ServerUnitSnapshot>,
 }
 
@@ -72,7 +76,26 @@ impl ServerSkillWorld {
                 return Err(WorldSnapshotError::DuplicateUnitId);
             }
         }
-        Ok(Self { tick, units: by_id })
+        Ok(Self { tick, room_id: None, units: by_id })
+    }
+
+    /// Only the trusted native server constructs this room-bound match
+    /// snapshot. A client MUST NOT supply room identity or any snapshot bytes.
+    pub fn from_authoritative_units_in_room(
+        room_id: &str,
+        tick: u64,
+        units: impl IntoIterator<Item = ServerUnitSnapshot>,
+    ) -> Result<Self, WorldSnapshotError> {
+        if room_id.is_empty() || room_id.len() > MAX_ID_BYTES {
+            return Err(WorldSnapshotError::InvalidRoomId);
+        }
+        let mut world = Self::from_authoritative_units(tick, units)?;
+        world.room_id = Some(room_id.to_owned());
+        Ok(world)
+    }
+
+    pub(crate) fn source_room_id(&self) -> Option<&str> {
+        self.room_id.as_deref()
     }
 
     fn unit(&self, id: &str) -> Option<&ServerUnitSnapshot> {
