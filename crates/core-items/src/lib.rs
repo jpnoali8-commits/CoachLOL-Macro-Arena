@@ -2,6 +2,7 @@
 //! Partial port: not gameplay authority until shared contracts/core-combat exist.
 mod catalog;
 mod stats;
+pub mod active_items;
 pub use stats::{item_stats, ItemStatSpec, ITEM_STATS};
 pub use catalog::{item, ItemSpec, CATALOG};
 

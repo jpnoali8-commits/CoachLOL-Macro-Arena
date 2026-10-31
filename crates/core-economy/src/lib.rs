@@ -10,6 +10,7 @@
 //! and reject/rollback the entire transaction if item stat application fails.
 use coachlol_core_items::{consumed_components, item, purchase_cost, ItemSpec};
 pub mod transaction;
+pub mod active_items;
 
 pub const INVENTORY_CAP: usize = 6;
 pub const UNDO_CAP: usize = 16;

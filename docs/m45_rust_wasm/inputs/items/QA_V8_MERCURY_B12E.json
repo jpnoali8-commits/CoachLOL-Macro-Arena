@@ -1,0 +1,46 @@
+{
+  "schema": "coachlol.m45.items.b12e.mercury.v1",
+  "date": "2026-10-30",
+  "frozen_source": "engine.mjs@e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+  "method": "Actual Arena.activateItemV453Dev59 and EffectResolverV41.remove executed in isolated V8",
+  "source": {
+    "scenarios": 28,
+    "teams": 2,
+    "item_ids": [
+      "quicksilver_sash",
+      "mercurial_scimitar"
+    ],
+    "steps": 112,
+    "accepted": 64,
+    "rejected": 48,
+    "errors": 0
+  },
+  "rust": {
+    "crates": [
+      "core-items",
+      "core-economy"
+    ],
+    "new_tests_written": 5,
+    "cargo_test": "NOT_RUN",
+    "rustfmt": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "native_server": "NOT_RUN"
+  },
+  "covered": [
+    "13 removable CC",
+    "suppression",
+    "knockup remains",
+    "phase and decision ACL",
+    "90s cooldown",
+    "sprint 25pct 1.5s",
+    "expired CC source behavior"
+  ],
+  "uncovered": [
+    "combat passives",
+    "full actor integration",
+    "snapshot/ACK idempotence",
+    "session auth",
+    "other active items"
+  ],
+  "no_actions": true
+}
