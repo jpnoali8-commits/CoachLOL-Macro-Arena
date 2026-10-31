@@ -168,3 +168,15 @@ Matriz S10 original intacta (**22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN; Node original
 - `S18_PVP_ROOM_IDENTITY_V8_RECEIPT.json`, `S18_STATIC_CONTRACT_RECEIPT.json`, `M45_B02_S18_HANDOFF.md` guardam as evidências. `s18_validate_pvp_room_identity.mjs` V8 **76/76 verificações estáticas PASS**.
 
 S10 original permanece **22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN**, full Node 0/26. Rust native/WASM/real HTTP/SSE NOT_RUN; G8 NOT_CERTIFIED. Sem Actions/merge/edição da engine original.
+
+
+## M45 B02 Skills S19 — original combat hit and HTTP/SSE source route QA
+
+- `s19_real_impact_server_route_sse_v8.mjs` executed original Arena damage/duel/reaction, original `PvPRoomV453Dev47`, original PvP HTTP handlers from `server_v453_dev47.mjs` using an **in-memory HTTP transport and synthetic two-token registry**: **161/161 actual V8 assertions PASS**, 4 scenarios (blue/red defender, disguised Neeko or cloned Shaco). These PASSes reproduce the legacy privacy bug, not desired Rust behavior or actual HTTP network E2E.
+- The original handlers processed **20 GET /api/session**, **12 GET /api/stream subscriptions**, **12 POST /api/action** across those 4 fixtures. The visible enemy has opaque `appearance_*` alias, but the **room/session/SSE decision metadata leaks its real `red_TOP/red_MID/blue_TOP/blue_MID` ID** even after the combat reveal expires and after the source room restores a checkpoint.
+- The gateway still **rejects** forged attacker stable IDs with HTTP-handler 409 `alvo_identidade_oculta` and **accepts** currently authorized alias reactions with 200; idempotent retries do not redispatch. These are source gateway properties, not evidence that information exposure is safe.
+- `s19_native_node_http_sse.test.mjs` is a separate **actual local-socket Node ≥22 test prepared but NOT_RUN**. It will use real localhost TCP, cookie SHA-256, HTTP response, SSE initial event and real original server when a full checkout is available. It does not modify gameplay or require GitHub Actions.
+- `s19_http_sse_reaction_privacy_gate.rs` defines a narrow **Rust source-only public projection implementation**, real runner contract (4 bilateral HTTP/SSE cases), 10 negative security gates, and 5 Rust tests written / **0 executed**. No `core-protocol`/`core-server` crate or Rust toolchain yet.
+- Evidence `S19_REAL_IMPACT_HTTP_SSE_V8_RECEIPT.json`, `M45_B02_S19_HANDOFF.md`, `S19_STATIC_CONTRACT_RECEIPT.json`. `s19_validate_impact_http_sse.mjs` passed **97/97 original-source cross-pin static assertions** in V8.
+
+Source S10 matrix unchanged (**22 PASS, 2 FAIL, 2 NOT_RUN out of 26 isolated V8 suites**). Rust native, WASM, full original Node ESM and actual network HTTP/SSE NOT_RUN; G8 NOT_CERTIFIED. No manual Actions, merge or frozen source modifications.
