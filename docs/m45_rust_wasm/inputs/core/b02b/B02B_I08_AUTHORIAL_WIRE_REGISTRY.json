@@ -1,0 +1,64 @@
+{
+  "schema": "coachlol.m45.b02b.i08.private-authorial-wire-registry.v1",
+  "status": "PARTIAL_RUST_SOURCE_NOT_EXECUTED",
+  "source": {
+    "skills_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "gateway_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "client_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_blob": "61f9d941852b6378bccccf8956aa699e8761836d"
+  },
+  "entries": [
+    {
+      "champion": "Nami",
+      "slot": "W",
+      "shape": "target_any",
+      "source_kind": "board_effect",
+      "rust_entry": "skill_wire::known_authored_shape",
+      "runtime_effect": "NOT_MIGRATED",
+      "client_target_button": "NOT_RECONCILED"
+    },
+    {
+      "champion": "Ahri",
+      "slot": "E",
+      "shape": "line_enemy",
+      "source_kind": "board_effect",
+      "rust_entry": "skill_wire::known_authored_shape",
+      "runtime_effect": "NOT_MIGRATED",
+      "client_route": "NOT_RECONCILED"
+    }
+  ],
+  "authored_m44_unmapped_count": 14,
+  "authored_m44_unmapped": [
+    "Bard",
+    "AurelionSol",
+    "Anivia",
+    "Kalista",
+    "Leblanc",
+    "Jayce",
+    "Rumble",
+    "Taliyah",
+    "Lissandra",
+    "Ekko",
+    "Zed",
+    "Katarina",
+    "Nami",
+    "Azir"
+  ],
+  "rules": [
+    "Only explicit source-reconciled (champion,slot) mappings",
+    "No shape from client",
+    "No fallback for other slots",
+    "Server facts are trusted only when constructed inside native actor",
+    "Original cached ACK precedes new readiness checks",
+    "No gameplay or HTTP endpoint migration in I08"
+  ],
+  "qa": {
+    "rust_tests_defined": 15,
+    "rust_tests_executed": 0,
+    "legacy_node_suites_executed": 0,
+    "wasm": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "actions_manually_requested": 0
+  }
+}

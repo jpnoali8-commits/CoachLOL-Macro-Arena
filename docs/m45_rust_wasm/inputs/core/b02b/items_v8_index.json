@@ -1,0 +1,87 @@
+{
+  "schema": "coachlol.m45.items.v8.consolidated_qa.b05.v1",
+  "date": "2026-10-30",
+  "origin": {
+    "items_branch": "dev69/items-batch2",
+    "items_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "integration_commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d"
+  },
+  "test_platform": {
+    "environment": "V8 Code Mode isolate",
+    "engine_loading": "GitHub connector fetch engine.mjs UTF-8, remove top-level export lexemes only, compile with JavaScript Function; inject actual archived map/mask JSON; authored cases translate Node I/O boundaries for local V8 harness",
+    "source": "ORIGINAL JS engine and actual gateway class methods; behavior executed, not static simulation",
+    "caveats": [
+      "Not literal Node ESM execution of .test.mjs files",
+      "PVP gateway exercised as class via structuredClone shim; NO real room/node:crypto/HTTP/cookies",
+      "No browser/WASM, no cargo/rustc in executor",
+      "No actual release certification G8"
+    ]
+  },
+  "results": {
+    "planned": 299,
+    "observed": 299,
+    "positive": 297,
+    "expectedDenials": 2,
+    "errors": 0,
+    "v8_behavior_status": "PASS_WITH_KNOWN_PVP_GAP",
+    "deterministic_replay": {
+      "case_pairs": 244,
+      "repeat_executions": 488,
+      "checksum_matches": 244,
+      "differences": 0
+    },
+    "gateway_gap": {
+      "severity": "P1",
+      "finding": "item.trinket command denied; item.buy and item.queue denied",
+      "reproduced_team_count": 2,
+      "meaning": "Expected denials are PASS of negative legacy-gate tests, FAILURE of user-facing trinket functionality in the legacy PvP route"
+    }
+  },
+  "receipt_files": [
+    {
+      "path": "docs/m45_rust_wasm/inputs/items/QA_V8_CATALOG_B05.json",
+      "git_blob_sha": "b98f3879fd5118f00aa85615fc4622dfb3d11333",
+      "bytes": 204731
+    },
+    {
+      "path": "docs/m45_rust_wasm/inputs/items/QA_V8_EFFECTS_B05.json",
+      "git_blob_sha": "be04c91bd9bb77a97b060116644efe047e5a7235",
+      "bytes": 35072
+    },
+    {
+      "path": "docs/m45_rust_wasm/inputs/items/QA_V8_ECONOMY_B05.json",
+      "git_blob_sha": "b9ec4f1e3ef9bc83589b081fe454e5114d9cf164",
+      "bytes": 4225
+    },
+    {
+      "path": "docs/m45_rust_wasm/inputs/items/QA_V8_TRINKET_PVP_B05.json",
+      "git_blob_sha": "384d6c64f245cade000956555d256793536d44ff",
+      "bytes": 6227
+    },
+    {
+      "path": "docs/m45_rust_wasm/inputs/items/QA_V8_DETERMINISM_B05.json",
+      "git_blob_sha": "a376eb7e4b6f771377d7feea3e427ab7cc3a2d74",
+      "bytes": 61023
+    }
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "PARTIAL_SOURCE_JS_ONLY",
+    "G3": "PARTIAL_GATEWAY_CLASS_ONLY",
+    "G6": "PARTIAL_SOURCE_JS_ONLY",
+    "G8": "NOT_CERTIFIED"
+  },
+  "rust": {
+    "core_items": "NOT_IMPLEMENTED",
+    "core_economy": "NOT_IMPLEMENTED",
+    "no_legacy_js_changes": true
+  },
+  "no_claims": [
+    "This report is NOT native Node suite pass",
+    "No Rust tests/compiled wasm were run",
+    "Expected denials are not confirmation of functional trinket PvP",
+    "No assertions about other champion/item cross interactions"
+  ]
+}

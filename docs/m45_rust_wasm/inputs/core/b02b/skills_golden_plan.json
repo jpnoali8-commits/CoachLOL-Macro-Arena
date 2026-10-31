@@ -1,0 +1,518 @@
+{
+  "schema": "coachlol.m45.skills.golden-plan.v1",
+  "source_branch": "dev69/skills-batch2",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_path": "engine.mjs",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "result_status": "NOT_RUN",
+  "note": "S08: 25 pinned test source candidates (including Nami W competing queues); all Node gameplay NOT_RUN, only local script syntax + isolated JS <=undefined demonstration executed. No Rust native or WASM parity.",
+  "suites": [
+    {
+      "id": "realm_mordekaiser",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_realm_hardening_m14.test.mjs",
+      "test_git_blob_sha": "51ae8aa59b7fb6e1f7b1ab6a2f51d3e50836afb3",
+      "seeds": [
+        69148
+      ],
+      "bilateral_in_source": true,
+      "contract": "Mordekaiser realm, isolated combat and restore",
+      "expected_output_marker": "DEV69 REALM HARDENING M14",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "neeko_shaco_clones",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_clones_m15.test.mjs",
+      "test_git_blob_sha": "a5ce2444d721960c80554c8d0e231b0ec75fe7a2",
+      "seeds": [
+        6915
+      ],
+      "bilateral_in_source": true,
+      "contract": "Neeko appearance and shoma, Shaco clone, fog",
+      "expected_output_marker": "DEV69 M15 CLONES",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "sylas_viego_original",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b14d_shared_original_sylas_viego_pvp.test.mjs",
+      "test_git_blob_sha": "c720308368d3ce474f2d5eae767b4f849ad05a37",
+      "seeds": [
+        144914
+      ],
+      "bilateral_in_source": true,
+      "contract": "Sylas original R delegation and Viego donor P/QWE but native R",
+      "expected_output_marker": "M44_B14D_COPY",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "terrain_recasts",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b18_shared_terrain_recast_interception_pvp.test.mjs",
+      "test_git_blob_sha": "1c79d95aa4396c604278192a73ab887973273d79",
+      "seeds": [
+        18180
+      ],
+      "bilateral_in_source": true,
+      "contract": "Shared terrain obstacle and recast, two PvP seats",
+      "expected_output_marker": "M44_B18",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "katarina_ballistic",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b31b_katarina_ballistic_ricochet_pvp.test.mjs",
+      "test_git_blob_sha": "5fd8a6cd5b1991ba8bf76f1b92debe3b9f94e8a2",
+      "seeds": [
+        31131
+      ],
+      "bilateral_in_source": true,
+      "contract": "Katarina Q ballistic ricochet, mana/CD and snapshots",
+      "expected_output_marker": "M44_B31B",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "twitch_borrowed_onhit",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b32b_twitch_borrowed_onhit_pvp.test.mjs",
+      "test_git_blob_sha": "371af239c1a2911eb94495cdebc4c3cba128ace1",
+      "seeds": [
+        32323
+      ],
+      "bilateral_in_source": true,
+      "contract": "Twitch R piercing, Sylas stolen interactions, realm",
+      "expected_output_marker": "M44_B32B_PASS",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "sion_ornn_yasuo",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b33a_three_champions_qw_authorial_pvp.test.mjs",
+      "test_git_blob_sha": "a0855ca4c8b2bf3f763f27dde706803d08b5da64",
+      "seeds": [
+        333301
+      ],
+      "bilateral_in_source": true,
+      "contract": "Sion/Ornn/Yasuo Q/W authorial identities, Viego donor and snapshots",
+      "expected_output_marker": "M44_B33A_PASS",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "neeko_nidalee",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b11_nidalee_neeko_interactions.test.mjs",
+      "test_git_blob_sha": "f9df2c234d990a608cfaf8eabb4e039a0dedf15a",
+      "seeds": [
+        441122
+      ],
+      "bilateral_in_source": true,
+      "contract": "Neeko clone and Nidalee special interactions",
+      "expected_output_marker": "M44_B11_HUNTED_CLONE",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "channels",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b22_channel_interrupt_delivery_pvp.test.mjs",
+      "test_git_blob_sha": "5602ae51c2751f67bb80ca11ad27d1ee4933301a",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Channel cancellation and delayed attacks in both teams",
+      "expected_output_marker": "M44_B22",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "global_ultimates",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_global_ult_m14.test.mjs",
+      "test_git_blob_sha": "cd92e0675d81643ed5ac350f109fdd9ed5396c08",
+      "seeds": [
+        6918
+      ],
+      "bilateral_in_source": true,
+      "contract": "Global legacy ultimate casting and delayed effects",
+      "expected_output_marker": "DEV69 GLOBAL M14",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "captured before/after snapshots, event order, both player perspectives and Rust parity"
+    },
+    {
+      "id": "precedence_blue_red",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/precedence_blue_red.test.mjs",
+      "test_git_blob_sha": "501773e40e0866129b274c734626ec73eb371047",
+      "seeds": [
+        450204
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nidalee human/cougar W, Elise QWER forms, Gnar mini/mega QWER, Shyvana E both forms, Nami W and V42/V382 route, mirror seat, snapshot",
+      "expected_output_marker": "M45_SKILLS_PRECEDENCE 2/2",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Node execution and authorial cast/impact snapshots per seat, Rust parity."
+    },
+    {
+      "id": "v42_multi_m1",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m1.test.mjs",
+      "test_git_blob_sha": "4b83e77fcec7f0203f7748f10fb49e7e6e13bdb1",
+      "seeds": [
+        6920
+      ],
+      "bilateral_in_source": true,
+      "contract": "Vex/Nami stateful QWER authorial actions",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M1 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m2",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m2.test.mjs",
+      "test_git_blob_sha": "620fac6714ab1097594a615085fa95add56920ef",
+      "seeds": [
+        6922
+      ],
+      "bilateral_in_source": true,
+      "contract": "Lux and allied skill projectile/mark interactions",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M2 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m3",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m3.test.mjs",
+      "test_git_blob_sha": "a93f9767f451392bfd7baa1cdbca7cfa58378921",
+      "seeds": [
+        6931
+      ],
+      "bilateral_in_source": true,
+      "contract": "Lux W/E/R commit/projectile/zone coverage",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M3 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m4",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m4.test.mjs",
+      "test_git_blob_sha": "53b3d221af5c48519297a7fcf21f68daacf9c342",
+      "seeds": [
+        6944
+      ],
+      "bilateral_in_source": true,
+      "contract": "Ahri P/W/R original owner/cooldown",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M4 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m5",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m5.test.mjs",
+      "test_git_blob_sha": "7082cbb1795c9a70c7ed9e24a35583539f4df996",
+      "seeds": [
+        6955
+      ],
+      "bilateral_in_source": true,
+      "contract": "Jinx P/Q/E/R projectile and traps",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M5 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m6",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m6.test.mjs",
+      "test_git_blob_sha": "1076d2f961de36756c01eaa225dffd2b1cb85840",
+      "seeds": [
+        6966
+      ],
+      "bilateral_in_source": true,
+      "contract": "Ahri return and Jinx traps with snapshots",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M6 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "v42_multi_m7",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_multi_champions_m7.test.mjs",
+      "test_git_blob_sha": "ee9451a05ea974649e8cf23381cfbcb462fcc852",
+      "seeds": [
+        6977,
+        6978
+      ],
+      "bilateral_in_source": true,
+      "contract": "Seven champions P/QWER and Ezreal Irelia interop",
+      "expected_output_marker": "DEV69 MULTI CHAMPIONS M7 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "nami_vex_batch2",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/v453_dev69_skills_batch2.test.mjs",
+      "test_git_blob_sha": "2bbb0117afa91454c138442a9b021b08d2d67d9a",
+      "seeds": [
+        692
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami R passive + Vex R2 PvP gateway, snapshot, reconnect",
+      "expected_output_marker": "DEV69 BATCH2 ",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Collect actual Node output and snapshots per seat; Rust parity NOT_RUN."
+    },
+    {
+      "id": "s06_nami_q",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s06_nami_q_pvp.test.mjs",
+      "test_git_blob_sha": "6afedff84107a7595f8d94600fe491984a196ac8",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450206
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami Q queue, damage, stun mismatch, shield, snapshot, both owners",
+      "expected_output_marker": "M45_S06_NAMI_Q",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b20_mobile_barrier",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b20_mobile_barriers_dash_interception_pvp.test.mjs",
+      "test_git_blob_sha": "0832fcfa45c0b64bc0bad1a918c6e4eb26af8275",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Mobile barrier and dash interception PvP",
+      "expected_output_marker": "M44_B20",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b21_projectile_interception",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b21_shared_projectile_interception_pvp.test.mjs",
+      "test_git_blob_sha": "f9caf7fe9bcc79a8d11c6fd5c72d760a137cfaea",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20200
+      ],
+      "bilateral_in_source": true,
+      "contract": "Shared projectile interception PvP",
+      "expected_output_marker": "M44_B21",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "m44_b23_charge_realm",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "tests/audit/v453_m44_b23_authored_charge_windup_realm_pvp.test.mjs",
+      "test_git_blob_sha": "b4ac517c332dd531bff0ff0fadbf8a64e59fd156",
+      "test_source_branch": "dev69/skills-batch2",
+      "seeds": [
+        20230
+      ],
+      "bilateral_in_source": true,
+      "contract": "Charged windups and realm ownership PvP",
+      "expected_output_marker": "M44_B23",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution, captured snapshots/events/perspectives, Rust native/WASM parity"
+    },
+    {
+      "id": "s07_nami_routes",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s07_capture_nami_routes.mjs",
+      "test_git_blob_sha": "44cae7670f3fbe34f8a7888d9d4f2b8d98bce117",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450207
+      ],
+      "bilateral_in_source": true,
+      "contract": "Pin legacy Nami Q/W-targeted/W-board/R-temporal; 8 real snapshot+event+blue/red views traces on local Node execution, after source-hash check; do not certify LoL/Rust",
+      "expected_output_marker": "M45_S07_NAMI_ROUTES",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "actual Node execution and captured receipts; Nami W bounce bug and Rust native/WASM parity"
+    },
+    {
+      "id": "s08_nami_w_coqueued",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "test_path": "docs/m45_rust_wasm/inputs/skills/s08_nami_w_routes.test.mjs",
+      "test_git_blob_sha": "3f6e443c13d2ef710c44ef9fecce126a1688d190",
+      "test_source_branch": "dev69/m45-audit-skills",
+      "seeds": [
+        450208
+      ],
+      "bilateral_in_source": true,
+      "contract": "Nami W V42 targeted vs M44 board + two concurrent queue channels; prove one debit and record stale pending/ricochet differences in original JS; both seats.",
+      "expected_output_marker": "M45_S08_NAMI_W",
+      "expected_result": "process_exit_0_and_source_assertions",
+      "expected_snapshot_sha256": null,
+      "expected_events": null,
+      "expected_player_views": null,
+      "status": "SPEC_ONLY_NOT_RUN",
+      "run_result": null,
+      "missing_evidence": "Node full engine execution, captured W six-case receipt, true fog and network, Rust native/WASM comparator"
+    }
+  ]
+}

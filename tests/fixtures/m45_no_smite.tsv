@@ -1,0 +1,19 @@
+# seed	camp	spawn	tick	blue	red	hash	winner (dash=no contest)
+26	camp_dragon	1	10	3	2	1236854040	blue
+26	camp_dragon	1	11	3	2	1253631659	blue
+26	camp_dragon	2	10	3	2	4063073475	red
+42	camp_baron	4	119	1	5	2597328622	red
+42	camp_baron	4	120	5	1	2580698098	blue
+0	voidgrubs	0	0	2	2	3367123298	red
+4294967295	rift_herald	17	999	4	4	2955158961	red
+987654321	elder	3	550	1	1	1532003491	blue
+987654321	elder	3	551	1	1	1515225872	blue
+314	dragão	1	30	2	4	2276625089	red
+315	elder🐉	2	40	5	5	2842739212	red
+-1	camp-α	0	-12	1	2	1796771818	red
+2147483647	camp_blue	1	1	0	2	-	-
+2147483647	camp_blue	1	1	5	0	-	-
+100	camp_red	1	1	-10	9	-	-
+100	camp_red	1	1	7	2	226465821	blue
+11	drake	2	3	1	4	3985171205	red
+11	drake	2	3	4	1	3985171205	red

@@ -1,0 +1,78 @@
+{
+  "schema": "coachlol.m45.b02b.skill-wire-routing-contract.v1",
+  "source": {
+    "skills_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "gateway_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "client_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_blob": "61f9d941852b6378bccccf8956aa699e8761836d"
+  },
+  "evidence": {
+    "gateway_v8_blob": "30375b17c600b65eef953988f149c6408c588da1",
+    "catalog_static_v8_blob": "4dec9b0da3e40252b1929217f87455652fa05ff8",
+    "nami_dual_internal_v8_blob": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+    "skills_s10_v8_receipt_blob": "a6a47d1eeb99da16531e9dbf4c1d73b6f54a73fa",
+    "skills_s11_rust_arbiter_contract_blob": "d94fac7d4fbe755f950d800a0ac2a5b5abe82915"
+  },
+  "present_behavior": {
+    "NamiW": {
+      "gateway_single_targeted": "PASS_BLUE_RED",
+      "other_gateway_routes": "DENY_6_6",
+      "normal_target_selection": "NO_AUTHORED_NAMI_W_IN_LEGACY_BOARD_KITS",
+      "dual_internal_queues": "GHOST_CAST_REPRODUCED_4_4",
+      "targeted_plus_combo": "FIRST_AND_NEXT_COOLDOWN_NO_SECOND_MANA_DEBIT_4_4_WITH_SYNTHETIC_WORLD"
+    },
+    "AhriE": {
+      "authored_executor": "BOARD_EFFECT_EXISTS",
+      "normal_gateway": [
+        "directional",
+        "ground",
+        "targeted"
+      ],
+      "status": "DENIED_6_6",
+      "manual_internal_board": "SUCCEEDS_IN_SPECIALIST_S11_V8"
+    },
+    "catalog": {
+      "old_board_kit_champions": 30,
+      "additional_M44_B13_authored": 14,
+      "overlap": 0,
+      "missing_from_kits_property": 14,
+      "other_server_fields": "specials/formKits/mechanicKits/entityKits may still cover selected abilities"
+    }
+  },
+  "required_rust": {
+    "registries": "Merge ALL source-authored registries by champion, slot, form, source precedence and explicit exceptions; emit complete public filtered kit descriptors to client from same server authoring authority; do not silently expose incomplete kits.",
+    "wire": "One typed action per authenticated actor+slot with shape target_any / target_enemy / target_ally / line_enemy / cone_enemy / self / point / recast; explicit handling of Ahri E and Nami W. Do not convert unsupported shapes to skill.ground or directional blindly.",
+    "authorization": "Derive seat/owner/5 units on Rust game-server; validate target team, fog, realm, range, rank, CC, phase and resource server-side; return public DTO whitelist, no enemy state or RNG.",
+    "concurrency": "Atomic admission before seal and single primary spell intent per slot/cast_instance; idempotent request IDs; reject competing queue or explicit versioned replacement; retire stale target/board pending when one wins; genuine fresh W after cooldown allowed; authored recasts preserve their own transitions.",
+    "economics": "Charge mana/cooldown once on real cast; gateway rejection leaves no pending intent, action receipt, or resource mutation; ACK replay identical after reconnect.",
+    "public_client": "GUI reads only filtered Rust-issued descriptors; targeted input enabled for target_any with team validation; generated request is routed to the same authored Rust executor as internal combo/board/targeted.",
+    "tests": [
+      "Blue/red normal Nami W ally/enemy targets and forbidden target both paths",
+      "Blue/red Ahri E GUI-like cast creates one temporal projectile",
+      "Blue/red Nami W conflicting requests and cooldown expiry cannot ghost-cast",
+      "Blue/red planned combo W + targeted W + idempotent retries cannot double-debit",
+      "All 14 M44 B13 authorial kits publish accurate server/client descriptors with slot coverage (validate effects only where implemented)",
+      "SSE room projection hides private intents and events",
+      "Snapshot and reconnect replay identical ack without duplicate cast"
+    ]
+  },
+  "status": "PROPOSED_CONTRACT_NOT_IMPLEMENTED",
+  "qa": {
+    "isolated_v8_gateway_cases": 18,
+    "isolated_v8_accepted_route_cases": 2,
+    "isolated_v8_denied_route_cases": 12,
+    "isolated_v8_combo_sequences": 4,
+    "full_node_suite": "NOT_RUN",
+    "actual_http": "NOT_RUN",
+    "rust_compilation_this_change": "NOT_RUN",
+    "actions_triggered": 0
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "PARTIAL_BASELINE_ONLY",
+    "G3": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G8": "NOT_RUN"
+  }
+}

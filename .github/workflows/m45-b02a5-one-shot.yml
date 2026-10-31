@@ -1,0 +1,71 @@
+name: M45 B02A7 Rustfmt correction and Rust/WASM verification (one-shot)
+on:
+  push:
+    branches:
+      - dev69/rust-core-m45
+    paths:
+      - docs/m45_rust_wasm/qa/trigger_b02a5.txt
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coachlol-m45-b02a7-once
+  cancel-in-progress: false
+
+jobs:
+  format-then-native-wasm:
+    name: Format only core-state and run real Rust/WASM checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Rust branch (no other branches modified)
+        uses: actions/checkout@v4
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned Rust 1.85.1 and wasm32 target
+        run: |
+          rustup toolchain install 1.85.1 --profile minimal --component rustfmt,clippy --target wasm32-unknown-unknown
+          rustup default 1.85.1
+          rustc --version
+          cargo --version
+          rustup target list --installed
+      - name: Apply rustfmt to the only audited Rust crate and safely publish
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          test "$(git branch --show-current)" = "dev69/rust-core-m45"
+          cargo fmt --all
+          git diff --check
+          unexpected="$(git diff --name-only | grep -v '^crates/core-state/src/lib.rs$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "M45 ERROR: rustfmt touched unexpected paths: $unexpected"
+            exit 1
+          fi
+          if ! git diff --quiet -- crates/core-state/src/lib.rs; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add crates/core-state/src/lib.rs
+            git commit -m "M45 B02A7: apply rustfmt 1.85.1 to B01 core-state"
+            # Normal fast-forward only: abort if another writer changed the branch.
+            git push origin HEAD:refs/heads/dev69/rust-core-m45
+          fi
+          git log -1 --format=%H > artifacts/verified_commit_sha.txt
+          git diff --exit-code -- crates/core-state/src/lib.rs
+          cargo fmt --all --check
+      - name: Execute actual G1 native and WASM baseline
+        run: |
+          mkdir -p artifacts
+          node tools/m45_qa_evidence.mjs --receipt artifacts/m45-qa.json
+      - name: Upload exact commit SHA and QA receipt regardless of failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m45-b02a7-rust-wasm-qa
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7

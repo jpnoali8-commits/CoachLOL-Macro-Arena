@@ -1,0 +1,19 @@
+{
+  "schema": "coachlol.m45.b02b.i14.codespace-plan.v1",
+  "base": "2776371ce8fa07006c5bcfc96ddb514eada66ad4",
+  "branch": "dev69/rust-core-m45",
+  "status": "PUBLISHED_NOT_EXECUTED",
+  "tool": "tools/m45_b02b_i14_codespace_qa.mjs",
+  "checks": [
+    "node_source_contract",
+    "node_m45_audits",
+    "rust_unit_tests",
+    "rust_fmt",
+    "rust_clippy",
+    "wasm_build",
+    "wasm_smoke"
+  ],
+  "native_rust": "NOT_RUN",
+  "no_github_actions": true,
+  "tests_declared": 54
+}

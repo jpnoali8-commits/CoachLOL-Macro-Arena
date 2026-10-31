@@ -1,0 +1,563 @@
+{
+  "schema": "coachlol.m45.b02b.gateway-skills-reachability.v1",
+  "date": "2026-10-30",
+  "source": {
+    "skills_branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "gateway_sha": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "gateway_dev47_sha": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+    "map_sha": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_sha": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+  },
+  "mode": {
+    "runtime": "ACTUAL_ARENA_AND_GATEWAY_CLASSES_ISOLATED_V8",
+    "source_transform": "strip ESM import/export lexemes; structuredClone JSON-compatible shim",
+    "visibility": "FORCED_VISIBLE_TRUE",
+    "duelPermission": "FORCED_TRUE",
+    "server_http": "NOT_RUN",
+    "node_module_loader": "NOT_RUN",
+    "rust": "NOT_RUN",
+    "wasm": "NOT_RUN"
+  },
+  "routes": [
+    {
+      "id": "Nami-blue-targeted",
+      "team": "blue",
+      "champ": "Nami",
+      "route": "targeted",
+      "kind": "skill.targeted",
+      "ack": {
+        "ok": true,
+        "sequence": 1,
+        "revision": 1,
+        "unitId": "blue_MID",
+        "kind": "skill.targeted"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": true
+      },
+      "mana_after_resolution": 930,
+      "ally_hp_after_resolution": 515,
+      "checksums": {
+        "before": "b13211e2",
+        "afterQueue": "543e12e0",
+        "after": "fb876fa0"
+      }
+    },
+    {
+      "id": "Nami-blue-ground",
+      "team": "blue",
+      "champ": "Nami",
+      "route": "ground",
+      "kind": "skill.ground",
+      "ack": {
+        "ok": false,
+        "reason": "kit_não_suportado"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "b13211e2",
+        "afterQueue": "b13211e2",
+        "after": "b13211e2"
+      }
+    },
+    {
+      "id": "Nami-blue-directional",
+      "team": "blue",
+      "champ": "Nami",
+      "route": "directional",
+      "kind": "skill.directional",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "b13211e2",
+        "afterQueue": "b13211e2",
+        "after": "b13211e2"
+      }
+    },
+    {
+      "id": "Nami-blue-self",
+      "team": "blue",
+      "champ": "Nami",
+      "route": "self",
+      "kind": "skill.self",
+      "ack": {
+        "ok": false,
+        "reason": "kit_não_suportado"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "b13211e2",
+        "afterQueue": "b13211e2",
+        "after": "b13211e2"
+      }
+    },
+    {
+      "id": "Ahri-blue-directional",
+      "team": "blue",
+      "champ": "Ahri",
+      "route": "directional",
+      "kind": "skill.directional",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "538cdbb2",
+        "afterQueue": "538cdbb2",
+        "after": "538cdbb2"
+      }
+    },
+    {
+      "id": "Ahri-blue-ground",
+      "team": "blue",
+      "champ": "Ahri",
+      "route": "ground",
+      "kind": "skill.ground",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "538cdbb2",
+        "afterQueue": "538cdbb2",
+        "after": "538cdbb2"
+      }
+    },
+    {
+      "id": "Ahri-blue-targeted",
+      "team": "blue",
+      "champ": "Ahri",
+      "route": "targeted",
+      "kind": "skill.targeted",
+      "ack": {
+        "ok": false,
+        "reason": "Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "538cdbb2",
+        "afterQueue": "538cdbb2",
+        "after": "538cdbb2"
+      }
+    },
+    {
+      "id": "Nami-red-targeted",
+      "team": "red",
+      "champ": "Nami",
+      "route": "targeted",
+      "kind": "skill.targeted",
+      "ack": {
+        "ok": true,
+        "sequence": 1,
+        "revision": 1,
+        "unitId": "red_MID",
+        "kind": "skill.targeted"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": true
+      },
+      "mana_after_resolution": 930,
+      "ally_hp_after_resolution": 515,
+      "checksums": {
+        "before": "2f2d551c",
+        "afterQueue": "91d69db1",
+        "after": "b00fa0fb"
+      }
+    },
+    {
+      "id": "Nami-red-ground",
+      "team": "red",
+      "champ": "Nami",
+      "route": "ground",
+      "kind": "skill.ground",
+      "ack": {
+        "ok": false,
+        "reason": "kit_não_suportado"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "2f2d551c",
+        "afterQueue": "2f2d551c",
+        "after": "2f2d551c"
+      }
+    },
+    {
+      "id": "Nami-red-directional",
+      "team": "red",
+      "champ": "Nami",
+      "route": "directional",
+      "kind": "skill.directional",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "2f2d551c",
+        "afterQueue": "2f2d551c",
+        "after": "2f2d551c"
+      }
+    },
+    {
+      "id": "Nami-red-self",
+      "team": "red",
+      "champ": "Nami",
+      "route": "self",
+      "kind": "skill.self",
+      "ack": {
+        "ok": false,
+        "reason": "kit_não_suportado"
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "2f2d551c",
+        "afterQueue": "2f2d551c",
+        "after": "2f2d551c"
+      }
+    },
+    {
+      "id": "Ahri-red-directional",
+      "team": "red",
+      "champ": "Ahri",
+      "route": "directional",
+      "kind": "skill.directional",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "9f51cd66",
+        "afterQueue": "9f51cd66",
+        "after": "9f51cd66"
+      }
+    },
+    {
+      "id": "Ahri-red-ground",
+      "team": "red",
+      "champ": "Ahri",
+      "route": "ground",
+      "kind": "skill.ground",
+      "ack": {
+        "ok": false,
+        "reason": "Ação direcional indisponível."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "9f51cd66",
+        "afterQueue": "9f51cd66",
+        "after": "9f51cd66"
+      }
+    },
+    {
+      "id": "Ahri-red-targeted",
+      "team": "red",
+      "champ": "Ahri",
+      "route": "targeted",
+      "kind": "skill.targeted",
+      "ack": {
+        "ok": false,
+        "reason": "Essa habilidade ainda não tem execução direcionada certificada. Use um kit auditado ou aguarde a implementação individual."
+      },
+      "retry_idempotent": true,
+      "pending_before_resolution": {
+        "board": false,
+        "targeted": false
+      },
+      "mana_after_resolution": 1000,
+      "ally_hp_after_resolution": 400,
+      "checksums": {
+        "before": "9f51cd66",
+        "afterQueue": "9f51cd66",
+        "after": "9f51cd66"
+      }
+    }
+  ],
+  "combo": [
+    {
+      "id": "blue-targeted_then_combo",
+      "team": "blue",
+      "kinds": [
+        "targeted",
+        "combo"
+      ],
+      "acks": [
+        {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "skill.targeted"
+        },
+        {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "order.combo"
+        }
+      ],
+      "before": {
+        "mana": 1000,
+        "checksum": "e367a994",
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "order": "attack"
+      },
+      "first": {
+        "mana": 930,
+        "checksum": "07b144a5",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 374
+      },
+      "later": {
+        "mana": 930,
+        "checksum": "f9e8f559",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 233,
+        "time": 10.25
+      },
+      "one_mana_debit": true,
+      "followup_mana_debit": false
+    },
+    {
+      "id": "blue-combo_then_targeted",
+      "team": "blue",
+      "kinds": [
+        "combo",
+        "targeted"
+      ],
+      "acks": [
+        {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "blue_MID",
+          "kind": "order.combo"
+        },
+        {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "blue_MID",
+          "kind": "skill.targeted"
+        }
+      ],
+      "before": {
+        "mana": 1000,
+        "checksum": "e367a994",
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "order": "attack"
+      },
+      "first": {
+        "mana": 930,
+        "checksum": "07b144a5",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 374
+      },
+      "later": {
+        "mana": 930,
+        "checksum": "f9e8f559",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 233,
+        "time": 10.25
+      },
+      "one_mana_debit": true,
+      "followup_mana_debit": false
+    },
+    {
+      "id": "red-targeted_then_combo",
+      "team": "red",
+      "kinds": [
+        "targeted",
+        "combo"
+      ],
+      "acks": [
+        {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "skill.targeted"
+        },
+        {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "order.combo"
+        }
+      ],
+      "before": {
+        "mana": 1000,
+        "checksum": "be37df77",
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "order": "attack"
+      },
+      "first": {
+        "mana": 930,
+        "checksum": "29754c7f",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 515
+      },
+      "later": {
+        "mana": 930,
+        "checksum": "f7bb421f",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 515,
+        "time": 10.25
+      },
+      "one_mana_debit": true,
+      "followup_mana_debit": false
+    },
+    {
+      "id": "red-combo_then_targeted",
+      "team": "red",
+      "kinds": [
+        "combo",
+        "targeted"
+      ],
+      "acks": [
+        {
+          "ok": true,
+          "sequence": 1,
+          "revision": 1,
+          "unitId": "red_MID",
+          "kind": "order.combo"
+        },
+        {
+          "ok": true,
+          "sequence": 2,
+          "revision": 2,
+          "unitId": "red_MID",
+          "kind": "skill.targeted"
+        }
+      ],
+      "before": {
+        "mana": 1000,
+        "checksum": "be37df77",
+        "pendingTargeted": true,
+        "pendingBoard": false,
+        "order": "attack"
+      },
+      "first": {
+        "mana": 930,
+        "checksum": "29754c7f",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 515
+      },
+      "later": {
+        "mana": 930,
+        "checksum": "f7bb421f",
+        "pendingTargeted": false,
+        "pendingBoard": false,
+        "order": "attack",
+        "allyHp": 515,
+        "time": 10.25
+      },
+      "one_mana_debit": true,
+      "followup_mana_debit": false
+    }
+  ],
+  "errors": [],
+  "totals": {
+    "routes": 14,
+    "combo": 4,
+    "accepted_routes": 2,
+    "denied_routes": 12,
+    "combo_second_debit": 0
+  }
+}

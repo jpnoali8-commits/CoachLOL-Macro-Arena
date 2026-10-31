@@ -1,0 +1,48 @@
+{
+  "schema": "coachlol.m45.b02b.i10.seat-projection-source-contract.v1",
+  "date": "2026-10-30",
+  "parent": "d75cb818533bf637979f9f48c3cb98d3041615e6",
+  "status": "RUST_SOURCE_DEFINED_NOT_COMPILED",
+  "source_modules": [
+    "crates/core-state/src/skill_authority.rs",
+    "crates/core-state/src/pvp_projection.rs"
+  ],
+  "allowed_public_unit_fields": [
+    "id",
+    "champion",
+    "team",
+    "x",
+    "y",
+    "alive",
+    "ownMana_only_for_allies"
+  ],
+  "allowed_public_event_kinds": [
+    "visible_impact"
+  ],
+  "required_filters": [
+    "own always",
+    "enemy only if fog visible now",
+    "impact only if both participants visible now",
+    "no private order",
+    "no objective RNG",
+    "json string control escape",
+    "deterministic unit order"
+  ],
+  "known_limitations": [
+    "No real HTTP or SSE handler",
+    "No event-time visibility history",
+    "No realm/fog engine",
+    "Session authorization supplied by caller, not enforced by this crate",
+    "No serde dependencies, manual whitelist JSON",
+    "No E2E or native cargo verification"
+  ],
+  "qa": {
+    "new_rust_unit_tests": 9,
+    "total_rust_unit_tests": 32,
+    "rust_executed": 0,
+    "actual_http_sse": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "old_node_suites": "0/26",
+    "actions_manual": 0
+  }
+}

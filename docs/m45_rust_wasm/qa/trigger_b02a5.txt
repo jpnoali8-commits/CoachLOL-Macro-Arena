@@ -1,0 +1,5 @@
+M45 B02A7 — intentionally one-shot GitHub Rustfmt 1.85.1 correction.
+Previous workflow run 41137201572: cargo test 3/3 PASS, clippy PASS, fmt FAIL, wasm NOT_RUN.
+Updated workflow may commit formatting ONLY crates/core-state/src/lib.rs (fast-forward, no force).
+After formatting, run cargo test / fmt / clippy / wasm real and upload receipt.
+This is the final authorized trigger edit; do not touch after this one-shot push.

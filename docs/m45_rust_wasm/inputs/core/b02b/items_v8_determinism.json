@@ -1,0 +1,2939 @@
+{
+  "schema": "coachlol.m45.items.v8.catalog_determinism.b05.v1",
+  "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+  "source_engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+  "runtime": "source engine compiled inside V8 JS isolate; same seed replay twice; no network/Node module",
+  "repeated_cases": 244,
+  "matched": 244,
+  "diverged": 0,
+  "executions": 488,
+  "pass": true,
+  "note": "Does not verify Rust/Browser parity; only deterministic replay of source engine sequence.",
+  "errors": [],
+  "cases": [
+    {
+      "case_id": "M45-B05-REPLAY-1001-blue",
+      "item_id": "boots",
+      "team": "blue",
+      "seed": 402002,
+      "hashes": [
+        "8dcf2269",
+        "c80e9c60",
+        "be6221d2"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1001-red",
+      "item_id": "boots",
+      "team": "red",
+      "seed": 402003,
+      "hashes": [
+        "50853e00",
+        "a7bf6693",
+        "985601bd"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1004-blue",
+      "item_id": "faerie_charm",
+      "team": "blue",
+      "seed": 402008,
+      "hashes": [
+        "41d9d12f",
+        "49470d8f",
+        "461acdf2"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1004-red",
+      "item_id": "faerie_charm",
+      "team": "red",
+      "seed": 402009,
+      "hashes": [
+        "d8cc1546",
+        "f6a9b648",
+        "436c1c8b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1006-blue",
+      "item_id": "rejuvenation_bead",
+      "team": "blue",
+      "seed": 402012,
+      "hashes": [
+        "89d168fe",
+        "9d3f7ade",
+        "5b714817"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1006-red",
+      "item_id": "rejuvenation_bead",
+      "team": "red",
+      "seed": 402013,
+      "hashes": [
+        "e6082543",
+        "344e4357",
+        "8e9f8ee8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1011-blue",
+      "item_id": "giants_belt",
+      "team": "blue",
+      "seed": 402022,
+      "hashes": [
+        "d1ae64a3",
+        "319755d3",
+        "0fc035d5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1011-red",
+      "item_id": "giants_belt",
+      "team": "red",
+      "seed": 402023,
+      "hashes": [
+        "ec82ea3e",
+        "2dfdc710",
+        "aaaea876"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1018-blue",
+      "item_id": "agility_cloak",
+      "team": "blue",
+      "seed": 402036,
+      "hashes": [
+        "fd41e9ec",
+        "89e77a88",
+        "958d8f13"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1018-red",
+      "item_id": "agility_cloak",
+      "team": "red",
+      "seed": 402037,
+      "hashes": [
+        "f2040195",
+        "edfdc717",
+        "f99edca4"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1026-blue",
+      "item_id": "blasting_wand",
+      "team": "blue",
+      "seed": 402052,
+      "hashes": [
+        "ccfc3c32",
+        "9bd2d68a",
+        "ea4c48fb"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1026-red",
+      "item_id": "blasting_wand",
+      "team": "red",
+      "seed": 402053,
+      "hashes": [
+        "a3815317",
+        "e3afc837",
+        "6c3684f8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1027-blue",
+      "item_id": "sapphire_crystal",
+      "team": "blue",
+      "seed": 402054,
+      "hashes": [
+        "edc87b6c",
+        "58df182f",
+        "7c3da899"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1027-red",
+      "item_id": "sapphire_crystal",
+      "team": "red",
+      "seed": 402055,
+      "hashes": [
+        "b32e0d99",
+        "5dfc9cac",
+        "121592fc"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1028-blue",
+      "item_id": "ruby_crystal",
+      "team": "blue",
+      "seed": 402056,
+      "hashes": [
+        "85bbfbce",
+        "f1ff6dc8",
+        "d7c2518c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1028-red",
+      "item_id": "ruby_crystal",
+      "team": "red",
+      "seed": 402057,
+      "hashes": [
+        "c32a9aa3",
+        "a3939deb",
+        "c6dc77e9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1029-blue",
+      "item_id": "cloth_armor",
+      "team": "blue",
+      "seed": 402058,
+      "hashes": [
+        "5b4f6d08",
+        "d0c5a751",
+        "a2466676"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1029-red",
+      "item_id": "cloth_armor",
+      "team": "red",
+      "seed": 402059,
+      "hashes": [
+        "f5f7f8b5",
+        "ce91d0c8",
+        "65fe62b1"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1031-blue",
+      "item_id": "chain_vest",
+      "team": "blue",
+      "seed": 402062,
+      "hashes": [
+        "38b428a7",
+        "9990aea2",
+        "73084b4a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1031-red",
+      "item_id": "chain_vest",
+      "team": "red",
+      "seed": 402063,
+      "hashes": [
+        "c4cc2de2",
+        "46ee9cc1",
+        "32a768af"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1033-blue",
+      "item_id": "null_magic_mantle",
+      "team": "blue",
+      "seed": 402066,
+      "hashes": [
+        "24851da3",
+        "9a03c706",
+        "490758c9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1033-red",
+      "item_id": "null_magic_mantle",
+      "team": "red",
+      "seed": 402067,
+      "hashes": [
+        "73cd745e",
+        "d399cae5",
+        "07f7b096"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1036-blue",
+      "item_id": "long_sword",
+      "team": "blue",
+      "seed": 402072,
+      "hashes": [
+        "01797214",
+        "74fb5e47",
+        "40d09093"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1036-red",
+      "item_id": "long_sword",
+      "team": "red",
+      "seed": 402073,
+      "hashes": [
+        "af8c911d",
+        "430b4b82",
+        "3c96953e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1037-blue",
+      "item_id": "pickaxe",
+      "team": "blue",
+      "seed": 402074,
+      "hashes": [
+        "575748ba",
+        "a80f3c0a",
+        "0bd15994"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1037-red",
+      "item_id": "pickaxe",
+      "team": "red",
+      "seed": 402075,
+      "hashes": [
+        "68b4cf93",
+        "c131bdc1",
+        "54feea0b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1038-blue",
+      "item_id": "bf_sword",
+      "team": "blue",
+      "seed": 402076,
+      "hashes": [
+        "8a9a3498",
+        "fa4b37ea",
+        "2b6c90d7"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1038-red",
+      "item_id": "bf_sword",
+      "team": "red",
+      "seed": 402077,
+      "hashes": [
+        "63ccef81",
+        "ddd8a987",
+        "6e565078"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1042-blue",
+      "item_id": "dagger",
+      "team": "blue",
+      "seed": 402084,
+      "hashes": [
+        "45f370bb",
+        "1fbd0b62",
+        "a3196839"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1042-red",
+      "item_id": "dagger",
+      "team": "red",
+      "seed": 402085,
+      "hashes": [
+        "87b054f2",
+        "4b93ba9d",
+        "bec7ee54"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1043-blue",
+      "item_id": "recurve_bow",
+      "team": "blue",
+      "seed": 402086,
+      "hashes": [
+        "c29d9e7d",
+        "38d89712",
+        "aeab47b0"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1043-red",
+      "item_id": "recurve_bow",
+      "team": "red",
+      "seed": 402087,
+      "hashes": [
+        "f06df9a4",
+        "e9550227",
+        "a0f8c01f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1052-blue",
+      "item_id": "amp_tome",
+      "team": "blue",
+      "seed": 402104,
+      "hashes": [
+        "bcbbacea",
+        "3a4d1d56",
+        "188a0643"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1052-red",
+      "item_id": "amp_tome",
+      "team": "red",
+      "seed": 402105,
+      "hashes": [
+        "08b45793",
+        "2fe03311",
+        "cc596792"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1053-blue",
+      "item_id": "vampiric_scepter",
+      "team": "blue",
+      "seed": 402106,
+      "hashes": [
+        "a63d5bbc",
+        "41d9ed56",
+        "804bc94e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1053-red",
+      "item_id": "vampiric_scepter",
+      "team": "red",
+      "seed": 402107,
+      "hashes": [
+        "77d00cc5",
+        "38177039",
+        "3cb2376f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1054-blue",
+      "item_id": "dorans_shield",
+      "team": "blue",
+      "seed": 402108,
+      "hashes": [
+        "64e70016",
+        "8a11f808",
+        "3fc90147"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1054-red",
+      "item_id": "dorans_shield",
+      "team": "red",
+      "seed": 402109,
+      "hashes": [
+        "7a5e3b9f",
+        "d17bd91b",
+        "4e7ce46c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1055-blue",
+      "item_id": "dorans_blade",
+      "team": "blue",
+      "seed": 402110,
+      "hashes": [
+        "c8d5ae35",
+        "0cae807a",
+        "61580639"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1055-red",
+      "item_id": "dorans_blade",
+      "team": "red",
+      "seed": 402111,
+      "hashes": [
+        "6a719638",
+        "b5c66837",
+        "ed5dea1c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1056-blue",
+      "item_id": "dorans_ring",
+      "team": "blue",
+      "seed": 402112,
+      "hashes": [
+        "f9cd04e7",
+        "e1645d68",
+        "64b6a94c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1056-red",
+      "item_id": "dorans_ring",
+      "team": "red",
+      "seed": 402113,
+      "hashes": [
+        "27c17c0a",
+        "41b49c33",
+        "cdc1627b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1057-blue",
+      "item_id": "negatron_cloak",
+      "team": "blue",
+      "seed": 402114,
+      "hashes": [
+        "b1c7bba9",
+        "c5d36d42",
+        "a3880780"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1057-red",
+      "item_id": "negatron_cloak",
+      "team": "red",
+      "seed": 402115,
+      "hashes": [
+        "ee0379ac",
+        "7350df15",
+        "94542445"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1058-blue",
+      "item_id": "needless_rod",
+      "team": "blue",
+      "seed": 402116,
+      "hashes": [
+        "ba99345b",
+        "f806af77",
+        "108fd4a4"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1058-red",
+      "item_id": "needless_rod",
+      "team": "red",
+      "seed": 402117,
+      "hashes": [
+        "0f635e9e",
+        "d0843a6a",
+        "ca804067"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1082-blue",
+      "item_id": "dark_seal",
+      "team": "blue",
+      "seed": 402164,
+      "hashes": [
+        "35762c7c",
+        "e53fc51a",
+        "911cd2c7"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1082-red",
+      "item_id": "dark_seal",
+      "team": "red",
+      "seed": 402165,
+      "hashes": [
+        "ce2ea409",
+        "d7696b0b",
+        "ec8d04c8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1083-blue",
+      "item_id": "cull",
+      "team": "blue",
+      "seed": 402166,
+      "hashes": [
+        "f32c8d1a",
+        "b6b7ed46",
+        "2c78112c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1083-red",
+      "item_id": "cull",
+      "team": "red",
+      "seed": 402167,
+      "hashes": [
+        "1e24d047",
+        "bf7ba5b3",
+        "2be4e42d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1086-blue",
+      "item_id": "dorans_bow",
+      "team": "blue",
+      "seed": 402172,
+      "hashes": [
+        "ca0c460d",
+        "c72fbaf5",
+        "e3a5d41e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1086-red",
+      "item_id": "dorans_bow",
+      "team": "red",
+      "seed": 402173,
+      "hashes": [
+        "eaf606a4",
+        "8c1424b2",
+        "23b9ce77"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1101-blue",
+      "item_id": "jungle_scorchclaw",
+      "team": "blue",
+      "seed": 402202,
+      "hashes": [
+        "6e0b939f",
+        "b8daef16",
+        "5008902d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1101-red",
+      "item_id": "jungle_scorchclaw",
+      "team": "red",
+      "seed": 402203,
+      "hashes": [
+        "1dd0fa1e",
+        "6260d2de",
+        "91d479ae"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1102-blue",
+      "item_id": "jungle_gustwalker",
+      "team": "blue",
+      "seed": 402204,
+      "hashes": [
+        "5f98cc7d",
+        "487775ae",
+        "b5bd4e59"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1102-red",
+      "item_id": "jungle_gustwalker",
+      "team": "red",
+      "seed": 402205,
+      "hashes": [
+        "fc36101c",
+        "319f215a",
+        "f44a2bbe"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1103-blue",
+      "item_id": "jungle_mosstomper",
+      "team": "blue",
+      "seed": 402206,
+      "hashes": [
+        "1640368b",
+        "f8f86ef1",
+        "6d1913b5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1103-red",
+      "item_id": "jungle_mosstomper",
+      "team": "red",
+      "seed": 402207,
+      "hashes": [
+        "b9bed88a",
+        "35bc1223",
+        "2ca314ac"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1120-blue",
+      "item_id": "dorans_helm",
+      "team": "blue",
+      "seed": 402240,
+      "hashes": [
+        "7219ab95",
+        "45146d64",
+        "45d55f55"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-1120-red",
+      "item_id": "dorans_helm",
+      "team": "red",
+      "seed": 402241,
+      "hashes": [
+        "eada9f44",
+        "d03cbf53",
+        "5d9e4dee"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2003-blue",
+      "item_id": "health_potion",
+      "team": "blue",
+      "seed": 404006,
+      "hashes": [
+        "134979b3",
+        "782d692d",
+        "575cd08b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2003-red",
+      "item_id": "health_potion",
+      "team": "red",
+      "seed": 404007,
+      "hashes": [
+        "f336166e",
+        "a223df14",
+        "81667cd6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2019-blue",
+      "item_id": "steel_sigil",
+      "team": "blue",
+      "seed": 404038,
+      "hashes": [
+        "dc9f50f8",
+        "899fbe85",
+        "22940ce3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2019-red",
+      "item_id": "steel_sigil",
+      "team": "red",
+      "seed": 404039,
+      "hashes": [
+        "ad735c05",
+        "e917b5a4",
+        "c93b4262"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2020-blue",
+      "item_id": "brutalizer",
+      "team": "blue",
+      "seed": 404040,
+      "hashes": [
+        "5749f115",
+        "9733491a",
+        "534c0c10"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2020-red",
+      "item_id": "brutalizer",
+      "team": "red",
+      "seed": 404041,
+      "hashes": [
+        "86172158",
+        "d99c2f61",
+        "0e7a95df"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2021-blue",
+      "item_id": "tunneler",
+      "team": "blue",
+      "seed": 404042,
+      "hashes": [
+        "86452133",
+        "817064f4",
+        "5e6758c6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2021-red",
+      "item_id": "tunneler",
+      "team": "red",
+      "seed": 404043,
+      "hashes": [
+        "422f2ace",
+        "1e150e33",
+        "bfcd2e59"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2022-blue",
+      "item_id": "glowing_mote",
+      "team": "blue",
+      "seed": 404044,
+      "hashes": [
+        "56eff4e9",
+        "baea49e5",
+        "f1f1206e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2022-red",
+      "item_id": "glowing_mote",
+      "team": "red",
+      "seed": 404045,
+      "hashes": [
+        "997e9fac",
+        "3bcb4b58",
+        "7a2bb85f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2031-blue",
+      "item_id": "refillable_potion",
+      "team": "blue",
+      "seed": 404062,
+      "hashes": [
+        "1bd29f39",
+        "f6bf8af0",
+        "1c01d3e8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2031-red",
+      "item_id": "refillable_potion",
+      "team": "red",
+      "seed": 404063,
+      "hashes": [
+        "9c82a030",
+        "42eab793",
+        "e9e6e253"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2055-blue",
+      "item_id": "ward",
+      "team": "blue",
+      "seed": 404110,
+      "hashes": [
+        "7b95d71b",
+        "0d95d021",
+        "8a2dd3f8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2055-red",
+      "item_id": "ward",
+      "team": "red",
+      "seed": 404111,
+      "hashes": [
+        "d5504c4a",
+        "4d1be92c",
+        "a98b95c3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2420-blue",
+      "item_id": "seekers_armguard",
+      "team": "blue",
+      "seed": 404840,
+      "hashes": [
+        "2280ecdd",
+        "c403633c",
+        "2a710aa3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2420-red",
+      "item_id": "seekers_armguard",
+      "team": "red",
+      "seed": 404841,
+      "hashes": [
+        "55417190",
+        "ace52bd3",
+        "6bc2edb4"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2501-blue",
+      "item_id": "overlords_bloodmail",
+      "team": "blue",
+      "seed": 405002,
+      "hashes": [
+        "d8c6eb4c",
+        "b8b1c193",
+        "9bc71ed9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2501-red",
+      "item_id": "overlords_bloodmail",
+      "team": "red",
+      "seed": 405003,
+      "hashes": [
+        "bf83c205",
+        "bfe57058",
+        "b532c374"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2504-blue",
+      "item_id": "kaenic_rookern",
+      "team": "blue",
+      "seed": 405008,
+      "hashes": [
+        "9d10bdb6",
+        "1e72ba66",
+        "6b2e9618"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2504-red",
+      "item_id": "kaenic_rookern",
+      "team": "red",
+      "seed": 405009,
+      "hashes": [
+        "8591330f",
+        "bc495b8d",
+        "2a716547"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2508-blue",
+      "item_id": "fated_ashes",
+      "team": "blue",
+      "seed": 405016,
+      "hashes": [
+        "4343162b",
+        "ec191c6c",
+        "32eaa09e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-2508-red",
+      "item_id": "fated_ashes",
+      "team": "red",
+      "seed": 405017,
+      "hashes": [
+        "879d3156",
+        "127397c7",
+        "8a17589d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3006-blue",
+      "item_id": "berserkers_greaves",
+      "team": "blue",
+      "seed": 406012,
+      "hashes": [
+        "0348b052",
+        "42a90232",
+        "c4eebd7b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3006-red",
+      "item_id": "berserkers_greaves",
+      "team": "red",
+      "seed": 406013,
+      "hashes": [
+        "bc22ef57",
+        "5363b3c3",
+        "8493063c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3009-blue",
+      "item_id": "swifties",
+      "team": "blue",
+      "seed": 406018,
+      "hashes": [
+        "3f7bf488",
+        "3b15cc2c",
+        "ed49240c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3009-red",
+      "item_id": "swifties",
+      "team": "red",
+      "seed": 406019,
+      "hashes": [
+        "163cdf55",
+        "f1829d21",
+        "582598bf"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3020-blue",
+      "item_id": "sorcerers_shoes",
+      "team": "blue",
+      "seed": 406040,
+      "hashes": [
+        "b2c8d197",
+        "ac2e34ef",
+        "201b0e5b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3020-red",
+      "item_id": "sorcerers_shoes",
+      "team": "red",
+      "seed": 406041,
+      "hashes": [
+        "5572ac2e",
+        "5fb1c80e",
+        "33f4c446"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3024-blue",
+      "item_id": "glacial_buckler",
+      "team": "blue",
+      "seed": 406048,
+      "hashes": [
+        "0f579f0f",
+        "579679f7",
+        "3dfc0ff5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3024-red",
+      "item_id": "glacial_buckler",
+      "team": "red",
+      "seed": 406049,
+      "hashes": [
+        "fb733e46",
+        "e88d49a8",
+        "d2dcec2a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3031-blue",
+      "item_id": "infinity_edge",
+      "team": "blue",
+      "seed": 406062,
+      "hashes": [
+        "c5364ce3",
+        "69ff8dc0",
+        "d2b90fc0"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3031-red",
+      "item_id": "infinity_edge",
+      "team": "red",
+      "seed": 406063,
+      "hashes": [
+        "8f1c6d5e",
+        "58923fef",
+        "a49ebfb9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3033-blue",
+      "item_id": "mortal_reminder",
+      "team": "blue",
+      "seed": 406066,
+      "hashes": [
+        "43119057",
+        "f8bcb217",
+        "30f9b64f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3033-red",
+      "item_id": "mortal_reminder",
+      "team": "red",
+      "seed": 406067,
+      "hashes": [
+        "197a2f12",
+        "aa8927e2",
+        "880f67b6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3035-blue",
+      "item_id": "last_whisper",
+      "team": "blue",
+      "seed": 406070,
+      "hashes": [
+        "6aa2de42",
+        "0318170a",
+        "50fa53e8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3035-red",
+      "item_id": "last_whisper",
+      "team": "red",
+      "seed": 406071,
+      "hashes": [
+        "755a0243",
+        "f2eedc3b",
+        "23e8062f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3036-blue",
+      "item_id": "lord_dominiks_regards",
+      "team": "blue",
+      "seed": 406072,
+      "hashes": [
+        "76706c60",
+        "c840653f",
+        "e232c4be"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3036-red",
+      "item_id": "lord_dominiks_regards",
+      "team": "red",
+      "seed": 406073,
+      "hashes": [
+        "f1f98e69",
+        "0a654874",
+        "30e45fc3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3041-blue",
+      "item_id": "mejais_soulstealer",
+      "team": "blue",
+      "seed": 406082,
+      "hashes": [
+        "8b7a7b35",
+        "29118817",
+        "c9c05a99"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3041-red",
+      "item_id": "mejais_soulstealer",
+      "team": "red",
+      "seed": 406083,
+      "hashes": [
+        "885dd7fc",
+        "499d9768",
+        "47844b1a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3044-blue",
+      "item_id": "phage",
+      "team": "blue",
+      "seed": 406088,
+      "hashes": [
+        "b7f4291b",
+        "93b11cab",
+        "3e3171a9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3044-red",
+      "item_id": "phage",
+      "team": "red",
+      "seed": 406089,
+      "hashes": [
+        "8e0a58fa",
+        "f4571c80",
+        "6f188e3c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3046-blue",
+      "item_id": "phantom_dancer",
+      "team": "blue",
+      "seed": 406092,
+      "hashes": [
+        "e5483a9a",
+        "4b06fe84",
+        "559b9ced"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3046-red",
+      "item_id": "phantom_dancer",
+      "team": "red",
+      "seed": 406093,
+      "hashes": [
+        "e3e34ebf",
+        "c71096fb",
+        "ecf5043e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3047-blue",
+      "item_id": "plated_steelcaps",
+      "team": "blue",
+      "seed": 406094,
+      "hashes": [
+        "ccf02124",
+        "1d6b856a",
+        "7dd623ab"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3047-red",
+      "item_id": "plated_steelcaps",
+      "team": "red",
+      "seed": 406095,
+      "hashes": [
+        "61acfcb1",
+        "c804b499",
+        "b7fa857c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3051-blue",
+      "item_id": "hearthbound_axe",
+      "team": "blue",
+      "seed": 406102,
+      "hashes": [
+        "c4d8fca4",
+        "ab290a91",
+        "4c430c0b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3051-red",
+      "item_id": "hearthbound_axe",
+      "team": "red",
+      "seed": 406103,
+      "hashes": [
+        "584787ed",
+        "b6237c94",
+        "9dafff5a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3053-blue",
+      "item_id": "steraks_gage",
+      "team": "blue",
+      "seed": 406106,
+      "hashes": [
+        "9f21ccc8",
+        "5471a589",
+        "e5edc8e6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3053-red",
+      "item_id": "steraks_gage",
+      "team": "red",
+      "seed": 406107,
+      "hashes": [
+        "bd2075b1",
+        "068fc0da",
+        "e4c829ad"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3057-blue",
+      "item_id": "sheen",
+      "team": "blue",
+      "seed": 406114,
+      "hashes": [
+        "76008395",
+        "682819d9",
+        "2a7467a8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3057-red",
+      "item_id": "sheen",
+      "team": "red",
+      "seed": 406115,
+      "hashes": [
+        "d3f0a4a0",
+        "60ceca52",
+        "3fd4424b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3065-blue",
+      "item_id": "spirit_visage",
+      "team": "blue",
+      "seed": 406130,
+      "hashes": [
+        "810657a7",
+        "b66b24f4",
+        "f047e4fa"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3065-red",
+      "item_id": "spirit_visage",
+      "team": "red",
+      "seed": 406131,
+      "hashes": [
+        "44ead26e",
+        "31a3af59",
+        "8294a703"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3066-blue",
+      "item_id": "winged_moonplate",
+      "team": "blue",
+      "seed": 406132,
+      "hashes": [
+        "9c80c14d",
+        "25ecc05c",
+        "d83e6ef6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3066-red",
+      "item_id": "winged_moonplate",
+      "team": "red",
+      "seed": 406133,
+      "hashes": [
+        "d1807fc4",
+        "84c40ce5",
+        "dfdc28cf"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3067-blue",
+      "item_id": "kindlegem",
+      "team": "blue",
+      "seed": 406134,
+      "hashes": [
+        "831c1bfb",
+        "731e324e",
+        "f280d806"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3067-red",
+      "item_id": "kindlegem",
+      "team": "red",
+      "seed": 406135,
+      "hashes": [
+        "2f60c6f2",
+        "e40cdb37",
+        "2cdadc5d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3070-blue",
+      "item_id": "tear_of_the_goddess",
+      "team": "blue",
+      "seed": 406140,
+      "hashes": [
+        "c81f4046",
+        "fcacc8f4",
+        "8e8b412f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3070-red",
+      "item_id": "tear_of_the_goddess",
+      "team": "red",
+      "seed": 406141,
+      "hashes": [
+        "c15eafff",
+        "3ccda525",
+        "77a2d970"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3071-blue",
+      "item_id": "black_cleaver",
+      "team": "blue",
+      "seed": 406142,
+      "hashes": [
+        "782a3770",
+        "51e2cfae",
+        "55a3fa1a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3071-red",
+      "item_id": "black_cleaver",
+      "team": "red",
+      "seed": 406143,
+      "hashes": [
+        "c8c31d99",
+        "3d8fed03",
+        "a2a6e8c3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3075-blue",
+      "item_id": "thornmail",
+      "team": "blue",
+      "seed": 406150,
+      "hashes": [
+        "d78914f5",
+        "6bc51231",
+        "25c02c19"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3075-red",
+      "item_id": "thornmail",
+      "team": "red",
+      "seed": 406151,
+      "hashes": [
+        "e21f05f8",
+        "23654fda",
+        "d72dea4c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3076-blue",
+      "item_id": "bramble_vest",
+      "team": "blue",
+      "seed": 406152,
+      "hashes": [
+        "ebe0a7ef",
+        "bed46f23",
+        "be743b54"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3076-red",
+      "item_id": "bramble_vest",
+      "team": "red",
+      "seed": 406153,
+      "hashes": [
+        "3341b422",
+        "992a3508",
+        "12004195"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3078-blue",
+      "item_id": "trinity_force",
+      "team": "blue",
+      "seed": 406156,
+      "hashes": [
+        "a439bdd3",
+        "d2478e69",
+        "1e09d79f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3078-red",
+      "item_id": "trinity_force",
+      "team": "red",
+      "seed": 406157,
+      "hashes": [
+        "45aeb526",
+        "41629d28",
+        "b885abc2"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3082-blue",
+      "item_id": "wardens_mail",
+      "team": "blue",
+      "seed": 406164,
+      "hashes": [
+        "8f5520c0",
+        "aa65a57a",
+        "e65bbec2"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3082-red",
+      "item_id": "wardens_mail",
+      "team": "red",
+      "seed": 406165,
+      "hashes": [
+        "6db61995",
+        "605a1683",
+        "0ad04df9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3086-blue",
+      "item_id": "zeal",
+      "team": "blue",
+      "seed": 406172,
+      "hashes": [
+        "4ecbec99",
+        "b5c3115e",
+        "97965ce1"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3086-red",
+      "item_id": "zeal",
+      "team": "red",
+      "seed": 406173,
+      "hashes": [
+        "999031b0",
+        "816ce92b",
+        "6b7ca412"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3089-blue",
+      "item_id": "rabadon",
+      "team": "blue",
+      "seed": 406178,
+      "hashes": [
+        "d5e58f6b",
+        "c8640a37",
+        "d5172ad9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3089-red",
+      "item_id": "rabadon",
+      "team": "red",
+      "seed": 406179,
+      "hashes": [
+        "ac245f4a",
+        "aec23270",
+        "676e30ec"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3091-blue",
+      "item_id": "wits_end",
+      "team": "blue",
+      "seed": 406182,
+      "hashes": [
+        "1ea7919c",
+        "30b01afb",
+        "a33e8c3c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3091-red",
+      "item_id": "wits_end",
+      "team": "red",
+      "seed": 406183,
+      "hashes": [
+        "a72b4795",
+        "8b73a9d0",
+        "0873e16f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3094-blue",
+      "item_id": "rapid_firecannon",
+      "team": "blue",
+      "seed": 406188,
+      "hashes": [
+        "93b4615a",
+        "9e1d25bf",
+        "554a3d2a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3094-red",
+      "item_id": "rapid_firecannon",
+      "team": "red",
+      "seed": 406189,
+      "hashes": [
+        "659fa37b",
+        "c0457b5e",
+        "b5b3294d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3102-blue",
+      "item_id": "banshees_veil",
+      "team": "blue",
+      "seed": 406204,
+      "hashes": [
+        "50841371",
+        "e724cf3e",
+        "c077ebba"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3102-red",
+      "item_id": "banshees_veil",
+      "team": "red",
+      "seed": 406205,
+      "hashes": [
+        "5f0bd508",
+        "f8fb8bc5",
+        "c6cad6db"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3108-blue",
+      "item_id": "fiendish_codex",
+      "team": "blue",
+      "seed": 406216,
+      "hashes": [
+        "8b368700",
+        "62ee13c5",
+        "424a0420"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3108-red",
+      "item_id": "fiendish_codex",
+      "team": "red",
+      "seed": 406217,
+      "hashes": [
+        "9334da5d",
+        "b16668ae",
+        "7ccf2a81"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3110-blue",
+      "item_id": "frozen_heart",
+      "team": "blue",
+      "seed": 406220,
+      "hashes": [
+        "fe4bb1df",
+        "42bb4b6d",
+        "5a0806c2"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3110-red",
+      "item_id": "frozen_heart",
+      "team": "red",
+      "seed": 406221,
+      "hashes": [
+        "d877c542",
+        "82bebf52",
+        "47728439"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3111-blue",
+      "item_id": "mercurys_treads",
+      "team": "blue",
+      "seed": 406222,
+      "hashes": [
+        "ad9bc961",
+        "acf9c3e4",
+        "80e66bea"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3111-red",
+      "item_id": "mercurys_treads",
+      "team": "red",
+      "seed": 406223,
+      "hashes": [
+        "bcdd4214",
+        "d45d5c03",
+        "c8675237"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3113-blue",
+      "item_id": "aether_wisp",
+      "team": "blue",
+      "seed": 406226,
+      "hashes": [
+        "d116d95d",
+        "9c66e102",
+        "49dd1b64"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3113-red",
+      "item_id": "aether_wisp",
+      "team": "red",
+      "seed": 406227,
+      "hashes": [
+        "b3c8f5e0",
+        "71f49f03",
+        "e8a0c2d3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3114-blue",
+      "item_id": "forbidden_idol",
+      "team": "blue",
+      "seed": 406228,
+      "hashes": [
+        "e4a119c7",
+        "0cb60ea8",
+        "f9a373bc"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3114-red",
+      "item_id": "forbidden_idol",
+      "team": "red",
+      "seed": 406229,
+      "hashes": [
+        "23d81a3a",
+        "8b1b9863",
+        "6a91bbe9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3115-blue",
+      "item_id": "nashors_tooth",
+      "team": "blue",
+      "seed": 406230,
+      "hashes": [
+        "97189120",
+        "83bb0d1d",
+        "11473f5b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3115-red",
+      "item_id": "nashors_tooth",
+      "team": "red",
+      "seed": 406231,
+      "hashes": [
+        "df2eb791",
+        "9bc2f928",
+        "d105d3e6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3116-blue",
+      "item_id": "rylais_crystal_scepter",
+      "team": "blue",
+      "seed": 406232,
+      "hashes": [
+        "c205735a",
+        "c8f86fa6",
+        "a5f474f5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3116-red",
+      "item_id": "rylais_crystal_scepter",
+      "team": "red",
+      "seed": 406233,
+      "hashes": [
+        "fcd261ab",
+        "58bdbb09",
+        "28041832"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3123-blue",
+      "item_id": "executioners_calling",
+      "team": "blue",
+      "seed": 406246,
+      "hashes": [
+        "bcaf986b",
+        "dccc3c08",
+        "0f1be2c5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3123-red",
+      "item_id": "executioners_calling",
+      "team": "red",
+      "seed": 406247,
+      "hashes": [
+        "458b99da",
+        "6fe79f71",
+        "2db7350c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3124-blue",
+      "item_id": "guinsoos_rageblade",
+      "team": "blue",
+      "seed": 406248,
+      "hashes": [
+        "720ca499",
+        "81985be4",
+        "fdf4012c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3124-red",
+      "item_id": "guinsoos_rageblade",
+      "team": "red",
+      "seed": 406249,
+      "hashes": [
+        "e0942f48",
+        "afc0ceb9",
+        "acaf608b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3133-blue",
+      "item_id": "caulfields_warhammer",
+      "team": "blue",
+      "seed": 406266,
+      "hashes": [
+        "7b41fb89",
+        "c9b371c5",
+        "ccad9891"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3133-red",
+      "item_id": "caulfields_warhammer",
+      "team": "red",
+      "seed": 406267,
+      "hashes": [
+        "5cf0613c",
+        "f78ccc56",
+        "5b72e79e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3134-blue",
+      "item_id": "serrated_dirk",
+      "team": "blue",
+      "seed": 406268,
+      "hashes": [
+        "7433d03b",
+        "95594c48",
+        "46d0b896"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3134-red",
+      "item_id": "serrated_dirk",
+      "team": "red",
+      "seed": 406269,
+      "hashes": [
+        "163d8b46",
+        "d27f0b1f",
+        "d2c370ab"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3135-blue",
+      "item_id": "void_staff",
+      "team": "blue",
+      "seed": 406270,
+      "hashes": [
+        "e0a38324",
+        "c28e3792",
+        "88d8cfe1"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3135-red",
+      "item_id": "void_staff",
+      "team": "red",
+      "seed": 406271,
+      "hashes": [
+        "9b5d67ed",
+        "d7689ca3",
+        "8f86c176"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3139-blue",
+      "item_id": "mercurial_scimitar",
+      "team": "blue",
+      "seed": 406278,
+      "hashes": [
+        "4dccc2bc",
+        "0cf52304",
+        "8e95d597"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3139-red",
+      "item_id": "mercurial_scimitar",
+      "team": "red",
+      "seed": 406279,
+      "hashes": [
+        "9cf62a65",
+        "fd227cb1",
+        "f6d9dfd0"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3140-blue",
+      "item_id": "quicksilver_sash",
+      "team": "blue",
+      "seed": 406280,
+      "hashes": [
+        "32843905",
+        "317d5332",
+        "a50ffab6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3140-red",
+      "item_id": "quicksilver_sash",
+      "team": "red",
+      "seed": 406281,
+      "hashes": [
+        "55c7774c",
+        "7bda4561",
+        "83c90cbd"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3142-blue",
+      "item_id": "youmuus_ghostblade",
+      "team": "blue",
+      "seed": 406284,
+      "hashes": [
+        "9393bdf9",
+        "dd26086b",
+        "7e17c391"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3142-red",
+      "item_id": "youmuus_ghostblade",
+      "team": "red",
+      "seed": 406285,
+      "hashes": [
+        "adda4e30",
+        "17d9eaf2",
+        "666850ee"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3143-blue",
+      "item_id": "randuins_omen",
+      "team": "blue",
+      "seed": 406286,
+      "hashes": [
+        "ed442e57",
+        "33c360d3",
+        "adf62ee1"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3143-red",
+      "item_id": "randuins_omen",
+      "team": "red",
+      "seed": 406287,
+      "hashes": [
+        "3bbedb66",
+        "0f9a3568",
+        "8ae5231c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3144-blue",
+      "item_id": "scouts_slingshot",
+      "team": "blue",
+      "seed": 406288,
+      "hashes": [
+        "29d82c6d",
+        "3be51207",
+        "0b65ca87"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3144-red",
+      "item_id": "scouts_slingshot",
+      "team": "red",
+      "seed": 406289,
+      "hashes": [
+        "6aa78454",
+        "5bd66ec2",
+        "114ab8ae"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3145-blue",
+      "item_id": "hextech_alternator",
+      "team": "blue",
+      "seed": 406290,
+      "hashes": [
+        "ee31e486",
+        "2ac8fe07",
+        "80e8b97b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3145-red",
+      "item_id": "hextech_alternator",
+      "team": "red",
+      "seed": 406291,
+      "hashes": [
+        "cf57ccdb",
+        "fa1c393a",
+        "d6162750"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3147-blue",
+      "item_id": "haunting_guise",
+      "team": "blue",
+      "seed": 406294,
+      "hashes": [
+        "5057e262",
+        "ba2c4fc6",
+        "1370540f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3147-red",
+      "item_id": "haunting_guise",
+      "team": "red",
+      "seed": 406295,
+      "hashes": [
+        "972c3a67",
+        "efb54409",
+        "8e8af3dc"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3155-blue",
+      "item_id": "hexdrinker",
+      "team": "blue",
+      "seed": 406310,
+      "hashes": [
+        "0b23a7bf",
+        "5ea9131d",
+        "c96574aa"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3155-red",
+      "item_id": "hexdrinker",
+      "team": "red",
+      "seed": 406311,
+      "hashes": [
+        "d4b24042",
+        "62b9c72a",
+        "6640d771"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3156-blue",
+      "item_id": "maw_of_malmortius",
+      "team": "blue",
+      "seed": 406312,
+      "hashes": [
+        "4bbc090d",
+        "8ea94a75",
+        "f7ed1e3f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3156-red",
+      "item_id": "maw_of_malmortius",
+      "team": "red",
+      "seed": 406313,
+      "hashes": [
+        "8c9aaf08",
+        "b266a078",
+        "40bcc7de"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3157-blue",
+      "item_id": "zhonyas_hourglass",
+      "team": "blue",
+      "seed": 406314,
+      "hashes": [
+        "1b112beb",
+        "6e25be29",
+        "62e9b5a7"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3157-red",
+      "item_id": "zhonyas_hourglass",
+      "team": "red",
+      "seed": 406315,
+      "hashes": [
+        "c0b469be",
+        "94776bea",
+        "5af00eea"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3158-blue",
+      "item_id": "ionian_boots",
+      "team": "blue",
+      "seed": 406316,
+      "hashes": [
+        "37007919",
+        "6b533a2c",
+        "0bed0aa1"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3158-red",
+      "item_id": "ionian_boots",
+      "team": "red",
+      "seed": 406317,
+      "hashes": [
+        "70f02af4",
+        "baadebcb",
+        "11915b0c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3165-blue",
+      "item_id": "morellonomicon",
+      "team": "blue",
+      "seed": 406330,
+      "hashes": [
+        "3d2e8db9",
+        "897d7152",
+        "090c9554"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3165-red",
+      "item_id": "morellonomicon",
+      "team": "red",
+      "seed": 406331,
+      "hashes": [
+        "c7c477b8",
+        "6a1a9317",
+        "bde30947"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3211-blue",
+      "item_id": "spectres_cowl",
+      "team": "blue",
+      "seed": 406422,
+      "hashes": [
+        "c89e765b",
+        "75d182cf",
+        "010120f5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3211-red",
+      "item_id": "spectres_cowl",
+      "team": "red",
+      "seed": 406423,
+      "hashes": [
+        "a5d07b3e",
+        "637ae202",
+        "aa555658"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3340-blue",
+      "item_id": "trinket_stealth",
+      "team": "blue",
+      "seed": 406680,
+      "hashes": [
+        "d323b919",
+        "57f3629a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3340-red",
+      "item_id": "trinket_stealth",
+      "team": "red",
+      "seed": 406681,
+      "hashes": [
+        "12ba9260",
+        "bae35eff"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3364-blue",
+      "item_id": "trinket_oracle",
+      "team": "blue",
+      "seed": 406728,
+      "hashes": [
+        "436557da",
+        "7867b63c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3364-red",
+      "item_id": "trinket_oracle",
+      "team": "red",
+      "seed": 406729,
+      "hashes": [
+        "ba03a447",
+        "42405c8f"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3801-blue",
+      "item_id": "crystalline_bracer",
+      "team": "blue",
+      "seed": 407602,
+      "hashes": [
+        "e7d69c44",
+        "87123bca",
+        "a2dcb8a3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3801-red",
+      "item_id": "crystalline_bracer",
+      "team": "red",
+      "seed": 407603,
+      "hashes": [
+        "a2197b01",
+        "6d9b88cf",
+        "5d50437a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3802-blue",
+      "item_id": "lost_chapter",
+      "team": "blue",
+      "seed": 407604,
+      "hashes": [
+        "b20e074a",
+        "ae171939",
+        "a0d7b3aa"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3802-red",
+      "item_id": "lost_chapter",
+      "team": "red",
+      "seed": 407605,
+      "hashes": [
+        "cd169ddf",
+        "e5b4dd46",
+        "e40dff65"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3803-blue",
+      "item_id": "catalyst_of_aeons",
+      "team": "blue",
+      "seed": 407606,
+      "hashes": [
+        "0c5b24d8",
+        "9342a9b8",
+        "4c63f49b"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3803-red",
+      "item_id": "catalyst_of_aeons",
+      "team": "red",
+      "seed": 407607,
+      "hashes": [
+        "baa9fdb5",
+        "8e02d329",
+        "5e203b0e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3814-blue",
+      "item_id": "edge_of_night",
+      "team": "blue",
+      "seed": 407628,
+      "hashes": [
+        "bac268a8",
+        "9d687ba4",
+        "b83b14c7"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3814-red",
+      "item_id": "edge_of_night",
+      "team": "red",
+      "seed": 407629,
+      "hashes": [
+        "6d00f9d1",
+        "8a78b37b",
+        "fb29f8ee"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3865-blue",
+      "item_id": "support_atlas",
+      "team": "blue",
+      "seed": 407730,
+      "hashes": [
+        "8c6d9b5e",
+        "014a7f56",
+        "02955f57"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3865-red",
+      "item_id": "support_atlas",
+      "team": "red",
+      "seed": 407731,
+      "hashes": [
+        "9caa6f0b",
+        "e6dd86d0",
+        "08252cc8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3916-blue",
+      "item_id": "oblivion_orb",
+      "team": "blue",
+      "seed": 407832,
+      "hashes": [
+        "f720d767",
+        "83b6e54c",
+        "f6202af6"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-3916-red",
+      "item_id": "oblivion_orb",
+      "team": "red",
+      "seed": 407833,
+      "hashes": [
+        "6ef17ae2",
+        "317b30a1",
+        "0c21e3ff"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4401-blue",
+      "item_id": "force_of_nature",
+      "team": "blue",
+      "seed": 408802,
+      "hashes": [
+        "1fc1c093",
+        "87f1885a",
+        "b9c1dbb9"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4401-red",
+      "item_id": "force_of_nature",
+      "team": "red",
+      "seed": 408803,
+      "hashes": [
+        "1c3fbe3e",
+        "bc7ac7a5",
+        "25593500"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4629-blue",
+      "item_id": "cosmic_drive",
+      "team": "blue",
+      "seed": 409258,
+      "hashes": [
+        "76aed14b",
+        "12547b02",
+        "87e77bbe"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4629-red",
+      "item_id": "cosmic_drive",
+      "team": "red",
+      "seed": 409259,
+      "hashes": [
+        "2bfb9eee",
+        "9b9c8ea5",
+        "403573bd"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4630-blue",
+      "item_id": "blighting_jewel",
+      "team": "blue",
+      "seed": 409260,
+      "hashes": [
+        "b125e142",
+        "e7ca5755",
+        "627057b7"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4630-red",
+      "item_id": "blighting_jewel",
+      "team": "red",
+      "seed": 409261,
+      "hashes": [
+        "4ae99a77",
+        "604967bc",
+        "5554d32a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4632-blue",
+      "item_id": "verdant_barrier",
+      "team": "blue",
+      "seed": 409264,
+      "hashes": [
+        "02f0c12e",
+        "4ab052ca",
+        "0f0d6a57"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4632-red",
+      "item_id": "verdant_barrier",
+      "team": "red",
+      "seed": 409265,
+      "hashes": [
+        "9ddf69c3",
+        "0d7d3749",
+        "9c87f6be"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4633-blue",
+      "item_id": "riftmaker",
+      "team": "blue",
+      "seed": 409266,
+      "hashes": [
+        "4b3015fc",
+        "0dfc42c5",
+        "950fddc0"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4633-red",
+      "item_id": "riftmaker",
+      "team": "red",
+      "seed": 409267,
+      "hashes": [
+        "653ed599",
+        "eb10b040",
+        "9569f1e5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4642-blue",
+      "item_id": "bandleglass_mirror",
+      "team": "blue",
+      "seed": 409284,
+      "hashes": [
+        "5421b2c4",
+        "1fe82a93",
+        "4ccdc43c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4642-red",
+      "item_id": "bandleglass_mirror",
+      "team": "red",
+      "seed": 409285,
+      "hashes": [
+        "bf075fdd",
+        "e87b29c6",
+        "dbe63f7d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4645-blue",
+      "item_id": "shadowflame",
+      "team": "blue",
+      "seed": 409290,
+      "hashes": [
+        "b1c0bf0f",
+        "b578934c",
+        "39e0540c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-4645-red",
+      "item_id": "shadowflame",
+      "team": "red",
+      "seed": 409291,
+      "hashes": [
+        "dc450dea",
+        "1f96cb63",
+        "3ae48c75"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6609-blue",
+      "item_id": "chempunk_chainsword",
+      "team": "blue",
+      "seed": 413218,
+      "hashes": [
+        "661217d8",
+        "06dc2f77",
+        "6875ecea"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6609-red",
+      "item_id": "chempunk_chainsword",
+      "team": "red",
+      "seed": 413219,
+      "hashes": [
+        "732548b9",
+        "dce91dc6",
+        "ce5608d3"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6653-blue",
+      "item_id": "liandrys_torment",
+      "team": "blue",
+      "seed": 413306,
+      "hashes": [
+        "38393ef8",
+        "18d1b1cb",
+        "53633902"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6653-red",
+      "item_id": "liandrys_torment",
+      "team": "red",
+      "seed": 413307,
+      "hashes": [
+        "ff2042fd",
+        "a6526b70",
+        "43a4048d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6660-blue",
+      "item_id": "bamis_cinder",
+      "team": "blue",
+      "seed": 413320,
+      "hashes": [
+        "a8262bc0",
+        "d683610c",
+        "337df568"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6660-red",
+      "item_id": "bamis_cinder",
+      "team": "red",
+      "seed": 413321,
+      "hashes": [
+        "bed36ce1",
+        "2a95016d",
+        "62036131"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6670-blue",
+      "item_id": "noonquiver",
+      "team": "blue",
+      "seed": 413340,
+      "hashes": [
+        "8680a56a",
+        "5db0f4ac",
+        "44860003"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6670-red",
+      "item_id": "noonquiver",
+      "team": "red",
+      "seed": 413341,
+      "hashes": [
+        "51b0db57",
+        "21454e23",
+        "5eeecd3c"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6672-blue",
+      "item_id": "kraken_slayer",
+      "team": "blue",
+      "seed": 413344,
+      "hashes": [
+        "7e24f6e6",
+        "3875ce46",
+        "29969301"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6672-red",
+      "item_id": "kraken_slayer",
+      "team": "red",
+      "seed": 413345,
+      "hashes": [
+        "b9208d53",
+        "ce613899",
+        "812b5aa8"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6673-blue",
+      "item_id": "immortal_shieldbow",
+      "team": "blue",
+      "seed": 413346,
+      "hashes": [
+        "248cb5bc",
+        "fe650d27",
+        "f08cf43d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6673-red",
+      "item_id": "immortal_shieldbow",
+      "team": "red",
+      "seed": 413347,
+      "hashes": [
+        "1cafc771",
+        "968c2478",
+        "8aac0632"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6675-blue",
+      "item_id": "navori_flickerblade",
+      "team": "blue",
+      "seed": 413350,
+      "hashes": [
+        "c4ba41e1",
+        "dbec292a",
+        "6b1a33d5"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6675-red",
+      "item_id": "navori_flickerblade",
+      "team": "red",
+      "seed": 413351,
+      "hashes": [
+        "432c92c0",
+        "9a0d289b",
+        "707d3298"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6676-blue",
+      "item_id": "the_collector",
+      "team": "blue",
+      "seed": 413352,
+      "hashes": [
+        "823bcf8f",
+        "79ea3241",
+        "bbead682"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6676-red",
+      "item_id": "the_collector",
+      "team": "red",
+      "seed": 413353,
+      "hashes": [
+        "c1f48f46",
+        "a5a22846",
+        "a27df1eb"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6690-blue",
+      "item_id": "rectrix",
+      "team": "blue",
+      "seed": 413380,
+      "hashes": [
+        "06f129b6",
+        "d92c8195",
+        "7510aadd"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6690-red",
+      "item_id": "rectrix",
+      "team": "red",
+      "seed": 413381,
+      "hashes": [
+        "16bf6b2b",
+        "66f16196",
+        "f4696cca"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6694-blue",
+      "item_id": "seryldas_grudge",
+      "team": "blue",
+      "seed": 413388,
+      "hashes": [
+        "7a6c965e",
+        "e0320ed3",
+        "690c4f62"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-6694-red",
+      "item_id": "seryldas_grudge",
+      "team": "red",
+      "seed": 413389,
+      "hashes": [
+        "d4e7ec13",
+        "432de408",
+        "50bc70bb"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-8010-blue",
+      "item_id": "bloodletters_curse",
+      "team": "blue",
+      "seed": 416020,
+      "hashes": [
+        "eecfdc24",
+        "dbeaca91",
+        "df241c9e"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-8010-red",
+      "item_id": "bloodletters_curse",
+      "team": "red",
+      "seed": 416021,
+      "hashes": [
+        "10391e69",
+        "4fb49f42",
+        "94f1949d"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-8020-blue",
+      "item_id": "abyssal_mask",
+      "team": "blue",
+      "seed": 416040,
+      "hashes": [
+        "13a597aa",
+        "f4fe52b6",
+        "7eec6b7a"
+      ],
+      "repeat_equal": true
+    },
+    {
+      "case_id": "M45-B05-REPLAY-8020-red",
+      "item_id": "abyssal_mask",
+      "team": "red",
+      "seed": 416041,
+      "hashes": [
+        "96bb69eb",
+        "97a7dfa5",
+        "bcfda0dd"
+      ],
+      "repeat_equal": true
+    }
+  ]
+}

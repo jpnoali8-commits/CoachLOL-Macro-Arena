@@ -1,0 +1,261 @@
+{
+  "schema": "coachlol.m45.b02b.handoff_evidence.v1",
+  "date": "2026-10-30",
+  "source_branches": {
+    "integration": {
+      "commit": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "write_policy": "READ_ONLY"
+    },
+    "skills": {
+      "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "write_policy": "READ_ONLY"
+    },
+    "items": {
+      "commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+      "engine_blob": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+      "write_policy": "READ_ONLY"
+    }
+  },
+  "specialist_audit_heads": {
+    "skills": "165f51bf1e50d3816484ce8c8ed715cf81c3ec0f",
+    "items": "13caf37797e9c85e41f63b9ff5b4a9652682305c",
+    "platform": "975153367177ccceb553f80a78b66b041b31a075"
+  },
+  "immutable_imports": [
+    {
+      "domain": "skills",
+      "original": "docs/m45_rust_wasm/inputs/skills/golden_plan.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_golden_plan.json",
+      "sha": "736c8f9367110e54b84bced9cc9aa8964b0adfe8"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_CONSOLIDATED_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_index.json",
+      "sha": "036a620ab7fd2e68f37e9790eb9c66208d8c38b0"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_CATALOG_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_catalog.json",
+      "sha": "b98f3879fd5118f00aa85615fc4622dfb3d11333"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_EFFECTS_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_effects.json",
+      "sha": "be04c91bd9bb77a97b060116644efe047e5a7235"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_ECONOMY_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_economy.json",
+      "sha": "b9ec4f1e3ef9bc83589b081fe454e5114d9cf164"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_TRINKET_PVP_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_trinket.json",
+      "sha": "384d6c64f245cade000956555d256793536d44ff"
+    },
+    {
+      "domain": "items",
+      "original": "docs/m45_rust_wasm/inputs/items/QA_V8_DETERMINISM_B05.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/items_v8_determinism.json",
+      "sha": "a376eb7e4b6f771377d7feea3e427ab7cc3a2d74"
+    },
+    {
+      "domain": "platform",
+      "original": "docs/m45_rust_wasm/inputs/platform/A07_TRANSPORT_GAP_MATRIX.json",
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/platform_a07_transport.json",
+      "sha": "4af0bd6e353a0b883f37ca9cf9ac11c1cf7169d3"
+    }
+  ],
+  "qa": {
+    "independent_v8_integrity": {
+      "status": "PASS",
+      "errors": 0,
+      "checked_skills_source_refs": 26,
+      "checked_catalog_cases": 244,
+      "blue": 122,
+      "red": 122,
+      "checked_determinism_pairs": 244,
+      "checked_items_receipts": 5,
+      "checked_platform_contracts": 12,
+      "source_trees_truncated": false
+    },
+    "specialist_runtime": {
+      "skills": {
+        "planned_suites": 26,
+        "executed": 0,
+        "status": "NOT_RUN",
+        "v8_isolated_witness_cases": 8,
+        "v8_isolated_repeat_matches": 8,
+        "v8_gateway_direct_routes": 14,
+        "v8_gateway_denied_routes": 12,
+        "v8_gateway_combo_sequences": 4,
+        "m44_authorial_kits_missing_from_old_board_kits": 14,
+        "full_node_executed": 0
+      },
+      "items": {
+        "environment": "V8_ISOLATED_ORIGINAL_JS_CLASSES",
+        "cases": 299,
+        "positive": 297,
+        "expected_negative": 2,
+        "repeat_cases": 244,
+        "repeat_executions": 488,
+        "source_runtime": "PASS_WITH_OPEN_TRINKET_PVP_P1",
+        "node_esm": "NOT_RUN"
+      },
+      "platform": {
+        "node_sse_decoder": "8/8_PASS",
+        "full_engine_v8": "13/13_PASS_WITH_PRIVACY_GAP",
+        "http_e2e": "NOT_RUN",
+        "rust_acl": "NOT_RUN"
+      }
+    },
+    "node_integrity_test": "CREATED_NOT_RUN",
+    "rust_full_feature_parity": "NOT_RUN",
+    "actions_this_batch": 3,
+    "actions_manual": 0,
+    "actions_automatic_pr": 3
+  },
+  "critical_deltas": [
+    {
+      "id": "M45-SKILLS-NAMI-W",
+      "priority": "P0",
+      "state": "CONFIRMED_SOURCE_V8_SYNTHETIC_DUAL_QUEUE",
+      "legacy": "Both queue routes accepted; board W spends 70 mana and leaves targeted W pending; at t=10.25 stale W spends another 70 mana without fresh request; blue/red, both queue orders 4/4. Single-route controls 4/4 do not ghost.",
+      "target": "Exactly once per authenticated W command and cast transaction; retire conflicting pending route immediately; permit later genuinely new authorized W after cooldown, with champion-specific recast exceptions preserved",
+      "provenance": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json",
+      "scope": "V8 isolated; no real fog, full Node gameplay, HTTP, UI reachability or Rust"
+    },
+    {
+      "id": "PLATFORM-016",
+      "priority": "P0",
+      "state": "LEGACY_PRIVACY_GAP_REPRODUCED_V8",
+      "legacy": "anonymous non-public event crosses perspective and SSE snapshot",
+      "target": "deny by default VisibleEventDTO + fields whitelist + both seats + reconnect"
+    },
+    {
+      "id": "M45-PVP-TRINKET",
+      "priority": "P1",
+      "state": "LEGACY_GATEWAY_DENIAL_REPRODUCED_V8",
+      "legacy": "item.trinket rejected despite internal Arena.setTrinket success; 2 expected denials are bug evidence",
+      "target": "versioned intent item.trinket, server-authorized/at fountain, audit and replay"
+    },
+    {
+      "id": "M45-READY-ACK",
+      "priority": "P1",
+      "state": "LEGACY_RETRY_GAP_REPORTED",
+      "legacy": "repeated ready or lost ACK rejected after seal/reconnect",
+      "target": "idempotent round/seat/request receipt persisted before ACK"
+    },
+    {
+      "id": "M45-SKILL-WIRE-CLIENT-CATALOG",
+      "priority": "P0",
+      "state": "SOURCE_V8_AND_GATEWAY_CASES_REPRODUCED",
+      "legacy": "api/kits kits property contains 30 old BOARD_KITS; 14 M44 B13 authored champions absent from this property. Nami W shape target_any has no client-target button path, Ahri E authored board_effect rejected by directional/ground/targeted V47 gateway (6/6 cases). Other API fields may cover some abilities.",
+      "target": "Unified Rust authored descriptor registry, typed UI routes and exactly-once action arbiter",
+      "provenance": "docs/m45_rust_wasm/inputs/core/b02b/B02B_CLIENT_KIT_SOURCE_DISCOVERY.json"
+    }
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "PARTIAL_B01_NATIVE_WASM_BASELINE_ONLY",
+    "G2": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "G4": "NOT_RUN",
+    "G5": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G7": "BLOCKED",
+    "G8": "NOT_RUN"
+  },
+  "policy": {
+    "migration_only": true,
+    "no_actions_this_batch": false,
+    "no_workflow_changes": true,
+    "no_trigger_edits": true,
+    "no_merge": true,
+    "no_rebase": true,
+    "no_force_push": true,
+    "do_not_promote_gates_without_runtime": true,
+    "actions_quota_guard": "BRANCH_RUST_JOBS_SKIP_PULL_REQUEST_HEAD",
+    "note": "Three legacy CI workflows auto-executed on B02B-I01 PR synchronization; guards added to stop future billed jobs. No deliberate Actions requested."
+  },
+  "skills_s09": {
+    "source_audit_head": "e1210e1d2e75bd172ef73a50af79d04193a4de6d",
+    "source_engine_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "golden_plan_26": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_golden_plan.json",
+      "sha": "98bbc1c66cce8d6d0d52f3c75975ad8a8515a4bc",
+      "planned": 26,
+      "full_node_executed": 0
+    },
+    "source_s09_conflict": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_intent_conflict.json",
+      "sha": "0505948ffdd54b64c46264bd7f5796776ce9b6f6"
+    },
+    "source_s09_rust_contract": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/skills_s09_rust_contract.json",
+      "sha": "0649922a02657a04972ff493d12b3b038a23bc10",
+      "status": "DESIGN_ONLY"
+    },
+    "independent_actual_v8": {
+      "artifact_path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json",
+      "artifact_sha": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+      "validator_path": "docs/m45_rust_wasm/inputs/core/b02b/validate_nami_w_witness.mjs",
+      "validator_sha": "4692fb2e2352cda3b76c745ea9842aa23f512ba0",
+      "scenarios": 8,
+      "blue": 4,
+      "red": 4,
+      "controls": 4,
+      "coqueued_ghost": 4,
+      "same_source_second_execution": 8,
+      "second_execution_differences": 0,
+      "validated_receipt": "PASS",
+      "tamper_control": "PASS_REJECTED",
+      "risk": "NAMI_W_STALE_INTENT_REPRODUCED_V8_SYNTHETIC_DUAL_QUEUE",
+      "caveat": "Not Node ESM game full match nor proof the UI permits dual route from one user; visibility and duelPermission mocked; no Rust gameplay/parity."
+    }
+  },
+  "skills_gateway_i04": {
+    "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "skill_gateway_original_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "client_original_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff",
+    "server_original_blob": "61f9d941852b6378bccccf8956aa699e8761836d",
+    "gateway_v8_evidence": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_GATEWAY_KIT_V8_EXECUTED.json",
+      "blob": "30375b17c600b65eef953988f149c6408c588da1",
+      "route_cases": 14,
+      "accepted": 2,
+      "denied": 12,
+      "combo_cases": 4,
+      "second_mana_debits_after_cooldown": 0
+    },
+    "client_kit_source_evidence": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_CLIENT_KIT_SOURCE_DISCOVERY.json",
+      "blob": "4dec9b0da3e40252b1929217f87455652fa05ff8",
+      "old_board_registry": 30,
+      "m44_b13_authorial_registry": 14,
+      "overlap": 0,
+      "other_api_fields_possible": true
+    },
+    "validator": {
+      "path": "docs/m45_rust_wasm/inputs/core/b02b/validate_gateway_kit_evidence.mjs",
+      "blob": "ed61250ff7029150e7b2f159a6238d5517c5243a",
+      "v8_validated": "PASS",
+      "tamper_detected": true
+    },
+    "rust_contract": {
+      "path": "docs/m45_rust_wasm/inputs/core/B02B_SKILL_WIRE_RUST_CONTRACT.json",
+      "blob": "a049f91f318e1961931d87716bcd8fca79515f5b",
+      "state": "PROPOSED_NOT_IMPLEMENTED"
+    },
+    "full_node_26_suites": "NOT_RUN",
+    "http_real": "NOT_RUN",
+    "rust_combat": "NOT_IMPLEMENTED",
+    "actions_requested": 0
+  }
+}

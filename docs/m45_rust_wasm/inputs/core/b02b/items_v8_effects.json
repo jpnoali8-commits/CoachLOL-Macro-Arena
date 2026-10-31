@@ -1,0 +1,1519 @@
+{
+  "schema": "coachlol.m45.items.v8.effects_execution.b05.v1",
+  "executed_date": "2026-10-30",
+  "provenance": {
+    "source_commit": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "engine_blob_sha": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "fixture_B03_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+    "fixture_B03B_sha": "12c6e565ad85599d87dec983a0dceb4215dff811"
+  },
+  "execution": {
+    "method": "Actual Arena from GitHub compiled in isolated JS V8; extract the unchanged exercise() function bodies from authored golden fixtures and run against engine; no Node fs/import",
+    "planned": 36,
+    "passed": 36,
+    "failed": 0,
+    "status": "PASS",
+    "limitations": [
+      "No native Node .mjs execution",
+      "No browser/WebAssembly",
+      "No server transport/HTTP authorization tested",
+      "Tests mutate setup state as frozen fixture explicitly allows"
+    ]
+  },
+  "cases": [
+    {
+      "id": "M45-B03-shadowflame-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450000,
+      "item_id": "shadowflame",
+      "behavior": "magic_execute_amplifier",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "shadowflame"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "6a891c17"
+      },
+      "observations": {
+        "boosted": 136,
+        "plain": 100,
+        "assertion": "boosted > plain"
+      },
+      "after": {
+        "holder": {
+          "gold": 29040,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 77
+        },
+        "checksum_v40": "e041dd52",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-shadowflame-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450001,
+      "item_id": "shadowflame",
+      "behavior": "magic_execute_amplifier",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "shadowflame"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "60fc2074"
+      },
+      "observations": {
+        "boosted": 136,
+        "plain": 100,
+        "assertion": "boosted > plain"
+      },
+      "after": {
+        "holder": {
+          "gold": 29040,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 77
+        },
+        "checksum_v40": "58d8de6e",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-the_collector-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450002,
+      "item_id": "the_collector",
+      "behavior": "one_kill_one_reward",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "the_collector"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "2ab2a8b4"
+      },
+      "observations": {
+        "kills_before": 0,
+        "kills_after": 1,
+        "deaths_after": 1,
+        "assertion": "once-only execute +25g"
+      },
+      "after": {
+        "holder": {
+          "gold": 27325,
+          "items": [
+            "the_collector"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 0
+        },
+        "checksum_v40": "7b07fcf0",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-the_collector-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450003,
+      "item_id": "the_collector",
+      "behavior": "one_kill_one_reward",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "the_collector"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "b9039087"
+      },
+      "observations": {
+        "kills_before": 0,
+        "kills_after": 1,
+        "deaths_after": 1,
+        "assertion": "once-only execute +25g"
+      },
+      "after": {
+        "holder": {
+          "gold": 27325,
+          "items": [
+            "the_collector"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 0
+        },
+        "checksum_v40": "d2840fa5",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-liandrys_torment-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450004,
+      "item_id": "liandrys_torment",
+      "behavior": "ability_burn_only",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "liandrys_torment"
+          ],
+          "hp": 890
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "128ed485"
+      },
+      "observations": {
+        "burn_power": 11.8,
+        "burn_until": 3,
+        "assertion": "timed magical dot"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "liandrys_torment"
+          ],
+          "hp": 890
+        },
+        "enemy": {
+          "hp": 527
+        },
+        "checksum_v40": "85091c67",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-liandrys_torment-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450005,
+      "item_id": "liandrys_torment",
+      "behavior": "ability_burn_only",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "liandrys_torment"
+          ],
+          "hp": 890
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "a1460672"
+      },
+      "observations": {
+        "burn_power": 11.8,
+        "burn_until": 3,
+        "assertion": "timed magical dot"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "liandrys_torment"
+          ],
+          "hp": 890
+        },
+        "enemy": {
+          "hp": 528
+        },
+        "checksum_v40": "02992325",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-kaenic_rookern-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450006,
+      "item_id": "kaenic_rookern",
+      "behavior": "magic_shield_recharge",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "kaenic_rookern"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "f12c3298"
+      },
+      "observations": {
+        "shield_before": 148.5,
+        "shield_after": 110.5,
+        "assertion": "physical bypasses; magic consumes; 15s recharge"
+      },
+      "after": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "kaenic_rookern"
+          ],
+          "hp": 924
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "244770fe",
+        "gameTime": 15
+      }
+    },
+    {
+      "id": "M45-B03-kaenic_rookern-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450007,
+      "item_id": "kaenic_rookern",
+      "behavior": "magic_shield_recharge",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "kaenic_rookern"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "9f1babd7"
+      },
+      "observations": {
+        "shield_before": 148.5,
+        "shield_after": 110.5,
+        "assertion": "physical bypasses; magic consumes; 15s recharge"
+      },
+      "after": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "kaenic_rookern"
+          ],
+          "hp": 925
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "d41a86de",
+        "gameTime": 15
+      }
+    },
+    {
+      "id": "M45-B03-maw_of_malmortius-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450008,
+      "item_id": "maw_of_malmortius",
+      "behavior": "magic_lifeline",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "maw_of_malmortius"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "b312211c"
+      },
+      "observations": {
+        "hp_before": 182.9,
+        "hp_after": 182.9,
+        "assertion": "triggering magic absorbed; 90s cooldown"
+      },
+      "after": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "maw_of_malmortius"
+          ],
+          "hp": 182.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "e7cd54f0",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-maw_of_malmortius-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450009,
+      "item_id": "maw_of_malmortius",
+      "behavior": "magic_lifeline",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "maw_of_malmortius"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "938a77fd"
+      },
+      "observations": {
+        "hp_before": 182.9,
+        "hp_after": 182.9,
+        "assertion": "triggering magic absorbed; 90s cooldown"
+      },
+      "after": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "maw_of_malmortius"
+          ],
+          "hp": 182.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "f33bad6c",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-force_of_nature-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450010,
+      "item_id": "force_of_nature",
+      "behavior": "stacked_magic_resistance",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27200,
+          "items": [
+            "force_of_nature"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "9f095790"
+      },
+      "observations": {
+        "mr_before": 85,
+        "mr_stacked": 155,
+        "mr_after": 85,
+        "assertion": "8 stacks, 70 MR, expires"
+      },
+      "after": {
+        "holder": {
+          "gold": 27200,
+          "items": [
+            "force_of_nature"
+          ],
+          "hp": 19824
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "68c4e422",
+        "gameTime": 6
+      }
+    },
+    {
+      "id": "M45-B03-force_of_nature-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450011,
+      "item_id": "force_of_nature",
+      "behavior": "stacked_magic_resistance",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27200,
+          "items": [
+            "force_of_nature"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "166b6e0f"
+      },
+      "observations": {
+        "mr_before": 83,
+        "mr_stacked": 153,
+        "mr_after": 83,
+        "assertion": "8 stacks, 70 MR, expires"
+      },
+      "after": {
+        "holder": {
+          "gold": 27200,
+          "items": [
+            "force_of_nature"
+          ],
+          "hp": 19824
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "837eb734",
+        "gameTime": 6
+      }
+    },
+    {
+      "id": "M45-B03-verdant_barrier-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450012,
+      "item_id": "verdant_barrier",
+      "behavior": "single_spell_annul_60s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 28400,
+          "items": [
+            "verdant_barrier"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "8475d4cd"
+      },
+      "observations": {
+        "hp_before": 590,
+        "hp_after": 525,
+        "assertion": "first spell blocked and second hits"
+      },
+      "after": {
+        "holder": {
+          "gold": 28400,
+          "items": [
+            "verdant_barrier"
+          ],
+          "hp": 525
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "24ea2d60",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-verdant_barrier-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450013,
+      "item_id": "verdant_barrier",
+      "behavior": "single_spell_annul_60s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 28400,
+          "items": [
+            "verdant_barrier"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "49ce87a6"
+      },
+      "observations": {
+        "hp_before": 590,
+        "hp_after": 525,
+        "assertion": "first spell blocked and second hits"
+      },
+      "after": {
+        "holder": {
+          "gold": 28400,
+          "items": [
+            "verdant_barrier"
+          ],
+          "hp": 525
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "915b4d28",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-banshees_veil-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450014,
+      "item_id": "banshees_veil",
+      "behavior": "single_cc_annul_40s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "banshees_veil"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "d78e676a"
+      },
+      "observations": {
+        "assertion": "CC blocked exactly once then accepted; 40s cooldown"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "banshees_veil"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "f1d5f1af",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-banshees_veil-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450015,
+      "item_id": "banshees_veil",
+      "behavior": "single_cc_annul_40s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "banshees_veil"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "9ecc9319"
+      },
+      "observations": {
+        "assertion": "CC blocked exactly once then accepted; 40s cooldown"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "banshees_veil"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "62315b04",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-edge_of_night-blue",
+      "batch": "B03",
+      "team": "blue",
+      "seed": 450016,
+      "item_id": "edge_of_night",
+      "behavior": "single_spell_annul_40s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "edge_of_night"
+          ],
+          "hp": 840
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "e9ff49cd"
+      },
+      "observations": {
+        "hp_before": 840,
+        "hp_after": 763,
+        "assertion": "first spell blocked and second hits"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "edge_of_night"
+          ],
+          "hp": 763
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "13fdfa9b",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03-edge_of_night-red",
+      "batch": "B03",
+      "team": "red",
+      "seed": 450017,
+      "item_id": "edge_of_night",
+      "behavior": "single_spell_annul_40s",
+      "source_fixture_blob_sha": "c314db6ac4ddf3f0fb8df48e737ca1d9ad9b3b4c",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "edge_of_night"
+          ],
+          "hp": 840
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "29da5eda"
+      },
+      "observations": {
+        "hp_before": 840,
+        "hp_after": 762,
+        "assertion": "first spell blocked and second hits"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "edge_of_night"
+          ],
+          "hp": 762
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "bfc81a6d",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-overlords_bloodmail-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451000,
+      "item_id": "overlords_bloodmail",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26700,
+          "items": [
+            "overlords_bloodmail"
+          ],
+          "hp": 1140
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "d5cf5f58"
+      },
+      "observations": {
+        "full": 96.75,
+        "missing": 104.22,
+        "sold": 53,
+        "rule": "derived AD from bonus HP and missing HP, sale removes"
+      },
+      "after": {
+        "holder": {
+          "gold": 29010,
+          "items": [],
+          "hp": 1
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "70b08cd6",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-overlords_bloodmail-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451001,
+      "item_id": "overlords_bloodmail",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26700,
+          "items": [
+            "overlords_bloodmail"
+          ],
+          "hp": 1140
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "63a1252f"
+      },
+      "observations": {
+        "full": 97.75,
+        "missing": 105.31,
+        "sold": 54,
+        "rule": "derived AD from bonus HP and missing HP, sale removes"
+      },
+      "after": {
+        "holder": {
+          "gold": 29010,
+          "items": [],
+          "hp": 1
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "4b39bf4b",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-steraks_gage-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451002,
+      "item_id": "steraks_gage",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "steraks_gage"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "98ea6f1e"
+      },
+      "observations": {
+        "bonus_ad": 79.5,
+        "lifeline_cd": 90,
+        "rule": "AD + tenacity + reactive shield"
+      },
+      "after": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "steraks_gage"
+          ],
+          "hp": 306.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "2f02d992",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-steraks_gage-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451003,
+      "item_id": "steraks_gage",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "steraks_gage"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "198d3c41"
+      },
+      "observations": {
+        "bonus_ad": 81,
+        "lifeline_cd": 90,
+        "rule": "AD + tenacity + reactive shield"
+      },
+      "after": {
+        "holder": {
+          "gold": 26800,
+          "items": [
+            "steraks_gage"
+          ],
+          "hp": 306.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "8900849d",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-cosmic_drive-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451004,
+      "item_id": "cosmic_drive",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "cosmic_drive"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "69a818dc"
+      },
+      "observations": {
+        "before": 343.2,
+        "buffed": 364,
+        "after": 343.2,
+        "rule": "magic proc only, expires"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "cosmic_drive"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 510
+        },
+        "checksum_v40": "260a7692",
+        "gameTime": 5
+      }
+    },
+    {
+      "id": "M45-B03B-cosmic_drive-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451005,
+      "item_id": "cosmic_drive",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "cosmic_drive"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "db1f754b"
+      },
+      "observations": {
+        "before": 348.40000000000003,
+        "buffed": 369.2,
+        "after": 348.40000000000003,
+        "rule": "magic proc only, expires"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "cosmic_drive"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 511
+        },
+        "checksum_v40": "8bb0c572",
+        "gameTime": 5
+      }
+    },
+    {
+      "id": "M45-B03B-riftmaker-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451006,
+      "item_id": "riftmaker",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "riftmaker"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "112e81b0"
+      },
+      "observations": {
+        "amplified": 108,
+        "plain": 100,
+        "rule": "health->AP and combat ramp, sale clears item"
+      },
+      "after": {
+        "holder": {
+          "gold": 29070,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 490
+        },
+        "checksum_v40": "b52ee3fb",
+        "gameTime": 4
+      }
+    },
+    {
+      "id": "M45-B03B-riftmaker-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451007,
+      "item_id": "riftmaker",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 26900,
+          "items": [
+            "riftmaker"
+          ],
+          "hp": 940
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "fe7be499"
+      },
+      "observations": {
+        "amplified": 108,
+        "plain": 100,
+        "rule": "health->AP and combat ramp, sale clears item"
+      },
+      "after": {
+        "holder": {
+          "gold": 29070,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 490
+        },
+        "checksum_v40": "df0c2433",
+        "gameTime": 4
+      }
+    },
+    {
+      "id": "M45-B03B-chempunk_chainsword-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451008,
+      "item_id": "chempunk_chainsword",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "chempunk_chainsword"
+          ],
+          "hp": 1040
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "75870560"
+      },
+      "observations": {
+        "wounds_active": true,
+        "rule": "physical only, magic does not trigger"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "chempunk_chainsword"
+          ],
+          "hp": 1040
+        },
+        "enemy": {
+          "hp": 455
+        },
+        "checksum_v40": "bfebe452",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-chempunk_chainsword-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451009,
+      "item_id": "chempunk_chainsword",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "chempunk_chainsword"
+          ],
+          "hp": 1040
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "0ff0701d"
+      },
+      "observations": {
+        "wounds_active": true,
+        "rule": "physical only, magic does not trigger"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "chempunk_chainsword"
+          ],
+          "hp": 1040
+        },
+        "enemy": {
+          "hp": 455
+        },
+        "checksum_v40": "1cd38881",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-immortal_shieldbow-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451010,
+      "item_id": "immortal_shieldbow",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "immortal_shieldbow"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "ff38b891"
+      },
+      "observations": {
+        "before": 182.9,
+        "hp_after": 182.9,
+        "sale_refund": 2100,
+        "rule": "triggering shield + official sale"
+      },
+      "after": {
+        "holder": {
+          "gold": 29100,
+          "items": [],
+          "hp": 182.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "489727a9",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-immortal_shieldbow-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451011,
+      "item_id": "immortal_shieldbow",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "immortal_shieldbow"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "dedea82a"
+      },
+      "observations": {
+        "before": 182.9,
+        "hp_after": 182.9,
+        "sale_refund": 2100,
+        "rule": "triggering shield + official sale"
+      },
+      "after": {
+        "holder": {
+          "gold": 29100,
+          "items": [],
+          "hp": 182.9
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "41d78274",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-seryldas_grudge-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451012,
+      "item_id": "seryldas_grudge",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "seryldas_grudge"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "284324d9"
+      },
+      "observations": {
+        "slow_active": true,
+        "rule": "spell only and Fatality exclusivity"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "seryldas_grudge"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 166
+        },
+        "checksum_v40": "13dd5493",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-seryldas_grudge-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451013,
+      "item_id": "seryldas_grudge",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "seryldas_grudge"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "0ab44146"
+      },
+      "observations": {
+        "slow_active": true,
+        "rule": "spell only and Fatality exclusivity"
+      },
+      "after": {
+        "holder": {
+          "gold": 27000,
+          "items": [
+            "seryldas_grudge"
+          ],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 166
+        },
+        "checksum_v40": "04ef7e94",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-bloodletters_curse-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451014,
+      "item_id": "bloodletters_curse",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "bloodletters_curse"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "ea90dd17"
+      },
+      "observations": {
+        "stacks": 4,
+        "until": 11,
+        "now": 13,
+        "rule": "four max stacks, six-second expiry"
+      },
+      "after": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "bloodletters_curse"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 9902
+        },
+        "checksum_v40": "dba042ec",
+        "gameTime": 13
+      }
+    },
+    {
+      "id": "M45-B03B-bloodletters_curse-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451015,
+      "item_id": "bloodletters_curse",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "bloodletters_curse"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "beac2328"
+      },
+      "observations": {
+        "stacks": 4,
+        "until": 11,
+        "now": 13,
+        "rule": "four max stacks, six-second expiry"
+      },
+      "after": {
+        "holder": {
+          "gold": 27100,
+          "items": [
+            "bloodletters_curse"
+          ],
+          "hp": 990
+        },
+        "enemy": {
+          "hp": 9903
+        },
+        "checksum_v40": "adb0f8aa",
+        "gameTime": 13
+      }
+    },
+    {
+      "id": "M45-B03B-abyssal_mask-blue",
+      "batch": "B03B",
+      "team": "blue",
+      "seed": 451016,
+      "item_id": "abyssal_mask",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 30000,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "9227465c"
+      },
+      "observations": {
+        "boosted": 112,
+        "plain": 100,
+        "holder": "blue_SUP",
+        "rule": "ally support aura amplifies magic vs no-aura control"
+      },
+      "after": {
+        "holder": {
+          "gold": 30000,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 490
+        },
+        "checksum_v40": "92563e00",
+        "gameTime": 0
+      }
+    },
+    {
+      "id": "M45-B03B-abyssal_mask-red",
+      "batch": "B03B",
+      "team": "red",
+      "seed": 451017,
+      "item_id": "abyssal_mask",
+      "behavior": null,
+      "source_fixture_blob_sha": "12c6e565ad85599d87dec983a0dceb4215dff811",
+      "status": "PASS",
+      "before": {
+        "holder": {
+          "gold": 30000,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 590
+        },
+        "checksum_v40": "4678a84d"
+      },
+      "observations": {
+        "boosted": 112,
+        "plain": 100,
+        "holder": "red_SUP",
+        "rule": "ally support aura amplifies magic vs no-aura control"
+      },
+      "after": {
+        "holder": {
+          "gold": 30000,
+          "items": [],
+          "hp": 590
+        },
+        "enemy": {
+          "hp": 490
+        },
+        "checksum_v40": "9883f804",
+        "gameTime": 0
+      }
+    }
+  ]
+}

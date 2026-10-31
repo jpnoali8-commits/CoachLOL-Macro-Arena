@@ -1,0 +1,77 @@
+{
+  "schema": "coachlol.m45.skills.s09.legacy-intent-conflict.v1",
+  "date": "2026-10-30",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "engine_git_blob_sha": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+  "facts": [
+    {
+      "symbol": "Arena.queueTargetedSkill",
+      "line": 13878,
+      "statement": "Nami W targeted queue writes u.pendingTargetedCast; no shared pending-board gate in branch",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "symbol": "Arena.queueBoardSkillV453Dev69",
+      "line": 4434,
+      "statement": "Board queue independently writes u.pendingBoardV453Dev69",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "symbol": "Arena.resolveCombat",
+      "line": 17875,
+      "statement": "Board resolver precedes targeted resolver",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "symbol": "Arena.resolveTargetedCasts",
+      "line": 13923,
+      "statement": "When castGateV39 fails (e.g. W cooldown), code continues with pendingTargetedCast still present",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "symbol": "Arena.performActionV40",
+      "line": 2568,
+      "statement": "Action lock keyed actor+action+slot only for same gameTime, not a cross-time stale intent ledger",
+      "status": "SOURCE_VERIFIED"
+    },
+    {
+      "symbol": "Arena.resolveTargetedCasts",
+      "line": 13926,
+      "statement": "When cooldown later expires, a still pending targeted W may performActionV40 with no fresh request",
+      "status": "SOURCE_PREDICTION_NOT_EXECUTED"
+    }
+  ],
+  "scenario": {
+    "test_path": "docs/m45_rust_wasm/inputs/skills/s09_nami_w_stale.test.mjs",
+    "test_sha": "eec3732e024fbee3517041d9f92f9862d01e5ad2",
+    "seats": [
+      "blue",
+      "red"
+    ],
+    "queue_orders": [
+      [
+        "targeted",
+        "board"
+      ],
+      [
+        "board",
+        "targeted"
+      ]
+    ],
+    "expected_case_count": 4,
+    "actual_case_count": 0,
+    "snapshot_receipts": 0,
+    "done_when": "Node baseline genuinely executes and writes s09_nami_w_stale.local.json"
+  },
+  "migration_decision": {
+    "legacy_bug": "DO_NOT_SANCTION",
+    "desired_rust": "atomic one owner+slot intent, idempotent request, no pending across cooldown after conflict",
+    "status": "SPEC_PROPOSED"
+  },
+  "runtime": "NOT_RUN",
+  "rust_native": "NOT_RUN",
+  "wasm": "NOT_RUN",
+  "G0": "PARTIAL",
+  "G6": "NOT_RUN",
+  "G8": "NOT_CERTIFIED"
+}

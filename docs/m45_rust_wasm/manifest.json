@@ -1,0 +1,875 @@
+{
+  "schema": "coachlol.m45.migration-roadmap.v1",
+  "updated_at": "2026-10-30",
+  "migration_mode": "MIGRATION_ONLY",
+  "certification": "NOT_CERTIFIED",
+  "next_priority": "B02B",
+  "ledger": "docs/m45_rust_wasm/STATUS_LEDGER.md",
+  "base_refs": {
+    "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+    "skills": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "items": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d",
+    "rust_initial": "7d344d2fac16b05a6e81c8984e38ce6ad2c907c3"
+  },
+  "rules": [
+    "Never claim Rust compiled based on V8",
+    "Never run two authoritative writers in one match",
+    "No JS novel skills/items until MIGRATION_CERTIFIED",
+    "No force/rebase/main merge",
+    "A queued task is eligible only when verified dependencies are satisfied"
+  ],
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "PARTIAL",
+    "G2": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "G4": "NOT_RUN",
+    "G5": "NOT_RUN",
+    "G6": "NOT_RUN",
+    "G7": "BLOCKED",
+    "G8": "NOT_RUN"
+  },
+  "tasks": [
+    {
+      "id": "B01",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "requires": [],
+      "scope": "rust core-state + golden smite; cargo/WASM NOT_RUN"
+    },
+    {
+      "id": "B02",
+      "status": "IN_PROGRESS_BLOCKED",
+      "requires": [
+        "B01"
+      ],
+      "scope": "Rust toolchain + native/wasm QA and cross-branch inventory"
+    },
+    {
+      "id": "B03",
+      "status": "QUEUED",
+      "requires": [
+        "B02"
+      ],
+      "scope": "versioned schemas/serde/replay test harness"
+    },
+    {
+      "id": "B04",
+      "status": "QUEUED",
+      "requires": [
+        "B03"
+      ],
+      "scope": "protocol, clock, seat/turn seal/ACK"
+    },
+    {
+      "id": "B05",
+      "status": "QUEUED",
+      "requires": [
+        "B04"
+      ],
+      "scope": "canonical replay checksum/snapshot/RNG"
+    },
+    {
+      "id": "B06",
+      "status": "QUEUED",
+      "requires": [
+        "B04",
+        "B05"
+      ],
+      "scope": "Rust match actor networking and authority boundary"
+    },
+    {
+      "id": "B07",
+      "status": "QUEUED",
+      "requires": [
+        "B03",
+        "B06"
+      ],
+      "scope": "PT-BR parser persistent command plans"
+    },
+    {
+      "id": "B08",
+      "status": "QUEUED",
+      "requires": [
+        "B06",
+        "B07"
+      ],
+      "scope": "text/voice/client command ACK boundary"
+    },
+    {
+      "id": "B09",
+      "status": "QUEUED",
+      "requires": [
+        "B05"
+      ],
+      "scope": "map/collision/pathfinding"
+    },
+    {
+      "id": "B10",
+      "status": "QUEUED",
+      "requires": [
+        "B09"
+      ],
+      "scope": "fog and vision ownership"
+    },
+    {
+      "id": "B11",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B10"
+      ],
+      "scope": "dynamic Rift/plant/wall geography"
+    },
+    {
+      "id": "B12",
+      "status": "QUEUED",
+      "requires": [
+        "B04",
+        "B11"
+      ],
+      "scope": "waves/CS/XP"
+    },
+    {
+      "id": "B13",
+      "status": "QUEUED",
+      "requires": [
+        "B12"
+      ],
+      "scope": "economy/recall/undo"
+    },
+    {
+      "id": "B14",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B13"
+      ],
+      "scope": "jungle/smite"
+    },
+    {
+      "id": "B15",
+      "status": "QUEUED",
+      "requires": [
+        "B14"
+      ],
+      "scope": "objectives/structures/nexus"
+    },
+    {
+      "id": "B16",
+      "status": "QUEUED",
+      "requires": [
+        "B09",
+        "B04"
+      ],
+      "scope": "combat stats/damage/target"
+    },
+    {
+      "id": "B17",
+      "status": "QUEUED",
+      "requires": [
+        "B16",
+        "B11"
+      ],
+      "scope": "projectiles/recasts/CC"
+    },
+    {
+      "id": "B18",
+      "status": "QUEUED",
+      "requires": [
+        "B17"
+      ],
+      "scope": "effects/summons/realms"
+    },
+    {
+      "id": "B19",
+      "status": "QUEUED",
+      "requires": [
+        "B18"
+      ],
+      "scope": "authored champion registry P/QWER + Sylas/Viego"
+    },
+    {
+      "id": "B20",
+      "status": "QUEUED",
+      "requires": [
+        "B19",
+        "B02"
+      ],
+      "scope": "legacy P/QWER batch 1"
+    },
+    {
+      "id": "B21",
+      "status": "QUEUED",
+      "requires": [
+        "B20"
+      ],
+      "scope": "legacy P/QWER batch 2"
+    },
+    {
+      "id": "B22",
+      "status": "QUEUED",
+      "requires": [
+        "B21"
+      ],
+      "scope": "all remaining authored legacy P/QWER"
+    },
+    {
+      "id": "B23",
+      "status": "QUEUED",
+      "requires": [
+        "B13",
+        "B16"
+      ],
+      "scope": "items/runes/spells/trinket crates"
+    },
+    {
+      "id": "B24",
+      "status": "QUEUED",
+      "requires": [
+        "B23",
+        "B02"
+      ],
+      "scope": "all legacy item contracts"
+    },
+    {
+      "id": "B25",
+      "status": "QUEUED",
+      "requires": [
+        "B22",
+        "B24"
+      ],
+      "scope": "all features union 100% reconcile and cross interactions"
+    },
+    {
+      "id": "B26",
+      "status": "QUEUED",
+      "requires": [
+        "B06",
+        "B25"
+      ],
+      "scope": "Rust full match authority"
+    },
+    {
+      "id": "B27",
+      "status": "QUEUED",
+      "requires": [
+        "B26"
+      ],
+      "scope": "WASM safe public boundary"
+    },
+    {
+      "id": "B28",
+      "status": "QUEUED",
+      "requires": [
+        "B26",
+        "B27"
+      ],
+      "scope": "TS UI integration"
+    },
+    {
+      "id": "B29",
+      "status": "QUEUED",
+      "requires": [
+        "B26",
+        "B28"
+      ],
+      "scope": "two session full PvP"
+    },
+    {
+      "id": "B30",
+      "status": "QUEUED",
+      "requires": [
+        "B25",
+        "B29"
+      ],
+      "scope": "exhaustive historical parity audit"
+    },
+    {
+      "id": "B31",
+      "status": "QUEUED",
+      "requires": [
+        "B30"
+      ],
+      "scope": "stress/security/rollback"
+    },
+    {
+      "id": "B32",
+      "status": "QUEUED",
+      "requires": [
+        "B31"
+      ],
+      "scope": "asset restoration/release package"
+    },
+    {
+      "id": "B33",
+      "status": "QUEUED",
+      "requires": [
+        "B30",
+        "B31",
+        "B32"
+      ],
+      "scope": "G0-G8 migration certification"
+    }
+  ],
+  "b02": {
+    "phase": "B02B_I14_CODESPACE_NATIVE_GATE_AWAITING_EXECUTION",
+    "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
+    "source_refs": {
+      "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
+      "skills": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "items": "182e592fc27cc9516cf6d52ef2fabc17ee1e1b7d"
+    },
+    "inventory_path": "docs/m45_rust_wasm/inputs/core/B02_GIT_TREE_INDEX.json",
+    "tree_stats": {
+      "integration": {
+        "files": 1653,
+        "tests": 165
+      },
+      "skills": {
+        "files": 1858,
+        "tests": 290
+      },
+      "items": {
+        "files": 1657,
+        "tests": 167
+      }
+    },
+    "diff_vs_integration": {
+      "skills": {
+        "added": 205,
+        "modified": 8,
+        "deleted": 0
+      },
+      "items": {
+        "added": 4,
+        "modified": 7,
+        "deleted": 0
+      }
+    },
+    "native_test": "PASS_3_OF_3_GITHUB_RUN_41137516144",
+    "wasm_build": "PASS_RELEASE_CORE_STATE_GITHUB_RUN_41137516144",
+    "wasm_binary_test": "PASS_GITHUB_RUN_41137516144",
+    "wasm_target": "NOT_VERIFIED",
+    "toolchain_probe": "RUST_1_85_1_AND_WASM_TARGET_CONFIRMED_GITHUB_RUNNER",
+    "syntax_bash": "PASS",
+    "syntax_node": "PASS",
+    "symbol_inventory": "STATIC_PARTIAL",
+    "golden_per_source": "NOT_RUN",
+    "handoffs": "STATIC_RECEIVED_RUNTIME_NOT_RUN",
+    "next": "B02B",
+    "handoff_refs": {
+      "skills": "6b8de5ec2906e9cab25c3b0205ed7572d370854a",
+      "items": "134b6260173d3b2d4e3a6ffa6317a40c361b8bfc",
+      "platform": "b7b8baf02d4a5dfacb15cd8679a94f2fe2841a06"
+    },
+    "union_matrix_path": "docs/m45_rust_wasm/inputs/core/B02_UNION_MATRIX.json",
+    "union_matrix_rows": 1178,
+    "static_test_sha_refs_verified": 891,
+    "platform_source_paths_verified": 29,
+    "public_adapter_qa": {
+      "status": "PASS_MOCK_ABI_ONLY",
+      "command": "node --test tests/audit/m45_b02_public_adapter_contract.test.mjs",
+      "tests": 4,
+      "passed": 4,
+      "fixture_vectors": 18,
+      "fixture_contested": 15,
+      "fixture_uncontested": 3,
+      "source_adapter_blob_sha": "9ac1d5595c12371092a82cb0b8538edd161be76b",
+      "source_fixture_blob_sha": "168abfd267632074d6da4f1ea7bddd02903b9bfa",
+      "test_blob_sha": "fa875c3e37b204a2124693291cdba7e82aa4f4f0",
+      "does_not_certify": [
+        "rust-native",
+        "compiled-wasm",
+        "legacy-pvp-parity"
+      ]
+    },
+    "latest_handoff_refs": {
+      "skills": "2184c906d0363e639c201ded5f63aad8cdfe9350",
+      "items": "0ae7cbff0b39866d09fb862a421af0b81db1997d",
+      "platform": "e98c9353a3d9343c5874c5787fbbb7c52ab5fcf7"
+    },
+    "latest_handoff_status": "S04_I02_A03_STATIC_RECONCILED_RUNTIME_GOLDENS_NOT_RUN",
+    "security_risk_platform_016": "P0_STATIC_SUSPECTED_PROJECTION_LEAK_NOT_RUNTIME_VERIFIED",
+    "evidence_runner": {
+      "path": "tools/m45_qa_evidence.mjs",
+      "status": "EXECUTED_LOCAL_EXIT_42",
+      "native": "BLOCKED_MISSING_RUSTC_CARGO",
+      "wasm": "NOT_RUN",
+      "adapter": "PASS",
+      "legacy_js": "NOT_RUN",
+      "policy_tests": "4/4_PASS",
+      "adapter_contract_tests": "4/4_PASS",
+      "G1": "NOT_RUN",
+      "wasm_sha256": null,
+      "receipt_schema": "coachlol.m45.b02a.evidence.v1"
+    },
+    "handoff_delta_path": "docs/m45_rust_wasm/inputs/core/B02_HANDOFF_DELTA_A4.json",
+    "latest_overlap_slots_active": 27,
+    "platform_016": "REPRODUCED_V8_ISOLATED_NOT_E2E",
+    "source_snapshot": {
+      "status": "PASS_ISOLATED_COPY_ONLY",
+      "tests": 22,
+      "source_engine_blob_sha": "1737f4f675bd9cc5ed0a48defc68b2fddc124d71",
+      "fixture_blob_sha": "5226234262b5ce9dfa10d61e40e6131b03530db5",
+      "test_blob_sha": "3c23b2250b3f5e7dd2694a786af21aaf7f5cedd5",
+      "does_not_certify": [
+        "engine_full_checkout",
+        "rust_native",
+        "wasm_compiled"
+      ]
+    },
+    "node_qa": {
+      "status": "PASS",
+      "tests": 30,
+      "passed": 30,
+      "components": {
+        "sourceSnapshot": 22,
+        "adapter": 4,
+        "policy": 4
+      }
+    },
+    "remote_runner": {
+      "provider": "GitHub Actions",
+      "status": "SUCCESS_COMPLETED",
+      "trigger": "push_path_only",
+      "path": ".github/workflows/m45-b02a5-one-shot.yml",
+      "trigger_file": "docs/m45_rust_wasm/qa/trigger_b02a5.txt",
+      "timeout_minutes": 10,
+      "permissions": "contents:read",
+      "receipt": "m45-b02a5-rust-wasm-qa",
+      "auto_rerun_every_commit": false,
+      "first_commit": "6bb6d2cc7f58c1e4053170276eddf56ebba9ab36",
+      "first_probe": {
+        "head_sha": "6bb6d2cc7f58c1e4053170276eddf56ebba9ab36",
+        "branch_runs": 0,
+        "commit_runs": 0,
+        "check_runs": 0,
+        "commit_statuses": 0,
+        "execution": "NO_RUN_OBSERVED",
+        "cause": "UNKNOWN"
+      },
+      "retry_count": 1,
+      "max_retry_count": 1,
+      "automatic_retry_allowed": false,
+      "first_real_run": {
+        "run_id": 41137201572,
+        "job_id": 124342476724,
+        "head_sha": "91fda60e81d44e7b08bc06874094fc38c24d5fef",
+        "conclusion": "failure",
+        "toolchain": "RUST_1_85_1_INSTALLED",
+        "native": "PASS_3_3",
+        "fmt": "FAIL",
+        "clippy": "PASS",
+        "target": "PASS",
+        "wasmBuild": "NOT_RUN",
+        "wasmSmoke": "NOT_RUN",
+        "jsGolden": "PASS_21_21",
+        "sourceSnapshot": "PASS_23_23",
+        "adapter": "PASS_4_4",
+        "artifact_id": 13016518122
+      },
+      "format_auto_commit": {
+        "path": "crates/core-state/src/lib.rs",
+        "allowed_only_file": true,
+        "method": "rustfmt 1.85.1 native GitHub runner",
+        "permissions": "job contents:write",
+        "push": "fast_forward_only",
+        "new_head": "c8e8f182b87d720619fe5747076b8221413acde7"
+      },
+      "followup_artifact": "m45-b02a7-rust-wasm-qa",
+      "final_real_run": {
+        "run_id": 41137516144,
+        "job_id": 124343505135,
+        "event_commit": "4f73eceb4cfe07ffa36ea696d1944556d87f00e6",
+        "verified_commit_sha": "c8e8f182b87d720619fe5747076b8221413acde7",
+        "conclusion": "success",
+        "artifact_id": 13016623674,
+        "artifact_name": "m45-b02a7-rust-wasm-qa",
+        "rustc": "1.85.1",
+        "node": "v22.23.4",
+        "native_tests_passed": 3,
+        "fmt": "PASS",
+        "clippy": "PASS",
+        "target": "PASS",
+        "wasmBuild": "PASS",
+        "wasmSmoke": "PASS",
+        "jsGolden": "PASS_21_21",
+        "sourceSnapshot": "PASS_23_23",
+        "adapter": "PASS_4_4",
+        "G1": "PASS_BASELINE_ONLY",
+        "wasm_sha256": "ffc019a55a2799202e2511d7fe1a4304932479f48b739ed01ca7715dd4f48f63"
+      }
+    },
+    "user_has_local_checkout": false,
+    "current_specialist_refs": {
+      "skills": "165f51bf1e50d3816484ce8c8ed715cf81c3ec0f",
+      "items": "13caf37797e9c85e41f63b9ff5b4a9652682305c",
+      "platform": "975153367177ccceb553f80a78b66b041b31a075"
+    },
+    "evidence_index_path": "docs/m45_rust_wasm/inputs/core/B02B_HANDOFF_INDEX.json",
+    "evidence_bundle_dir": "docs/m45_rust_wasm/inputs/core/b02b",
+    "evidence_integrity": {
+      "environment": "JS_V8_CODE_MODE_GITHUB_SOURCE",
+      "status": "PASS",
+      "errors": 0,
+      "checks": {
+        "skills_refs": 26,
+        "skills_executed": 0,
+        "items_catalog": 244,
+        "items_replay_matches": 244,
+        "items_v8_cases": 299,
+        "items_expected_gateway_denials": 2,
+        "platform_contracts": 12,
+        "skills_executed_full_node": 0
+      },
+      "node_test": "CREATED_NOT_RUN",
+      "actions_used": 0
+    },
+    "open_risks": [
+      "M45-SKILLS-NAMI-W_REPRODUCED_V8",
+      "PLATFORM-016",
+      "M45-PVP-TRINKET",
+      "M45-READY-ACK",
+      "M45-SKILL-WIRE-CLIENT-CATALOG",
+      "M45-AHRI-E-UNREACHABLE_VIA_STANDARD_GATEWAY"
+    ],
+    "actions_policy": "ZERO_BY_DEFAULT_UNLESS_MAJOR_GATE_AND_UNBLOCKABLE_OTHERWISE",
+    "actions_this_batch": 3,
+    "actions_manually_triggered": 0,
+    "actions_autotriggered_by_pr": 3,
+    "legacy_ci_runs": [
+      {
+        "id": 41138435112,
+        "kind": "skills",
+        "conclusion": "success",
+        "event": "pull_request"
+      },
+      {
+        "id": 41138434758,
+        "kind": "integration",
+        "conclusion": "success",
+        "event": "pull_request"
+      },
+      {
+        "id": 41138434699,
+        "kind": "qa",
+        "conclusion": "success",
+        "event": "pull_request"
+      }
+    ],
+    "actions_quota_guard": {
+      "status": "VERIFIED_THREE_LEGACY_CI_JOBS_SKIPPED",
+      "ref": "dev69/rust-core-m45",
+      "blocked_head_ref": "dev69/rust-core-m45",
+      "jobs": [
+        "nami-vex",
+        "integration",
+        "smoke"
+      ],
+      "source_origins_unchanged": true,
+      "new_rust_trigger": false,
+      "verified_head": "83a2a8b8dd403f8cf38567a47821d9ea427ab387",
+      "verification_runs": [
+        {
+          "id": 41138667106,
+          "name": "skills",
+          "conclusion": "skipped"
+        },
+        {
+          "id": 41138667069,
+          "name": "integration",
+          "conclusion": "skipped"
+        },
+        {
+          "id": 41138667088,
+          "name": "qa",
+          "conclusion": "skipped"
+        }
+      ],
+      "runners_allocated_after_guard": 0
+    },
+    "nami_w": {
+      "status": "LEGACY_SOURCE_V8_REPRODUCED_SYNTHETIC_DUAL_QUEUE",
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "fixture_blob": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+      "validator_blob": "4692fb2e2352cda3b76c745ea9842aa23f512ba0",
+      "scenarios": 8,
+      "controls_without_ghost": 4,
+      "coqueue_ghost_cases": 4,
+      "blue": 4,
+      "red": 4,
+      "replay_cases": 8,
+      "replay_differences": 0,
+      "snapshot_restore_matches": 8,
+      "targeted_heal": 115,
+      "board_heal": 75,
+      "ghost_extra_mana": 70,
+      "conditions": [
+        "visible forced true",
+        "duelPermission forced true",
+        "time manually jumped past CD",
+        "API queues directly invoked"
+      ],
+      "gameplay_ui_reachability": "NOT_RUN",
+      "full_node_esm": "NOT_RUN",
+      "rust_combat": "NOT_IMPLEMENTED",
+      "rust_equivalence": "NOT_RUN",
+      "artifact_path": "docs/m45_rust_wasm/inputs/core/b02b/B02B_NAMI_W_V8_EXECUTED.json"
+    },
+    "actions_this_priority": 0,
+    "specialist_skills_s09": {
+      "audit_head": "e1210e1d2e75bd172ef73a50af79d04193a4de6d",
+      "planned_suites": 26,
+      "executed_node_suites": 0,
+      "s09_test_blob": "eec3732e024fbee3517041d9f92f9862d01e5ad2"
+    },
+    "skills_gateway_i04": {
+      "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+      "gateway_replay": {
+        "blob": "30375b17c600b65eef953988f149c6408c588da1",
+        "routes_total": 14,
+        "nami_targeted_accepted": 2,
+        "nami_other_denials": 6,
+        "ahri_e_denials": 6,
+        "combo_sequences": 4,
+        "combo_repeat_casts_observed": 0
+      },
+      "catalog": {
+        "blob": "4dec9b0da3e40252b1929217f87455652fa05ff8",
+        "legacy_board_champs": 30,
+        "m44_authored_champs": 14,
+        "overlap": 0,
+        "other_api_fields_exist": true
+      },
+      "validator": {
+        "blob": "ed61250ff7029150e7b2f159a6238d5517c5243a",
+        "v8": "PASS",
+        "tamper_check": "PASS_REJECTED"
+      },
+      "rust_design": {
+        "blob": "a049f91f318e1961931d87716bcd8fca79515f5b",
+        "status": "PROPOSED_NOT_IMPLEMENTED"
+      },
+      "node_test": {
+        "blob": "9cbe4b958c11bd705f9813c80feac0b16be0c1df",
+        "status": "NOT_RUN"
+      },
+      "source_s10_skills_qa": {
+        "planned": 26,
+        "v8_pass": 22,
+        "v8_fail": 2,
+        "v8_not_run": 2,
+        "full_node_pass": 0
+      },
+      "qa_env": "V8_ORIGINAL_SOURCE_ISOLATED",
+      "actions_requested": 0
+    },
+    "rust_admission_i05": {
+      "status": "WRITTEN_NOT_COMPILED",
+      "module": "crates/core-state/src/skill_admission.rs",
+      "rust_unit_tests_defined": 5,
+      "rust_native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "full_node_skills": "0/26",
+      "http_sse": "NOT_RUN",
+      "source_contract": "docs/m45_rust_wasm/inputs/core/b02b/skills_s11_skill_arbiter_contract.json",
+      "authority": "NONE",
+      "gate": "G1_PARTIAL_B01_BASELINE_ONLY"
+    },
+    "rust_admission_i06": {
+      "source_head": "4bf98495e32dffb67cde32542f76af11d85a66f8",
+      "status": "WRITTEN_STATIC_REVIEW_ONLY",
+      "module": "crates/core-state/src/skill_admission.rs",
+      "fixes": [
+        "deny advance with uncommitted pending",
+        "retain committed in-flight across turn",
+        "terminal cleanup via explicit retire"
+      ],
+      "rust_unit_tests_defined": 7,
+      "rust_unit_tests_executed": 0,
+      "static_source_checks": "PASS",
+      "cargo": "NOT_RUN",
+      "rustfmt": "NOT_RUN",
+      "clippy": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "http_sse": "NOT_RUN",
+      "actions_manual": 0,
+      "g0": "PARTIAL",
+      "g1": "PARTIAL_PREVIOUS_B01_ONLY",
+      "g8": "NOT_RUN"
+    },
+    "i07": {
+      "status": "RUST_WRITTEN_NOT_COMPILED",
+      "base": "056191eff45aa48167a79a36ffe3929b6e56eb48",
+      "rust_unit_tests_defined": 9,
+      "rust_unit_tests_run": 0,
+      "legacy_source_static_audit": "PASS",
+      "matrix": "docs/m45_rust_wasm/inputs/core/b02b/B02B_I07_WIRE_GAPS.json",
+      "rust_native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "original_node_skills": "0/26",
+      "actual_http_sse": "NOT_RUN",
+      "actions_manually_requested": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i08": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "94e22180623ca20477165221e9e9251ff508c1e8",
+      "src_module": "crates/core-state/src/skill_wire.rs",
+      "contract": "docs/m45_rust_wasm/inputs/core/b02b/B02B_I08_AUTHORIAL_WIRE_REGISTRY.json",
+      "implemented_shapes": [
+        "Nami/W/target_any",
+        "Ahri/E/line_enemy"
+      ],
+      "rust_unit_tests_defined": 15,
+      "rust_unit_tests_executed": 0,
+      "original_node_suites": "0/26",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "actual_server_authentication": "NOT_IMPLEMENTED",
+      "gameplay_executor": "NOT_IMPLEMENTED",
+      "actions_manually_started": 0,
+      "gates": "G0_PARTIAL_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i09": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "b7a44676dd64b6b2f89ba2e3fca680e531136d76",
+      "module": "crates/core-state/src/skill_authority.rs",
+      "rust_tests_defined": 23,
+      "rust_tests_executed": 0,
+      "validated_by": "SOURCE_ONLY",
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "original_node_skills": "0/26",
+      "server_auth_bridge": "NOT_IMPLEMENTED",
+      "effects": "NOT_IMPLEMENTED",
+      "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i10": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "parent": "d75cb818533bf637979f9f48c3cb98d3041615e6",
+      "new_module": "crates/core-state/src/pvp_projection.rs",
+      "contracts": [
+        "seat-owned units always included",
+        "enemy units only if server fog visible",
+        "ownMana only for same team",
+        "private orders and RNG never serialized",
+        "combat impact only if both units visible to seat",
+        "JSON escapes user-controlled strings in SSE frame",
+        "deterministic unit ordering"
+      ],
+      "new_rust_unit_tests_defined": 9,
+      "total_rust_unit_tests_defined": 32,
+      "rust_unit_tests_run": 0,
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "original_node_suites": "0/26",
+      "manual_actions": 0,
+      "certification": "NOT_CERTIFIED",
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i11": {
+      "status": "RUST_SOURCE_WRITTEN_UNCOMPILED",
+      "base": "3cd4f124590275d37c597cdc820eab655285d98c",
+      "module": "crates/core-state/src/pvp_session.rs",
+      "new_rust_tests_declared": 10,
+      "total_rust_tests_declared": 42,
+      "rust_tests_executed": 0,
+      "security_contract": [
+        "seat bound to token only, not packet team",
+        "32 byte session keys from external OS CSPRNG",
+        "reject duplicate/all-zero token material",
+        "revoke and rotate per seat",
+        "public JSON/SSE auth gate",
+        "raw projection factory crate-private",
+        "no private order or RNG in frame"
+      ],
+      "not_implemented": [
+        "OS CSPRNG",
+        "TLS",
+        "HTTP route",
+        "cookie parser",
+        "CSRF/origin",
+        "session persistence",
+        "full fog/realm engine"
+      ],
+      "rust_native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "github_actions_manual": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i12": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "930188b6d424bdb5457a58fe2632df297fbdbddb",
+      "changed_modules": [
+        "crates/core-state/src/skill_authority.rs",
+        "crates/core-state/src/pvp_session.rs"
+      ],
+      "new_rust_tests_declared": 5,
+      "rust_tests_total_declared": 47,
+      "rust_tests_executed": 0,
+      "fixed": [
+        "reject cross-room snapshot publication",
+        "reject unbound world publication",
+        "rotation must differ from current credential",
+        "reject empty/oversize room labels"
+      ],
+      "security_limitations": [
+        "room_id must be assigned by trusted server, never client",
+        "no session registry network binding",
+        "no CSPRNG/TLS/HTTP",
+        "no cryptographic constant-time proof"
+      ],
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "real_http_sse": "NOT_RUN",
+      "legacy_node_skills": "0/26",
+      "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i13": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "3100812dc826d93cd025bb466a77bb688d2ce44f",
+      "bugs_fixed": [
+        "denied packet flood exhausted successful receipt history"
+      ],
+      "admission_receipt_policy": "CACHE_ONLY_QUEUED_ACCEPTED",
+      "new_rust_tests_defined": 4,
+      "skill_session_tests_defined": 51,
+      "baseline_core_tests_defined": 3,
+      "total_workspace_rust_tests_defined": 54,
+      "rust_tests_executed": 0,
+      "source_audit": "PASS_V8_SOURCE_ONLY",
+      "negative_mutations_rejected": 4,
+      "node_source_audit_runner": "WRITTEN_NOT_EXECUTED_WITH_NODE",
+      "cargo": "NOT_AVAILABLE",
+      "rustfmt": "NOT_AVAILABLE",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i14": {
+      "status": "RUNNER_COMMITTED_CODESPACE_EXECUTION_PENDING",
+      "baseline": "2776371ce8fa07006c5bcfc96ddb514eada66ad4",
+      "entrypoint": "node tools/m45_b02b_i14_codespace_qa.mjs",
+      "guide": "docs/m45_rust_wasm/M45_B02B_I14_CODESPACE_NATIVE_QA.md",
+      "local_receipt": ".m45-qa/i14/result.json",
+      "rust_unit_tests_declared": 54,
+      "rust_unit_tests_executed": 0,
+      "node_runner": "NOT_RUN",
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "github_actions_manual": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    }
+  }
+}

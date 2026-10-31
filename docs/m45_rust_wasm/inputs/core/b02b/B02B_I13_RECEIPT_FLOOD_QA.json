@@ -1,0 +1,28 @@
+{
+  "schema": "coachlol.m45.b02b.i13.receipt-cache-and-toolchain-audit.v1",
+  "date": "2026-10-30",
+  "base": "3100812dc826d93cd025bb466a77bb688d2ce44f",
+  "receipt_policy": {
+    "before": "CACHE_DENIED_AND_ACCEPTED",
+    "after": "CACHE_ONLY_ADMISSION_DECISION_QUEUED",
+    "limit": 16384,
+    "accepted_idempotency": "PRESERVED",
+    "denied_retry": "MAY_RETRY_WHEN_CONDITIONS_CHANGE"
+  },
+  "toolchain": {
+    "rustc": "ABSENT",
+    "cargo": "ABSENT",
+    "rustfmt": "ABSENT",
+    "dns_static_rust_lang_org": "FAILED"
+  },
+  "qa": {
+    "v8_source_contract": "PASS",
+    "negative_mutations_rejected": 4,
+    "node_runner_committed": "YES",
+    "node_runner_executed": "NO",
+    "rust_tests_declared": 54,
+    "rust_tests_run": 0,
+    "wasm": "NOT_RUN",
+    "actions_manual": 0
+  }
+}

@@ -1,0 +1,5 @@
+[workspace]
+resolver = "2"
+members = ["crates/core-state"]
+
+# M45 is an isolated parity prototype. Never make it authoritative by default.

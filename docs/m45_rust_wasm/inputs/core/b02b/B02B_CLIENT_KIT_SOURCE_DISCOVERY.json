@@ -1,0 +1,125 @@
+{
+  "schema": "coachlol.m45.b02b.client-kit-wire-discovery.v1",
+  "date": "2026-10-30",
+  "source": {
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "server_blob": "61f9d941852b6378bccccf8956aa699e8761836d",
+    "client_blob": "e6eb9af2f6ec84204d47eedcbcc67797748b6cff"
+  },
+  "inspected": {
+    "engine_runtime": "EVAL_ORIGINAL_ENGINE_WITH_ESM_EXPORT_PREFIX_REMOVED",
+    "server_static": true,
+    "client_static": true,
+    "actual_http_get_kits": "NOT_RUN",
+    "two_real_browsers": "NOT_RUN"
+  },
+  "catalog": {
+    "legacy_board_kit_count": 30,
+    "legacy_board_champions": [
+      "Garen",
+      "Annie",
+      "Ashe",
+      "Soraka",
+      "Morgana",
+      "Malphite",
+      "Leona",
+      "Veigar",
+      "Brand",
+      "Sona",
+      "Janna",
+      "Darius",
+      "Amumu",
+      "Blitzcrank",
+      "DrMundo",
+      "Nasus",
+      "Jax",
+      "MissFortune",
+      "Chogath",
+      "Rammus",
+      "Renekton",
+      "Sivir",
+      "Tristana",
+      "TwistedFate",
+      "XinZhao",
+      "Ziggs",
+      "Taric",
+      "Warwick",
+      "Vayne",
+      "Olaf"
+    ],
+    "m44_authored_count": 14,
+    "m44_authored_champions": [
+      "Bard",
+      "AurelionSol",
+      "Anivia",
+      "Kalista",
+      "Leblanc",
+      "Jayce",
+      "Rumble",
+      "Taliyah",
+      "Lissandra",
+      "Ekko",
+      "Zed",
+      "Katarina",
+      "Nami",
+      "Azir"
+    ],
+    "m44_not_in_legacy_board_kits": [
+      "Bard",
+      "AurelionSol",
+      "Anivia",
+      "Kalista",
+      "Leblanc",
+      "Jayce",
+      "Rumble",
+      "Taliyah",
+      "Lissandra",
+      "Ekko",
+      "Zed",
+      "Katarina",
+      "Nami",
+      "Azir"
+    ],
+    "m44_overlap": [],
+    "api_kits_builds_from_BOARD_KITS_ONLY": true,
+    "api_kits_other_collections": [
+      "specials",
+      "formKits",
+      "entityKits",
+      "mechanicKits"
+    ],
+    "qualifier": "Absence is from kits property; exceptions may be displayed by specials/formKits/entityKits/mechanicKits. Do not assert full UI inaccessibility for all champions."
+  },
+  "cases": {
+    "nami_w_authored": {
+      "shape": "target_any",
+      "kind": "board_effect",
+      "mana1": 70,
+      "access_via_legacy_board_kit": false,
+      "client_target_selector_accepts_target_any": false
+    },
+    "ahri_e": {
+      "ability_rule_kind": "board_effect",
+      "access_via_legacy_board_kit": false,
+      "gateway_route_tested": "directional/ground/targeted both teams denied"
+    }
+  },
+  "client_dispatch": {
+    "selects_rule_from_boardKits": true,
+    "sees_additional_mechanic_kit": true,
+    "targeted_slots_allowed_only_target_enemy_and_target_ally": true,
+    "ground_fallback_for_unhandled_shapes": true,
+    "no_target_any_supported_in_target_button": true,
+    "only_direct_board_dispatch_in_gateway_is_R": true
+  },
+  "qa": {
+    "catalog_enumeration": "SOURCE_V8_PASS",
+    "endpoint_http": "NOT_RUN",
+    "gateway_live_class_v8_artifact_sha": "30375b17c600b65eef953988f149c6408c588da1",
+    "nami_duplicate_internal_v8_artifact_sha": "06d36ff35a4bc44f45c6a1806f947833b1a2a14b",
+    "rust": "NOT_RUN",
+    "actions_requested": 0
+  }
+}

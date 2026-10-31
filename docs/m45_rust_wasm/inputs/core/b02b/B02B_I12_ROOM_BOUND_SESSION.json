@@ -1,0 +1,34 @@
+{
+  "schema": "coachlol.m45.b02b.i12.room-bound-session-source.v1",
+  "date": "2026-10-30",
+  "base": "930188b6d424bdb5457a58fe2632df297fbdbddb",
+  "status": "SOURCE_CONTRACT_WRITTEN_NATIVE_NOT_RUN",
+  "threats": [
+    {
+      "id": "CROSS_ROOM_READ",
+      "before": "I11 valid bearer and arbitrary world",
+      "after": "world.source_room_id must match gate.room_id",
+      "test": "valid_session_cannot_read_other_room_even_with_same_seat"
+    },
+    {
+      "id": "UNBOUND_WORLD",
+      "before": "I11 no room tag",
+      "after": "unbound snapshot denied",
+      "test": "unbound_world_cannot_be_published_by_any_session"
+    },
+    {
+      "id": "NOOP_TOKEN_ROTATION",
+      "before": "I11 accepts identical own token",
+      "after": "reject identical own and opposite token",
+      "test": "same_token_rotation_is_rejected_and_does_not_change_credentials"
+    }
+  ],
+  "qa": {
+    "source_review": "PENDING",
+    "rust_unit_tests_declared_total": 47,
+    "rust_unit_tests_executed": 0,
+    "wasm": "NOT_RUN",
+    "http_sse": "NOT_RUN",
+    "actions_manual": 0
+  }
+}
