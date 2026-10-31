@@ -145,3 +145,14 @@ The S10 original 26-suite status remains 22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN; origi
 - `s16_validate_alias_temporal.mjs`: **63/63 verificações estáticas V8 PASS**, documentadas em `S16_STATIC_CONTRACT_RECEIPT.json`; `M45_B02_S16_HANDOFF.md` para o coordenador.
 
 S10 continua **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**, Node completo 0/26. Branch Rust em `94e22180623ca20477165221e9e9251ff508c1e8` ainda somente `core-state`; combat/champions, Rust native, WASM e servidor HTTP sem execução. Nenhuma Action ou merge; nenhuma alteração na engine de produção.
+
+
+## M45 B02 Skills S17 — eventos históricos e reconexão
+
+- `s17_event_reprojection_and_reconnect_pvp.test.mjs`: teste suplementar **efetivamente executado** contra a Arena e gateways originais em V8: **149/149 assertivas PASS**, **4 vazamentos de eventos antigos** e **2 trocas retroativas do alias de Neeko**, todos nos dois times. PASS confirma que o defeito existe no legado, não que deve ser copiado.
+- **Falha P1 `S17_RETROACTIVE_HISTORICAL_EVENT_ID_AND_TEXT_DISCLOSURE`**: `Arena.perspective().events` (`engine.mjs:3261–3276`) usa o disfarce/clone **atual** para projetar evento antigo. Após expiração de Shaco R ou cancelamento de Neeko, a perspectiva do adversário revela `blue_MID/red_MID` e `blue_TOP/red_TOP` e textos privados antigos mesmo sem visão atual; novo disfarce atribui novo alias a evento antigo.
+- **2/2 continuações reais pós-checkpoint PASS**: `Arena.fromSnapshotV40` e `gateway.restore(exportSession())` executaram mesma evolução, preservando `checksumV40`, visão do adversário, ACK de retry, recibos e revisões; a falha ainda ocorre identicamente. Visão **sintética**, não fog/HTTP real.
+- `S17_EVENT_HISTORY_V8_RECEIPT.json` e `M45_B02_S17_HANDOFF.md`: evidência, causa, correção intencional e handoff. `s17_validate_event_history.mjs` foi executado em V8 com **71/71 verificações estáticas PASS**, `S17_STATIC_CONTRACT_RECEIPT.json`.
+- `s17_sealed_event_history_rust_acceptance.rs`: modelo **isolado não-produtivo** de histórico público selado por seat no instante do evento + interface exigindo Neeko e Shaco no Rust real; 4 testes Rust escritos, **0 executados**. Não publicar IDs persistentes ou texto privado por reinterpretação de estado atual.
+
+Matriz S10 original intacta (**22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN; Node original 0/26**). Rust `dev69/rust-core-m45` ainda apenas `core-state` no HEAD observado `b7a44676dd64b6b2f89ba2e3fca680e531136d76`. Rust native/WASM/servidor HTTP NOT_RUN; G8 NOT_CERTIFIED. Nenhum GitHub Actions, merge ou edição nas branches originais.
