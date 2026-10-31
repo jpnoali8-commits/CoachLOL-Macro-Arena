@@ -1,0 +1,128 @@
+{
+  "schema": "coachlol.m45.skills.s17.events-history-reprojection.v1",
+  "date": "2026-10-30",
+  "audit_branch": "dev69/m45-audit-skills",
+  "original_source": {
+    "branch": "dev69/skills-batch2",
+    "commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "engine_blob": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+    "map_blob": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "mask_blob": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+    "gateway_dev44_blob": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+    "gateway_dev47_blob": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f"
+  },
+  "supplemental_test": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s17_event_reprojection_and_reconnect_pvp.test.mjs",
+    "git_blob_sha": "b4c8aa8ebdf5984869dac60d00aa7620ff9a53d4"
+  },
+  "rust_acceptance": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s17_sealed_event_history_rust_acceptance.rs",
+    "git_blob_sha": "0e54ec9a3d11061441cff50d857833b235b569e6",
+    "model_kind": "ISOLATED_PRIVACY_DESIGN_AND_ACTUAL_RUST_RUNNER_TRAIT",
+    "rust_unit_tests_prepared": 4,
+    "rust_unit_tests_executed": 0,
+    "production_workspace_member": false
+  },
+  "execution": {
+    "kind": "REAL_SAVED_S17_SUPPLEMENTAL_BODY_ISOLATED_V8_WITH_ORIGINAL_ARENA_GATEWAY_DEV44_DEV47_NODE_IMPORT_ASSERT_STRUCTUREDCLONE_SHIMS",
+    "status": "V8_PASS_BUG_REPRODUCED",
+    "assertions_executed": 149,
+    "assertions_pass": 149,
+    "bilateral_seat_scenarios": 2,
+    "old_event_leaks_observed": 4,
+    "old_neeko_event_relabelings_observed": 2,
+    "checkpoint_restored_continuations": 2,
+    "post_restore_replay_checks": [
+      "checksumV40 entire source state including RNG",
+      "opponent perspective equality",
+      "authoritative gateway receipt/revision equality",
+      "repeat request idempotency",
+      "frozen historical event leak reproduced after restoring"
+    ],
+    "baseline_snapshot_roundtrip_checks": "present",
+    "original_full_node": "NOT_RUN",
+    "real_http": "NOT_RUN",
+    "native_rust": "NOT_RUN",
+    "wasm": "NOT_RUN"
+  },
+  "privacy_witnesses": [
+    {
+      "owner_team": "blue",
+      "opponent": "red",
+      "first_neeko_alias": "appearance_1",
+      "remasked_neeko_alias": "appearance_7",
+      "first_shaco_alias": "appearance_3",
+      "expired_event_stable_id": "blue_MID",
+      "cancelled_event_stable_id": "blue_TOP",
+      "original_private_text_exposed": [
+        "S17_SHACO_PRIVATE_OLD",
+        "S17_NEEKO_PRIVATE_OLD"
+      ],
+      "post_continuation_state_checksumV40": "8d47314d"
+    },
+    {
+      "owner_team": "red",
+      "opponent": "blue",
+      "first_neeko_alias": "appearance_1",
+      "remasked_neeko_alias": "appearance_7",
+      "first_shaco_alias": "appearance_3",
+      "expired_event_stable_id": "red_MID",
+      "cancelled_event_stable_id": "red_TOP",
+      "original_private_text_exposed": [
+        "S17_SHACO_PRIVATE_OLD",
+        "S17_NEEKO_PRIVATE_OLD"
+      ],
+      "post_continuation_state_checksumV40": "b33b4dd2"
+    }
+  ],
+  "defect": {
+    "id": "S17_RETROACTIVE_HISTORICAL_EVENT_ID_AND_TEXT_DISCLOSURE",
+    "severity": "P1_PRIVACY_PROTOCOL_CONTRACT",
+    "status": "V8_SOURCE_BILATERAL_REPRODUCED_NOT_FIXED",
+    "cause": "Arena.perspective(team).events at engine lines 3261–3276 reprojects each stored event using current actor neekoDisguiseV453M15/cloneActive alias instead of public identity at emission. If current alias missing it returns raw internal stored event object, disclosing stable unitId and original text, even when opposing canSeePoint is false. On new disguise it changes old event's public alias.",
+    "expected_rust_fix": "Authoritative server seals recipient-specific public event representation or historical visibility-identity metadata at emission. Replays and reconnect must retain fixed redacted actor alias and text (or explicitly omit event), never re-resolve old event with current disguise, never return stable internal IDs or old secret message.",
+    "distinct_from_s15": "S15 Sylas stolen Shaco R decoy appearance wrong; S17 affects historical event privacy across Neeko AND Shaco, independent of clone damage/physics.",
+    "compatibility": "Fix is intentional privacy correction with its own goldens; no automatic engine legacy parity assertion."
+  },
+  "open_questions": [
+    "Event retention, audience policy and alias lifecycle under real browser/fog need server-authoritative verification",
+    "Client may legitimately learn real champion after disguise break, but this does not authorize replayed internal actor IDs or unredacted historical private text",
+    "Which public event kinds are always public, private, masked or omitted must be versioned per event type"
+  ],
+  "coordinator": {
+    "rust_branch": "dev69/rust-core-m45",
+    "head_observed": "b7a44676dd64b6b2f89ba2e3fca680e531136d76",
+    "crates_available": [
+      "core-state"
+    ],
+    "not_yet_present": [
+      "core-combat",
+      "core-champions"
+    ],
+    "native_toolchain_local": "rustc/cargo not installed"
+  },
+  "original_s10_matrix_unchanged": {
+    "planned": 26,
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "full_node": 0
+  },
+  "previous_s16": {
+    "dynamic_cases": 18,
+    "dynamic_assertions": 295,
+    "static_checks": 63
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "SOURCE_ONLY",
+    "G2": "LEGACY_BUG_CHARACTERIZED",
+    "G3": "NOT_RUN",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merges": true,
+  "no_original_branch_edits": true
+}
