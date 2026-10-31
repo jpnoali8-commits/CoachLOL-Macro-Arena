@@ -209,3 +209,7 @@ Corrigida validação estrita de IDs Rust `blue_MID/red_MID` (antes aceitava `bl
 ## B02B-ITEMS B12F — 2026-10-30
 
 [Recibo B12F](RECEIPT_B02B_ITEMS_12F.md) · [QA V8 Anular](QA_V8_ANNUL_LIFECYCLE_B12F.json). Rust isolado `AnnulState` e `ItemRuntimeShop` para Barreira Verdejante, Banshee e Limiar da Noite + Mercury lifecycle, com **236 ações reais JS** em 56 cenários e **8 testes Rust escritos / NOT_RUN**. Sem GitHub Actions.
+
+## B02B-ITEMS B12G — 2026-10-30
+
+[Recibo B12G](RECEIPT_B02B_ITEMS_12G.md). Codespaces runner `scripts/m45/qa_items_codespace.sh`, cargo test offline em worktree temporário sem Actions, logs `~/coachlol-m45-qa/`; correção `item_stats_pending` e +1 teste Rust **NOT_RUN**.

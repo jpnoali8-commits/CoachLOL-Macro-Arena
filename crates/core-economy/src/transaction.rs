@@ -152,7 +152,7 @@ impl AtomicShop {
         self.economy = staged_economy;
         self.live = staged_stats.clone();
         self.append_undo(previous, staged_stats);
-        Ok(receipt)
+        Ok(ShopReceipt { item_stats_pending: false, ..receipt })
     }
     pub fn sell(&mut self, seat: Team, context: &ShopContext, index: usize)
         -> Result<ShopReceipt, AtomicError> {
@@ -172,7 +172,7 @@ impl AtomicShop {
         self.economy = staged_economy;
         self.live = staged_stats.clone();
         self.append_undo(previous, staged_stats);
-        Ok(receipt)
+        Ok(ShopReceipt { item_stats_pending: false, ..receipt })
     }
     pub fn undo(&mut self, seat: Team, context: &ShopContext)
         -> Result<ShopReceipt, AtomicError> {
@@ -184,7 +184,7 @@ impl AtomicShop {
         self.economy = staged;
         self.live = restored;
         self.runtime_undo.pop();
-        Ok(receipt)
+        Ok(ShopReceipt { item_stats_pending: false, ..receipt })
     }
     pub fn on_fountain_presence(&mut self, alive: bool, in_fountain: bool) {
         self.economy.on_fountain_presence(alive, in_fountain);
@@ -298,4 +298,21 @@ mod tests {
             |_| Err(AtomicError::EffectRejected)), Err(AtomicError::EffectRejected));
         assert_eq!(s, prior);
     }
+    #[test]
+    fn applied_base_stats_clear_pending_receipt_on_blue_and_red() {
+        for team in [Team::Blue, Team::Red] {
+            let mut s = sample(team, Role::Mid);
+            let ctx = ShopContext::planning(0);
+            let b = s.buy(team, &ctx, "dorans_ring").unwrap();
+            assert!(!b.item_stats_pending);
+            assert_eq!(s.stats().field("ap"), 18.0);
+            let sold = s.sell(team, &ctx, 0).unwrap();
+            assert!(!sold.item_stats_pending);
+            assert_eq!(s.stats().field("ap"), 0.0);
+            let undone = s.undo(team, &ctx).unwrap();
+            assert!(!undone.item_stats_pending);
+            assert_eq!(s.stats().field("ap"), 18.0);
+        }
+    }
+
 }
