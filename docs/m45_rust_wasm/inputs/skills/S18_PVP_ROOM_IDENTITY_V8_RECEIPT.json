@@ -11,14 +11,14 @@
     "gateway_dev44": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
     "gateway_dev47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
     "room_dev47": "d5d5c36c2f967ed294f6d5e9fcedcd32348eacb5",
-    "test": "91376ef9026514a0a30a9fb0d33a0fc0bddec668",
+    "test": "e5a9a3ced7b42e485aeb3049a5a6c569daa9d9eb",
     "rust": "cf364d9ab0384c351e47839cbf5a410dbf6f7041"
   },
   "v8_actual": {
     "status": "V8_PASS_BUG_WITNESSED_NOT_RUST_PARITY",
     "kind": "SAVED_SUPPLEMENTAL_TEST_BODY_ORIGINAL_ARENA_ORIGINAL_DEV44_DEV47_GATEWAY_ORIGINAL_PVP_ROOM",
-    "assertions_attempted": 117,
-    "assertions_passed": 117,
+    "assertions_attempted": 121,
+    "assertions_passed": 121,
     "scenarios": 4,
     "scenarios_passed": 4,
     "owner_defender_seats": 2,
@@ -38,7 +38,8 @@
       "own kill total is numeric",
       "actionJournalV40 absent from room projection",
       "lastTacticalAlerts absent from room projection",
-      "only authenticated defender receives top-level pending decision"
+      "only authenticated defender receives top-level pending decision",
+      "opposite seat publicInfo pendingDecision is null when defender owns reaction"
     ],
     "original_node_esm": "NOT_RUN",
     "native_rust": "NOT_RUN",
