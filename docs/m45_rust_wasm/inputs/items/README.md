@@ -205,3 +205,7 @@ Corrigida validação estrita de IDs Rust `blue_MID/red_MID` (antes aceitava `bl
 ## B02B-ITEMS B12E — 2026-10-30
 
 [Recibo B12E](RECEIPT_B02B_ITEMS_12E.md) · [QA V8 Mercury](QA_V8_MERCURY_B12E.json). Bandana/Cimitarra Mercurial migradas como adaptadores Rust isolados; **112 ações fonte JavaScript** executadas (64 aceitas, 48 recusadas), 5 novos testes Rust escritos e **NOT_RUN**. Sem integração no match actor e sem GitHub Actions.
+
+## B02B-ITEMS B12F — 2026-10-30
+
+[Recibo B12F](RECEIPT_B02B_ITEMS_12F.md) · [QA V8 Anular](QA_V8_ANNUL_LIFECYCLE_B12F.json). Rust isolado `AnnulState` e `ItemRuntimeShop` para Barreira Verdejante, Banshee e Limiar da Noite + Mercury lifecycle, com **236 ações reais JS** em 56 cenários e **8 testes Rust escritos / NOT_RUN**. Sem GitHub Actions.
