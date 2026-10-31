@@ -1,0 +1,14 @@
+[package]
+name = "coachlol-core-protocol"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+description = "M45 S20 per-seat PvP reaction/privacy protocol slice (not an HTTP server)"
+
+[dependencies]
+coachlol-core-state = { path = "../core-state" }
+
+# Standalone candidate; do not edit the coordinator's root Cargo workspace
+# until Chat 1 reviews the proposed protocol interface.
+[workspace]

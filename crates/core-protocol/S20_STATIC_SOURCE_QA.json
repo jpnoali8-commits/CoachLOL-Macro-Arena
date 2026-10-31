@@ -1,0 +1,104 @@
+{
+  "milestone": "M45 B02 Skills S20",
+  "kind": "static-source-verification",
+  "utc_date": "2026-10-30",
+  "branch": "dev69/m45-skills-s20-protocol",
+  "origin_commit": "daf1df4ce7259cc6502e1b1e7b19a4ca19cd443f",
+  "rust_blob_sha": "1bf151ef889669d0b63a419b64ca3efb222258a9",
+  "checks": [
+    {
+      "name": "real_crate_manifest",
+      "status": "PASS"
+    },
+    {
+      "name": "uses_coordinator_core_state",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone_workspace_isolation",
+      "status": "PASS"
+    },
+    {
+      "name": "team_type_imported_not_duplicated",
+      "status": "PASS"
+    },
+    {
+      "name": "no_serde_dependency",
+      "status": "PASS"
+    },
+    {
+      "name": "private_reaction_not_public",
+      "status": "PASS"
+    },
+    {
+      "name": "private_reaction_no_debug_or_serialize",
+      "status": "PASS"
+    },
+    {
+      "name": "public_allowlist_json",
+      "status": "PASS"
+    },
+    {
+      "name": "sse_uses_identical_public_json",
+      "status": "PASS"
+    },
+    {
+      "name": "seat_filter_on_pending_decisions",
+      "status": "PASS"
+    },
+    {
+      "name": "seat_filter_on_history",
+      "status": "PASS"
+    },
+    {
+      "name": "server_impact_api",
+      "status": "PASS"
+    },
+    {
+      "name": "public_ids_have_strict_charset",
+      "status": "PASS"
+    },
+    {
+      "name": "defender_seat_guard",
+      "status": "PASS"
+    },
+    {
+      "name": "alias_must_be_current",
+      "status": "PASS"
+    },
+    {
+      "name": "stable_ids_cannot_be_requested_as_alias",
+      "status": "PASS"
+    },
+    {
+      "name": "history_frozen_at_event_time",
+      "status": "PASS"
+    },
+    {
+      "name": "history_duplicate_fails",
+      "status": "PASS"
+    },
+    {
+      "name": "restoration_via_clone_private",
+      "status": "PASS"
+    },
+    {
+      "name": "eight_rust_tests_written",
+      "status": "PASS"
+    },
+    {
+      "name": "no_mutation_existing_rust_core",
+      "status": "PASS"
+    },
+    {
+      "name": "source_paths_only_expected",
+      "status": "PASS"
+    }
+  ],
+  "result": "22/22 STATIC_PASS",
+  "rust_native": "NOT_RUN",
+  "rust_wasm": "NOT_RUN",
+  "http_tcp": "NOT_RUN",
+  "node_legacy": "NOT_RUN",
+  "note": "These are source-text and diff inspections only. No Rust compiler, Cargo runner, HTTP listener or real authoritative PvP engine executed."
+}
