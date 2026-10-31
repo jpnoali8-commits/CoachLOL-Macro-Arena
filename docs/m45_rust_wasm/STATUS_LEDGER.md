@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I13 recibos Rust accepted-only, flood reject, auditor V8 executado; compilação ainda indisponível.
+**Atualizado:** 2026-10-30, B02B-I14 runner Codespace Node/Rust/WASM preparado; execução nativa aguardando recibo.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -240,3 +240,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Corrigida contagem histórica: 47 testes de módulos skills/session até I12 **mais três testes existentes do `lib.rs` = 50 reais declarados**. I13: **54 testes Rust declarados no workspace** (51 nos módulos +3 base), **0 executados nesta execução**.
 - `tools/m45_b02b_i13_source_audit.mjs` e runner Node offline permitem auditar 6 arquivos Rust e invariantes. A mesma lógica foi executada no V8 sobre as fontes exatas e o patch proposto: 1 PASS de auditoria estática + 4 mutações propositalmente rejeitadas; os arquivos Node de runner/testes foram publicados, mas **Node repository test NOT_RUN** por falta de checkout no executor. Isso NÃO substitui Rust tests ou integração HTTP.
 - GitHub Actions manualmente não acionadas; não alterar JS/skills/items originais, PR #19 Draft. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN; próximo passo obter toolchain nativa off-CI, rodar `cargo test --workspace` e `cargo fmt --check` antes de certificar componentes.
+
+## M45 B02B-I14 — gate de execução off-CI no Codespace (2026-10-30)
+
+- O usuário confirmou Codespace disponível. O conector GitHub não disponibiliza terminal ou execução de comandos nele; sem falsas afirmações de cargo PASS.
+- Criado `tools/m45_b02b_i14_codespace_qa.mjs` que executa localmente Node audit M45, cargo test/fmt/clippy offline, build Rust WASM real e smoke WASM quando target instalado. Registra exits e logs em `.m45-qa/i14/` ignorado pelo Git.
+- Guia `docs/m45_rust_wasm/M45_B02B_I14_CODESPACE_NATIVE_QA.md` com fetch e switch sem força, toolchain oficial e comando único. Este lote NÃO executou Rust, Node runner nem WASM, apenas publicou arquivos. 54 testes Rust declarados, 0 demonstrados executados neste chat; G0/G1 PARTIAL, G3/G6/G8 NOT_RUN.
+- Runner sem chamadas remotas, CI, merges ou Actions manuais. B02B continua IN_PROGRESS até recibo real e reconciliação.

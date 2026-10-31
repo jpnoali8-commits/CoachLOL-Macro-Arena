@@ -163,3 +163,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - Somente admissões `Queued` podem ocupar `SkillAdmission.receipts`; negados não enchem MAX_RECEIPTS, com 4 novos testes unitários escritos (54 no workspace somando 3 testes base). Auditoria V8 source-only e 4 mutações maliciosas verificadas; 0 cargo tests, 0 Actions manuais.
 - Prioridade seguinte: compilar módulos em executor Rust off-CI quando toolchain acessível e executar Node/HTTP originais; caso ainda bloqueado, migrar efetivamente sistemas adicionais para Rust sem fabricar PASS de G3/G8. B02B permanece IN_PROGRESS.
+
+### M45 B02B-I14 — validação real pelo Codespace (2026-10-30)
+
+- Executar `node tools/m45_b02b_i14_codespace_qa.mjs` no Codespace após `git pull --ff-only` da branch rust-core-m45. Retornar `.m45-qa/i14/result.json` para orientar correções reais; sem Actions.
+- Até receber recibo, native/WASM/Node runner NOT_RUN, B02B IN_PROGRESS, B03 QUEUED.

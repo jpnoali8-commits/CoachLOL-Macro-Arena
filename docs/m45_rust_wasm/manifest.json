@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I13_ACCEPTED_ONLY_RECEIPTS_SOURCE_AUDIT_NOT_COMPILED",
+    "phase": "B02B_I14_CODESPACE_NATIVE_GATE_AWAITING_EXECUTION",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -854,6 +854,21 @@
       "wasm": "NOT_RUN",
       "http_sse": "NOT_RUN",
       "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i14": {
+      "status": "RUNNER_COMMITTED_CODESPACE_EXECUTION_PENDING",
+      "baseline": "2776371ce8fa07006c5bcfc96ddb514eada66ad4",
+      "entrypoint": "node tools/m45_b02b_i14_codespace_qa.mjs",
+      "guide": "docs/m45_rust_wasm/M45_B02B_I14_CODESPACE_NATIVE_QA.md",
+      "local_receipt": ".m45-qa/i14/result.json",
+      "rust_unit_tests_declared": 54,
+      "rust_unit_tests_executed": 0,
+      "node_runner": "NOT_RUN",
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "github_actions_manual": 0,
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }
