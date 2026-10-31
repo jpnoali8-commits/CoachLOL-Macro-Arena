@@ -103,8 +103,8 @@ function witness(f,targetType){
   'enemy ID is NOT the actual public appearance alias');
  assert.ok(view.projection.units.some(v=>v.id===alias));
  assert.ok(!view.projection.units.some(v=>v.id===enemy.id));
- assert.equal(view.projection.units.length,10,
-  'five real actors per team plus clone; no extra champion roster in Arena');
+ assert.equal(view.projection.units.length,11,
+  'projection contains 10 champions plus one public clone decoy');
  assert.equal(a.units.length,10);
  const checkpoint=snapshotRoom(f);
  assert.deepEqual(checkpoint.room.view(checkpoint.player).pendingDecision,
