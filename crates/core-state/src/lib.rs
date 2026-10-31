@@ -6,6 +6,7 @@
 pub mod skill_admission;
 pub mod skill_wire;
 pub mod skill_authority;
+pub mod pvp_projection;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Team {

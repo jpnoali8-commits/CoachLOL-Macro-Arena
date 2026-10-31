@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I09_TRUSTED_WORLD_DERIVED_WIRE_NOT_COMPILED",
+    "phase": "B02B_I10_SEAT_SCOPED_ALLOWLIST_PROJECTION_UNCOMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -747,6 +747,30 @@
       "server_auth_bridge": "NOT_IMPLEMENTED",
       "effects": "NOT_IMPLEMENTED",
       "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i10": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "parent": "d75cb818533bf637979f9f48c3cb98d3041615e6",
+      "new_module": "crates/core-state/src/pvp_projection.rs",
+      "contracts": [
+        "seat-owned units always included",
+        "enemy units only if server fog visible",
+        "ownMana only for same team",
+        "private orders and RNG never serialized",
+        "combat impact only if both units visible to seat",
+        "JSON escapes user-controlled strings in SSE frame",
+        "deterministic unit ordering"
+      ],
+      "new_rust_unit_tests_defined": 9,
+      "total_rust_unit_tests_defined": 32,
+      "rust_unit_tests_run": 0,
+      "native": "NOT_RUN",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
+      "original_node_suites": "0/26",
+      "manual_actions": 0,
+      "certification": "NOT_CERTIFIED",
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }
   }

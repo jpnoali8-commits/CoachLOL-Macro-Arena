@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I09 validações do wire derivadas do snapshot interno Rust (fonte privada, não compilada).
+**Atualizado:** 2026-10-30, B02B-I10 DTO público por equipe + frame SSE allowlist em Rust (não compilado).
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -209,3 +209,10 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - API anterior de admissão com `ServerCastFacts` tornou-se `pub(crate)` para restringir bypass público. Nova entrada `admit_from_world` recebe apenas o seat autenticado, comando sem shape e snapshot privado. O servidor futuro ainda deve construir snapshots a partir do estado real, sem confiar no cliente; as posições e ranges de teste NÃO são regras de produção.
 - 8 testes Rust novos definidos (total **23**, **0 executados**): Nami W ally/enemy Blue/Red, fog, alvo ausente, identidade, geometria extrema, rank/mana/CD/range, Ahri E, replay após morte, snapshot inconsistente. Sem runtime cargo/rustc nesta sessão. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN.
 - 26 suítes Node completas, HTTP/SSE, compilação WASM e integração server-side permanecem NOT_RUN. Não acionar Actions até gate de certificação final; sem alterar branches legacy nem merge.
+
+## M45 B02B-I10 — public seat projection Rust, fail-closed (2026-10-30)
+
+- Novo `crates/core-state/src/pvp_projection.rs`: recebe snapshot **privado** e team **autenticada pelo futuro servidor**; publica exclusivamente unidade aliada ou inimigo visível, mana apenas aliada, tick/seat e eventos de impacto com os dois participantes visíveis. Ordens, ids de alvo oculto, cooldowns, mana inimiga, RNG/rolls e intenções privadas não entram no DTO.
+- Serializador JSON/SSE com allowlist explícita e escaping das strings (incluindo nova linha para não injetar campos SSE). Ordenação pública determinística por id (HashMap não estável). Eventos não visíveis são omitidos; suppressão conservadora de impacto histórico é uma limitação reconhecida.
+- 9 testes Rust novos definidos (total **32** com I09); zero executados nesta sessão porque cargo/rustc indisponíveis. Nenhum handler HTTP/SSE real escrito ou testado, nem integração de fog do mapa/realm, nem serviço de autenticação. G0/G1 PARTIAL, G3/G6/G8 NOT_RUN.
+- Engine/serviço JS originais não alterados; CI reservado ao gate final, sem disparo manual de Actions.

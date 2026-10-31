@@ -143,3 +143,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - O wire Rust agora pode derivar fatos da partida (sem campos de validação vindos de pacote) pelo `ServerSkillWorld`. 8 testes novos (23 definidos) NOT_RUN. Não é certificação G3: ainda não existe servidor HTTP PvP Rust, mana/CD não são debitados, reino/terreno não integrados.
 - Manter B02B IN_PROGRESS e CI reservado à certificação. Prioridade seguinte: criar isolamento de snapshot/retorno público, sem leaks de SSE, e compilar quando houver executor nativo off-CI.
+
+### M45 B02B-I10 — projeção pública por assento e SSE (2026-10-30)
+
+- DTO Rust allowlist por seat, campos próprios/visíveis somente, SSE com escape de strings e sem ordem/RNG privado; 9 testes novos (32 definidos), cargo NOT_RUN. Restrição: função ainda não conectada a endpoint HTTP nem à autenticação real.
+- Próxima prioridade B02B: revisar invariantes de ACL e transformar a projeção em fronteira única dos eventos HTTP/SSE quando existir servidor Rust. Não acionar Actions até checkpoint final completo.

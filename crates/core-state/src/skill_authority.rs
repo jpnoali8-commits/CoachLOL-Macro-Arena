@@ -79,6 +79,24 @@ impl ServerSkillWorld {
         self.units.get(id)
     }
 
+    /// Crate-private projection view; never return this raw snapshot over HTTP.
+    pub(crate) fn snapshot_tick(&self) -> u64 { self.tick }
+
+    pub(crate) fn seat_visible_units(&self, seat: Team) -> Vec<&ServerUnitSnapshot> {
+        let mut out: Vec<_> = self.units.values().filter(|unit| {
+            unit.team == seat || Self::visible_to(unit, seat)
+        }).collect();
+        // HashMap iteration is nondeterministic; public state must be stable.
+        out.sort_by(|a, b| a.id.cmp(&b.id));
+        out
+    }
+
+    pub(crate) fn unit_visible_to(&self, id: &str, seat: Team) -> bool {
+        self.unit(id).is_some_and(|unit|
+            unit.team == seat || Self::visible_to(unit, seat)
+        )
+    }
+
     fn visible_to(target: &ServerUnitSnapshot, seat: Team) -> bool {
         match seat {
             Team::Blue => target.visible_to_blue,
