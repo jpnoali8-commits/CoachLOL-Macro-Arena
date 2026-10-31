@@ -1,0 +1,35 @@
+{
+  "schema": "coachlol.m45.items.b12f_annul_oracle.v1",
+  "date": "2026-10-30",
+  "source_files": {
+    "engine.mjs": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+    "data/coachlol_map_v6.json": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+    "data/masks_128.json": "ecddcee76f3bce20a483ff7545ce2231696270e2"
+  },
+  "source": "Actual Arena JS source, not mocked game actions",
+  "scenarios": 56,
+  "steps": 236,
+  "errors": [],
+  "teams": [
+    "blue",
+    "red"
+  ],
+  "item_ids": [
+    "verdant_barrier",
+    "banshees_veil",
+    "edge_of_night"
+  ],
+  "types": [
+    "fresh buy",
+    "block spell",
+    "damage while down resets cooldown",
+    "recharge boundary",
+    "sale",
+    "undo sale",
+    "death",
+    "existing external shield",
+    "upgrade preserves remaining cooldown"
+  ],
+  "native_rust": "NOT_RUN",
+  "github_actions": 0
+}
