@@ -178,7 +178,10 @@ impl ReactionProtocol {
     ) -> Result<(), ProtocolError> {
         if !valid_public_id(decision_id, "react_") ||
            defender_id.is_empty() || attacker_internal_id.is_empty() ||
-           defender_id.len() > 128 || attacker_internal_id.len() > 128 {
+           defender_id.len() > 128 || attacker_internal_id.len() > 128 ||
+           !defender_id.starts_with(match defender_seat {
+               Team::Blue => "blue_", Team::Red => "red_",
+           }) {
             return Err(ProtocolError::InvalidDecision);
         }
         if self.reactions.contains_key(decision_id) {
@@ -404,6 +407,18 @@ mod tests {
         assert!(encoded.contains("\\n"));
         assert!(encoded.contains("\\\\"));
         assert!(!encoded.contains('\n'));
+    }
+
+    #[test]
+    fn defender_id_must_belong_to_authenticated_team() {
+        let mut p = ReactionProtocol::default();
+        assert_eq!(p.register_from_server_impact(
+            "react_1", "red_MID", Team::Blue, "red_TOP", ReactionKind::Combat
+        ), Err(ProtocolError::InvalidDecision));
+        assert_eq!(p.register_from_server_impact(
+            "react_1", "blue_TOP", Team::Red, "blue_MID", ReactionKind::Combat
+        ), Err(ProtocolError::InvalidDecision));
+        assert!(!p.public_json(Team::Blue, &View { alias: None }).contains("react_1"));
     }
 
     #[test]
