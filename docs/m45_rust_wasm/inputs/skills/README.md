@@ -156,3 +156,15 @@ S10 continua **22 V8_PASS, 2 V8_FAIL, 2 NOT_RUN**, Node completo 0/26. Branch Ru
 - `s17_sealed_event_history_rust_acceptance.rs`: modelo **isolado não-produtivo** de histórico público selado por seat no instante do evento + interface exigindo Neeko e Shaco no Rust real; 4 testes Rust escritos, **0 executados**. Não publicar IDs persistentes ou texto privado por reinterpretação de estado atual.
 
 Matriz S10 original intacta (**22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN; Node original 0/26**). Rust `dev69/rust-core-m45` ainda apenas `core-state` no HEAD observado `b7a44676dd64b6b2f89ba2e3fca680e531136d76`. Rust native/WASM/servidor HTTP NOT_RUN; G8 NOT_CERTIFIED. Nenhum GitHub Actions, merge ou edição nas branches originais.
+
+
+## M45 B02 Skills S18 — metadata da sala PvP revela ID estável do inimigo mascarado
+
+- `s18_pvp_room_pending_identity_pvp.test.mjs`: teste suplementar **executado contra Arena, gateway e PvPRoomV453Dev47 originais** em V8 com shims de bootstrap. **121/121 assertivas PASS, 4 cenários bilaterais** (Neeko disfarçada, Shaco com clone, defensor azul/vermelho). PASS caracteriza falha, **não** migração correta.
+- **P1 `S18_PUBLIC_ROOM_PENDING_DECISION_STABLE_ENEMY_ID`:** `PvPRoom.publicInfo(p).pendingDecision.enemyId` entrega `red_TOP/red_MID/blue_TOP/blue_MID` mesmo quando a projeção adversária mostra apenas `appearance_1` ou `appearance_3`. Persistência confirmada após perda sintética de visão e **4/4 restaurações de sala/gateway**.
+- ACL de **quem** recebe a janela de reação funcionou, mas o **conteúdo** entregue à pessoa autorizada tem dados privados do oponente. `Arena.pauseForDecision()` real foi usado para construir decisão válida; **nenhum ataque real, HTTP ou SSE foi executado**.
+- Em `projection`, ledgers de objetivo inimigo com fixtures artificiais foram filtrados; `actionJournalV40` e `lastTacticalAlerts` não foram serializados; `Arena.units.length=10` embora `projection.units` possa mostrar 11 figuras por conta de clone.
+- `s18_room_reaction_identity_rust_acceptance.rs`: função Rust **de referência** para sanitizar a reação por alias público de servidor, interface de **4 cenários reais futuros**, 8 negativos e 5 testes Rust preparados, **0 executados**. Requer core protocolo/combate/campeões e validação de segurança em sessão real.
+- `S18_PVP_ROOM_IDENTITY_V8_RECEIPT.json`, `S18_STATIC_CONTRACT_RECEIPT.json`, `M45_B02_S18_HANDOFF.md` guardam as evidências. `s18_validate_pvp_room_identity.mjs` V8 **76/76 verificações estáticas PASS**.
+
+S10 original permanece **22 V8_PASS / 2 V8_FAIL / 2 NOT_RUN**, full Node 0/26. Rust native/WASM/real HTTP/SSE NOT_RUN; G8 NOT_CERTIFIED. Sem Actions/merge/edição da engine original.
