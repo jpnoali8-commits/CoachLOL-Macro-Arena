@@ -1,0 +1,288 @@
+{
+  "schema": "coachlol.m45.platform.a18.rust-protocol-security-matrix.v1",
+  "date": "2026-10-30",
+  "parent_platform_commit": "faa9186e6efd15457810848ee8f4fd506be68bed",
+  "reference_rust_core_branch": "dev69/rust-core-m45",
+  "source_pins": {
+    "a17_core_protocol_lib_git_blob": "8400618b2264863fb95609ab533ce04475e5c451"
+  },
+  "changes": [
+    {
+      "id": "A18-FIX-01",
+      "severity": "P0_AUTH_BOUNDARY",
+      "fact": "A17 AuthenticatedSeat had only epoch + seat; two rooms sharing epoch could accept cross-room capability in prototype. A18 includes explicit room_id and epoch in grant validation.",
+      "proof": "source review + test function defined; RUST_NOT_RUN"
+    },
+    {
+      "id": "A18-FIX-02",
+      "severity": "P0_PRIVACY",
+      "fact": "A17 view allowed known event kinds regardless of matching scope; Public OrderQueued could reveal to both seats. A18 rejects all invalid scope/kind combinations.",
+      "proof": "source review + tests defined; RUST_NOT_RUN"
+    },
+    {
+      "id": "A18-FIX-03",
+      "severity": "P1_TXN",
+      "fact": "A17 begin_next_round mutates current object; A18 adds stage_next_round clone to compute proposed next turn before durable commit.",
+      "proof": "source review + tests defined; RUST_NOT_RUN"
+    },
+    {
+      "id": "A18-FIX-04",
+      "severity": "P1_SSE",
+      "fact": "SSE cursor now room_id/epoch/seat/revision and requires room_id validation at construction.",
+      "proof": "source review + tests defined; RUST_NOT_RUN"
+    }
+  ],
+  "qa": {
+    "node_static_guards": {
+      "passed": 18,
+      "total": 18,
+      "status": "PASS_EXECUTED_NODE22"
+    },
+    "rust_tests": {
+      "defined": 44,
+      "executed": 0,
+      "status": "NOT_RUN_RUSTC_CARGO_MISSING"
+    },
+    "cargo_fmt": "NOT_RUN",
+    "clippy": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "github_actions": "NOT_USED"
+  },
+  "unit_tests": [
+    {
+      "id": "A18-RUST-01",
+      "name": "credentials_must_be_distinct_and_nontrivial",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-02",
+      "name": "room_id_validation_prevents_path_and_empty_identifiers",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-03",
+      "name": "cursors_are_bound_to_room_id_even_with_equal_epoch_and_revision",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-04",
+      "name": "debug_representation_redacts_credentials_and_details",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-05",
+      "name": "invalid_session_is_denied",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-06",
+      "name": "two_seats_five_roles",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-07",
+      "name": "private_grant_bound_to_epoch",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-08",
+      "name": "preview_initial_snapshot_has_only_self_and_cursor",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-09",
+      "name": "empty_and_long_batch_are_rejected_without_mutation",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-10",
+      "name": "staged_acceptance_does_not_modify_live_room",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-11",
+      "name": "failed_staging_keeps_live_room_unchanged",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-12",
+      "name": "staged_ready_does_not_seal_published_state",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-13",
+      "name": "malformed_request_ids_fail_closed",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-14",
+      "name": "invalid_coordinates_rollback_complete_batch",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-15",
+      "name": "unsupported_action_rejected_without_fallback",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-16",
+      "name": "smite_policy_requires_jungle_role",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-17",
+      "name": "valid_move_boundaries",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-18",
+      "name": "typed_five_champion_batch_has_one_revision",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-19",
+      "name": "red_team_sees_no_blue_orders",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-20",
+      "name": "both_players_have_independent_queues",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-21",
+      "name": "stale_revision_fails_without_side_effect",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-22",
+      "name": "idempotent_request_replays_exact_receipt",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-23",
+      "name": "changed_payload_with_same_request_id_rejected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-24",
+      "name": "different_seats_can_use_same_request_id",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-25",
+      "name": "first_ready_blocks_own_edits_but_not_red",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-26",
+      "name": "second_ready_seals_once",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-27",
+      "name": "duplicate_ready_after_seal_returns_original_receipt",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-28",
+      "name": "request_id_conflict_after_seal_is_rejected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-29",
+      "name": "old_receipt_replays_even_after_next_round",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-30",
+      "name": "cross_room_grants_rejected_even_when_epoch_matches",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-31",
+      "name": "correct_grant_still_valid_for_same_room_staging_clone",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-32",
+      "name": "public_order_and_ready_events_are_default_denied",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-33",
+      "name": "team_scoped_seal_event_is_default_denied",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-34",
+      "name": "staging_next_round_preserves_published_receipts",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-35",
+      "name": "rejected_stage_next_round_does_not_mutate_state",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-36",
+      "name": "next_round_resets_ready_and_own_orders",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-37",
+      "name": "cannot_advance_without_both_ready",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-38",
+      "name": "unknown_events_and_details_are_never_projected",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-39",
+      "name": "red_private_events_do_not_appear_on_blue",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-40",
+      "name": "public_known_events_redact_details",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-41",
+      "name": "stolen_cursor_does_not_change_authorized_team",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-42",
+      "name": "clone_restore_keeps_receipts_and_revision",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-43",
+      "name": "wrong_round_rejected_without_mutation",
+      "status": "DEFINED_NOT_EXECUTED"
+    },
+    {
+      "id": "A18-RUST-44",
+      "name": "batch_operation_order_preserved",
+      "status": "DEFINED_NOT_EXECUTED"
+    }
+  ],
+  "security_contract": {
+    "room_identity": "server issued nonrepeating room ID + epoch; room ID is not secret; grant binds both",
+    "events": "team-only OrderQueued/ReadyConfirmed, public-only TurnSealed, deny unknown and mismatched scope/kind",
+    "transaction": "whole-world checkpoint/receipt must durably commit before publishing staged protocol state",
+    "rust_workspace": "integrate crate into existing coordinator workspace; do not replace core-state"
+  },
+  "known_limits": [
+    "No installed rustc/cargo",
+    "No real Rust unit test execution or compile evidence",
+    "Credentials test-only and stored as plain QA strings",
+    "Atomicity is staged protocol clone only; no game-state or storage transaction",
+    "No real HTTP/SSE server, browser, WASM or LoL engine integration",
+    "Room ID uniqueness must be enforced by coordinating authoritative server",
+    "Persistent champion orders across rounds not yet implemented in this protocol prototype"
+  ]
+}
