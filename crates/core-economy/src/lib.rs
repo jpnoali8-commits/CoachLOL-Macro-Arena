@@ -112,7 +112,9 @@ impl ShopUnit {
         if gold < 0 { return Err(ShopError::InsufficientGold); }
         let id = id.into();
         let prefix = match team { Team::Blue => "blue_", Team::Red => "red_" };
-        if !id.starts_with(prefix) || !id.ends_with(role.source_code()) {
+        // No extra bytes, aliases or ambiguous sub-IDs: one seat owns exactly
+        // five fixed champion role IDs, never an arbitrary matching suffix.
+        if id != format!("{prefix}{}", role.source_code()) {
             return Err(ShopError::WrongOwner);
         }
         Ok(Self { id, team, role, gold, items: Vec::new(),
@@ -431,4 +433,49 @@ mod tests {
         for _ in 0..6 { x.buy(Team::Blue, &ctx, "dagger").unwrap(); }
         assert_eq!(x.undo_history_len(), 16);
     }
+    #[test]
+    fn b12c_exact_five_role_identifiers_only_for_each_team() {
+        for team in [Team::Blue, Team::Red] {
+            let prefix = if team == Team::Blue { "blue" } else { "red" };
+            let wrong = if team == Team::Blue { "red" } else { "blue" };
+            for role in [Role::Top, Role::Jungle, Role::Mid, Role::Adc, Role::Support] {
+                let exact = format!("{prefix}_{}", role.source_code());
+                assert_eq!(
+                    ShopUnit::new(exact.clone(), team, role, 500).unwrap().id(),
+                    exact
+                );
+                for injected in [
+                    format!("{prefix}_FAKE_{}", role.source_code()),
+                    format!("{prefix}__{}", role.source_code()),
+                    format!("{prefix}_{}_EXTRA", role.source_code()),
+                    format!("{wrong}_{}", role.source_code()),
+                    format!("{prefix}_{wrong}_{}", role.source_code()),
+                ] {
+                    assert_eq!(
+                        ShopUnit::new(injected, team, role, 500),
+                        Err(ShopError::WrongOwner)
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn b12c_denied_operations_never_modify_own_gold_or_inventory() {
+        for team in [Team::Blue, Team::Red] {
+            let mut shop = unit(team, Role::Mid, 500);
+            let context = ShopContext::planning(0);
+            let old = shop.clone();
+            assert_eq!(shop.buy(team, &context, "rabadon"), Err(ShopError::InsufficientGold));
+            assert_eq!(shop, old);
+            assert_eq!(shop.buy(team, &context, "trinket_oracle"), Err(ShopError::ItemNotPurchasable));
+            assert_eq!(shop, old);
+            let rival = if team == Team::Blue { Team::Red } else { Team::Blue };
+            assert_eq!(shop.buy(rival, &context, "boots"), Err(ShopError::WrongOwner));
+            assert_eq!(shop, old);
+            assert_eq!(shop.sell(team, &context, 0), Err(ShopError::InvalidIndex));
+            assert_eq!(shop, old);
+        }
+    }
+
 }

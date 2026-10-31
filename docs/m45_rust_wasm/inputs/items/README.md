@@ -191,3 +191,9 @@ B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Da
 ## B02B-ITEMS Lote 12B — 2026-10-30
 
 [Recibo B12B](RECEIPT_B02B_ITEMS_12B.md) · [QA do oráculo JS para Rust](QA_V8_RUST_GOLDENS_B12B.json). **1.000 casos de componentes/receitas + 258 passos buy/sell/Undo = 1.258 observações V8 da engine congelada**, com fixtures e 2 testes Rust adicionais. Rust `cargo test` **NOT_RUN**, nenhuma certificação nativa/WASM/HTTP/G8. Nenhum GitHub Actions.
+
+## B02B-ITEMS Lote 12C — 2026-10-30
+
+[Recibo B12C](RECEIPT_B02B_ITEMS_12C.md) · [QA de validação da fonte](QA_RUST_SOURCE_B12C.json) · [validador portátil](static_rust_items_b12c.mjs) · [runner Node](validate_rust_items_b12c.test.mjs).
+
+Corrigida validação estrita de IDs Rust `blue_MID/red_MID` (antes aceitava `blue_FAKE_MID`). 2 testes Rust adicionados, **NOT_RUN**. Validação JS V8 reproduzível **125 itens, 1.000 receitas e estrutura de 258 linhas/44 cenários**, com fonte original congelada; não equivale a Cargo PASS. GitHub Actions 0.

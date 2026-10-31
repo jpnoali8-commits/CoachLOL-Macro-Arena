@@ -1,0 +1,37 @@
+{
+  "schema": "coachlol.m45.items.b12c_static_source_review.v1",
+  "date": "2026-10-30",
+  "source_branch": "dev69/m45-audit-items",
+  "source_engine_blob": "e06cfe0c18ded3d21f7a1d9bc62909543ccbbb6d",
+  "execution": "JS_V8_EXECUTED_RUST_NOT_COMPILED",
+  "validated": {
+    "status": "PASS",
+    "catalog_matches": 125,
+    "recipe_rows": 1000,
+    "recipe_matches": 1000,
+    "shop_rows": 258,
+    "shop_scenarios": 44,
+    "errors": []
+  },
+  "repeat_identical": true,
+  "security_finding": {
+    "id": "M45-B12C-ACL-01",
+    "severity": "P2_PROSPECTIVE_RUST_INTEGRATION",
+    "affected": "core-economy ShopUnit::new()",
+    "problem": "Previously accepted extraneous bytes between team prefix and role suffix, such as blue_FAKE_MID",
+    "fix": "Require exact canonical unit ID team + '_' + role",
+    "invariant": "One seat team owns precisely its five canonical champion IDs, no aliases",
+    "native_tests_added": 2,
+    "native_test_execution": "NOT_RUN"
+  },
+  "test_status": {
+    "javascript_source_static": "PASS",
+    "node_runner": "NOT_RUN",
+    "cargo_test": "NOT_RUN",
+    "cargo_fmt": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "wasm": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_github_actions": true
+}
