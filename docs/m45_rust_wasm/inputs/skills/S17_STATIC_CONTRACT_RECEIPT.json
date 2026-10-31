@@ -1,0 +1,44 @@
+{
+  "schema": "coachlol.m45.skills.s17.static-crosspin.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_test_path": "docs/m45_rust_wasm/inputs/skills/s17_event_reprojection_and_reconnect_pvp.test.mjs",
+  "source_test_git_blob_sha": "b4c8aa8ebdf5984869dac60d00aa7620ff9a53d4",
+  "source_test_result": {
+    "status": "V8_PASS_BUG_CHARACTERIZED",
+    "assertions": 149,
+    "assertions_passed": 149,
+    "owner_seats": 2,
+    "old_events_with_stable_id_and_original_text_disclosed": 4,
+    "old_neeko_event_alias_relabels": 2,
+    "checkpoint_continuations_verified": 2,
+    "blue_checksum_after_evolution": "8d47314d",
+    "red_checksum_after_evolution": "b33b4dd2"
+  },
+  "source_receipt_path": "docs/m45_rust_wasm/inputs/skills/S17_EVENT_HISTORY_V8_RECEIPT.json",
+  "source_receipt_git_blob_sha": "17c09606dc98cecc75cbf13d46cd7e0a87e47ef9",
+  "validator_path": "docs/m45_rust_wasm/inputs/skills/s17_validate_event_history.mjs",
+  "validator_git_blob_sha": "1d16de283f238b2d3ceaea466f7c07c14ed91f77",
+  "static_v8": {
+    "status": "PASS",
+    "assertions": 71,
+    "assertions_passed": 71,
+    "method": "saved S17 validateInputs test executed in isolated V8 against saved original test, S15 and S16 source receipts, S10 golden matrix and authored Rust reference"
+  },
+  "rust_acceptance_path": "docs/m45_rust_wasm/inputs/skills/s17_sealed_event_history_rust_acceptance.rs",
+  "rust_blob_sha": "0e54ec9a3d11061441cff50d857833b235b569e6",
+  "rust_unit_tests_prepared": 4,
+  "rust_unit_tests_executed": 0,
+  "gates": {
+    "source_legacy": "V8_PASS_BUG_CHARACTERIZED",
+    "original_node": "NOT_RUN",
+    "rust_native": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "http": "NOT_RUN",
+    "actual_fog": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_original_branch_changes": true
+}
