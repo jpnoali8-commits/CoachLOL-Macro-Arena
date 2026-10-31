@@ -196,8 +196,9 @@ export async function runM45S19({
  eq(cases.length,4,'four bilateral two-champion source fixtures');
  return {status:'V8_SOURCE_BUG_REPRODUCED_NOT_NETWORK_OR_RUST_PARITY',
   assertions,cases,completed:4,
-  source_actual_impact_reactions:4,original_server_session_routes:4,
-  original_server_sse_subscriptions:8,restored_room_sessions:4,
+  source_actual_impact_reactions:4,original_server_session_gets:20,
+  original_server_sse_subscriptions:12,original_server_action_posts:12,
+  restored_room_sessions:4,
   forged_stable_id_rejections:4,valid_alias_reactions:4,
   live_tcp_http:'NOT_RUN',actual_cookie_crypto:'NOT_RUN',rust:'NOT_RUN',wasm:'NOT_RUN'};
 }
