@@ -197,3 +197,7 @@ B09 exercitou **minions reais gerados por `spawnWaves`** e `Arena.moveAlong`: Da
 [Recibo B12C](RECEIPT_B02B_ITEMS_12C.md) · [QA de validação da fonte](QA_RUST_SOURCE_B12C.json) · [validador portátil](static_rust_items_b12c.mjs) · [runner Node](validate_rust_items_b12c.test.mjs).
 
 Corrigida validação estrita de IDs Rust `blue_MID/red_MID` (antes aceitava `blue_FAKE_MID`). 2 testes Rust adicionados, **NOT_RUN**. Validação JS V8 reproduzível **125 itens, 1.000 receitas e estrutura de 258 linhas/44 cenários**, com fonte original congelada; não equivale a Cargo PASS. GitHub Actions 0.
+
+## B02B-ITEMS Lote 12D — 2026-10-30
+
+[Recibo B12D](RECEIPT_B02B_ITEMS_12D.md) · [QA stats fonte V8](QA_V8_BASE_STATS_B12D.json) · [QA transação Rust](QA_RUST_ATOMIC_SHOP_B12D.json). Implementados catálogo base de 125 itens e `AtomicShop` (compra, venda, Undo com stats + ouro + inventário em staging/commit). **250/250 atributos fonte V8 e reversões**, 8 testes Rust adicionais **NÃO EXECUTADOS** (cargo ausente). Gameplay/servidor JS, branch central e GitHub Actions preservados.

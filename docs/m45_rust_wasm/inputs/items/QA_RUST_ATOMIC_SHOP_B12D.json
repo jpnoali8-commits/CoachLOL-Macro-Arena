@@ -1,0 +1,42 @@
+{
+  "schema": "coachlol.m45.items.atomic_shop_b12d.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-items",
+  "head_before": "98c6ff4e91691af5abf29d83c2d90e08dfca7aec",
+  "implementation": {
+    "new_module": "crates/core-economy/src/transaction.rs",
+    "module_visibility": "pub mod transaction",
+    "contract": "Economy + base stats staged as clones; commit only after basic-stats reconciliation and effect callback pass; rejection leaves state unchanged",
+    "supports": [
+      "buy",
+      "sell",
+      "undo",
+      "fountain_revoke",
+      "LIFO and 16 transaction history",
+      "23 stat fields via source map",
+      "hp/mana/movement/attackSpeed mappings",
+      "hook rejects with rollback",
+      "full runtime stat snapshot on Undo"
+    ],
+    "not_yet_supported": [
+      "passives",
+      "active items",
+      "canonical champion state",
+      "Rabadon effects",
+      "network receipt replay",
+      "Rust match actor",
+      "WASM secret-free boundary"
+    ]
+  },
+  "qa": {
+    "base_item_stats_v8_pass": 250,
+    "generated_rust_tests": 6,
+    "additional_rust_integration_tests": 2,
+    "cargo_test": "NOT_RUN",
+    "rustfmt": "NOT_RUN",
+    "rust_wasm": "NOT_RUN",
+    "server_pvp": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "actions_used": 0
+}

@@ -9,6 +9,7 @@
 //! The integrator must atomically commit these changes with full core-state
 //! and reject/rollback the entire transaction if item stat application fails.
 use coachlol_core_items::{consumed_components, item, purchase_cost, ItemSpec};
+pub mod transaction;
 
 pub const INVENTORY_CAP: usize = 6;
 pub const UNDO_CAP: usize = 16;
