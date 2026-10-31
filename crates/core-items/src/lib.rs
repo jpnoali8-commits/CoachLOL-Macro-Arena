@@ -1,6 +1,8 @@
 //! M45 B12A — authoritative item metadata and pure recipe primitives.
 //! Partial port: not gameplay authority until shared contracts/core-combat exist.
 mod catalog;
+mod stats;
+pub use stats::{item_stats, ItemStatSpec, ITEM_STATS};
 pub use catalog::{item, ItemSpec, CATALOG};
 
 /// Mirrors the frozen JS recursive discount routine exactly: components
