@@ -136,9 +136,9 @@ pub fn validate_real_rust_http_sse<R: ActualRustHttpSseRunner>(
                r.session_after_room_restore != r.sse_after_room_restore {
                 return Err(format!("S19 session/SSE contradictory seat projection: {:?}",r));
             }
-            if !matches!(r.session_at_hit.attacker,VisibleEnemyRef::AppearanceAlias(_)) ||
-               !matches!(r.session_after_fog.attacker,VisibleEnemyRef::Hidden) ||
-               !matches!(r.session_after_room_restore.attacker,VisibleEnemyRef::Hidden) {
+            if !matches!(&r.session_at_hit.attacker,VisibleEnemyRef::AppearanceAlias(_)) ||
+               !matches!(&r.session_after_fog.attacker,VisibleEnemyRef::Hidden) ||
+               !matches!(&r.session_after_room_restore.attacker,VisibleEnemyRef::Hidden) {
                 return Err(format!("S19 public fog/alias policy mismatch: {:?}",r));
             }
             checked += 1;
