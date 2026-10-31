@@ -1,0 +1,55 @@
+{
+  "schema": "coachlol.m45.skills.s19.static-source-validation.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "static_checks": {
+    "status": "V8_PASS",
+    "attempted": 97,
+    "passed": 97,
+    "method": "Original saved s19_validate_impact_http_sse.mjs validateS19() pure body executed in isolated V8 against pinned source receipts, original multiplayer server/room/gateway Git blobs and Rust reference",
+    "source_blob": "96b10cefc6afe7987f8d4baf658e72ee0da48339"
+  },
+  "executed_legacy_fixture": {
+    "status": "V8_PASS_BUG_REPRODUCED",
+    "attempted_assertions": 161,
+    "passed_assertions": 161,
+    "scenarios": 4,
+    "source_blob": "119199d51c0e327286e193fa20f454b8ae1ba19f",
+    "source_receipt_blob": "7faea51f5a3908284372c0b21b64f2e6acbad005",
+    "original_hit_reaction_cases": 4,
+    "original_server_get_session_calls": 20,
+    "original_server_get_stream_calls": 12,
+    "original_server_post_action_calls": 12,
+    "source_login_cookie_registry": "MOCKED",
+    "native_network": "NOT_RUN"
+  },
+  "compiled_production": {
+    "rust_tests_executed": 0,
+    "wasm_tests_executed": 0,
+    "original_full_node_esm": "NOT_RUN",
+    "real_node_tcp_sse": "NOT_RUN",
+    "true_cookie_auth_crypto": "NOT_RUN"
+  },
+  "future_tests": {
+    "node_http_test_path": "docs/m45_rust_wasm/inputs/skills/s19_native_node_http_sse.test.mjs",
+    "node_http_blob": "65f9950d8bb2f3eb0b33563a3c4ab7c48e7c7688",
+    "native_http_4_case_status": "NOT_RUN",
+    "rust_contract_path": "docs/m45_rust_wasm/inputs/skills/s19_http_sse_reaction_privacy_gate.rs",
+    "rust_blob": "d8792129fc01cf1ac948ca828287d309195f6784",
+    "rust_real_cases_planned": 4,
+    "rust_negative_cases_planned": 10,
+    "rust_source_data_tests_prepared": 5,
+    "rust_test_execution": "NOT_RUN"
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "NOT_RUN",
+    "G2": "SOURCE_ONLY",
+    "G3": "NOT_RUN_NATIVE_NETWORK",
+    "G6": "NOT_RUN_RUST",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true,
+  "no_merge": true
+}
