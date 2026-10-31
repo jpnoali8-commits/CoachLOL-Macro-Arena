@@ -1,0 +1,170 @@
+{
+  "schema": "coachlol.m45.skills.s19.actual-impact-inmemory-http-sse.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source": {
+    "branch": "dev69/skills-batch2",
+    "head": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+    "blobs": {
+      "engine": "41679f7328a42e379fdfb8de5b92006e1bfb529f",
+      "map": "ad853bbb6f110c0d2b6b8b4995ac4e80169f7109",
+      "masks": "ecddcee76f3bce20a483ff7545ce2231696270e2",
+      "gateway_dev44": "4be23bdd9df6d9918a0c32b6ea699be8974bf9de",
+      "gateway_dev47": "adf6900a20b1b2c162ec9769b18bf1cc2c23867f",
+      "pvp_room_dev47": "d5d5c36c2f967ed294f6d5e9fcedcd32348eacb5",
+      "pvp_http_server_dev47": "61f9d941852b6378bccccf8956aa699e8761836d"
+    }
+  },
+  "files": {
+    "v8_executed": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s19_real_impact_server_route_sse_v8.mjs",
+      "git_blob_sha": "119199d51c0e327286e193fa20f454b8ae1ba19f"
+    },
+    "node_tcp_prepared": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s19_native_node_http_sse.test.mjs",
+      "git_blob_sha": "65f9950d8bb2f3eb0b33563a3c4ab7c48e7c7688"
+    },
+    "rust_protocol_gate": {
+      "path": "docs/m45_rust_wasm/inputs/skills/s19_http_sse_reaction_privacy_gate.rs",
+      "git_blob_sha": "d8792129fc01cf1ac948ca828287d309195f6784"
+    }
+  },
+  "runtime": {
+    "test_kind": "ORIGINAL_SOURCE_MODULE_AND_HTTP_HANDLER_IN_ISOLATED_V8_WITH_SYNTHETIC_HTTP_TRANSPORT",
+    "mode": "REAL_ORIGINAL_DAMAGE_AND_REACTION_ROUTINES; REAL_ORIGINAL_SERVER_GET_SESSION_GET_STREAM_POST_ACTION_HANDLERS; REAL_ORIGINAL_ROOM_AND_GATEWAY; FAKE_TCP_TRANSPORT_AND_TOKEN_SESSION_REGISTRY",
+    "assertions_executed": 161,
+    "assertions_passed": 161,
+    "cases": 4,
+    "bilateral_defending_seats": 2,
+    "champion_variants": [
+      "NeekoDisguised",
+      "ShacoCloneActive"
+    ],
+    "real_source_damage_reactions": 4,
+    "real_source_damage_dealt_each": 54,
+    "original_server_route_get_session_calls": 20,
+    "original_server_route_get_stream_subscriptions": 12,
+    "original_server_route_post_action_calls": 12,
+    "source_snapshot_restored_rooms": 4,
+    "leaked_stable_enemyId_in_session": 4,
+    "leaked_stable_enemyId_in_sse": 4,
+    "leaks_after_real_hit_reveal_timeout": 4,
+    "leaks_after_room_checkpoint_restore": 4,
+    "forged_stable_target_rejections": 4,
+    "valid_appearance_alias_reaction_acks": 4,
+    "idempotent_same_sequence_retries": 4,
+    "anonymous_sessions_denied_401": 4,
+    "other_team_private_pending_reaction_denied": 4,
+    "actual_native_node_tcp_http": "NOT_RUN",
+    "actual_native_node_tls": "NOT_RUN",
+    "actual_crypto_token_hashing": "NOT_RUN",
+    "actual_browser": "NOT_RUN",
+    "actual_rust": "NOT_RUN",
+    "actual_wasm": "NOT_RUN",
+    "server_transport_stubs": [
+      "http.createServer captures unchanged async route handler, does not call listen",
+      "URL pathname parser with fixture request paths",
+      "setInterval inert; SSE writes collected in memory",
+      "registry.session maps two deterministic 64-char tokens to original room players; no crypto",
+      "response write/end/status/header mocks; no real kernel socket"
+    ],
+    "actual_source_logic": [
+      "Arena.duelPermission",
+      "Arena.damage",
+      "Arena.processAmbushResponses",
+      "Arena.queueNeekoDisguiseV453M15",
+      "Arena.queueKitSkillV42 Shaco R",
+      "PvPRoomV453Dev47.view and subscribe/broadcast",
+      "createPvPServerV453Dev47 GET /api/session and GET /api/stream and POST /api/action unchanged source handlers",
+      "AuthoritativeActionsV453Dev47.submit decision.reaction",
+      "Arena.snapshotV40/fromSnapshotV40 + PvPRoom checkpoint and gateway restore"
+    ],
+    "qualification": "The normal turn's execution phase was set to 'decision' after authentic damage processed; the complete game tick loop, actual native network, real cryptographic token auth, live SSE sockets and full Node ESM test loader were NOT executed."
+  },
+  "witnesses": [
+    {
+      "defender": "blue",
+      "attacker_champ": "Neeko",
+      "visible_public_alias": "appearance_1",
+      "server_enemy_id_leaked": "red_TOP",
+      "actual_damage": 54
+    },
+    {
+      "defender": "blue",
+      "attacker_champ": "Shaco",
+      "visible_public_alias": "appearance_3",
+      "server_enemy_id_leaked": "red_MID",
+      "actual_damage": 54
+    },
+    {
+      "defender": "red",
+      "attacker_champ": "Neeko",
+      "visible_public_alias": "appearance_1",
+      "server_enemy_id_leaked": "blue_TOP",
+      "actual_damage": 54
+    },
+    {
+      "defender": "red",
+      "attacker_champ": "Shaco",
+      "visible_public_alias": "appearance_3",
+      "server_enemy_id_leaked": "blue_MID",
+      "actual_damage": 54
+    }
+  ],
+  "security": {
+    "confirmed": "S18_PUBLIC_ROOM_PENDING_DECISION_STABLE_ENEMY_ID",
+    "status": "P1_SOURCE_ROUTE_AND_SSE_REPRODUCED_NOT_FIXED",
+    "root_cause": "PvPRoomV453Dev47.publicInfo() serializes the authoritative pendingDecision.enemyId stable ID into both original server /api/session GET JSON and /api/stream initial/push SSE state; Arena.perspective uses opaque public aliases.",
+    "gateway_compensating_control": "The actual authoritative gateway denied decision.reaction payload targetId='red_TOP'/'blue_TOP' (alvo_identidade_oculta, HTTP handler status 409) and accepted valid appearance_* alias (HTTP handler status 200); this does not undo information disclosure.",
+    "production_rust_requirements": "All external room snapshots, SSE and action errors share one per-seat public projection; outgoing reaction contains public alias only if observable, otherwise identity-free unknown. Gateway resolves current alias to authoritative actor and never trusts internal stable IDs supplied by clients.",
+    "related_prior_bugs": [
+      "S15_SYLAS_STOLEN_SHACO_R_WRONG_CLONE_PUBLIC_CHAMPION",
+      "S16_VISIBILITY_DEPENDENT_PROJECTILE_CLONE_COLLISION",
+      "S17_RETROACTIVE_HISTORICAL_EVENT_ID_AND_TEXT_DISCLOSURE"
+    ]
+  },
+  "coordinator": {
+    "branch": "dev69/rust-core-m45",
+    "observed_head_at_start": "3100812dc826d93cd025bb466a77bb688d2ce44f",
+    "available_crates": [
+      "core-state"
+    ],
+    "missing": [
+      "core-combat",
+      "core-champions",
+      "core-protocol",
+      "core-server"
+    ],
+    "toolchain": "cargo/rustc unavailable locally"
+  },
+  "rust_artifacts": {
+    "native_security_cases_prepared": 4,
+    "negative_cases_prepared": 10,
+    "standalone_rust_reference_tests_prepared": 5,
+    "native_executed": 0,
+    "wasm_executed": 0
+  },
+  "legacy_s10_frozen": {
+    "suite_count": 26,
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "v8_not_run": 2,
+    "full_node_executed": 0
+  },
+  "previous_s18": {
+    "v8_asserts": 121,
+    "static_v8_checks": 76
+  },
+  "gates": {
+    "G0": "PARTIAL",
+    "G1": "SOURCE_ONLY",
+    "G2": "V8_ORIGINAL_ROUTE_ORACLE",
+    "G3": "NOT_RUN_NETWORK",
+    "G6": "RUST_NOT_RUN",
+    "G7": "NOT_RUN",
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_manual_github_actions": true,
+  "no_merge": true,
+  "no_original_branch_edits": true
+}
