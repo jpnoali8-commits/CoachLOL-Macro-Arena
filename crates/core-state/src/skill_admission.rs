@@ -138,9 +138,14 @@ impl SkillAdmission {
         } else {
             AdmissionReceipt::denied(AdmissionDecision::CastInstanceOverflow)
         };
-        self.receipts.insert(key, CachedRequest {
-            payload: request, receipt: result.clone()
-        });
+        // Only accepted intents reserve replay capacity. Invalid, stale and
+        // duplicate-slot requests MUST NOT poison the bounded receipt store.
+        // Cached successful ACKs remain immutable for the lifetime of match.
+        if result.decision == AdmissionDecision::Queued {
+            self.receipts.insert(key, CachedRequest {
+                payload: request, receipt: result.clone()
+            });
+        }
         result
     }
     pub fn seal(&mut self) -> bool {
@@ -400,5 +405,87 @@ mod tests {
         assert_eq!(a.in_flight_count(), 1);
         assert!(a.retire(Team::Blue, "ahri", SkillSlot::E, id));
         assert_eq!(a.in_flight_count(), 0);
+    }
+
+    #[test]
+    fn invalid_flood_cannot_exhaust_accepted_receipt_capacity() {
+        for seat in [Team::Blue, Team::Red] {
+            let mut admission = SkillAdmission::new(1);
+            for n in 0..(MAX_RECEIPTS + 9) {
+                let rejected = req(1, &format!("invalid-{n}"), "nami", SkillSlot::W,
+                    TargetShape::TargetAny, SkillAim::Point { x: 5, y: 5 });
+                assert_eq!(admission.admit(seat, seat, rejected).decision,
+                    AdmissionDecision::InvalidAim);
+            }
+            assert_eq!(admission.receipt_count(), 0);
+            assert_eq!(admission.pending_count(), 0);
+            assert_eq!(admission.admit(seat, seat, req(1, "valid", "nami",
+                SkillSlot::W, TargetShape::TargetAny, SkillAim::Unit("ally".into())))
+                .decision, AdmissionDecision::Queued);
+            assert_eq!(admission.receipt_count(), 1);
+        }
+    }
+
+    #[test]
+    fn denied_slot_retry_does_not_pin_id_across_turn() {
+        for seat in [Team::Blue, Team::Red] {
+            let mut a = SkillAdmission::new(1);
+            let accepted = a.admit(seat, seat, req(1, "winner", "nami", SkillSlot::W,
+                TargetShape::TargetAny, SkillAim::Unit("ally".into())));
+            assert_eq!(accepted.decision, AdmissionDecision::Queued);
+            assert_eq!(a.admit(seat, seat, req(1, "denied", "nami", SkillSlot::W,
+                TargetShape::TargetAny, SkillAim::Unit("enemy".into())))
+                .decision, AdmissionDecision::SlotAlreadyPending);
+            assert_eq!(a.receipt_count(), 1);
+            assert!(a.seal());
+            let id = accepted.cast_instance_id.unwrap();
+            assert!(a.mark_committed_once(seat, "nami", SkillSlot::W, id));
+            assert!(a.retire(seat, "nami", SkillSlot::W, id));
+            assert_eq!(a.next_turn(), Some(2));
+            assert_eq!(a.admit(seat, seat, req(2, "denied", "nami", SkillSlot::W,
+                TargetShape::TargetAny, SkillAim::Unit("enemy".into())))
+                .decision, AdmissionDecision::Queued);
+            assert_eq!(a.receipt_count(), 2);
+        }
+    }
+
+    #[test]
+    fn corrected_payload_can_reuse_rejected_request_id() {
+        let mut a = SkillAdmission::new(1);
+        assert_eq!(a.admit(Team::Blue, Team::Blue, req(1, "same", "nami",
+            SkillSlot::W, TargetShape::TargetAny,
+            SkillAim::Point { x: 1, y: 1 }))
+            .decision, AdmissionDecision::InvalidAim);
+        assert_eq!(a.receipt_count(), 0);
+        let fixed = a.admit(Team::Blue, Team::Blue, req(1, "same", "nami",
+            SkillSlot::W, TargetShape::TargetAny,
+            SkillAim::Unit("ally".into())));
+        assert_eq!(fixed.decision, AdmissionDecision::Queued);
+        assert_eq!(a.receipt_count(), 1);
+        assert_eq!(a.admit(Team::Blue, Team::Blue, req(1, "same", "nami",
+            SkillSlot::W, TargetShape::TargetAny,
+            SkillAim::Unit("enemy".into()))).decision,
+            AdmissionDecision::RequestIdPayloadConflict);
+        assert_eq!(a.receipt_count(), 1);
+    }
+
+    #[test]
+    fn accepted_ack_survives_rejection_flood_without_duplicate_cast() {
+        let mut a = SkillAdmission::new(1);
+        let original = req(1, "accepted", "ahri", SkillSlot::E,
+            TargetShape::LineEnemy, SkillAim::Direction { x: 1, y: 0 });
+        let ack = a.admit(Team::Red, Team::Red, original.clone());
+        for n in 0..1024 {
+            assert_eq!(a.admit(Team::Red, Team::Red, req(1,
+                &format!("flood-{n}"), "ahri", SkillSlot::E,
+                TargetShape::LineEnemy, SkillAim::Direction { x: 0, y: 0 }))
+                .decision, AdmissionDecision::InvalidAim);
+        }
+        assert_eq!(a.receipt_count(), 1);
+        assert_eq!(a.pending_count(), 1);
+        assert!(a.seal());
+        assert_eq!(a.admit(Team::Red, Team::Red, original), ack);
+        assert_eq!(a.pending_count(), 1);
+        assert_eq!(a.receipt_count(), 1);
     }
 }

@@ -158,3 +158,8 @@ GitHub REST no commit `83a2a8b8...` confirmou 3 workflows legados com `conclusio
 
 - I11 permitia `public_json` contra snapshot de sala diferente e `rotate` sem alterar credencial. I12 aplica gate por `room_id` server-owned, bloqueia mundos sem sala e exige token novo. 5 testes Rust novos, total 47 declarados, 0 executados.
 - B02B continua IN_PROGRESS; não declarar G3 nem HTTP PASS. CI/Actions somente no checkpoint final aprovado.
+
+### M45 B02B-I13 — contenção de flood de recibos + checklist Rust verificável (2026-10-30)
+
+- Somente admissões `Queued` podem ocupar `SkillAdmission.receipts`; negados não enchem MAX_RECEIPTS, com 4 novos testes unitários escritos (54 no workspace somando 3 testes base). Auditoria V8 source-only e 4 mutações maliciosas verificadas; 0 cargo tests, 0 Actions manuais.
+- Prioridade seguinte: compilar módulos em executor Rust off-CI quando toolchain acessível e executar Node/HTTP originais; caso ainda bloqueado, migrar efetivamente sistemas adicionais para Rust sem fabricar PASS de G3/G8. B02B permanece IN_PROGRESS.

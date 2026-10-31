@@ -312,7 +312,7 @@
     }
   ],
   "b02": {
-    "phase": "B02B_I12_CROSS_ROOM_SNAPSHOT_BINDING_TOKEN_ROTATION_UNCOMPILED",
+    "phase": "B02B_I13_ACCEPTED_ONLY_RECEIPTS_SOURCE_AUDIT_NOT_COMPILED",
     "rust_pre_commit": "40e5598838bb4c2d4ec9d4a62c4f0acc30644aaf",
     "source_refs": {
       "integration": "374d87d5f49b52514ec68bbe666df086363c1ec5",
@@ -831,6 +831,28 @@
       "wasm": "NOT_RUN",
       "real_http_sse": "NOT_RUN",
       "legacy_node_skills": "0/26",
+      "manual_actions": 0,
+      "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
+    },
+    "i13": {
+      "status": "RUST_SOURCE_WRITTEN_NOT_COMPILED",
+      "base": "3100812dc826d93cd025bb466a77bb688d2ce44f",
+      "bugs_fixed": [
+        "denied packet flood exhausted successful receipt history"
+      ],
+      "admission_receipt_policy": "CACHE_ONLY_QUEUED_ACCEPTED",
+      "new_rust_tests_defined": 4,
+      "skill_session_tests_defined": 51,
+      "baseline_core_tests_defined": 3,
+      "total_workspace_rust_tests_defined": 54,
+      "rust_tests_executed": 0,
+      "source_audit": "PASS_V8_SOURCE_ONLY",
+      "negative_mutations_rejected": 4,
+      "node_source_audit_runner": "WRITTEN_NOT_EXECUTED_WITH_NODE",
+      "cargo": "NOT_AVAILABLE",
+      "rustfmt": "NOT_AVAILABLE",
+      "wasm": "NOT_RUN",
+      "http_sse": "NOT_RUN",
       "manual_actions": 0,
       "gates": "G0_G1_PARTIAL_G3_G6_G8_NOT_RUN"
     }

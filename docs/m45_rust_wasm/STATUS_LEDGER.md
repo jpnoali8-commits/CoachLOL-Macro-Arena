@@ -1,6 +1,6 @@
 # CoachLOL M45 — Ledger de status e continuidade (fonte de verdade)
 
-**Atualizado:** 2026-10-30, B02B-I12 vínculo obrigatório sala/snapshot/sessão e rotação de token fail-closed (Rust não compilado).
+**Atualizado:** 2026-10-30, B02B-I13 recibos Rust accepted-only, flood reject, auditor V8 executado; compilação ainda indisponível.
 **Programa:** M45_TOTAL_RUST_WASM_MIGRATION.
 **Modo:** MIGRATION_ONLY (expansão JS suspensa por política de produção; avisar os demais chats).
 **Status global:** NOT_CERTIFIED.
@@ -231,3 +231,12 @@ Este arquivo tem precedência de status sobre adendos históricos do AGENTS.md, 
 - Rotação de token igual ao próprio token atual, antes aceita, agora retorna InvalidTokenMaterial (além da colisão com o time oposto). Falhas não modificam tokens já válidos.
 - Cinco testes Rust acrescentados (total **47** definidos, **0 executados**): cross-room azul/vermelho, snapshot sem sala, rotação igual, room ID inválido, reconexão entre salas. Os dez testes I11 foram adaptados para fornecer sala server-owned.
 - `cargo/rustc/rustfmt` indisponíveis localmente, WASM e HTTP/SSE nativos NOT_RUN. Nenhuma Action manual. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN. Ainda faltam servidor real, CSPRNG, HTTP session binding, 26 Node suites e efeitos autorais.
+
+## M45 B02B-I13 — integridade dos recibos e auditoria executável off-CI (2026-10-30)
+
+- Ferramentas rechecadas no executor: sem rustc/cargo/rustfmt e sem arquivo de instalação offline; static.rust-lang.org DNS indisponível. **Cargo / rustfmt / WASM NOT_RUN**. Não gastar Actions para contornar isso.
+- Encontrada vulnerabilidade: `SkillAdmission::admit` persistia todos os recibos de **rejeição** e não apenas admissões aceitas, permitindo consumir o limite MAX_RECEIPTS=16384 com request_ids inválidos. I13 persiste somente `Queued`; rejeições não ocupam capacidade e continuam retentáveis, aceites preservam ACK/conflict imutáveis.
+- Adicionados 4 testes Rust unitários (flood >16384 em azul e vermelho, reenvio após rejeição por slot, corrigir aim com mesmo request_id rejeitado, ACK legítimo após flood); **definidos, não executados**.
+- Corrigida contagem histórica: 47 testes de módulos skills/session até I12 **mais três testes existentes do `lib.rs` = 50 reais declarados**. I13: **54 testes Rust declarados no workspace** (51 nos módulos +3 base), **0 executados nesta execução**.
+- `tools/m45_b02b_i13_source_audit.mjs` e runner Node offline permitem auditar 6 arquivos Rust e invariantes. A mesma lógica foi executada no V8 sobre as fontes exatas e o patch proposto: 1 PASS de auditoria estática + 4 mutações propositalmente rejeitadas; os arquivos Node de runner/testes foram publicados, mas **Node repository test NOT_RUN** por falta de checkout no executor. Isso NÃO substitui Rust tests ou integração HTTP.
+- GitHub Actions manualmente não acionadas; não alterar JS/skills/items originais, PR #19 Draft. G0/G1 PARTIAL; G3/G6/G8 NOT_RUN; próximo passo obter toolchain nativa off-CI, rodar `cargo test --workspace` e `cargo fmt --check` antes de certificar componentes.
