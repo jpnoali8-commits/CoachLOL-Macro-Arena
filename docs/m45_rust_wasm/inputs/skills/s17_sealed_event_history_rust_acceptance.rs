@@ -87,8 +87,15 @@ pub struct TimelineWitness {
     pub after_shaco_clone_expiry: SealedPublicEvent,
     pub after_neeko_cancel: SealedPublicEvent,
     pub after_new_disguise: SealedPublicEvent,
-    pub old_alias_rejected_for_targeting: bool,
-    pub new_alias_accepted_for_targeting: bool,
+}
+#[derive(Clone,Debug,Eq,PartialEq)]
+pub struct TimelineBatch {
+    // Both separate historical events are mandatory, not a proxy from one.
+    pub neeko_old_event: TimelineWitness,
+    pub shaco_old_event: TimelineWitness,
+    pub old_neeko_alias_rejected_for_targeting: bool,
+    pub new_neeko_alias_accepted_for_targeting: bool,
+    pub old_shaco_alias_rejected_after_clone_expiry: bool,
     pub initial_sequence_replay_idempotent: bool,
     /// Unlike a simple source snapshot hash, this implies deterministic
     /// continuation AFTER restoring the authoritative match/gateway state.
@@ -98,7 +105,7 @@ pub struct TimelineWitness {
 pub trait ActualRustMatchEventRunner {
     fn replay_real_match_after_snapshot(
         &mut self, owner_seat: Seat,
-    ) -> Result<TimelineWitness,String>;
+    ) -> Result<TimelineBatch,String>;
 }
 pub fn check_actual_rust_privacy<R:ActualRustMatchEventRunner>(runner:&mut R)
     -> Result<usize,String>
@@ -107,20 +114,24 @@ pub fn check_actual_rust_privacy<R:ActualRustMatchEventRunner>(runner:&mut R)
     for seat in [Seat::Blue,Seat::Red] {
         let w=runner.replay_real_match_after_snapshot(seat)
             .map_err(|e|format!("{:?}: {}",seat,e))?;
-        let e=&w.masked_at_emit;
-        // Source exhibited 2 historical event leaks per seat. Rust must be
-        // tested with both Neeko and Shaco; the actual runner owns coverage.
-        if e.observed_by==seat || !e.historical_public_actor_id.starts_with("appearance_") ||
-            e.redacted_body!="Ação de uma unidade visível." ||
-            w.after_shaco_clone_expiry!=*e ||
-            w.after_neeko_cancel!=*e ||
-            w.after_new_disguise!=*e ||
-            !w.old_alias_rejected_for_targeting ||
-            !w.new_alias_accepted_for_targeting ||
+        for e in [&w.neeko_old_event,&w.shaco_old_event] {
+            let first=&e.masked_at_emit;
+            if first.observed_by==seat ||
+                !first.historical_public_actor_id.starts_with("appearance_") ||
+                first.redacted_body!="Ação de uma unidade visível." ||
+                e.after_shaco_clone_expiry!=*first ||
+                e.after_neeko_cancel!=*first ||
+                e.after_new_disguise!=*first {
+                return Err(format!("P1 historical event ID/text/alias leak: {:?}: {:?}",seat,e));
+            }
+        }
+        if !w.old_neeko_alias_rejected_for_targeting ||
+            !w.new_neeko_alias_accepted_for_targeting ||
+            !w.old_shaco_alias_rejected_after_clone_expiry ||
             !w.initial_sequence_replay_idempotent ||
             !w.resumed_match_and_gateway_equal ||
             w.real_roster_size!=10 {
-            return Err(format!("P1 historical event stable ID/text/alias/replay leak: {:?}: {:?}",seat,w));
+            return Err(format!("P1 event targeting/replay leak: {:?}: {:?}",seat,w));
         }
         passed+=1;
     }
