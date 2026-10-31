@@ -1,0 +1,46 @@
+{
+  "schema": "coachlol.m45.skills.s18.static-crosspin.v1",
+  "date": "2026-10-30",
+  "branch": "dev69/m45-audit-skills",
+  "source_commit": "f0b1147ac46e585a1d5374a178b1ea462f5dc278",
+  "source_test": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s18_pvp_room_pending_identity_pvp.test.mjs",
+    "blob": "e5a9a3ced7b42e485aeb3049a5a6c569daa9d9eb",
+    "status": "V8_PASS_BUG_REPRODUCED",
+    "assertions_executed": 121,
+    "assertions_passed": 121,
+    "masked_stable_enemyId_leaks": 4,
+    "snapshot_room_restores": 4
+  },
+  "source_receipt": {
+    "path": "docs/m45_rust_wasm/inputs/skills/S18_PVP_ROOM_IDENTITY_V8_RECEIPT.json",
+    "blob": "79101b92f146254d78a0d4c37aec0c4ab36fddb5"
+  },
+  "validator": {
+    "path": "docs/m45_rust_wasm/inputs/skills/s18_validate_pvp_room_identity.mjs",
+    "blob": "d2ab059bb8d8a173e15107220e8eb12893766f80",
+    "status": "V8_PASS",
+    "checks_executed": 76,
+    "checks_passed": 76,
+    "method": "saved validateInputs function from GitHub executed under isolated V8 with minimal Node assert shims"
+  },
+  "rust": {
+    "source": "docs/m45_rust_wasm/inputs/skills/s18_room_reaction_identity_rust_acceptance.rs",
+    "blob": "cf364d9ab0384c351e47839cbf5a410dbf6f7041",
+    "native_test_cases_planned": 4,
+    "adversarial_negative_tests_specified": 8,
+    "rust_data_unit_tests_prepared": 5,
+    "rust_data_unit_tests_executed": 0
+  },
+  "runtime_limitation": "No full Node ESM test loader, no Rust compiler, no WASM, no real authenticated HTTP/SSE session, no actual combat trigger or real brush/ward fog.",
+  "matrix_s10_unchanged": {
+    "v8_pass": 22,
+    "v8_fail": 2,
+    "not_run": 2,
+    "full_node": 0
+  },
+  "gates": {
+    "G8": "NOT_CERTIFIED"
+  },
+  "no_actions": true
+}
