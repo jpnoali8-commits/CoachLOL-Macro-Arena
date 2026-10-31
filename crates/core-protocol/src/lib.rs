@@ -378,7 +378,10 @@ mod tests {
         let a = room();
         let b = RoomProtocol::new("another-room", 20261030,
             ["another_blue_session_0001".into(), "another_red_session_0002".into()]).unwrap();
-        assert_ne!(a.view(&blue(&a)).unwrap().cursor.wire(), b.view(&blue(&b)).unwrap().cursor.wire());
+        // Each room has its own credentials: do not use room A's blue token in B.
+        assert!(b.authenticate("blue_secure_session_0001").is_none());
+        let b_grant = b.authenticate("another_blue_session_0001").unwrap();
+        assert_ne!(a.view(&blue(&a)).unwrap().cursor.wire(), b.view(&b_grant).unwrap().cursor.wire());
     }
     #[test] fn debug_representation_redacts_credentials_and_details() {
         let r=room();let printed=format!("{:?}",r);
