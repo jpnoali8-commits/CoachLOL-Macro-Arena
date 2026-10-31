@@ -130,6 +130,11 @@ fn team_key(team: Team) -> u8 {
 fn team_wire(team: Team) -> &'static str {
     match team { Team::Blue => "blue", Team::Red => "red" }
 }
+fn valid_public_id(id: &str, prefix: &str) -> bool {
+    let Some(suffix) = id.strip_prefix(prefix) else { return false };
+    !suffix.is_empty() && suffix.len() <= 64 &&
+        suffix.bytes().all(|b| b.is_ascii_alphanumeric())
+}
 fn valid_alias(alias: &str) -> bool {
     let Some(suffix) = alias.strip_prefix("appearance_") else { return false };
     !suffix.is_empty() && suffix.len() <= 64 &&
@@ -171,10 +176,9 @@ impl ReactionProtocol {
         attacker_internal_id: &str,
         kind: ReactionKind,
     ) -> Result<(), ProtocolError> {
-        if decision_id.is_empty() || defender_id.is_empty() ||
-           attacker_internal_id.is_empty() ||
-           decision_id.len() > 128 || defender_id.len() > 128 ||
-           attacker_internal_id.len() > 128 {
+        if !valid_public_id(decision_id, "react_") ||
+           defender_id.is_empty() || attacker_internal_id.is_empty() ||
+           defender_id.len() > 128 || attacker_internal_id.len() > 128 {
             return Err(ProtocolError::InvalidDecision);
         }
         if self.reactions.contains_key(decision_id) {
@@ -241,9 +245,7 @@ impl ReactionProtocol {
         tick: u64,
         view: &V,
     ) -> Result<(), ProtocolError> {
-        if !event_id.starts_with("evt_") ||
-           event_id.len() > 96 ||
-           !event_id.bytes().all(|x| x.is_ascii_alphanumeric() || x == b'_') {
+        if !valid_public_id(event_id, "evt_") {
             return Err(ProtocolError::InvalidHistoryId);
         }
         let r = self.reactions.get(decision_id).ok_or(ProtocolError::UnknownDecision)?;
@@ -302,7 +304,7 @@ mod tests {
     fn protocol(defender: Team, enemy: &str) -> ReactionProtocol {
         let mut p = ReactionProtocol::default();
         let own = if defender == Team::Blue { "blue_MID" } else { "red_MID" };
-        p.register_from_server_impact("decision_1", own, defender, enemy,
+        p.register_from_server_impact("react_1", own, defender, enemy,
                                       ReactionKind::Combat).unwrap();
         p
     }
@@ -326,7 +328,7 @@ mod tests {
                 let frame = p.sse_frame(defender, &view);
                 assert_eq!(frame, format!("event: public_state\ndata: {}\n\n", body));
                 let other = if defender == Team::Blue { Team::Red } else { Team::Blue };
-                assert!(!p.public_json(other, &view).contains("decision_1"));
+                assert!(!p.public_json(other, &view).contains("react_1"));
                 assert!(!p.sse_frame(other, &view).contains(alias));
             }
         }
@@ -337,7 +339,7 @@ mod tests {
         let p = protocol(Team::Blue, "red_TOP");
         let json = p.public_json(Team::Blue, &View { alias: None });
         assert!(json.contains("\"attackerAlias\":null"));
-        assert!(json.contains("\"decisionId\":\"decision_1\""));
+        assert!(json.contains("\"decisionId\":\"react_1\""));
         assert!(!json.contains("red_TOP"));
     }
 
@@ -347,16 +349,16 @@ mod tests {
         let view = View { alias: Some("appearance_7") };
         for bad in ["red_TOP", "appearance_1", "entity_1",
                     "appearance_2/../../private", "appearance_"] {
-            assert!(matches!(p.authorize_response(Team::Blue, "decision_1",
+            assert!(matches!(p.authorize_response(Team::Blue, "react_1",
                               Some(bad), &view), Err(ProtocolError::InvalidTarget)));
         }
-        assert!(matches!(p.authorize_response(Team::Red, "decision_1",
+        assert!(matches!(p.authorize_response(Team::Red, "react_1",
                           Some("appearance_7"), &view), Err(ProtocolError::ForeignSeat)));
         assert_eq!(
-            p.authorize_response(Team::Blue, "decision_1", Some("appearance_7"), &view)
+            p.authorize_response(Team::Blue, "react_1", Some("appearance_7"), &view)
                 .unwrap().attacker_internal_id.as_deref(), Some("red_TOP")
         );
-        assert!(p.authorize_response(Team::Blue, "decision_1", None,
+        assert!(p.authorize_response(Team::Blue, "react_1", None,
                  &View { alias: None }).unwrap().attacker_internal_id.is_none());
     }
 
@@ -373,9 +375,9 @@ mod tests {
     #[test]
     fn event_time_history_survives_fog_alias_changes_and_restore() {
         let mut p = protocol(Team::Blue, "red_TOP");
-        p.seal_observed_event(Team::Blue, "decision_1", "evt_1", 4,
+        p.seal_observed_event(Team::Blue, "react_1", "evt_1", 4,
                               &View { alias: Some("appearance_1") }).unwrap();
-        assert_eq!(p.seal_observed_event(Team::Blue, "decision_1", "evt_1", 5,
+        assert_eq!(p.seal_observed_event(Team::Blue, "react_1", "evt_1", 5,
                               &View { alias: Some("appearance_7") }),
                    Err(ProtocolError::DuplicateHistory));
         let snap = p.clone();
@@ -386,19 +388,39 @@ mod tests {
             assert_eq!(json, snap.public_json(Team::Blue, &view));
         }
         assert!(!p.public_json(Team::Red, &View { alias: None }).contains("evt_1"));
-        assert!(p.finish_decision("decision_1"));
+        assert!(p.finish_decision("react_1"));
         assert!(p.public_json(Team::Blue, &View { alias: None }).contains("evt_1"));
     }
 
     #[test]
     fn escaping_and_replay_projections_remain_single_line() {
-        let mut p = ReactionProtocol::default();
-        p.register_from_server_impact("id_\"\\\n", "blue_MID", Team::Blue,
-                                      "red_TOP", ReactionKind::Pickoff).unwrap();
+        let p = protocol(Team::Blue, "red_TOP");
         let frame = p.sse_frame(Team::Blue, &View { alias: Some("appearance_1") });
         assert_eq!(frame.matches("\ndata: ").count(), 1);
         assert!(!frame.contains("red_TOP"));
-        assert!(frame.contains("\\n"));
-        assert!(frame.contains("\\\""));
+        let mut encoded = String::new();
+        json_string(&mut encoded, "quoted \" with newline \n and slash \\");
+        assert!(encoded.contains("\\\""));
+        assert!(encoded.contains("\\n"));
+        assert!(encoded.contains("\\\\"));
+        assert!(!encoded.contains('\n'));
+    }
+
+    #[test]
+    fn private_identifiers_cannot_be_used_as_public_decision_or_event_ids() {
+        let mut p = ReactionProtocol::default();
+        for invalid in ["red_TOP", "react_red_TOP", "reaction_1",
+                        "react_", "react_1/../red_TOP"] {
+            assert_eq!(p.register_from_server_impact(
+                invalid, "blue_MID", Team::Blue, "red_TOP",
+                ReactionKind::Combat), Err(ProtocolError::InvalidDecision));
+        }
+        p.register_from_server_impact("react_2", "blue_MID",
+                                      Team::Blue, "red_TOP", ReactionKind::Combat).unwrap();
+        for invalid in ["red_TOP", "evt_red_TOP", "evt_", "evt_1/private"] {
+            assert_eq!(p.seal_observed_event(Team::Blue, "react_2",
+                invalid, 5, &View { alias: None }),
+                Err(ProtocolError::InvalidHistoryId));
+        }
     }
 }
