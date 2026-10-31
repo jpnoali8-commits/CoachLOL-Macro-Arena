@@ -134,6 +134,7 @@ export async function runM45S19({
   eq(otherStream.stateEvents()[0].pendingDecision,null,
    'SSE to opposite seat excludes defender decision');
   arena.canSeePoint=()=>false;
+  arena.gameTime=5; // actual hit gives 2s reveal; wait until it expires
   room.broadcast();
   eq(streaming.stateEvents().length,2,'SSE broadcast after fog update');
   eq(streaming.stateEvents()[1].pendingDecision.enemyId,attacker.id,
